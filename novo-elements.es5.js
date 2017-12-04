@@ -8,15 +8,16 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import core, { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Inject, Injectable, InjectionToken, Input, LOCALE_ID, NgModule, NgZone, Optional, Output, PLATFORM_ID, Pipe, ReflectiveInjector, Renderer2, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation, animate, forwardRef, state, style, transition, trigger } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Inject, Injectable, InjectionToken, Input, LOCALE_ID, NgModule, NgZone, Optional, Output, PLATFORM_ID, Pipe, ReflectiveInjector, Renderer2, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation, animate, forwardRef, state, style, transition, trigger } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isSameDay, isSameMonth, isSameSecond, isToday, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
-import forms, { FormBuilder, FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { merge as merge$1 } from 'rxjs/observable/merge';
+import { filter as filter$1 } from 'rxjs/operators/filter';
 import { fromEvent as fromEvent$1 } from 'rxjs/observable/fromEvent';
 import { of as of$1 } from 'rxjs/observable/of';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -24,7 +25,9 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { ENTER, ESCAPE, TAB } from '@angular/cdk/keycodes';
+import * as dragulaImported from 'dragula';
 import { ReplaySubject as ReplaySubject$1 } from 'rxjs/ReplaySubject';
+import { TextMaskModule } from 'angular2-text-mask';
 import { animate as animate$1, state as state$1, style as style$1, transition as transition$1, trigger as trigger$1 } from '@angular/animations';
 import { Http, HttpModule } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -6284,9 +6287,6 @@ NovoDropdownModule.decorators = [
  */
 NovoDropdownModule.ctorParameters = function () { return []; };
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-function unwrapExports(x) {
-    return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
-}
 function createCommonjsModule(fn, module) {
     return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
@@ -6850,100 +6850,7 @@ var SafeSubscriber = (function (_super) {
 var Subscriber_1 = {
     Subscriber: Subscriber_2
 };
-var __extends = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
-    for (var p in b)
-        if (b.hasOwnProperty(p))
-            d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-/* tslint:enable:max-line-length */
-/**
- * Filter items emitted by the source Observable by only emitting those that
- * satisfy a specified predicate.
- *
- * <span class="informal">Like
- * [Array.prototype.filter()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter),
- * it only emits a value from the source if it passes a criterion function.</span>
- *
- * <img src="./img/filter.png" width="100%">
- *
- * Similar to the well-known `Array.prototype.filter` method, this operator
- * takes values from the source Observable, passes them through a `predicate`
- * function and only emits those values that yielded `true`.
- *
- * @example <caption>Emit only click events whose target was a DIV element</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var clicksOnDivs = clicks.filter(ev => ev.target.tagName === 'DIV');
- * clicksOnDivs.subscribe(x => console.log(x));
- *
- * @see {@link distinct}
- * @see {@link distinctUntilChanged}
- * @see {@link distinctUntilKeyChanged}
- * @see {@link ignoreElements}
- * @see {@link partition}
- * @see {@link skip}
- *
- * @param {function(value: T, index: number): boolean} predicate A function that
- * evaluates each value emitted by the source Observable. If it returns `true`,
- * the value is emitted, if `false` the value is not passed to the output
- * Observable. The `index` parameter is the number `i` for the i-th source
- * emission that has happened since the subscription, starting from the number
- * `0`.
- * @param {any} [thisArg] An optional argument to determine the value of `this`
- * in the `predicate` function.
- * @return {Observable} An Observable of values from the source that were
- * allowed by the `predicate` function.
- * @method filter
- * @owner Observable
- */
-function filter(predicate, thisArg) {
-    return function filterOperatorFunction(source) {
-        return source.lift(new FilterOperator(predicate, thisArg));
-    };
-}
-var filter_2 = filter;
-var FilterOperator = (function () {
-    function FilterOperator(predicate, thisArg) {
-        this.predicate = predicate;
-        this.thisArg = thisArg;
-    }
-    FilterOperator.prototype.call = function (subscriber, source) {
-        return source.subscribe(new FilterSubscriber(subscriber, this.predicate, this.thisArg));
-    };
-    return FilterOperator;
-}());
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-var FilterSubscriber = (function (_super) {
-    __extends(FilterSubscriber, _super);
-    function FilterSubscriber(destination, predicate, thisArg) {
-        _super.call(this, destination);
-        this.predicate = predicate;
-        this.thisArg = thisArg;
-        this.count = 0;
-    }
-    // the try catch block below is left specifically for
-    // optimization and perf reasons. a tryCatcher is not necessary here.
-    FilterSubscriber.prototype._next = function (value) {
-        var result;
-        try {
-            result = this.predicate.call(this.thisArg, value, this.count++);
-        }
-        catch (err) {
-            this.destination.error(err);
-            return;
-        }
-        if (result) {
-            this.destination.next(value);
-        }
-    };
-    return FilterSubscriber;
-}(Subscriber_1.Subscriber));
-var __extends$4 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$3 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -6961,7 +6868,7 @@ var __extends$4 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b
  * @class EmptyError
  */
 var EmptyError = (function (_super) {
-    __extends$4(EmptyError, _super);
+    __extends$3(EmptyError, _super);
     function EmptyError() {
         var err = _super.call(this, 'no elements in sequence');
         this.name = err.name = 'EmptyError';
@@ -6974,7 +6881,7 @@ var EmptyError_2 = EmptyError;
 var EmptyError_1 = {
     EmptyError: EmptyError_2
 };
-var __extends$3 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -7052,7 +6959,7 @@ var FirstOperator = (function () {
  * @extends {Ignored}
  */
 var FirstSubscriber = (function (_super) {
-    __extends$3(FirstSubscriber, _super);
+    __extends(FirstSubscriber, _super);
     function FirstSubscriber(destination, predicate, resultSelector, defaultValue, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -7124,7 +7031,7 @@ var FirstSubscriber = (function (_super) {
     };
     return FirstSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$6 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$5 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -7137,7 +7044,7 @@ var __extends$6 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b
  * @extends {Ignored}
  */
 var OuterSubscriber = (function (_super) {
-    __extends$6(OuterSubscriber, _super);
+    __extends$5(OuterSubscriber, _super);
     function OuterSubscriber() {
         _super.apply(this, arguments);
     }
@@ -7587,7 +7494,7 @@ var iterator = createCommonjsModule(function (module, exports) {
 var iterator_1 = iterator.symbolIteratorPonyfill;
 var iterator_2 = iterator.iterator;
 var iterator_3 = iterator.$$iterator;
-var __extends$7 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$6 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -7600,7 +7507,7 @@ var __extends$7 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b
  * @extends {Ignored}
  */
 var InnerSubscriber = (function (_super) {
-    __extends$7(InnerSubscriber, _super);
+    __extends$6(InnerSubscriber, _super);
     function InnerSubscriber(parent, outerValue, outerIndex) {
         _super.call(this);
         this.parent = parent;
@@ -7697,7 +7604,7 @@ var subscribeToResult_2 = subscribeToResult;
 var subscribeToResult_1 = {
     subscribeToResult: subscribeToResult_2
 };
-var __extends$5 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$4 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -7774,7 +7681,7 @@ var SwitchMapOperator = (function () {
  * @extends {Ignored}
  */
 var SwitchMapSubscriber = (function (_super) {
-    __extends$5(SwitchMapSubscriber, _super);
+    __extends$4(SwitchMapSubscriber, _super);
     function SwitchMapSubscriber(destination, project, resultSelector) {
         _super.call(this, destination);
         this.project = project;
@@ -7977,7 +7884,7 @@ var NovoOverlayTemplate = (function () {
                 return of$1(null);
             }
             return merge$1(fromEvent$1(this._document, 'click'), fromEvent$1(this._document, 'touchend'))
-                .pipe(filter_2(function (event) {
+                .pipe(filter$1(function (event) {
                 var /** @type {?} */ clickTarget = (event.target);
                 var /** @type {?} */ clicked = _this._panelOpen &&
                     clickTarget !== _this._getConnectedElement().nativeElement &&
@@ -9924,866 +9831,9 @@ NovoSearchBoxModule.decorators = [
  * @nocollapse
  */
 NovoSearchBoxModule.ctorParameters = function () { return []; };
-var atoa = function atoa(a, n) { return Array.prototype.slice.call(a, n); };
-var si = typeof setImmediate === 'function';
-var tick;
-if (si) {
-    tick = function (fn) { setImmediate(fn); };
-}
-else if (typeof process !== 'undefined' && process.nextTick) {
-    tick = process.nextTick;
-}
-else {
-    tick = function (fn) { setTimeout(fn, 0); };
-}
-var ticky = tick;
-var debounce = function debounce(fn, args, ctx) {
-    if (!fn) {
-        return;
-    }
-    ticky(function run() {
-        fn.apply(ctx || null, args || []);
-    });
-};
-var emitter = function emitter(thing, options) {
-    var opts = options || {};
-    var evt = {};
-    if (thing === undefined) {
-        thing = {};
-    }
-    thing.on = function (type, fn) {
-        if (!evt[type]) {
-            evt[type] = [fn];
-        }
-        else {
-            evt[type].push(fn);
-        }
-        return thing;
-    };
-    thing.once = function (type, fn) {
-        fn._once = true; // thing.off(fn) still works!
-        thing.on(type, fn);
-        return thing;
-    };
-    thing.off = function (type, fn) {
-        var c = arguments.length;
-        if (c === 1) {
-            delete evt[type];
-        }
-        else if (c === 0) {
-            evt = {};
-        }
-        else {
-            var et = evt[type];
-            if (!et) {
-                return thing;
-            }
-            et.splice(et.indexOf(fn), 1);
-        }
-        return thing;
-    };
-    thing.emit = function () {
-        var args = atoa(arguments);
-        return thing.emitterSnapshot(args.shift()).apply(this, args);
-    };
-    thing.emitterSnapshot = function (type) {
-        var et = (evt[type] || []).slice(0);
-        return function () {
-            var args = atoa(arguments);
-            var ctx = this || thing;
-            if (type === 'error' && opts.throws !== false && !et.length) {
-                throw args.length === 1 ? args[0] : args;
-            }
-            et.forEach(function emitter(listen) {
-                if (opts.async) {
-                    debounce(listen, args, ctx);
-                }
-                else {
-                    listen.apply(ctx, args);
-                }
-                if (listen._once) {
-                    thing.off(type, listen);
-                }
-            });
-            return thing;
-        };
-    };
-    return thing;
-};
-var NativeCustomEvent = commonjsGlobal.CustomEvent;
-function useNative() {
-    try {
-        var p = new NativeCustomEvent('cat', { detail: { foo: 'bar' } });
-        return 'cat' === p.type && 'bar' === p.detail.foo;
-    }
-    catch (e) {
-    }
-    return false;
-}
-/**
- * Cross-browser `CustomEvent` constructor.
- *
- * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent.CustomEvent
- *
- * @public
- */
-var customEvent = useNative() ? NativeCustomEvent :
-    // IE >= 9
-    'function' === typeof document.createEvent ? function CustomEvent(type, params) {
-        var e = document.createEvent('CustomEvent');
-        if (params) {
-            e.initCustomEvent(type, params.bubbles, params.cancelable, params.detail);
-        }
-        else {
-            e.initCustomEvent(type, false, false, void 0);
-        }
-        return e;
-    } :
-        // IE <= 8
-        function CustomEvent(type, params) {
-            var e = document.createEventObject();
-            e.type = type;
-            if (params) {
-                e.bubbles = Boolean(params.bubbles);
-                e.cancelable = Boolean(params.cancelable);
-                e.detail = params.detail;
-            }
-            else {
-                e.bubbles = false;
-                e.cancelable = false;
-                e.detail = void 0;
-            }
-            return e;
-        };
-var eventmap = [];
-var eventname = '';
-var ron = /^on/;
-for (eventname in commonjsGlobal) {
-    if (ron.test(eventname)) {
-        eventmap.push(eventname.slice(2));
-    }
-}
-var eventmap_1 = eventmap;
-var doc$1 = commonjsGlobal.document;
-var addEvent = addEventEasy;
-var removeEvent = removeEventEasy;
-var hardCache = [];
-if (!commonjsGlobal.addEventListener) {
-    addEvent = addEventHard;
-    removeEvent = removeEventHard;
-}
-var crossvent = {
-    add: addEvent,
-    remove: removeEvent,
-    fabricate: fabricateEvent
-};
-function addEventEasy(el, type, fn, capturing) {
-    return el.addEventListener(type, fn, capturing);
-}
-function addEventHard(el, type, fn) {
-    return el.attachEvent('on' + type, wrap(el, type, fn));
-}
-function removeEventEasy(el, type, fn, capturing) {
-    return el.removeEventListener(type, fn, capturing);
-}
-function removeEventHard(el, type, fn) {
-    var listener = unwrap(el, type, fn);
-    if (listener) {
-        return el.detachEvent('on' + type, listener);
-    }
-}
-function fabricateEvent(el, type, model) {
-    var e = eventmap_1.indexOf(type) === -1 ? makeCustomEvent() : makeClassicEvent();
-    if (el.dispatchEvent) {
-        el.dispatchEvent(e);
-    }
-    else {
-        el.fireEvent('on' + type, e);
-    }
-    function makeClassicEvent() {
-        var e;
-        if (doc$1.createEvent) {
-            e = doc$1.createEvent('Event');
-            e.initEvent(type, true, true);
-        }
-        else if (doc$1.createEventObject) {
-            e = doc$1.createEventObject();
-        }
-        return e;
-    }
-    function makeCustomEvent() {
-        return new customEvent(type, { detail: model });
-    }
-}
-function wrapperFactory(el, type, fn) {
-    return function wrapper(originalEvent) {
-        var e = originalEvent || commonjsGlobal.event;
-        e.target = e.target || e.srcElement;
-        e.preventDefault = e.preventDefault || function preventDefault() { e.returnValue = false; };
-        e.stopPropagation = e.stopPropagation || function stopPropagation() { e.cancelBubble = true; };
-        e.which = e.which || e.keyCode;
-        fn.call(el, e);
-    };
-}
-function wrap(el, type, fn) {
-    var wrapper = unwrap(el, type, fn) || wrapperFactory(el, type, fn);
-    hardCache.push({
-        wrapper: wrapper,
-        element: el,
-        type: type,
-        fn: fn
-    });
-    return wrapper;
-}
-function unwrap(el, type, fn) {
-    var i = find(el, type, fn);
-    if (i) {
-        var wrapper = hardCache[i].wrapper;
-        hardCache.splice(i, 1); // free up a tad of memory
-        return wrapper;
-    }
-}
-function find(el, type, fn) {
-    var i, item;
-    for (i = 0; i < hardCache.length; i++) {
-        item = hardCache[i];
-        if (item.element === el && item.type === type && item.fn === fn) {
-            return i;
-        }
-    }
-}
-var cache = {};
-var start = '(?:^|\\s)';
-var end = '(?:\\s|$)';
-function lookupClass(className) {
-    var cached = cache[className];
-    if (cached) {
-        cached.lastIndex = 0;
-    }
-    else {
-        cache[className] = cached = new RegExp(start + className + end, 'g');
-    }
-    return cached;
-}
-function addClass(el, className) {
-    var current = el.className;
-    if (!current.length) {
-        el.className = className;
-    }
-    else if (!lookupClass(className).test(current)) {
-        el.className += ' ' + className;
-    }
-}
-function rmClass(el, className) {
-    el.className = el.className.replace(lookupClass(className), ' ').trim();
-}
-var classes = {
-    add: addClass,
-    rm: rmClass
-};
-var doc = document;
-var documentElement = doc.documentElement;
-function dragula$1(initialContainers, options) {
-    var len = arguments.length;
-    if (len === 1 && Array.isArray(initialContainers) === false) {
-        options = initialContainers;
-        initialContainers = [];
-    }
-    var _mirror; // mirror image
-    var _source; // source container
-    var _item; // item being dragged
-    var _offsetX; // reference x
-    var _offsetY; // reference y
-    var _moveX; // reference move x
-    var _moveY; // reference move y
-    var _initialSibling; // reference sibling when grabbed
-    var _currentSibling; // reference sibling now
-    var _copy; // item used for copying
-    var _renderTimer; // timer for setTimeout renderMirrorImage
-    var _lastDropTarget = null; // last container item was over
-    var _grabbed; // holds mousedown context until first mousemove
-    var o = options || {};
-    if (o.moves === void 0) {
-        o.moves = always;
-    }
-    if (o.accepts === void 0) {
-        o.accepts = always;
-    }
-    if (o.invalid === void 0) {
-        o.invalid = invalidTarget;
-    }
-    if (o.containers === void 0) {
-        o.containers = initialContainers || [];
-    }
-    if (o.isContainer === void 0) {
-        o.isContainer = never;
-    }
-    if (o.copy === void 0) {
-        o.copy = false;
-    }
-    if (o.copySortSource === void 0) {
-        o.copySortSource = false;
-    }
-    if (o.revertOnSpill === void 0) {
-        o.revertOnSpill = false;
-    }
-    if (o.removeOnSpill === void 0) {
-        o.removeOnSpill = false;
-    }
-    if (o.direction === void 0) {
-        o.direction = 'vertical';
-    }
-    if (o.ignoreInputTextSelection === void 0) {
-        o.ignoreInputTextSelection = true;
-    }
-    if (o.mirrorContainer === void 0) {
-        o.mirrorContainer = doc.body;
-    }
-    var drake = emitter({
-        containers: o.containers,
-        start: manualStart,
-        end: end,
-        cancel: cancel,
-        remove: remove,
-        destroy: destroy,
-        canMove: canMove,
-        dragging: false
-    });
-    if (o.removeOnSpill === true) {
-        drake.on('over', spillOver).on('out', spillOut);
-    }
-    events();
-    return drake;
-    function isContainer(el) {
-        return drake.containers.indexOf(el) !== -1 || o.isContainer(el);
-    }
-    function events(remove) {
-        var op = remove ? 'remove' : 'add';
-        touchy(documentElement, op, 'mousedown', grab);
-        touchy(documentElement, op, 'mouseup', release);
-    }
-    function eventualMovements(remove) {
-        var op = remove ? 'remove' : 'add';
-        touchy(documentElement, op, 'mousemove', startBecauseMouseMoved);
-    }
-    function movements(remove) {
-        var op = remove ? 'remove' : 'add';
-        crossvent[op](documentElement, 'selectstart', preventGrabbed); // IE8
-        crossvent[op](documentElement, 'click', preventGrabbed);
-    }
-    function destroy() {
-        events(true);
-        release({});
-    }
-    function preventGrabbed(e) {
-        if (_grabbed) {
-            e.preventDefault();
-        }
-    }
-    function grab(e) {
-        _moveX = e.clientX;
-        _moveY = e.clientY;
-        var ignore = whichMouseButton(e) !== 1 || e.metaKey || e.ctrlKey;
-        if (ignore) {
-            return; // we only care about honest-to-god left clicks and touch events
-        }
-        var item = e.target;
-        var context = canStart(item);
-        if (!context) {
-            return;
-        }
-        _grabbed = context;
-        eventualMovements();
-        if (e.type === 'mousedown') {
-            if (isInput(item)) {
-                item.focus(); // fixes https://github.com/bevacqua/dragula/issues/176
-            }
-            else {
-                e.preventDefault(); // fixes https://github.com/bevacqua/dragula/issues/155
-            }
-        }
-    }
-    function startBecauseMouseMoved(e) {
-        if (!_grabbed) {
-            return;
-        }
-        if (whichMouseButton(e) === 0) {
-            release({});
-            return; // when text is selected on an input and then dragged, mouseup doesn't fire. this is our only hope
-        }
-        // truthy check fixes #239, equality fixes #207
-        if (e.clientX !== void 0 && e.clientX === _moveX && e.clientY !== void 0 && e.clientY === _moveY) {
-            return;
-        }
-        if (o.ignoreInputTextSelection) {
-            var clientX = getCoord('clientX', e);
-            var clientY = getCoord('clientY', e);
-            var elementBehindCursor = doc.elementFromPoint(clientX, clientY);
-            if (isInput(elementBehindCursor)) {
-                return;
-            }
-        }
-        var grabbed = _grabbed; // call to end() unsets _grabbed
-        eventualMovements(true);
-        movements();
-        end();
-        start(grabbed);
-        var offset = getOffset(_item);
-        _offsetX = getCoord('pageX', e) - offset.left;
-        _offsetY = getCoord('pageY', e) - offset.top;
-        classes.add(_copy || _item, 'gu-transit');
-        renderMirrorImage();
-        drag(e);
-    }
-    function canStart(item) {
-        if (drake.dragging && _mirror) {
-            return;
-        }
-        if (isContainer(item)) {
-            return; // don't drag container itself
-        }
-        var handle = item;
-        while (getParent(item) && isContainer(getParent(item)) === false) {
-            if (o.invalid(item, handle)) {
-                return;
-            }
-            item = getParent(item); // drag target should be a top element
-            if (!item) {
-                return;
-            }
-        }
-        var source = getParent(item);
-        if (!source) {
-            return;
-        }
-        if (o.invalid(item, handle)) {
-            return;
-        }
-        var movable = o.moves(item, source, handle, nextEl(item));
-        if (!movable) {
-            return;
-        }
-        return {
-            item: item,
-            source: source
-        };
-    }
-    function canMove(item) {
-        return !!canStart(item);
-    }
-    function manualStart(item) {
-        var context = canStart(item);
-        if (context) {
-            start(context);
-        }
-    }
-    function start(context) {
-        if (isCopy(context.item, context.source)) {
-            _copy = context.item.cloneNode(true);
-            drake.emit('cloned', _copy, context.item, 'copy');
-        }
-        _source = context.source;
-        _item = context.item;
-        _initialSibling = _currentSibling = nextEl(context.item);
-        drake.dragging = true;
-        drake.emit('drag', _item, _source);
-    }
-    function invalidTarget() {
-        return false;
-    }
-    function end() {
-        if (!drake.dragging) {
-            return;
-        }
-        var item = _copy || _item;
-        drop(item, getParent(item));
-    }
-    function ungrab() {
-        _grabbed = false;
-        eventualMovements(true);
-        movements(true);
-    }
-    function release(e) {
-        ungrab();
-        if (!drake.dragging) {
-            return;
-        }
-        var item = _copy || _item;
-        var clientX = getCoord('clientX', e);
-        var clientY = getCoord('clientY', e);
-        var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
-        var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
-        if (dropTarget && ((_copy && o.copySortSource) || (!_copy || dropTarget !== _source))) {
-            drop(item, dropTarget);
-        }
-        else if (o.removeOnSpill) {
-            remove();
-        }
-        else {
-            cancel();
-        }
-    }
-    function drop(item, target) {
-        var parent = getParent(item);
-        if (_copy && o.copySortSource && target === _source) {
-            parent.removeChild(_item);
-        }
-        if (isInitialPlacement(target)) {
-            drake.emit('cancel', item, _source, _source);
-        }
-        else {
-            drake.emit('drop', item, target, _source, _currentSibling);
-        }
-        cleanup();
-    }
-    function remove() {
-        if (!drake.dragging) {
-            return;
-        }
-        var item = _copy || _item;
-        var parent = getParent(item);
-        if (parent) {
-            parent.removeChild(item);
-        }
-        drake.emit(_copy ? 'cancel' : 'remove', item, parent, _source);
-        cleanup();
-    }
-    function cancel(revert) {
-        if (!drake.dragging) {
-            return;
-        }
-        var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
-        var item = _copy || _item;
-        var parent = getParent(item);
-        var initial = isInitialPlacement(parent);
-        if (initial === false && reverts) {
-            if (_copy) {
-                if (parent) {
-                    parent.removeChild(_copy);
-                }
-            }
-            else {
-                _source.insertBefore(item, _initialSibling);
-            }
-        }
-        if (initial || reverts) {
-            drake.emit('cancel', item, _source, _source);
-        }
-        else {
-            drake.emit('drop', item, parent, _source, _currentSibling);
-        }
-        cleanup();
-    }
-    function cleanup() {
-        var item = _copy || _item;
-        ungrab();
-        removeMirrorImage();
-        if (item) {
-            classes.rm(item, 'gu-transit');
-        }
-        if (_renderTimer) {
-            clearTimeout(_renderTimer);
-        }
-        drake.dragging = false;
-        if (_lastDropTarget) {
-            drake.emit('out', item, _lastDropTarget, _source);
-        }
-        drake.emit('dragend', item);
-        _source = _item = _copy = _initialSibling = _currentSibling = _renderTimer = _lastDropTarget = null;
-    }
-    function isInitialPlacement(target, s) {
-        var sibling;
-        if (s !== void 0) {
-            sibling = s;
-        }
-        else if (_mirror) {
-            sibling = _currentSibling;
-        }
-        else {
-            sibling = nextEl(_copy || _item);
-        }
-        return target === _source && sibling === _initialSibling;
-    }
-    function findDropTarget(elementBehindCursor, clientX, clientY) {
-        var target = elementBehindCursor;
-        while (target && !accepted()) {
-            target = getParent(target);
-        }
-        return target;
-        function accepted() {
-            var droppable = isContainer(target);
-            if (droppable === false) {
-                return false;
-            }
-            var immediate = getImmediateChild(target, elementBehindCursor);
-            var reference = getReference(target, immediate, clientX, clientY);
-            var initial = isInitialPlacement(target, reference);
-            if (initial) {
-                return true; // should always be able to drop it right back where it was
-            }
-            return o.accepts(_item, target, _source, reference);
-        }
-    }
-    function drag(e) {
-        if (!_mirror) {
-            return;
-        }
-        e.preventDefault();
-        var clientX = getCoord('clientX', e);
-        var clientY = getCoord('clientY', e);
-        var x = clientX - _offsetX;
-        var y = clientY - _offsetY;
-        _mirror.style.left = x + 'px';
-        _mirror.style.top = y + 'px';
-        var item = _copy || _item;
-        var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
-        var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
-        var changed = dropTarget !== null && dropTarget !== _lastDropTarget;
-        if (changed || dropTarget === null) {
-            out();
-            _lastDropTarget = dropTarget;
-            over();
-        }
-        var parent = getParent(item);
-        if (dropTarget === _source && _copy && !o.copySortSource) {
-            if (parent) {
-                parent.removeChild(item);
-            }
-            return;
-        }
-        var reference;
-        var immediate = getImmediateChild(dropTarget, elementBehindCursor);
-        if (immediate !== null) {
-            reference = getReference(dropTarget, immediate, clientX, clientY);
-        }
-        else if (o.revertOnSpill === true && !_copy) {
-            reference = _initialSibling;
-            dropTarget = _source;
-        }
-        else {
-            if (_copy && parent) {
-                parent.removeChild(item);
-            }
-            return;
-        }
-        if ((reference === null && changed) ||
-            reference !== item &&
-                reference !== nextEl(item)) {
-            _currentSibling = reference;
-            dropTarget.insertBefore(item, reference);
-            drake.emit('shadow', item, dropTarget, _source);
-        }
-        function moved(type) { drake.emit(type, item, _lastDropTarget, _source); }
-        function over() { if (changed) {
-            moved('over');
-        } }
-        function out() { if (_lastDropTarget) {
-            moved('out');
-        } }
-    }
-    function spillOver(el) {
-        classes.rm(el, 'gu-hide');
-    }
-    function spillOut(el) {
-        if (drake.dragging) {
-            classes.add(el, 'gu-hide');
-        }
-    }
-    function renderMirrorImage() {
-        if (_mirror) {
-            return;
-        }
-        var rect = _item.getBoundingClientRect();
-        _mirror = _item.cloneNode(true);
-        _mirror.style.width = getRectWidth(rect) + 'px';
-        _mirror.style.height = getRectHeight(rect) + 'px';
-        classes.rm(_mirror, 'gu-transit');
-        classes.add(_mirror, 'gu-mirror');
-        o.mirrorContainer.appendChild(_mirror);
-        touchy(documentElement, 'add', 'mousemove', drag);
-        classes.add(o.mirrorContainer, 'gu-unselectable');
-        drake.emit('cloned', _mirror, _item, 'mirror');
-    }
-    function removeMirrorImage() {
-        if (_mirror) {
-            classes.rm(o.mirrorContainer, 'gu-unselectable');
-            touchy(documentElement, 'remove', 'mousemove', drag);
-            getParent(_mirror).removeChild(_mirror);
-            _mirror = null;
-        }
-    }
-    function getImmediateChild(dropTarget, target) {
-        var immediate = target;
-        while (immediate !== dropTarget && getParent(immediate) !== dropTarget) {
-            immediate = getParent(immediate);
-        }
-        if (immediate === documentElement) {
-            return null;
-        }
-        return immediate;
-    }
-    function getReference(dropTarget, target, x, y) {
-        var horizontal = o.direction === 'horizontal';
-        var reference = target !== dropTarget ? inside() : outside();
-        return reference;
-        function outside() {
-            var len = dropTarget.children.length;
-            var i;
-            var el;
-            var rect;
-            for (i = 0; i < len; i++) {
-                el = dropTarget.children[i];
-                rect = el.getBoundingClientRect();
-                if (horizontal && (rect.left + rect.width / 2) > x) {
-                    return el;
-                }
-                if (!horizontal && (rect.top + rect.height / 2) > y) {
-                    return el;
-                }
-            }
-            return null;
-        }
-        function inside() {
-            var rect = target.getBoundingClientRect();
-            if (horizontal) {
-                return resolve(x > rect.left + getRectWidth(rect) / 2);
-            }
-            return resolve(y > rect.top + getRectHeight(rect) / 2);
-        }
-        function resolve(after) {
-            return after ? nextEl(target) : target;
-        }
-    }
-    function isCopy(item, container) {
-        return typeof o.copy === 'boolean' ? o.copy : o.copy(item, container);
-    }
-}
-function touchy(el, op, type, fn) {
-    var touch = {
-        mouseup: 'touchend',
-        mousedown: 'touchstart',
-        mousemove: 'touchmove'
-    };
-    var pointers = {
-        mouseup: 'pointerup',
-        mousedown: 'pointerdown',
-        mousemove: 'pointermove'
-    };
-    var microsoft = {
-        mouseup: 'MSPointerUp',
-        mousedown: 'MSPointerDown',
-        mousemove: 'MSPointerMove'
-    };
-    if (commonjsGlobal.navigator.pointerEnabled) {
-        crossvent[op](el, pointers[type], fn);
-    }
-    else if (commonjsGlobal.navigator.msPointerEnabled) {
-        crossvent[op](el, microsoft[type], fn);
-    }
-    else {
-        crossvent[op](el, touch[type], fn);
-        crossvent[op](el, type, fn);
-    }
-}
-function whichMouseButton(e) {
-    if (e.touches !== void 0) {
-        return e.touches.length;
-    }
-    if (e.which !== void 0 && e.which !== 0) {
-        return e.which;
-    } // see https://github.com/bevacqua/dragula/issues/261
-    if (e.buttons !== void 0) {
-        return e.buttons;
-    }
-    var button = e.button;
-    if (button !== void 0) {
-        return button & 1 ? 1 : button & 2 ? 3 : (button & 4 ? 2 : 0);
-    }
-}
-function getOffset(el) {
-    var rect = el.getBoundingClientRect();
-    return {
-        left: rect.left + getScroll('scrollLeft', 'pageXOffset'),
-        top: rect.top + getScroll('scrollTop', 'pageYOffset')
-    };
-}
-function getScroll(scrollProp, offsetProp) {
-    if (typeof commonjsGlobal[offsetProp] !== 'undefined') {
-        return commonjsGlobal[offsetProp];
-    }
-    if (documentElement.clientHeight) {
-        return documentElement[scrollProp];
-    }
-    return doc.body[scrollProp];
-}
-function getElementBehindPoint(point, x, y) {
-    var p = point || {};
-    var state$$1 = p.className;
-    var el;
-    p.className += ' gu-hide';
-    el = doc.elementFromPoint(x, y);
-    p.className = state$$1;
-    return el;
-}
-function never() { return false; }
-function always() { return true; }
-function getRectWidth(rect) { return rect.width || (rect.right - rect.left); }
-function getRectHeight(rect) { return rect.height || (rect.bottom - rect.top); }
-function getParent(el) { return el.parentNode === doc ? null : el.parentNode; }
-function isInput(el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || isEditable(el); }
-function isEditable(el) {
-    if (!el) {
-        return false;
-    } // no parents were editable
-    if (el.contentEditable === 'false') {
-        return false;
-    } // stop the lookup
-    if (el.contentEditable === 'true') {
-        return true;
-    } // found a contentEditable element in the chain
-    return isEditable(getParent(el)); // contentEditable is set to 'inherit'
-}
-function nextEl(el) {
-    return el.nextElementSibling || manually();
-    function manually() {
-        var sibling = el;
-        do {
-            sibling = sibling.nextSibling;
-        } while (sibling && sibling.nodeType !== 1);
-        return sibling;
-    }
-}
-function getEventHost(e) {
-    // on touchend event, we have to use `e.changedTouches`
-    // see http://stackoverflow.com/questions/7192563/touchend-event-properties
-    // see https://github.com/bevacqua/dragula/issues/34
-    if (e.targetTouches && e.targetTouches.length) {
-        return e.targetTouches[0];
-    }
-    if (e.changedTouches && e.changedTouches.length) {
-        return e.changedTouches[0];
-    }
-    return e;
-}
-function getCoord(coord, e) {
-    var host = getEventHost(e);
-    var missMap = {
-        pageX: 'clientX',
-        pageY: 'clientY' // IE8
-    };
-    if (coord in missMap && !(coord in host) && missMap[coord] in host) {
-        coord = missMap[coord];
-    }
-    return host[coord];
-}
-var dragula_1 = dragula$1;
-var dragulaImported = Object.freeze({
-    default: dragula_1,
-    __moduleExports: dragula_1
-});
 // NG2
 // Vendor
-var dragula$2 = dragulaImported;
+var dragula$1 = dragulaImported;
 var NovoDragulaService = (function () {
     function NovoDragulaService() {
         this.cancel = new EventEmitter();
@@ -10867,7 +9917,7 @@ var NovoDragulaService = (function () {
      * @return {?}
      */
     NovoDragulaService.prototype.setOptions = function (name, options) {
-        var /** @type {?} */ bag = this.add(name, dragula$2(options));
+        var /** @type {?} */ bag = this.add(name, dragula$1(options));
         this.handleModels(name, bag.drake);
     };
     /**
@@ -11572,242 +10622,6 @@ NovoChipsModule.decorators = [
  * @nocollapse
  */
 NovoChipsModule.ctorParameters = function () { return []; };
-var textMaskCore = createCommonjsModule(function (module, exports) {
-    !function (e, r) { module.exports = r(); }(commonjsGlobal, function () { return function (e) { function r(n) { if (t[n])
-        return t[n].exports; var o = t[n] = { exports: {}, id: n, loaded: !1 }; return e[n].call(o.exports, o, o.exports, r), o.loaded = !0, o.exports; } var t = {}; return r.m = e, r.c = t, r.p = "", r(0); }([function (e, r, t) { function n(e) { return e && e.__esModule ? e : { default: e }; } Object.defineProperty(r, "__esModule", { value: !0 }); var o = t(3); Object.defineProperty(r, "conformToMask", { enumerable: !0, get: function () { return n(o).default; } }); var i = t(2); Object.defineProperty(r, "adjustCaretPosition", { enumerable: !0, get: function () { return n(i).default; } }); var a = t(5); Object.defineProperty(r, "createTextMaskInputElement", { enumerable: !0, get: function () { return n(a).default; } }); }, function (e, r) { Object.defineProperty(r, "__esModule", { value: !0 }), r.placeholderChar = "_"; }, function (e, r) { function t(e) { var r = e.previousConformedValue, t = void 0 === r ? o : r, i = e.previousPlaceholder, a = void 0 === i ? o : i, u = e.currentCaretPosition, l = void 0 === u ? 0 : u, s = e.conformedValue, f = e.rawValue, d = e.placeholderChar, c = e.placeholder, v = e.indexesOfPipedChars, p = void 0 === v ? n : v, h = e.caretTrapIndexes, g = void 0 === h ? n : h; if (0 === l)
-            return 0; var m = f.length, y = t.length, b = c.length, C = s.length, P = m - y, x = P > 0, O = 0 === y, k = P > 1 && !x && !O; if (k)
-            return l; var j = x && (t === s || s === c), M = 0, T = void 0, w = void 0; if (j)
-            M = l - P;
-        else {
-            var _ = s.toLowerCase(), V = f.toLowerCase(), S = V.substr(0, l).split(o), N = S.filter(function (e) { return _.indexOf(e) !== -1; });
-            w = N[N.length - 1];
-            var E = a.substr(0, N.length).split(o).filter(function (e) { return e !== d; }).length, A = c.substr(0, N.length).split(o).filter(function (e) { return e !== d; }).length, R = A !== E, I = void 0 !== a[N.length - 1] && void 0 !== c[N.length - 2] && a[N.length - 1] !== d && a[N.length - 1] !== c[N.length - 1] && a[N.length - 1] === c[N.length - 2];
-            !x && (R || I) && E > 0 && c.indexOf(w) > -1 && void 0 !== f[l] && (T = !0, w = f[l]);
-            for (var J = p.map(function (e) { return _[e]; }), q = J.filter(function (e) { return e === w; }).length, F = N.filter(function (e) { return e === w; }).length, L = c.substr(0, c.indexOf(d)).split(o).filter(function (e, r) { return e === w && f[r] !== e; }).length, W = L + F + q + (T ? 1 : 0), z = 0, B = 0; B < C; B++) {
-                var D = _[B];
-                if (M = B + 1, D === w && z++, z >= W)
-                    break;
-            }
-        } if (x) {
-            for (var G = M, H = M; H <= b; H++)
-                if (c[H] === d && (G = H), c[H] === d || g.indexOf(H) !== -1 || H === b)
-                    return G;
-        }
-        else if (T) {
-            for (var K = M - 1; K >= 0; K--)
-                if (s[K] === w || g.indexOf(K) !== -1 || 0 === K)
-                    return K;
-        }
-        else
-            for (var Q = M; Q >= 0; Q--)
-                if (c[Q - 1] === d || g.indexOf(Q) !== -1 || 0 === Q)
-                    return Q; } Object.defineProperty(r, "__esModule", { value: !0 }), r.default = t; var n = [], o = ""; }, function (e, r, t) { function n() { var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : a, r = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : a, t = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {}, n = t.guide, u = void 0 === n || n, l = t.previousConformedValue, s = void 0 === l ? a : l, f = t.placeholderChar, d = void 0 === f ? i.placeholderChar : f, c = t.placeholder, v = void 0 === c ? (0, o.convertMaskToPlaceholder)(r, d) : c, p = t.currentCaretPosition, h = t.keepCharPositions, g = u === !1 && void 0 !== s, m = e.length, y = s.length, b = v.length, C = r.length, P = m - y, x = P > 0, O = p + (x ? -P : 0), k = O + Math.abs(P); if (h === !0 && !x) {
-            for (var j = a, M = O; M < k; M++)
-                v[M] === d && (j += d);
-            e = e.slice(0, O) + j + e.slice(O, m);
-        } for (var T = e.split(a).map(function (e, r) { return { char: e, isNew: r >= O && r < k }; }), w = m - 1; w >= 0; w--) {
-            var _ = T[w].char;
-            if (_ !== d) {
-                var V = w >= O && y === C;
-                _ === v[V ? w - P : w] && T.splice(w, 1);
-            }
-        } var S = a, N = !1; e: for (var E = 0; E < b; E++) {
-            var A = v[E];
-            if (A === d) {
-                if (T.length > 0)
-                    for (; T.length > 0;) {
-                        var R = T.shift(), I = R.char, J = R.isNew;
-                        if (I === d && g !== !0) {
-                            S += d;
-                            continue e;
-                        }
-                        if (r[E].test(I)) {
-                            if (h === !0 && J !== !1 && s !== a && u !== !1 && x) {
-                                for (var q = T.length, F = null, L = 0; L < q; L++) {
-                                    var W = T[L];
-                                    if (W.char !== d && W.isNew === !1)
-                                        break;
-                                    if (W.char === d) {
-                                        F = L;
-                                        break;
-                                    }
-                                }
-                                null !== F ? (S += I, T.splice(F, 1)) : E--;
-                            }
-                            else
-                                S += I;
-                            continue e;
-                        }
-                        N = !0;
-                    }
-                g === !1 && (S += v.substr(E, b));
-                break;
-            }
-            S += A;
-        } if (g && x === !1) {
-            for (var z = null, B = 0; B < S.length; B++)
-                v[B] === d && (z = B);
-            S = null !== z ? S.substr(0, z + 1) : a;
-        } return { conformedValue: S, meta: { someCharsRejected: N } }; } Object.defineProperty(r, "__esModule", { value: !0 }), r.default = n; var o = t(4), i = t(1), a = ""; }, function (e, r, t) { function n() { var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : l, r = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : u.placeholderChar; if (e.indexOf(r) !== -1)
-            throw new Error("Placeholder character must not be used as part of the mask. Please specify a character that is not present in your mask as your placeholder character.\n\n" + ("The placeholder character that was received is: " + JSON.stringify(r) + "\n\n") + ("The mask that was received is: " + JSON.stringify(e))); return e.map(function (e) { return e instanceof RegExp ? r : e; }).join(""); } function o(e) { return "string" == typeof e || e instanceof String; } function i(e) { return "number" == typeof e && void 0 === e.length && !isNaN(e); } function a(e) { for (var r = [], t = void 0; t = e.indexOf(s), t !== -1;)
-            r.push(t), e.splice(t, 1); return { maskWithoutCaretTraps: e, indexes: r }; } Object.defineProperty(r, "__esModule", { value: !0 }), r.convertMaskToPlaceholder = n, r.isString = o, r.isNumber = i, r.processCaretTraps = a; var u = t(1), l = [], s = "[]"; }, function (e, r, t) { function n(e) { return e && e.__esModule ? e : { default: e }; } function o(e) { var r = { previousConformedValue: void 0, previousPlaceholder: void 0 }; return { state: r, update: function (t) { var n = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : e, o = n.inputElement, s = n.mask, d = n.guide, m = n.pipe, b = n.placeholderChar, C = void 0 === b ? p.placeholderChar : b, P = n.keepCharPositions, x = void 0 !== P && P, O = n.showMask, k = void 0 !== O && O; if ("undefined" == typeof t && (t = o.value), t !== r.previousConformedValue) {
-                ("undefined" == typeof s ? "undefined" : l(s)) === y && void 0 !== s.pipe && void 0 !== s.mask && (m = s.pipe, s = s.mask);
-                var j = void 0, M = void 0;
-                if (s instanceof Array && (j = (0, v.convertMaskToPlaceholder)(s, C)), s !== !1) {
-                    var T = a(t), w = o.selectionEnd, _ = r.previousConformedValue, V = r.previousPlaceholder, S = void 0;
-                    if (("undefined" == typeof s ? "undefined" : l(s)) === h) {
-                        if (M = s(T, { currentCaretPosition: w, previousConformedValue: _, placeholderChar: C }), M === !1)
-                            return;
-                        var N = (0, v.processCaretTraps)(M), E = N.maskWithoutCaretTraps, A = N.indexes;
-                        M = E, S = A, j = (0, v.convertMaskToPlaceholder)(M, C);
-                    }
-                    else
-                        M = s;
-                    var R = { previousConformedValue: _, guide: d, placeholderChar: C, pipe: m, placeholder: j, currentCaretPosition: w, keepCharPositions: x }, I = (0, c.default)(T, M, R), J = I.conformedValue, q = ("undefined" == typeof m ? "undefined" : l(m)) === h, F = {};
-                    q && (F = m(J, u({ rawValue: T }, R)), F === !1 ? F = { value: _, rejected: !0 } : (0, v.isString)(F) && (F = { value: F }));
-                    var L = q ? F.value : J, W = (0, f.default)({ previousConformedValue: _, previousPlaceholder: V, conformedValue: L, placeholder: j, rawValue: T, currentCaretPosition: w, placeholderChar: C, indexesOfPipedChars: F.indexesOfPipedChars, caretTrapIndexes: S }), z = L === j && 0 === W, B = k ? j : g, D = z ? B : L;
-                    r.previousConformedValue = D, r.previousPlaceholder = j, o.value !== D && (o.value = D, i(o, W));
-                }
-            } } }; } function i(e, r) { document.activeElement === e && (b ? C(function () { return e.setSelectionRange(r, r, m); }, 0) : e.setSelectionRange(r, r, m)); } function a(e) { if ((0, v.isString)(e))
-            return e; if ((0, v.isNumber)(e))
-            return String(e); if (void 0 === e || null === e)
-            return g; throw new Error("The 'value' provided to Text Mask needs to be a string or a number. The value received was:\n\n " + JSON.stringify(e)); } Object.defineProperty(r, "__esModule", { value: !0 }); var u = Object.assign || function (e) { for (var r = 1; r < arguments.length; r++) {
-            var t = arguments[r];
-            for (var n in t)
-                Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
-        } return e; }, l = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (e) { return typeof e; } : function (e) { return e && "function" == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e; }; r.default = o; var s = t(2), f = n(s), d = t(3), c = n(d), v = t(4), p = t(1), h = "function", g = "", m = "none", y = "object", b = "undefined" != typeof navigator && /Android/i.test(navigator.userAgent), C = "undefined" != typeof requestAnimationFrame ? requestAnimationFrame : setTimeout; }]); });
-});
-unwrapExports(textMaskCore);
-var textMaskCore_1 = textMaskCore.textMaskCore;
-var angular2TextMask = createCommonjsModule(function (module, exports) {
-    var __decorate = (commonjsGlobal && commonjsGlobal.__decorate) || function (decorators, target, key, desc) {
-        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
-            r = Reflect.decorate(decorators, target, key, desc);
-        else
-            for (var i = decorators.length - 1; i >= 0; i--)
-                if (d = decorators[i])
-                    r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-        return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-    var __metadata = (commonjsGlobal && commonjsGlobal.__metadata) || function (k, v) {
-        if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
-            return Reflect.metadata(k, v);
-    };
-    var __param = (commonjsGlobal && commonjsGlobal.__param) || function (paramIndex, decorator) {
-        return function (target, key) { decorator(target, key, paramIndex); };
-    };
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.MASKEDINPUT_VALUE_ACCESSOR = {
-        provide: forms.NG_VALUE_ACCESSOR,
-        useExisting: core.forwardRef(function () { return MaskedInputDirective; }),
-        multi: true
-    };
-    var MaskedInputDirective = (function () {
-        function MaskedInputDirective(renderer, element) {
-            this.renderer = renderer;
-            this.element = element;
-            this.textMaskConfig = {
-                mask: [],
-                guide: true,
-                placeholderChar: '_',
-                pipe: undefined,
-                keepCharPositions: false,
-            };
-            this._onTouched = function () { };
-            this._onChange = function (_) { };
-        }
-        MaskedInputDirective.prototype.ngOnChanges = function (changes) {
-            this.setupMask(true);
-            if (this.textMaskInputElement !== undefined) {
-                this.textMaskInputElement.update(this.inputElement.value);
-            }
-        };
-        MaskedInputDirective.prototype.writeValue = function (value) {
-            this.setupMask();
-            // set the initial value for cases where the mask is disabled
-            var normalizedValue = value == null ? '' : value;
-            this.renderer.setElementProperty(this.inputElement, 'value', normalizedValue);
-            if (this.textMaskInputElement !== undefined) {
-                this.textMaskInputElement.update(value);
-            }
-        };
-        MaskedInputDirective.prototype.registerOnChange = function (fn) { this._onChange = fn; };
-        MaskedInputDirective.prototype.registerOnTouched = function (fn) { this._onTouched = fn; };
-        MaskedInputDirective.prototype.setDisabledState = function (isDisabled) {
-            this.renderer.setElementProperty(this.element.nativeElement, 'disabled', isDisabled);
-        };
-        MaskedInputDirective.prototype.onInput = function (value) {
-            this.setupMask();
-            if (this.textMaskInputElement !== undefined) {
-                this.textMaskInputElement.update(value);
-                // get the updated value
-                value = this.inputElement.value;
-                // check against the last value to prevent firing ngModelChange despite no changes
-                if (this.lastValue !== value) {
-                    this.lastValue = value;
-                    this._onChange(value);
-                }
-            }
-        };
-        MaskedInputDirective.prototype.setupMask = function (create) {
-            if (create === void 0) {
-                create = false;
-            }
-            if (!this.inputElement) {
-                if (this.element.nativeElement.tagName === 'INPUT') {
-                    // `textMask` directive is used directly on an input element
-                    this.inputElement = this.element.nativeElement;
-                }
-                else {
-                    // `textMask` directive is used on an abstracted input element, `md-input-container`, etc
-                    this.inputElement = this.element.nativeElement.getElementsByTagName('INPUT')[0];
-                }
-            }
-            if (this.inputElement && create) {
-                this.textMaskInputElement = textMaskCore.createTextMaskInputElement(Object.assign({ inputElement: this.inputElement }, this.textMaskConfig));
-            }
-        };
-        return MaskedInputDirective;
-    }());
-    __decorate([
-        core.Input('textMask'),
-        __metadata("design:type", Object)
-    ], MaskedInputDirective.prototype, "textMaskConfig", void 0);
-    MaskedInputDirective = __decorate([
-        core.Directive({
-            host: {
-                '(input)': 'onInput($event.target.value)',
-                '(blur)': '_onTouched()'
-            },
-            selector: '[textMask]',
-            exportAs: 'textMask',
-            providers: [exports.MASKEDINPUT_VALUE_ACCESSOR]
-        }),
-        __param(0, core.Inject(core.Renderer)), __param(1, core.Inject(core.ElementRef)),
-        __metadata("design:paramtypes", [core.Renderer, core.ElementRef])
-    ], MaskedInputDirective);
-    exports.MaskedInputDirective = MaskedInputDirective;
-    var TextMaskModule = (function () {
-        function TextMaskModule() {
-        }
-        return TextMaskModule;
-    }());
-    TextMaskModule = __decorate([
-        core.NgModule({
-            declarations: [MaskedInputDirective],
-            exports: [MaskedInputDirective]
-        })
-    ], TextMaskModule);
-    exports.TextMaskModule = TextMaskModule;
-    var textMaskCore_2 = textMaskCore;
-    exports.conformToMask = textMaskCore_2.conformToMask;
-});
-unwrapExports(angular2TextMask);
-var angular2TextMask_1 = angular2TextMask.MASKEDINPUT_VALUE_ACCESSOR;
-var angular2TextMask_2 = angular2TextMask.MaskedInputDirective;
-var angular2TextMask_3 = angular2TextMask.TextMaskModule;
-var angular2TextMask_4 = angular2TextMask.conformToMask;
 // NG2
 // Vendor
 // APP
@@ -11985,10 +10799,10 @@ var NovoDatePickerElement = (function () {
             value = this.removeTime(value);
             this.month = new Date(value);
             this.monthLabel = this.labels.formatDateWithFormat(this.month, { month: 'short' });
-            var /** @type {?} */ start_1 = new Date(value.getTime());
-            start_1.setDate(1);
-            this.removeTime(start_1.setDate(1));
-            this.buildMonth(start_1, this.month);
+            var /** @type {?} */ start = new Date(value.getTime());
+            start.setDate(1);
+            this.removeTime(start.setDate(1));
+            this.buildMonth(start, this.month);
             if (markedSelected) {
                 this.select(null, { date: value }, fireEvents);
             }
@@ -12762,7 +11576,7 @@ var NovoDatePickerModule = (function () {
 }());
 NovoDatePickerModule.decorators = [
     { type: NgModule, args: [{
-                imports: [CommonModule, FormsModule, NovoOverlayModule, angular2TextMask_3],
+                imports: [CommonModule, FormsModule, NovoOverlayModule, TextMaskModule],
                 declarations: [NovoDatePickerElement, NovoDatePickerInputElement],
                 exports: [NovoDatePickerElement, NovoDatePickerInputElement]
             },] },
@@ -13166,7 +11980,7 @@ var NovoTimePickerModule = (function () {
 }());
 NovoTimePickerModule.decorators = [
     { type: NgModule, args: [{
-                imports: [CommonModule, FormsModule, angular2TextMask_3, NovoOverlayModule],
+                imports: [CommonModule, FormsModule, TextMaskModule, NovoOverlayModule],
                 declarations: [NovoTimePickerElement, NovoTimePickerInputElement],
                 exports: [NovoTimePickerElement, NovoTimePickerInputElement]
             },] },
@@ -13574,7 +12388,7 @@ var NovoDateTimePickerModule = (function () {
 }());
 NovoDateTimePickerModule.decorators = [
     { type: NgModule, args: [{
-                imports: [CommonModule, FormsModule, NovoDatePickerModule, NovoTimePickerModule, angular2TextMask_3, NovoOverlayModule],
+                imports: [CommonModule, FormsModule, NovoDatePickerModule, NovoTimePickerModule, TextMaskModule, NovoOverlayModule],
                 declarations: [NovoDateTimePickerElement, NovoDateTimePickerInputElement],
                 exports: [NovoDateTimePickerElement, NovoDateTimePickerInputElement]
             },] },
@@ -14884,6 +13698,17 @@ var TimeControl = (function (_super) {
     return TimeControl;
 }(BaseControl));
 // APP
+var GroupedControl = (function () {
+    /**
+     * @param {?} config
+     */
+    function GroupedControl(config) {
+        var _this = this;
+        this.__type = 'GroupedControl';
+        Object.keys(config).forEach(function (key) { return _this[key] = config[key]; });
+    }
+    return GroupedControl;
+}());
 var ControlFactory = (function () {
     function ControlFactory() {
     }
@@ -28080,7 +26905,7 @@ NovoFormModule.decorators = [
                     NovoHeaderModule,
                     NovoTooltipModule,
                     NovoDragulaModule,
-                    angular2TextMask_3,
+                    TextMaskModule,
                     NovoTipWellModule,
                     NovoModalModule,
                     NovoButtonModule
@@ -29503,9 +28328,9 @@ var PagedArrayCollection = (function (_super) {
             }
         }
         if (this.page >= 0) {
-            var /** @type {?} */ start_2 = (this.page - 1) * this.pageSize;
-            var /** @type {?} */ end_1 = start_2 + this.pageSize;
-            var /** @type {?} */ result = this.filterData.slice(start_2, end_1);
+            var /** @type {?} */ start = (this.page - 1) * this.pageSize;
+            var /** @type {?} */ end = start + this.pageSize;
+            var /** @type {?} */ result = this.filterData.slice(start, end);
             this.onDataChange(new CollectionEvent(CollectionEvent.CHANGE, result));
         }
         else {
@@ -29787,16 +28612,16 @@ var NovoTableElement = (function () {
      * @param {?} filter
      * @return {?}
      */
-    NovoTableElement.prototype.onFilterClick = function (column, filter) {
-        if (filter.range && !column.calendarShow) {
+    NovoTableElement.prototype.onFilterClick = function (column, filter$$1) {
+        if (filter$$1.range && !column.calendarShow) {
             column.calenderShow = true;
             return;
         }
         if (Array.isArray(column.filter) && column.multiple) {
-            if (~column.filter.indexOf(filter)) {
+            if (~column.filter.indexOf(filter$$1)) {
                 // Remove filter
-                column.filter.splice(column.filter.indexOf(filter), 1);
-                if (filter.range) {
+                column.filter.splice(column.filter.indexOf(filter$$1), 1);
+                if (filter$$1.range) {
                     column.calenderShow = false;
                 }
                 if (column.filter.length === 0) {
@@ -29805,11 +28630,11 @@ var NovoTableElement = (function () {
             }
             else {
                 // Add filter
-                column.filter.push(filter);
+                column.filter.push(filter$$1);
             }
         }
         else {
-            column.filter = Helpers.isBlank(filter.value) ? filter : filter.value;
+            column.filter = Helpers.isBlank(filter$$1.value) ? filter$$1 : filter$$1.value;
         }
         this.onFilterChange();
     };
@@ -29919,11 +28744,11 @@ var NovoTableElement = (function () {
      * @param {?} filter
      * @return {?}
      */
-    NovoTableElement.prototype.escapeCharacters = function (filter) {
-        if (typeof (filter) === 'string') {
-            return filter.replace(/'/g, '\'\'');
+    NovoTableElement.prototype.escapeCharacters = function (filter$$1) {
+        if (typeof (filter$$1) === 'string') {
+            return filter$$1.replace(/'/g, '\'\'');
         }
-        return filter;
+        return filter$$1;
     };
     /**
      * \@name isFilterActive
@@ -29933,26 +28758,26 @@ var NovoTableElement = (function () {
      *
      * @return {?}
      */
-    NovoTableElement.prototype.isFilterActive = function (column, filter) {
+    NovoTableElement.prototype.isFilterActive = function (column, filter$$1) {
         //TODO: This needs to be refactored
         var /** @type {?} */ isActive = false;
-        if (column && !Helpers.isBlank(column.filter) && !Helpers.isBlank(filter)) {
+        if (column && !Helpers.isBlank(column.filter) && !Helpers.isBlank(filter$$1)) {
             if (Array.isArray(column.filter)) {
-                if (typeof (filter) !== 'string') {
+                if (typeof (filter$$1) !== 'string') {
                     isActive = column.filter.some(function (item) {
-                        return item.label === filter.label;
+                        return item.label === filter$$1.label;
                     });
                 }
                 else {
-                    isActive = column.filter.includes(filter);
+                    isActive = column.filter.includes(filter$$1);
                 }
             }
             else {
-                if (typeof (column.filter) === typeof (filter)) {
-                    isActive = (column.filter === filter);
+                if (typeof (column.filter) === typeof (filter$$1)) {
+                    isActive = (column.filter === filter$$1);
                 }
                 else {
-                    isActive = (column.filter === filter.value);
+                    isActive = (column.filter === filter$$1.value);
                 }
             }
         }
@@ -30472,7 +29297,7 @@ NovoTableModule.decorators = [
                     NovoLoadingModule,
                     NovoDatePickerModule,
                     NovoFormExtrasModule,
-                    angular2TextMask_3
+                    TextMaskModule
                 ],
                 declarations: [NovoTableElement],
                 exports: [NovoTableElement]
@@ -32477,7 +31302,7 @@ var RemoteActivityTableService = (function () {
      * @param {?=} outsideFilter
      * @return {?}
      */
-    RemoteActivityTableService.prototype.getTableResults = function (sort, filter, page, pageSize, globalSearch, outsideFilter) { };
+    RemoteActivityTableService.prototype.getTableResults = function (sort, filter$$1, page, pageSize, globalSearch, outsideFilter) { };
     return RemoteActivityTableService;
 }());
 var StaticActivityTableService = (function () {
@@ -32497,16 +31322,16 @@ var StaticActivityTableService = (function () {
      * @param {?=} outsideFilter
      * @return {?}
      */
-    StaticActivityTableService.prototype.getTableResults = function (sort, filter, page, pageSize, globalSearch, outsideFilter) {
+    StaticActivityTableService.prototype.getTableResults = function (sort, filter$$1, page, pageSize, globalSearch, outsideFilter) {
         if (page === void 0) { page = 0; }
         var /** @type {?} */ ret = Helpers.deepClone(this.data);
         if (ret.length !== 0) {
             if (globalSearch) {
                 ret = ret.filter(function (item) { return Object.keys(item).some(function (key) { return ("" + item[key]).toLowerCase().includes(globalSearch.toLowerCase()); }); });
             }
-            if (filter) {
-                var /** @type {?} */ value = Helpers.isString(filter.value) ? filter.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter.value;
-                ret = ret.filter(Helpers.filterByField(filter.id, value));
+            if (filter$$1) {
+                var /** @type {?} */ value = Helpers.isString(filter$$1.value) ? filter$$1.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter$$1.value;
+                ret = ret.filter(Helpers.filterByField(filter$$1.id, value));
             }
             if (sort) {
                 ret = ret.sort(Helpers.sortByField(sort.id, sort.value === 'desc'));
@@ -32849,8 +31674,8 @@ var NovoActivityTable = (function () {
         }
         if (changes['outsideFilter'] && changes['outsideFilter'].currentValue) {
             if (!this.outsideFilterSubscription) {
-                this.outsideFilterSubscription = this.outsideFilter.subscribe(function (filter) {
-                    _this.state.outsideFilter = filter;
+                this.outsideFilterSubscription = this.outsideFilter.subscribe(function (filter$$1) {
+                    _this.state.outsideFilter = filter$$1;
                     _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort });
                     _this.ref.markForCheck();
                 });
@@ -32940,16 +31765,16 @@ var NovoSortFilter = (function () {
      * @return {?}
      */
     NovoSortFilter.prototype.filter = function (id, value, transform) {
-        var /** @type {?} */ filter;
+        var /** @type {?} */ filter$$1;
         if (value) {
-            filter = { id: id, value: value, transform: transform };
+            filter$$1 = { id: id, value: value, transform: transform };
         }
         else {
-            filter = undefined;
+            filter$$1 = undefined;
         }
-        this.state.filter = filter;
+        this.state.filter = filter$$1;
         this.state.reset(false, true);
-        this.state.updates.next({ filter: filter, sort: this.state.sort });
+        this.state.updates.next({ filter: filter$$1, sort: this.state.sort });
     };
     /**
      * @param {?} id
@@ -33695,25 +32520,25 @@ var NovoSimpleCellHeader = (function () {
      * @param {?=} filter
      * @return {?}
      */
-    NovoSimpleCellHeader.prototype.filterData = function (filter) {
+    NovoSimpleCellHeader.prototype.filterData = function (filter$$1) {
         var _this = this;
-        if (this.config.filterConfig.type === 'date' && filter) {
-            this.activeDateFilter = filter.label || this.labels.customDateRange;
-            if (filter.startDate && filter.endDate) {
-                filter = {
-                    min: startOfDay(filter.startDate),
-                    max: endOfDay(filter.endDate),
+        if (this.config.filterConfig.type === 'date' && filter$$1) {
+            this.activeDateFilter = filter$$1.label || this.labels.customDateRange;
+            if (filter$$1.startDate && filter$$1.endDate) {
+                filter$$1 = {
+                    min: startOfDay(filter$$1.startDate),
+                    max: endOfDay(filter$$1.endDate),
                 };
             }
             else {
-                filter = {
-                    min: startOfDay(addDays(startOfToday(), filter.min)),
-                    max: endOfDay(addDays(startOfToday(), filter.max)),
+                filter$$1 = {
+                    min: startOfDay(addDays(startOfToday(), filter$$1.min)),
+                    max: endOfDay(addDays(startOfToday(), filter$$1.max)),
                 };
             }
         }
-        if (filter) {
-            this.filter = filter;
+        if (filter$$1) {
+            this.filter = filter$$1;
         }
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
@@ -36197,5 +35022,5 @@ NovoElementsModule.ctorParameters = function () { return []; };
 /**
  * Generated bundle index. Do not edit.
  */
-export { NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, NovoTableElement, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, NovoFile, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, NovoSimpleTableModule, _NovoCellDef, _NovoHeaderCellDef, _NovoColumnDef, _NovoHeaderCell, _NovoCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleHeaderCell, NovoSimpleEmptyHeaderCell, NovoSimpleCheckboxHeaderCell, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleActionCell, _NovoTable, NovoTable, NovoActivityTableActions, NovoActivityTableCustomHeader, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTable, _NovoHeaderRowDef, _NovoCdkRowDef, _NovoHeaderRow, _NovoRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleFilterFocus, NovoSimpleCellHeader, NovoSortFilter, NovoSelection, RemoteActivityTableService, StaticActivityTableService, ActivityTableDataSource, ActivityTableRenderers, NovoActivityTableState, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, AppendToBodyPickerControl, QuickNoteControl, RadioControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, ReadOnlyControl, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoButtonElement as ɵn, NovoCalendarDateChangeElement as ɵbh, NovoEventTypeLegendElement as ɵw, NovoCalendarAllDayEventElement as ɵbg, NovoCalendarDayEventElement as ɵbe, NovoCalendarDayViewElement as ɵbd, NovoCalendarHourSegmentElement as ɵbf, NovoCalendarMonthDayElement as ɵz, NovoCalendarMonthHeaderElement as ɵy, NovoCalendarMonthViewElement as ɵx, DayOfMonthPipe as ɵbj, EndOfWeekDisplayPipe as ɵbo, HoursPipe as ɵbn, MonthPipe as ɵbk, MonthDayPipe as ɵbl, WeekdayPipe as ɵbi, YearPipe as ɵbm, NovoCalendarWeekEventElement as ɵbc, NovoCalendarWeekHeaderElement as ɵbb, NovoCalendarWeekViewElement as ɵba, CardActionsElement as ɵr, CardElement as ɵs, CardBestTimeElement as ɵt, CardDonutChartElement as ɵu, CardTimelineElement as ɵv, NovoCategoryDropdownElement as ɵee, NovoChipElement as ɵcv, NovoChipsElement as ɵcw, NovoCKEditorElement as ɵde, NovoDatePickerElement as ɵcx, NovoDatePickerInputElement as ɵcy, NovoDateTimePickerElement as ɵdc, NovoDateTimePickerInputElement as ɵdd, NovoDragulaElement as ɵct, NovoDropdownContainer as ɵce, NovoDropdownElement as ɵcf, NovoItemElement as ɵcg, NovoItemHeaderElement$1 as ɵci, NovoListElement$1 as ɵch, NovoAutoSize as ɵdk, NovoControlElement as ɵdm, NovoCustomControlContainerElement as ɵdl, NovoControlCustom as ɵdo, NovoDynamicFormElement as ɵdq, NovoFieldsetElement as ɵdp, NovoFieldsetHeaderElement as ɵdn, ControlConfirmModal as ɵds, ControlPromptModal as ɵdt, NovoFormElement as ɵdr, NovoAddressElement as ɵdg, NovoCheckListElement as ɵdi, NovoCheckboxElement as ɵdh, NovoFileInputElement as ɵdj, NovoHeaderElement as ɵbs, UtilActionElement as ɵbr, UtilsElement as ɵbq, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵef, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵck, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵcm, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵcl, NovoOverlayTemplate as ɵcn, NovoOverlayModule as ɵcj, NovoPickerElement as ɵcq, NovoPickerContainer as ɵcr, PlacesListComponent as ɵeo, GooglePlacesModule as ɵen, PopOverDirective as ɵel, NovoPopOverModule as ɵej, PopOverContent as ɵek, QuickNoteElement as ɵcb, NovoRadioElement as ɵcd, NovoRadioGroup as ɵcc, NovoSearchBoxElement as ɵcs, NovoSelectElement as ɵco, NovoSimpleTableModule as ɵem, NovoSliderElement as ɵcu, NovoSwitchElement as ɵcp, NovoTableKeepFilterFocus as ɵdx, Pagination as ɵdy, RowDetails as ɵdz, NovoTableActionsElement as ɵdw, TableCell as ɵea, TableFilter as ɵeb, NovoTableFooterElement as ɵdv, NovoTableHeaderElement as ɵdu, ThOrderable as ɵec, ThSortable as ɵed, NovoNavContentElement as ɵby, NovoNavElement as ɵbt, NovoNavHeaderElement as ɵbz, NovoNavOutletElement as ɵbx, NovoTabButtonElement as ɵbv, NovoTabElement as ɵbu, NovoTabLinkElement as ɵbw, NovoTilesElement as ɵca, NovoTimePickerElement as ɵda, NovoTimePickerInputElement as ɵdb, NovoTipWellElement as ɵdf, NovoToastElement as ɵbp, TooltipDirective as ɵq, NovoValueElement as ɵm, NovoValueEmail as ɵl, NovoValuePhone as ɵk, DateFormatService as ɵcz, BrowserGlobalRef as ɵeh, GlobalRef as ɵeg, LocalStorageService as ɵei };
+export { NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoTableElement, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoButtonElement as ɵn, NovoCalendarDateChangeElement as ɵbh, NovoEventTypeLegendElement as ɵw, NovoCalendarAllDayEventElement as ɵbg, NovoCalendarDayEventElement as ɵbe, NovoCalendarDayViewElement as ɵbd, NovoCalendarHourSegmentElement as ɵbf, NovoCalendarMonthDayElement as ɵz, NovoCalendarMonthHeaderElement as ɵy, NovoCalendarMonthViewElement as ɵx, DayOfMonthPipe as ɵbj, EndOfWeekDisplayPipe as ɵbo, HoursPipe as ɵbn, MonthPipe as ɵbk, MonthDayPipe as ɵbl, WeekdayPipe as ɵbi, YearPipe as ɵbm, NovoCalendarWeekEventElement as ɵbc, NovoCalendarWeekHeaderElement as ɵbb, NovoCalendarWeekViewElement as ɵba, CardActionsElement as ɵr, CardElement as ɵs, CardBestTimeElement as ɵt, CardDonutChartElement as ɵu, CardTimelineElement as ɵv, NovoCategoryDropdownElement as ɵee, NovoChipElement as ɵcv, NovoChipsElement as ɵcw, NovoCKEditorElement as ɵde, NovoDatePickerElement as ɵcx, NovoDatePickerInputElement as ɵcy, NovoDateTimePickerElement as ɵdc, NovoDateTimePickerInputElement as ɵdd, NovoDragulaElement as ɵct, NovoDropdownContainer as ɵce, NovoDropdownElement as ɵcf, NovoItemElement as ɵcg, NovoItemHeaderElement$1 as ɵci, NovoListElement$1 as ɵch, NovoAutoSize as ɵdk, NovoControlElement as ɵdm, NovoCustomControlContainerElement as ɵdl, NovoControlCustom as ɵdo, NovoDynamicFormElement as ɵdq, NovoFieldsetElement as ɵdp, NovoFieldsetHeaderElement as ɵdn, ControlConfirmModal as ɵds, ControlPromptModal as ɵdt, NovoFormElement as ɵdr, NovoAddressElement as ɵdg, NovoCheckListElement as ɵdi, NovoCheckboxElement as ɵdh, NovoFileInputElement as ɵdj, NovoHeaderElement as ɵbs, UtilActionElement as ɵbr, UtilsElement as ɵbq, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵef, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵck, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵcm, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵcl, NovoOverlayTemplate as ɵcn, NovoOverlayModule as ɵcj, NovoPickerElement as ɵcq, NovoPickerContainer as ɵcr, PlacesListComponent as ɵen, GooglePlacesModule as ɵem, PopOverDirective as ɵel, NovoPopOverModule as ɵej, PopOverContent as ɵek, QuickNoteElement as ɵcb, NovoRadioElement as ɵcd, NovoRadioGroup as ɵcc, NovoSearchBoxElement as ɵcs, NovoSelectElement as ɵco, NovoSliderElement as ɵcu, NovoSwitchElement as ɵcp, NovoTableKeepFilterFocus as ɵdx, Pagination as ɵdy, RowDetails as ɵdz, NovoTableActionsElement as ɵdw, TableCell as ɵea, TableFilter as ɵeb, NovoTableFooterElement as ɵdv, NovoTableHeaderElement as ɵdu, ThOrderable as ɵec, ThSortable as ɵed, NovoNavContentElement as ɵby, NovoNavElement as ɵbt, NovoNavHeaderElement as ɵbz, NovoNavOutletElement as ɵbx, NovoTabButtonElement as ɵbv, NovoTabElement as ɵbu, NovoTabLinkElement as ɵbw, NovoTilesElement as ɵca, NovoTimePickerElement as ɵda, NovoTimePickerInputElement as ɵdb, NovoTipWellElement as ɵdf, NovoToastElement as ɵbp, TooltipDirective as ɵq, NovoValueElement as ɵm, NovoValueEmail as ɵl, NovoValuePhone as ɵk, DateFormatService as ɵcz, BrowserGlobalRef as ɵeh, GlobalRef as ɵeg, LocalStorageService as ɵei };
 //# sourceMappingURL=novo-elements.es5.js.map

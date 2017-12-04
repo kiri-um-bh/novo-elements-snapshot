@@ -52,8 +52,8 @@ export { DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵck, DEFAULT_OVERLAY_SCROLL_STRATEG
 export { NovoOverlayModule as ɵcj } from './elements/overlay/Overlay.module';
 export { NovoPickerElement as ɵcq } from './elements/picker/Picker';
 export { NovoPickerContainer as ɵcr } from './elements/picker/extras/picker-container/PickerContainer';
-export { PlacesListComponent as ɵeo } from './elements/places/places.component';
-export { GooglePlacesModule as ɵen } from './elements/places/places.module';
+export { PlacesListComponent as ɵen } from './elements/places/places.component';
+export { GooglePlacesModule as ɵem } from './elements/places/places.module';
 export { PopOverDirective as ɵel } from './elements/popover/PopOver';
 export { NovoPopOverModule as ɵej } from './elements/popover/PopOver.module';
 export { PopOverContent as ɵek } from './elements/popover/PopOverContent';
@@ -61,7 +61,6 @@ export { QuickNoteElement as ɵcb } from './elements/quick-note/QuickNote';
 export { NovoRadioElement as ɵcd, NovoRadioGroup as ɵcc } from './elements/radio/Radio';
 export { NovoSearchBoxElement as ɵcs } from './elements/search/SearchBox';
 export { NovoSelectElement as ɵco } from './elements/select/Select';
-export { NovoSimpleTableModule as ɵem } from './elements/simple-table';
 export { NovoSliderElement as ɵcu } from './elements/slider/Slider';
 export { NovoSwitchElement as ɵcp } from './elements/switch/Switch';
 export { NovoTableKeepFilterFocus as ɵdx } from './elements/table/extras/keep-filter-focus/KeepFilterFocus';
