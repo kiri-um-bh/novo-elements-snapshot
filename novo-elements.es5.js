@@ -35010,6 +35010,7 @@ NovoElementsModule.decorators = [
                 ],
                 providers: [
                     { provide: ComponentUtils, useClass: ComponentUtils },
+                    { provide: DateFormatService, useClass: DateFormatService },
                     { provide: NovoLabelService, useClass: NovoLabelService },
                     { provide: NovoDragulaService, useClass: NovoDragulaService },
                     { provide: GooglePlacesService, useClass: GooglePlacesService },
