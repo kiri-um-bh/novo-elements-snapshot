@@ -56,7 +56,7 @@ export interface NovoSimpleSortFilter {
     id: string;
     direction?: string;
     active?: boolean;
-    filter?: string;
+    filter?: string | boolean;
 }
 export interface NovoSimpleTableChange {
     sort?: {

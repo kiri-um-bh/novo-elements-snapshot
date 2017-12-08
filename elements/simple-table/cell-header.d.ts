@@ -34,7 +34,7 @@ export declare class NovoSimpleCellHeader implements NovoSimpleSortFilter, OnIni
     private changeTimeout;
     icon: string;
     id: string;
-    filter: string;
+    filter: string | boolean;
     direction: string;
     filterActive: boolean;
     sortActive: boolean;

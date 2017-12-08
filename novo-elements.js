@@ -32634,7 +32634,7 @@ class NovoSortFilter {
      */
     filter(id, value, transform) {
         let /** @type {?} */ filter$$1;
-        if (value) {
+        if (!Helpers.isBlank(value)) {
             filter$$1 = { id, value, transform };
         }
         else {
@@ -33367,7 +33367,12 @@ class NovoSimpleCellHeader {
             }
         }
         if (filter$$1) {
-            this.filter = filter$$1;
+            if (filter$$1.hasOwnProperty('value')) {
+                this.filter = filter$$1.value;
+            }
+            else {
+                this.filter = filter$$1;
+            }
         }
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
@@ -33431,7 +33436,7 @@ NovoSimpleCellHeader.decorators = [
                 <button type="button" theme="icon" icon="filter" [class.active]="filterActive"></button>
                 <div class="header">
                     <span>{{ labels.filters }}</span>
-                    <button theme="dialogue" color="negative" icon="times" (click)="clearFilter()" *ngIf="filter" data-automation-id="novo-activity-table-filter-clear">{{ labels.clear }}</button>
+                    <button theme="dialogue" color="negative" icon="times" (click)="clearFilter()" *ngIf="filter !== null && filter !== undefined && filter !== ''" data-automation-id="novo-activity-table-filter-clear">{{ labels.clear }}</button>
                 </div>
                 <ng-container [ngSwitch]="config.filterConfig.type">
                     <list *ngSwitchCase="'date'">
@@ -33449,8 +33454,8 @@ NovoSimpleCellHeader.decorators = [
                         </div>
                     </list>
                     <list *ngSwitchCase="'select'">
-                        <item [class.active]="filter === option" *ngFor="let option of config.filterConfig.options" (click)="filterData(option.value || option)" [attr.data-automation-id]="'novo-activity-table-filter-' + (option?.label || option)">
-                            <span>{{ option?.label || option }}</span> <i class="bhi-check" *ngIf="filter === (option.value || option)"></i>
+                        <item [class.active]="filter === option" *ngFor="let option of config.filterConfig.options" (click)="filterData(option)" [attr.data-automation-id]="'novo-activity-table-filter-' + (option?.label || option)">
+                            <span>{{ option?.label || option }}</span> <i class="bhi-check" *ngIf="option.hasOwnProperty('value') ? filter === option.value : filter === option"></i>
                         </item>
                     </list>
                     <list *ngSwitchDefault>

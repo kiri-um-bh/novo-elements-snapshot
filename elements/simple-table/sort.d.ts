@@ -3,7 +3,7 @@ import { NovoActivityTableState } from './state';
 export declare class NovoSortFilter {
     private state;
     constructor(state: NovoActivityTableState);
-    filter(id: string, value: string, transform: Function): void;
+    filter(id: string, value: any, transform: Function): void;
     sort(id: string, value: string, transform: Function): void;
 }
 export declare class NovoSelection implements OnDestroy {
