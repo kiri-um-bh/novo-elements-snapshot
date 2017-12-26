@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Inject, Injectable, InjectionToken, Input, LOCALE_ID, NgModule, NgZone, Optional, Output, PLATFORM_ID, Pipe, ReflectiveInjector, Renderer2, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation, animate, forwardRef, state, style, transition, trigger } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isSameDay, isSameMonth, isSameSecond, isToday, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
 import { FormBuilder, FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
+import 'brace/index';
+import 'brace/theme/chrome';
+import 'brace/mode/javascript';
+import 'brace/ext/language_tools.js';
+import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isSameDay, isSameMonth, isSameSecond, isToday, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
@@ -29,414 +33,6 @@ import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
-
-// NG2
-// Rule storage - pluralize and singularize need to be run sequentially,
-// while other rules can be optimized using an object for instant lookups.
-let pluralRules = [];
-let singularRules = [];
-let uncountables = {};
-let irregularPlurals = {};
-let irregularSingles = {};
-/**
- * Title case a string.
- * @param {?} str
- * @return {?}
- */
-function toTitleCase(str) {
-    return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
-}
-/**
- * Sanitize a pluralization rule to a usable regular expression.
- * @param {?} rule
- * @return {?}
- */
-function sanitizeRule(rule) {
-    if (typeof rule === 'string') {
-        return new RegExp('^' + rule + '$', 'i');
-    }
-    return rule;
-}
-/**
- * Pass in a word token to produce a function that can replicate the case on
- * another word.
- * @param {?} word
- * @param {?} token
- * @return {?}
- */
-function restoreCase(word, token) {
-    // Upper cased words. E.g. "HELLO".
-    if (word === word.toUpperCase()) {
-        return token.toUpperCase();
-    }
-    // Title cased words. E.g. "Title".
-    if (word[0] === word[0].toUpperCase()) {
-        return toTitleCase(token);
-    }
-    // Lower cased words. E.g. "test".
-    return token.toLowerCase();
-}
-/**
- * Interpolate a regexp string.
- * @param {?} str
- * @param {?} args
- * @return {?}
- */
-function interpolate(str, args) {
-    return str.replace(/\$(\d{1,2})/g, (match, index) => {
-        return args[index] || '';
-    });
-}
-/**
- * Sanitize a word by passing in the word and sanitization rules.
- * @param {?} token
- * @param {?} word
- * @param {?} collection
- * @return {?}
- */
-function sanitizeWord(token, word, collection) {
-    // Empty string or doesn't need fixing.
-    if (!token.length || uncountables.hasOwnProperty(token)) {
-        return word;
-    }
-    let /** @type {?} */ len = collection.length;
-    // Iterate over the sanitization rules and use the first one to match.
-    while (len--) {
-        let /** @type {?} */ rule = collection[len];
-        // If the rule passes, return the replacement.
-        if (rule[0].test(word)) {
-            return word.replace(rule[0], (match, index, words) => {
-                let /** @type {?} */ result = interpolate(rule[1], [match, index, words]);
-                if (match === '') {
-                    return restoreCase(words[index - 1], result);
-                }
-                return restoreCase(match, result);
-            });
-        }
-    }
-    return word;
-}
-/**
- * Replace a word with the updated word.
- * @param {?} replaceMap
- * @param {?} keepMap
- * @param {?} rules
- * @return {?}
- */
-function replaceWord(replaceMap, keepMap, rules) {
-    return (word) => {
-        // Get the correct token and case restoration functions.
-        let /** @type {?} */ token = word.toLowerCase();
-        // Check against the keep object map.
-        if (keepMap.hasOwnProperty(token)) {
-            return restoreCase(word, token);
-        }
-        // Check against the replacement map for a direct word replacement.
-        if (replaceMap.hasOwnProperty(token)) {
-            return restoreCase(word, replaceMap[token]);
-        }
-        // Run all the rules against the word.
-        return sanitizeWord(token, word, rules);
-    };
-}
-class Pluralize {
-    /**
-     * @param {?} word
-     * @param {?=} count
-     * @param {?=} inclusive
-     * @return {?}
-     */
-    static pluralize(word, count = 1, inclusive) {
-        let /** @type {?} */ pluralized = count === 1 ? Pluralize.singular(word) : Pluralize.plural(word);
-        return (inclusive ? `${count} ` : '') + pluralized;
-    }
-    /**
-     * @param {?} word
-     * @return {?}
-     */
-    static singular(word) {
-        return replaceWord(irregularSingles, irregularPlurals, pluralRules)(word);
-    }
-    /**
-     * @param {?} word
-     * @return {?}
-     */
-    static plural(word) {
-        return replaceWord(irregularPlurals, irregularSingles, singularRules)(word);
-    }
-    /**
-     * @param {?} rule
-     * @param {?} replacement
-     * @return {?}
-     */
-    static addPluralRule(rule, replacement) {
-        pluralRules.push([sanitizeRule(rule), replacement]);
-    }
-    /**
-     * @param {?} rule
-     * @param {?} replacement
-     * @return {?}
-     */
-    static addSingularRule(rule, replacement) {
-        singularRules.push([sanitizeRule(rule), replacement]);
-    }
-    /**
-     * @param {?} word
-     * @return {?}
-     */
-    static addUncountableRule(word) {
-        if (typeof word === 'string') {
-            uncountables[word.toLowerCase()] = true;
-            return;
-        }
-        // Set singular and plural references for the word.
-        Pluralize.addPluralRule(word, '$0');
-        Pluralize.addSingularRule(word, '$0');
-    }
-    /**
-     * @param {?} single
-     * @param {?} plural
-     * @return {?}
-     */
-    static addIrregularRule(single, plural) {
-        let /** @type {?} */ one = plural.toLowerCase();
-        let /** @type {?} */ many = single.toLowerCase();
-        irregularSingles[one] = many;
-        irregularPlurals[many] = one;
-    }
-    ;
-}
-/**
- * Irregular rules.
- */
-[
-    // Pronouns.
-    ['I', 'we'],
-    ['me', 'us'],
-    ['he', 'they'],
-    ['she', 'they'],
-    ['them', 'them'],
-    ['myself', 'ourselves'],
-    ['yourself', 'yourselves'],
-    ['itself', 'themselves'],
-    ['herself', 'themselves'],
-    ['himself', 'themselves'],
-    ['themself', 'themselves'],
-    ['is', 'are'],
-    ['this', 'these'],
-    ['that', 'those'],
-    // Words ending in with a consonant and `o`.
-    ['echo', 'echoes'],
-    ['dingo', 'dingoes'],
-    ['volcano', 'volcanoes'],
-    ['tornado', 'tornadoes'],
-    ['torpedo', 'torpedoes'],
-    // Ends with `us`.
-    ['genus', 'genera'],
-    ['viscus', 'viscera'],
-    // Ends with `ma`.
-    ['stigma', 'stigmata'],
-    ['stoma', 'stomata'],
-    ['dogma', 'dogmata'],
-    ['lemma', 'lemmata'],
-    ['schema', 'schemata'],
-    ['anathema', 'anathemata'],
-    // Other irregular rules.
-    ['ox', 'oxen'],
-    ['axe', 'axes'],
-    ['die', 'dice'],
-    ['yes', 'yeses'],
-    ['foot', 'feet'],
-    ['eave', 'eaves'],
-    ['goose', 'geese'],
-    ['tooth', 'teeth'],
-    ['quiz', 'quizzes'],
-    ['human', 'humans'],
-    ['proof', 'proofs'],
-    ['carve', 'carves'],
-    ['valve', 'valves'],
-    ['thief', 'thieves'],
-    ['genie', 'genies'],
-    ['groove', 'grooves'],
-    ['pickaxe', 'pickaxes'],
-    ['whiskey', 'whiskies']
-].forEach((rule) => {
-    return Pluralize.addIrregularRule(rule[0], rule[1]);
-});
-/**
- * Pluralization rules.
- */
-[
-    [/s?$/i, 's'],
-    [/([^aeiou]ese)$/i, '$1'],
-    [/(ax|test)is$/i, '$1es'],
-    [/(alias|[^aou]us|tlas|gas|ris)$/i, '$1es'],
-    [/(e[mn]u)s?$/i, '$1s'],
-    [/([^l]ias|[aeiou]las|[emjzr]as|[iu]am)$/i, '$1'],
-    [/(alumn|syllab|octop|vir|radi|nucle|fung|cact|stimul|termin|bacill|foc|uter|loc|strat)(?:us|i)$/i, '$1i'],
-    [/(alumn|alg|vertebr)(?:a|ae)$/i, '$1ae'],
-    [/(seraph|cherub)(?:im)?$/i, '$1im'],
-    [/(her|at|gr)o$/i, '$1oes'],
-    [/(agend|addend|millenni|dat|extrem|bacteri|desiderat|strat|candelabr|errat|ov|symposi|curricul|automat|quor)(?:a|um)$/i, '$1a'],
-    [/(apheli|hyperbat|periheli|asyndet|noumen|phenomen|criteri|organ|prolegomen|hedr|automat)(?:a|on)$/i, '$1a'],
-    [/sis$/i, 'ses'],
-    [/(?:(kni|wi|li)fe|(ar|l|ea|eo|oa|hoo)f)$/i, '$1$2ves'],
-    [/([^aeiouy]|qu)y$/i, '$1ies'],
-    [/([^ch][ieo][ln])ey$/i, '$1ies'],
-    [/(x|ch|ss|sh|zz)$/i, '$1es'],
-    [/(matr|cod|mur|sil|vert|ind|append)(?:ix|ex)$/i, '$1ices'],
-    [/(m|l)(?:ice|ouse)$/i, '$1ice'],
-    [/(pe)(?:rson|ople)$/i, '$1ople'],
-    [/(child)(?:ren)?$/i, '$1ren'],
-    [/eaux$/i, '$0'],
-    [/m[ae]n$/i, 'men'],
-    ['thou', 'you']
-].forEach((rule) => {
-    return Pluralize.addPluralRule(rule[0], rule[1]);
-});
-/**
- * Singularization rules.
- */
-[
-    [/s$/i, ''],
-    [/(ss)$/i, '$1'],
-    [/((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)(?:sis|ses)$/i, '$1sis'],
-    [/(^analy)(?:sis|ses)$/i, '$1sis'],
-    [/(wi|kni|(?:after|half|high|low|mid|non|night|[^\w]|^)li)ves$/i, '$1fe'],
-    [/(ar|(?:wo|[ae])l|[eo][ao])ves$/i, '$1f'],
-    [/([^aeiouy]|qu)ies$/i, '$1y'],
-    [/(^[pl]|zomb|^(?:neck)?t|[aeo][lt]|cut)ies$/i, '$1ie'],
-    [/(\b(?:mon|smil))ies$/i, '$1ey'],
-    [/(m|l)ice$/i, '$1ouse'],
-    [/(seraph|cherub)im$/i, '$1'],
-    [/(x|ch|ss|sh|zz|tto|go|cho|alias|[^aou]us|tlas|gas|(?:her|at|gr)o|ris)(?:es)?$/i, '$1'],
-    [/(e[mn]u)s?$/i, '$1'],
-    [/(movie|twelve)s$/i, '$1'],
-    [/(cris|test|diagnos)(?:is|es)$/i, '$1is'],
-    [/(alumn|syllab|octop|vir|radi|nucle|fung|cact|stimul|termin|bacill|foc|uter|loc|strat)(?:us|i)$/i, '$1us'],
-    [/(agend|addend|millenni|dat|extrem|bacteri|desiderat|strat|candelabr|errat|ov|symposi|curricul|quor)a$/i, '$1um'],
-    [/(apheli|hyperbat|periheli|asyndet|noumen|phenomen|criteri|organ|prolegomen|hedr|automat)a$/i, '$1on'],
-    [/(alumn|alg|vertebr)ae$/i, '$1a'],
-    [/(cod|mur|sil|vert|ind)ices$/i, '$1ex'],
-    [/(matr|append)ices$/i, '$1ix'],
-    [/(pe)(rson|ople)$/i, '$1rson'],
-    [/(child)ren$/i, '$1'],
-    [/(eau)x?$/i, '$1'],
-    [/men$/i, 'man']
-].forEach((rule) => {
-    return Pluralize.addSingularRule(rule[0], rule[1]);
-});
-/**
- * Uncountable rules.
- */
-[
-    // Singular words with no plurals.
-    'advice',
-    'adulthood',
-    'agenda',
-    'aid',
-    'alcohol',
-    'ammo',
-    'athletics',
-    'bison',
-    'blood',
-    'bream',
-    'buffalo',
-    'butter',
-    'carp',
-    'cash',
-    'chassis',
-    'chess',
-    'clothing',
-    'commerce',
-    'cod',
-    'cooperation',
-    'corps',
-    'digestion',
-    'debris',
-    'diabetes',
-    'energy',
-    'equipment',
-    'elk',
-    'excretion',
-    'expertise',
-    'flounder',
-    'fun',
-    'gallows',
-    'garbage',
-    'graffiti',
-    'headquarters',
-    'health',
-    'herpes',
-    'highjinks',
-    'homework',
-    'housework',
-    'information',
-    'jeans',
-    'justice',
-    'kudos',
-    'labour',
-    'literature',
-    'machinery',
-    'mackerel',
-    'media',
-    'mews',
-    'moose',
-    'music',
-    'news',
-    'pike',
-    'plankton',
-    'pliers',
-    'pollution',
-    'premises',
-    'rain',
-    'research',
-    'rice',
-    'salmon',
-    'scissors',
-    'series',
-    'sewage',
-    'shambles',
-    'shrimp',
-    'species',
-    'staff',
-    'swine',
-    'trout',
-    'traffic',
-    'transporation',
-    'tuna',
-    'wealth',
-    'welfare',
-    'whiting',
-    'wildebeest',
-    'wildlife',
-    'you',
-    // Regexes.
-    /pox$/i,
-    /ois$/i,
-    /deer$/i,
-    /fish$/i,
-    /sheep$/i,
-    /measles$/i,
-    /[^aeiou]ese$/i // "chinese", "japanese"
-].forEach(Pluralize.addUncountableRule);
-class PluralPipe {
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    transform(value) {
-        return Pluralize.pluralize(value);
-    }
-}
-PluralPipe.decorators = [
-    { type: Pipe, args: [{ name: 'plural' },] },
-    { type: Injectable },
-];
-/**
- * @nocollapse
- */
-PluralPipe.ctorParameters = () => [];
 
 class Helpers {
     /**
@@ -816,6 +412,613 @@ class Can {
 function can(obj) {
     return new Can(obj);
 }
+
+// NG2
+// Vendor
+// APP
+const ACE_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => NovoAceEditor),
+    multi: true
+};
+class NovoAceEditor {
+    /**
+     * @param {?} elementRef
+     */
+    constructor(elementRef) {
+        this.elementRef = elementRef;
+        this.blur = new EventEmitter();
+        this.focus = new EventEmitter();
+        this._options = {
+            showPrintMargin: false,
+            displayIndentGuides: true,
+        };
+        this._theme = 'chrome';
+        this._mode = 'javascript';
+        this.text = '';
+        this.onChange = (_) => { };
+        this.onTouched = () => { };
+    }
+    /**
+     * @param {?} theme
+     * @return {?}
+     */
+    set theme(theme) {
+        this.setTheme(theme);
+    }
+    /**
+     * @param {?} options
+     * @return {?}
+     */
+    set options(options) {
+        this.setOptions(options);
+    }
+    /**
+     * @param {?} mode
+     * @return {?}
+     */
+    set mode(mode) {
+        this.setMode(mode);
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        if (this.editor) {
+            this.editor.destroy();
+        }
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+        this.initializeEditor();
+        this.initializeOptions();
+        this.initializeEvents();
+    }
+    /**
+     * @return {?}
+     */
+    initializeEditor() {
+        let /** @type {?} */ el = this.elementRef.nativeElement;
+        this.editor = ace.edit(el);
+        this.editor.$blockScrolling = Infinity;
+    }
+    /**
+     * @return {?}
+     */
+    initializeOptions() {
+        this.setOptions(this._options || {});
+        this.setTheme(this._theme);
+        this.setMode(this._mode);
+    }
+    /**
+     * @return {?}
+     */
+    initializeEvents() {
+        this.editor.on('focus', (event) => this.focus.emit(event));
+        this.editor.on('blur', (event) => this.focus.emit(event));
+        this.editor.on('change', () => this.updateText());
+        this.editor.on('paste', () => this.updateText());
+    }
+    /**
+     * @return {?}
+     */
+    updateText() {
+        let /** @type {?} */ newVal = this.editor.getValue();
+        if (newVal === this.oldText) {
+            return;
+        }
+        this.text = newVal;
+        this.onChange(newVal);
+        this.oldText = newVal;
+    }
+    /**
+     * @param {?} text
+     * @return {?}
+     */
+    setText(text) {
+        if (Helpers.isBlank(text)) {
+            text = '';
+        }
+        if (this.text !== text) {
+            this.text = text;
+            this.editor.setValue(text);
+            this.onChange(text);
+            this.editor.clearSelection();
+        }
+    }
+    /**
+     * @param {?} options
+     * @return {?}
+     */
+    setOptions(options) {
+        this._options = options;
+        this.editor.setOptions(options || {});
+    }
+    /**
+     * @param {?} theme
+     * @return {?}
+     */
+    setTheme(theme) {
+        this._theme = theme;
+        this.editor.setTheme(`ace/theme/${theme}`);
+    }
+    /**
+     * @param {?} mode
+     * @return {?}
+     */
+    setMode(mode) {
+        this._mode = mode;
+        this.editor.getSession().setMode(`ace/mode/${this._mode}`);
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    writeValue(value) {
+        this.setText(value);
+    }
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    registerOnChange(fn) {
+        this.onChange = fn;
+    }
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
+}
+NovoAceEditor.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-ace-editor',
+                template: '',
+                providers: [ACE_VALUE_ACCESSOR]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoAceEditor.ctorParameters = () => [
+    { type: ElementRef, },
+];
+NovoAceEditor.propDecorators = {
+    'theme': [{ type: Input },],
+    'options': [{ type: Input },],
+    'mode': [{ type: Input },],
+    'name': [{ type: Input },],
+    'blur': [{ type: Output },],
+    'focus': [{ type: Output },],
+};
+
+// NG2
+// APP
+class NovoAceEditorModule {
+}
+NovoAceEditorModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule],
+                declarations: [NovoAceEditor],
+                exports: [NovoAceEditor]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoAceEditorModule.ctorParameters = () => [];
+
+// NG2
+// Rule storage - pluralize and singularize need to be run sequentially,
+// while other rules can be optimized using an object for instant lookups.
+let pluralRules = [];
+let singularRules = [];
+let uncountables = {};
+let irregularPlurals = {};
+let irregularSingles = {};
+/**
+ * Title case a string.
+ * @param {?} str
+ * @return {?}
+ */
+function toTitleCase(str) {
+    return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
+}
+/**
+ * Sanitize a pluralization rule to a usable regular expression.
+ * @param {?} rule
+ * @return {?}
+ */
+function sanitizeRule(rule) {
+    if (typeof rule === 'string') {
+        return new RegExp('^' + rule + '$', 'i');
+    }
+    return rule;
+}
+/**
+ * Pass in a word token to produce a function that can replicate the case on
+ * another word.
+ * @param {?} word
+ * @param {?} token
+ * @return {?}
+ */
+function restoreCase(word, token) {
+    // Upper cased words. E.g. "HELLO".
+    if (word === word.toUpperCase()) {
+        return token.toUpperCase();
+    }
+    // Title cased words. E.g. "Title".
+    if (word[0] === word[0].toUpperCase()) {
+        return toTitleCase(token);
+    }
+    // Lower cased words. E.g. "test".
+    return token.toLowerCase();
+}
+/**
+ * Interpolate a regexp string.
+ * @param {?} str
+ * @param {?} args
+ * @return {?}
+ */
+function interpolate(str, args) {
+    return str.replace(/\$(\d{1,2})/g, (match, index$$1) => {
+        return args[index$$1] || '';
+    });
+}
+/**
+ * Sanitize a word by passing in the word and sanitization rules.
+ * @param {?} token
+ * @param {?} word
+ * @param {?} collection
+ * @return {?}
+ */
+function sanitizeWord(token, word, collection) {
+    // Empty string or doesn't need fixing.
+    if (!token.length || uncountables.hasOwnProperty(token)) {
+        return word;
+    }
+    let /** @type {?} */ len = collection.length;
+    // Iterate over the sanitization rules and use the first one to match.
+    while (len--) {
+        let /** @type {?} */ rule = collection[len];
+        // If the rule passes, return the replacement.
+        if (rule[0].test(word)) {
+            return word.replace(rule[0], (match, index$$1, words) => {
+                let /** @type {?} */ result = interpolate(rule[1], [match, index$$1, words]);
+                if (match === '') {
+                    return restoreCase(words[index$$1 - 1], result);
+                }
+                return restoreCase(match, result);
+            });
+        }
+    }
+    return word;
+}
+/**
+ * Replace a word with the updated word.
+ * @param {?} replaceMap
+ * @param {?} keepMap
+ * @param {?} rules
+ * @return {?}
+ */
+function replaceWord(replaceMap, keepMap, rules) {
+    return (word) => {
+        // Get the correct token and case restoration functions.
+        let /** @type {?} */ token = word.toLowerCase();
+        // Check against the keep object map.
+        if (keepMap.hasOwnProperty(token)) {
+            return restoreCase(word, token);
+        }
+        // Check against the replacement map for a direct word replacement.
+        if (replaceMap.hasOwnProperty(token)) {
+            return restoreCase(word, replaceMap[token]);
+        }
+        // Run all the rules against the word.
+        return sanitizeWord(token, word, rules);
+    };
+}
+class Pluralize {
+    /**
+     * @param {?} word
+     * @param {?=} count
+     * @param {?=} inclusive
+     * @return {?}
+     */
+    static pluralize(word, count = 1, inclusive) {
+        let /** @type {?} */ pluralized = count === 1 ? Pluralize.singular(word) : Pluralize.plural(word);
+        return (inclusive ? `${count} ` : '') + pluralized;
+    }
+    /**
+     * @param {?} word
+     * @return {?}
+     */
+    static singular(word) {
+        return replaceWord(irregularSingles, irregularPlurals, pluralRules)(word);
+    }
+    /**
+     * @param {?} word
+     * @return {?}
+     */
+    static plural(word) {
+        return replaceWord(irregularPlurals, irregularSingles, singularRules)(word);
+    }
+    /**
+     * @param {?} rule
+     * @param {?} replacement
+     * @return {?}
+     */
+    static addPluralRule(rule, replacement) {
+        pluralRules.push([sanitizeRule(rule), replacement]);
+    }
+    /**
+     * @param {?} rule
+     * @param {?} replacement
+     * @return {?}
+     */
+    static addSingularRule(rule, replacement) {
+        singularRules.push([sanitizeRule(rule), replacement]);
+    }
+    /**
+     * @param {?} word
+     * @return {?}
+     */
+    static addUncountableRule(word) {
+        if (typeof word === 'string') {
+            uncountables[word.toLowerCase()] = true;
+            return;
+        }
+        // Set singular and plural references for the word.
+        Pluralize.addPluralRule(word, '$0');
+        Pluralize.addSingularRule(word, '$0');
+    }
+    /**
+     * @param {?} single
+     * @param {?} plural
+     * @return {?}
+     */
+    static addIrregularRule(single, plural) {
+        let /** @type {?} */ one = plural.toLowerCase();
+        let /** @type {?} */ many = single.toLowerCase();
+        irregularSingles[one] = many;
+        irregularPlurals[many] = one;
+    }
+    ;
+}
+/**
+ * Irregular rules.
+ */
+[
+    // Pronouns.
+    ['I', 'we'],
+    ['me', 'us'],
+    ['he', 'they'],
+    ['she', 'they'],
+    ['them', 'them'],
+    ['myself', 'ourselves'],
+    ['yourself', 'yourselves'],
+    ['itself', 'themselves'],
+    ['herself', 'themselves'],
+    ['himself', 'themselves'],
+    ['themself', 'themselves'],
+    ['is', 'are'],
+    ['this', 'these'],
+    ['that', 'those'],
+    // Words ending in with a consonant and `o`.
+    ['echo', 'echoes'],
+    ['dingo', 'dingoes'],
+    ['volcano', 'volcanoes'],
+    ['tornado', 'tornadoes'],
+    ['torpedo', 'torpedoes'],
+    // Ends with `us`.
+    ['genus', 'genera'],
+    ['viscus', 'viscera'],
+    // Ends with `ma`.
+    ['stigma', 'stigmata'],
+    ['stoma', 'stomata'],
+    ['dogma', 'dogmata'],
+    ['lemma', 'lemmata'],
+    ['schema', 'schemata'],
+    ['anathema', 'anathemata'],
+    // Other irregular rules.
+    ['ox', 'oxen'],
+    ['axe', 'axes'],
+    ['die', 'dice'],
+    ['yes', 'yeses'],
+    ['foot', 'feet'],
+    ['eave', 'eaves'],
+    ['goose', 'geese'],
+    ['tooth', 'teeth'],
+    ['quiz', 'quizzes'],
+    ['human', 'humans'],
+    ['proof', 'proofs'],
+    ['carve', 'carves'],
+    ['valve', 'valves'],
+    ['thief', 'thieves'],
+    ['genie', 'genies'],
+    ['groove', 'grooves'],
+    ['pickaxe', 'pickaxes'],
+    ['whiskey', 'whiskies']
+].forEach((rule) => {
+    return Pluralize.addIrregularRule(rule[0], rule[1]);
+});
+/**
+ * Pluralization rules.
+ */
+[
+    [/s?$/i, 's'],
+    [/([^aeiou]ese)$/i, '$1'],
+    [/(ax|test)is$/i, '$1es'],
+    [/(alias|[^aou]us|tlas|gas|ris)$/i, '$1es'],
+    [/(e[mn]u)s?$/i, '$1s'],
+    [/([^l]ias|[aeiou]las|[emjzr]as|[iu]am)$/i, '$1'],
+    [/(alumn|syllab|octop|vir|radi|nucle|fung|cact|stimul|termin|bacill|foc|uter|loc|strat)(?:us|i)$/i, '$1i'],
+    [/(alumn|alg|vertebr)(?:a|ae)$/i, '$1ae'],
+    [/(seraph|cherub)(?:im)?$/i, '$1im'],
+    [/(her|at|gr)o$/i, '$1oes'],
+    [/(agend|addend|millenni|dat|extrem|bacteri|desiderat|strat|candelabr|errat|ov|symposi|curricul|automat|quor)(?:a|um)$/i, '$1a'],
+    [/(apheli|hyperbat|periheli|asyndet|noumen|phenomen|criteri|organ|prolegomen|hedr|automat)(?:a|on)$/i, '$1a'],
+    [/sis$/i, 'ses'],
+    [/(?:(kni|wi|li)fe|(ar|l|ea|eo|oa|hoo)f)$/i, '$1$2ves'],
+    [/([^aeiouy]|qu)y$/i, '$1ies'],
+    [/([^ch][ieo][ln])ey$/i, '$1ies'],
+    [/(x|ch|ss|sh|zz)$/i, '$1es'],
+    [/(matr|cod|mur|sil|vert|ind|append)(?:ix|ex)$/i, '$1ices'],
+    [/(m|l)(?:ice|ouse)$/i, '$1ice'],
+    [/(pe)(?:rson|ople)$/i, '$1ople'],
+    [/(child)(?:ren)?$/i, '$1ren'],
+    [/eaux$/i, '$0'],
+    [/m[ae]n$/i, 'men'],
+    ['thou', 'you']
+].forEach((rule) => {
+    return Pluralize.addPluralRule(rule[0], rule[1]);
+});
+/**
+ * Singularization rules.
+ */
+[
+    [/s$/i, ''],
+    [/(ss)$/i, '$1'],
+    [/((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)(?:sis|ses)$/i, '$1sis'],
+    [/(^analy)(?:sis|ses)$/i, '$1sis'],
+    [/(wi|kni|(?:after|half|high|low|mid|non|night|[^\w]|^)li)ves$/i, '$1fe'],
+    [/(ar|(?:wo|[ae])l|[eo][ao])ves$/i, '$1f'],
+    [/([^aeiouy]|qu)ies$/i, '$1y'],
+    [/(^[pl]|zomb|^(?:neck)?t|[aeo][lt]|cut)ies$/i, '$1ie'],
+    [/(\b(?:mon|smil))ies$/i, '$1ey'],
+    [/(m|l)ice$/i, '$1ouse'],
+    [/(seraph|cherub)im$/i, '$1'],
+    [/(x|ch|ss|sh|zz|tto|go|cho|alias|[^aou]us|tlas|gas|(?:her|at|gr)o|ris)(?:es)?$/i, '$1'],
+    [/(e[mn]u)s?$/i, '$1'],
+    [/(movie|twelve)s$/i, '$1'],
+    [/(cris|test|diagnos)(?:is|es)$/i, '$1is'],
+    [/(alumn|syllab|octop|vir|radi|nucle|fung|cact|stimul|termin|bacill|foc|uter|loc|strat)(?:us|i)$/i, '$1us'],
+    [/(agend|addend|millenni|dat|extrem|bacteri|desiderat|strat|candelabr|errat|ov|symposi|curricul|quor)a$/i, '$1um'],
+    [/(apheli|hyperbat|periheli|asyndet|noumen|phenomen|criteri|organ|prolegomen|hedr|automat)a$/i, '$1on'],
+    [/(alumn|alg|vertebr)ae$/i, '$1a'],
+    [/(cod|mur|sil|vert|ind)ices$/i, '$1ex'],
+    [/(matr|append)ices$/i, '$1ix'],
+    [/(pe)(rson|ople)$/i, '$1rson'],
+    [/(child)ren$/i, '$1'],
+    [/(eau)x?$/i, '$1'],
+    [/men$/i, 'man']
+].forEach((rule) => {
+    return Pluralize.addSingularRule(rule[0], rule[1]);
+});
+/**
+ * Uncountable rules.
+ */
+[
+    // Singular words with no plurals.
+    'advice',
+    'adulthood',
+    'agenda',
+    'aid',
+    'alcohol',
+    'ammo',
+    'athletics',
+    'bison',
+    'blood',
+    'bream',
+    'buffalo',
+    'butter',
+    'carp',
+    'cash',
+    'chassis',
+    'chess',
+    'clothing',
+    'commerce',
+    'cod',
+    'cooperation',
+    'corps',
+    'digestion',
+    'debris',
+    'diabetes',
+    'energy',
+    'equipment',
+    'elk',
+    'excretion',
+    'expertise',
+    'flounder',
+    'fun',
+    'gallows',
+    'garbage',
+    'graffiti',
+    'headquarters',
+    'health',
+    'herpes',
+    'highjinks',
+    'homework',
+    'housework',
+    'information',
+    'jeans',
+    'justice',
+    'kudos',
+    'labour',
+    'literature',
+    'machinery',
+    'mackerel',
+    'media',
+    'mews',
+    'moose',
+    'music',
+    'news',
+    'pike',
+    'plankton',
+    'pliers',
+    'pollution',
+    'premises',
+    'rain',
+    'research',
+    'rice',
+    'salmon',
+    'scissors',
+    'series',
+    'sewage',
+    'shambles',
+    'shrimp',
+    'species',
+    'staff',
+    'swine',
+    'trout',
+    'traffic',
+    'transporation',
+    'tuna',
+    'wealth',
+    'welfare',
+    'whiting',
+    'wildebeest',
+    'wildlife',
+    'you',
+    // Regexes.
+    /pox$/i,
+    /ois$/i,
+    /deer$/i,
+    /fish$/i,
+    /sheep$/i,
+    /measles$/i,
+    /[^aeiou]ese$/i // "chinese", "japanese"
+].forEach(Pluralize.addUncountableRule);
+class PluralPipe {
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    transform(value) {
+        return Pluralize.pluralize(value);
+    }
+}
+PluralPipe.decorators = [
+    { type: Pipe, args: [{ name: 'plural' },] },
+    { type: Injectable },
+];
+/**
+ * @nocollapse
+ */
+PluralPipe.ctorParameters = () => [];
 
 // NG2
 // App
@@ -2055,10 +2258,10 @@ function getWeekView({ events = [], viewDate, weekStartsOn, excluded = [], hourS
     });
     const /** @type {?} */ eventRows = [];
     const /** @type {?} */ allocatedEvents = [];
-    eventsMapped.forEach((event, index) => {
+    eventsMapped.forEach((event, index$$1) => {
         if (allocatedEvents.indexOf(event) === -1) {
             allocatedEvents.push(event);
-            const /** @type {?} */ otherRowEvents = eventsMapped.slice(index + 1).filter(nextEvent => {
+            const /** @type {?} */ otherRowEvents = eventsMapped.slice(index$$1 + 1).filter(nextEvent => {
                 return nextEvent.top === event.top && nextEvent.offset === event.offset;
             });
             if (otherRowEvents.length > 0) {
@@ -3996,8 +4199,8 @@ class NovoNavOutletElement {
      * @param {?} index
      * @return {?}
      */
-    show(index) {
-        let /** @type {?} */ item = this.items[index];
+    show(index$$1) {
+        let /** @type {?} */ item = this.items[index$$1];
         /**
          * Deactivates other tab items
          * @param {?} items - deactivated items
@@ -5182,8 +5385,8 @@ class BasePickerResults {
      * @return {?}
      */
     prevActiveMatch() {
-        let /** @type {?} */ index = this.matches.indexOf(this.activeMatch);
-        this.activeMatch = this.matches[index - 1 < 0 ? this.matches.length - 1 : index - 1];
+        let /** @type {?} */ index$$1 = this.matches.indexOf(this.activeMatch);
+        this.activeMatch = this.matches[index$$1 - 1 < 0 ? this.matches.length - 1 : index$$1 - 1];
         this.scrollToActive();
         this.ref.markForCheck();
     }
@@ -5194,8 +5397,8 @@ class BasePickerResults {
      * @return {?}
      */
     nextActiveMatch() {
-        let /** @type {?} */ index = this.matches.indexOf(this.activeMatch);
-        this.activeMatch = this.matches[index + 1 > this.matches.length - 1 ? 0 : index + 1];
+        let /** @type {?} */ index$$1 = this.matches.indexOf(this.activeMatch);
+        this.activeMatch = this.matches[index$$1 + 1 > this.matches.length - 1 ? 0 : index$$1 + 1];
         this.scrollToActive();
         this.ref.markForCheck();
     }
@@ -5221,8 +5424,8 @@ class BasePickerResults {
     scrollToActive() {
         let /** @type {?} */ list = this.getListElement();
         let /** @type {?} */ items = this.getChildrenOfListElement();
-        let /** @type {?} */ index = this.matches.indexOf(this.activeMatch);
-        let /** @type {?} */ item = items[index];
+        let /** @type {?} */ index$$1 = this.matches.indexOf(this.activeMatch);
+        let /** @type {?} */ item = items[index$$1];
         if (item) {
             list.scrollTop = item.offsetTop;
         }
@@ -5926,10 +6129,10 @@ class QuickNoteElement extends OutsideClick {
         let /** @type {?} */ parentNode = start.getParent();
         if (start.type === CKEDITOR.NODE_TEXT && parentNode) {
             let /** @type {?} */ line = parentNode.getHtml();
-            let /** @type {?} */ index = line.lastIndexOf(originalWord);
-            if (index >= 0) {
+            let /** @type {?} */ index$$1 = line.lastIndexOf(originalWord);
+            if (index$$1 >= 0) {
                 // Add a space after the replaced word so that multiple references can be added back to back
-                let /** @type {?} */ newLine = line.substring(0, index) + newWord + ' ' + line.substring(index + originalWord.length);
+                let /** @type {?} */ newLine = line.substring(0, index$$1) + newWord + ' ' + line.substring(index$$1 + originalWord.length);
                 parentNode.setHtml(newLine);
                 // Place selection at the end of the line
                 range.moveToPosition(parentNode, CKEDITOR.POSITION_BEFORE_END);
@@ -6496,14 +6699,14 @@ class NovoDropdownElement extends OutsideClick {
             this.filterTermTimeout = setTimeout(() => { this.filterTerm = ''; }, 2000);
             let /** @type {?} */ char = String.fromCharCode(event.keyCode);
             this.filterTerm = this.filterTerm.concat(char);
-            let /** @type {?} */ index = this._textItems.findIndex((value) => {
+            let /** @type {?} */ index$$1 = this._textItems.findIndex((value) => {
                 return new RegExp(`^${this.filterTerm.toLowerCase()}`).test(value.trim().toLowerCase());
             });
-            if (index !== -1) {
+            if (index$$1 !== -1) {
                 if (this.activeIndex !== -1) {
                     this._items.toArray()[this.activeIndex].active = false;
                 }
-                this.activeIndex = index;
+                this.activeIndex = index$$1;
                 this._items.toArray()[this.activeIndex].active = true;
                 this.scrollToActive();
             }
@@ -6814,7 +7017,7 @@ var Subscription = (function () {
         // null out _subscriptions first so any child subscriptions that attempt
         // to remove themselves from this subscription will noop
         this._subscriptions = null;
-        var index = -1;
+        var index$$1 = -1;
         var len = _parents ? _parents.length : 0;
         // if this._parent is null, then so is this._parents, and we
         // don't have to remove ourselves from any parent subscriptions.
@@ -6822,7 +7025,7 @@ var Subscription = (function () {
             _parent.remove(this);
             // if this._parents is null or index >= len,
             // then _parent is set to null, and the loop exits
-            _parent = ++index < len && _parents[index] || null;
+            _parent = ++index$$1 < len && _parents[index$$1] || null;
         }
         if (isFunction_1.isFunction(_unsubscribe)) {
             var trial = tryCatch_1.tryCatch(_unsubscribe).call(this);
@@ -6833,10 +7036,10 @@ var Subscription = (function () {
             }
         }
         if (isArray.isArray(_subscriptions)) {
-            index = -1;
+            index$$1 = -1;
             len = _subscriptions.length;
-            while (++index < len) {
-                var sub = _subscriptions[index];
+            while (++index$$1 < len) {
+                var sub = _subscriptions[index$$1];
                 if (isObject_1.isObject(sub)) {
                     var trial = tryCatch_1.tryCatch(sub.unsubscribe).call(sub);
                     if (trial === errorObject.errorObject) {
@@ -7395,38 +7598,38 @@ var FirstSubscriber = (function (_super) {
         this._emitted = false;
     }
     FirstSubscriber.prototype._next = function (value) {
-        var index = this.index++;
+        var index$$1 = this.index++;
         if (this.predicate) {
-            this._tryPredicate(value, index);
+            this._tryPredicate(value, index$$1);
         }
         else {
-            this._emit(value, index);
+            this._emit(value, index$$1);
         }
     };
-    FirstSubscriber.prototype._tryPredicate = function (value, index) {
+    FirstSubscriber.prototype._tryPredicate = function (value, index$$1) {
         var result;
         try {
-            result = this.predicate(value, index, this.source);
+            result = this.predicate(value, index$$1, this.source);
         }
         catch (err) {
             this.destination.error(err);
             return;
         }
         if (result) {
-            this._emit(value, index);
+            this._emit(value, index$$1);
         }
     };
-    FirstSubscriber.prototype._emit = function (value, index) {
+    FirstSubscriber.prototype._emit = function (value, index$$1) {
         if (this.resultSelector) {
-            this._tryResultSelector(value, index);
+            this._tryResultSelector(value, index$$1);
             return;
         }
         this._emitFinal(value);
     };
-    FirstSubscriber.prototype._tryResultSelector = function (value, index) {
+    FirstSubscriber.prototype._tryResultSelector = function (value, index$$1) {
         var result;
         try {
-            result = this.resultSelector(value, index);
+            result = this.resultSelector(value, index$$1);
         }
         catch (err) {
             this.destination.error(err);
@@ -8146,22 +8349,22 @@ var SwitchMapSubscriber = (function (_super) {
     }
     SwitchMapSubscriber.prototype._next = function (value) {
         var result;
-        var index = this.index++;
+        var index$$1 = this.index++;
         try {
-            result = this.project(value, index);
+            result = this.project(value, index$$1);
         }
         catch (error) {
             this.destination.error(error);
             return;
         }
-        this._innerSub(result, value, index);
+        this._innerSub(result, value, index$$1);
     };
-    SwitchMapSubscriber.prototype._innerSub = function (result, value, index) {
+    SwitchMapSubscriber.prototype._innerSub = function (result, value, index$$1) {
         var innerSubscription = this.innerSubscription;
         if (innerSubscription) {
             innerSubscription.unsubscribe();
         }
-        this.add(this.innerSubscription = subscribeToResult_1.subscribeToResult(this, result, value, index));
+        this.add(this.innerSubscription = subscribeToResult_1.subscribeToResult(this, result, value, index$$1));
     };
     SwitchMapSubscriber.prototype._complete = function () {
         var innerSubscription = this.innerSubscription;
@@ -8535,8 +8738,8 @@ class NovoSelectElement {
         }
         else if (this.createdItem) {
             let /** @type {?} */ item = this.options.find(i => i.label === this.createdItem);
-            let /** @type {?} */ index = this.options.indexOf(item);
-            this.select(item, index);
+            let /** @type {?} */ index$$1 = this.options.indexOf(item);
+            this.select(item, index$$1);
         }
         else {
             this.writeValue(this.model);
@@ -8689,11 +8892,11 @@ class NovoSelectElement {
      * @param {?} index
      * @return {?}
      */
-    scrollToIndex(index) {
+    scrollToIndex(index$$1) {
         let /** @type {?} */ element = this.overlay._overlayRef.overlayElement;
         let /** @type {?} */ list = element.querySelector('.novo-select-list');
         let /** @type {?} */ items = list.querySelectorAll('li');
-        let /** @type {?} */ item = items[this.headerConfig ? index + 1 : index];
+        let /** @type {?} */ item = items[this.headerConfig ? index$$1 + 1 : index$$1];
         if (item) {
             list.scrollTop = item.offsetTop;
         }
@@ -14160,6 +14363,17 @@ class EditorControl extends BaseControl {
 }
 
 // APP
+class AceEditorControl extends BaseControl {
+    /**
+     * @param {?} config
+     */
+    constructor(config) {
+        super('AceEditorControl', config);
+        this.controlType = 'ace-editor';
+    }
+}
+
+// APP
 class FileControl extends BaseControl {
     /**
      * @param {?} config
@@ -15757,21 +15971,21 @@ class FieldInteractionApi {
                 if (config) {
                     currentOptions = config.options;
                     if (currentOptions && Array.isArray(currentOptions)) {
-                        let /** @type {?} */ index = -1;
+                        let /** @type {?} */ index$$1 = -1;
                         currentOptions.forEach((opt, i) => {
                             if (opt.value || opt.label) {
                                 if (opt.value === optionToRemove || opt.label === optionToRemove) {
-                                    index = i;
+                                    index$$1 = i;
                                 }
                             }
                             else {
                                 if (opt === optionToRemove) {
-                                    index = i;
+                                    index$$1 = i;
                                 }
                             }
                         });
-                        if (index !== -1) {
-                            currentOptions.splice(index, 1);
+                        if (index$$1 !== -1) {
+                            currentOptions.splice(index$$1, 1);
                         }
                         config.options = [...currentOptions];
                         this.setProperty(key, 'config', config);
@@ -15779,21 +15993,21 @@ class FieldInteractionApi {
                 }
             }
             else {
-                let /** @type {?} */ index = -1;
+                let /** @type {?} */ index$$1 = -1;
                 currentOptions.forEach((opt, i) => {
                     if (opt.value || opt.label) {
                         if (opt.value === optionToRemove || opt.label === optionToRemove) {
-                            index = i;
+                            index$$1 = i;
                         }
                     }
                     else {
                         if (opt === optionToRemove) {
-                            index = i;
+                            index$$1 = i;
                         }
                     }
                 });
-                if (index !== -1) {
-                    currentOptions.splice(index, 1);
+                if (index$$1 !== -1) {
+                    currentOptions.splice(index$$1, 1);
                 }
                 this.setProperty(key, 'options', [...currentOptions]);
             }
@@ -16310,7 +16524,7 @@ class NovoControlElement extends OutsideClick {
             return true;
         }
         // Controls that always have the label active
-        return ['tiles', 'checklist', 'checkbox', 'address', 'file', 'editor', 'radio', 'text-area', 'quick-note'].indexOf(this.form.controls[this.control.key].controlType) !== -1;
+        return ['tiles', 'checklist', 'checkbox', 'address', 'file', 'editor', 'ace-editor', 'radio', 'text-area', 'quick-note'].indexOf(this.form.controls[this.control.key].controlType) !== -1;
     }
     /**
      * @return {?}
@@ -16498,6 +16712,8 @@ NovoControlElement.decorators = [
                             <textarea *ngSwitchCase="'text-area'" [name]="control.key" [attr.id]="control.key" [placeholder]="form.controls[control.key].placeholder" [formControlName]="control.key" autosize (input)="handleTextAreaInput($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" [maxlength]="control.maxlength" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></textarea>
                             <!--Editor-->
                             <novo-editor *ngSwitchCase="'editor'" [name]="control.key" [formControlName]="control.key" [minimal]="control.minimal" (focus)="handleFocus($event)" (blur)="handleBlur($event)"></novo-editor>
+                            <!--AceEditor-->
+                            <novo-ace-editor *ngSwitchCase="'ace-editor'" [name]="control.key" [formControlName]="control.key" (focus)="handleFocus($event)" (blur)="handleBlur($event)"></novo-ace-editor>
                             <!--HTML5 Select-->
                             <select [id]="control.key" *ngSwitchCase="'native-select'" [formControlName]="control.key" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition">
                                 <option *ngIf="form.controls[control.key].placeholder" value="" disabled selected hidden>{{ form.controls[control.key].placeholder }}</option>
@@ -27503,21 +27719,21 @@ class NovoControlGroup {
      * @param {?=} emitEvent
      * @return {?}
      */
-    removeControl(index, emitEvent = true) {
+    removeControl(index$$1, emitEvent = true) {
         const /** @type {?} */ control = (this.form.controls[this.key]);
         if (emitEvent) {
-            this.onRemove.emit({ value: control.at(index).value, index: index });
+            this.onRemove.emit({ value: control.at(index$$1).value, index: index$$1 });
         }
-        control.removeAt(index);
+        control.removeAt(index$$1);
         this.ref.markForCheck();
     }
     /**
      * @param {?} index
      * @return {?}
      */
-    editControl(index) {
+    editControl(index$$1) {
         const /** @type {?} */ control = (this.form.controls[this.key]);
-        this.onEdit.emit({ value: control.at(index).value, index: index });
+        this.onEdit.emit({ value: control.at(index$$1).value, index: index$$1 });
     }
     /**
      * @param {?} event
@@ -27546,10 +27762,10 @@ class NovoControlGroup {
      * @param {?} index
      * @return {?}
      */
-    checkCanEdit(index) {
+    checkCanEdit(index$$1) {
         if (this.canEdit) {
             const /** @type {?} */ control = (this.form.controls[this.key]);
-            return this.canEdit(control.at(index).value, index);
+            return this.canEdit(control.at(index$$1).value, index$$1);
         }
         return true;
     }
@@ -27557,10 +27773,10 @@ class NovoControlGroup {
      * @param {?} index
      * @return {?}
      */
-    checkCanRemove(index) {
+    checkCanRemove(index$$1) {
         if (this.canRemove) {
             const /** @type {?} */ control = (this.form.controls[this.key]);
-            return this.canRemove(control.at(index).value, index);
+            return this.canRemove(control.at(index$$1).value, index$$1);
         }
         return true;
     }
@@ -27688,7 +27904,8 @@ NovoFormModule.decorators = [
                     TextMaskModule,
                     NovoTipWellModule,
                     NovoModalModule,
-                    NovoButtonModule
+                    NovoButtonModule,
+                    NovoAceEditorModule
                 ],
                 declarations: [
                     NovoAutoSize, NovoControlElement, NovoDynamicFormElement, NovoFormElement,
@@ -28137,12 +28354,12 @@ class ThOrderable {
      * @return {?}
      */
     get index() {
-        let /** @type {?} */ index = null;
+        let /** @type {?} */ index$$1 = null;
         if (this.element.nativeElement && this.element.nativeElement.parentNode) {
             let /** @type {?} */ children = Array.prototype.slice.call(this.element.nativeElement.parentNode.children);
-            index = children.indexOf(this.element.nativeElement);
+            index$$1 = children.indexOf(this.element.nativeElement);
         }
-        return index;
+        return index$$1;
     }
     /**
      * @return {?}
@@ -28702,8 +28919,8 @@ class ArrayCollection {
      * @param {?} index
      * @return {?}
      */
-    addItemAt(item, index) {
-        this.isEditing ? this.editData.splice(index, 0, item) : this.source.splice(index, 0, item);
+    addItemAt(item, index$$1) {
+        this.isEditing ? this.editData.splice(index$$1, 0, item) : this.source.splice(index$$1, 0, item);
         this.onDataChange(new CollectionEvent(CollectionEvent.ADD, [item]));
         this.refresh();
     }
@@ -28729,8 +28946,8 @@ class ArrayCollection {
      * @param {?} index
      * @return {?}
      */
-    addItemsAt(items, index) {
-        this.isEditing ? this.editData.splice(index, 0, ...items) : this.source.splice(index, 0, ...items);
+    addItemsAt(items, index$$1) {
+        this.isEditing ? this.editData.splice(index$$1, 0, ...items) : this.source.splice(index$$1, 0, ...items);
     }
     /**
      * Creates a copy of the current ArrayCollection any.
@@ -28772,8 +28989,8 @@ class ArrayCollection {
      * @param {?} index
      * @return {?}
      */
-    getItemAt(index) {
-        return this.isEditing ? this.editData[index] : this.source[index];
+    getItemAt(index$$1) {
+        return this.isEditing ? this.editData[index$$1] : this.source[index$$1];
     }
     /**
      *  Returns the index of the specified item.
@@ -28836,8 +29053,8 @@ class ArrayCollection {
      * @return {?}
      */
     removeItem(item) {
-        let /** @type {?} */ index = this.getItemIndex(item);
-        return this.removeItemAt(index);
+        let /** @type {?} */ index$$1 = this.getItemIndex(item);
+        return this.removeItemAt(index$$1);
     }
     /**
      * Removes the item at the specified index and dispatches a CollectionEvent.REMOVE event.
@@ -28847,8 +29064,8 @@ class ArrayCollection {
      * @param {?} index
      * @return {?}
      */
-    removeItemAt(index) {
-        let /** @type {?} */ success = !!(this.source.splice(index, 1));
+    removeItemAt(index$$1) {
+        let /** @type {?} */ success = !!(this.source.splice(index$$1, 1));
         this.refresh();
         return success;
     }
@@ -28862,9 +29079,9 @@ class ArrayCollection {
      * @return {?}
      */
     replaceItem(newItem, oldItem) {
-        let /** @type {?} */ index = this.getItemIndex(oldItem);
-        if (index >= 0) {
-            this.replaceItemAt(newItem, index);
+        let /** @type {?} */ index$$1 = this.getItemIndex(oldItem);
+        if (index$$1 >= 0) {
+            this.replaceItemAt(newItem, index$$1);
         }
     }
     /**
@@ -28876,8 +29093,8 @@ class ArrayCollection {
      * @param {?} index
      * @return {?}
      */
-    replaceItemAt(newItem, index) {
-        this.filterData.splice(index, 1, newItem);
+    replaceItemAt(newItem, index$$1) {
+        this.filterData.splice(index$$1, 1, newItem);
     }
     /**
      * Sorts the items that the data provider contains and dispatches a CollectionEvent.SORT event.
@@ -29178,11 +29395,11 @@ class NovoTableElement {
                             columnsToSum.push(...config.columns);
                         });
                         // Only have unique columns, filter out duplicates
-                        columnsToSum = columnsToSum.filter((item, index, array) => array.indexOf(item) === index);
+                        columnsToSum = columnsToSum.filter((item, index$$1, array) => array.indexOf(item) === index$$1);
                     }
                     // Make a form for each row
                     let /** @type {?} */ tableFormRows = (this.tableForm.controls['rows']);
-                    this._rows.forEach((row, index) => {
+                    this._rows.forEach((row, index$$1) => {
                         let /** @type {?} */ rowControls = [];
                         row.controls = {};
                         row._editing = {};
@@ -29840,7 +30057,7 @@ class NovoTableElement {
             let /** @type {?} */ changedRows = [];
             let /** @type {?} */ errors = [];
             // Go over the FormArray's controls
-            ((this.tableForm.controls['rows'])).controls.forEach((formGroup, index) => {
+            ((this.tableForm.controls['rows'])).controls.forEach((formGroup, index$$1) => {
                 let /** @type {?} */ changedRow = null;
                 let /** @type {?} */ error = null;
                 // Go over the form group controls
@@ -29851,14 +30068,14 @@ class NovoTableElement {
                         if (!changedRow) {
                             // Append the ID, so we have some key to save against
                             changedRow = {};
-                            if (this._rows[index].id) {
-                                changedRow.id = this._rows[index].id;
+                            if (this._rows[index$$1].id) {
+                                changedRow.id = this._rows[index$$1].id;
                             }
                         }
                         // If dirty, grab value off the form
-                        changedRow[key] = this.tableForm.value['rows'][index][key];
+                        changedRow[key] = this.tableForm.value['rows'][index$$1][key];
                         // Set value back to row (should be already done via the server call, but do it anyway)
-                        this._rows[index][key] = changedRow[key];
+                        this._rows[index$$1][key] = changedRow[key];
                     }
                     else if (control && control.errors) {
                         // Handle errors
@@ -29874,7 +30091,7 @@ class NovoTableElement {
                     changedRows.push(changedRow);
                 }
                 if (error) {
-                    errors.push({ errors: error, row: this._rows[index], index: index });
+                    errors.push({ errors: error, row: this._rows[index$$1], index: index$$1 });
                 }
             });
             if (errors.length === 0) {
@@ -34281,9 +34498,9 @@ class AppBridge {
         // Close
         postRobot.on(MESSAGE_TYPES.CLOSE, (event) => {
             this._trace(MESSAGE_TYPES.CLOSE, event);
-            const /** @type {?} */ index = this._registeredFrames.findIndex(frame => frame.data.id === event.data.id);
-            if (index !== -1) {
-                this._registeredFrames.splice(index, 1);
+            const /** @type {?} */ index$$1 = this._registeredFrames.findIndex(frame => frame.data.id === event.data.id);
+            if (index$$1 !== -1) {
+                this._registeredFrames.splice(index$$1, 1);
             }
             return this.close(event.data).then(success => {
                 return { success };
@@ -35464,11 +35681,11 @@ class PlacesListComponent {
      * @param {?} index
      * @return {?}
      */
-    activeListNode(index) {
+    activeListNode(index$$1) {
         for (let /** @type {?} */ i = 0; i < this.queryItems.length; i++) {
-            if (index === i) {
+            if (index$$1 === i) {
                 this.queryItems[i].active = true;
-                this.selectedDataIndex = index;
+                this.selectedDataIndex = index$$1;
             }
             else {
                 this.queryItems[i].active = false;
@@ -35480,13 +35697,13 @@ class PlacesListComponent {
      * @param {?} index
      * @return {?}
      */
-    selectedListNode(event, index) {
+    selectedListNode(event, index$$1) {
         this.dropdownOpen = false;
         if (this.recentDropdownOpen) {
-            this.setRecentLocation(this.queryItems[index]);
+            this.setRecentLocation(this.queryItems[index$$1]);
         }
         else {
-            this.getPlaceLocationInfo(this.queryItems[index]);
+            this.getPlaceLocationInfo(this.queryItems[index$$1]);
         }
     }
     /**
@@ -35843,7 +36060,8 @@ NovoElementsModule.decorators = [
                     NovoSearchBoxModule,
                     NovoOverlayModule,
                     GooglePlacesModule,
-                    NovoValueModule
+                    NovoValueModule,
+                    NovoAceEditorModule,
                 ],
                 providers: [
                     { provide: ComponentUtils, useClass: ComponentUtils },
@@ -35868,5 +36086,5 @@ NovoElementsModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoTableElement, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoButtonElement as ɵn, NovoCalendarDateChangeElement as ɵbh, NovoEventTypeLegendElement as ɵw, NovoCalendarAllDayEventElement as ɵbg, NovoCalendarDayEventElement as ɵbe, NovoCalendarDayViewElement as ɵbd, NovoCalendarHourSegmentElement as ɵbf, NovoCalendarMonthDayElement as ɵz, NovoCalendarMonthHeaderElement as ɵy, NovoCalendarMonthViewElement as ɵx, DayOfMonthPipe as ɵbj, EndOfWeekDisplayPipe as ɵbo, HoursPipe as ɵbn, MonthPipe as ɵbk, MonthDayPipe as ɵbl, WeekdayPipe as ɵbi, YearPipe as ɵbm, NovoCalendarWeekEventElement as ɵbc, NovoCalendarWeekHeaderElement as ɵbb, NovoCalendarWeekViewElement as ɵba, CardActionsElement as ɵr, CardElement as ɵs, CardBestTimeElement as ɵt, CardDonutChartElement as ɵu, CardTimelineElement as ɵv, NovoCategoryDropdownElement as ɵee, NovoChipElement as ɵcv, NovoChipsElement as ɵcw, NovoCKEditorElement as ɵde, NovoDatePickerElement as ɵcx, NovoDatePickerInputElement as ɵcy, NovoDateTimePickerElement as ɵdc, NovoDateTimePickerInputElement as ɵdd, NovoDragulaElement as ɵct, NovoDropdownContainer as ɵce, NovoDropdownElement as ɵcf, NovoItemElement as ɵcg, NovoItemHeaderElement$1 as ɵci, NovoListElement$1 as ɵch, NovoAutoSize as ɵdk, NovoControlElement as ɵdm, NovoCustomControlContainerElement as ɵdl, NovoControlCustom as ɵdo, NovoDynamicFormElement as ɵdq, NovoFieldsetElement as ɵdp, NovoFieldsetHeaderElement as ɵdn, ControlConfirmModal as ɵds, ControlPromptModal as ɵdt, NovoFormElement as ɵdr, NovoAddressElement as ɵdg, NovoCheckListElement as ɵdi, NovoCheckboxElement as ɵdh, NovoFileInputElement as ɵdj, NovoHeaderElement as ɵbs, UtilActionElement as ɵbr, UtilsElement as ɵbq, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵef, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵck, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵcm, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵcl, NovoOverlayTemplate as ɵcn, NovoOverlayModule as ɵcj, NovoPickerElement as ɵcq, NovoPickerContainer as ɵcr, PlacesListComponent as ɵen, GooglePlacesModule as ɵem, PopOverDirective as ɵel, NovoPopOverModule as ɵej, PopOverContent as ɵek, QuickNoteElement as ɵcb, NovoRadioElement as ɵcd, NovoRadioGroup as ɵcc, NovoSearchBoxElement as ɵcs, NovoSelectElement as ɵco, NovoSliderElement as ɵcu, NovoSwitchElement as ɵcp, NovoTableKeepFilterFocus as ɵdx, Pagination as ɵdy, RowDetails as ɵdz, NovoTableActionsElement as ɵdw, TableCell as ɵea, TableFilter as ɵeb, NovoTableFooterElement as ɵdv, NovoTableHeaderElement as ɵdu, ThOrderable as ɵec, ThSortable as ɵed, NovoNavContentElement as ɵby, NovoNavElement as ɵbt, NovoNavHeaderElement as ɵbz, NovoNavOutletElement as ɵbx, NovoTabButtonElement as ɵbv, NovoTabElement as ɵbu, NovoTabLinkElement as ɵbw, NovoTilesElement as ɵca, NovoTimePickerElement as ɵda, NovoTimePickerInputElement as ɵdb, NovoTipWellElement as ɵdf, NovoToastElement as ɵbp, TooltipDirective as ɵq, NovoValueElement as ɵm, NovoValueEmail as ɵl, NovoValuePhone as ɵk, DateFormatService as ɵcz, BrowserGlobalRef as ɵeh, GlobalRef as ɵeg, LocalStorageService as ɵei };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoTableElement, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵn, NovoButtonElement as ɵo, NovoCalendarDateChangeElement as ɵbi, NovoEventTypeLegendElement as ɵx, NovoCalendarAllDayEventElement as ɵbh, NovoCalendarDayEventElement as ɵbf, NovoCalendarDayViewElement as ɵbe, NovoCalendarHourSegmentElement as ɵbg, NovoCalendarMonthDayElement as ɵba, NovoCalendarMonthHeaderElement as ɵz, NovoCalendarMonthViewElement as ɵy, DayOfMonthPipe as ɵbk, EndOfWeekDisplayPipe as ɵbp, HoursPipe as ɵbo, MonthPipe as ɵbl, MonthDayPipe as ɵbm, WeekdayPipe as ɵbj, YearPipe as ɵbn, NovoCalendarWeekEventElement as ɵbd, NovoCalendarWeekHeaderElement as ɵbc, NovoCalendarWeekViewElement as ɵbb, CardActionsElement as ɵs, CardElement as ɵt, CardBestTimeElement as ɵu, CardDonutChartElement as ɵv, CardTimelineElement as ɵw, NovoCategoryDropdownElement as ɵef, NovoChipElement as ɵcw, NovoChipsElement as ɵcx, NovoCKEditorElement as ɵdf, NovoDatePickerElement as ɵcy, NovoDatePickerInputElement as ɵcz, NovoDateTimePickerElement as ɵdd, NovoDateTimePickerInputElement as ɵde, NovoDragulaElement as ɵcu, NovoDropdownContainer as ɵcf, NovoDropdownElement as ɵcg, NovoItemElement as ɵch, NovoItemHeaderElement$1 as ɵcj, NovoListElement$1 as ɵci, NovoAutoSize as ɵdl, NovoControlElement as ɵdn, NovoCustomControlContainerElement as ɵdm, NovoControlCustom as ɵdp, NovoDynamicFormElement as ɵdr, NovoFieldsetElement as ɵdq, NovoFieldsetHeaderElement as ɵdo, ControlConfirmModal as ɵdt, ControlPromptModal as ɵdu, NovoFormElement as ɵds, NovoAddressElement as ɵdh, NovoCheckListElement as ɵdj, NovoCheckboxElement as ɵdi, NovoFileInputElement as ɵdk, NovoHeaderElement as ɵbt, UtilActionElement as ɵbs, UtilsElement as ɵbr, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵp, NovoSpinnerElement as ɵq, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵeg, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵcl, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵcn, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵcm, NovoOverlayTemplate as ɵco, NovoOverlayModule as ɵck, NovoPickerElement as ɵcr, NovoPickerContainer as ɵcs, PlacesListComponent as ɵeo, GooglePlacesModule as ɵen, PopOverDirective as ɵem, NovoPopOverModule as ɵek, PopOverContent as ɵel, QuickNoteElement as ɵcc, NovoRadioElement as ɵce, NovoRadioGroup as ɵcd, NovoSearchBoxElement as ɵct, NovoSelectElement as ɵcp, NovoSliderElement as ɵcv, NovoSwitchElement as ɵcq, NovoTableKeepFilterFocus as ɵdy, Pagination as ɵdz, RowDetails as ɵea, NovoTableActionsElement as ɵdx, TableCell as ɵeb, TableFilter as ɵec, NovoTableFooterElement as ɵdw, NovoTableHeaderElement as ɵdv, ThOrderable as ɵed, ThSortable as ɵee, NovoNavContentElement as ɵbz, NovoNavElement as ɵbu, NovoNavHeaderElement as ɵca, NovoNavOutletElement as ɵby, NovoTabButtonElement as ɵbw, NovoTabElement as ɵbv, NovoTabLinkElement as ɵbx, NovoTilesElement as ɵcb, NovoTimePickerElement as ɵdb, NovoTimePickerInputElement as ɵdc, NovoTipWellElement as ɵdg, NovoToastElement as ɵbq, TooltipDirective as ɵr, NovoValueElement as ɵm, NovoValueEmail as ɵl, NovoValuePhone as ɵk, DateFormatService as ɵda, BrowserGlobalRef as ɵei, GlobalRef as ɵeh, LocalStorageService as ɵej };
 //# sourceMappingURL=novo-elements.js.map

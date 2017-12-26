@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('date-fns'), require('@angular/forms'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/operators/filter'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/animations'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/platform-browser'), require('@angular/cdk/table'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/observable/of'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', 'date-fns', '@angular/forms', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/operators/filter', 'rxjs/observable/fromEvent', 'rxjs/observable/of', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', 'dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/animations', '@angular/http', 'rxjs/add/operator/map', '@angular/platform-browser', '@angular/cdk/table', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/observable/of', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
-	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.DateFNS,global.ng.forms,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.animations,global.ng.http,global.Rx.Observable.prototype,global.ng.platformBrowser,global.ng.cdk.table));
-}(this, (function (exports,core,common,dateFns,forms,Observable,fromPromise,overlay,portal,merge,filter,fromEvent,of,coercion,fromEvent$2,debounceTime,distinctUntilChanged,keycodes,dragulaImported,ReplaySubject,angular2TextMask,animations,http,map,platformBrowser,table) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/operators/filter'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/animations'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/platform-browser'), require('@angular/cdk/table'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/observable/of'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/operators/filter', 'rxjs/observable/fromEvent', 'rxjs/observable/of', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', 'dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/animations', '@angular/http', 'rxjs/add/operator/map', '@angular/platform-browser', '@angular/cdk/table', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/observable/of', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
+	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.animations,global.ng.http,global.Rx.Observable.prototype,global.ng.platformBrowser,global.ng.cdk.table));
+}(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,Observable,fromPromise,overlay,portal,merge,filter,fromEvent,of,coercion,fromEvent$2,debounceTime,distinctUntilChanged,keycodes,dragulaImported,ReplaySubject,angular2TextMask,animations,http,map,platformBrowser,table) { 'use strict';
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -14,6 +14,610 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var Helpers = (function () {
+    function Helpers() {
+    }
+    /**
+     * Swallows an event to stop further execution
+     * @param {?} event
+     * @return {?}
+     */
+    Helpers.swallowEvent = function (event) {
+        if (event) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    };
+    /**
+     * Interpolates a string with vars passed to it
+     * @param {?} str
+     * @param {?} props
+     * @return {?}
+     */
+    Helpers.interpolate = function (str, props) {
+        return str.replace(/\$([\w\.]+)/g, function (original, key) {
+            var /** @type {?} */ keys = key.split('.');
+            var /** @type {?} */ value = props[keys.shift()];
+            while (keys.length && value !== undefined) {
+                var /** @type {?} */ k = keys.shift();
+                value = k ? value[k] : value + ".";
+            }
+            return value !== undefined ? value : original;
+        });
+    };
+    /**
+     * Verifies that an object has every property expected by a string to interpolate
+     * @param {?} str
+     * @param {?} props
+     * @return {?}
+     */
+    Helpers.validateInterpolationProps = function (str, props) {
+        var /** @type {?} */ keys = str.match(/\$([\w\.]+)/g);
+        return keys.every(function (key) {
+            return props.hasOwnProperty(key.substr(1));
+        });
+    };
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    Helpers.isObject = function (item) {
+        return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
+    };
+    /**
+     * Checks to see if the object is a string
+     * @param {?} obj
+     * @return {?}
+     */
+    Helpers.isString = function (obj) {
+        return typeof obj === 'string';
+    };
+    /**
+     * Checks to see if the object is a undefined or null
+     * @param {?} obj
+     * @return {?}
+     */
+    Helpers.isBlank = function (obj) {
+        return obj === undefined || obj === null;
+    };
+    /**
+     * Checks to see if the object is a undefined or null
+     * @param {?} obj
+     * @return {?}
+     */
+    Helpers.isEmpty = function (obj) {
+        return Helpers.isBlank(obj) || obj === '' || (Array.isArray(obj) && obj.length === 0);
+    };
+    /**
+     * Checks to see if the object is a function
+     * @param {?} obj
+     * @return {?}
+     */
+    Helpers.isFunction = function (obj) {
+        return !!(obj && obj.constructor && obj.call && obj.apply);
+    };
+    /**
+     * Checks to see if the object is a Date
+     * @param {?} obj
+     * @return {?}
+     */
+    Helpers.isDate = function (obj) {
+        return obj instanceof Date;
+    };
+    /**
+     * @param {?} fields
+     * @param {?=} reverse
+     * @return {?}
+     */
+    Helpers.sortByField = function (fields, reverse) {
+        if (reverse === void 0) { reverse = false; }
+        return function (previous, current) {
+            if (Helpers.isFunction(fields)) {
+                return fields((reverse) ? 'desc' : 'asc', previous, current);
+            }
+            if (!Array.isArray(fields)) {
+                fields = [fields];
+            }
+            for (var /** @type {?} */ i = 0; i < fields.length; i++) {
+                var /** @type {?} */ field = fields[i];
+                var /** @type {?} */ first_1 = previous[field] || '';
+                var /** @type {?} */ second = current[field] || '';
+                if (Helpers.isDate(first_1) && Helpers.isDate(second)) {
+                    // Dates
+                    first_1 = first_1.getTime();
+                    second = second.getTime();
+                }
+                else if (Helpers.isString(first_1) && Helpers.isString(second)) {
+                    // Basic strings
+                    first_1 = first_1.toLowerCase();
+                    second = second.toLowerCase();
+                }
+                else {
+                    // Numbers
+                    first_1 = isNaN(Number(first_1)) ? first_1 : Number(first_1);
+                    second = isNaN(Number(second)) ? second : Number(second);
+                }
+                if (first_1 > second) {
+                    return (reverse) ? -1 : 1;
+                }
+                else if (first_1 < second) {
+                    return (reverse) ? 1 : -1;
+                }
+            }
+            return 0;
+        };
+    };
+    /**
+     * @param {?} key
+     * @param {?} value
+     * @return {?}
+     */
+    Helpers.filterByField = function (key, value) {
+        return function (item) {
+            var /** @type {?} */ results = [];
+            var /** @type {?} */ field = can(item).have(key);
+            if (value instanceof Function) {
+                results.push(value(field, item));
+            }
+            else if (Array.isArray(value)) {
+                results.push(value.includes(field));
+            }
+            else if (value instanceof Object) {
+                if (field instanceof Date) {
+                    field = field.getTime();
+                }
+                if (value.min) {
+                    results.push(field > value.min);
+                }
+                if (value.max) {
+                    results.push(field < value.max);
+                }
+                if (value.any && Array.isArray(value.any)) {
+                    if (Array.isArray(field)) {
+                        results.push(value.any.some(function (v) { return field.includes(v); }));
+                    }
+                    else {
+                        results.push(value.any.includes(field));
+                    }
+                }
+                if (value.all && Array.isArray(value.all)) {
+                    results.push(value.all.every(function (v) { return field.includes(v); }));
+                }
+                if (value.not) {
+                    results.push(!Helpers.filterByField(key, value.not)(item));
+                }
+                for (var /** @type {?} */ subkey in value) {
+                    if (['min', 'max', 'any', 'all', 'not'].indexOf(subkey) < 0) {
+                        var /** @type {?} */ subvalue = value[subkey];
+                        results.push(Helpers.filterByField(key + "." + subkey, subvalue)(item));
+                    }
+                }
+            }
+            else {
+                results.push(JSON.stringify(field).match(new RegExp(value, 'gi')));
+            }
+            return results.every(function (x) { return x; });
+        };
+    };
+    /**
+     * @param {?} position
+     * @param {?} element
+     * @param {?} side
+     * @return {?}
+     */
+    Helpers.calcPositionOffset = function (position, element, side) {
+        if (!position) {
+            return;
+        }
+        var /** @type {?} */ supportPageOffset = window.pageXOffset !== undefined;
+        var /** @type {?} */ isCSS1Compat = ((document.compatMode || '') === 'CSS1Compat');
+        var /** @type {?} */ x = supportPageOffset ? window.pageXOffset : isCSS1Compat ?
+            document.documentElement.scrollLeft : document.body.scrollLeft;
+        var /** @type {?} */ y = supportPageOffset ? window.pageYOffset : isCSS1Compat ?
+            document.documentElement.scrollTop : document.body.scrollTop;
+        var /** @type {?} */ sideOffset = 0;
+        if (side === 'right') {
+            sideOffset = position.width - element.clientWidth;
+        }
+        var /** @type {?} */ top = position.top + y + position.height + 10 + "px";
+        var /** @type {?} */ left = position.left + x + sideOffset + "px";
+        var /** @type {?} */ width = position.width + "px";
+        var /** @type {?} */ clientWidth = element.clientWidth, /** @type {?} */ clientHeight = element.clientHeight, /** @type {?} */ marginFromBottom = parseInt(top) + clientHeight, /** @type {?} */ marginFromRight = parseInt(left) + clientWidth, /** @type {?} */ windowScrollHeight = window.innerHeight + window.scrollY, /** @type {?} */ windowScrollWidth = window.innerWidth + window.scrollX;
+        // Force open up
+        if (marginFromBottom >= windowScrollHeight) {
+            top = parseInt(top.replace('px', '')) - clientHeight - position.height - 20 + "px";
+        }
+        // Force open right
+        if (marginFromRight >= windowScrollWidth) {
+            left = parseInt(left.replace('px', '')) - clientWidth + position.width + "px";
+        }
+        // Force open middle
+        if (parseInt(top.replace('px', '')) <= window.scrollY) {
+            top = parseInt(top.replace('px', '')) + (clientHeight / 2) + (position.height / 2) + 10 + "px";
+        }
+        // Force open left
+        if (parseInt(left.replace('px', '')) <= window.scrollX) {
+            left = parseInt(left.replace('px', '')) + (clientWidth / 2) + (position.width * 2) - 4 + "px";
+        }
+        return { top: top, left: left, width: width };
+    };
+    /**
+     * @param {?} element
+     * @param {?} selector
+     * @return {?}
+     */
+    Helpers.findAncestor = function (element, selector) {
+        while ((element = element.parentElement) && !(element.matches.call(element, selector)))
+            ; // tslint:disable-line
+        return element;
+    };
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    Helpers.deepClone = function (item) {
+        if (Array.isArray(item)) {
+            var /** @type {?} */ newArr = [];
+            for (var /** @type {?} */ i = item.length; i-- > 0;) {
+                newArr[i] = Helpers.deepClone(item[i]);
+            }
+            return newArr;
+        }
+        if (typeof item === 'function' && !(/\(\) \{ \[native/).test(item.toString())) {
+            var /** @type {?} */ obj = void 0;
+            eval('obj = ' + item.toString()); // tslint:disable-line
+            for (var /** @type {?} */ k in item) {
+                if (k in item) {
+                    obj[k] = Helpers.deepClone(item[k]);
+                }
+            }
+            return obj;
+        }
+        if (item && typeof item === 'object') {
+            var /** @type {?} */ obj = {};
+            for (var /** @type {?} */ k in item) {
+                if (k in item) {
+                    obj[k] = Helpers.deepClone(item[k]);
+                }
+            }
+            return obj;
+        }
+        return item;
+    };
+    /**
+     * @param {...?} objs
+     * @return {?}
+     */
+    Helpers.deepAssign = function () {
+        var objs = [];
+        for (var _b = 0; _b < arguments.length; _b++) {
+            objs[_b] = arguments[_b];
+        }
+        if (objs.length < 2) {
+            throw new Error('Need two or more objects to merge');
+        }
+        var /** @type {?} */ target = Object.assign({}, objs[0]);
+        var _loop_1 = function (i) {
+            var /** @type {?} */ source = Object.assign({}, objs[i]);
+            Object.keys(source).forEach(function (prop) {
+                var /** @type {?} */ value = source[prop];
+                if (Helpers.isObject(value)) {
+                    if (target.hasOwnProperty(prop) && Helpers.isObject(target[prop])) {
+                        target[prop] = Helpers.deepAssign(target[prop], value);
+                    }
+                    else {
+                        target[prop] = value;
+                    }
+                }
+                else if (Array.isArray(value)) {
+                    if (target.hasOwnProperty(prop) && Array.isArray(target[prop])) {
+                        var /** @type {?} */ targetArray_1 = target[prop];
+                        value.forEach(function (sourceItem, itemIndex) {
+                            if (itemIndex < targetArray_1.length) {
+                                var /** @type {?} */ targetItem = targetArray_1[itemIndex];
+                                if (Object.is(targetItem, sourceItem)) {
+                                    return;
+                                }
+                                if (Helpers.isObject(targetItem) && Helpers.isObject(sourceItem)) {
+                                    targetArray_1[itemIndex] = Helpers.deepAssign(targetItem, sourceItem);
+                                }
+                                else if (Array.isArray(targetItem) && Array.isArray(sourceItem)) {
+                                    targetArray_1[itemIndex] = Helpers.deepAssign(targetItem, sourceItem);
+                                }
+                                else {
+                                    targetArray_1[itemIndex] = sourceItem;
+                                }
+                            }
+                            else {
+                                targetArray_1.push(sourceItem);
+                            }
+                        });
+                    }
+                    else {
+                        target[prop] = value;
+                    }
+                }
+                else {
+                    target[prop] = value;
+                }
+            });
+        };
+        for (var /** @type {?} */ i = 1; i < objs.length; i++) {
+            _loop_1(/** @type {?} */ i);
+        }
+        return target;
+    };
+    /**
+     * Workaround for Edge browser since Element:nextElementSibling is undefined inside of template directives
+     * @param {?} element any document element
+     * @return {?} the next sibling node that is of type: Element
+     */
+    Helpers.getNextElementSibling = function (element) {
+        if (element.nextElementSibling) {
+            return element.nextElementSibling;
+        }
+        else {
+            var /** @type {?} */ e = element.nextSibling;
+            while (e && 1 !== e.nodeType) {
+                e = e.nextSibling;
+            }
+            return e;
+        }
+    };
+    return Helpers;
+}());
+var Can = (function () {
+    /**
+     * @param {?} obj
+     */
+    function Can(obj) {
+        this.obj = obj;
+    }
+    /**
+     * @param {?} key
+     * @return {?}
+     */
+    Can.prototype.have = function (key) {
+        var /** @type {?} */ props = key.split('.');
+        var /** @type {?} */ item = this.obj;
+        for (var /** @type {?} */ i = 0; i < props.length; i++) {
+            item = item[props[i]];
+            if (this.check(item) === false) {
+                return item;
+            }
+        }
+        return item;
+    };
+    /**
+     * @param {?} thing
+     * @return {?}
+     */
+    Can.prototype.check = function (thing) {
+        return thing !== void 0;
+    };
+    return Can;
+}());
+/**
+ * @param {?} obj
+ * @return {?}
+ */
+function can(obj) {
+    return new Can(obj);
+}
+// NG2
+// Vendor
+// APP
+var ACE_VALUE_ACCESSOR = {
+    provide: forms.NG_VALUE_ACCESSOR,
+    useExisting: core.forwardRef(function () { return NovoAceEditor; }),
+    multi: true
+};
+var NovoAceEditor = (function () {
+    /**
+     * @param {?} elementRef
+     */
+    function NovoAceEditor(elementRef) {
+        this.elementRef = elementRef;
+        this.blur = new core.EventEmitter();
+        this.focus = new core.EventEmitter();
+        this._options = {
+            showPrintMargin: false,
+            displayIndentGuides: true,
+        };
+        this._theme = 'chrome';
+        this._mode = 'javascript';
+        this.text = '';
+        this.onChange = function (_) { };
+        this.onTouched = function () { };
+    }
+    Object.defineProperty(NovoAceEditor.prototype, "theme", {
+        /**
+         * @param {?} theme
+         * @return {?}
+         */
+        set: function (theme) {
+            this.setTheme(theme);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoAceEditor.prototype, "options", {
+        /**
+         * @param {?} options
+         * @return {?}
+         */
+        set: function (options) {
+            this.setOptions(options);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoAceEditor.prototype, "mode", {
+        /**
+         * @param {?} mode
+         * @return {?}
+         */
+        set: function (mode) {
+            this.setMode(mode);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    NovoAceEditor.prototype.ngOnDestroy = function () {
+        if (this.editor) {
+            this.editor.destroy();
+        }
+    };
+    /**
+     * @return {?}
+     */
+    NovoAceEditor.prototype.ngOnInit = function () {
+        this.initializeEditor();
+        this.initializeOptions();
+        this.initializeEvents();
+    };
+    /**
+     * @return {?}
+     */
+    NovoAceEditor.prototype.initializeEditor = function () {
+        var /** @type {?} */ el = this.elementRef.nativeElement;
+        this.editor = ace.edit(el);
+        this.editor.$blockScrolling = Infinity;
+    };
+    /**
+     * @return {?}
+     */
+    NovoAceEditor.prototype.initializeOptions = function () {
+        this.setOptions(this._options || {});
+        this.setTheme(this._theme);
+        this.setMode(this._mode);
+    };
+    /**
+     * @return {?}
+     */
+    NovoAceEditor.prototype.initializeEvents = function () {
+        var _this = this;
+        this.editor.on('focus', function (event) { return _this.focus.emit(event); });
+        this.editor.on('blur', function (event) { return _this.focus.emit(event); });
+        this.editor.on('change', function () { return _this.updateText(); });
+        this.editor.on('paste', function () { return _this.updateText(); });
+    };
+    /**
+     * @return {?}
+     */
+    NovoAceEditor.prototype.updateText = function () {
+        var /** @type {?} */ newVal = this.editor.getValue();
+        if (newVal === this.oldText) {
+            return;
+        }
+        this.text = newVal;
+        this.onChange(newVal);
+        this.oldText = newVal;
+    };
+    /**
+     * @param {?} text
+     * @return {?}
+     */
+    NovoAceEditor.prototype.setText = function (text) {
+        if (Helpers.isBlank(text)) {
+            text = '';
+        }
+        if (this.text !== text) {
+            this.text = text;
+            this.editor.setValue(text);
+            this.onChange(text);
+            this.editor.clearSelection();
+        }
+    };
+    /**
+     * @param {?} options
+     * @return {?}
+     */
+    NovoAceEditor.prototype.setOptions = function (options) {
+        this._options = options;
+        this.editor.setOptions(options || {});
+    };
+    /**
+     * @param {?} theme
+     * @return {?}
+     */
+    NovoAceEditor.prototype.setTheme = function (theme) {
+        this._theme = theme;
+        this.editor.setTheme("ace/theme/" + theme);
+    };
+    /**
+     * @param {?} mode
+     * @return {?}
+     */
+    NovoAceEditor.prototype.setMode = function (mode) {
+        this._mode = mode;
+        this.editor.getSession().setMode("ace/mode/" + this._mode);
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoAceEditor.prototype.writeValue = function (value) {
+        this.setText(value);
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    NovoAceEditor.prototype.registerOnChange = function (fn) {
+        this.onChange = fn;
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    NovoAceEditor.prototype.registerOnTouched = function (fn) {
+        this.onTouched = fn;
+    };
+    return NovoAceEditor;
+}());
+NovoAceEditor.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-ace-editor',
+                template: '',
+                providers: [ACE_VALUE_ACCESSOR]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoAceEditor.ctorParameters = function () { return [
+    { type: core.ElementRef, },
+]; };
+NovoAceEditor.propDecorators = {
+    'theme': [{ type: core.Input },],
+    'options': [{ type: core.Input },],
+    'mode': [{ type: core.Input },],
+    'name': [{ type: core.Input },],
+    'blur': [{ type: core.Output },],
+    'focus': [{ type: core.Output },],
+};
+// NG2
+// APP
+var NovoAceEditorModule = (function () {
+    function NovoAceEditorModule() {
+    }
+    return NovoAceEditorModule;
+}());
+NovoAceEditorModule.decorators = [
+    { type: core.NgModule, args: [{
+                imports: [common.CommonModule],
+                declarations: [NovoAceEditor],
+                exports: [NovoAceEditor]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoAceEditorModule.ctorParameters = function () { return []; };
 // NG2
 // Rule storage - pluralize and singularize need to be run sequentially,
 // while other rules can be optimized using an object for instant lookups.
@@ -67,8 +671,8 @@ function restoreCase(word, token) {
  * @return {?}
  */
 function interpolate(str, args) {
-    return str.replace(/\$(\d{1,2})/g, function (match, index) {
-        return args[index] || '';
+    return str.replace(/\$(\d{1,2})/g, function (match, index$$1) {
+        return args[index$$1] || '';
     });
 }
 /**
@@ -84,14 +688,14 @@ function sanitizeWord(token, word, collection) {
         return word;
     }
     var /** @type {?} */ len = collection.length;
-    var _loop_1 = function () {
+    var _loop_2 = function () {
         var /** @type {?} */ rule = collection[len];
         // If the rule passes, return the replacement.
         if (rule[0].test(word)) {
-            return { value: word.replace(rule[0], function (match, index, words) {
-                    var /** @type {?} */ result = interpolate(rule[1], [match, index, words]);
+            return { value: word.replace(rule[0], function (match, index$$1, words) {
+                    var /** @type {?} */ result = interpolate(rule[1], [match, index$$1, words]);
                     if (match === '') {
-                        return restoreCase(words[index - 1], result);
+                        return restoreCase(words[index$$1 - 1], result);
                     }
                     return restoreCase(match, result);
                 }) };
@@ -99,7 +703,7 @@ function sanitizeWord(token, word, collection) {
     };
     // Iterate over the sanitization rules and use the first one to match.
     while (len--) {
-        var state_1 = _loop_1();
+        var state_1 = _loop_2();
         if (typeof state_1 === "object")
             return state_1.value;
     }
@@ -433,396 +1037,6 @@ PluralPipe.decorators = [
  * @nocollapse
  */
 PluralPipe.ctorParameters = function () { return []; };
-var Helpers = (function () {
-    function Helpers() {
-    }
-    /**
-     * Swallows an event to stop further execution
-     * @param {?} event
-     * @return {?}
-     */
-    Helpers.swallowEvent = function (event) {
-        if (event) {
-            event.stopPropagation();
-            event.preventDefault();
-        }
-    };
-    /**
-     * Interpolates a string with vars passed to it
-     * @param {?} str
-     * @param {?} props
-     * @return {?}
-     */
-    Helpers.interpolate = function (str, props) {
-        return str.replace(/\$([\w\.]+)/g, function (original, key) {
-            var /** @type {?} */ keys = key.split('.');
-            var /** @type {?} */ value = props[keys.shift()];
-            while (keys.length && value !== undefined) {
-                var /** @type {?} */ k = keys.shift();
-                value = k ? value[k] : value + ".";
-            }
-            return value !== undefined ? value : original;
-        });
-    };
-    /**
-     * Verifies that an object has every property expected by a string to interpolate
-     * @param {?} str
-     * @param {?} props
-     * @return {?}
-     */
-    Helpers.validateInterpolationProps = function (str, props) {
-        var /** @type {?} */ keys = str.match(/\$([\w\.]+)/g);
-        return keys.every(function (key) {
-            return props.hasOwnProperty(key.substr(1));
-        });
-    };
-    /**
-     * @param {?} item
-     * @return {?}
-     */
-    Helpers.isObject = function (item) {
-        return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
-    };
-    /**
-     * Checks to see if the object is a string
-     * @param {?} obj
-     * @return {?}
-     */
-    Helpers.isString = function (obj) {
-        return typeof obj === 'string';
-    };
-    /**
-     * Checks to see if the object is a undefined or null
-     * @param {?} obj
-     * @return {?}
-     */
-    Helpers.isBlank = function (obj) {
-        return obj === undefined || obj === null;
-    };
-    /**
-     * Checks to see if the object is a undefined or null
-     * @param {?} obj
-     * @return {?}
-     */
-    Helpers.isEmpty = function (obj) {
-        return Helpers.isBlank(obj) || obj === '' || (Array.isArray(obj) && obj.length === 0);
-    };
-    /**
-     * Checks to see if the object is a function
-     * @param {?} obj
-     * @return {?}
-     */
-    Helpers.isFunction = function (obj) {
-        return !!(obj && obj.constructor && obj.call && obj.apply);
-    };
-    /**
-     * Checks to see if the object is a Date
-     * @param {?} obj
-     * @return {?}
-     */
-    Helpers.isDate = function (obj) {
-        return obj instanceof Date;
-    };
-    /**
-     * @param {?} fields
-     * @param {?=} reverse
-     * @return {?}
-     */
-    Helpers.sortByField = function (fields, reverse) {
-        if (reverse === void 0) { reverse = false; }
-        return function (previous, current) {
-            if (Helpers.isFunction(fields)) {
-                return fields((reverse) ? 'desc' : 'asc', previous, current);
-            }
-            if (!Array.isArray(fields)) {
-                fields = [fields];
-            }
-            for (var /** @type {?} */ i = 0; i < fields.length; i++) {
-                var /** @type {?} */ field = fields[i];
-                var /** @type {?} */ first_1 = previous[field] || '';
-                var /** @type {?} */ second = current[field] || '';
-                if (Helpers.isDate(first_1) && Helpers.isDate(second)) {
-                    // Dates
-                    first_1 = first_1.getTime();
-                    second = second.getTime();
-                }
-                else if (Helpers.isString(first_1) && Helpers.isString(second)) {
-                    // Basic strings
-                    first_1 = first_1.toLowerCase();
-                    second = second.toLowerCase();
-                }
-                else {
-                    // Numbers
-                    first_1 = isNaN(Number(first_1)) ? first_1 : Number(first_1);
-                    second = isNaN(Number(second)) ? second : Number(second);
-                }
-                if (first_1 > second) {
-                    return (reverse) ? -1 : 1;
-                }
-                else if (first_1 < second) {
-                    return (reverse) ? 1 : -1;
-                }
-            }
-            return 0;
-        };
-    };
-    /**
-     * @param {?} key
-     * @param {?} value
-     * @return {?}
-     */
-    Helpers.filterByField = function (key, value) {
-        return function (item) {
-            var /** @type {?} */ results = [];
-            var /** @type {?} */ field = can(item).have(key);
-            if (value instanceof Function) {
-                results.push(value(field, item));
-            }
-            else if (Array.isArray(value)) {
-                results.push(value.includes(field));
-            }
-            else if (value instanceof Object) {
-                if (field instanceof Date) {
-                    field = field.getTime();
-                }
-                if (value.min) {
-                    results.push(field > value.min);
-                }
-                if (value.max) {
-                    results.push(field < value.max);
-                }
-                if (value.any && Array.isArray(value.any)) {
-                    if (Array.isArray(field)) {
-                        results.push(value.any.some(function (v) { return field.includes(v); }));
-                    }
-                    else {
-                        results.push(value.any.includes(field));
-                    }
-                }
-                if (value.all && Array.isArray(value.all)) {
-                    results.push(value.all.every(function (v) { return field.includes(v); }));
-                }
-                if (value.not) {
-                    results.push(!Helpers.filterByField(key, value.not)(item));
-                }
-                for (var /** @type {?} */ subkey in value) {
-                    if (['min', 'max', 'any', 'all', 'not'].indexOf(subkey) < 0) {
-                        var /** @type {?} */ subvalue = value[subkey];
-                        results.push(Helpers.filterByField(key + "." + subkey, subvalue)(item));
-                    }
-                }
-            }
-            else {
-                results.push(JSON.stringify(field).match(new RegExp(value, 'gi')));
-            }
-            return results.every(function (x) { return x; });
-        };
-    };
-    /**
-     * @param {?} position
-     * @param {?} element
-     * @param {?} side
-     * @return {?}
-     */
-    Helpers.calcPositionOffset = function (position, element, side) {
-        if (!position) {
-            return;
-        }
-        var /** @type {?} */ supportPageOffset = window.pageXOffset !== undefined;
-        var /** @type {?} */ isCSS1Compat = ((document.compatMode || '') === 'CSS1Compat');
-        var /** @type {?} */ x = supportPageOffset ? window.pageXOffset : isCSS1Compat ?
-            document.documentElement.scrollLeft : document.body.scrollLeft;
-        var /** @type {?} */ y = supportPageOffset ? window.pageYOffset : isCSS1Compat ?
-            document.documentElement.scrollTop : document.body.scrollTop;
-        var /** @type {?} */ sideOffset = 0;
-        if (side === 'right') {
-            sideOffset = position.width - element.clientWidth;
-        }
-        var /** @type {?} */ top = position.top + y + position.height + 10 + "px";
-        var /** @type {?} */ left = position.left + x + sideOffset + "px";
-        var /** @type {?} */ width = position.width + "px";
-        var /** @type {?} */ clientWidth = element.clientWidth, /** @type {?} */ clientHeight = element.clientHeight, /** @type {?} */ marginFromBottom = parseInt(top) + clientHeight, /** @type {?} */ marginFromRight = parseInt(left) + clientWidth, /** @type {?} */ windowScrollHeight = window.innerHeight + window.scrollY, /** @type {?} */ windowScrollWidth = window.innerWidth + window.scrollX;
-        // Force open up
-        if (marginFromBottom >= windowScrollHeight) {
-            top = parseInt(top.replace('px', '')) - clientHeight - position.height - 20 + "px";
-        }
-        // Force open right
-        if (marginFromRight >= windowScrollWidth) {
-            left = parseInt(left.replace('px', '')) - clientWidth + position.width + "px";
-        }
-        // Force open middle
-        if (parseInt(top.replace('px', '')) <= window.scrollY) {
-            top = parseInt(top.replace('px', '')) + (clientHeight / 2) + (position.height / 2) + 10 + "px";
-        }
-        // Force open left
-        if (parseInt(left.replace('px', '')) <= window.scrollX) {
-            left = parseInt(left.replace('px', '')) + (clientWidth / 2) + (position.width * 2) - 4 + "px";
-        }
-        return { top: top, left: left, width: width };
-    };
-    /**
-     * @param {?} element
-     * @param {?} selector
-     * @return {?}
-     */
-    Helpers.findAncestor = function (element, selector) {
-        while ((element = element.parentElement) && !(element.matches.call(element, selector)))
-            ; // tslint:disable-line
-        return element;
-    };
-    /**
-     * @param {?} item
-     * @return {?}
-     */
-    Helpers.deepClone = function (item) {
-        if (Array.isArray(item)) {
-            var /** @type {?} */ newArr = [];
-            for (var /** @type {?} */ i = item.length; i-- > 0;) {
-                newArr[i] = Helpers.deepClone(item[i]);
-            }
-            return newArr;
-        }
-        if (typeof item === 'function' && !(/\(\) \{ \[native/).test(item.toString())) {
-            var /** @type {?} */ obj = void 0;
-            eval('obj = ' + item.toString()); // tslint:disable-line
-            for (var /** @type {?} */ k in item) {
-                if (k in item) {
-                    obj[k] = Helpers.deepClone(item[k]);
-                }
-            }
-            return obj;
-        }
-        if (item && typeof item === 'object') {
-            var /** @type {?} */ obj = {};
-            for (var /** @type {?} */ k in item) {
-                if (k in item) {
-                    obj[k] = Helpers.deepClone(item[k]);
-                }
-            }
-            return obj;
-        }
-        return item;
-    };
-    /**
-     * @param {...?} objs
-     * @return {?}
-     */
-    Helpers.deepAssign = function () {
-        var objs = [];
-        for (var _b = 0; _b < arguments.length; _b++) {
-            objs[_b] = arguments[_b];
-        }
-        if (objs.length < 2) {
-            throw new Error('Need two or more objects to merge');
-        }
-        var /** @type {?} */ target = Object.assign({}, objs[0]);
-        var _loop_2 = function (i) {
-            var /** @type {?} */ source = Object.assign({}, objs[i]);
-            Object.keys(source).forEach(function (prop) {
-                var /** @type {?} */ value = source[prop];
-                if (Helpers.isObject(value)) {
-                    if (target.hasOwnProperty(prop) && Helpers.isObject(target[prop])) {
-                        target[prop] = Helpers.deepAssign(target[prop], value);
-                    }
-                    else {
-                        target[prop] = value;
-                    }
-                }
-                else if (Array.isArray(value)) {
-                    if (target.hasOwnProperty(prop) && Array.isArray(target[prop])) {
-                        var /** @type {?} */ targetArray_1 = target[prop];
-                        value.forEach(function (sourceItem, itemIndex) {
-                            if (itemIndex < targetArray_1.length) {
-                                var /** @type {?} */ targetItem = targetArray_1[itemIndex];
-                                if (Object.is(targetItem, sourceItem)) {
-                                    return;
-                                }
-                                if (Helpers.isObject(targetItem) && Helpers.isObject(sourceItem)) {
-                                    targetArray_1[itemIndex] = Helpers.deepAssign(targetItem, sourceItem);
-                                }
-                                else if (Array.isArray(targetItem) && Array.isArray(sourceItem)) {
-                                    targetArray_1[itemIndex] = Helpers.deepAssign(targetItem, sourceItem);
-                                }
-                                else {
-                                    targetArray_1[itemIndex] = sourceItem;
-                                }
-                            }
-                            else {
-                                targetArray_1.push(sourceItem);
-                            }
-                        });
-                    }
-                    else {
-                        target[prop] = value;
-                    }
-                }
-                else {
-                    target[prop] = value;
-                }
-            });
-        };
-        for (var /** @type {?} */ i = 1; i < objs.length; i++) {
-            _loop_2(/** @type {?} */ i);
-        }
-        return target;
-    };
-    /**
-     * Workaround for Edge browser since Element:nextElementSibling is undefined inside of template directives
-     * @param {?} element any document element
-     * @return {?} the next sibling node that is of type: Element
-     */
-    Helpers.getNextElementSibling = function (element) {
-        if (element.nextElementSibling) {
-            return element.nextElementSibling;
-        }
-        else {
-            var /** @type {?} */ e = element.nextSibling;
-            while (e && 1 !== e.nodeType) {
-                e = e.nextSibling;
-            }
-            return e;
-        }
-    };
-    return Helpers;
-}());
-var Can = (function () {
-    /**
-     * @param {?} obj
-     */
-    function Can(obj) {
-        this.obj = obj;
-    }
-    /**
-     * @param {?} key
-     * @return {?}
-     */
-    Can.prototype.have = function (key) {
-        var /** @type {?} */ props = key.split('.');
-        var /** @type {?} */ item = this.obj;
-        for (var /** @type {?} */ i = 0; i < props.length; i++) {
-            item = item[props[i]];
-            if (this.check(item) === false) {
-                return item;
-            }
-        }
-        return item;
-    };
-    /**
-     * @param {?} thing
-     * @return {?}
-     */
-    Can.prototype.check = function (thing) {
-        return thing !== void 0;
-    };
-    return Can;
-}());
-/**
- * @param {?} obj
- * @return {?}
- */
-function can(obj) {
-    return new Can(obj);
-}
 // NG2
 // App
 var DecodeURIPipe = (function () {
@@ -1901,10 +2115,10 @@ function getWeekView(_b) {
     });
     var /** @type {?} */ eventRows = [];
     var /** @type {?} */ allocatedEvents = [];
-    eventsMapped.forEach(function (event, index) {
+    eventsMapped.forEach(function (event, index$$1) {
         if (allocatedEvents.indexOf(event) === -1) {
             allocatedEvents.push(event);
-            var /** @type {?} */ otherRowEvents = eventsMapped.slice(index + 1).filter(function (nextEvent) {
+            var /** @type {?} */ otherRowEvents = eventsMapped.slice(index$$1 + 1).filter(function (nextEvent) {
                 return nextEvent.top === event.top && nextEvent.offset === event.offset;
             });
             if (otherRowEvents.length > 0) {
@@ -3601,8 +3815,8 @@ var NovoNavOutletElement = (function () {
      * @param {?} index
      * @return {?}
      */
-    NovoNavOutletElement.prototype.show = function (index) {
-        var /** @type {?} */ item = this.items[index];
+    NovoNavOutletElement.prototype.show = function (index$$1) {
+        var /** @type {?} */ item = this.items[index$$1];
         /**
          * Deactivates other tab items
          * @param {?} items - deactivated items
@@ -4784,8 +4998,8 @@ var BasePickerResults = (function () {
      * @return {?}
      */
     BasePickerResults.prototype.prevActiveMatch = function () {
-        var /** @type {?} */ index = this.matches.indexOf(this.activeMatch);
-        this.activeMatch = this.matches[index - 1 < 0 ? this.matches.length - 1 : index - 1];
+        var /** @type {?} */ index$$1 = this.matches.indexOf(this.activeMatch);
+        this.activeMatch = this.matches[index$$1 - 1 < 0 ? this.matches.length - 1 : index$$1 - 1];
         this.scrollToActive();
         this.ref.markForCheck();
     };
@@ -4796,8 +5010,8 @@ var BasePickerResults = (function () {
      * @return {?}
      */
     BasePickerResults.prototype.nextActiveMatch = function () {
-        var /** @type {?} */ index = this.matches.indexOf(this.activeMatch);
-        this.activeMatch = this.matches[index + 1 > this.matches.length - 1 ? 0 : index + 1];
+        var /** @type {?} */ index$$1 = this.matches.indexOf(this.activeMatch);
+        this.activeMatch = this.matches[index$$1 + 1 > this.matches.length - 1 ? 0 : index$$1 + 1];
         this.scrollToActive();
         this.ref.markForCheck();
     };
@@ -4823,8 +5037,8 @@ var BasePickerResults = (function () {
     BasePickerResults.prototype.scrollToActive = function () {
         var /** @type {?} */ list = this.getListElement();
         var /** @type {?} */ items = this.getChildrenOfListElement();
-        var /** @type {?} */ index = this.matches.indexOf(this.activeMatch);
-        var /** @type {?} */ item = items[index];
+        var /** @type {?} */ index$$1 = this.matches.indexOf(this.activeMatch);
+        var /** @type {?} */ item = items[index$$1];
         if (item) {
             list.scrollTop = item.offsetTop;
         }
@@ -5511,10 +5725,10 @@ var QuickNoteElement = (function (_super) {
         var /** @type {?} */ parentNode = start.getParent();
         if (start.type === CKEDITOR.NODE_TEXT && parentNode) {
             var /** @type {?} */ line = parentNode.getHtml();
-            var /** @type {?} */ index = line.lastIndexOf(originalWord);
-            if (index >= 0) {
+            var /** @type {?} */ index$$1 = line.lastIndexOf(originalWord);
+            if (index$$1 >= 0) {
                 // Add a space after the replaced word so that multiple references can be added back to back
-                var /** @type {?} */ newLine = line.substring(0, index) + newWord + ' ' + line.substring(index + originalWord.length);
+                var /** @type {?} */ newLine = line.substring(0, index$$1) + newWord + ' ' + line.substring(index$$1 + originalWord.length);
                 parentNode.setHtml(newLine);
                 // Place selection at the end of the line
                 range.moveToPosition(parentNode, CKEDITOR.POSITION_BEFORE_END);
@@ -6086,14 +6300,14 @@ var NovoDropdownElement = (function (_super) {
             this.filterTermTimeout = setTimeout(function () { _this.filterTerm = ''; }, 2000);
             var /** @type {?} */ char = String.fromCharCode(event.keyCode);
             this.filterTerm = this.filterTerm.concat(char);
-            var /** @type {?} */ index = this._textItems.findIndex(function (value) {
+            var /** @type {?} */ index$$1 = this._textItems.findIndex(function (value) {
                 return new RegExp("^" + _this.filterTerm.toLowerCase()).test(value.trim().toLowerCase());
             });
-            if (index !== -1) {
+            if (index$$1 !== -1) {
                 if (this.activeIndex !== -1) {
                     this._items.toArray()[this.activeIndex].active = false;
                 }
-                this.activeIndex = index;
+                this.activeIndex = index$$1;
                 this._items.toArray()[this.activeIndex].active = true;
                 this.scrollToActive();
             }
@@ -6383,7 +6597,7 @@ var Subscription = (function () {
         // null out _subscriptions first so any child subscriptions that attempt
         // to remove themselves from this subscription will noop
         this._subscriptions = null;
-        var index = -1;
+        var index$$1 = -1;
         var len = _parents ? _parents.length : 0;
         // if this._parent is null, then so is this._parents, and we
         // don't have to remove ourselves from any parent subscriptions.
@@ -6391,7 +6605,7 @@ var Subscription = (function () {
             _parent.remove(this);
             // if this._parents is null or index >= len,
             // then _parent is set to null, and the loop exits
-            _parent = ++index < len && _parents[index] || null;
+            _parent = ++index$$1 < len && _parents[index$$1] || null;
         }
         if (isFunction_1.isFunction(_unsubscribe)) {
             var trial = tryCatch_1.tryCatch(_unsubscribe).call(this);
@@ -6402,10 +6616,10 @@ var Subscription = (function () {
             }
         }
         if (isArray.isArray(_subscriptions)) {
-            index = -1;
+            index$$1 = -1;
             len = _subscriptions.length;
-            while (++index < len) {
-                var sub = _subscriptions[index];
+            while (++index$$1 < len) {
+                var sub = _subscriptions[index$$1];
                 if (isObject_1.isObject(sub)) {
                     var trial = tryCatch_1.tryCatch(sub.unsubscribe).call(sub);
                     if (trial === errorObject.errorObject) {
@@ -6946,38 +7160,38 @@ var FirstSubscriber = (function (_super) {
         this._emitted = false;
     }
     FirstSubscriber.prototype._next = function (value) {
-        var index = this.index++;
+        var index$$1 = this.index++;
         if (this.predicate) {
-            this._tryPredicate(value, index);
+            this._tryPredicate(value, index$$1);
         }
         else {
-            this._emit(value, index);
+            this._emit(value, index$$1);
         }
     };
-    FirstSubscriber.prototype._tryPredicate = function (value, index) {
+    FirstSubscriber.prototype._tryPredicate = function (value, index$$1) {
         var result;
         try {
-            result = this.predicate(value, index, this.source);
+            result = this.predicate(value, index$$1, this.source);
         }
         catch (err) {
             this.destination.error(err);
             return;
         }
         if (result) {
-            this._emit(value, index);
+            this._emit(value, index$$1);
         }
     };
-    FirstSubscriber.prototype._emit = function (value, index) {
+    FirstSubscriber.prototype._emit = function (value, index$$1) {
         if (this.resultSelector) {
-            this._tryResultSelector(value, index);
+            this._tryResultSelector(value, index$$1);
             return;
         }
         this._emitFinal(value);
     };
-    FirstSubscriber.prototype._tryResultSelector = function (value, index) {
+    FirstSubscriber.prototype._tryResultSelector = function (value, index$$1) {
         var result;
         try {
-            result = this.resultSelector(value, index);
+            result = this.resultSelector(value, index$$1);
         }
         catch (err) {
             this.destination.error(err);
@@ -7665,22 +7879,22 @@ var SwitchMapSubscriber = (function (_super) {
     }
     SwitchMapSubscriber.prototype._next = function (value) {
         var result;
-        var index = this.index++;
+        var index$$1 = this.index++;
         try {
-            result = this.project(value, index);
+            result = this.project(value, index$$1);
         }
         catch (error) {
             this.destination.error(error);
             return;
         }
-        this._innerSub(result, value, index);
+        this._innerSub(result, value, index$$1);
     };
-    SwitchMapSubscriber.prototype._innerSub = function (result, value, index) {
+    SwitchMapSubscriber.prototype._innerSub = function (result, value, index$$1) {
         var innerSubscription = this.innerSubscription;
         if (innerSubscription) {
             innerSubscription.unsubscribe();
         }
-        this.add(this.innerSubscription = subscribeToResult_1.subscribeToResult(this, result, value, index));
+        this.add(this.innerSubscription = subscribeToResult_1.subscribeToResult(this, result, value, index$$1));
     };
     SwitchMapSubscriber.prototype._complete = function () {
         var innerSubscription = this.innerSubscription;
@@ -8066,8 +8280,8 @@ var NovoSelectElement = (function () {
         }
         else if (this.createdItem) {
             var /** @type {?} */ item = this.options.find(function (i) { return i.label === _this.createdItem; });
-            var /** @type {?} */ index = this.options.indexOf(item);
-            this.select(item, index);
+            var /** @type {?} */ index$$1 = this.options.indexOf(item);
+            this.select(item, index$$1);
         }
         else {
             this.writeValue(this.model);
@@ -8226,11 +8440,11 @@ var NovoSelectElement = (function () {
      * @param {?} index
      * @return {?}
      */
-    NovoSelectElement.prototype.scrollToIndex = function (index) {
+    NovoSelectElement.prototype.scrollToIndex = function (index$$1) {
         var /** @type {?} */ element = this.overlay._overlayRef.overlayElement;
         var /** @type {?} */ list = element.querySelector('.novo-select-list');
         var /** @type {?} */ items = list.querySelectorAll('li');
-        var /** @type {?} */ item = items[this.headerConfig ? index + 1 : index];
+        var /** @type {?} */ item = items[this.headerConfig ? index$$1 + 1 : index$$1];
         if (item) {
             list.scrollTop = item.offsetTop;
         }
@@ -13447,6 +13661,19 @@ var EditorControl = (function (_super) {
     return EditorControl;
 }(BaseControl));
 // APP
+var AceEditorControl = (function (_super) {
+    __extends(AceEditorControl, _super);
+    /**
+     * @param {?} config
+     */
+    function AceEditorControl(config) {
+        var _this = _super.call(this, 'AceEditorControl', config) || this;
+        _this.controlType = 'ace-editor';
+        return _this;
+    }
+    return AceEditorControl;
+}(BaseControl));
+// APP
 var FileControl = (function (_super) {
     __extends(FileControl, _super);
     /**
@@ -15120,21 +15347,21 @@ var FieldInteractionApi = (function () {
                 if (config) {
                     currentOptions = config.options;
                     if (currentOptions && Array.isArray(currentOptions)) {
-                        var /** @type {?} */ index_1 = -1;
+                        var /** @type {?} */ index$$1_1 = -1;
                         currentOptions.forEach(function (opt, i) {
                             if (opt.value || opt.label) {
                                 if (opt.value === optionToRemove || opt.label === optionToRemove) {
-                                    index_1 = i;
+                                    index$$1_1 = i;
                                 }
                             }
                             else {
                                 if (opt === optionToRemove) {
-                                    index_1 = i;
+                                    index$$1_1 = i;
                                 }
                             }
                         });
-                        if (index_1 !== -1) {
-                            currentOptions.splice(index_1, 1);
+                        if (index$$1_1 !== -1) {
+                            currentOptions.splice(index$$1_1, 1);
                         }
                         config.options = currentOptions.slice();
                         this.setProperty(key, 'config', config);
@@ -15142,21 +15369,21 @@ var FieldInteractionApi = (function () {
                 }
             }
             else {
-                var /** @type {?} */ index_2 = -1;
+                var /** @type {?} */ index$$1_2 = -1;
                 currentOptions.forEach(function (opt, i) {
                     if (opt.value || opt.label) {
                         if (opt.value === optionToRemove || opt.label === optionToRemove) {
-                            index_2 = i;
+                            index$$1_2 = i;
                         }
                     }
                     else {
                         if (opt === optionToRemove) {
-                            index_2 = i;
+                            index$$1_2 = i;
                         }
                     }
                 });
-                if (index_2 !== -1) {
-                    currentOptions.splice(index_2, 1);
+                if (index$$1_2 !== -1) {
+                    currentOptions.splice(index$$1_2, 1);
                 }
                 this.setProperty(key, 'options', currentOptions.slice());
             }
@@ -15694,7 +15921,7 @@ var NovoControlElement = (function (_super) {
                 return true;
             }
             // Controls that always have the label active
-            return ['tiles', 'checklist', 'checkbox', 'address', 'file', 'editor', 'radio', 'text-area', 'quick-note'].indexOf(this.form.controls[this.control.key].controlType) !== -1;
+            return ['tiles', 'checklist', 'checkbox', 'address', 'file', 'editor', 'ace-editor', 'radio', 'text-area', 'quick-note'].indexOf(this.form.controls[this.control.key].controlType) !== -1;
         },
         enumerable: true,
         configurable: true
@@ -15846,7 +16073,7 @@ var NovoControlElement = (function (_super) {
 NovoControlElement.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-control',
-                template: "\n        <div class=\"novo-control-container\" [formGroup]=\"form\" [hidden]=\"form.controls[control.key].hidden || form.controls[control.key].type === 'hidden' || form.controls[control.key].controlType === 'hidden'\">\n            <!--Encrypted Field-->\n            <span [tooltip]=\"labels.encryptedFieldTooltip\" [tooltipPosition]=\"'right'\"><i [hidden]=\"!form.controls[control.key].encrypted\"\n            class=\"bhi-lock\"></i></span>\n            <!--Label (for horizontal)-->\n            <label [attr.for]=\"control.key\" *ngIf=\"form.layout !== 'vertical' && form.controls[control.key].label && !condensed\" [ngClass]=\"{'encrypted': form.controls[control.key].encrypted }\">\n                {{ form.controls[control.key].label }}\n            </label>\n            <div class=\"novo-control-outer-container\">\n                <!--Label (for vertical)-->\n                <label\n                    *ngIf=\"form.layout === 'vertical' && form.controls[control.key].label && !condensed\"\n                    class=\"novo-control-label\"\n                    [attr.for]=\"control.key\"\n                    [class.novo-control-empty]=\"!hasValue\"\n                    [class.novo-control-focused]=\"focused\"\n                    [class.novo-control-filled]=\"hasValue\"\n                    [class.novo-control-always-active]=\"alwaysActive || form.controls[control.key].placeholder\"\n                    [class.novo-control-extra-spacing]=\"requiresExtraSpacing\">\n                    {{ form.controls[control.key].label }}\n                </label>\n                <div class=\"novo-control-inner-container\">\n                    <div class=\"novo-control-inner-input-container\">\n                        <!--Required Indicator-->\n                        <i [hidden]=\"!form.controls[control.key].required || form.controls[control.key].readOnly\"\n                            class=\"required-indicator\"\n                            [ngClass]=\"{'bhi-circle': !isValid, 'bhi-check': isValid}\" *ngIf=\"!condensed || form.controls[control.key].required\">\n                        </i>\n                        <!--Form Controls-->\n                        <div class=\"novo-control-input {{ form.controls[control.key].controlType }}\" [ngSwitch]=\"form.controls[control.key].controlType\" [attr.data-automation-id]=\"control.key\" [class.control-disabled]=\"form.controls[control.key].disabled\">\n                            <!--Text-based Inputs-->\n                            <!--TODO prefix/suffix on the control-->\n                            <div class=\"novo-control-input-container novo-control-input-with-label\" *ngSwitchCase=\"'textbox'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <input *ngIf=\"form.controls[control.key].type !== 'number'\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (input)=\"emitChange($event)\" [maxlength]=\"form.controls[control.key].maxlength\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\">\n                                <input *ngIf=\"form.controls[control.key].type === 'number' && form.controls[control.key].subType !== 'percentage'\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (keydown)=\"restrictKeys($event)\" (input)=\"emitChange($event)\" [maxlength]=\"form.controls[control.key].maxlength\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" step=\"any\" (mousewheel)=\"numberInput.blur()\" #numberInput>\n                                <input *ngIf=\"form.controls[control.key].type === 'number' && form.controls[control.key].subType === 'percentage'\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (keydown)=\"restrictKeys($event)\" [value]=\"percentValue\" (input)=\"handlePercentChange($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" step=\"any\" (mousewheel)=\"percentInput.blur()\" #percentInput>\n                                <label class=\"input-label\" *ngIf=\"form.controls[control.key].subType === 'currency'\">{{ control.currencyFormat }}</label>\n                                <label class=\"input-label\" *ngIf=\"form.controls[control.key].subType === 'percentage'\">%</label>\n                            </div>\n                            <!--TextArea-->\n                            <textarea *ngSwitchCase=\"'text-area'\" [name]=\"control.key\" [attr.id]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [formControlName]=\"control.key\" autosize (input)=\"handleTextAreaInput($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [maxlength]=\"control.maxlength\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></textarea>\n                            <!--Editor-->\n                            <novo-editor *ngSwitchCase=\"'editor'\" [name]=\"control.key\" [formControlName]=\"control.key\" [minimal]=\"control.minimal\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\"></novo-editor>\n                            <!--HTML5 Select-->\n                            <select [id]=\"control.key\" *ngSwitchCase=\"'native-select'\" [formControlName]=\"control.key\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <option *ngIf=\"form.controls[control.key].placeholder\" value=\"\" disabled selected hidden>{{ form.controls[control.key].placeholder }}</option>\n                                <option *ngFor=\"let opt of form.controls[control.key].options\" [value]=\"opt.key\">{{opt.value}}</option>\n                            </select>\n                            <!--File-->\n                            <novo-file-input *ngSwitchCase=\"'file'\" [formControlName]=\"control.key\" [id]=\"control.key\" [name]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [value]=\"form.controls[control.key].value\" [multiple]=\"form.controls[control.key].multiple\" [layoutOptions]=\"form.controls[control.key].layoutOptions\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-file-input>\n                            <!--Tiles-->\n                            <novo-tiles *ngSwitchCase=\"'tiles'\" [options]=\"control.options\" [formControlName]=\"control.key\" (onChange)=\"modelChange($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-tiles>\n                            <!--Picker-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'picker'\">\n                                <novo-picker [config]=\"form.controls[control.key].config\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [parentScrollSelector]=\"form.controls[control.key].parentScrollSelector\" *ngIf=\"!form.controls[control.key].multiple\" (select)=\"modelChange($event);\" (changed)=\"modelChangeWithRaw($event)\" (typing)=\"handleTyping($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-picker>\n                                <chips [source]=\"form.controls[control.key].config\" [type]=\"form.controls[control.key].config.type\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" *ngIf=\"control.multiple\" [closeOnSelect]=\"form.controls[control.key].closeOnSelect\" (changed)=\"modelChangeWithRaw($event)\" (typing)=\"handleTyping($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></chips>\n                            </div>\n                            <!--Novo Select-->\n                            <novo-select *ngSwitchCase=\"'select'\" [options]=\"form.controls[control.key].options\" [headerConfig]=\"form.controls[control.key].headerConfig\" [placeholder]=\"form.controls[control.key].placeholder\" [formControlName]=\"control.key\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (onSelect)=\"modelChange($event)\"></novo-select>\n                            <!--Radio-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'radio'\">\n                                <novo-radio [vertical]=\"vertical\" [name]=\"control.key\" [formControlName]=\"control.key\" *ngFor=\"let option of form.controls[control.key].options\" [value]=\"option.value\" [label]=\"option.label\" [checked]=\"option.value === form.value[control.key]\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [button]=\"!!option.icon\" [icon]=\"option.icon\" [attr.data-automation-id]=\"control.key + '-' + (option?.label || option?.value)\"></novo-radio>\n                            </div>\n                            <!--Time-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'time'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [military]=\"form.controls[control.key].military\"></novo-time-picker-input>\n                            </div>\n                            <!--Date-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'date'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-date-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\"></novo-date-picker-input>\n                            </div>\n                            <!--Date and Time-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'date-time'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-date-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [military]=\"form.controls[control.key].military\"></novo-date-time-picker-input>\n                            </div>\n                            <!--Address-->\n                            <novo-address *ngSwitchCase=\"'address'\" [formControlName]=\"control.key\"></novo-address>\n                            <!--Checkbox-->\n                            <novo-checkbox *ngSwitchCase=\"'checkbox'\" [formControlName]=\"control.key\" [name]=\"control.key\" [label]=\"control.checkboxLabel\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [layoutOptions]=\"layoutOptions\"></novo-checkbox>\n                            <!--Checklist-->\n                            <novo-check-list *ngSwitchCase=\"'checklist'\" [formControlName]=\"control.key\" [name]=\"control.key\" [options]=\"form.controls[control.key].options\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (onSelect)=\"modelChange($event)\"></novo-check-list>\n                            <!--QuickNote-->\n                            <novo-quick-note *ngSwitchCase=\"'quick-note'\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [config]=\"form.controls[control.key].config\" (change)=\"modelChange($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-quick-note>\n                            <!--ReadOnly-->\n                            <!--TODO - Handle rendering of different READONLY values-->\n                            <div *ngSwitchCase=\"'read-only'\">{{ form.value[control.key] }}</div>\n                        </div>\n                    </div>\n                    <!--Error Message-->\n                    <div class=\"field-message\" *ngIf=\"!condensed\" [class.has-tip]=\"form.controls[control.key].tipWell\">\n                        <div class=\"messages\">\n                            <span class=\"error-text\" *ngIf=\"showFieldMessage\"></span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.required\">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.minlength\">{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && maxLengthMet && focused && !errors?.maxlength\">{{ labels.maxLengthMet }}({{ form.controls[control.key].maxlength }})</span>\n                            <span class=\"error-text\" *ngIf=\"errors?.maxlength\">{{ labels.invalidMaxLength }}({{ form.controls[control.key].maxlength }})</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.invalidEmail\">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidEmail }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.invalidAddress\">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidAddress }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && (errors?.integerTooLarge || errors?.doubleTooLarge)\">{{ form.controls[control.key].label | uppercase }} {{ labels.isTooLarge }}</span>\n                            <span *ngIf=\"isDirty && errors?.minYear\">{{ form.controls[control.key].label | uppercase }} {{ labels.notValidYear }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && (errors?.custom)\">{{ errors.custom }}</span>\n                            <!--Field Hint-->\n                            <span class=\"description\" *ngIf=\"form.controls[control.key].description\">\n                                {{ form.controls[control.key].description }}\n                            </span>\n                        </div>\n                        <span class=\"character-count\" [class.error]=\"errors?.maxlength\" *ngIf=\"showCount\">{{ characterCount }}/{{ form.controls[control.key].maxlength }}</span>\n                    </div>\n                    <!--Tip Wel-->\n                    <novo-tip-well *ngIf=\"form.controls[control.key].tipWell\" [name]=\"control.key\" [tip]=\"form.controls[control.key]?.tipWell?.tip\" [icon]=\"form.controls[control.key]?.tipWell?.icon\" [button]=\"form.controls[control.key]?.tipWell?.button\"></novo-tip-well>\n                </div>\n                <i *ngIf=\"form.controls[control.key].fieldInteractionloading\" class=\"loading\">\n                    <svg version=\"1.1\"\n                     xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:a=\"http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/\"\n                     x=\"0px\" y=\"0px\" width=\"18.2px\" height=\"18.5px\" viewBox=\"0 0 18.2 18.5\" style=\"enable-background:new 0 0 18.2 18.5;\"\n                     xml:space=\"preserve\">\n                    <style type=\"text/css\">\n                        .spinner { fill:#FFFFFF; }\n                    </style>\n                        <path class=\"spinner\" d=\"M9.2,18.5C4.1,18.5,0,14.4,0,9.2S4.1,0,9.2,0c0.9,0,1.9,0.1,2.7,0.4c0.8,0.2,1.2,1.1,1,1.9\n                            c-0.2,0.8-1.1,1.2-1.9,1C10.5,3.1,9.9,3,9.2,3C5.8,3,3,5.8,3,9.2s2.8,6.2,6.2,6.2c2.8,0,5.3-1.9,6-4.7c0.2-0.8,1-1.3,1.8-1.1\n                            c0.8,0.2,1.3,1,1.1,1.8C17.1,15.7,13.4,18.5,9.2,18.5z\"/>\n                    </svg>\n                </i>\n            </div>\n        </div>\n    ",
+                template: "\n        <div class=\"novo-control-container\" [formGroup]=\"form\" [hidden]=\"form.controls[control.key].hidden || form.controls[control.key].type === 'hidden' || form.controls[control.key].controlType === 'hidden'\">\n            <!--Encrypted Field-->\n            <span [tooltip]=\"labels.encryptedFieldTooltip\" [tooltipPosition]=\"'right'\"><i [hidden]=\"!form.controls[control.key].encrypted\"\n            class=\"bhi-lock\"></i></span>\n            <!--Label (for horizontal)-->\n            <label [attr.for]=\"control.key\" *ngIf=\"form.layout !== 'vertical' && form.controls[control.key].label && !condensed\" [ngClass]=\"{'encrypted': form.controls[control.key].encrypted }\">\n                {{ form.controls[control.key].label }}\n            </label>\n            <div class=\"novo-control-outer-container\">\n                <!--Label (for vertical)-->\n                <label\n                    *ngIf=\"form.layout === 'vertical' && form.controls[control.key].label && !condensed\"\n                    class=\"novo-control-label\"\n                    [attr.for]=\"control.key\"\n                    [class.novo-control-empty]=\"!hasValue\"\n                    [class.novo-control-focused]=\"focused\"\n                    [class.novo-control-filled]=\"hasValue\"\n                    [class.novo-control-always-active]=\"alwaysActive || form.controls[control.key].placeholder\"\n                    [class.novo-control-extra-spacing]=\"requiresExtraSpacing\">\n                    {{ form.controls[control.key].label }}\n                </label>\n                <div class=\"novo-control-inner-container\">\n                    <div class=\"novo-control-inner-input-container\">\n                        <!--Required Indicator-->\n                        <i [hidden]=\"!form.controls[control.key].required || form.controls[control.key].readOnly\"\n                            class=\"required-indicator\"\n                            [ngClass]=\"{'bhi-circle': !isValid, 'bhi-check': isValid}\" *ngIf=\"!condensed || form.controls[control.key].required\">\n                        </i>\n                        <!--Form Controls-->\n                        <div class=\"novo-control-input {{ form.controls[control.key].controlType }}\" [ngSwitch]=\"form.controls[control.key].controlType\" [attr.data-automation-id]=\"control.key\" [class.control-disabled]=\"form.controls[control.key].disabled\">\n                            <!--Text-based Inputs-->\n                            <!--TODO prefix/suffix on the control-->\n                            <div class=\"novo-control-input-container novo-control-input-with-label\" *ngSwitchCase=\"'textbox'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <input *ngIf=\"form.controls[control.key].type !== 'number'\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (input)=\"emitChange($event)\" [maxlength]=\"form.controls[control.key].maxlength\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\">\n                                <input *ngIf=\"form.controls[control.key].type === 'number' && form.controls[control.key].subType !== 'percentage'\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (keydown)=\"restrictKeys($event)\" (input)=\"emitChange($event)\" [maxlength]=\"form.controls[control.key].maxlength\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" step=\"any\" (mousewheel)=\"numberInput.blur()\" #numberInput>\n                                <input *ngIf=\"form.controls[control.key].type === 'number' && form.controls[control.key].subType === 'percentage'\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (keydown)=\"restrictKeys($event)\" [value]=\"percentValue\" (input)=\"handlePercentChange($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" step=\"any\" (mousewheel)=\"percentInput.blur()\" #percentInput>\n                                <label class=\"input-label\" *ngIf=\"form.controls[control.key].subType === 'currency'\">{{ control.currencyFormat }}</label>\n                                <label class=\"input-label\" *ngIf=\"form.controls[control.key].subType === 'percentage'\">%</label>\n                            </div>\n                            <!--TextArea-->\n                            <textarea *ngSwitchCase=\"'text-area'\" [name]=\"control.key\" [attr.id]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [formControlName]=\"control.key\" autosize (input)=\"handleTextAreaInput($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [maxlength]=\"control.maxlength\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></textarea>\n                            <!--Editor-->\n                            <novo-editor *ngSwitchCase=\"'editor'\" [name]=\"control.key\" [formControlName]=\"control.key\" [minimal]=\"control.minimal\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\"></novo-editor>\n                            <!--AceEditor-->\n                            <novo-ace-editor *ngSwitchCase=\"'ace-editor'\" [name]=\"control.key\" [formControlName]=\"control.key\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\"></novo-ace-editor>\n                            <!--HTML5 Select-->\n                            <select [id]=\"control.key\" *ngSwitchCase=\"'native-select'\" [formControlName]=\"control.key\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <option *ngIf=\"form.controls[control.key].placeholder\" value=\"\" disabled selected hidden>{{ form.controls[control.key].placeholder }}</option>\n                                <option *ngFor=\"let opt of form.controls[control.key].options\" [value]=\"opt.key\">{{opt.value}}</option>\n                            </select>\n                            <!--File-->\n                            <novo-file-input *ngSwitchCase=\"'file'\" [formControlName]=\"control.key\" [id]=\"control.key\" [name]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [value]=\"form.controls[control.key].value\" [multiple]=\"form.controls[control.key].multiple\" [layoutOptions]=\"form.controls[control.key].layoutOptions\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-file-input>\n                            <!--Tiles-->\n                            <novo-tiles *ngSwitchCase=\"'tiles'\" [options]=\"control.options\" [formControlName]=\"control.key\" (onChange)=\"modelChange($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-tiles>\n                            <!--Picker-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'picker'\">\n                                <novo-picker [config]=\"form.controls[control.key].config\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [parentScrollSelector]=\"form.controls[control.key].parentScrollSelector\" *ngIf=\"!form.controls[control.key].multiple\" (select)=\"modelChange($event);\" (changed)=\"modelChangeWithRaw($event)\" (typing)=\"handleTyping($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-picker>\n                                <chips [source]=\"form.controls[control.key].config\" [type]=\"form.controls[control.key].config.type\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" *ngIf=\"control.multiple\" [closeOnSelect]=\"form.controls[control.key].closeOnSelect\" (changed)=\"modelChangeWithRaw($event)\" (typing)=\"handleTyping($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></chips>\n                            </div>\n                            <!--Novo Select-->\n                            <novo-select *ngSwitchCase=\"'select'\" [options]=\"form.controls[control.key].options\" [headerConfig]=\"form.controls[control.key].headerConfig\" [placeholder]=\"form.controls[control.key].placeholder\" [formControlName]=\"control.key\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (onSelect)=\"modelChange($event)\"></novo-select>\n                            <!--Radio-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'radio'\">\n                                <novo-radio [vertical]=\"vertical\" [name]=\"control.key\" [formControlName]=\"control.key\" *ngFor=\"let option of form.controls[control.key].options\" [value]=\"option.value\" [label]=\"option.label\" [checked]=\"option.value === form.value[control.key]\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [button]=\"!!option.icon\" [icon]=\"option.icon\" [attr.data-automation-id]=\"control.key + '-' + (option?.label || option?.value)\"></novo-radio>\n                            </div>\n                            <!--Time-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'time'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [military]=\"form.controls[control.key].military\"></novo-time-picker-input>\n                            </div>\n                            <!--Date-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'date'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-date-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\"></novo-date-picker-input>\n                            </div>\n                            <!--Date and Time-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'date-time'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-date-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [military]=\"form.controls[control.key].military\"></novo-date-time-picker-input>\n                            </div>\n                            <!--Address-->\n                            <novo-address *ngSwitchCase=\"'address'\" [formControlName]=\"control.key\"></novo-address>\n                            <!--Checkbox-->\n                            <novo-checkbox *ngSwitchCase=\"'checkbox'\" [formControlName]=\"control.key\" [name]=\"control.key\" [label]=\"control.checkboxLabel\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [layoutOptions]=\"layoutOptions\"></novo-checkbox>\n                            <!--Checklist-->\n                            <novo-check-list *ngSwitchCase=\"'checklist'\" [formControlName]=\"control.key\" [name]=\"control.key\" [options]=\"form.controls[control.key].options\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (onSelect)=\"modelChange($event)\"></novo-check-list>\n                            <!--QuickNote-->\n                            <novo-quick-note *ngSwitchCase=\"'quick-note'\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [config]=\"form.controls[control.key].config\" (change)=\"modelChange($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-quick-note>\n                            <!--ReadOnly-->\n                            <!--TODO - Handle rendering of different READONLY values-->\n                            <div *ngSwitchCase=\"'read-only'\">{{ form.value[control.key] }}</div>\n                        </div>\n                    </div>\n                    <!--Error Message-->\n                    <div class=\"field-message\" *ngIf=\"!condensed\" [class.has-tip]=\"form.controls[control.key].tipWell\">\n                        <div class=\"messages\">\n                            <span class=\"error-text\" *ngIf=\"showFieldMessage\"></span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.required\">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.minlength\">{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && maxLengthMet && focused && !errors?.maxlength\">{{ labels.maxLengthMet }}({{ form.controls[control.key].maxlength }})</span>\n                            <span class=\"error-text\" *ngIf=\"errors?.maxlength\">{{ labels.invalidMaxLength }}({{ form.controls[control.key].maxlength }})</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.invalidEmail\">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidEmail }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.invalidAddress\">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidAddress }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && (errors?.integerTooLarge || errors?.doubleTooLarge)\">{{ form.controls[control.key].label | uppercase }} {{ labels.isTooLarge }}</span>\n                            <span *ngIf=\"isDirty && errors?.minYear\">{{ form.controls[control.key].label | uppercase }} {{ labels.notValidYear }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && (errors?.custom)\">{{ errors.custom }}</span>\n                            <!--Field Hint-->\n                            <span class=\"description\" *ngIf=\"form.controls[control.key].description\">\n                                {{ form.controls[control.key].description }}\n                            </span>\n                        </div>\n                        <span class=\"character-count\" [class.error]=\"errors?.maxlength\" *ngIf=\"showCount\">{{ characterCount }}/{{ form.controls[control.key].maxlength }}</span>\n                    </div>\n                    <!--Tip Wel-->\n                    <novo-tip-well *ngIf=\"form.controls[control.key].tipWell\" [name]=\"control.key\" [tip]=\"form.controls[control.key]?.tipWell?.tip\" [icon]=\"form.controls[control.key]?.tipWell?.icon\" [button]=\"form.controls[control.key]?.tipWell?.button\"></novo-tip-well>\n                </div>\n                <i *ngIf=\"form.controls[control.key].fieldInteractionloading\" class=\"loading\">\n                    <svg version=\"1.1\"\n                     xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:a=\"http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/\"\n                     x=\"0px\" y=\"0px\" width=\"18.2px\" height=\"18.5px\" viewBox=\"0 0 18.2 18.5\" style=\"enable-background:new 0 0 18.2 18.5;\"\n                     xml:space=\"preserve\">\n                    <style type=\"text/css\">\n                        .spinner { fill:#FFFFFF; }\n                    </style>\n                        <path class=\"spinner\" d=\"M9.2,18.5C4.1,18.5,0,14.4,0,9.2S4.1,0,9.2,0c0.9,0,1.9,0.1,2.7,0.4c0.8,0.2,1.2,1.1,1,1.9\n                            c-0.2,0.8-1.1,1.2-1.9,1C10.5,3.1,9.9,3,9.2,3C5.8,3,3,5.8,3,9.2s2.8,6.2,6.2,6.2c2.8,0,5.3-1.9,6-4.7c0.2-0.8,1-1.3,1.8-1.1\n                            c0.8,0.2,1.3,1,1.1,1.8C17.1,15.7,13.4,18.5,9.2,18.5z\"/>\n                    </svg>\n                </i>\n            </div>\n        </div>\n    ",
                 host: {
                     '[class]': 'form.controls[control.key].controlType',
                     '[attr.data-control-type]': 'form.controls[control.key].controlType',
@@ -26741,22 +26968,22 @@ var NovoControlGroup = (function () {
      * @param {?=} emitEvent
      * @return {?}
      */
-    NovoControlGroup.prototype.removeControl = function (index, emitEvent) {
+    NovoControlGroup.prototype.removeControl = function (index$$1, emitEvent) {
         if (emitEvent === void 0) { emitEvent = true; }
         var /** @type {?} */ control = (this.form.controls[this.key]);
         if (emitEvent) {
-            this.onRemove.emit({ value: control.at(index).value, index: index });
+            this.onRemove.emit({ value: control.at(index$$1).value, index: index$$1 });
         }
-        control.removeAt(index);
+        control.removeAt(index$$1);
         this.ref.markForCheck();
     };
     /**
      * @param {?} index
      * @return {?}
      */
-    NovoControlGroup.prototype.editControl = function (index) {
+    NovoControlGroup.prototype.editControl = function (index$$1) {
         var /** @type {?} */ control = (this.form.controls[this.key]);
-        this.onEdit.emit({ value: control.at(index).value, index: index });
+        this.onEdit.emit({ value: control.at(index$$1).value, index: index$$1 });
     };
     /**
      * @param {?} event
@@ -26785,10 +27012,10 @@ var NovoControlGroup = (function () {
      * @param {?} index
      * @return {?}
      */
-    NovoControlGroup.prototype.checkCanEdit = function (index) {
+    NovoControlGroup.prototype.checkCanEdit = function (index$$1) {
         if (this.canEdit) {
             var /** @type {?} */ control = (this.form.controls[this.key]);
-            return this.canEdit(control.at(index).value, index);
+            return this.canEdit(control.at(index$$1).value, index$$1);
         }
         return true;
     };
@@ -26796,10 +27023,10 @@ var NovoControlGroup = (function () {
      * @param {?} index
      * @return {?}
      */
-    NovoControlGroup.prototype.checkCanRemove = function (index) {
+    NovoControlGroup.prototype.checkCanRemove = function (index$$1) {
         if (this.canRemove) {
             var /** @type {?} */ control = (this.form.controls[this.key]);
-            return this.canRemove(control.at(index).value, index);
+            return this.canRemove(control.at(index$$1).value, index$$1);
         }
         return true;
     };
@@ -26883,7 +27110,8 @@ NovoFormModule.decorators = [
                     angular2TextMask.TextMaskModule,
                     NovoTipWellModule,
                     NovoModalModule,
-                    NovoButtonModule
+                    NovoButtonModule,
+                    NovoAceEditorModule
                 ],
                 declarations: [
                     NovoAutoSize, NovoControlElement, NovoDynamicFormElement, NovoFormElement,
@@ -27319,12 +27547,12 @@ var ThOrderable = (function () {
          * @return {?}
          */
         get: function () {
-            var /** @type {?} */ index = null;
+            var /** @type {?} */ index$$1 = null;
             if (this.element.nativeElement && this.element.nativeElement.parentNode) {
                 var /** @type {?} */ children = Array.prototype.slice.call(this.element.nativeElement.parentNode.children);
-                index = children.indexOf(this.element.nativeElement);
+                index$$1 = children.indexOf(this.element.nativeElement);
             }
-            return index;
+            return index$$1;
         },
         enumerable: true,
         configurable: true
@@ -27901,8 +28129,8 @@ var ArrayCollection = (function () {
      * @param {?} index
      * @return {?}
      */
-    ArrayCollection.prototype.addItemAt = function (item, index) {
-        this.isEditing ? this.editData.splice(index, 0, item) : this.source.splice(index, 0, item);
+    ArrayCollection.prototype.addItemAt = function (item, index$$1) {
+        this.isEditing ? this.editData.splice(index$$1, 0, item) : this.source.splice(index$$1, 0, item);
         this.onDataChange(new CollectionEvent(CollectionEvent.ADD, [item]));
         this.refresh();
     };
@@ -27929,8 +28157,8 @@ var ArrayCollection = (function () {
      * @param {?} index
      * @return {?}
      */
-    ArrayCollection.prototype.addItemsAt = function (items, index) {
-        this.isEditing ? (_b = this.editData).splice.apply(_b, [index, 0].concat(items)) : (_c = this.source).splice.apply(_c, [index, 0].concat(items));
+    ArrayCollection.prototype.addItemsAt = function (items, index$$1) {
+        this.isEditing ? (_b = this.editData).splice.apply(_b, [index$$1, 0].concat(items)) : (_c = this.source).splice.apply(_c, [index$$1, 0].concat(items));
         var _b, _c;
     };
     /**
@@ -27973,8 +28201,8 @@ var ArrayCollection = (function () {
      * @param {?} index
      * @return {?}
      */
-    ArrayCollection.prototype.getItemAt = function (index) {
-        return this.isEditing ? this.editData[index] : this.source[index];
+    ArrayCollection.prototype.getItemAt = function (index$$1) {
+        return this.isEditing ? this.editData[index$$1] : this.source[index$$1];
     };
     /**
      *  Returns the index of the specified item.
@@ -28038,8 +28266,8 @@ var ArrayCollection = (function () {
      * @return {?}
      */
     ArrayCollection.prototype.removeItem = function (item) {
-        var /** @type {?} */ index = this.getItemIndex(item);
-        return this.removeItemAt(index);
+        var /** @type {?} */ index$$1 = this.getItemIndex(item);
+        return this.removeItemAt(index$$1);
     };
     /**
      * Removes the item at the specified index and dispatches a CollectionEvent.REMOVE event.
@@ -28049,8 +28277,8 @@ var ArrayCollection = (function () {
      * @param {?} index
      * @return {?}
      */
-    ArrayCollection.prototype.removeItemAt = function (index) {
-        var /** @type {?} */ success = !!(this.source.splice(index, 1));
+    ArrayCollection.prototype.removeItemAt = function (index$$1) {
+        var /** @type {?} */ success = !!(this.source.splice(index$$1, 1));
         this.refresh();
         return success;
     };
@@ -28064,9 +28292,9 @@ var ArrayCollection = (function () {
      * @return {?}
      */
     ArrayCollection.prototype.replaceItem = function (newItem, oldItem) {
-        var /** @type {?} */ index = this.getItemIndex(oldItem);
-        if (index >= 0) {
-            this.replaceItemAt(newItem, index);
+        var /** @type {?} */ index$$1 = this.getItemIndex(oldItem);
+        if (index$$1 >= 0) {
+            this.replaceItemAt(newItem, index$$1);
         }
     };
     /**
@@ -28078,8 +28306,8 @@ var ArrayCollection = (function () {
      * @param {?} index
      * @return {?}
      */
-    ArrayCollection.prototype.replaceItemAt = function (newItem, index) {
-        this.filterData.splice(index, 1, newItem);
+    ArrayCollection.prototype.replaceItemAt = function (newItem, index$$1) {
+        this.filterData.splice(index$$1, 1, newItem);
     };
     Object.defineProperty(ArrayCollection.prototype, "sort", {
         /**
@@ -28419,11 +28647,11 @@ var NovoTableElement = (function () {
                                 columnsToSum_1.push.apply(columnsToSum_1, config.columns);
                             });
                             // Only have unique columns, filter out duplicates
-                            columnsToSum_1 = columnsToSum_1.filter(function (item, index, array) { return array.indexOf(item) === index; });
+                            columnsToSum_1 = columnsToSum_1.filter(function (item, index$$1, array) { return array.indexOf(item) === index$$1; });
                         }
                         // Make a form for each row
                         var /** @type {?} */ tableFormRows_1 = (_this.tableForm.controls['rows']);
-                        _this._rows.forEach(function (row, index) {
+                        _this._rows.forEach(function (row, index$$1) {
                             var /** @type {?} */ rowControls = [];
                             row.controls = {};
                             row._editing = {};
@@ -29103,7 +29331,7 @@ var NovoTableElement = (function () {
             var /** @type {?} */ changedRows_1 = [];
             var /** @type {?} */ errors_1 = [];
             // Go over the FormArray's controls
-            ((this.tableForm.controls['rows'])).controls.forEach(function (formGroup, index) {
+            ((this.tableForm.controls['rows'])).controls.forEach(function (formGroup, index$$1) {
                 var /** @type {?} */ changedRow = null;
                 var /** @type {?} */ error = null;
                 // Go over the form group controls
@@ -29114,14 +29342,14 @@ var NovoTableElement = (function () {
                         if (!changedRow) {
                             // Append the ID, so we have some key to save against
                             changedRow = {};
-                            if (_this._rows[index].id) {
-                                changedRow.id = _this._rows[index].id;
+                            if (_this._rows[index$$1].id) {
+                                changedRow.id = _this._rows[index$$1].id;
                             }
                         }
                         // If dirty, grab value off the form
-                        changedRow[key] = _this.tableForm.value['rows'][index][key];
+                        changedRow[key] = _this.tableForm.value['rows'][index$$1][key];
                         // Set value back to row (should be already done via the server call, but do it anyway)
-                        _this._rows[index][key] = changedRow[key];
+                        _this._rows[index$$1][key] = changedRow[key];
                     }
                     else if (control && control.errors) {
                         // Handle errors
@@ -29137,7 +29365,7 @@ var NovoTableElement = (function () {
                     changedRows_1.push(changedRow);
                 }
                 if (error) {
-                    errors_1.push({ errors: error, row: _this._rows[index], index: index });
+                    errors_1.push({ errors: error, row: _this._rows[index$$1], index: index$$1 });
                 }
             });
             if (errors_1.length === 0) {
@@ -33407,9 +33635,9 @@ var AppBridge = (function () {
         // Close
         postRobot.on(MESSAGE_TYPES.CLOSE, function (event) {
             _this._trace(MESSAGE_TYPES.CLOSE, event);
-            var /** @type {?} */ index = _this._registeredFrames.findIndex(function (frame) { return frame.data.id === event.data.id; });
-            if (index !== -1) {
-                _this._registeredFrames.splice(index, 1);
+            var /** @type {?} */ index$$1 = _this._registeredFrames.findIndex(function (frame) { return frame.data.id === event.data.id; });
+            if (index$$1 !== -1) {
+                _this._registeredFrames.splice(index$$1, 1);
             }
             return _this.close(event.data).then(function (success) {
                 return { success: success };
@@ -34599,11 +34827,11 @@ var PlacesListComponent = (function () {
      * @param {?} index
      * @return {?}
      */
-    PlacesListComponent.prototype.activeListNode = function (index) {
+    PlacesListComponent.prototype.activeListNode = function (index$$1) {
         for (var /** @type {?} */ i = 0; i < this.queryItems.length; i++) {
-            if (index === i) {
+            if (index$$1 === i) {
                 this.queryItems[i].active = true;
-                this.selectedDataIndex = index;
+                this.selectedDataIndex = index$$1;
             }
             else {
                 this.queryItems[i].active = false;
@@ -34615,13 +34843,13 @@ var PlacesListComponent = (function () {
      * @param {?} index
      * @return {?}
      */
-    PlacesListComponent.prototype.selectedListNode = function (event, index) {
+    PlacesListComponent.prototype.selectedListNode = function (event, index$$1) {
         this.dropdownOpen = false;
         if (this.recentDropdownOpen) {
-            this.setRecentLocation(this.queryItems[index]);
+            this.setRecentLocation(this.queryItems[index$$1]);
         }
         else {
-            this.getPlaceLocationInfo(this.queryItems[index]);
+            this.getPlaceLocationInfo(this.queryItems[index$$1]);
         }
     };
     /**
@@ -34981,7 +35209,8 @@ NovoElementsModule.decorators = [
                     NovoSearchBoxModule,
                     NovoOverlayModule,
                     GooglePlacesModule,
-                    NovoValueModule
+                    NovoValueModule,
+                    NovoAceEditorModule,
                 ],
                 providers: [
                     { provide: ComponentUtils, useClass: ComponentUtils },
@@ -35000,6 +35229,7 @@ NovoElementsModule.decorators = [
  */
 NovoElementsModule.ctorParameters = function () { return []; };
 
+exports.NovoAceEditorModule = NovoAceEditorModule;
 exports.NovoPipesModule = NovoPipesModule;
 exports.NovoButtonModule = NovoButtonModule;
 exports.NovoLoadingModule = NovoLoadingModule;
@@ -35099,6 +35329,7 @@ exports.CheckboxControl = CheckboxControl;
 exports.DateControl = DateControl;
 exports.DateTimeControl = DateTimeControl;
 exports.EditorControl = EditorControl;
+exports.AceEditorControl = AceEditorControl;
 exports.FileControl = FileControl;
 exports.NativeSelectControl = NativeSelectControl;
 exports.PickerControl = PickerControl;
@@ -35150,62 +35381,63 @@ exports.getWeekView = getWeekView;
 exports.getMonthView = getMonthView;
 exports.getDayView = getDayView;
 exports.getDayViewHourGrid = getDayViewHourGrid;
-exports.ɵn = NovoButtonElement;
-exports.ɵbh = NovoCalendarDateChangeElement;
-exports.ɵw = NovoEventTypeLegendElement;
-exports.ɵbg = NovoCalendarAllDayEventElement;
-exports.ɵbe = NovoCalendarDayEventElement;
-exports.ɵbd = NovoCalendarDayViewElement;
-exports.ɵbf = NovoCalendarHourSegmentElement;
-exports.ɵz = NovoCalendarMonthDayElement;
-exports.ɵy = NovoCalendarMonthHeaderElement;
-exports.ɵx = NovoCalendarMonthViewElement;
-exports.ɵbj = DayOfMonthPipe;
-exports.ɵbo = EndOfWeekDisplayPipe;
-exports.ɵbn = HoursPipe;
-exports.ɵbk = MonthPipe;
-exports.ɵbl = MonthDayPipe;
-exports.ɵbi = WeekdayPipe;
-exports.ɵbm = YearPipe;
-exports.ɵbc = NovoCalendarWeekEventElement;
-exports.ɵbb = NovoCalendarWeekHeaderElement;
-exports.ɵba = NovoCalendarWeekViewElement;
-exports.ɵr = CardActionsElement;
-exports.ɵs = CardElement;
-exports.ɵt = CardBestTimeElement;
-exports.ɵu = CardDonutChartElement;
-exports.ɵv = CardTimelineElement;
-exports.ɵee = NovoCategoryDropdownElement;
-exports.ɵcv = NovoChipElement;
-exports.ɵcw = NovoChipsElement;
-exports.ɵde = NovoCKEditorElement;
-exports.ɵcx = NovoDatePickerElement;
-exports.ɵcy = NovoDatePickerInputElement;
-exports.ɵdc = NovoDateTimePickerElement;
-exports.ɵdd = NovoDateTimePickerInputElement;
-exports.ɵct = NovoDragulaElement;
-exports.ɵce = NovoDropdownContainer;
-exports.ɵcf = NovoDropdownElement;
-exports.ɵcg = NovoItemElement;
-exports.ɵci = NovoItemHeaderElement$1;
-exports.ɵch = NovoListElement$1;
-exports.ɵdk = NovoAutoSize;
-exports.ɵdm = NovoControlElement;
-exports.ɵdl = NovoCustomControlContainerElement;
-exports.ɵdo = NovoControlCustom;
-exports.ɵdq = NovoDynamicFormElement;
-exports.ɵdp = NovoFieldsetElement;
-exports.ɵdn = NovoFieldsetHeaderElement;
-exports.ɵds = ControlConfirmModal;
-exports.ɵdt = ControlPromptModal;
-exports.ɵdr = NovoFormElement;
-exports.ɵdg = NovoAddressElement;
-exports.ɵdi = NovoCheckListElement;
-exports.ɵdh = NovoCheckboxElement;
-exports.ɵdj = NovoFileInputElement;
-exports.ɵbs = NovoHeaderElement;
-exports.ɵbr = UtilActionElement;
-exports.ɵbq = UtilsElement;
+exports.ɵn = NovoAceEditor;
+exports.ɵo = NovoButtonElement;
+exports.ɵbi = NovoCalendarDateChangeElement;
+exports.ɵx = NovoEventTypeLegendElement;
+exports.ɵbh = NovoCalendarAllDayEventElement;
+exports.ɵbf = NovoCalendarDayEventElement;
+exports.ɵbe = NovoCalendarDayViewElement;
+exports.ɵbg = NovoCalendarHourSegmentElement;
+exports.ɵba = NovoCalendarMonthDayElement;
+exports.ɵz = NovoCalendarMonthHeaderElement;
+exports.ɵy = NovoCalendarMonthViewElement;
+exports.ɵbk = DayOfMonthPipe;
+exports.ɵbp = EndOfWeekDisplayPipe;
+exports.ɵbo = HoursPipe;
+exports.ɵbl = MonthPipe;
+exports.ɵbm = MonthDayPipe;
+exports.ɵbj = WeekdayPipe;
+exports.ɵbn = YearPipe;
+exports.ɵbd = NovoCalendarWeekEventElement;
+exports.ɵbc = NovoCalendarWeekHeaderElement;
+exports.ɵbb = NovoCalendarWeekViewElement;
+exports.ɵs = CardActionsElement;
+exports.ɵt = CardElement;
+exports.ɵu = CardBestTimeElement;
+exports.ɵv = CardDonutChartElement;
+exports.ɵw = CardTimelineElement;
+exports.ɵef = NovoCategoryDropdownElement;
+exports.ɵcw = NovoChipElement;
+exports.ɵcx = NovoChipsElement;
+exports.ɵdf = NovoCKEditorElement;
+exports.ɵcy = NovoDatePickerElement;
+exports.ɵcz = NovoDatePickerInputElement;
+exports.ɵdd = NovoDateTimePickerElement;
+exports.ɵde = NovoDateTimePickerInputElement;
+exports.ɵcu = NovoDragulaElement;
+exports.ɵcf = NovoDropdownContainer;
+exports.ɵcg = NovoDropdownElement;
+exports.ɵch = NovoItemElement;
+exports.ɵcj = NovoItemHeaderElement$1;
+exports.ɵci = NovoListElement$1;
+exports.ɵdl = NovoAutoSize;
+exports.ɵdn = NovoControlElement;
+exports.ɵdm = NovoCustomControlContainerElement;
+exports.ɵdp = NovoControlCustom;
+exports.ɵdr = NovoDynamicFormElement;
+exports.ɵdq = NovoFieldsetElement;
+exports.ɵdo = NovoFieldsetHeaderElement;
+exports.ɵdt = ControlConfirmModal;
+exports.ɵdu = ControlPromptModal;
+exports.ɵds = NovoFormElement;
+exports.ɵdh = NovoAddressElement;
+exports.ɵdj = NovoCheckListElement;
+exports.ɵdi = NovoCheckboxElement;
+exports.ɵdk = NovoFileInputElement;
+exports.ɵbt = NovoHeaderElement;
+exports.ɵbs = UtilActionElement;
+exports.ɵbr = UtilsElement;
 exports.ɵe = NovoItemAvatarElement;
 exports.ɵi = NovoItemContentElement;
 exports.ɵh = NovoItemDateElement;
@@ -35213,61 +35445,61 @@ exports.ɵj = NovoItemEndElement;
 exports.ɵg = NovoItemHeaderElement;
 exports.ɵf = NovoItemTitleElement;
 exports.ɵd = NovoListItemElement;
-exports.ɵo = NovoLoadingElement;
-exports.ɵp = NovoSpinnerElement;
+exports.ɵp = NovoLoadingElement;
+exports.ɵq = NovoSpinnerElement;
 exports.ɵa = NovoModalContainerElement;
 exports.ɵb = NovoModalElement;
 exports.ɵc = NovoModalNotificationElement;
-exports.ɵef = NovoMultiPickerElement;
-exports.ɵck = DEFAULT_OVERLAY_SCROLL_STRATEGY;
-exports.ɵcm = DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER;
-exports.ɵcl = DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY;
-exports.ɵcn = NovoOverlayTemplate;
-exports.ɵcj = NovoOverlayModule;
-exports.ɵcq = NovoPickerElement;
-exports.ɵcr = NovoPickerContainer;
-exports.ɵen = PlacesListComponent;
-exports.ɵem = GooglePlacesModule;
-exports.ɵel = PopOverDirective;
-exports.ɵej = NovoPopOverModule;
-exports.ɵek = PopOverContent;
-exports.ɵcb = QuickNoteElement;
-exports.ɵcd = NovoRadioElement;
-exports.ɵcc = NovoRadioGroup;
-exports.ɵcs = NovoSearchBoxElement;
-exports.ɵco = NovoSelectElement;
-exports.ɵcu = NovoSliderElement;
-exports.ɵcp = NovoSwitchElement;
-exports.ɵdx = NovoTableKeepFilterFocus;
-exports.ɵdy = Pagination;
-exports.ɵdz = RowDetails;
-exports.ɵdw = NovoTableActionsElement;
-exports.ɵea = TableCell;
-exports.ɵeb = TableFilter;
-exports.ɵdv = NovoTableFooterElement;
-exports.ɵdu = NovoTableHeaderElement;
-exports.ɵec = ThOrderable;
-exports.ɵed = ThSortable;
-exports.ɵby = NovoNavContentElement;
-exports.ɵbt = NovoNavElement;
-exports.ɵbz = NovoNavHeaderElement;
-exports.ɵbx = NovoNavOutletElement;
-exports.ɵbv = NovoTabButtonElement;
-exports.ɵbu = NovoTabElement;
-exports.ɵbw = NovoTabLinkElement;
-exports.ɵca = NovoTilesElement;
-exports.ɵda = NovoTimePickerElement;
-exports.ɵdb = NovoTimePickerInputElement;
-exports.ɵdf = NovoTipWellElement;
-exports.ɵbp = NovoToastElement;
-exports.ɵq = TooltipDirective;
+exports.ɵeg = NovoMultiPickerElement;
+exports.ɵcl = DEFAULT_OVERLAY_SCROLL_STRATEGY;
+exports.ɵcn = DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER;
+exports.ɵcm = DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY;
+exports.ɵco = NovoOverlayTemplate;
+exports.ɵck = NovoOverlayModule;
+exports.ɵcr = NovoPickerElement;
+exports.ɵcs = NovoPickerContainer;
+exports.ɵeo = PlacesListComponent;
+exports.ɵen = GooglePlacesModule;
+exports.ɵem = PopOverDirective;
+exports.ɵek = NovoPopOverModule;
+exports.ɵel = PopOverContent;
+exports.ɵcc = QuickNoteElement;
+exports.ɵce = NovoRadioElement;
+exports.ɵcd = NovoRadioGroup;
+exports.ɵct = NovoSearchBoxElement;
+exports.ɵcp = NovoSelectElement;
+exports.ɵcv = NovoSliderElement;
+exports.ɵcq = NovoSwitchElement;
+exports.ɵdy = NovoTableKeepFilterFocus;
+exports.ɵdz = Pagination;
+exports.ɵea = RowDetails;
+exports.ɵdx = NovoTableActionsElement;
+exports.ɵeb = TableCell;
+exports.ɵec = TableFilter;
+exports.ɵdw = NovoTableFooterElement;
+exports.ɵdv = NovoTableHeaderElement;
+exports.ɵed = ThOrderable;
+exports.ɵee = ThSortable;
+exports.ɵbz = NovoNavContentElement;
+exports.ɵbu = NovoNavElement;
+exports.ɵca = NovoNavHeaderElement;
+exports.ɵby = NovoNavOutletElement;
+exports.ɵbw = NovoTabButtonElement;
+exports.ɵbv = NovoTabElement;
+exports.ɵbx = NovoTabLinkElement;
+exports.ɵcb = NovoTilesElement;
+exports.ɵdb = NovoTimePickerElement;
+exports.ɵdc = NovoTimePickerInputElement;
+exports.ɵdg = NovoTipWellElement;
+exports.ɵbq = NovoToastElement;
+exports.ɵr = TooltipDirective;
 exports.ɵm = NovoValueElement;
 exports.ɵl = NovoValueEmail;
 exports.ɵk = NovoValuePhone;
-exports.ɵcz = DateFormatService;
-exports.ɵeh = BrowserGlobalRef;
-exports.ɵeg = GlobalRef;
-exports.ɵei = LocalStorageService;
+exports.ɵda = DateFormatService;
+exports.ɵei = BrowserGlobalRef;
+exports.ɵeh = GlobalRef;
+exports.ɵej = LocalStorageService;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
