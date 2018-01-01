@@ -29588,6 +29588,10 @@ class NovoTableElement {
                 column.filter.push(filter$$1);
             }
         }
+        else if (column.multiple) {
+            column.filter = new Array();
+            column.filter.push(Helpers.isBlank(filter$$1.value) ? filter$$1 : filter$$1.value);
+        }
         else {
             column.filter = Helpers.isBlank(filter$$1.value) ? filter$$1 : filter$$1.value;
         }
