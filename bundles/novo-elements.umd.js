@@ -30337,8 +30337,15 @@ var RenderPipe = (function () {
                 break;
             case 'Opportunity':
             case 'JobOrder':
-            case 'Placement':
                 text = value.label || value.title || '';
+                break;
+            case 'Placement':
+                if (value.candidate) {
+                    text = (value.candidate.firstName || '') + " " + (value.candidate.lastName || '');
+                }
+                if (value.jobOrder) {
+                    text = value.candidate ? text + " - " + (value.jobOrder.title || '') : "" + (value.jobOrder.title || '');
+                }
                 break;
             case 'JobSubmission':
                 text = value.label || (value.jobOrder ? value.jobOrder.title + " - " : '') + " " + (value.candidate ? value.candidate.firstName : '') + " " + (value.candidate ? value.candidate.lastName : '');
