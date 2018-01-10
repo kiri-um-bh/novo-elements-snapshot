@@ -29932,6 +29932,7 @@ var EntityUtils = (function () {
                 submission: 'JobSubmission',
                 references: 'CandidateReference',
                 appointment: 'Appointment',
+                tearsheet: 'Tearsheet',
             };
         },
         enumerable: true,
