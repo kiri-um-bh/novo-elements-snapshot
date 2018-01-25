@@ -8717,6 +8717,7 @@ NovoSwitchModule.decorators = [
 NovoSwitchModule.ctorParameters = function () { return []; };
 // NG2
 // Vendor
+// APP
 // Value accessor for the component (supports ngModel)
 var PICKER_VALUE_ACCESSOR = {
     provide: forms.NG_VALUE_ACCESSOR,
@@ -9032,10 +9033,10 @@ var NovoPickerElement = (function () {
             else if (value && value.name) {
                 this.term = value.name;
             }
-            else if (this.config.getLabels && typeof this.config.getLabels === 'function') {
+            else if (typeof this.config.getLabels === 'function') {
                 this.config.getLabels(value).then(function (result) {
                     if (result) {
-                        _this.term = result.label || '';
+                        _this.term = result.length ? result[0].label || '' : result.label || '';
                     }
                     else {
                         _this.term = value;
@@ -14167,22 +14168,22 @@ var FormUtils = (function () {
                 controlConfig.config.resultsTemplate = overrideResultsTemplate || EntityPickerResults;
                 controlConfig.config.previewTemplate = overridePreviewTemplate || EntityPickerResult;
                 // TODO: When appendToBody picker works better in table/form
-                control = forTable ? new PickerControl(controlConfig) : new PickerControl(controlConfig);
+                control = new PickerControl(controlConfig);
                 break;
             case 'chips':
                 controlConfig.multiple = true;
                 // TODO: When appendToBody picker works better in table/form
-                control = forTable ? new PickerControl(controlConfig) : new PickerControl(controlConfig);
+                control = new PickerControl(controlConfig);
                 break;
             case 'entitypicker':
                 // TODO: This doesn't belong in this codebase
                 controlConfig.config.resultsTemplate = overrideResultsTemplate || EntityPickerResults;
                 // TODO: When appendToBody picker works better in table/form
-                control = forTable ? new PickerControl(controlConfig) : new PickerControl(controlConfig);
+                control = new PickerControl(controlConfig);
                 break;
             case 'picker':
                 // TODO: When appendToBody picker works better in table/form
-                control = forTable ? new PickerControl(controlConfig) : new PickerControl(controlConfig);
+                control = new PickerControl(controlConfig);
                 break;
             case 'datetime':
                 controlConfig.military = config ? !!config.military : false;
