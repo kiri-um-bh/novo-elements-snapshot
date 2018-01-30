@@ -122,6 +122,10 @@ export declare class QuickNoteElement extends OutsideClick implements OnInit, On
      */
     private positionResultsDropdown();
     /**
+     * Returns the height in pixels of the content area - the text that the user has entered.
+     */
+    private getContentHeight();
+    /**
      * Show the placeholder text if the editor is empty
      */
     private showPlaceholder();

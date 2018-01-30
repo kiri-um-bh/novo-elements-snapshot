@@ -6173,14 +6173,16 @@ class QuickNoteElement extends OutsideClick {
      * @return {?}
      */
     getCKEditorConfig() {
+        // Use the height of the wrapper element to set the initial height of the editor, then
+        // set it to 100% to allow the editor to resize using the grippy.
         let /** @type {?} */ editorHeight = this.wrapper.nativeElement.clientHeight - QuickNoteElement.TOOLBAR_HEIGHT;
+        this.wrapper.nativeElement.style.setProperty('height', '100%');
         return {
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_P,
             disableNativeSpellChecker: false,
             height: editorHeight,
-            removePlugins: 'elementspath,liststyle,tabletools,contextmenu',
-            resize_enabled: false,
+            removePlugins: 'liststyle,tabletools,contextmenu',
             toolbar: [{
                     name: 'basicstyles',
                     items: ['Styles', 'FontSize', 'Bold', 'Italic', 'Underline', 'TextColor', '-', 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Link']
@@ -6215,16 +6217,31 @@ class QuickNoteElement extends OutsideClick {
      * @return {?}
      */
     positionResultsDropdown() {
-        const /** @type {?} */ DROPDOWN_OFFSET = 30; // The distance between the cursor and the dropdown
-        const /** @type {?} */ MIN_MARGIN_TOP = DROPDOWN_OFFSET;
-        const /** @type {?} */ MAX_MARGIN_TOP = this.ckeInstance.config.height + QuickNoteElement.TOOLBAR_HEIGHT;
+        const /** @type {?} */ MIN_MARGIN_TOP = QuickNoteElement.TOOLBAR_HEIGHT * 2;
+        const /** @type {?} */ MAX_MARGIN_TOP = this.getContentHeight() + QuickNoteElement.TOOLBAR_HEIGHT;
         let /** @type {?} */ cursorPosition = this.getCursorPosition();
-        let /** @type {?} */ marginTop = cursorPosition.top + QuickNoteElement.TOOLBAR_HEIGHT + DROPDOWN_OFFSET;
+        let /** @type {?} */ marginTop = cursorPosition.top + QuickNoteElement.TOOLBAR_HEIGHT;
         // Check that the margin is within the visible bounds
         marginTop = Math.max(marginTop, MIN_MARGIN_TOP);
         marginTop = Math.min(marginTop, MAX_MARGIN_TOP);
         // Set the margin-top of the dropdown
         this.quickNoteResults.instance.element.nativeElement.style.setProperty('margin-top', marginTop + 'px');
+    }
+    /**
+     * Returns the height in pixels of the content area - the text that the user has entered.
+     * @return {?}
+     */
+    getContentHeight() {
+        let /** @type {?} */ contentHeight = 0;
+        if (this.ckeInstance.ui && this.ckeInstance.ui.contentsElement && this.ckeInstance.ui.contentsElement.$ && this.ckeInstance.ui.contentsElement.$.style) {
+            let /** @type {?} */ cssText = this.ckeInstance.ui.contentsElement.$.style.cssText;
+            if (cssText.indexOf('height: ') !== -1) {
+                let /** @type {?} */ height = cssText.split('height: ')[1];
+                height = height.split('px')[0];
+                contentHeight = parseInt(height);
+            }
+        }
+        return contentHeight;
     }
     /**
      * Show the placeholder text if the editor is empty
