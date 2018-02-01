@@ -30363,14 +30363,10 @@ NovoTableModule.ctorParameters = function () { return []; };
 //APP
 var NOVO_VALUE_TYPE = {};
 NOVO_VALUE_TYPE.DEFAULT = 0;
-NOVO_VALUE_TYPE.EMAIL = 1;
-NOVO_VALUE_TYPE.PHONE = 2;
-NOVO_VALUE_TYPE.ENTITY_LIST = 3;
-NOVO_VALUE_TYPE.LINK = 4;
-NOVO_VALUE_TYPE.INTERNAL_LINK = 5;
+NOVO_VALUE_TYPE.ENTITY_LIST = 1;
+NOVO_VALUE_TYPE.LINK = 2;
+NOVO_VALUE_TYPE.INTERNAL_LINK = 3;
 NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.DEFAULT] = "DEFAULT";
-NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.EMAIL] = "EMAIL";
-NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.PHONE] = "PHONE";
 NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.ENTITY_LIST] = "ENTITY_LIST";
 NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.LINK] = "LINK";
 NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.INTERNAL_LINK] = "INTERNAL_LINK";
@@ -30379,117 +30375,6 @@ NOVO_VALUE_THEME.DEFAULT = 0;
 NOVO_VALUE_THEME.MOBILE = 1;
 NOVO_VALUE_THEME[NOVO_VALUE_THEME.DEFAULT] = "DEFAULT";
 NOVO_VALUE_THEME[NOVO_VALUE_THEME.MOBILE] = "MOBILE";
-var NovoValuePhone = (function () {
-    function NovoValuePhone() {
-    }
-    Object.defineProperty(NovoValuePhone.prototype, "isMobile", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return this.theme === NOVO_VALUE_THEME.MOBILE;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NovoValuePhone.prototype, "showIcon", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return !Helpers.isEmpty(this.data);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return NovoValuePhone;
-}());
-NovoValuePhone.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-value-phone',
-                template: "\n        <div class=\"value-outer\">\n            <label>{{ meta.label }}</label>\n            <a *ngIf=\"!isMobile\" class=\"value\" href=\"tel:{{data}}\" target=\"_parent\">\n                {{ data }}\n            </a>\n            <div *ngIf=\"isMobile\" class=\"value\">{{ data }}</div>\n        </div>\n        <div class=\"actions\" *ngIf=\"showIcon\">\n            <a href=\"tel:{{data}}\"><i class=\"bhi-phone\"></i></a>\n            <a href=\"sms:{{data}}\"><i class=\"bhi-sms\"></i></a>\n        </div>\n    "
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoValuePhone.ctorParameters = function () { return []; };
-NovoValuePhone.propDecorators = {
-    'data': [{ type: Input },],
-    'meta': [{ type: Input },],
-    'theme': [{ type: Input },],
-    'isMobile': [{ type: HostBinding, args: ['class.mobile',] },],
-};
-var NovoValueEmail = (function () {
-    function NovoValueEmail() {
-    }
-    Object.defineProperty(NovoValueEmail.prototype, "isMobile", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return this.theme === NOVO_VALUE_THEME.MOBILE;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * @param {?} data
-     * @return {?}
-     */
-    NovoValueEmail.prototype.openEmail = function (data) {
-        if (this.meta && this.meta.openEmail && typeof this.meta.openEmail === 'function') {
-            this.meta.openEmail(data);
-        }
-        else {
-            var /** @type {?} */ newTab_1 = window.open('', '_blank', '', true);
-            if (newTab_1) {
-                newTab_1.location.replace("mailto:" + encodeURIComponent(data));
-                // Self close for desktop clients
-                setTimeout(function () {
-                    try {
-                        if (newTab_1.location.href === 'about:blank') {
-                            newTab_1.close();
-                        }
-                    }
-                    catch (error) {
-                        // No op, browser handled the mailto link
-                    }
-                });
-            }
-        }
-        if (Helpers.isEmpty(this.theme)) {
-            this.theme = NOVO_VALUE_THEME.DEFAULT;
-        }
-    };
-    Object.defineProperty(NovoValueEmail.prototype, "showIcon", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return !Helpers.isEmpty(this.data);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return NovoValueEmail;
-}());
-NovoValueEmail.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-value-email',
-                template: "\n        <div class=\"value-outer\">\n            <label>{{ meta.label }}</label>\n            <a *ngIf=\"!isMobile\"  class=\"value\" (click)=\"openEmail(data)\"> {{ data }}</a>\n            <div *ngIf=\"isMobile\" class=\"value\">{{ data }}</div>\n        </div>\n        <i class=\"bhi-email actions\" *ngIf=\"showIcon\" (click)=\"openEmail(data)\"></i>\n    "
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoValueEmail.ctorParameters = function () { return []; };
-NovoValueEmail.propDecorators = {
-    'data': [{ type: Input },],
-    'meta': [{ type: Input },],
-    'theme': [{ type: Input },],
-    'isMobile': [{ type: HostBinding, args: ['class.mobile',] },],
-};
 var NovoValueElement = (function () {
     function NovoValueElement() {
         this.theme = NOVO_VALUE_THEME.DEFAULT;
@@ -30516,19 +30401,21 @@ var NovoValueElement = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(NovoValueElement.prototype, "iconClass", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            if (this.meta && this.meta.icon) {
-                return "bhi-" + this.meta.icon + " actions";
+    /**
+     * @param {?} icon
+     * @return {?}
+     */
+    NovoValueElement.prototype.iconClass = function (icon) {
+        var /** @type {?} */ iconClass = '';
+        if (icon && icon.iconCls) {
+            iconClass = "bhi-" + icon.iconCls + " actions";
+            if (icon.onIconClick) {
+                iconClass = iconClass + " clickable";
             }
-            return '';
-        },
-        enumerable: true,
-        configurable: true
-    });
+            return iconClass;
+        }
+        return iconClass;
+    };
     Object.defineProperty(NovoValueElement.prototype, "isDefault", {
         /**
          * @return {?}
@@ -30554,17 +30441,18 @@ var NovoValueElement = (function () {
          * @return {?}
          */
         get: function () {
-            return this.meta && this.meta.icon && !Helpers.isEmpty(this.data);
+            return this.meta && this.meta.icons && this.meta.icons.length && !Helpers.isEmpty(this.data);
         },
         enumerable: true,
         configurable: true
     });
     /**
+     * @param {?} icon
      * @return {?}
      */
-    NovoValueElement.prototype.onValueClick = function () {
-        if (this.meta && this.meta.onIconClick && typeof this.meta.onIconClick === 'function') {
-            this.meta.onIconClick(this.data, this.meta);
+    NovoValueElement.prototype.onValueClick = function (icon) {
+        if (icon.onIconClick && typeof icon.onIconClick === 'function') {
+            icon.onIconClick(this.data, this.meta);
         }
     };
     /**
@@ -30580,13 +30468,7 @@ var NovoValueElement = (function () {
      * @return {?}
      */
     NovoValueElement.prototype.ngOnChanges = function (changes) {
-        if (this.meta && this.isEmailField(this.meta)) {
-            this.type = NOVO_VALUE_TYPE.EMAIL;
-        }
-        else if (this.meta && this.isPhoneField(this.meta)) {
-            this.type = NOVO_VALUE_TYPE.PHONE;
-        }
-        else if (this.meta && this.isLinkField(this.meta, this.data)) {
+        if (this.meta && this.isLinkField(this.meta, this.data)) {
             this.type = NOVO_VALUE_TYPE.LINK;
             // Make sure the value has a protocol, otherwise the URL will be relative
             var /** @type {?} */ hasProtocol = new RegExp('^(http|https)://', 'i');
@@ -30613,22 +30495,6 @@ var NovoValueElement = (function () {
     };
     /**
      * @param {?} field
-     * @return {?}
-     */
-    NovoValueElement.prototype.isEmailField = function (field) {
-        var /** @type {?} */ emailFields = ['email', 'email2', 'email3'];
-        return emailFields.indexOf(field.name) > -1 || field.type === NOVO_VALUE_TYPE.EMAIL;
-    };
-    /**
-     * @param {?} field
-     * @return {?}
-     */
-    NovoValueElement.prototype.isPhoneField = function (field) {
-        var /** @type {?} */ phoneFields = ['phone', 'phone2', 'phone3', 'pager', 'mobile', 'workPhone', 'billingPhone'];
-        return phoneFields.indexOf(field.name) > -1 || field.type === NOVO_VALUE_TYPE.PHONE;
-    };
-    /**
-     * @param {?} field
      * @param {?} data
      * @return {?}
      */
@@ -30643,7 +30509,7 @@ var NovoValueElement = (function () {
 NovoValueElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-value',
-                template: "\n        <ng-container [ngSwitch]=\"type\">\n            <div class=\"value-outer\" *ngIf=\"showLabel\">\n                <label>{{ meta.label }}</label>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" class=\"value\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n            </div>\n\n            <novo-value-phone *ngSwitchCase=\"NOVO_VALUE_TYPE.PHONE\" [data]=\"data\" [theme]=\"theme\" [meta]=\"meta\"></novo-value-phone>\n            <novo-value-email *ngSwitchCase=\"NOVO_VALUE_TYPE.EMAIL\" [data]=\"data\" [theme]=\"theme\" [meta]=\"meta\"></novo-value-email>\n\n            <div *ngSwitchDefault class=\"value-outer\">\n                <label>{{ meta.label }}</label>\n                <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n            </div>\n            <i *ngIf=\"showIcon\" [class]=\"iconClass\" (click)=\"onValueClick()\"></i>\n        </ng-container>\n    "
+                template: "\n        <ng-container [ngSwitch]=\"type\">\n            <div class=\"value-outer\" *ngIf=\"showLabel\">\n                <label>{{ meta.label }}</label>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" class=\"value\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n            </div>\n\n            <div *ngSwitchDefault class=\"value-outer\">\n                <label>{{ meta.label }}</label>\n                <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n            </div>\n            <div class=\"actions\" *ngIf=\"showIcon\">\n                <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n            </div>\n        </ng-container>\n    "
             },] },
 ];
 /**
@@ -31350,8 +31216,8 @@ var NovoValueModule = (function () {
 NovoValueModule.decorators = [
     { type: NgModule, args: [{
                 imports: [CommonModule],
-                declarations: [NovoValueElement, NovoValueEmail, NovoValuePhone, RenderPipe],
-                exports: [NovoValueElement, NovoValueEmail, NovoValuePhone, RenderPipe]
+                declarations: [NovoValueElement, RenderPipe],
+                exports: [NovoValueElement, RenderPipe]
             },] },
 ];
 /**
@@ -36089,5 +35955,5 @@ NovoElementsModule.ctorParameters = function () { return []; };
 /**
  * Generated bundle index. Do not edit.
  */
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoTableElement, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵn, NovoButtonElement as ɵo, NovoCalendarDateChangeElement as ɵbi, NovoEventTypeLegendElement as ɵx, NovoCalendarAllDayEventElement as ɵbh, NovoCalendarDayEventElement as ɵbf, NovoCalendarDayViewElement as ɵbe, NovoCalendarHourSegmentElement as ɵbg, NovoCalendarMonthDayElement as ɵba, NovoCalendarMonthHeaderElement as ɵz, NovoCalendarMonthViewElement as ɵy, DayOfMonthPipe as ɵbk, EndOfWeekDisplayPipe as ɵbp, HoursPipe as ɵbo, MonthPipe as ɵbl, MonthDayPipe as ɵbm, WeekdayPipe as ɵbj, YearPipe as ɵbn, NovoCalendarWeekEventElement as ɵbd, NovoCalendarWeekHeaderElement as ɵbc, NovoCalendarWeekViewElement as ɵbb, CardActionsElement as ɵs, CardElement as ɵt, CardBestTimeElement as ɵu, CardDonutChartElement as ɵv, CardTimelineElement as ɵw, NovoCategoryDropdownElement as ɵef, NovoChipElement as ɵcw, NovoChipsElement as ɵcx, NovoCKEditorElement as ɵdf, NovoDatePickerElement as ɵcy, NovoDatePickerInputElement as ɵcz, NovoDateTimePickerElement as ɵdd, NovoDateTimePickerInputElement as ɵde, NovoDragulaElement as ɵcu, NovoDropdownContainer as ɵcf, NovoDropdownElement as ɵcg, NovoItemElement as ɵch, NovoItemHeaderElement$1 as ɵcj, NovoListElement$1 as ɵci, NovoAutoSize as ɵdl, NovoControlElement as ɵdn, NovoCustomControlContainerElement as ɵdm, NovoControlCustom as ɵdp, NovoDynamicFormElement as ɵdr, NovoFieldsetElement as ɵdq, NovoFieldsetHeaderElement as ɵdo, ControlConfirmModal as ɵdt, ControlPromptModal as ɵdu, NovoFormElement as ɵds, NovoAddressElement as ɵdh, NovoCheckListElement as ɵdj, NovoCheckboxElement as ɵdi, NovoFileInputElement as ɵdk, NovoHeaderElement as ɵbt, UtilActionElement as ɵbs, UtilsElement as ɵbr, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵp, NovoSpinnerElement as ɵq, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵeg, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵcl, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵcn, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵcm, NovoOverlayTemplate as ɵco, NovoOverlayModule as ɵck, NovoPickerElement as ɵcr, NovoPickerContainer as ɵcs, PlacesListComponent as ɵeo, GooglePlacesModule as ɵen, PopOverDirective as ɵem, NovoPopOverModule as ɵek, PopOverContent as ɵel, QuickNoteElement as ɵcc, NovoRadioElement as ɵce, NovoRadioGroup as ɵcd, NovoSearchBoxElement as ɵct, NovoSelectElement as ɵcp, NovoSliderElement as ɵcv, NovoSwitchElement as ɵcq, NovoTableKeepFilterFocus as ɵdy, Pagination as ɵdz, RowDetails as ɵea, NovoTableActionsElement as ɵdx, TableCell as ɵeb, TableFilter as ɵec, NovoTableFooterElement as ɵdw, NovoTableHeaderElement as ɵdv, ThOrderable as ɵed, ThSortable as ɵee, NovoNavContentElement as ɵbz, NovoNavElement as ɵbu, NovoNavHeaderElement as ɵca, NovoNavOutletElement as ɵby, NovoTabButtonElement as ɵbw, NovoTabElement as ɵbv, NovoTabLinkElement as ɵbx, NovoTilesElement as ɵcb, NovoTimePickerElement as ɵdb, NovoTimePickerInputElement as ɵdc, NovoTipWellElement as ɵdg, NovoToastElement as ɵbq, TooltipDirective as ɵr, NovoValueElement as ɵm, NovoValueEmail as ɵl, NovoValuePhone as ɵk, DateFormatService as ɵda, BrowserGlobalRef as ɵei, GlobalRef as ɵeh, LocalStorageService as ɵej };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoTableElement, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵl, NovoButtonElement as ɵm, NovoCalendarDateChangeElement as ɵbg, NovoEventTypeLegendElement as ɵv, NovoCalendarAllDayEventElement as ɵbf, NovoCalendarDayEventElement as ɵbd, NovoCalendarDayViewElement as ɵbc, NovoCalendarHourSegmentElement as ɵbe, NovoCalendarMonthDayElement as ɵy, NovoCalendarMonthHeaderElement as ɵx, NovoCalendarMonthViewElement as ɵw, DayOfMonthPipe as ɵbi, EndOfWeekDisplayPipe as ɵbn, HoursPipe as ɵbm, MonthPipe as ɵbj, MonthDayPipe as ɵbk, WeekdayPipe as ɵbh, YearPipe as ɵbl, NovoCalendarWeekEventElement as ɵbb, NovoCalendarWeekHeaderElement as ɵba, NovoCalendarWeekViewElement as ɵz, CardActionsElement as ɵq, CardElement as ɵr, CardBestTimeElement as ɵs, CardDonutChartElement as ɵt, CardTimelineElement as ɵu, NovoCategoryDropdownElement as ɵed, NovoChipElement as ɵcu, NovoChipsElement as ɵcv, NovoCKEditorElement as ɵdd, NovoDatePickerElement as ɵcw, NovoDatePickerInputElement as ɵcx, NovoDateTimePickerElement as ɵdb, NovoDateTimePickerInputElement as ɵdc, NovoDragulaElement as ɵcs, NovoDropdownContainer as ɵcd, NovoDropdownElement as ɵce, NovoItemElement as ɵcf, NovoItemHeaderElement$1 as ɵch, NovoListElement$1 as ɵcg, NovoAutoSize as ɵdj, NovoControlElement as ɵdl, NovoCustomControlContainerElement as ɵdk, NovoControlCustom as ɵdn, NovoDynamicFormElement as ɵdp, NovoFieldsetElement as ɵdo, NovoFieldsetHeaderElement as ɵdm, ControlConfirmModal as ɵdr, ControlPromptModal as ɵds, NovoFormElement as ɵdq, NovoAddressElement as ɵdf, NovoCheckListElement as ɵdh, NovoCheckboxElement as ɵdg, NovoFileInputElement as ɵdi, NovoHeaderElement as ɵbr, UtilActionElement as ɵbq, UtilsElement as ɵbp, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵn, NovoSpinnerElement as ɵo, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵee, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵcj, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵcl, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵck, NovoOverlayTemplate as ɵcm, NovoOverlayModule as ɵci, NovoPickerElement as ɵcp, NovoPickerContainer as ɵcq, PlacesListComponent as ɵem, GooglePlacesModule as ɵel, PopOverDirective as ɵek, NovoPopOverModule as ɵei, PopOverContent as ɵej, QuickNoteElement as ɵca, NovoRadioElement as ɵcc, NovoRadioGroup as ɵcb, NovoSearchBoxElement as ɵcr, NovoSelectElement as ɵcn, NovoSliderElement as ɵct, NovoSwitchElement as ɵco, NovoTableKeepFilterFocus as ɵdw, Pagination as ɵdx, RowDetails as ɵdy, NovoTableActionsElement as ɵdv, TableCell as ɵdz, TableFilter as ɵea, NovoTableFooterElement as ɵdu, NovoTableHeaderElement as ɵdt, ThOrderable as ɵeb, ThSortable as ɵec, NovoNavContentElement as ɵbx, NovoNavElement as ɵbs, NovoNavHeaderElement as ɵby, NovoNavOutletElement as ɵbw, NovoTabButtonElement as ɵbu, NovoTabElement as ɵbt, NovoTabLinkElement as ɵbv, NovoTilesElement as ɵbz, NovoTimePickerElement as ɵcz, NovoTimePickerInputElement as ɵda, NovoTipWellElement as ɵde, NovoToastElement as ɵbo, TooltipDirective as ɵp, NovoValueElement as ɵk, DateFormatService as ɵcy, BrowserGlobalRef as ɵeg, GlobalRef as ɵef, LocalStorageService as ɵeh };
 //# sourceMappingURL=novo-elements.es5.js.map
