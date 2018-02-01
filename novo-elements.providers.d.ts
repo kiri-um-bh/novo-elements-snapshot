@@ -8,10 +8,11 @@ import { FieldInteractionApi } from './elements/form/FieldInteractionApi';
 import { DateFormatService } from './services/date-format/DateFormat';
 import { GlobalRef, BrowserGlobalRef } from './services/global/global.service';
 import { LocalStorageService } from './services/storage/storage.service';
+import { Security } from './services/security/Security';
 export declare class NovoElementProviders {
     static forRoot(): {
         ngModule: typeof NovoElementProviders;
-        providers: (typeof DateFormatService | typeof FieldInteractionApi | {
+        providers: (typeof DateFormatService | typeof FieldInteractionApi | typeof Security | {
             provide: typeof NovoDragulaService;
             useClass: typeof NovoDragulaService;
         } | {

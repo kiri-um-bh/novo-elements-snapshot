@@ -37,6 +37,7 @@ export declare class RenderPipe implements PipeTransform {
     lastArgs: any;
     constructor(changeDetector: ChangeDetectorRef, sanitizationService: DomSanitizer, labels: NovoLabelService);
     equals(objectOne: any, objectTwo: any): any;
+    getEntityLabel(item: any, entity: string): string;
     /**
      * Define the fields to set or retrieve for the given entity. Getter and Setter methods will automagically
      * be set up on the entity once the fields are defined.

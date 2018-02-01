@@ -53,11 +53,11 @@ export { DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵcj, DEFAULT_OVERLAY_SCROLL_STRATEG
 export { NovoOverlayModule as ɵci } from './elements/overlay/Overlay.module';
 export { NovoPickerElement as ɵcp } from './elements/picker/Picker';
 export { NovoPickerContainer as ɵcq } from './elements/picker/extras/picker-container/PickerContainer';
-export { PlacesListComponent as ɵem } from './elements/places/places.component';
-export { GooglePlacesModule as ɵel } from './elements/places/places.module';
-export { PopOverDirective as ɵek } from './elements/popover/PopOver';
-export { NovoPopOverModule as ɵei } from './elements/popover/PopOver.module';
-export { PopOverContent as ɵej } from './elements/popover/PopOverContent';
+export { PlacesListComponent as ɵen } from './elements/places/places.component';
+export { GooglePlacesModule as ɵem } from './elements/places/places.module';
+export { PopOverDirective as ɵel } from './elements/popover/PopOver';
+export { NovoPopOverModule as ɵej } from './elements/popover/PopOver.module';
+export { PopOverContent as ɵek } from './elements/popover/PopOverContent';
 export { QuickNoteElement as ɵca } from './elements/quick-note/QuickNote';
 export { NovoRadioElement as ɵcc, NovoRadioGroup as ɵcb } from './elements/radio/Radio';
 export { NovoSearchBoxElement as ɵcr } from './elements/search/SearchBox';
@@ -81,7 +81,8 @@ export { NovoTimePickerInputElement as ɵda } from './elements/time-picker/TimeP
 export { NovoTipWellElement as ɵde } from './elements/tip-well/TipWell';
 export { NovoToastElement as ɵbo } from './elements/toast/Toast';
 export { TooltipDirective as ɵp } from './elements/tooltip/Tooltip';
+export { Unless as ɵef } from './elements/unless/Unless';
 export { NovoValueElement as ɵk } from './elements/value/Value';
 export { DateFormatService as ɵcy } from './services/date-format/DateFormat';
-export { BrowserGlobalRef as ɵeg, GlobalRef as ɵef } from './services/global/global.service';
-export { LocalStorageService as ɵeh } from './services/storage/storage.service';
+export { BrowserGlobalRef as ɵeh, GlobalRef as ɵeg } from './services/global/global.service';
+export { LocalStorageService as ɵei } from './services/storage/storage.service';

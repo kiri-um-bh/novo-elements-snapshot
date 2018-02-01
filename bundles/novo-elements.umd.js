@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/operators/filter'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/animations'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/platform-browser'), require('@angular/cdk/table'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/observable/of'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/operators/filter', 'rxjs/observable/fromEvent', 'rxjs/observable/of', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', 'dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/animations', '@angular/http', 'rxjs/add/operator/map', '@angular/platform-browser', '@angular/cdk/table', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/observable/of', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
-	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.animations,global.ng.http,global.Rx.Observable.prototype,global.ng.platformBrowser,global.ng.cdk.table));
-}(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,Observable,fromPromise,overlay,portal,merge,filter,fromEvent,of,coercion,fromEvent$2,debounceTime,distinctUntilChanged,keycodes,dragulaImported,ReplaySubject,angular2TextMask,animations,http,map,platformBrowser,table) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/operators/filter'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/platform-browser'), require('@angular/cdk/keycodes'), require('dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/animations'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/cdk/table'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/observable/of'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/operators/filter', 'rxjs/observable/fromEvent', 'rxjs/observable/of', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/platform-browser', '@angular/cdk/keycodes', 'dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/animations', '@angular/http', 'rxjs/add/operator/map', '@angular/cdk/table', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/observable/of', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
+	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.platformBrowser,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.animations,global.ng.http,global.Rx.Observable.prototype,global.ng.cdk.table));
+}(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,Observable,fromPromise,overlay,portal,merge,filter,fromEvent,of,coercion,fromEvent$2,debounceTime,distinctUntilChanged,platformBrowser,keycodes,dragulaImported,ReplaySubject,angular2TextMask,animations,http,map,table) { 'use strict';
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -42,7 +42,7 @@ var Helpers = (function () {
                 var /** @type {?} */ k = keys.shift();
                 value = k ? value[k] : value + ".";
             }
-            return value !== undefined ? value : original;
+            return value !== undefined ? value : '';
         });
     };
     /**
@@ -9774,6 +9774,109 @@ GroupedMultiPickerResults.propDecorators = {
     'listElement': [{ type: core.ViewChild, args: ['list',] },],
 };
 // NG2
+// App
+var SkillsSpecialtyPickerResults = (function (_super) {
+    __extends(SkillsSpecialtyPickerResults, _super);
+    /**
+     * @param {?} element
+     * @param {?} labels
+     * @param {?} ref
+     */
+    function SkillsSpecialtyPickerResults(element, labels, ref) {
+        var _this = _super.call(this, element, ref) || this;
+        _this.element = element;
+        _this.labels = labels;
+        _this.active = true;
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    SkillsSpecialtyPickerResults.prototype.getListElement = function () {
+        return this.element.nativeElement.querySelector('novo-list');
+    };
+    return SkillsSpecialtyPickerResults;
+}(BasePickerResults));
+SkillsSpecialtyPickerResults.decorators = [
+    { type: core.Component, args: [{
+                selector: 'skill-specialty-picker-results',
+                template: "\n        <section class=\"picker-loading\" *ngIf=\"isLoading && !matches?.length\">\n            <novo-loading theme=\"line\"></novo-loading>\n        </section>\n        <novo-list *ngIf=\"matches.length > 0\" direction=\"vertical\">\n            <novo-list-item\n                *ngFor=\"let match of matches\"\n                (click)=\"selectMatch($event)\"\n                [class.active]=\"match === activeMatch\"\n                (mouseenter)=\"selectActive(match)\"\n                [class.disabled]=\"preselected(match)\">\n                <item-content>\n                    <h6><span [innerHtml]=\"highlight(match.label, term)\"></span></h6>\n                    <div class=\"category\">\n                        <i class=\"bhi-category-tags\"></i><span [innerHtml]=\"highlight(match.data.categories || match.data.parentCategory.name, term)\"></span>\n                    </div>\n                </item-content>\n            </novo-list-item>\n            <novo-loading theme=\"line\" *ngIf=\"isLoading && matches.length > 0\"></novo-loading>\n        </novo-list>\n        <p class=\"picker-error\" *ngIf=\"hasError\">{{ labels.pickerError }}</p>\n        <p class=\"picker-null\" *ngIf=\"!isLoading && !matches.length && !hasError\">{{ labels.pickerEmpty }}</p>\n    ",
+            },] },
+];
+/**
+ * @nocollapse
+ */
+SkillsSpecialtyPickerResults.ctorParameters = function () { return [
+    { type: core.ElementRef, },
+    { type: NovoLabelService, },
+    { type: core.ChangeDetectorRef, },
+]; };
+SkillsSpecialtyPickerResults.propDecorators = {
+    'active': [{ type: core.HostBinding, args: ['class.active',] },],
+};
+// NG2
+// Vendor
+var DistributionListPickerResults = (function (_super) {
+    __extends(DistributionListPickerResults, _super);
+    /**
+     * @param {?} element
+     * @param {?} sanitizer
+     * @param {?} labels
+     * @param {?} ref
+     */
+    function DistributionListPickerResults(element, sanitizer, labels, ref) {
+        var _this = _super.call(this, element, ref) || this;
+        _this.sanitizer = sanitizer;
+        _this.labels = labels;
+        _this.active = true;
+        _this.sanitizer = sanitizer;
+        return _this;
+    }
+    Object.defineProperty(DistributionListPickerResults.prototype, "isHidden", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this.matches.length === 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    DistributionListPickerResults.prototype.getListElement = function () {
+        return this.element.nativeElement.querySelector('novo-list');
+    };
+    /**
+     * @param {?} html
+     * @return {?}
+     */
+    DistributionListPickerResults.prototype.sanitizeHTML = function (html) {
+        return this.sanitizer.bypassSecurityTrustHtml(html);
+    };
+    return DistributionListPickerResults;
+}(BasePickerResults));
+DistributionListPickerResults.decorators = [
+    { type: core.Component, args: [{
+                selector: 'distribution-list-picker-results',
+                template: "\n        <section class=\"picker-loading\" *ngIf=\"isLoading && !matches?.length\">\n            <novo-loading theme=\"line\"></novo-loading>\n        </section>\n        <novo-list direction=\"vertical\" *ngIf=\"matches?.length > 0 && !hasError\">\n            <novo-list-item *ngFor=\"let match of matches\" (click)=\"selectMatch($event)\" [class.active]=\"match === activeMatch\" (mouseenter)=\"selectActive(match)\" [class.disabled]=\"preselected(match)\">\n                <item-header>\n                    <item-title>\n                        <span [innerHtml]=\"sanitizeHTML(match.label)\"></span>\n                    </item-title>\n                </item-header>\n                <item-content direction=\"horizontal\">\n                    <p>\n                        <span class='label'>{{ labels.distributionListOwner }}: </span><span>{{ match?.data?.owner?.name }}</span>\n                    </p>\n                    <p>\n                        <span class='label'>{{ labels.dateAdded }}: </span><span>{{ labels.formatDateWithFormat(match?.data?.dateAdded, 'L') }}</span>\n                    </p>\n                </item-content>\n            </novo-list-item>\n            <novo-loading theme=\"line\" *ngIf=\"isLoading && matches?.length > 0\"></novo-loading>\n        </novo-list>\n    ",
+            },] },
+];
+/**
+ * @nocollapse
+ */
+DistributionListPickerResults.ctorParameters = function () { return [
+    { type: core.ElementRef, },
+    { type: platformBrowser.DomSanitizer, },
+    { type: NovoLabelService, },
+    { type: core.ChangeDetectorRef, },
+]; };
+DistributionListPickerResults.propDecorators = {
+    'active': [{ type: core.HostBinding, args: ['class.active',] },],
+    'isHidden': [{ type: core.HostBinding, args: ['hidden',] },],
+};
+// NG2
 // APP
 var NovoPickerModule = (function () {
     function NovoPickerModule() {
@@ -9783,9 +9886,37 @@ var NovoPickerModule = (function () {
 NovoPickerModule.decorators = [
     { type: core.NgModule, args: [{
                 imports: [common.CommonModule, forms.FormsModule, NovoLoadingModule, NovoListModule, overlay.OverlayModule, NovoOverlayModule, NovoSwitchModule],
-                declarations: [NovoPickerElement, NovoPickerContainer, PickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults],
-                exports: [NovoPickerElement, NovoPickerContainer, PickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults],
-                entryComponents: [PickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults]
+                declarations: [
+                    NovoPickerElement,
+                    NovoPickerContainer,
+                    PickerResults,
+                    EntityPickerResult,
+                    EntityPickerResults,
+                    ChecklistPickerResults,
+                    GroupedMultiPickerResults,
+                    DistributionListPickerResults,
+                    SkillsSpecialtyPickerResults
+                ],
+                exports: [
+                    NovoPickerElement,
+                    NovoPickerContainer,
+                    PickerResults,
+                    EntityPickerResult,
+                    EntityPickerResults,
+                    ChecklistPickerResults,
+                    GroupedMultiPickerResults,
+                    DistributionListPickerResults,
+                    SkillsSpecialtyPickerResults
+                ],
+                entryComponents: [
+                    PickerResults,
+                    EntityPickerResult,
+                    EntityPickerResults,
+                    ChecklistPickerResults,
+                    GroupedMultiPickerResults,
+                    DistributionListPickerResults,
+                    SkillsSpecialtyPickerResults
+                ]
             },] },
 ];
 /**
@@ -13985,9 +14116,54 @@ var ControlFactory = (function () {
     return ControlFactory;
 }());
 // NG2
+var OptionsService = (function () {
+    function OptionsService() {
+    }
+    /**
+     * @param {?} http
+     * @param {?} field
+     * @param {?} config
+     * @return {?}
+     */
+    OptionsService.prototype.getOptionsConfig = function (http$$1, field, config) {
+        return {
+            field: 'value',
+            format: '$label',
+            options: function (query) {
+                return new Promise(function (resolve, reject) {
+                    if (query && query.length) {
+                        http$$1.get(field.optionsUrl + "?filter=" + (query || ''))
+                            .subscribe(resolve, reject);
+                    }
+                    else {
+                        resolve([]);
+                    }
+                });
+            },
+        };
+    };
+    return OptionsService;
+}());
+OptionsService.decorators = [
+    { type: core.Injectable },
+];
+/**
+ * @nocollapse
+ */
+OptionsService.ctorParameters = function () { return []; };
+// NG2
+// Vendor
 // APP
 var FormUtils = (function () {
-    function FormUtils() {
+    /**
+     * @param {?} labels
+     * @param {?} optionsService
+     */
+    function FormUtils(labels, optionsService) {
+        this.labels = labels;
+        this.optionsService = optionsService;
+        this.ASSOCIATED_ENTITY_LIST = ['Candidate', 'ClientContact', 'ClientCorporation', 'Lead', 'Opportunity', 'JobOrder', 'CorporateUser', 'Person', 'Placement'];
+        this.PICKER_TEST_LIST = ['CandidateText', 'ClientText', 'ClientContactText', 'ClientCorporationText', 'LeadText', 'OpportunityText', 'JobOrderText', 'CorporateUserText', 'PersonText'];
     }
     /**
      * @param {?} controls
@@ -14038,62 +14214,83 @@ var FormUtils = (function () {
      */
     FormUtils.prototype.determineInputType = function (field) {
         var /** @type {?} */ type;
-        if (field.dataSpecialization === 'DATETIME') {
-            type = 'datetime';
+        var /** @type {?} */ dataSpecializationTypeMap = {
+            'DATETIME': 'datetime',
+            'TIME': 'time',
+            'MONEY': 'currency',
+            'PERCENTAGE': 'percentage',
+            'HTML': 'editor',
+            'HTML-MINIMAL': 'editor-minimal',
+            'YEAR': 'year',
+        };
+        var /** @type {?} */ dataTypeToTypeMap = {
+            'Timestamp': 'date',
+            'Boolean': 'tiles',
+        };
+        var /** @type {?} */ inputTypeToTypeMap = {
+            'CHECKBOX': 'radio',
+            'RADIO': 'radio',
+            'SELECT': 'select',
+            'TILES': 'tiles',
+        };
+        var /** @type {?} */ inputTypeMultiToTypeMap = {
+            'CHECKBOX': 'checklist',
+            'RADIO': 'checklist',
+            'SELECT': 'chips',
+        };
+        var /** @type {?} */ typeToTypeMap = {
+            'file': 'file',
+            'COMPOSITE': 'address'
+        };
+        var /** @type {?} */ numberDataTypeToTypeMap = {
+            'Double': 'float',
+            'BigDecimal': 'float',
+            'Integer': 'number'
+        };
+        if (field.type === 'TO_MANY') {
+            if (field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity)) {
+                type = 'entitychips'; // TODO!
+            }
+            else {
+                type = 'chips';
+            }
         }
-        else if (field.dataSpecialization === 'TIME') {
-            type = 'time';
+        else if (field.type === 'TO_ONE') {
+            if (field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity)) {
+                type = 'entitypicker'; // TODO!
+            }
+            else {
+                type = 'picker';
+            }
         }
-        else if (field.dataSpecialization === 'MONEY') {
-            type = 'currency';
+        else if (field.optionsUrl && field.inputType === 'SELECT') {
+            if (field.optionsType && ~this.PICKER_TEST_LIST.indexOf(field.optionsType)) {
+                type = 'entitypicker'; // TODO!
+            }
+            else {
+                type = 'picker';
+            }
         }
-        else if (field.dataSpecialization === 'PERCENTAGE') {
-            type = 'percentage';
+        else if (Object.keys(dataSpecializationTypeMap).indexOf(field.dataSpecialization) > -1) {
+            type = dataSpecializationTypeMap[field.dataSpecialization];
         }
-        else if (field.dataSpecialization === 'HTML') {
-            type = 'editor';
-        }
-        else if (field.dataSpecialization === 'HTML-MINIMAL') {
-            type = 'editor-minimal';
-        }
-        else if (field.dataSpecialization === 'YEAR') {
-            type = 'year';
-        }
-        else if (field.dataType === 'Timestamp') {
-            type = 'date';
-        }
-        else if (field.dataType === 'Boolean') {
-            type = 'tiles';
+        else if (Object.keys(dataTypeToTypeMap).indexOf(field.dataType) > -1) {
+            type = dataTypeToTypeMap[field.dataType];
         }
         else if (field.inputType === 'TEXTAREA') {
             type = 'textarea';
         }
-        else if (field.options && ~['CHECKBOX', 'RADIO'].indexOf(field.inputType) && field.multiValue) {
-            type = 'checklist';
+        else if (field.options && Object.keys(inputTypeToTypeMap).indexOf(field.inputType) > -1 && !field.multiValue) {
+            type = inputTypeToTypeMap[field.inputType];
         }
-        else if (field.options && ~['CHECKBOX', 'RADIO'].indexOf(field.inputType) && !field.multiValue) {
-            type = 'radio';
+        else if (field.options && Object.keys(inputTypeMultiToTypeMap).indexOf(field.inputType) > -1 && field.multiValue) {
+            type = inputTypeMultiToTypeMap[field.inputType];
         }
-        else if (field.options && ~['SELECT'].indexOf(field.inputType) && field.multiValue) {
-            type = 'chips';
+        else if (Object.keys(typeToTypeMap).indexOf(field.type) > -1) {
+            type = typeToTypeMap[field.type];
         }
-        else if (field.options && ~['SELECT'].indexOf(field.inputType) && !field.multiValue) {
-            type = 'select';
-        }
-        else if (~['Double', 'BigDecimal'].indexOf(field.dataType)) {
-            type = 'float';
-        }
-        else if (field.options && ~['TILES'].indexOf(field.inputType) && !field.multiValue) {
-            type = 'tiles';
-        }
-        else if (field.type === 'COMPOSITE') {
-            type = 'address';
-        }
-        else if (field.dataType === 'Integer') {
-            type = 'number';
-        }
-        else if (field.type === 'file') {
-            type = 'file';
+        else if (Object.keys(numberDataTypeToTypeMap).indexOf(field.dataType) > -1) {
+            type = numberDataTypeToTypeMap[field.dataType];
         } /* else {
             throw new Error('FormUtils: This field type is unsupported.');
         }*/
@@ -14440,28 +14637,12 @@ var FormUtils = (function () {
             // TODO: dataType should only be determined by `determineInputType` which doesn't ever return 'Boolean' it
             // TODO: (cont.) returns `tiles`
             return [
-                { value: false, label: 'No' },
-                { value: true, label: 'Yes' }
+                { value: false, label: this.labels.no },
+                { value: true, label: this.labels.yes }
             ];
         }
         else if (field.optionsUrl) {
-            return {
-                field: 'value',
-                format: '$label',
-                options: function (query) {
-                    // TODO: should return Observable
-                    return new Promise(function (resolve, reject) {
-                        if (query && query.length) {
-                            http$$1.get(field.optionsUrl + "?filter=" + (query || '') + "&BhRestToken=" + config.token)
-                                .map(function (response) { return response.json().data; })
-                                .subscribe(resolve, reject);
-                        }
-                        else {
-                            resolve([]);
-                        }
-                    });
-                }
-            };
+            return this.optionsService.getOptionsConfig(http$$1, field, config);
         }
         else if (Array.isArray(field.options) && field.type === 'chips') {
             var /** @type {?} */ options = field.options;
@@ -14564,7 +14745,10 @@ FormUtils.decorators = [
 /**
  * @nocollapse
  */
-FormUtils.ctorParameters = function () { return []; };
+FormUtils.ctorParameters = function () { return [
+    { type: NovoLabelService, },
+    { type: OptionsService, },
+]; };
 // NG2
 // APP
 var NovoToastService = (function () {
@@ -30493,308 +30677,6 @@ NovoValueElement.propDecorators = {
     'theme': [{ type: core.Input },],
     'isMobile': [{ type: core.HostBinding, args: ['class.mobile',] },],
 };
-/**
- * Basic Utility for common Entity functions
- */
-var EntityUtils = (function () {
-    function EntityUtils() {
-    }
-    Object.defineProperty(EntityUtils, "ENTITY_TYPES", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return [
-                'Lead',
-                'ClientContact',
-                'ClientCorporation',
-                'Opportunity',
-                'Note',
-                'Task',
-                'DistributionList',
-            ];
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(EntityUtils, "PERSON_SUBTYPES", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return [
-                'Lead',
-                'ClientContact',
-                'Candidate',
-                'CorporateUser',
-            ];
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(EntityUtils, "ENTITY_SHORT_NAMES", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return {
-                Lead: 'lead',
-                ClientContact: 'contact',
-                ClientCorporation: 'company',
-                Opportunity: 'opportunity',
-                Task: 'task',
-                Note: 'note',
-                CorporateUser: 'user',
-                Candidate: 'candidate',
-                JobOrder: 'job',
-                Placement: 'placement',
-                JobSubmission: 'submission',
-                DistributionList: 'distributionList',
-            };
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(EntityUtils, "ENTITY_LONG_NAMES", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return {
-                lead: 'Lead',
-                contact: 'ClientContact',
-                company: 'ClientCorporation',
-                opportunity: 'Opportunity',
-                user: 'CorporateUser',
-                task: 'Task',
-                note: 'Note',
-                distributionList: 'DistributionList',
-                candidate: 'Candidate',
-                job: 'JobOrder',
-                placement: 'Placement',
-                submission: 'JobSubmission',
-                references: 'CandidateReference',
-                appointment: 'Appointment',
-                tearsheet: 'Tearsheet',
-            };
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(EntityUtils, "ENTITY_LUCENE_QUERY_NAMES", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return {
-                Lead: 'lead',
-                ClientContact: 'clientContact',
-                ClientCorporation: 'clientCorporation',
-                Opportunity: 'opportunity',
-                Task: 'task',
-                Note: 'note',
-                DistributionList: 'distributionList',
-                Candidate: 'candidate',
-                JobOrder: 'jobOrder',
-                Placement: 'placement',
-                JobSubmission: 'jobSubmission',
-                CandidateReference: 'candidateReference',
-            };
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(EntityUtils, "ENTITY_LUCENE_QUERY_NAMES_PLURAL", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return {
-                Lead: 'leads',
-                ClientContact: 'clientContacts',
-                ClientCorporation: 'clientCorporations',
-                Opportunity: 'opportunities',
-                Task: 'tasks',
-                Note: 'notes',
-                DistributionList: 'distributionLists',
-                Candidate: 'candidates',
-                JobOrder: 'jobOrders',
-                Placement: 'placements',
-                JobSubmission: 'jobSubmissions',
-                CandidateReference: 'candidateReferences',
-            };
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(EntityUtils, "NOTE_LUCENE_QUERY_NAMES", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return {
-                ClientContact: 'clientContactUser',
-                Candidate: 'candidateUser',
-                Lead: 'leadUser',
-                JobOrder: 'jobOrder',
-                Placement: 'placement',
-                Opportunity: 'opportunity',
-            };
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(EntityUtils, "ENTITY_ICONS", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return {
-                Appointment: 'appointment',
-                Candidate: 'candidate',
-                CandidateEducation: 'education',
-                CandidateReference: 'users',
-                CandidateWorkHistory: 'job',
-                ClientContact: 'person',
-                ClientCorporation: 'company',
-                CustomObject: 'custom-objects',
-                DistributionList: 'users',
-                JobOrder: 'job',
-                Lead: 'lead',
-                Note: 'note',
-                Opportunity: 'opportunity',
-                Placement: 'star',
-                Task: 'check-o',
-                JobSubmission: 'star-o',
-                Sendout: 'sendout',
-                PlacementChangeRequest: 'republish',
-            };
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(EntityUtils, "ENTITY_ICONS_FROM_PATH", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return {
-                'activity': 'activity',
-                'email': 'email',
-                'work-history': 'clock-arrow',
-                'education': 'education',
-                'references': 'users',
-                'notes': 'note',
-                'files': 'file',
-                'linkedin': 'linkedin-f',
-            };
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * @param {?} name
-     * @return {?}
-     */
-    EntityUtils.getShortName = function (name) {
-        return this.ENTITY_SHORT_NAMES[name];
-    };
-    /**
-     * @param {?} name
-     * @return {?}
-     */
-    EntityUtils.getLuceneName = function (name) {
-        return this.ENTITY_LUCENE_QUERY_NAMES[name];
-    };
-    /**
-     * @param {?} name
-     * @return {?}
-     */
-    EntityUtils.getNoteLuceneName = function (name) {
-        return this.NOTE_LUCENE_QUERY_NAMES[name];
-    };
-    /**
-     * @param {?} name
-     * @return {?}
-     */
-    EntityUtils.getLongName = function (name) {
-        return this.ENTITY_LONG_NAMES[name];
-    };
-    /**
-     * @param {?} longName
-     * @return {?}
-     */
-    EntityUtils.getIcon = function (longName) {
-        return this.ENTITY_ICONS[longName];
-    };
-    /**
-     * @param {?} result
-     * @return {?}
-     */
-    EntityUtils.getNameForResult = function (result) {
-        return this.getEntityLabel(result, result.searchEntity);
-    };
-    /**
-     * @param {?} item
-     * @param {?} entity
-     * @return {?}
-     */
-    EntityUtils.getEntityLabel = function (item, entity) {
-        switch (entity) {
-            case 'CorporateUser':
-            case 'ClientContact':
-            case 'Lead':
-            case 'Candidate':
-            case 'Person':
-                return ((item.firstName || '') + " " + (item.lastName || '')).trim();
-            case 'ClientCorporation':
-                return ("" + (item.name || '')).trim();
-            case 'JobOrder':
-            case 'Opportunity':
-                return ("" + (item.title || '')).trim();
-            case 'Placement':
-                var /** @type {?} */ label = '';
-                if (item.candidate) {
-                    label = (item.candidate.firstName + " " + item.candidate.lastName).trim();
-                }
-                if (item.jobOrder) {
-                    label = (label + " - " + item.jobOrder.title).trim();
-                }
-                return label;
-            default:
-                return '';
-        }
-    };
-    /**
-     * @param {?} entity
-     * @return {?}
-     */
-    EntityUtils.getEntityThemeColor = function (entity) {
-        switch (entity) {
-            case 'PlacementChangeRequest':
-                return 'neutral';
-            default:
-                return this.getShortName(entity) || entity.toLowerCase();
-        }
-    };
-    /**
-     * @param {?} entityType
-     * @return {?}
-     */
-    EntityUtils.getAssociationName = function (entityType) {
-        return entityType.charAt(0).toLowerCase() + entityType.slice(1);
-    };
-    /**
-     * @param {?} entity
-     * @param {?} id
-     * @param {?} title
-     * @return {?}
-     */
-    EntityUtils.formatSubject = function (entity, id, title) {
-        return entity + " #" + id + ": " + title;
-    };
-    return EntityUtils;
-}());
 // NG2
 // APP
 /**
@@ -30894,6 +30776,52 @@ var RenderPipe = (function () {
         return false;
     };
     /**
+     * @param {?} item
+     * @param {?} entity
+     * @return {?}
+     */
+    RenderPipe.prototype.getEntityLabel = function (item, entity) {
+        switch (entity) {
+            case 'CorporateUser':
+            case 'ClientContact':
+            case 'ClientContact1':
+            case 'ClientContact2':
+            case 'ClientContact3':
+            case 'ClientContact4':
+            case 'ClientContact5':
+            case 'Lead':
+            case 'Candidate':
+            case 'Person':
+                return ((item.firstName || '') + " " + (item.lastName || '')).trim();
+            case 'ClientCorporation':
+            case 'ClientCorporation1':
+            case 'ClientCorporation2':
+            case 'ClientCorporation3':
+            case 'ClientCorporation4':
+            case 'ClientCorporation5':
+                return ("" + (item.name || '')).trim();
+            case 'JobOrder':
+            case 'JobOrder1':
+            case 'JobOrder2':
+            case 'JobOrder3':
+            case 'JobOrder4':
+            case 'JobOrder5':
+            case 'Opportunity':
+                return ("" + (item.title || '')).trim();
+            case 'Placement':
+                var /** @type {?} */ label = '';
+                if (item.candidate) {
+                    label = (item.candidate.firstName + " " + item.candidate.lastName).trim();
+                }
+                if (item.jobOrder) {
+                    label = (label + " - " + item.jobOrder.title).trim();
+                }
+                return label;
+            default:
+                return '';
+        }
+    };
+    /**
      * Define the fields to set or retrieve for the given entity. Getter and Setter methods will automagically
      * be set up on the entity once the fields are defined.
      * \@name fields
@@ -30906,7 +30834,7 @@ var RenderPipe = (function () {
         var /** @type {?} */ type = null;
         var /** @type {?} */ text = value;
         if (value && value._subtype && !args) {
-            return EntityUtils.getEntityLabel(value, value._subtype);
+            return this.getEntityLabel(value, value._subtype);
         }
         // Stop logic for nulls
         if (value === undefined || value === null || !args) {
@@ -32183,6 +32111,197 @@ NovoMultiPickerModule.decorators = [
  * @nocollapse
  */
 NovoMultiPickerModule.ctorParameters = function () { return []; };
+// NG2
+var Security = (function () {
+    function Security() {
+        this.credentials = [];
+        this.change = new core.EventEmitter();
+    }
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    Security.prototype.grant = function (data) {
+        var /** @type {?} */ parsed = [];
+        if (data instanceof Array) {
+            for (var _b = 0, data_1 = data; _b < data_1.length; _b++) {
+                var permission = data_1[_b];
+                parsed.push(permission.replace(/\s/gi, ''));
+            }
+        }
+        else if (typeof data === 'object') {
+            for (var /** @type {?} */ key in data) {
+                if (data[key] instanceof Array) {
+                    for (var _c = 0, _d = data[key]; _c < _d.length; _c++) {
+                        var permission = _d[_c];
+                        parsed.push(key + "." + permission);
+                    }
+                }
+            }
+        }
+        this.credentials = [].concat(this.credentials, parsed);
+        this.change.emit(this.credentials);
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    Security.prototype.has = function (value) {
+        return this.credentials.indexOf(value) > -1;
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    Security.prototype.revoke = function (value) {
+        var /** @type {?} */ i = this.credentials.indexOf(value);
+        this.credentials.splice(i, 1);
+        this.change.emit(this.credentials);
+    };
+    /**
+     * @return {?}
+     */
+    Security.prototype.clear = function () {
+        this.credentials = [];
+        this.change.emit(this.credentials);
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    Security.prototype.subscribe = function (fn) {
+        this.change.subscribe(fn);
+    };
+    /**
+     * @param {?} routes
+     * @param {?} options
+     * @return {?}
+     */
+    Security.prototype.checkRoutes = function (routes, options) {
+        var _this = this;
+        var /** @type {?} */ filtered = [];
+        for (var _b = 0, routes_1 = routes; _b < routes_1.length; _b++) {
+            var route = routes_1[_b];
+            if (route.entities && ~route.entities.indexOf(options.entityType)) {
+                if (route.permissions instanceof Function) {
+                    if (route.permissions(options, this)) {
+                        filtered.push(route);
+                    }
+                }
+                else if (route.permissions && route.permissions.length) {
+                    if (route.permissions.every(function (perm) { return _this.has(perm); })) {
+                        filtered.push(route);
+                    }
+                }
+                else {
+                    filtered.push(route);
+                }
+            }
+        }
+        return filtered;
+    };
+    return Security;
+}());
+Security.decorators = [
+    { type: core.Injectable },
+];
+/**
+ * @nocollapse
+ */
+Security.ctorParameters = function () { return []; };
+// NG2
+// App
+var Unless = (function () {
+    /**
+     * @param {?} templateRef
+     * @param {?} viewContainer
+     * @param {?} security
+     */
+    function Unless(templateRef, viewContainer, security) {
+        this.templateRef = templateRef;
+        this.viewContainer = viewContainer;
+        this.security = security;
+        this.permissions = '';
+        this.isDisplayed = false;
+        this.security.subscribe(this.check.bind(this));
+    }
+    Object.defineProperty(Unless.prototype, "bhUnless", {
+        /**
+         * @param {?} value
+         * @return {?}
+         */
+        set: function (value) {
+            this.permissions = value || '';
+            this.check();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    Unless.prototype.check = function () {
+        var _this = this;
+        var /** @type {?} */ display = false;
+        if (~this.permissions.indexOf('||')) {
+            var /** @type {?} */ ps = this.permissions.split('||');
+            for (var _b = 0, ps_1 = ps; _b < ps_1.length; _b++) {
+                var p = ps_1[_b];
+                if (this.security.has(p.trim())) {
+                    display = true;
+                }
+            }
+        }
+        else {
+            display = this.permissions.split('&&').every(function (p) { return _this.security.has(p.trim()); });
+        }
+        if (display) {
+            if (!this.isDisplayed) {
+                this.isDisplayed = true;
+                this.viewContainer.createEmbeddedView(this.templateRef);
+            }
+        }
+        else {
+            this.isDisplayed = false;
+            this.viewContainer.clear();
+        }
+    };
+    return Unless;
+}());
+Unless.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[bhUnless]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+Unless.ctorParameters = function () { return [
+    { type: core.TemplateRef, },
+    { type: core.ViewContainerRef, },
+    { type: Security, },
+]; };
+Unless.propDecorators = {
+    'bhUnless': [{ type: core.Input },],
+};
+// NG2
+// APP
+var UnlessModule = (function () {
+    function UnlessModule() {
+    }
+    return UnlessModule;
+}());
+UnlessModule.decorators = [
+    { type: core.NgModule, args: [{
+                imports: [common.CommonModule],
+                declarations: [Unless],
+                exports: [Unless]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+UnlessModule.ctorParameters = function () { return []; };
 /**
  * @abstract
  */
@@ -34955,7 +35074,8 @@ var NOVO_ELEMENTS_PROVIDERS = [
     { provide: GlobalRef, useClass: BrowserGlobalRef },
     { provide: LocalStorageService, useClass: LocalStorageService },
     FieldInteractionApi,
-    DateFormatService
+    DateFormatService,
+    Security,
 ];
 var NovoElementProviders = (function () {
     function NovoElementProviders() {
@@ -35905,6 +36025,7 @@ NovoElementsModule.decorators = [
                     GooglePlacesModule,
                     NovoValueModule,
                     NovoAceEditorModule,
+                    UnlessModule,
                 ],
                 providers: [
                     { provide: ComponentUtils, useClass: ComponentUtils },
@@ -35914,7 +36035,8 @@ NovoElementsModule.decorators = [
                     { provide: GooglePlacesService, useClass: GooglePlacesService },
                     { provide: GlobalRef, useClass: BrowserGlobalRef },
                     { provide: LocalStorageService, useClass: LocalStorageService },
-                    { provide: FormUtils, useClass: FormUtils }
+                    { provide: FormUtils, useClass: FormUtils },
+                    { provide: OptionsService, useClass: OptionsService }
                 ]
             },] },
 ];
@@ -35959,6 +36081,7 @@ exports.NovoFormModule = NovoFormModule;
 exports.NovoFormExtrasModule = NovoFormExtrasModule;
 exports.NovoCategoryDropdownModule = NovoCategoryDropdownModule;
 exports.NovoMultiPickerModule = NovoMultiPickerModule;
+exports.UnlessModule = UnlessModule;
 exports.NovoTable = NovoTable;
 exports.NovoActivityTable = NovoActivityTable;
 exports.NovoActivityTableActions = NovoActivityTableActions;
@@ -36006,6 +36129,8 @@ exports.PickerResults = PickerResults;
 exports.BasePickerResults = BasePickerResults;
 exports.EntityPickerResult = EntityPickerResult;
 exports.EntityPickerResults = EntityPickerResults;
+exports.DistributionListPickerResults = DistributionListPickerResults;
+exports.SkillsSpecialtyPickerResults = SkillsSpecialtyPickerResults;
 exports.ChecklistPickerResults = ChecklistPickerResults;
 exports.GroupedMultiPickerResults = GroupedMultiPickerResults;
 exports.BaseRenderer = BaseRenderer;
@@ -36014,6 +36139,8 @@ exports.PercentageCell = PercentageCell;
 exports.NovoDropdownCell = NovoDropdownCell;
 exports.FormValidators = FormValidators;
 exports.FormUtils = FormUtils;
+exports.Security = Security;
+exports.OptionsService = OptionsService;
 exports.NovoFile = NovoFile;
 exports.BaseControl = BaseControl;
 exports.ControlFactory = ControlFactory;
@@ -36152,11 +36279,11 @@ exports.ɵcm = NovoOverlayTemplate;
 exports.ɵci = NovoOverlayModule;
 exports.ɵcp = NovoPickerElement;
 exports.ɵcq = NovoPickerContainer;
-exports.ɵem = PlacesListComponent;
-exports.ɵel = GooglePlacesModule;
-exports.ɵek = PopOverDirective;
-exports.ɵei = NovoPopOverModule;
-exports.ɵej = PopOverContent;
+exports.ɵen = PlacesListComponent;
+exports.ɵem = GooglePlacesModule;
+exports.ɵel = PopOverDirective;
+exports.ɵej = NovoPopOverModule;
+exports.ɵek = PopOverContent;
 exports.ɵca = QuickNoteElement;
 exports.ɵcc = NovoRadioElement;
 exports.ɵcb = NovoRadioGroup;
@@ -36187,11 +36314,12 @@ exports.ɵda = NovoTimePickerInputElement;
 exports.ɵde = NovoTipWellElement;
 exports.ɵbo = NovoToastElement;
 exports.ɵp = TooltipDirective;
+exports.ɵef = Unless;
 exports.ɵk = NovoValueElement;
 exports.ɵcy = DateFormatService;
-exports.ɵeg = BrowserGlobalRef;
-exports.ɵef = GlobalRef;
-exports.ɵeh = LocalStorageService;
+exports.ɵeh = BrowserGlobalRef;
+exports.ɵeg = GlobalRef;
+exports.ɵei = LocalStorageService;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
