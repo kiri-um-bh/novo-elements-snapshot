@@ -26,7 +26,6 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     private dateFormatService;
     private fieldInteractionApi;
     control: any;
-    index: number;
     form: NovoFormGroup;
     condensed: boolean;
     autoFocus: boolean;
