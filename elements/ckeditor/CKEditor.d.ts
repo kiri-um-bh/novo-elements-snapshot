@@ -10,6 +10,7 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit {
     debounce: any;
     name: any;
     minimal: any;
+    startupFocus: boolean;
     change: EventEmitter<{}>;
     ready: EventEmitter<{}>;
     blur: EventEmitter<{}>;

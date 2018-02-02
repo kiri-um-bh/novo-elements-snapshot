@@ -8,6 +8,7 @@ export declare class QuickNoteElement extends OutsideClick implements OnInit, On
     host: ElementRef;
     results: ViewContainerRef;
     config: any;
+    startupFocus: boolean;
     placeholder: string;
     focus: EventEmitter<any>;
     blur: EventEmitter<any>;

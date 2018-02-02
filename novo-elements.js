@@ -5751,6 +5751,7 @@ class QuickNoteElement extends OutsideClick {
         super(element);
         this.zone = zone;
         this.componentUtils = componentUtils;
+        this.startupFocus = false;
         // Emitter for selects
         this.focus = new EventEmitter();
         this.blur = new EventEmitter();
@@ -6177,11 +6178,16 @@ class QuickNoteElement extends OutsideClick {
         // set it to 100% to allow the editor to resize using the grippy.
         let /** @type {?} */ editorHeight = this.wrapper.nativeElement.clientHeight - QuickNoteElement.TOOLBAR_HEIGHT;
         this.wrapper.nativeElement.style.setProperty('height', '100%');
+        // If focus on startup, don't have placeholder
+        if (this.startupFocus) {
+            this.placeholderVisible = false;
+        }
         return {
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_P,
             disableNativeSpellChecker: false,
             height: editorHeight,
+            startupFocus: this.startupFocus,
             removePlugins: 'liststyle,tabletools,contextmenu',
             toolbar: [{
                     name: 'basicstyles',
@@ -6303,6 +6309,7 @@ QuickNoteElement.propDecorators = {
     'host': [{ type: ViewChild, args: ['host',] },],
     'results': [{ type: ViewChild, args: ['results', { read: ViewContainerRef },] },],
     'config': [{ type: Input },],
+    'startupFocus': [{ type: Input },],
     'placeholder': [{ type: Input },],
     'focus': [{ type: Output },],
     'blur': [{ type: Output },],
@@ -13516,6 +13523,7 @@ class NovoCKEditorElement {
      */
     constructor(zone) {
         this.zone = zone;
+        this.startupFocus = false;
         this.change = new EventEmitter();
         this.ready = new EventEmitter();
         this.blur = new EventEmitter();
@@ -13559,6 +13567,9 @@ class NovoCKEditorElement {
      */
     ngAfterViewInit() {
         let /** @type {?} */ config = this.config || this.getBaseConfig();
+        if (this.startupFocus) {
+            config.startupFocus = true;
+        }
         this.ckeditorInit(config);
     }
     /**
@@ -13716,6 +13727,7 @@ NovoCKEditorElement.propDecorators = {
     'debounce': [{ type: Input },],
     'name': [{ type: Input },],
     'minimal': [{ type: Input },],
+    'startupFocus': [{ type: Input },],
     'change': [{ type: Output },],
     'ready': [{ type: Output },],
     'blur': [{ type: Output },],
@@ -13916,9 +13928,9 @@ NovoFieldsetElement.decorators = [
                 template: `
         <div class="novo-fieldset-container">
             <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title"></novo-fieldset-header>
-            <ng-container *ngFor="let control of controls">
+            <ng-container *ngFor="let control of controls;let i = index">
                 <div class="novo-form-row" [class.disabled]="control.disabled" *ngIf="control.__type !== 'GroupedControl'">
-                    <novo-control *ngIf="!control.customControl" [control]="control" [form]="form"></novo-control>
+                    <novo-control *ngIf="!control.customControl" [control]="control" [form]="form" [index]="i"></novo-control>
                     <novo-control-custom *ngIf="control.customControl" [control]="control" [form]="form"></novo-control-custom>
                 </div>
                 <div *ngIf="control.__type === 'GroupedControl'">TODO - GroupedControl</div>
@@ -13938,10 +13950,15 @@ NovoFieldsetElement.propDecorators = {
     'icon': [{ type: Input },],
 };
 class NovoDynamicFormElement {
-    constructor() {
+    /**
+     * @param {?} element
+     */
+    constructor(element) {
+        this.element = element;
         this.controls = [];
         this.fieldsets = [];
         this.hideNonRequiredFields = true;
+        this.autoFocusFirstField = false;
         this.allFieldsRequired = false;
         this.allFieldsNotRequired = false;
         this.showingAllFields = false;
@@ -13953,6 +13970,26 @@ class NovoDynamicFormElement {
      */
     ngOnInit() {
         this.ngOnChanges();
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterViewInit() {
+        if (this.autoFocusFirstField) {
+            setTimeout(() => {
+                let /** @type {?} */ controls = this.element.nativeElement.querySelectorAll('novo-control:not(.hidden)');
+                if (controls && controls.length) {
+                    let /** @type {?} */ firstControl = controls[0];
+                    let /** @type {?} */ input = firstControl.querySelector('input');
+                    if (input) {
+                        input.focus();
+                    }
+                    else {
+                        console.info('[NovoDynamicForm] - autofocus set on a control that does not support focus yet!'); // tslint:disable-line
+                    }
+                }
+            });
+        }
     }
     /**
      * @param {?=} changes
@@ -14094,13 +14131,16 @@ NovoDynamicFormElement.decorators = [
 /**
  * @nocollapse
  */
-NovoDynamicFormElement.ctorParameters = () => [];
+NovoDynamicFormElement.ctorParameters = () => [
+    { type: ElementRef, },
+];
 NovoDynamicFormElement.propDecorators = {
     'controls': [{ type: Input },],
     'fieldsets': [{ type: Input },],
     'form': [{ type: Input },],
     'layout': [{ type: Input },],
     'hideNonRequiredFields': [{ type: Input },],
+    'autoFocusFirstField': [{ type: Input },],
 };
 
 // NG2
@@ -14418,6 +14458,7 @@ class BaseControl {
         this.customControlConfig = config.customControlConfig;
         this.tipWell = config.tipWell;
         this.width = config.width;
+        this.startupFocus = !!config.startupFocus;
     }
 }
 
@@ -16586,6 +16627,7 @@ class NovoControlElement extends OutsideClick {
         this.dateFormatService = dateFormatService;
         this.fieldInteractionApi = fieldInteractionApi;
         this.condensed = false;
+        this.autoFocus = false;
         this.change = new EventEmitter();
         this._blurEmitter = new EventEmitter();
         this._focusEmitter = new EventEmitter();
@@ -16618,6 +16660,22 @@ class NovoControlElement extends OutsideClick {
      */
     get showCount() {
         return this.form.controls[this.control.key].maxlength && this.focused && (this.form.controls[this.control.key].controlType === 'text-area' || this.form.controls[this.control.key].controlType === 'textbox');
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterViewInit() {
+        if (this.autoFocus) {
+            setTimeout(() => {
+                let /** @type {?} */ input = this.element.nativeElement.querySelector('input');
+                if (input) {
+                    input.focus();
+                }
+                else {
+                    console.info('[NovoControl] - autofocus set on a control that does not support focus yet!'); // tslint:disable-line
+                }
+            });
+        }
     }
     /**
      * @return {?}
@@ -16960,7 +17018,7 @@ NovoControlElement.decorators = [
                             <!--TextArea-->
                             <textarea *ngSwitchCase="'text-area'" [name]="control.key" [attr.id]="control.key" [placeholder]="form.controls[control.key].placeholder" [formControlName]="control.key" autosize (input)="handleTextAreaInput($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" [maxlength]="control.maxlength" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></textarea>
                             <!--Editor-->
-                            <novo-editor *ngSwitchCase="'editor'" [name]="control.key" [formControlName]="control.key" [minimal]="control.minimal" (focus)="handleFocus($event)" (blur)="handleBlur($event)"></novo-editor>
+                            <novo-editor *ngSwitchCase="'editor'" [name]="control.key" [formControlName]="control.key" [startupFocus]="index === 0 || control.startupFocus" [minimal]="control.minimal" (focus)="handleFocus($event)" (blur)="handleBlur($event)"></novo-editor>
                             <!--AceEditor-->
                             <novo-ace-editor *ngSwitchCase="'ace-editor'" [name]="control.key" [formControlName]="control.key" (focus)="handleFocus($event)" (blur)="handleBlur($event)"></novo-ace-editor>
                             <!--HTML5 Select-->
@@ -17002,7 +17060,7 @@ NovoControlElement.decorators = [
                             <!--Checklist-->
                             <novo-check-list *ngSwitchCase="'checklist'" [formControlName]="control.key" [name]="control.key" [options]="form.controls[control.key].options" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" (onSelect)="modelChange($event)"></novo-check-list>
                             <!--QuickNote-->
-                            <novo-quick-note *ngSwitchCase="'quick-note'" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder" [config]="form.controls[control.key].config" (change)="modelChange($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></novo-quick-note>
+                            <novo-quick-note *ngSwitchCase="'quick-note'" [formControlName]="control.key" [startupFocus]="index === 0 || control.startupFocus" [placeholder]="form.controls[control.key].placeholder" [config]="form.controls[control.key].config" (change)="modelChange($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></novo-quick-note>
                             <!--ReadOnly-->
                             <!--TODO - Handle rendering of different READONLY values-->
                             <div *ngSwitchCase="'read-only'">{{ form.value[control.key] }}</div>
@@ -17067,8 +17125,10 @@ NovoControlElement.ctorParameters = () => [
 ];
 NovoControlElement.propDecorators = {
     'control': [{ type: Input },],
+    'index': [{ type: Input },],
     'form': [{ type: Input },],
     'condensed': [{ type: Input },],
+    'autoFocus': [{ type: Input },],
     'change': [{ type: Output },],
     'onBlur': [{ type: Output, args: ['blur',] },],
     'onFocus': [{ type: Output, args: ['focus',] },],

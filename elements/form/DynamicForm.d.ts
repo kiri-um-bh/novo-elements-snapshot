@@ -1,4 +1,4 @@
-import { OnInit, OnChanges, SimpleChanges, ViewContainerRef } from '@angular/core';
+import { OnInit, OnChanges, SimpleChanges, ViewContainerRef, AfterViewInit, ElementRef } from '@angular/core';
 import { ComponentUtils } from './../../utils/component-utils/ComponentUtils';
 import { NovoFieldset, NovoFormGroup } from './FormInterfaces';
 export declare class NovoFieldsetHeaderElement {
@@ -20,18 +20,22 @@ export declare class NovoFieldsetElement {
     title: string;
     icon: string;
 }
-export declare class NovoDynamicFormElement implements OnChanges, OnInit {
+export declare class NovoDynamicFormElement implements OnChanges, OnInit, AfterViewInit {
+    private element;
     controls: Array<any>;
     fieldsets: Array<NovoFieldset>;
     form: NovoFormGroup;
     layout: string;
     hideNonRequiredFields: boolean;
+    autoFocusFirstField: boolean;
     allFieldsRequired: boolean;
     allFieldsNotRequired: boolean;
     showingAllFields: boolean;
     showingRequiredFields: boolean;
     numControls: number;
+    constructor(element: ElementRef);
     ngOnInit(): void;
+    ngAfterViewInit(): void;
     ngOnChanges(changes?: SimpleChanges): void;
     showAllFields(): void;
     showOnlyRequired(hideRequiredWithValue: any): void;

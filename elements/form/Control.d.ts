@@ -1,4 +1,4 @@
-import { ElementRef, EventEmitter, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
+import { ElementRef, EventEmitter, OnInit, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { NovoFormGroup } from './FormInterfaces';
 import { OutsideClick } from '../../utils/outside-click/OutsideClick';
@@ -21,13 +21,15 @@ export declare class NovoCustomControlContainerElement {
     control: any;
     form: NovoFormGroup;
 }
-export declare class NovoControlElement extends OutsideClick implements OnInit, OnDestroy {
+export declare class NovoControlElement extends OutsideClick implements OnInit, OnDestroy, AfterViewInit {
     labels: NovoLabelService;
     private dateFormatService;
     private fieldInteractionApi;
     control: any;
+    index: number;
     form: NovoFormGroup;
     condensed: boolean;
+    autoFocus: boolean;
     change: EventEmitter<any>;
     readonly onBlur: Observable<FocusEvent>;
     readonly onFocus: Observable<FocusEvent>;
@@ -47,6 +49,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, fieldInteractionApi: FieldInteractionApi);
     readonly showFieldMessage: boolean;
     readonly showCount: boolean;
+    ngAfterViewInit(): void;
     ngOnInit(): void;
     executeInteraction(interaction: any): void;
     ngOnDestroy(): void;

@@ -61,6 +61,7 @@ export interface NovoControlConfig {
         button?: boolean;
     };
     width?: number;
+    startupFocus?: boolean;
 }
 export declare class BaseControl {
     __type: string;
@@ -117,5 +118,6 @@ export declare class BaseControl {
         button?: boolean;
     };
     width: number;
+    startupFocus?: boolean;
     constructor(type?: string, config?: NovoControlConfig);
 }
