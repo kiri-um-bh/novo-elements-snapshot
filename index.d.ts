@@ -47,6 +47,7 @@ export { ActivityTableRenderers } from './elements/simple-table/activity-table-r
 export { NovoActivityTableState } from './elements/simple-table/state';
 export { NovoSimpleTableModule } from './elements/simple-table/simple-table.module';
 export { NovoTableElement, NovoTableConfig } from './elements/table/Table';
+export { NovoCalendarDateChangeElement } from './elements/calendar/common/CalendarDateChange';
 export { NovoToastService } from './elements/toast/ToastService';
 export { NovoModalService } from './elements/modal/ModalService';
 export { NovoLabelService } from './services/novo-label-service';
