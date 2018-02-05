@@ -16,6 +16,7 @@ import 'brace/theme/chrome';
 import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
 import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isSameDay, isSameMonth, isSameSecond, isToday, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
@@ -28,7 +29,6 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ENTER, ESCAPE, TAB } from '@angular/cdk/keycodes';
 import * as dragulaImported from 'dragula';
 import { ReplaySubject as ReplaySubject$1 } from 'rxjs/ReplaySubject';
@@ -3441,7 +3441,11 @@ NovoCalendarModule.decorators = [
 NovoCalendarModule.ctorParameters = function () { return []; };
 // NG2
 var NovoToastElement = (function () {
-    function NovoToastElement() {
+    /**
+     * @param {?} sanitizer
+     */
+    function NovoToastElement(sanitizer) {
+        this.sanitizer = sanitizer;
         this.theme = 'danger';
         this.icon = 'caution';
         this.hasDialogue = false;
@@ -3451,6 +3455,17 @@ var NovoToastElement = (function () {
         this.parent = null;
         this.launched = false;
     }
+    Object.defineProperty(NovoToastElement.prototype, "message", {
+        /**
+         * @param {?} m
+         * @return {?}
+         */
+        set: function (m) {
+            this._message = this.sanitizer.bypassSecurityTrustHtml(m);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * @return {?}
      */
@@ -3517,21 +3532,23 @@ NovoToastElement.decorators = [
                     '[class.embedded]': 'embedded',
                     '(click)': '!isCloseable && clickHandler($event)'
                 },
-                template: "\n        <div class=\"toast-icon\">\n            <i [ngClass]=\"iconClass\"></i>\n        </div>\n        <div class=\"toast-content\">\n            <h5 *ngIf=\"title\">{{title}}</h5>\n            <p *ngIf=\"message\" [class.message-only]=\"!title\">{{message}}</p>\n            <div *ngIf=\"link\" class=\"link-generated\">\n                <input type=\"text\" [value]=\"link\" onfocus=\"this.select();\"/>\n            </div>\n            <div class=\"dialogue\">\n                <ng-content></ng-content>\n            </div>\n        </div>\n        <div class=\"close-icon\" *ngIf=\"isCloseable\" (click)=\"close($event)\">\n            <i class=\"bhi-times\"></i>\n        </div>\n    "
+                template: "\n        <div class=\"toast-icon\">\n            <i [ngClass]=\"iconClass\"></i>\n        </div>\n        <div class=\"toast-content\">\n            <h5 *ngIf=\"title\">{{title}}</h5>\n            <p *ngIf=\"_message\" [class.message-only]=\"!title\" [innerHtml]=\"_message\"></p>\n            <div *ngIf=\"link\" class=\"link-generated\">\n                <input type=\"text\" [value]=\"link\" onfocus=\"this.select();\"/>\n            </div>\n            <div class=\"dialogue\">\n                <ng-content></ng-content>\n            </div>\n        </div>\n        <div class=\"close-icon\" *ngIf=\"isCloseable\" (click)=\"close($event)\">\n            <i class=\"bhi-times\"></i>\n        </div>\n    "
             },] },
 ];
 /**
  * @nocollapse
  */
-NovoToastElement.ctorParameters = function () { return []; };
+NovoToastElement.ctorParameters = function () { return [
+    { type: DomSanitizer, },
+]; };
 NovoToastElement.propDecorators = {
     'theme': [{ type: Input },],
     'icon': [{ type: Input },],
     'title': [{ type: Input },],
-    'message': [{ type: Input },],
     'hasDialogue': [{ type: Input },],
     'link': [{ type: Input },],
     'isCloseable': [{ type: Input },],
+    'message': [{ type: Input },],
 };
 // NG2
 // APP

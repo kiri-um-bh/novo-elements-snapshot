@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/operators/filter'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/platform-browser'), require('@angular/cdk/keycodes'), require('dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/animations'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/cdk/table'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/observable/of'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/operators/filter', 'rxjs/observable/fromEvent', 'rxjs/observable/of', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/platform-browser', '@angular/cdk/keycodes', 'dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/animations', '@angular/http', 'rxjs/add/operator/map', '@angular/cdk/table', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/observable/of', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
-	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.platformBrowser,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.animations,global.ng.http,global.Rx.Observable.prototype,global.ng.cdk.table));
-}(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,Observable,fromPromise,overlay,portal,merge,filter,fromEvent,of,coercion,fromEvent$2,debounceTime,distinctUntilChanged,platformBrowser,keycodes,dragulaImported,ReplaySubject,angular2TextMask,animations,http,map,table) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('@angular/platform-browser'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/operators/filter'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/animations'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/cdk/table'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/observable/of'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', '@angular/platform-browser', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/operators/filter', 'rxjs/observable/fromEvent', 'rxjs/observable/of', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', 'dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/animations', '@angular/http', 'rxjs/add/operator/map', '@angular/cdk/table', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/observable/of', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
+	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.ng.platformBrowser,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.animations,global.ng.http,global.Rx.Observable.prototype,global.ng.cdk.table));
+}(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,platformBrowser,Observable,fromPromise,overlay,portal,merge,filter,fromEvent,of,coercion,fromEvent$2,debounceTime,distinctUntilChanged,keycodes,dragulaImported,ReplaySubject,angular2TextMask,animations,http,map,table) { 'use strict';
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3412,7 +3412,11 @@ NovoCalendarModule.decorators = [
 NovoCalendarModule.ctorParameters = function () { return []; };
 // NG2
 var NovoToastElement = (function () {
-    function NovoToastElement() {
+    /**
+     * @param {?} sanitizer
+     */
+    function NovoToastElement(sanitizer) {
+        this.sanitizer = sanitizer;
         this.theme = 'danger';
         this.icon = 'caution';
         this.hasDialogue = false;
@@ -3422,6 +3426,17 @@ var NovoToastElement = (function () {
         this.parent = null;
         this.launched = false;
     }
+    Object.defineProperty(NovoToastElement.prototype, "message", {
+        /**
+         * @param {?} m
+         * @return {?}
+         */
+        set: function (m) {
+            this._message = this.sanitizer.bypassSecurityTrustHtml(m);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * @return {?}
      */
@@ -3488,21 +3503,23 @@ NovoToastElement.decorators = [
                     '[class.embedded]': 'embedded',
                     '(click)': '!isCloseable && clickHandler($event)'
                 },
-                template: "\n        <div class=\"toast-icon\">\n            <i [ngClass]=\"iconClass\"></i>\n        </div>\n        <div class=\"toast-content\">\n            <h5 *ngIf=\"title\">{{title}}</h5>\n            <p *ngIf=\"message\" [class.message-only]=\"!title\">{{message}}</p>\n            <div *ngIf=\"link\" class=\"link-generated\">\n                <input type=\"text\" [value]=\"link\" onfocus=\"this.select();\"/>\n            </div>\n            <div class=\"dialogue\">\n                <ng-content></ng-content>\n            </div>\n        </div>\n        <div class=\"close-icon\" *ngIf=\"isCloseable\" (click)=\"close($event)\">\n            <i class=\"bhi-times\"></i>\n        </div>\n    "
+                template: "\n        <div class=\"toast-icon\">\n            <i [ngClass]=\"iconClass\"></i>\n        </div>\n        <div class=\"toast-content\">\n            <h5 *ngIf=\"title\">{{title}}</h5>\n            <p *ngIf=\"_message\" [class.message-only]=\"!title\" [innerHtml]=\"_message\"></p>\n            <div *ngIf=\"link\" class=\"link-generated\">\n                <input type=\"text\" [value]=\"link\" onfocus=\"this.select();\"/>\n            </div>\n            <div class=\"dialogue\">\n                <ng-content></ng-content>\n            </div>\n        </div>\n        <div class=\"close-icon\" *ngIf=\"isCloseable\" (click)=\"close($event)\">\n            <i class=\"bhi-times\"></i>\n        </div>\n    "
             },] },
 ];
 /**
  * @nocollapse
  */
-NovoToastElement.ctorParameters = function () { return []; };
+NovoToastElement.ctorParameters = function () { return [
+    { type: platformBrowser.DomSanitizer, },
+]; };
 NovoToastElement.propDecorators = {
     'theme': [{ type: core.Input },],
     'icon': [{ type: core.Input },],
     'title': [{ type: core.Input },],
-    'message': [{ type: core.Input },],
     'hasDialogue': [{ type: core.Input },],
     'link': [{ type: core.Input },],
     'isCloseable': [{ type: core.Input },],
+    'message': [{ type: core.Input },],
 };
 // NG2
 // APP

@@ -6,6 +6,7 @@ import 'brace/theme/chrome';
 import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
 import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isSameDay, isSameMonth, isSameSecond, isToday, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
@@ -18,7 +19,6 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ENTER, ESCAPE, TAB } from '@angular/cdk/keycodes';
 import * as dragulaImported from 'dragula';
 import { ReplaySubject as ReplaySubject$1 } from 'rxjs/ReplaySubject';
@@ -3766,7 +3766,11 @@ NovoCalendarModule.ctorParameters = () => [];
 
 // NG2
 class NovoToastElement {
-    constructor() {
+    /**
+     * @param {?} sanitizer
+     */
+    constructor(sanitizer) {
+        this.sanitizer = sanitizer;
         this.theme = 'danger';
         this.icon = 'caution';
         this.hasDialogue = false;
@@ -3775,6 +3779,13 @@ class NovoToastElement {
         this.animate = false;
         this.parent = null;
         this.launched = false;
+    }
+    /**
+     * @param {?} m
+     * @return {?}
+     */
+    set message(m) {
+        this._message = this.sanitizer.bypassSecurityTrustHtml(m);
     }
     /**
      * @return {?}
@@ -3847,7 +3858,7 @@ NovoToastElement.decorators = [
         </div>
         <div class="toast-content">
             <h5 *ngIf="title">{{title}}</h5>
-            <p *ngIf="message" [class.message-only]="!title">{{message}}</p>
+            <p *ngIf="_message" [class.message-only]="!title" [innerHtml]="_message"></p>
             <div *ngIf="link" class="link-generated">
                 <input type="text" [value]="link" onfocus="this.select();"/>
             </div>
@@ -3864,15 +3875,17 @@ NovoToastElement.decorators = [
 /**
  * @nocollapse
  */
-NovoToastElement.ctorParameters = () => [];
+NovoToastElement.ctorParameters = () => [
+    { type: DomSanitizer, },
+];
 NovoToastElement.propDecorators = {
     'theme': [{ type: Input },],
     'icon': [{ type: Input },],
     'title': [{ type: Input },],
-    'message': [{ type: Input },],
     'hasDialogue': [{ type: Input },],
     'link': [{ type: Input },],
     'isCloseable': [{ type: Input },],
+    'message': [{ type: Input },],
 };
 
 // NG2
