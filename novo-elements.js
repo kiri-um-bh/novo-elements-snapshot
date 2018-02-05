@@ -36046,6 +36046,7 @@ const NOVO_ELEMENTS_PROVIDERS = [
     { provide: ComponentUtils, useClass: ComponentUtils },
     { provide: GlobalRef, useClass: BrowserGlobalRef },
     { provide: LocalStorageService, useClass: LocalStorageService },
+    { provide: OptionsService, useClass: OptionsService },
     FieldInteractionApi,
     DateFormatService,
     Security,
@@ -37014,8 +37015,8 @@ NovoElementsModule.decorators = [
                     { provide: GooglePlacesService, useClass: GooglePlacesService },
                     { provide: GlobalRef, useClass: BrowserGlobalRef },
                     { provide: LocalStorageService, useClass: LocalStorageService },
+                    { provide: OptionsService, useClass: OptionsService },
                     { provide: FormUtils, useClass: FormUtils },
-                    { provide: OptionsService, useClass: OptionsService }
                 ]
             },] },
 ];

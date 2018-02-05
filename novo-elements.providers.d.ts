@@ -9,6 +9,7 @@ import { DateFormatService } from './services/date-format/DateFormat';
 import { GlobalRef, BrowserGlobalRef } from './services/global/global.service';
 import { LocalStorageService } from './services/storage/storage.service';
 import { Security } from './services/security/Security';
+import { OptionsService } from './services/options/OptionsService';
 export declare class NovoElementProviders {
     static forRoot(): {
         ngModule: typeof NovoElementProviders;
@@ -36,6 +37,9 @@ export declare class NovoElementProviders {
         } | {
             provide: typeof LocalStorageService;
             useClass: typeof LocalStorageService;
+        } | {
+            provide: typeof OptionsService;
+            useClass: typeof OptionsService;
         })[];
     };
     static forChild(): {
