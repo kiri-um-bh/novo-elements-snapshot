@@ -4618,6 +4618,21 @@ class ComponentUtils {
         }
         return location.createComponent(componentFactory, location.length, childInjector);
     }
+    /**
+     * @param {?} ComponentClass
+     * @param {?} location
+     * @param {?=} providers
+     * @return {?}
+     */
+    appendTopOfLocation(ComponentClass, location, providers) {
+        let /** @type {?} */ componentFactory = this.componentFactoryResolver.resolveComponentFactory(ComponentClass);
+        let /** @type {?} */ parentInjector = location.parentInjector;
+        let /** @type {?} */ childInjector = parentInjector;
+        if (providers && providers.length > 0) {
+            childInjector = ReflectiveInjector.fromResolvedProviders(providers, parentInjector);
+        }
+        return location.createComponent(componentFactory, 0, childInjector);
+    }
 }
 ComponentUtils.decorators = [
     { type: Injectable },

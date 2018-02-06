@@ -4265,6 +4265,21 @@ var ComponentUtils = (function () {
         }
         return location.createComponent(componentFactory, location.length, childInjector);
     };
+    /**
+     * @param {?} ComponentClass
+     * @param {?} location
+     * @param {?=} providers
+     * @return {?}
+     */
+    ComponentUtils.prototype.appendTopOfLocation = function (ComponentClass, location, providers) {
+        var /** @type {?} */ componentFactory = this.componentFactoryResolver.resolveComponentFactory(ComponentClass);
+        var /** @type {?} */ parentInjector = location.parentInjector;
+        var /** @type {?} */ childInjector = parentInjector;
+        if (providers && providers.length > 0) {
+            childInjector = ReflectiveInjector.fromResolvedProviders(providers, parentInjector);
+        }
+        return location.createComponent(componentFactory, 0, childInjector);
+    };
     return ComponentUtils;
 }());
 ComponentUtils.decorators = [
