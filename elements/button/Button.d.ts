@@ -8,6 +8,5 @@ export declare class NovoButtonElement implements OnChanges {
     leftSide: boolean;
     rightSide: boolean;
     iconClass: string;
-    flex: string;
     ngOnChanges(changes?: SimpleChanges): void;
 }

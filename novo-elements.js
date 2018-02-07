@@ -1102,7 +1102,6 @@ class NovoButtonElement {
      */
     ngOnChanges(changes) {
         this.iconClass = (this.icon && !this.loading) ? `bhi-${this.icon}` : '';
-        this.flex = this.theme ? 'flex-wrapper' : '';
         if (this.side !== null && this.theme !== 'primary') {
             this.leftSide = (this.side === 'left');
             this.rightSide = !this.leftSide;
@@ -1119,19 +1118,19 @@ NovoButtonElement.decorators = [
                     '[attr.loading]': 'loading'
                 },
                 template: `
-        <!--Flex wrapper for cross-browser support-->
-        <div [class]="flex">
+        <div class="flex-wrapper">
             <!--Left Icon-->
             <i *ngIf="icon && iconClass && leftSide" [ngClass]="iconClass"></i>
             <!--Transcluded Content-->
             <ng-content></ng-content>
             <!--Right Icon-->
             <i *ngIf="icon && iconClass && rightSide" [ngClass]="iconClass"></i>
+            <!--Loading-->
             <i *ngIf="loading" class="loading">
                 <svg version="1.1"
-                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
-                 x="0px" y="0px" width="18.2px" height="18.5px" viewBox="0 0 18.2 18.5" style="enable-background:new 0 0 18.2 18.5;"
-                 xml:space="preserve">
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+                    x="0px" y="0px" width="18.2px" height="18.5px" viewBox="0 0 18.2 18.5" style="enable-background:new 0 0 18.2 18.5;"
+                    xml:space="preserve">
                 <style type="text/css">
                     .spinner { fill:#FFFFFF; }
                 </style>
@@ -1685,20 +1684,24 @@ CardElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-card',
                 template: `
-        <div class="novo-card" [attr.data-automation-id]="cardAutomationId" [ngClass]="{'no-padding': !padding}">
+        <div class="novo-card" [attr.data-automation-id]="cardAutomationId" [ngClass]="{'no-padding': !padding}" [class.loading]="loading || config.loading">
+            <!--Loading-->
+            <div class="card-loading-container" *ngIf="loading || config.loading">
+                <novo-loading theme="line"  [attr.data-automation-id]="cardAutomationId + '-loading'"></novo-loading>
+            </div>
             <!--Card Header-->
             <header>
                 <div class="title">
                     <!--Grabber Icon-->
-                    <span tooltip="{{ labels.move }}" tooltipPosition="bottom"><i *ngIf="move || config.move" class="bhi-move" [attr.data-automation-id]="cardAutomationId + '-move'"></i></span>
+                    <span tooltip="{{ labels.move }}" tooltipPosition="bottomRight"><i *ngIf="move || config.move" class="bhi-move" [attr.data-automation-id]="cardAutomationId + '-move'"></i></span>
                     <!--Card Title-->
                     <h3 [attr.data-automation-id]="cardAutomationId + '-title'"><i *ngIf="icon" [ngClass]="iconClass"></i> {{title || config.title}}</h3>
                 </div>
                 <!--Card Actions-->
                 <div class="actions" [attr.data-automation-id]="cardAutomationId + '-actions'">
                     <ng-content select="novo-card-actions"></ng-content>
-                    <button theme="icon" icon="refresh-o"  (click)="toggleRefresh()" *ngIf="refresh || config.refresh" [attr.data-automation-id]="cardAutomationId + '-refresh'" tooltip="{{ labels.refresh }}" tooltipPosition="bottom"></button>
-                    <button theme="icon" icon="close-o" (click)="toggleClose()" *ngIf="close || config.close" [attr.data-automation-id]="cardAutomationId + '-close'" tooltip="{{ labels.close }}" tooltipPosition="bottom"></button>
+                    <button theme="icon" icon="refresh"  (click)="toggleRefresh()" *ngIf="refresh || config.refresh" [attr.data-automation-id]="cardAutomationId + '-refresh'" tooltip="{{ labels.refresh }}" tooltipPosition="bottom"></button>
+                    <button theme="icon" icon="close-o" (click)="toggleClose()" *ngIf="close || config.close" [attr.data-automation-id]="cardAutomationId + '-close'" tooltip="{{ labels.close }}" tooltipPosition="bottomLeft"></button>
                 </div>
             </header>
             <!--Card Main-->
@@ -1707,8 +1710,6 @@ CardElement.decorators = [
                 <ng-content *ngIf="!(loading || config.loading) && !(message || config.message)"></ng-content>
                 <!--Error/Empty Message-->
                 <p class="card-message" *ngIf="!(loading || config.loading) && (message || config.message)" [attr.data-automation-id]="cardAutomationId + '-message'"><i *ngIf="messageIconClass" [ngClass]="messageIconClass"></i> <span [innerHtml]="message || config.message"></span></p>
-                <!--Loading-->
-                <novo-loading *ngIf="loading || config.loading" theme="line"  [attr.data-automation-id]="cardAutomationId + '-loading'"></novo-loading>
             </main>
             <!--Card Footer-->
             <ng-content *ngIf="!(loading || config.loading) && !(message || config.message)" select="footer"></ng-content>
@@ -1738,233 +1739,14 @@ CardElement.propDecorators = {
 };
 
 // NG2
-class CardBestTimeElement {
-    /**
-     * @param {?=} changes
-     * @return {?}
-     */
-    ngOnChanges(changes) {
-        if (this.time) {
-            let /** @type {?} */ timeIconAndStyle = this.getTimeOfDayStyleAndIcon(this.time);
-            this.timeIcon = timeIconAndStyle.icon;
-            this.timeStyle = timeIconAndStyle.style;
-            this.dayLowerCase = (this.day || '').toLowerCase();
-            this.dataAutomationId = this.label ? this.label.replace(/\s+/g, '-').toLowerCase() : '';
-        }
-    }
-    /**
-     * @param {?} time
-     * @return {?}
-     */
-    getTimeOfDayStyleAndIcon(time) {
-        let /** @type {?} */ icon = null;
-        let /** @type {?} */ style$$1 = null;
-        let /** @type {?} */ transformedTime = time.replace(/\s+/g, '-').toUpperCase();
-        const /** @type {?} */ TIMES = {
-            morningTimes: {
-                times: ['5-AM', '6-AM', '7-AM', '8-AM', '9-AM', '10-AM'],
-                icon: 'bhi-coffee'
-            },
-            dayTimes: {
-                times: ['11-AM', '12-PM', '1-PM', '2-PM', '3-PM', '4-PM', '5-PM', '6-PM'],
-                icon: 'bhi-day'
-            },
-            eveningTimes: {
-                times: ['7-PM', '8-PM', '9-PM', '10-PM', '11-PM', '12-AM', '1-AM', '2-AM', '3-AM', '4-AM'],
-                icon: 'bhi-evening'
-            }
-        };
-        for (let /** @type {?} */ prop in TIMES) {
-            if (TIMES[prop].times.indexOf(transformedTime) > -1) {
-                icon = TIMES[prop].icon;
-                if (icon === 'bhi-coffee') {
-                    style$$1 = 'morning';
-                }
-                else if (icon === 'bhi-day') {
-                    style$$1 = 'day';
-                }
-                else if (icon === 'bhi-evening') {
-                    style$$1 = 'evening';
-                }
-            }
-        }
-        return { icon, style: style$$1 };
-    }
-}
-CardBestTimeElement.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-card-best-time',
-                template: `
-        <label *ngIf="!hideLabel" [attr.data-automation-id]="dataAutomationId + '-label'">{{ label }}</label>
-        <div class="best-time">
-            <i [attr.data-automation-id]="dataAutomationId + '-icon'" [ngClass]="[timeIcon, timeStyle]"></i>
-            <div class="time-and-day">
-                <span class="time" [ngClass]="timeStyle" [attr.data-automation-id]="dataAutomationId + '-time'">{{ time }}</span>
-                <div class="days" [attr.data-automation-id]="dataAutomationId + '-days'">
-                    <span class="day" [class.active]="dayLowerCase === 'sunday'" [attr.data-automation-id]="'sunday'">S</span>
-                    <span class="day" [class.active]="dayLowerCase === 'monday'" [attr.data-automation-id]="'monday'">M</span>
-                    <span class="day" [class.active]="dayLowerCase === 'tuesday'" [attr.data-automation-id]="'tuesday'">T</span>
-                    <span class="day" [class.active]="dayLowerCase === 'wednesday'" [attr.data-automation-id]="'wednesday'">W</span>
-                    <span class="day" [class.active]="dayLowerCase === 'thursday'" [attr.data-automation-id]="'thursday'">T</span>
-                    <span class="day" [class.active]="dayLowerCase === 'friday'" [attr.data-automation-id]="'friday'">F</span>
-                    <span class="day" [class.active]="dayLowerCase === 'saturday'" [attr.data-automation-id]="'saturday'">S</span>
-                </div>
-            </div>
-        </div>
-    `
-            },] },
-];
-/**
- * @nocollapse
- */
-CardBestTimeElement.ctorParameters = () => [];
-CardBestTimeElement.propDecorators = {
-    'label': [{ type: Input },],
-    'time': [{ type: Input },],
-    'day': [{ type: Input },],
-    'hideLabel': [{ type: Input },],
-};
-
-// NG2
-class CardDonutChartElement {
-    /**
-     * @param {?} element
-     */
-    constructor(element) {
-        this.element = element;
-        // Geometric number that represents 100% of the chart area
-        this.chartFillMax = 629;
-        // Unique ID for instance
-        this.uid = Math.round(Math.random() * 1000);
-        // Prevent Collision
-        this.isChartDrawing = false;
-    }
-    /**
-     * @param {?=} changes
-     * @return {?}
-     */
-    ngOnChanges(changes) {
-        if (!this.isChartDrawing) {
-            this.drawChart();
-        }
-    }
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-        if (!this.isChartDrawing) {
-            this.drawChart();
-        }
-        this.color = this.color || '#662255';
-    }
-    /**
-     * @return {?}
-     */
-    drawChart() {
-        this.isChartDrawing = true;
-        setTimeout(() => {
-            let /** @type {?} */ chartContainer = this.element.nativeElement.querySelector(`#chart-percent-${this.uid}`);
-            let /** @type {?} */ fillElements = this.element.nativeElement.querySelectorAll('.fill');
-            for (let /** @type {?} */ i = 0; i < fillElements.length; i++) {
-                fillElements[i].setAttribute('stroke', this.color);
-            }
-            // Set fill amount
-            this.element.nativeElement.querySelector(`#chart-fill-${this.uid}`).setAttribute('stroke-dashoffset', (this.chartFillMax * this.value).toString());
-            // Set Text Color
-            chartContainer.style.color = this.color;
-            // Set percentage for chart
-            chartContainer.setAttribute('data-percent', `${(Math.round(this.value * 100)).toString()}%`);
-            // Set Label
-            chartContainer.setAttribute('data-name', this.label);
-            this.isChartDrawing = false;
-        });
-    }
-}
-CardDonutChartElement.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-card-chart-donut',
-                template: `
-        <aside id="chart-percent-{{ uid }}">
-            <!-- COLORED FILL -->
-            <svg viewBox="-10 -10 220 220">
-                <g fill="none" stroke-width="20" transform="translate(100,100)">
-                    <path class="fill" d="M 0,-100 A 100,100 0 0,1 86.6,-50" />
-                    <path class="fill" d="M 86.6,-50 A 100,100 0 0,1 86.6,50" />
-                    <path class="fill" d="M 86.6,50 A 100,100 0 0,1 0,100" />
-                    <path class="fill" d="M 0,100 A 100,100 0 0,1 -86.6,50" />
-                    <path class="fill" d="M -86.6,50 A 100,100 0 0,1 -86.6,-50" />
-                    <path class="fill" d="M -86.6,-50 A 100,100 0 0,1 0,-100" />
-                </g>
-            </svg>
-            <!-- GREY BEZEL -->
-            <svg viewBox="-10 -10 220 220">
-                <path id="chart-fill-{{uid}}" d="M200,100 C200,44.771525 155.228475,0 100,0 C44.771525,0 0,44.771525 0,100 C0,155.228475 44.771525,200 100,200 C155.228475,200 200,155.228475 200,100 Z"></path>
-            </svg>
-        </aside>
-    `
-            },] },
-];
-/**
- * @nocollapse
- */
-CardDonutChartElement.ctorParameters = () => [
-    { type: ElementRef, },
-];
-CardDonutChartElement.propDecorators = {
-    'value': [{ type: Input },],
-    'label': [{ type: Input },],
-    'color': [{ type: Input },],
-};
-
-// NG2
-class CardTimelineElement {
-    constructor() {
-        this.now = new Date().getFullYear();
-    }
-    /**
-     * @param {?=} changes
-     * @return {?}
-     */
-    ngOnChanges(changes) {
-        this.length = ((this.end - this.start) / (this.now - this.created)) * 100;
-        this.offset = ((this.start - this.created) * (100 / (this.now - this.created)));
-    }
-}
-CardTimelineElement.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-card-timeline',
-                template: `
-        <div class="timeline-container">
-            <div class="timeline-background">
-                <div class="timeline" [style.width]="length + '%'" [style.margin-left]="offset + '%'" data-automation-id="timeline">
-                    <div class="first annotate" [class.one]="start == end" [class.reverse]="start != end && ((end - start) < 3 || length < 22)" [class.overlap]="length < 22" data-automation-id="timeline-first">{{start}}</div>
-                    <div class="last annotate" *ngIf="start != end" [class.reverse]="(end - start) < 3 && end != now && length >= 22" [class.smoosh]="length < 22" data-automation-id="timeline-last">{{end}}</div>
-                    <div class="hidden-width" data-automation-id="timeline-hidden">{{length}}</div>
-                </div>
-            </div>
-        </div>
-    `
-            },] },
-];
-/**
- * @nocollapse
- */
-CardTimelineElement.ctorParameters = () => [];
-CardTimelineElement.propDecorators = {
-    'start': [{ type: Input },],
-    'end': [{ type: Input },],
-    'created': [{ type: Input },],
-};
-
-// NG2
 // APP
 class NovoCardModule {
 }
 NovoCardModule.decorators = [
     { type: NgModule, args: [{
                 imports: [CommonModule, NovoButtonModule, NovoLoadingModule, NovoTooltipModule],
-                declarations: [CardElement, CardActionsElement, CardBestTimeElement, CardDonutChartElement, CardTimelineElement],
-                exports: [CardElement, CardActionsElement, CardBestTimeElement, CardDonutChartElement, CardTimelineElement]
+                declarations: [CardElement, CardActionsElement],
+                exports: [CardElement, CardActionsElement]
             },] },
 ];
 /**
@@ -3905,42 +3687,57 @@ NovoToastModule.decorators = [
  */
 NovoToastModule.ctorParameters = () => [];
 
-// NG2
-class UtilsElement {
+class NovoHeaderSpacer {
 }
-UtilsElement.decorators = [
+NovoHeaderSpacer.decorators = [
+    { type: Component, args: [{
+                selector: 'header-spacer',
+                template: `
+        <ng-content></ng-content>
+    `,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoHeaderSpacer.ctorParameters = () => [];
+class NovoUtilsComponent {
+}
+NovoUtilsComponent.decorators = [
     { type: Component, args: [{
                 selector: 'utils',
                 template: `
         <ng-content></ng-content>
-    `
+    `,
             },] },
 ];
 /**
  * @nocollapse
  */
-UtilsElement.ctorParameters = () => [];
-class UtilActionElement {
+NovoUtilsComponent.ctorParameters = () => [];
+class NovoUtilActionComponent {
 }
-UtilActionElement.decorators = [
+NovoUtilActionComponent.decorators = [
     { type: Component, args: [{
-                selector: 'util-action',
+                selector: 'util-action, novo-action',
                 template: `
-        <button theme="icon" [icon]="icon" [attr.inverse]="inverse" [disabled]="disabled"></button>
-    `
+        <button theme="icon" [icon]="icon" [attr.inverse]="inverse" [disabled]="disabled"><ng-content></ng-content></button>
+    `,
             },] },
 ];
 /**
  * @nocollapse
  */
-UtilActionElement.ctorParameters = () => [];
-UtilActionElement.propDecorators = {
+NovoUtilActionComponent.ctorParameters = () => [];
+NovoUtilActionComponent.propDecorators = {
     'icon': [{ type: Input },],
     'inverse': [{ type: Input },],
     'disabled': [{ type: Input },],
 };
-class NovoHeaderElement {
+class NovoHeaderComponent {
     constructor() {
+        this.headerClass = 'novo-header';
+        this.condensed = false;
         this.inverse = 'inverse';
     }
     /**
@@ -3948,53 +3745,76 @@ class NovoHeaderElement {
      */
     ngOnInit() {
         this.iconClass = `bhi-${this.icon}`;
-        this.config = this.config || {};
-        this.inverse = (this.theme === 'white' || this.theme === 'off-white' || this.theme === 'light') ? null : 'inverse';
+        this.inverse =
+            this.theme === 'white' ||
+                this.theme === 'off-white' ||
+                this.theme === 'light'
+                ? undefined
+                : 'inverse';
     }
 }
-NovoHeaderElement.decorators = [
+NovoHeaderComponent.decorators = [
     { type: Component, args: [{
                 selector: 'header[theme]',
-                host: {
-                    '[attr.theme]': 'theme'
-                },
                 template: `
         <section>
-            <div>
-                <i *ngIf="icon" class="header-icon" [ngClass]="iconClass"></i>
-                <div class="header-titles">
-                    <h1>{{ title || config.title }}</h1>
-                    <small *ngIf="subTitle">{{ subTitle || config.subTitle }}</small>
-                </div>
+            <div class="header-title">
+                <ng-container *ngIf="title">
+                    <i *ngIf="icon" class="header-icon" [ngClass]="iconClass"></i>
+                    <div class="header-titles">
+                        <h1>{{ title }}</h1>
+                        <small *ngIf="subTitle">{{ subTitle }}</small>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!title">
+                    <ng-content select="novo-icon, [novo-icon]"></ng-content>
+                    <div class="header-titles">
+                        <ng-content select="h1, h2, h3, h4, h5, h6, small, [novo-title], [novo-subtitle]"></ng-content>
+                    </div>
+                </ng-container>
             </div>
             <ng-content select="section"></ng-content>
+            <span flex></span>
             <ng-content select="utils"></ng-content>
+            <!--<div class="novo-actions"><ng-content select="novo-action,[novo-action]"></ng-content></div>-->
         </section>
         <ng-content></ng-content>
-    `
+    `,
             },] },
 ];
 /**
  * @nocollapse
  */
-NovoHeaderElement.ctorParameters = () => [];
-NovoHeaderElement.propDecorators = {
+NovoHeaderComponent.ctorParameters = () => [];
+NovoHeaderComponent.propDecorators = {
     'title': [{ type: Input },],
     'subTitle': [{ type: Input },],
-    'theme': [{ type: Input },],
+    'headerClass': [{ type: HostBinding, args: ['class',] },],
+    'theme': [{ type: HostBinding, args: ['attr.theme',] }, { type: Input },],
     'icon': [{ type: Input },],
-    'config': [{ type: Input },],
+    'condensed': [{ type: HostBinding, args: ['class.condensed',] }, { type: Input },],
 };
 
-// NG2
-// APP
 class NovoHeaderModule {
 }
 NovoHeaderModule.decorators = [
     { type: NgModule, args: [{
-                imports: [CommonModule, NovoButtonModule],
-                declarations: [NovoHeaderElement, UtilActionElement, UtilsElement],
-                exports: [NovoHeaderElement, UtilActionElement, UtilsElement]
+                imports: [
+                    CommonModule,
+                    NovoButtonModule,
+                ],
+                declarations: [
+                    NovoHeaderComponent,
+                    NovoUtilActionComponent,
+                    NovoUtilsComponent,
+                    NovoHeaderSpacer
+                ],
+                exports: [
+                    NovoHeaderComponent,
+                    NovoUtilActionComponent,
+                    NovoUtilsComponent,
+                    NovoHeaderSpacer,
+                ],
             },] },
 ];
 /**
@@ -14127,7 +13947,7 @@ NovoDynamicFormElement.decorators = [
                 <ng-content select="form-title"></ng-content>
                 <ng-content select="form-subtitle"></ng-content>
             </header>
-            <form class="novo-form" [formGroup]="form" autocomplete="off">
+            <form class="novo-form" [formGroup]="form">
                 <ng-container *ngFor="let fieldset of form.fieldsets;let i = index">
                     <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form"></novo-fieldset>
                 </ng-container>
@@ -14231,7 +14051,7 @@ NovoFormElement.decorators = [
                 <ng-content select="form-title"></ng-content>
                 <ng-content select="form-subtitle"></ng-content>
             </header>
-            <form class="novo-form" [formGroup]="form" autocomplete="off">
+            <form class="novo-form" [formGroup]="form">
                 <ng-content></ng-content>
             </form>
         </div>
@@ -28089,7 +27909,7 @@ NovoAddressElement.decorators = [
                 template: `
         <input type="text" class="street-address" id="address1" name="address1" [placeholder]="labels.address" autocomplete="shipping street-address address-line-1" [(ngModel)]="model.address1" (ngModelChange)="updateControl()"/>
         <input type="text" class="apt suite" id="address2" name="address2" [placeholder]="labels.apt" autocomplete="shipping address-line-2" [(ngModel)]="model.address2" (ngModelChange)="updateControl()"/>
-        <input type="text" class="city locality" id="city" name="city" [placeholder]="labels.city" autocomplete="shipping city" [(ngModel)]="model.city" (ngModelChange)="updateControl()"/>
+        <input type="text" class="city locality" id="city" name="city" [placeholder]="labels.city" autocomplete="shipping city locality" [(ngModel)]="model.city" (ngModelChange)="updateControl()"/>
         <novo-select class="state region" id="state" [options]="states" [placeholder]="labels.state" autocomplete="shipping region" [(ngModel)]="model.state" (ngModelChange)="onStateChange($event)"></novo-select>
         <input type="text" class="zip postal-code" id="zip" name="zip" [placeholder]="labels.zipCode" autocomplete="shipping postal-code" [(ngModel)]="model.zip" (ngModelChange)="updateControl()"/>
         <novo-select class="country-name" id="country" [options]="countries" [placeholder]="labels.country" autocomplete="shipping country" [(ngModel)]="model.countryName" (ngModelChange)="onCountryChange($event)"></novo-select>
@@ -32113,6 +31933,96 @@ NovoValueModule.decorators = [
  * @nocollapse
  */
 NovoValueModule.ctorParameters = () => [];
+
+class NovoIconComponent {
+    /**
+     * @param {?} element
+     * @param {?} cdr
+     */
+    constructor(element, cdr) {
+        this.element = element;
+        this.cdr = cdr;
+        this.raised = false;
+        this.size = 'medium';
+        this.role = 'img';
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set alt(value) {
+        this.ariaLabel = value;
+    }
+    /**
+     * @return {?}
+     */
+    get alt() {
+        return this.ariaLabel;
+    }
+    /**
+     * @param {?} iconName
+     * @return {?}
+     */
+    set name(iconName) {
+        this.iconName = `bhi-${iconName}`;
+    }
+    /**
+     * @return {?}
+     */
+    get name() {
+        return this.iconName;
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterViewInit() {
+        if (this.element.nativeElement.textContent.trim()) {
+            Promise.resolve().then(() => {
+                this.name = this.element.nativeElement.textContent.trim();
+                this.cdr.markForCheck();
+            });
+        }
+    }
+}
+NovoIconComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-icon',
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                template: `
+        <i [class]="iconName"><span><ng-content></ng-content></span></i>
+    `,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoIconComponent.ctorParameters = () => [
+    { type: ElementRef, },
+    { type: ChangeDetectorRef, },
+];
+NovoIconComponent.propDecorators = {
+    'raised': [{ type: HostBinding, args: ['attr.raised',] }, { type: Input },],
+    'size': [{ type: HostBinding, args: ['attr.size',] }, { type: Input },],
+    'theme': [{ type: HostBinding, args: ['attr.theme',] }, { type: Input },],
+    'color': [{ type: HostBinding, args: ['attr.color',] }, { type: Input },],
+    'role': [{ type: HostBinding, args: ['attr.role',] },],
+    'ariaLabel': [{ type: HostBinding, args: ['attr.aria-label',] },],
+    'alt': [{ type: Input },],
+    'name': [{ type: Input },],
+};
+
+class NovoIconModule {
+}
+NovoIconModule.decorators = [
+    { type: NgModule, args: [{
+                exports: [NovoIconComponent],
+                declarations: [NovoIconComponent],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoIconModule.ctorParameters = () => [];
 
 // NG2
 // APP
@@ -37010,6 +36920,7 @@ NovoElementsModule.decorators = [
                     GooglePlacesModule,
                     NovoValueModule,
                     NovoAceEditorModule,
+                    NovoIconModule,
                     UnlessModule,
                 ],
                 providers: [
@@ -37036,5 +36947,5 @@ NovoElementsModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoTableElement, NovoCalendarDateChangeElement, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵl, NovoButtonElement as ɵm, NovoEventTypeLegendElement as ɵv, NovoCalendarAllDayEventElement as ɵbf, NovoCalendarDayEventElement as ɵbd, NovoCalendarDayViewElement as ɵbc, NovoCalendarHourSegmentElement as ɵbe, NovoCalendarMonthDayElement as ɵy, NovoCalendarMonthHeaderElement as ɵx, NovoCalendarMonthViewElement as ɵw, DayOfMonthPipe as ɵbh, EndOfWeekDisplayPipe as ɵbm, HoursPipe as ɵbl, MonthPipe as ɵbi, MonthDayPipe as ɵbj, WeekdayPipe as ɵbg, YearPipe as ɵbk, NovoCalendarWeekEventElement as ɵbb, NovoCalendarWeekHeaderElement as ɵba, NovoCalendarWeekViewElement as ɵz, CardActionsElement as ɵq, CardElement as ɵr, CardBestTimeElement as ɵs, CardDonutChartElement as ɵt, CardTimelineElement as ɵu, NovoCategoryDropdownElement as ɵec, NovoChipElement as ɵct, NovoChipsElement as ɵcu, NovoCKEditorElement as ɵdc, NovoDatePickerElement as ɵcv, NovoDatePickerInputElement as ɵcw, NovoDateTimePickerElement as ɵda, NovoDateTimePickerInputElement as ɵdb, NovoDragulaElement as ɵcr, NovoDropdownContainer as ɵcc, NovoDropdownElement as ɵcd, NovoItemElement as ɵce, NovoItemHeaderElement$1 as ɵcg, NovoListElement$1 as ɵcf, NovoAutoSize as ɵdi, NovoControlElement as ɵdk, NovoCustomControlContainerElement as ɵdj, NovoControlCustom as ɵdm, NovoDynamicFormElement as ɵdo, NovoFieldsetElement as ɵdn, NovoFieldsetHeaderElement as ɵdl, ControlConfirmModal as ɵdq, ControlPromptModal as ɵdr, NovoFormElement as ɵdp, NovoAddressElement as ɵde, NovoCheckListElement as ɵdg, NovoCheckboxElement as ɵdf, NovoFileInputElement as ɵdh, NovoHeaderElement as ɵbq, UtilActionElement as ɵbp, UtilsElement as ɵbo, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵn, NovoSpinnerElement as ɵo, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵed, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵci, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵck, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵcj, NovoOverlayTemplate as ɵcl, NovoOverlayModule as ɵch, NovoPickerElement as ɵco, NovoPickerContainer as ɵcp, PlacesListComponent as ɵem, GooglePlacesModule as ɵel, PopOverDirective as ɵek, NovoPopOverModule as ɵei, PopOverContent as ɵej, QuickNoteElement as ɵbz, NovoRadioElement as ɵcb, NovoRadioGroup as ɵca, NovoSearchBoxElement as ɵcq, NovoSelectElement as ɵcm, NovoSliderElement as ɵcs, NovoSwitchElement as ɵcn, NovoTableKeepFilterFocus as ɵdv, Pagination as ɵdw, RowDetails as ɵdx, NovoTableActionsElement as ɵdu, TableCell as ɵdy, TableFilter as ɵdz, NovoTableFooterElement as ɵdt, NovoTableHeaderElement as ɵds, ThOrderable as ɵea, ThSortable as ɵeb, NovoNavContentElement as ɵbw, NovoNavElement as ɵbr, NovoNavHeaderElement as ɵbx, NovoNavOutletElement as ɵbv, NovoTabButtonElement as ɵbt, NovoTabElement as ɵbs, NovoTabLinkElement as ɵbu, NovoTilesElement as ɵby, NovoTimePickerElement as ɵcy, NovoTimePickerInputElement as ɵcz, NovoTipWellElement as ɵdd, NovoToastElement as ɵbn, TooltipDirective as ɵp, Unless as ɵee, NovoValueElement as ɵk, DateFormatService as ɵcx, BrowserGlobalRef as ɵeg, GlobalRef as ɵef, LocalStorageService as ɵeh };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoTableElement, NovoCalendarDateChangeElement, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵl, NovoButtonElement as ɵm, NovoEventTypeLegendElement as ɵs, NovoCalendarAllDayEventElement as ɵbc, NovoCalendarDayEventElement as ɵba, NovoCalendarDayViewElement as ɵz, NovoCalendarHourSegmentElement as ɵbb, NovoCalendarMonthDayElement as ɵv, NovoCalendarMonthHeaderElement as ɵu, NovoCalendarMonthViewElement as ɵt, DayOfMonthPipe as ɵbe, EndOfWeekDisplayPipe as ɵbj, HoursPipe as ɵbi, MonthPipe as ɵbf, MonthDayPipe as ɵbg, WeekdayPipe as ɵbd, YearPipe as ɵbh, NovoCalendarWeekEventElement as ɵy, NovoCalendarWeekHeaderElement as ɵx, NovoCalendarWeekViewElement as ɵw, CardActionsElement as ɵq, CardElement as ɵr, NovoCategoryDropdownElement as ɵeb, NovoChipElement as ɵcr, NovoChipsElement as ɵcs, NovoCKEditorElement as ɵda, NovoDatePickerElement as ɵct, NovoDatePickerInputElement as ɵcu, NovoDateTimePickerElement as ɵcy, NovoDateTimePickerInputElement as ɵcz, NovoDragulaElement as ɵcp, NovoDropdownContainer as ɵca, NovoDropdownElement as ɵcb, NovoItemElement as ɵcc, NovoItemHeaderElement$1 as ɵce, NovoListElement$1 as ɵcd, NovoAutoSize as ɵdg, NovoControlElement as ɵdi, NovoCustomControlContainerElement as ɵdh, NovoControlCustom as ɵdk, NovoDynamicFormElement as ɵdm, NovoFieldsetElement as ɵdl, NovoFieldsetHeaderElement as ɵdj, ControlConfirmModal as ɵdo, ControlPromptModal as ɵdp, NovoFormElement as ɵdn, NovoAddressElement as ɵdc, NovoCheckListElement as ɵde, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵdf, NovoHeaderComponent as ɵbo, NovoHeaderSpacer as ɵbl, NovoUtilActionComponent as ɵbn, NovoUtilsComponent as ɵbm, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵn, NovoSpinnerElement as ɵo, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵec, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵcg, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵci, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵch, NovoOverlayTemplate as ɵcj, NovoOverlayModule as ɵcf, NovoPickerElement as ɵcm, NovoPickerContainer as ɵcn, PlacesListComponent as ɵel, GooglePlacesModule as ɵek, PopOverDirective as ɵej, NovoPopOverModule as ɵeh, PopOverContent as ɵei, QuickNoteElement as ɵbx, NovoRadioElement as ɵbz, NovoRadioGroup as ɵby, NovoSearchBoxElement as ɵco, NovoSelectElement as ɵck, NovoSliderElement as ɵcq, NovoSwitchElement as ɵcl, NovoTableKeepFilterFocus as ɵdt, Pagination as ɵdu, RowDetails as ɵdv, NovoTableActionsElement as ɵds, TableCell as ɵdw, TableFilter as ɵdx, NovoTableFooterElement as ɵdr, NovoTableHeaderElement as ɵdq, ThOrderable as ɵdy, ThSortable as ɵdz, NovoNavContentElement as ɵbu, NovoNavElement as ɵbp, NovoNavHeaderElement as ɵbv, NovoNavOutletElement as ɵbt, NovoTabButtonElement as ɵbr, NovoTabElement as ɵbq, NovoTabLinkElement as ɵbs, NovoTilesElement as ɵbw, NovoTimePickerElement as ɵcw, NovoTimePickerInputElement as ɵcx, NovoTipWellElement as ɵdb, NovoToastElement as ɵbk, TooltipDirective as ɵp, Unless as ɵed, NovoValueElement as ɵk, DateFormatService as ɵcv, BrowserGlobalRef as ɵef, GlobalRef as ɵee, LocalStorageService as ɵeg };
 //# sourceMappingURL=novo-elements.js.map
