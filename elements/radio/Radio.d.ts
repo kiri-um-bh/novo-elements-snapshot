@@ -17,12 +17,7 @@ export declare class NovoRadioElement implements ControlValueAccessor {
     onModelChange: Function;
     onModelTouched: Function;
     constructor(ref: ChangeDetectorRef);
-    /**
-     * Handles the select of the radio button, will only change if a new radio is selected
-     * @param event
-     * @param radio
-     */
-    select(event: any, radio: any): void;
+    select(event: any): void;
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;

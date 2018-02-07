@@ -6396,16 +6396,14 @@ class NovoRadioElement {
         };
     }
     /**
-     * Handles the select of the radio button, will only change if a new radio is selected
      * @param {?} event
-     * @param {?} radio
      * @return {?}
      */
-    select(event, radio) {
+    select(event) {
         Helpers.swallowEvent(event);
         // Only change the checked state if this is a new radio, they are not toggle buttons
-        if (!radio.checked) {
-            radio.checked = !radio.checked;
+        if (!this.checked) {
+            this.checked = !this.checked;
             this.change.emit(this.value);
             this.onModelChange(this.value);
             this.ref.markForCheck();
@@ -6439,11 +6437,11 @@ NovoRadioElement.decorators = [
                 selector: 'novo-radio',
                 providers: [RADIO_VALUE_ACCESSOR],
                 template: `
-        <input [name]="name" type="radio" [checked]="checked" [attr.id]="name" #radio (change)="select($event, radio)">
-        <label [attr.for]="name" (click)="select($event, radio)">
-            <button *ngIf="button" [ngClass]="{'unchecked': !radio.checked, 'checked': radio.checked, 'has-icon': !!icon}" [theme]="theme" [icon]="icon">{{ label }}</button>
+        <input [name]="name" type="radio" [checked]="checked" [attr.id]="name" (change)="select($event)">
+        <label [attr.for]="name" (click)="select($event)">
+            <button *ngIf="button" [ngClass]="{'unchecked': !checked, 'checked': checked, 'has-icon': !!icon}" [theme]="theme" [icon]="icon">{{ label }}</button>
             <div *ngIf="!button">
-                <i [ngClass]="{'bhi-radio-empty': !radio.checked, 'bhi-radio-filled': radio.checked}"></i>
+                <i [ngClass]="{'bhi-radio-empty': !checked, 'bhi-radio-filled': checked}"></i>
                 {{ label }}
                 <ng-content></ng-content>
             </div>
@@ -13956,9 +13954,9 @@ NovoFieldsetElement.decorators = [
                 template: `
         <div class="novo-fieldset-container">
             <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title"></novo-fieldset-header>
-            <ng-container *ngFor="let control of controls">
+            <ng-container *ngFor="let control of controls;let controlIndex = index;">
                 <div class="novo-form-row" [class.disabled]="control.disabled" *ngIf="control.__type !== 'GroupedControl'">
-                    <novo-control *ngIf="!control.customControl" [control]="control" [form]="form"></novo-control>
+                    <novo-control *ngIf="!control.customControl" [autoFocus]="autoFocus && index === 0 && controlIndex === 0" [control]="control" [form]="form"></novo-control>
                     <novo-control-custom *ngIf="control.customControl" [control]="control" [form]="form"></novo-control-custom>
                 </div>
                 <div *ngIf="control.__type === 'GroupedControl'">TODO - GroupedControl</div>
@@ -13976,6 +13974,8 @@ NovoFieldsetElement.propDecorators = {
     'form': [{ type: Input },],
     'title': [{ type: Input },],
     'icon': [{ type: Input },],
+    'index': [{ type: Input },],
+    'autoFocus': [{ type: Input },],
 };
 class NovoDynamicFormElement {
     /**
@@ -13998,26 +13998,6 @@ class NovoDynamicFormElement {
      */
     ngOnInit() {
         this.ngOnChanges();
-    }
-    /**
-     * @return {?}
-     */
-    ngAfterViewInit() {
-        if (this.autoFocusFirstField) {
-            setTimeout(() => {
-                let /** @type {?} */ controls = this.element.nativeElement.querySelectorAll('novo-control:not(.hidden)');
-                if (controls && controls.length) {
-                    let /** @type {?} */ firstControl = controls[0];
-                    let /** @type {?} */ input = firstControl.querySelector('input');
-                    if (input) {
-                        input.focus();
-                    }
-                    else {
-                        console.info('[NovoDynamicForm] - autofocus set on a control that does not support focus yet!'); // tslint:disable-line
-                    }
-                }
-            });
-        }
     }
     /**
      * @param {?=} changes
@@ -14148,8 +14128,8 @@ NovoDynamicFormElement.decorators = [
                 <ng-content select="form-subtitle"></ng-content>
             </header>
             <form class="novo-form" [formGroup]="form" autocomplete="off">
-                <ng-container *ngFor="let fieldset of form.fieldsets">
-                    <novo-fieldset *ngIf="fieldset.controls.length" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form"></novo-fieldset>
+                <ng-container *ngFor="let fieldset of form.fieldsets;let i = index">
+                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form"></novo-fieldset>
                 </ng-container>
             </form>
         </div>
@@ -16693,14 +16673,11 @@ class NovoControlElement extends OutsideClick {
      * @return {?}
      */
     ngAfterViewInit() {
-        if (this.autoFocus) {
+        if (this.autoFocus && this.control.controlType !== 'picker') {
             setTimeout(() => {
                 let /** @type {?} */ input = this.element.nativeElement.querySelector('input');
                 if (input) {
                     input.focus();
-                }
-                else {
-                    console.info('[NovoControl] - autofocus set on a control that does not support focus yet!'); // tslint:disable-line
                 }
             });
         }
@@ -28112,7 +28089,7 @@ NovoAddressElement.decorators = [
                 template: `
         <input type="text" class="street-address" id="address1" name="address1" [placeholder]="labels.address" autocomplete="shipping street-address address-line-1" [(ngModel)]="model.address1" (ngModelChange)="updateControl()"/>
         <input type="text" class="apt suite" id="address2" name="address2" [placeholder]="labels.apt" autocomplete="shipping address-line-2" [(ngModel)]="model.address2" (ngModelChange)="updateControl()"/>
-        <input type="text" class="city locality" id="city" name="city" [placeholder]="labels.city" autocomplete="shipping locality" [(ngModel)]="model.city" (ngModelChange)="updateControl()"/>
+        <input type="text" class="city locality" id="city" name="city" [placeholder]="labels.city" autocomplete="shipping city" [(ngModel)]="model.city" (ngModelChange)="updateControl()"/>
         <novo-select class="state region" id="state" [options]="states" [placeholder]="labels.state" autocomplete="shipping region" [(ngModel)]="model.state" (ngModelChange)="onStateChange($event)"></novo-select>
         <input type="text" class="zip postal-code" id="zip" name="zip" [placeholder]="labels.zipCode" autocomplete="shipping postal-code" [(ngModel)]="model.zip" (ngModelChange)="updateControl()"/>
         <novo-select class="country-name" id="country" [options]="countries" [placeholder]="labels.country" autocomplete="shipping country" [(ngModel)]="model.countryName" (ngModelChange)="onCountryChange($event)"></novo-select>
