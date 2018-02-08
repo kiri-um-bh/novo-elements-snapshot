@@ -6026,10 +6026,6 @@ class QuickNoteElement extends OutsideClick {
         // set it to 100% to allow the editor to resize using the grippy.
         let /** @type {?} */ editorHeight = this.wrapper.nativeElement.clientHeight - QuickNoteElement.TOOLBAR_HEIGHT;
         this.wrapper.nativeElement.style.setProperty('height', '100%');
-        // If focus on startup, don't have placeholder
-        if (this.startupFocus) {
-            this.placeholderVisible = false;
-        }
         return {
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_P,
@@ -6102,7 +6098,7 @@ class QuickNoteElement extends OutsideClick {
      * @return {?}
      */
     showPlaceholder() {
-        if (!this.ckeInstance.getData()) {
+        if (!this.ckeInstance.getData() && !this.startupFocus) {
             this.ckeInstance.editable().getParent().$.appendChild(this.placeholderElement);
             this.placeholderVisible = true;
         }
