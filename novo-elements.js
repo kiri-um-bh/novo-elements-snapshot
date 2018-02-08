@@ -16489,7 +16489,8 @@ class NovoControlElement extends OutsideClick {
      * @return {?}
      */
     ngAfterViewInit() {
-        if (this.autoFocus && this.control.controlType !== 'picker') {
+        const /** @type {?} */ DO_NOT_FOCUS_ME = ['picker', 'time', 'date', 'date-time'];
+        if (this.autoFocus && !DO_NOT_FOCUS_ME.includes(this.control.controlType)) {
             setTimeout(() => {
                 let /** @type {?} */ input = this.element.nativeElement.querySelector('input');
                 if (input) {

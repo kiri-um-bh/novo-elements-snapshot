@@ -15849,7 +15849,8 @@ var NovoControlElement = (function (_super) {
      */
     NovoControlElement.prototype.ngAfterViewInit = function () {
         var _this = this;
-        if (this.autoFocus && this.control.controlType !== 'picker') {
+        var /** @type {?} */ DO_NOT_FOCUS_ME = ['picker', 'time', 'date', 'date-time'];
+        if (this.autoFocus && !DO_NOT_FOCUS_ME.includes(this.control.controlType)) {
             setTimeout(function () {
                 var /** @type {?} */ input = _this.element.nativeElement.querySelector('input');
                 if (input) {
