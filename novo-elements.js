@@ -9712,6 +9712,11 @@ EntityPickerResult.decorators = [
                     <i class="bhi-info"></i>
                     <span [innerHtml]="highlight(match.data.status, term)"></span>
                 </p>
+                <!-- OWNER -->
+                <p class="owner" *ngIf="match.data.owner && match.data.searchEntity === 'Candidate'">
+                    <i class="bhi-person"></i>
+                    <span [innerHtml]="highlight(match.data.owner, term)"></span>
+                </p>
             </item-content>
         </novo-list-item>
     `
