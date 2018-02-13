@@ -35324,7 +35324,6 @@ class AppBridge {
             this._trace(MESSAGE_TYPES.REGISTER, event);
             this._registeredFrames.push(event);
             return this.register(event.data).then(windowName => {
-                this.windowName = windowName;
                 return { windowName };
             });
         });
@@ -35710,7 +35709,7 @@ class AppBridge {
      * @return {?}
      */
     register(packet = {}) {
-        Object.assign(packet, { id: this.id, windowName: this.windowName });
+        Object.assign(packet, { id: this.id });
         return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.REGISTER]) {
                 this._handlers[AppBridgeHandler.REGISTER](packet, (windowName) => {

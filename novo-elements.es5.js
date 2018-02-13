@@ -34466,7 +34466,6 @@ var AppBridge = (function () {
             _this._trace(MESSAGE_TYPES.REGISTER, event);
             _this._registeredFrames.push(event);
             return _this.register(event.data).then(function (windowName) {
-                _this.windowName = windowName;
                 return { windowName: windowName };
             });
         });
@@ -34862,7 +34861,7 @@ var AppBridge = (function () {
     AppBridge.prototype.register = function (packet) {
         var _this = this;
         if (packet === void 0) { packet = {}; }
-        Object.assign(packet, { id: this.id, windowName: this.windowName });
+        Object.assign(packet, { id: this.id });
         return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.REGISTER]) {
                 _this._handlers[AppBridgeHandler.REGISTER](packet, function (windowName) {
