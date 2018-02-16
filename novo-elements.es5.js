@@ -30258,6 +30258,7 @@ var NovoTableElement = (function () {
             }
             // Trickle down to keep sort
             // this.onSortChange(this.currentSortColumn);
+            this.fireTableChangeEvent();
             // If paging, reset page
             if (this.config.paging) {
                 this.config.paging.current = 1;
