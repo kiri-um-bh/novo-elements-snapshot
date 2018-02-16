@@ -34925,7 +34925,6 @@ var AppBridge = (function () {
      */
     AppBridge.prototype.open = function (packet) {
         var _this = this;
-        Object.assign(packet, { id: this.id, windowName: this.windowName });
         return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.OPEN]) {
                 _this._handlers[AppBridgeHandler.OPEN](packet, function (success) {
@@ -34938,6 +34937,7 @@ var AppBridge = (function () {
                 });
             }
             else {
+                Object.assign(packet, { id: _this.id, windowName: _this.windowName });
                 postRobot.sendToParent(MESSAGE_TYPES.OPEN, packet).then(function (event) {
                     _this._trace(MESSAGE_TYPES.OPEN + " (callback)", event);
                     if (event.data) {
@@ -34959,8 +34959,6 @@ var AppBridge = (function () {
      */
     AppBridge.prototype.openList = function (packet) {
         var _this = this;
-        var /** @type {?} */ openListPacket = {};
-        Object.assign(openListPacket, { type: 'List', entityType: packet.type, keywords: packet.keywords, criteria: packet.criteria });
         return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.OPEN_LIST]) {
                 _this._handlers[AppBridgeHandler.OPEN_LIST](packet, function (success) {
@@ -34973,6 +34971,8 @@ var AppBridge = (function () {
                 });
             }
             else {
+                var /** @type {?} */ openListPacket = {};
+                Object.assign(openListPacket, { type: 'List', entityType: packet.type, keywords: packet.keywords, criteria: packet.criteria });
                 postRobot.sendToParent(MESSAGE_TYPES.OPEN_LIST, packet).then(function (event) {
                     _this._trace(MESSAGE_TYPES.OPEN_LIST + " (callback)", event);
                     if (event.data) {
@@ -34994,7 +34994,6 @@ var AppBridge = (function () {
      */
     AppBridge.prototype.update = function (packet) {
         var _this = this;
-        Object.assign(packet, { id: this.id, windowName: this.windowName });
         return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.UPDATE]) {
                 _this._handlers[AppBridgeHandler.UPDATE](packet, function (success) {
@@ -35007,6 +35006,7 @@ var AppBridge = (function () {
                 });
             }
             else {
+                Object.assign(packet, { id: _this.id, windowName: _this.windowName });
                 postRobot.sendToParent(MESSAGE_TYPES.UPDATE, packet).then(function (event) {
                     _this._trace(MESSAGE_TYPES.UPDATE + " (callback)", event);
                     if (event.data) {
@@ -35028,13 +35028,9 @@ var AppBridge = (function () {
      */
     AppBridge.prototype.close = function (packet) {
         var _this = this;
-        if (packet) {
-            console.info('[AppBridge] - close(packet) is deprecated! Please just use close()!'); // tslint:disable-line
-        }
-        var /** @type {?} */ realPacket = { id: this.id, windowName: this.windowName };
         return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.CLOSE]) {
-                _this._handlers[AppBridgeHandler.CLOSE](realPacket, function (success) {
+                _this._handlers[AppBridgeHandler.CLOSE](packet, function (success) {
                     if (success) {
                         resolve(true);
                     }
@@ -35044,6 +35040,10 @@ var AppBridge = (function () {
                 });
             }
             else {
+                if (packet) {
+                    console.info('[AppBridge] - close(packet) is deprecated! Please just use close()!'); // tslint:disable-line
+                }
+                var /** @type {?} */ realPacket = { id: _this.id, windowName: _this.windowName };
                 postRobot.sendToParent(MESSAGE_TYPES.CLOSE, realPacket).then(function (event) {
                     _this._trace(MESSAGE_TYPES.CLOSE + " (callback)", event);
                     if (event.data) {
@@ -35065,13 +35065,9 @@ var AppBridge = (function () {
      */
     AppBridge.prototype.refresh = function (packet) {
         var _this = this;
-        if (packet) {
-            console.info('[AppBridge] - refresh(packet) is deprecated! Please just use refresh()!'); // tslint:disable-line
-        }
-        var /** @type {?} */ realPacket = { id: this.id, windowName: this.windowName };
         return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.REFRESH]) {
-                _this._handlers[AppBridgeHandler.REFRESH](realPacket, function (success) {
+                _this._handlers[AppBridgeHandler.REFRESH](packet, function (success) {
                     if (success) {
                         resolve(true);
                     }
@@ -35081,6 +35077,10 @@ var AppBridge = (function () {
                 });
             }
             else {
+                if (packet) {
+                    console.info('[AppBridge] - refresh(packet) is deprecated! Please just use refresh()!'); // tslint:disable-line
+                }
+                var /** @type {?} */ realPacket = { id: _this.id, windowName: _this.windowName };
                 postRobot.sendToParent(MESSAGE_TYPES.REFRESH, realPacket).then(function (event) {
                     _this._trace(MESSAGE_TYPES.REFRESH + " (callback)", event);
                     if (event.data) {
@@ -35102,13 +35102,9 @@ var AppBridge = (function () {
      */
     AppBridge.prototype.pin = function (packet) {
         var _this = this;
-        if (packet) {
-            console.info('[AppBridge] - pin(packet) is deprecated! Please just use pin()!'); // tslint:disable-line
-        }
-        var /** @type {?} */ realPacket = { id: this.id, windowName: this.windowName };
         return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.PIN]) {
-                _this._handlers[AppBridgeHandler.PIN](realPacket, function (success) {
+                _this._handlers[AppBridgeHandler.PIN](packet, function (success) {
                     if (success) {
                         resolve(true);
                     }
@@ -35118,6 +35114,10 @@ var AppBridge = (function () {
                 });
             }
             else {
+                if (packet) {
+                    console.info('[AppBridge] - pin(packet) is deprecated! Please just use pin()!'); // tslint:disable-line
+                }
+                var /** @type {?} */ realPacket = { id: _this.id, windowName: _this.windowName };
                 postRobot.sendToParent(MESSAGE_TYPES.PIN, realPacket).then(function (event) {
                     _this._trace(MESSAGE_TYPES.PIN + " (callback)", event);
                     if (event.data) {
@@ -35139,7 +35139,6 @@ var AppBridge = (function () {
      */
     AppBridge.prototype.requestData = function (packet) {
         var _this = this;
-        Object.assign(packet, { id: this.id, windowName: this.windowName });
         return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.REQUEST_DATA]) {
                 _this._handlers[AppBridgeHandler.REQUEST_DATA](packet, function (data) {
@@ -35152,6 +35151,7 @@ var AppBridge = (function () {
                 });
             }
             else {
+                Object.assign(packet, { id: _this.id, windowName: _this.windowName });
                 postRobot.sendToParent(MESSAGE_TYPES.REQUEST_DATA, packet).then(function (event) {
                     _this._trace(MESSAGE_TYPES.REQUEST_DATA + " (callback)", event);
                     if (event.data) {
@@ -35173,7 +35173,6 @@ var AppBridge = (function () {
      */
     AppBridge.prototype.callback = function (packet) {
         var _this = this;
-        Object.assign(packet, { id: this.id, windowName: this.windowName });
         return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.CALLBACK]) {
                 _this._handlers[AppBridgeHandler.CALLBACK](packet, function (success) {
@@ -35186,6 +35185,7 @@ var AppBridge = (function () {
                 });
             }
             else {
+                Object.assign(packet, { id: _this.id, windowName: _this.windowName });
                 postRobot.sendToParent(MESSAGE_TYPES.CALLBACK, packet).then(function (event) {
                     _this._trace(MESSAGE_TYPES.CALLBACK + " (callback)", event);
                     if (event.data) {
@@ -35208,7 +35208,6 @@ var AppBridge = (function () {
     AppBridge.prototype.register = function (packet) {
         var _this = this;
         if (packet === void 0) { packet = {}; }
-        Object.assign(packet, { id: this.id });
         return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.REGISTER]) {
                 _this._handlers[AppBridgeHandler.REGISTER](packet, function (windowName) {
@@ -35221,6 +35220,7 @@ var AppBridge = (function () {
                 });
             }
             else {
+                Object.assign(packet, { id: _this.id });
                 postRobot.sendToParent(MESSAGE_TYPES.REGISTER, packet).then(function (event) {
                     _this._trace(MESSAGE_TYPES.REGISTER + " (callback)", event);
                     if (event.data) {
