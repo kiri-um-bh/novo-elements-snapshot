@@ -30,4 +30,5 @@ export declare class NovoValueElement implements OnInit, OnChanges {
         name?: string;
         type?: NOVO_VALUE_TYPE;
     }, data: any): boolean;
+    isEntityList(type: string): boolean;
 }

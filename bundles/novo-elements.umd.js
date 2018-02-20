@@ -30879,7 +30879,7 @@ var NovoValueElement = (function () {
          * @return {?}
          */
         get: function () {
-            return this.type === NOVO_VALUE_TYPE.INTERNAL_LINK || this.type === NOVO_VALUE_TYPE.LINK;
+            return this.type === NOVO_VALUE_TYPE.INTERNAL_LINK || this.type === NOVO_VALUE_TYPE.LINK || this.type === NOVO_VALUE_TYPE.ENTITY_LIST;
         },
         enumerable: true,
         configurable: true
@@ -30927,6 +30927,9 @@ var NovoValueElement = (function () {
                 this.url = this.data;
             }
         }
+        else if (this.isEntityList(this.meta.type)) {
+            this.type = NOVO_VALUE_TYPE.ENTITY_LIST;
+        }
         else if (this.meta && this.meta.associatedEntity) {
             switch (this.meta.associatedEntity.entity) {
                 case 'ClientCorporation':
@@ -30952,12 +30955,19 @@ var NovoValueElement = (function () {
         var /** @type {?} */ isURL = Helpers.isString(data) && regex.exec(data.trim());
         return (linkFields.indexOf(field.name) > -1) || !!isURL || field.type === NOVO_VALUE_TYPE.LINK;
     };
+    /**
+     * @param {?} type
+     * @return {?}
+     */
+    NovoValueElement.prototype.isEntityList = function (type) {
+        return type === 'TO_MANY';
+    };
     return NovoValueElement;
 }());
 NovoValueElement.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-value',
-                template: "\n        <ng-container [ngSwitch]=\"type\">\n            <div class=\"value-outer\" *ngIf=\"showLabel\">\n                <label>{{ meta.label }}</label>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" class=\"value\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n            </div>\n\n            <div *ngSwitchDefault class=\"value-outer\">\n                <label>{{ meta.label }}</label>\n                <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n            </div>\n            <div class=\"actions\" *ngIf=\"showIcon\">\n                <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n            </div>\n        </ng-container>\n    "
+                template: "\n        <ng-container [ngSwitch]=\"type\">\n            <div class=\"value-outer\" *ngIf=\"showLabel\">\n                <label>{{ meta.label }}</label>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" class=\"value\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n                <entity-list *ngSwitchCase=\"NOVO_VALUE_TYPE.ENTITY_LIST\" [data]='data' [meta]=\"meta\"></entity-list>\n            </div>\n\n            <div *ngSwitchDefault class=\"value-outer\">\n                <label>{{ meta.label }}</label>\n                <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n            </div>\n            <div class=\"actions\" *ngIf=\"showIcon\">\n                <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n            </div>\n        </ng-container>\n    "
             },] },
 ];
 /**
@@ -31399,6 +31409,92 @@ RenderPipe.ctorParameters = function () { return [
     { type: NovoLabelService, },
 ]; };
 // NG2
+var EntityList = (function () {
+    function EntityList() {
+        this.baseEntity = '';
+        this.ENTITY_SHORT_NAMES = {
+            Lead: 'lead',
+            ClientContact: 'contact',
+            ClientContact1: 'contact',
+            ClientContact2: 'contact',
+            ClientContact3: 'contact',
+            ClientContact4: 'contact',
+            ClientContact5: 'contact',
+            ClientCorporation: 'company',
+            ClientCorporation1: 'company',
+            ClientCorporation2: 'company',
+            ClientCorporation3: 'company',
+            ClientCorporation4: 'company',
+            ClientCorporation5: 'company',
+            Opportunity: 'opportunity',
+            Task: 'task',
+            Note: 'note',
+            CorporateUser: 'user',
+            Candidate: 'candidate',
+            JobOrder: 'job',
+            JobOrder1: 'job',
+            JobOrder2: 'job',
+            JobOrder3: 'job',
+            JobOrder4: 'job',
+            JobOrder5: 'job',
+            Placement: 'placement',
+            JobSubmission: 'submission',
+            CandidateReference: 'references',
+            DistributionList: 'distributionList',
+            Appointment: 'appointment',
+        };
+    }
+    /**
+     * @return {?}
+     */
+    EntityList.prototype.ngOnInit = function () {
+        this.meta.type = 'TO_ONE';
+        this.baseEntity = this.meta.associatedEntity.entity;
+        for (var _b = 0, _c = this.data.data; _b < _c.length; _b++) {
+            var entity = _c[_b];
+            entity.isLinkable = this.isLinkable(entity);
+            entity.class = this.getClass(entity);
+        }
+    };
+    /**
+     * @param {?} entity
+     * @return {?}
+     */
+    EntityList.prototype.getClass = function (entity) {
+        return this.ENTITY_SHORT_NAMES[entity.personSubtype];
+    };
+    /**
+     * @param {?} entity
+     * @return {?}
+     */
+    EntityList.prototype.openLink = function (entity) {
+        entity.openLink(entity);
+    };
+    /**
+     * @param {?} entity
+     * @return {?}
+     */
+    EntityList.prototype.isLinkable = function (entity) {
+        return entity.openLink;
+    };
+    return EntityList;
+}());
+EntityList.decorators = [
+    { type: core.Component, args: [{
+                selector: 'entity-list',
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+                template: "\n        <div *ngFor=\"let entity of data.data\" class=\"entity\">\n            <a *ngIf=\"entity.isLinkable\" (click)=\"openLink(entity)\">\n                <i class=\"bhi-circle {{ entity.class }}\"></i>{{ entity | render : meta }}\n            </a>\n            <span *ngIf=\"!entity.isLinkable\">\n                {{ entity | render : meta }}\n            </span>\n        </div>\n    "
+            },] },
+];
+/**
+ * @nocollapse
+ */
+EntityList.ctorParameters = function () { return []; };
+EntityList.propDecorators = {
+    'data': [{ type: core.Input },],
+    'meta': [{ type: core.Input },],
+};
+// NG2
 // APP
 var NovoValueModule = (function () {
     function NovoValueModule() {
@@ -31408,8 +31504,8 @@ var NovoValueModule = (function () {
 NovoValueModule.decorators = [
     { type: core.NgModule, args: [{
                 imports: [common.CommonModule],
-                declarations: [NovoValueElement, RenderPipe],
-                exports: [NovoValueElement, RenderPipe]
+                declarations: [NovoValueElement, RenderPipe, EntityList],
+                exports: [NovoValueElement, RenderPipe, EntityList]
             },] },
 ];
 /**
@@ -36619,7 +36715,7 @@ exports.ɵx = NovoCalendarWeekHeaderElement;
 exports.ɵw = NovoCalendarWeekViewElement;
 exports.ɵq = CardActionsElement;
 exports.ɵr = CardElement;
-exports.ɵeb = NovoCategoryDropdownElement;
+exports.ɵec = NovoCategoryDropdownElement;
 exports.ɵcr = NovoChipElement;
 exports.ɵcs = NovoChipsElement;
 exports.ɵda = NovoCKEditorElement;
@@ -36651,7 +36747,7 @@ exports.ɵbo = NovoHeaderComponent;
 exports.ɵbl = NovoHeaderSpacer;
 exports.ɵbn = NovoUtilActionComponent;
 exports.ɵbm = NovoUtilsComponent;
-exports.ɵea = NovoIconComponent;
+exports.ɵeb = NovoIconComponent;
 exports.ɵe = NovoItemAvatarElement;
 exports.ɵi = NovoItemContentElement;
 exports.ɵh = NovoItemDateElement;
@@ -36664,7 +36760,7 @@ exports.ɵo = NovoSpinnerElement;
 exports.ɵa = NovoModalContainerElement;
 exports.ɵb = NovoModalElement;
 exports.ɵc = NovoModalNotificationElement;
-exports.ɵec = NovoMultiPickerElement;
+exports.ɵed = NovoMultiPickerElement;
 exports.ɵcg = DEFAULT_OVERLAY_SCROLL_STRATEGY;
 exports.ɵci = DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER;
 exports.ɵch = DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY;
@@ -36672,11 +36768,11 @@ exports.ɵcj = NovoOverlayTemplate;
 exports.ɵcf = NovoOverlayModule;
 exports.ɵcm = NovoPickerElement;
 exports.ɵcn = NovoPickerContainer;
-exports.ɵel = PlacesListComponent;
-exports.ɵek = GooglePlacesModule;
-exports.ɵej = PopOverDirective;
-exports.ɵeh = NovoPopOverModule;
-exports.ɵei = PopOverContent;
+exports.ɵem = PlacesListComponent;
+exports.ɵel = GooglePlacesModule;
+exports.ɵek = PopOverDirective;
+exports.ɵei = NovoPopOverModule;
+exports.ɵej = PopOverContent;
 exports.ɵbx = QuickNoteElement;
 exports.ɵbz = NovoRadioElement;
 exports.ɵby = NovoRadioGroup;
@@ -36707,12 +36803,13 @@ exports.ɵcx = NovoTimePickerInputElement;
 exports.ɵdb = NovoTipWellElement;
 exports.ɵbk = NovoToastElement;
 exports.ɵp = TooltipDirective;
-exports.ɵed = Unless;
+exports.ɵee = Unless;
+exports.ɵea = EntityList;
 exports.ɵk = NovoValueElement;
 exports.ɵcv = DateFormatService;
-exports.ɵef = BrowserGlobalRef;
-exports.ɵee = GlobalRef;
-exports.ɵeg = LocalStorageService;
+exports.ɵeg = BrowserGlobalRef;
+exports.ɵef = GlobalRef;
+exports.ɵeh = LocalStorageService;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
