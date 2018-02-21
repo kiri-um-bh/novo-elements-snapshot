@@ -31855,7 +31855,7 @@ NovoValueElement.decorators = [
                 <label>{{ meta.label }}</label>
                 <a *ngSwitchCase="NOVO_VALUE_TYPE.INTERNAL_LINK" class="value" (click)="openLink()" [innerHTML]="data | render : meta"></a>
                 <a *ngSwitchCase="NOVO_VALUE_TYPE.LINK" class="value" [href]="url" target="_blank" [innerHTML]="data | render : meta"></a>
-                <entity-list *ngSwitchCase="NOVO_VALUE_TYPE.ENTITY_LIST" [data]='data' [meta]="meta"></entity-list>
+                <novo-entity-list *ngSwitchCase="NOVO_VALUE_TYPE.ENTITY_LIST" [data]='data' [meta]="meta"></novo-entity-list>
             </div>
 
             <div *ngSwitchDefault class="value-outer">
@@ -32378,7 +32378,7 @@ class EntityList {
 }
 EntityList.decorators = [
     { type: Component, args: [{
-                selector: 'entity-list',
+                selector: 'novo-entity-list',
                 changeDetection: ChangeDetectionStrategy.OnPush,
                 template: `
         <div *ngFor="let entity of data.data" class="entity">
