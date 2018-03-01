@@ -5038,6 +5038,7 @@ class BasePickerResults {
         this.page = 0;
         this.lastPage = false;
         this.autoSelectFirstOption = true;
+        this.selectingMatches = false;
         this.element = element;
         this.ref = ref;
     }
@@ -5081,16 +5082,15 @@ class BasePickerResults {
         this.hasError = false;
         this.isLoading = true;
         this.ref.markForCheck();
-        this.search(this.term)
-            .subscribe((results) => {
+        this.search(this.term).subscribe((results) => {
             if (this.isStatic) {
                 this.matches = this.filterData(results);
             }
             else {
                 this.matches = this.matches.concat(results);
-                this.lastPage = (results && !results.length);
+                this.lastPage = results && !results.length;
             }
-            if (this.matches.length > 0 && this.autoSelectFirstOption) {
+            if (this.matches.length > 0 && this.autoSelectFirstOption && !this.selectingMatches) {
                 this.nextActiveMatch();
             }
             this.isLoading = false;
@@ -5126,9 +5126,7 @@ class BasePickerResults {
                     if ((options.hasOwnProperty('reject') && options.hasOwnProperty('resolve')) || Object.getPrototypeOf(options).hasOwnProperty('then')) {
                         this.isStatic = false;
                         // Promises (ES6 or Deferred) are resolved whenever they resolve
-                        options
-                            .then(this.structureArray.bind(this))
-                            .then(resolve, reject);
+                        options.then(this.structureArray.bind(this)).then(resolve, reject);
                     }
                     else if (typeof options === 'function') {
                         this.isStatic = false;
@@ -5149,9 +5147,7 @@ class BasePickerResults {
                         if (typeof this.config.defaultOptions === 'function') {
                             let /** @type {?} */ defaultOptions = this.config.defaultOptions(term, ++this.page);
                             if (Object.getPrototypeOf(defaultOptions).hasOwnProperty('then')) {
-                                defaultOptions
-                                    .then(this.structureArray.bind(this))
-                                    .then(resolve, reject);
+                                defaultOptions.then(this.structureArray.bind(this)).then(resolve, reject);
                             }
                             else {
                                 resolve(this.structureArray(defaultOptions));
@@ -5187,12 +5183,12 @@ class BasePickerResults {
             return collection.map((item) => {
                 return {
                     value: item,
-                    label: item
+                    label: item,
                 };
             });
         }
         return dataArray.map((data) => {
-            let /** @type {?} */ value = this.config.field ? data[this.config.field] : (data.value || data);
+            let /** @type {?} */ value = this.config.field ? data[this.config.field] : data.value || data;
             if (this.config.valueFormat) {
                 value = Helpers.interpolate(this.config.valueFormat, data);
             }
@@ -5211,7 +5207,9 @@ class BasePickerResults {
     filterData(matches) {
         if (this.term && matches) {
             return matches.filter((match) => {
-                return ~String(match.label).toLowerCase().indexOf(this.term.toLowerCase());
+                return ~String(match.label)
+                    .toLowerCase()
+                    .indexOf(this.term.toLowerCase());
             });
         }
         // Show no recent results template
@@ -5314,8 +5312,10 @@ class BasePickerResults {
         let /** @type {?} */ selected = this.activeMatch;
         if (selected && this.parent) {
             this.parent.value = selected;
+            this.selectingMatches = true;
             if (this.parent.closeOnSelect) {
                 this.parent.hideResults();
+                this.selectingMatches = false;
             }
         }
         this.ref.markForCheck();
@@ -5350,7 +5350,7 @@ class BasePickerResults {
      * @return {?}
      */
     preselected(match) {
-        return this.selected.findIndex(item => {
+        return (this.selected.findIndex((item) => {
             let /** @type {?} */ isPreselected = false;
             if (item && item.value && match && match.value) {
                 if (item.value.id && match.value.id) {
@@ -5361,7 +5361,7 @@ class BasePickerResults {
                 }
             }
             return isPreselected;
-        }) !== -1;
+        }) !== -1);
     }
 }
 BasePickerResults.propDecorators = {
@@ -30622,6 +30622,8 @@ class NovoTableElement {
         this.skipSortAndFilterClear = false;
         this.mode = NovoTableMode.VIEW;
         this.editable = false;
+        this.rowIdentifier = 'id';
+        this.name = 'table';
         this.onRowClick = new EventEmitter();
         this.onRowSelect = new EventEmitter();
         this.onTableChange = new EventEmitter();
@@ -30677,19 +30679,19 @@ class NovoTableElement {
                     this._rows = event.data;
                     // Setup form
                     this.tableForm = this.builder.group({
-                        rows: this.builder.array([])
+                        rows: this.builder.array([]),
                     });
                     // Remove all selection on sort change if selection is on
                     if (this.config.rowSelectionStyle === 'checkbox') {
                         this.pagedData = event.data;
-                        this.pageSelected = this.pagedData.filter(r => r._selected);
+                        this.pageSelected = this.pagedData.filter((r) => r._selected);
                         this.rowSelectHandler();
                     }
                     // Find that columns we might need to sum up via the footer
                     let /** @type {?} */ columnsToSum = [];
                     let /** @type {?} */ columnSums = {};
                     if (this.config.footers) {
-                        this.config.footers.forEach(config => {
+                        this.config.footers.forEach((config) => {
                             columnsToSum.push(...config.columns);
                         });
                         // Only have unique columns, filter out duplicates
@@ -30703,7 +30705,7 @@ class NovoTableElement {
                         row._editing = {};
                         row._expanded = this.config.expandAll;
                         row.rowId = this._rows.length;
-                        this.columns.forEach(column => {
+                        this.columns.forEach((column) => {
                             // Use the control passed or use a ReadOnlyControl so that the form has the values
                             let /** @type {?} */ control = column.editorConfig ? ControlFactory.create(column.editorType, column.editorConfig) : new ReadOnlyControl({ key: column.name });
                             row.controls[column.name] = control;
@@ -30714,7 +30716,7 @@ class NovoTableElement {
                         // Setup the total footer if configured
                         // Array of keys to total
                         if (columnsToSum.length !== 0) {
-                            columnsToSum.forEach(column => {
+                            columnsToSum.forEach((column) => {
                                 if (Helpers.isBlank(columnSums[column])) {
                                     columnSums[column] = 0;
                                 }
@@ -30731,7 +30733,7 @@ class NovoTableElement {
                         this.config.footers.forEach((footerConfig, footerConfigIndex) => {
                             let /** @type {?} */ footer = {};
                             footer[footerConfig.labelColumn] = footerConfig.label;
-                            footerConfig.columns.forEach(column => {
+                            footerConfig.columns.forEach((column) => {
                                 if (footerConfig.method === 'AVG' && this._rows.length !== 0) {
                                     footer[column] = columnSums[column] / this._rows.length;
                                 }
@@ -30811,12 +30813,12 @@ class NovoTableElement {
      */
     setupColumnDefaults() {
         // Check columns for cell option types
-        this.columns.forEach(column => {
+        this.columns.forEach((column) => {
             if (column && column.type) {
                 switch (column.type) {
                     case 'date':
                         // Set options based on dates if there are none
-                        column.options = (column.options || this.getDefaultOptions(column));
+                        column.options = column.options || this.getDefaultOptions(column);
                         break;
                     default:
                         break;
@@ -30905,7 +30907,7 @@ class NovoTableElement {
      */
     clearAllSortAndFilters() {
         if (this.config.filtering) {
-            this.columns.forEach(column => {
+            this.columns.forEach((column) => {
                 column.filter = null;
                 column.sort = null;
             });
@@ -30920,7 +30922,7 @@ class NovoTableElement {
     onFilterChange() {
         if (this.config.filtering) {
             // Array of filters
-            const /** @type {?} */ filters = this.columns.filter(col => !Helpers.isEmpty(col.filter));
+            const /** @type {?} */ filters = this.columns.filter((col) => !Helpers.isEmpty(col.filter));
             if (filters.length) {
                 let /** @type {?} */ query = {};
                 for (const /** @type {?} */ column of filters) {
@@ -30937,7 +30939,7 @@ class NovoTableElement {
                         let /** @type {?} */ options = column.filter;
                         // We have an array of {value: '', labels: ''}
                         if (options[0].value || options[0].label) {
-                            options = column.filter.map(opt => opt.value);
+                            options = column.filter.map((opt) => opt.value);
                         }
                         query[column.name] = { any: options };
                     }
@@ -30945,13 +30947,13 @@ class NovoTableElement {
                         if (column.filter.startDate && column.filter.endDate) {
                             query[column.name] = {
                                 min: startOfDay(column.filter.startDate),
-                                max: startOfDay(addDays(startOfDay(column.filter.endDate), 1))
+                                max: startOfDay(addDays(startOfDay(column.filter.endDate), 1)),
                             };
                         }
                         else {
                             query[column.name] = {
                                 min: column.filter.min ? addDays(startOfToday(), column.filter.min) : startOfToday(),
-                                max: column.filter.max ? addDays(startOfTomorrow(), column.filter.max) : startOfTomorrow()
+                                max: column.filter.max ? addDays(startOfTomorrow(), column.filter.max) : startOfTomorrow(),
                             };
                         }
                     }
@@ -30987,8 +30989,8 @@ class NovoTableElement {
      * @return {?}
      */
     escapeCharacters(filter$$1) {
-        if (typeof (filter$$1) === 'string') {
-            return filter$$1.replace(/'/g, '\'\'');
+        if (typeof filter$$1 === 'string') {
+            return filter$$1.replace(/'/g, "''");
         }
         return filter$$1;
     }
@@ -31005,7 +31007,7 @@ class NovoTableElement {
         let /** @type {?} */ isActive = false;
         if (column && !Helpers.isBlank(column.filter) && !Helpers.isBlank(filter$$1)) {
             if (Array.isArray(column.filter)) {
-                if (typeof (filter$$1) !== 'string') {
+                if (typeof filter$$1 !== 'string') {
                     isActive = column.filter.some((item) => {
                         return item.label === filter$$1.label;
                     });
@@ -31015,11 +31017,11 @@ class NovoTableElement {
                 }
             }
             else {
-                if (typeof (column.filter) === typeof (filter$$1)) {
-                    isActive = (column.filter === filter$$1);
+                if (typeof column.filter === typeof filter$$1) {
+                    isActive = column.filter === filter$$1;
                 }
                 else {
-                    isActive = (column.filter === filter$$1.value);
+                    isActive = column.filter === filter$$1.value;
                 }
             }
         }
@@ -31046,7 +31048,7 @@ class NovoTableElement {
                 this._dataProvider.sort = [].concat(column.preSort(column));
             }
             else {
-                this._dataProvider.sort = [{ field: (column.compare || column.name), reverse: column.sort === 'desc' }];
+                this._dataProvider.sort = [{ field: column.compare || column.name, reverse: column.sort === 'desc' }];
             }
         }
         // Fire table change event
@@ -31477,7 +31479,7 @@ NovoTableElement.decorators = [
                 host: {
                     '[attr.theme]': 'theme',
                     '[class.editing]': 'mode === NovoTableMode.EDIT',
-                    '[class.novo-table-loading]': 'loading'
+                    '[class.novo-table-loading]': 'loading',
                 },
                 // directives: [],
                 template: `
@@ -31580,7 +31582,7 @@ NovoTableElement.decorators = [
                         </td>
                     </tr>
                     <ng-template ngFor let-row="$implicit" let-i="index" [ngForOf]="rows">
-                        <tr class="table-row" [ngClass]="row.customClass || ''" [attr.data-automation-id]="row.id" (click)="rowClickHandler(row)" [class.active]="row.id === activeId">
+                        <tr class="table-row" [ngClass]="row.customClass || ''" [id]="name + '-' + row[rowIdentifier]" [attr.data-automation-id]="row.id" (click)="rowClickHandler(row)" [class.active]="row.id === activeId">
                             <td class="row-actions" *ngIf="config.hasDetails">
                                 <button theme="icon" icon="next" (click)="row._expanded=!row._expanded" *ngIf="!row._expanded"></button>
                                 <button theme="icon" icon="sort-desc" (click)="row._expanded=!row._expanded" *ngIf="row._expanded"></button>
@@ -31649,7 +31651,7 @@ NovoTableElement.decorators = [
             </table>
         </novo-form>
     </div>
-    `
+    `,
             },] },
 ];
 /**
@@ -31667,6 +31669,8 @@ NovoTableElement.propDecorators = {
     'skipSortAndFilterClear': [{ type: Input },],
     'mode': [{ type: Input },],
     'editable': [{ type: Input },],
+    'rowIdentifier': [{ type: Input },],
+    'name': [{ type: Input },],
     'onRowClick': [{ type: Output },],
     'onRowSelect': [{ type: Output },],
     'onTableChange': [{ type: Output },],

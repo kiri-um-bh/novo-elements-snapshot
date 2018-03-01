@@ -24,6 +24,7 @@ export declare class BasePickerResults {
     lastPage: boolean;
     autoSelectFirstOption: boolean;
     overlay: OverlayRef;
+    private selectingMatches;
     constructor(element: ElementRef, ref: ChangeDetectorRef);
     onScrollDown(target: any): void;
     term: string;

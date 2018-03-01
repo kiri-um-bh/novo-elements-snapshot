@@ -45,6 +45,8 @@ export declare class NovoTableElement implements DoCheck {
     skipSortAndFilterClear: boolean;
     mode: NovoTableMode;
     editable: boolean;
+    rowIdentifier: string;
+    name: string;
     onRowClick: EventEmitter<any>;
     onRowSelect: EventEmitter<any>;
     onTableChange: EventEmitter<any>;
