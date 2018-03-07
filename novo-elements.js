@@ -5071,18 +5071,21 @@ class BasePickerResults {
         if (value !== this._term || this.page === 0) {
             this._term = value;
             this.page = 0;
-            this.matches = [];
-            this.processSearch();
+            this.processSearch(true);
         }
     }
     /**
+     * @param {?=} shouldReset
      * @return {?}
      */
-    processSearch() {
+    processSearch(shouldReset) {
         this.hasError = false;
         this.isLoading = true;
         this.ref.markForCheck();
         this.search(this.term).subscribe((results) => {
+            if (shouldReset) {
+                this.matches = [];
+            }
             if (this.isStatic) {
                 this.matches = this.filterData(results);
             }

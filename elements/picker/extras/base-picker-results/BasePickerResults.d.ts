@@ -28,7 +28,7 @@ export declare class BasePickerResults {
     constructor(element: ElementRef, ref: ChangeDetectorRef);
     onScrollDown(target: any): void;
     term: string;
-    processSearch(): void;
+    processSearch(shouldReset?: boolean): void;
     search(term: any, mode?: any): Observable<{}>;
     /**
      * @name structureArray

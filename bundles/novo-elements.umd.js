@@ -4712,22 +4712,25 @@ var BasePickerResults = (function () {
             if (value !== this._term || this.page === 0) {
                 this._term = value;
                 this.page = 0;
-                this.matches = [];
-                this.processSearch();
+                this.processSearch(true);
             }
         },
         enumerable: true,
         configurable: true
     });
     /**
+     * @param {?=} shouldReset
      * @return {?}
      */
-    BasePickerResults.prototype.processSearch = function () {
+    BasePickerResults.prototype.processSearch = function (shouldReset) {
         var _this = this;
         this.hasError = false;
         this.isLoading = true;
         this.ref.markForCheck();
         this.search(this.term).subscribe(function (results) {
+            if (shouldReset) {
+                _this.matches = [];
+            }
             if (_this.isStatic) {
                 _this.matches = _this.filterData(results);
             }
