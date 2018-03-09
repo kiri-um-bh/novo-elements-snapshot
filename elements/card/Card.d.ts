@@ -9,6 +9,7 @@ export declare class CardElement implements OnChanges, OnInit {
     message: string;
     messageIcon: string;
     icon: string;
+    iconTooltip: string;
     refresh: boolean;
     close: boolean;
     move: boolean;

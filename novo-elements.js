@@ -1621,7 +1621,7 @@ class CardActionsElement {
 CardActionsElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-card-actions',
-                template: '<ng-content></ng-content>'
+                template: '<ng-content></ng-content>',
             },] },
 ];
 /**
@@ -1687,7 +1687,7 @@ CardElement.decorators = [
         <div class="novo-card" [attr.data-automation-id]="cardAutomationId" [ngClass]="{'no-padding': !padding}" [class.loading]="loading || config.loading">
             <!--Loading-->
             <div class="card-loading-container" *ngIf="loading || config.loading">
-                <novo-loading theme="line"  [attr.data-automation-id]="cardAutomationId + '-loading'"></novo-loading>
+                <novo-loading theme="line" [attr.data-automation-id]="cardAutomationId + '-loading'"></novo-loading>
             </div>
             <!--Card Header-->
             <header>
@@ -1695,12 +1695,12 @@ CardElement.decorators = [
                     <!--Grabber Icon-->
                     <span tooltip="{{ labels.move }}" tooltipPosition="bottom-right"><i *ngIf="move || config.move" class="bhi-move" [attr.data-automation-id]="cardAutomationId + '-move'"></i></span>
                     <!--Card Title-->
-                    <h3 [attr.data-automation-id]="cardAutomationId + '-title'"><i *ngIf="icon" [ngClass]="iconClass"></i> {{title || config.title}}</h3>
+                    <h3 [attr.data-automation-id]="cardAutomationId + '-title'"><span [tooltip]="iconTooltip" tooltipPosition="right"><i *ngIf="icon" [ngClass]="iconClass"></i></span> {{title || config.title}}</h3>
                 </div>
                 <!--Card Actions-->
                 <div class="actions" [attr.data-automation-id]="cardAutomationId + '-actions'">
                     <ng-content select="novo-card-actions"></ng-content>
-                    <button theme="icon" icon="refresh"  (click)="toggleRefresh()" *ngIf="refresh || config.refresh" [attr.data-automation-id]="cardAutomationId + '-refresh'" tooltip="{{ labels.refresh }}" tooltipPosition="bottom"></button>
+                    <button theme="icon" icon="refresh"  (click)="toggleRefresh()" *ngIf="refresh || config.refresh" [attr.data-automation-id]="cardAutomationId + '-refresh'" tooltip="{{ labels.refresh }}" tooltipPosition="bottom-left"></button>
                     <button theme="icon" icon="close-o" (click)="toggleClose()" *ngIf="close || config.close" [attr.data-automation-id]="cardAutomationId + '-close'" tooltip="{{ labels.close }}" tooltipPosition="bottom-left"></button>
                 </div>
             </header>
@@ -1714,7 +1714,7 @@ CardElement.decorators = [
             <!--Card Footer-->
             <ng-content *ngIf="!(loading || config.loading) && !(message || config.message)" select="footer"></ng-content>
         </div>
-    `
+    `,
             },] },
 ];
 /**
@@ -1730,6 +1730,7 @@ CardElement.propDecorators = {
     'message': [{ type: Input },],
     'messageIcon': [{ type: Input },],
     'icon': [{ type: Input },],
+    'iconTooltip': [{ type: Input },],
     'refresh': [{ type: Input },],
     'close': [{ type: Input },],
     'move': [{ type: Input },],
