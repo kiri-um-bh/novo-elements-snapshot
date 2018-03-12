@@ -4742,6 +4742,7 @@ var BasePickerResults = (function () {
             if (value !== this._term || this.page === 0) {
                 this._term = value;
                 this.page = 0;
+                this.matches = [];
                 this.processSearch(true);
             }
         },
