@@ -17,6 +17,7 @@ export declare class NovoValueElement implements OnInit, OnChanges {
     NOVO_VALUE_TYPE: typeof NOVO_VALUE_TYPE;
     NOVO_VALUE_THEME: typeof NOVO_VALUE_THEME;
     url: string;
+    customClass: string;
     ngOnInit(): void;
     readonly isMobile: boolean;
     iconClass(icon: any): string;
@@ -31,4 +32,5 @@ export declare class NovoValueElement implements OnInit, OnChanges {
         type?: NOVO_VALUE_TYPE;
     }, data: any): boolean;
     isEntityList(type: string): boolean;
+    isHTMLField(meta: any): boolean;
 }

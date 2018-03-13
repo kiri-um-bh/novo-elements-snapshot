@@ -31640,6 +31640,7 @@ class NovoValueElement {
         this.theme = NOVO_VALUE_THEME.DEFAULT;
         this.NOVO_VALUE_TYPE = NOVO_VALUE_TYPE;
         this.NOVO_VALUE_THEME = NOVO_VALUE_THEME;
+        this.customClass = '';
     }
     /**
      * @return {?}
@@ -31726,6 +31727,12 @@ class NovoValueElement {
         else if (this.isEntityList(this.meta.type)) {
             this.type = NOVO_VALUE_TYPE.ENTITY_LIST;
         }
+        else if (this.isHTMLField(this.meta)) {
+            this.customClass = this.meta.customClass ? this.meta.customClass : '';
+            if (this.meta.stripHTML && this.data) {
+                this.data = this.data.replace(/<(.|\n)+?>/gi, '');
+            }
+        }
         else if (this.meta && this.meta.associatedEntity) {
             switch (this.meta.associatedEntity.entity) {
                 case 'ClientCorporation':
@@ -31758,6 +31765,13 @@ class NovoValueElement {
     isEntityList(type) {
         return type === 'TO_MANY';
     }
+    /**
+     * @param {?} meta
+     * @return {?}
+     */
+    isHTMLField(meta) {
+        return meta.dataSpecialization === 'HTML' || meta.inputType === 'TEXTAREA';
+    }
 }
 NovoValueElement.decorators = [
     { type: Component, args: [{
@@ -31770,8 +31784,7 @@ NovoValueElement.decorators = [
                 <a *ngSwitchCase="NOVO_VALUE_TYPE.LINK" class="value" [href]="url" target="_blank" [innerHTML]="data | render : meta"></a>
                 <novo-entity-list *ngSwitchCase="NOVO_VALUE_TYPE.ENTITY_LIST" [data]='data' [meta]="meta"></novo-entity-list>
             </div>
-
-            <div *ngSwitchDefault class="value-outer">
+            <div *ngSwitchDefault class="value-outer" [ngClass]="customClass">
                 <label>{{ meta.label }}</label>
                 <div *ngIf="isDefault" class="value" [innerHTML]="data | render : meta"></div>
             </div>
@@ -32107,7 +32120,9 @@ class RenderPipe {
                 if (Array.isArray(value)) {
                     value = value.join(' ');
                 }
-                text = this.sanitizationService.bypassSecurityTrustHtml(value.replace(/\<a/gi, '<a target="_blank"'));
+                if (typeof text === 'string') {
+                    text = this.sanitizationService.bypassSecurityTrustHtml(value.replace(/\<a/gi, '<a target="_blank"'));
+                }
                 break;
             case 'CandidateComment':
                 text = value.comments ? `${this.labels.formatDateShort(value.dateLastModified)} (${value.name}) - ${value.comments}` : '';

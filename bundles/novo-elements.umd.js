@@ -30745,6 +30745,7 @@ var NovoValueElement = /** @class */ (function () {
         this.theme = NOVO_VALUE_THEME.DEFAULT;
         this.NOVO_VALUE_TYPE = NOVO_VALUE_TYPE;
         this.NOVO_VALUE_THEME = NOVO_VALUE_THEME;
+        this.customClass = '';
     }
     /**
      * @return {?}
@@ -30847,6 +30848,12 @@ var NovoValueElement = /** @class */ (function () {
         else if (this.isEntityList(this.meta.type)) {
             this.type = NOVO_VALUE_TYPE.ENTITY_LIST;
         }
+        else if (this.isHTMLField(this.meta)) {
+            this.customClass = this.meta.customClass ? this.meta.customClass : '';
+            if (this.meta.stripHTML && this.data) {
+                this.data = this.data.replace(/<(.|\n)+?>/gi, '');
+            }
+        }
         else if (this.meta && this.meta.associatedEntity) {
             switch (this.meta.associatedEntity.entity) {
                 case 'ClientCorporation':
@@ -30879,12 +30886,19 @@ var NovoValueElement = /** @class */ (function () {
     NovoValueElement.prototype.isEntityList = function (type) {
         return type === 'TO_MANY';
     };
+    /**
+     * @param {?} meta
+     * @return {?}
+     */
+    NovoValueElement.prototype.isHTMLField = function (meta) {
+        return meta.dataSpecialization === 'HTML' || meta.inputType === 'TEXTAREA';
+    };
     return NovoValueElement;
 }());
 NovoValueElement.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-value',
-                template: "\n        <ng-container [ngSwitch]=\"type\">\n            <div class=\"value-outer\" *ngIf=\"showLabel\">\n                <label>{{ meta.label }}</label>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" class=\"value\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n                <novo-entity-list *ngSwitchCase=\"NOVO_VALUE_TYPE.ENTITY_LIST\" [data]='data' [meta]=\"meta\"></novo-entity-list>\n            </div>\n\n            <div *ngSwitchDefault class=\"value-outer\">\n                <label>{{ meta.label }}</label>\n                <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n            </div>\n            <div class=\"actions\" *ngIf=\"showIcon\">\n                <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n            </div>\n        </ng-container>\n    "
+                template: "\n        <ng-container [ngSwitch]=\"type\">\n            <div class=\"value-outer\" *ngIf=\"showLabel\">\n                <label>{{ meta.label }}</label>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" class=\"value\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n                <novo-entity-list *ngSwitchCase=\"NOVO_VALUE_TYPE.ENTITY_LIST\" [data]='data' [meta]=\"meta\"></novo-entity-list>\n            </div>\n            <div *ngSwitchDefault class=\"value-outer\" [ngClass]=\"customClass\">\n                <label>{{ meta.label }}</label>\n                <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n            </div>\n            <div class=\"actions\" *ngIf=\"showIcon\">\n                <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n            </div>\n        </ng-container>\n    "
             },] },
 ];
 /**
@@ -31205,7 +31219,9 @@ var RenderPipe = /** @class */ (function () {
                 if (Array.isArray(value)) {
                     value = value.join(' ');
                 }
-                text = this.sanitizationService.bypassSecurityTrustHtml(value.replace(/\<a/gi, '<a target="_blank"'));
+                if (typeof text === 'string') {
+                    text = this.sanitizationService.bypassSecurityTrustHtml(value.replace(/\<a/gi, '<a target="_blank"'));
+                }
                 break;
             case 'CandidateComment':
                 text = value.comments ? this.labels.formatDateShort(value.dateLastModified) + " (" + value.name + ") - " + value.comments : '';
