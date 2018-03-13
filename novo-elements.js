@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Inject, Injectable, InjectionToken, Input, LOCALE_ID, NgModule, NgZone, Optional, Output, PLATFORM_ID, Pipe, ReflectiveInjector, Renderer2, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation, animate, forwardRef, state, style, transition, trigger } from '@angular/core';
-import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import 'brace/index';
 import 'brace/theme/chrome';
 import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
 import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isSameDay, isSameMonth, isSameSecond, isToday, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DOCUMENT, DomSanitizer } from '@angular/platform-browser';
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { merge as merge$1 } from 'rxjs/observable/merge';
-import { filter as filter$1 } from 'rxjs/operators/filter';
 import { fromEvent as fromEvent$1 } from 'rxjs/observable/fromEvent';
 import { of as of$1 } from 'rxjs/observable/of';
+import { filter as filter$1 } from 'rxjs/operators/filter';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/debounceTime';
@@ -7125,6 +7125,7 @@ var Subscriber = (function (_super) {
                 }
                 if (typeof destinationOrNext === 'object') {
                     if (destinationOrNext instanceof Subscriber) {
+                        this.syncErrorThrowable = destinationOrNext.syncErrorThrowable;
                         this.destination = destinationOrNext;
                         this.destination.add(this);
                     }
@@ -7825,7 +7826,7 @@ var Observable$2 = (function () {
             operator.call(sink, this.source);
         }
         else {
-            sink.add(this.source ? this._subscribe(sink) : this._trySubscribe(sink));
+            sink.add(this.source || !sink.syncErrorThrowable ? this._subscribe(sink) : this._trySubscribe(sink));
         }
         if (sink.syncErrorThrowable) {
             sink.syncErrorThrowable = false;
@@ -8275,7 +8276,6 @@ var SwitchMapSubscriber = (function (_super) {
     return SwitchMapSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-// CDK
 /**
  * Injection token that determines the scroll handling while the autocomplete panel is open.
  */
@@ -8314,6 +8314,7 @@ class NovoOverlayTemplate {
         this._document = _document;
         this.id = `novo-overlay-${Date.now()}`;
         this.position = 'default';
+        this.size = 'none';
         this.closeOnSelect = true;
         this.select = new EventEmitter();
         this.closing = new EventEmitter();
@@ -8332,21 +8333,29 @@ class NovoOverlayTemplate {
         return this._panelOpen;
     }
     /**
+     * @param {?} value
+     * @return {?}
+     */
+    set parent(value) {
+        this._parent = value;
+        this._checkSizes();
+    }
+    /**
+     * @return {?}
+     */
+    get parent() {
+        return this._parent;
+    }
+    /**
      * Opens the autocomplete suggestion panel.
      * @return {?}
      */
     openPanel() {
-        //if (!this.overlayTemplate) {
-        //throw getMdAutocompleteMissingPanelError();
-        //}
         if (!this._overlayRef) {
             this._createOverlay(this.template);
         }
         else {
-            /** Update the panel width, in case the host width has changed */
-            this._overlayRef.getConfig().width = this._getHostWidth();
-            this._overlayRef.updateSize();
-            this._overlayRef.updatePosition();
+            this._checkSizes();
         }
         if (this._overlayRef && !this._overlayRef.hasAttached()) {
             this._overlayRef.attach(this._portal);
@@ -8369,10 +8378,6 @@ class NovoOverlayTemplate {
             this.closing.emit(true);
             if (this._panelOpen) {
                 this._panelOpen = false;
-                // We need to trigger change detection manually, because
-                // `fromEvent` doesn't seem to do it at the proper time.
-                // This ensures that the placeholder is reset when the
-                // user clicks outside.
                 this._changeDetectorRef.markForCheck();
             }
         });
@@ -8391,7 +8396,7 @@ class NovoOverlayTemplate {
      */
     get panelClosingActions() {
         return merge$1(
-        //this.overlayTemplate._keyManager.tabOut,
+        // this.overlayTemplate._keyManager.tabOut,
         this._outsideClickStream);
     }
     /**
@@ -8400,14 +8405,13 @@ class NovoOverlayTemplate {
      */
     get _outsideClickStream() {
         if (!this._document) {
-            return of$1(null);
+            return of$1();
         }
-        return merge$1(fromEvent$1(this._document, 'click'), fromEvent$1(this._document, 'touchend'))
-            .pipe(filter$1((event) => {
+        return merge$1(fromEvent$1(this._document, 'click'), fromEvent$1(this._document, 'touchend')).pipe(filter$1((event) => {
             const /** @type {?} */ clickTarget = (event.target);
             const /** @type {?} */ clicked = this._panelOpen &&
                 clickTarget !== this._getConnectedElement().nativeElement &&
-                (!this._getConnectedElement().nativeElement.contains(clickTarget)) &&
+                !this._getConnectedElement().nativeElement.contains(clickTarget) &&
                 (!!this._overlayRef && !this._overlayRef.overlayElement.contains(clickTarget));
             if (this._panelOpen && !!this._overlayRef && this._overlayRef.overlayElement.contains(clickTarget) && this.closeOnSelect) {
                 this.select.emit(event);
@@ -8422,9 +8426,9 @@ class NovoOverlayTemplate {
      */
     _subscribeToClosingActions() {
         const /** @type {?} */ firstStable = this._zone.onStable.asObservable().pipe(first_2());
-        //const valueChanges = Observable.from(this.value);
+        // const valueChanges = Observable.from(this.value);
         // When the zone is stable initially, and when the option list changes...
-        return merge$1(firstStable)
+        return (merge$1(firstStable)
             .pipe(
         // create a new stream of panelClosingActions, replacing any previous streams
         // that were created, and flatten it so our stream only emits closing events...
@@ -8433,7 +8437,7 @@ class NovoOverlayTemplate {
         }), 
         // when the first closing event occurs...
         first_2())
-            .subscribe(event => this.onClosingAction(event));
+            .subscribe((event) => this.onClosingAction(event)));
     }
     /**
      * Destroys the autocomplete suggestion panel.
@@ -8443,7 +8447,7 @@ class NovoOverlayTemplate {
         if (this._overlayRef) {
             this.closePanel();
             this._overlayRef.dispose();
-            this._overlayRef = null;
+            this._overlayRef = undefined;
         }
     }
     /**
@@ -8453,7 +8457,6 @@ class NovoOverlayTemplate {
     _createOverlay(template) {
         this._portal = new TemplatePortal(template, this._viewContainerRef);
         this._overlayRef = this._overlay.create(this._getOverlayConfig());
-        this._overlayRef.getConfig().width = this._getHostWidth();
     }
     /**
      * @return {?}
@@ -8461,7 +8464,9 @@ class NovoOverlayTemplate {
     _getOverlayConfig() {
         const /** @type {?} */ overlayState = new OverlayConfig();
         overlayState.positionStrategy = this._getOverlayPosition();
-        //overlayState.width = this._getHostWidth();
+        if (this.size === 'inherit') {
+            overlayState.width = this._getHostWidth();
+        }
         overlayState.direction = 'ltr';
         overlayState.scrollStrategy = this._scrollStrategy();
         return overlayState;
@@ -8472,18 +8477,41 @@ class NovoOverlayTemplate {
     _getOverlayPosition() {
         switch (this.position) {
             case 'center':
-                this._positionStrategy = this._overlay.position()
+                this._positionStrategy = this._overlay
+                    .position()
                     .connectedTo(this._getConnectedElement(), { originX: 'start', originY: 'center' }, { overlayX: 'start', overlayY: 'center' })
                     .withFallbackPosition({ originX: 'start', originY: 'top' }, { overlayX: 'start', overlayY: 'top' })
                     .withFallbackPosition({ originX: 'start', originY: 'bottom' }, { overlayX: 'start', overlayY: 'bottom' });
                 break;
+            case 'right':
+                this._positionStrategy = this._overlay
+                    .position()
+                    .connectedTo(this._getConnectedElement(), { originX: 'end', originY: 'bottom' }, { overlayX: 'end', overlayY: 'top' })
+                    .withFallbackPosition({ originX: 'start', originY: 'bottom' }, { overlayX: 'start', overlayY: 'top' })
+                    .withFallbackPosition({ originX: 'end', originY: 'top' }, { overlayX: 'end', overlayY: 'bottom' })
+                    .withFallbackPosition({ originX: 'start', originY: 'top' }, { overlayX: 'start', overlayY: 'bottom' });
+                break;
             default:
-                this._positionStrategy = this._overlay.position()
+                this._positionStrategy = this._overlay
+                    .position()
                     .connectedTo(this._getConnectedElement(), { originX: 'start', originY: 'bottom' }, { overlayX: 'start', overlayY: 'top' })
                     .withFallbackPosition({ originX: 'start', originY: 'top' }, { overlayX: 'start', overlayY: 'bottom' });
                 break;
         }
         return this._positionStrategy;
+    }
+    /**
+     * @return {?}
+     */
+    _checkSizes() {
+        if (this._overlayRef) {
+            if (this.size === 'inherit') {
+                this._overlayRef.getConfig().width = this._getHostWidth();
+            }
+            this._overlayRef.updateSize(this._overlayRef.getConfig());
+            this._overlayRef.updatePosition();
+            this._changeDetectorRef.markForCheck();
+        }
     }
     /**
      * @return {?}
@@ -8509,7 +8537,7 @@ NovoOverlayTemplate.decorators = [
             <ng-content></ng-content>
         </div>
     </ng-template>
-  `
+  `,
             },] },
 ];
 /**
@@ -8526,11 +8554,12 @@ NovoOverlayTemplate.ctorParameters = () => [
 NovoOverlayTemplate.propDecorators = {
     'template': [{ type: ViewChild, args: [TemplateRef,] },],
     'panel': [{ type: ViewChild, args: ['panel',] },],
-    'parent': [{ type: Input },],
     'position': [{ type: Input },],
+    'size': [{ type: Input },],
     'closeOnSelect': [{ type: Input },],
     'select': [{ type: Output },],
     'closing': [{ type: Output },],
+    'parent': [{ type: Input },],
 };
 
 // NG2
@@ -34202,7 +34231,7 @@ class NovoSimpleCellDef extends _NovoCellDef {
 NovoSimpleCellDef.decorators = [
     { type: Directive, args: [{
                 selector: '[novoSimpleCellDef]',
-                providers: [{ provide: CdkCellDef, useExisting: NovoSimpleCellDef }]
+                providers: [{ provide: CdkCellDef, useExisting: NovoSimpleCellDef }],
             },] },
 ];
 /**
@@ -34214,7 +34243,7 @@ class NovoSimpleHeaderCellDef extends _NovoHeaderCellDef {
 NovoSimpleHeaderCellDef.decorators = [
     { type: Directive, args: [{
                 selector: '[novoSimpleHeaderCellDef]',
-                providers: [{ provide: CdkHeaderCellDef, useExisting: NovoSimpleHeaderCellDef }]
+                providers: [{ provide: CdkHeaderCellDef, useExisting: NovoSimpleHeaderCellDef }],
             },] },
 ];
 /**
@@ -34243,7 +34272,7 @@ class NovoSimpleHeaderCell extends _NovoHeaderCell {
      * @param {?} renderer
      */
     constructor(columnDef, elementRef, renderer) {
-        super(columnDef, elementRef, renderer);
+        super(columnDef, elementRef);
         this.elementRef = elementRef;
         this.renderer = renderer;
         this.role = 'columnheader';
@@ -34264,7 +34293,7 @@ class NovoSimpleHeaderCell extends _NovoHeaderCell {
 }
 NovoSimpleHeaderCell.decorators = [
     { type: Directive, args: [{
-                selector: 'novo-simple-header-cell'
+                selector: 'novo-simple-header-cell',
             },] },
 ];
 /**
@@ -34286,7 +34315,7 @@ class NovoSimpleEmptyHeaderCell extends _NovoHeaderCell {
      * @param {?} renderer
      */
     constructor(columnDef, elementRef, renderer) {
-        super(columnDef, elementRef, renderer);
+        super(columnDef, elementRef);
         this.role = 'columnheader';
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', `novo-column-header-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, `novo-column-${columnDef.cssClassFriendlyName}`);
@@ -34295,7 +34324,7 @@ class NovoSimpleEmptyHeaderCell extends _NovoHeaderCell {
 }
 NovoSimpleEmptyHeaderCell.decorators = [
     { type: Directive, args: [{
-                selector: 'novo-simple-empty-header-cell'
+                selector: 'novo-simple-empty-header-cell',
             },] },
 ];
 /**
@@ -34318,7 +34347,7 @@ class NovoSimpleCheckboxHeaderCell extends _NovoHeaderCell {
      * @param {?} _selection
      */
     constructor(columnDef, elementRef, renderer, ref, _selection) {
-        super(columnDef, elementRef, renderer);
+        super(columnDef, elementRef);
         this._selection = _selection;
         this.role = 'columnheader';
         this.selectAll = false;
@@ -34347,7 +34376,7 @@ class NovoSimpleCheckboxHeaderCell extends _NovoHeaderCell {
 NovoSimpleCheckboxHeaderCell.decorators = [
     { type: Component, args: [{
                 selector: 'novo-simple-checkbox-header-cell',
-                template: `<novo-checkbox [(ngModel)]="selectAll" (ngModelChange)="toggle($event)"></novo-checkbox>`
+                template: `<novo-checkbox [(ngModel)]="selectAll" (ngModelChange)="toggle($event)"></novo-checkbox>`,
             },] },
 ];
 /**
@@ -34370,7 +34399,7 @@ class NovoSimpleCell extends _NovoCell {
      * @param {?} renderer
      */
     constructor(columnDef, elementRef, renderer) {
-        super(columnDef, elementRef, renderer);
+        super(columnDef, elementRef);
         this.elementRef = elementRef;
         this.renderer = renderer;
         this.role = 'gridcell';
@@ -34419,7 +34448,7 @@ NovoSimpleCell.decorators = [
                 template: `
         <span [class.clickable]="!!column.onClick" (click)="onClick($event)" #span>{{ column.renderer(row) }}</span>
     `,
-                changeDetection: ChangeDetectionStrategy.OnPush
+                changeDetection: ChangeDetectionStrategy.OnPush,
             },] },
 ];
 /**
@@ -34444,7 +34473,7 @@ class NovoSimpleCheckboxCell extends _NovoCell {
      * @param {?} _selection
      */
     constructor(columnDef, elementRef, renderer, _selection) {
-        super(columnDef, elementRef, renderer);
+        super(columnDef, elementRef);
         this.columnDef = columnDef;
         this._selection = _selection;
         this.role = 'gridcell';
@@ -34483,7 +34512,7 @@ NovoSimpleCheckboxCell.decorators = [
                 selector: 'novo-simple-checkbox-cell',
                 template: `
         <novo-checkbox [ngModel]="selected" (ngModelChange)="toggle($event)"></novo-checkbox>
-    `
+    `,
             },] },
 ];
 /**
@@ -34508,7 +34537,7 @@ class NovoSimpleActionCell extends _NovoCell {
      * @param {?} labels
      */
     constructor(columnDef, elementRef, renderer, labels) {
-        super(columnDef, elementRef, renderer);
+        super(columnDef, elementRef);
         this.elementRef = elementRef;
         this.renderer = renderer;
         this.labels = labels;
@@ -34559,7 +34588,7 @@ NovoSimpleActionCell.decorators = [
             </novo-dropdown>
         </ng-container>
     `,
-                changeDetection: ChangeDetectionStrategy.OnPush
+                changeDetection: ChangeDetectionStrategy.OnPush,
             },] },
 ];
 /**
@@ -35225,7 +35254,7 @@ class BrowserGlobalRef extends GlobalRef {
      * @return {?}
      */
     get nativeGlobal() {
-        return (window);
+        return /** @type {?} */ (window);
     }
 }
 
@@ -36699,7 +36728,7 @@ class PopOverDirective {
             this.popover = this.viewContainerRef.createComponent(factory);
             const /** @type {?} */ popover = (this.popover.instance);
             popover.popover = this;
-            popover.content = (this.content);
+            popover.content = /** @type {?} */ (this.content);
             if (this.popoverPlacement !== undefined) {
                 popover.placement = this.popoverPlacement;
             }

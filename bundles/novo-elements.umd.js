@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('@angular/platform-browser'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/operators/filter'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('@bullhorn/dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/animations'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/cdk/table'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/observable/of'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', '@angular/platform-browser', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/operators/filter', 'rxjs/observable/fromEvent', 'rxjs/observable/of', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', '@bullhorn/dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/animations', '@angular/http', 'rxjs/add/operator/map', '@angular/cdk/table', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/observable/of', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('@angular/platform-browser'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('rxjs/operators/filter'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('@bullhorn/dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/animations'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/cdk/table'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/observable/of'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', '@angular/platform-browser', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/observable/fromEvent', 'rxjs/observable/of', 'rxjs/operators/filter', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', '@bullhorn/dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/animations', '@angular/http', 'rxjs/add/operator/map', '@angular/cdk/table', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/observable/of', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
 	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.ng.platformBrowser,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.animations,global.ng.http,global.Rx.Observable.prototype,global.ng.cdk.table));
-}(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,platformBrowser,Observable,fromPromise,overlay,portal,merge,filter,fromEvent,of,coercion,fromEvent$2,debounceTime,distinctUntilChanged,keycodes,dragulaImported,ReplaySubject,angular2TextMask,animations,http,map,table) { 'use strict';
+}(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,platformBrowser,Observable,fromPromise,overlay,portal,merge,fromEvent,of,filter,coercion,fromEvent$2,debounceTime,distinctUntilChanged,keycodes,dragulaImported,ReplaySubject,angular2TextMask,animations,http,map,table) { 'use strict';
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var Helpers = (function () {
+var Helpers = /** @class */ (function () {
     function Helpers() {
     }
     /**
@@ -366,7 +366,7 @@ var Helpers = (function () {
     };
     return Helpers;
 }());
-var Can = (function () {
+var Can = /** @class */ (function () {
     /**
      * @param {?} obj
      */
@@ -412,7 +412,7 @@ var ACE_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoAceEditor; }),
     multi: true
 };
-var NovoAceEditor = (function () {
+var NovoAceEditor = /** @class */ (function () {
     /**
      * @param {?} elementRef
      */
@@ -602,7 +602,7 @@ NovoAceEditor.propDecorators = {
 };
 // NG2
 // APP
-var NovoAceEditorModule = (function () {
+var NovoAceEditorModule = /** @class */ (function () {
     function NovoAceEditorModule() {
     }
     return NovoAceEditorModule;
@@ -732,7 +732,7 @@ function replaceWord(replaceMap, keepMap, rules) {
         return sanitizeWord(token, word, rules);
     };
 }
-var Pluralize = (function () {
+var Pluralize = /** @class */ (function () {
     function Pluralize() {
     }
     /**
@@ -1017,7 +1017,7 @@ var Pluralize = (function () {
     /measles$/i,
     /[^aeiou]ese$/i // "chinese", "japanese"
 ].forEach(Pluralize.addUncountableRule);
-var PluralPipe = (function () {
+var PluralPipe = /** @class */ (function () {
     function PluralPipe() {
     }
     /**
@@ -1039,7 +1039,7 @@ PluralPipe.decorators = [
 PluralPipe.ctorParameters = function () { return []; };
 // NG2
 // App
-var DecodeURIPipe = (function () {
+var DecodeURIPipe = /** @class */ (function () {
     function DecodeURIPipe() {
     }
     /**
@@ -1063,7 +1063,7 @@ DecodeURIPipe.decorators = [
  * @nocollapse
  */
 DecodeURIPipe.ctorParameters = function () { return []; };
-var GroupByPipe = (function () {
+var GroupByPipe = /** @class */ (function () {
     function GroupByPipe() {
     }
     /**
@@ -1099,7 +1099,7 @@ GroupByPipe.decorators = [
 GroupByPipe.ctorParameters = function () { return []; };
 // NG2
 // APP
-var NovoPipesModule = (function () {
+var NovoPipesModule = /** @class */ (function () {
     function NovoPipesModule() {
     }
     return NovoPipesModule;
@@ -1115,7 +1115,7 @@ NovoPipesModule.decorators = [
  */
 NovoPipesModule.ctorParameters = function () { return []; };
 // NG2
-var NovoButtonElement = (function () {
+var NovoButtonElement = /** @class */ (function () {
     function NovoButtonElement() {
         this.leftSide = false;
         this.rightSide = true;
@@ -1158,7 +1158,7 @@ NovoButtonElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoButtonModule = (function () {
+var NovoButtonModule = /** @class */ (function () {
     function NovoButtonModule() {
     }
     return NovoButtonModule;
@@ -1175,7 +1175,7 @@ NovoButtonModule.decorators = [
  */
 NovoButtonModule.ctorParameters = function () { return []; };
 // NG2
-var NovoLoadingElement = (function () {
+var NovoLoadingElement = /** @class */ (function () {
     function NovoLoadingElement() {
     }
     return NovoLoadingElement;
@@ -1196,7 +1196,7 @@ NovoLoadingElement.ctorParameters = function () { return []; };
 NovoLoadingElement.propDecorators = {
     'theme': [{ type: core.Input },],
 };
-var NovoSpinnerElement = (function () {
+var NovoSpinnerElement = /** @class */ (function () {
     function NovoSpinnerElement() {
     }
     return NovoSpinnerElement;
@@ -1218,7 +1218,7 @@ NovoSpinnerElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoLoadingModule = (function () {
+var NovoLoadingModule = /** @class */ (function () {
     function NovoLoadingModule() {
     }
     return NovoLoadingModule;
@@ -1235,7 +1235,7 @@ NovoLoadingModule.decorators = [
  */
 NovoLoadingModule.ctorParameters = function () { return []; };
 // NG2
-var TooltipDirective = (function () {
+var TooltipDirective = /** @class */ (function () {
     function TooltipDirective() {
         this.position = 'top';
     }
@@ -1309,7 +1309,7 @@ TooltipDirective.propDecorators = {
 };
 // NG2
 // APP
-var NovoTooltipModule = (function () {
+var NovoTooltipModule = /** @class */ (function () {
     function NovoTooltipModule() {
     }
     return NovoTooltipModule;
@@ -1325,7 +1325,7 @@ NovoTooltipModule.decorators = [
  */
 NovoTooltipModule.ctorParameters = function () { return []; };
 // NG2
-var NovoLabelService = (function () {
+var NovoLabelService = /** @class */ (function () {
     function NovoLabelService() {
         this.filters = 'Filter';
         this.clear = 'Clear';
@@ -1545,7 +1545,7 @@ NovoLabelService.decorators = [
 NovoLabelService.ctorParameters = function () { return []; };
 // NG2
 // APP
-var CardActionsElement = (function () {
+var CardActionsElement = /** @class */ (function () {
     function CardActionsElement() {
     }
     return CardActionsElement;
@@ -1560,7 +1560,7 @@ CardActionsElement.decorators = [
  * @nocollapse
  */
 CardActionsElement.ctorParameters = function () { return []; };
-var CardElement = (function () {
+var CardElement = /** @class */ (function () {
     /**
      * @param {?} labels
      */
@@ -1642,7 +1642,7 @@ CardElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoCardModule = (function () {
+var NovoCardModule = /** @class */ (function () {
     function NovoCardModule() {
     }
     return NovoCardModule;
@@ -1658,7 +1658,7 @@ NovoCardModule.decorators = [
  * @nocollapse
  */
 NovoCardModule.ctorParameters = function () { return []; };
-var NovoEventTypeLegendElement = (function () {
+var NovoEventTypeLegendElement = /** @class */ (function () {
     function NovoEventTypeLegendElement() {
         this.eventTypeClicked = new core.EventEmitter();
     }
@@ -1679,7 +1679,7 @@ NovoEventTypeLegendElement.propDecorators = {
     'customTemplate': [{ type: core.Input },],
     'eventTypeClicked': [{ type: core.Output },],
 };
-var NovoCalendarDateChangeElement = (function () {
+var NovoCalendarDateChangeElement = /** @class */ (function () {
     /**
      * @param {?} locale
      */
@@ -2129,7 +2129,7 @@ function getDayViewHourGrid(_b) {
  * &lt;/novo-calendar-month-view&gt;
  * ```
  */
-var NovoCalendarMonthViewElement = (function () {
+var NovoCalendarMonthViewElement = /** @class */ (function () {
     /**
      * @hidden
      * @param {?} cdr
@@ -2285,7 +2285,7 @@ NovoCalendarMonthViewElement.propDecorators = {
     'eventTimesChanged': [{ type: core.Output },],
     'viewDateChange': [{ type: core.Output },],
 };
-var NovoCalendarMonthHeaderElement = (function () {
+var NovoCalendarMonthHeaderElement = /** @class */ (function () {
     function NovoCalendarMonthHeaderElement() {
         /**
          * Called when the view date is changed
@@ -2323,7 +2323,7 @@ NovoCalendarMonthHeaderElement.propDecorators = {
     'customTemplate': [{ type: core.Input },],
     'viewDateChange': [{ type: core.Output },],
 };
-var NovoCalendarMonthDayElement = (function () {
+var NovoCalendarMonthDayElement = /** @class */ (function () {
     function NovoCalendarMonthDayElement() {
         this.eventClicked = new core.EventEmitter();
     }
@@ -2418,7 +2418,7 @@ var SEGMENT_HEIGHT = 30;
  * &lt;/novo-calendar-week&gt;
  * ```
  */
-var NovoCalendarWeekViewElement = (function () {
+var NovoCalendarWeekViewElement = /** @class */ (function () {
     /**
      * @hidden
      * @param {?} cdr
@@ -2636,7 +2636,7 @@ NovoCalendarWeekViewElement.propDecorators = {
     'eventClicked': [{ type: core.Output },],
     'eventTimesChanged': [{ type: core.Output },],
 };
-var NovoCalendarWeekHeaderElement = (function () {
+var NovoCalendarWeekHeaderElement = /** @class */ (function () {
     function NovoCalendarWeekHeaderElement() {
         this.dayClicked = new core.EventEmitter();
         this.eventDropped = new core.EventEmitter();
@@ -2660,7 +2660,7 @@ NovoCalendarWeekHeaderElement.propDecorators = {
     'dayClicked': [{ type: core.Output },],
     'eventDropped': [{ type: core.Output },],
 };
-var NovoCalendarWeekEventElement = (function () {
+var NovoCalendarWeekEventElement = /** @class */ (function () {
     function NovoCalendarWeekEventElement() {
         this.eventClicked = new core.EventEmitter();
     }
@@ -2696,7 +2696,7 @@ var SEGMENT_HEIGHT$1 = 30;
  * &lt;/novo-calendar-day&gt;
  * ```
  */
-var NovoCalendarDayViewElement = (function () {
+var NovoCalendarDayViewElement = /** @class */ (function () {
     /**
      * @hidden
      * @param {?} cdr
@@ -2893,7 +2893,7 @@ NovoCalendarDayViewElement.propDecorators = {
     'hourSegmentClicked': [{ type: core.Output },],
     'eventTimesChanged': [{ type: core.Output },],
 };
-var NovoCalendarDayEventElement = (function () {
+var NovoCalendarDayEventElement = /** @class */ (function () {
     function NovoCalendarDayEventElement() {
         this.eventClicked = new core.EventEmitter();
     }
@@ -2915,7 +2915,7 @@ NovoCalendarDayEventElement.propDecorators = {
     'customTemplate': [{ type: core.Input },],
     'eventClicked': [{ type: core.Output },],
 };
-var NovoCalendarHourSegmentElement = (function () {
+var NovoCalendarHourSegmentElement = /** @class */ (function () {
     function NovoCalendarHourSegmentElement() {
     }
     return NovoCalendarHourSegmentElement;
@@ -2935,7 +2935,7 @@ NovoCalendarHourSegmentElement.propDecorators = {
     'locale': [{ type: core.Input },],
     'customTemplate': [{ type: core.Input },],
 };
-var NovoCalendarAllDayEventElement = (function () {
+var NovoCalendarAllDayEventElement = /** @class */ (function () {
     function NovoCalendarAllDayEventElement() {
         this.eventClicked = new core.EventEmitter();
     }
@@ -2956,7 +2956,7 @@ NovoCalendarAllDayEventElement.propDecorators = {
     'customTemplate': [{ type: core.Input },],
     'eventClicked': [{ type: core.Output },],
 };
-var WeekdayPipe = (function () {
+var WeekdayPipe = /** @class */ (function () {
     /**
      * @param {?=} locale
      */
@@ -2986,7 +2986,7 @@ WeekdayPipe.decorators = [
 WeekdayPipe.ctorParameters = function () { return [
     { type: undefined, decorators: [{ type: core.Inject, args: [core.LOCALE_ID,] },] },
 ]; };
-var MonthPipe = (function () {
+var MonthPipe = /** @class */ (function () {
     /**
      * @param {?=} locale
      */
@@ -3016,7 +3016,7 @@ MonthPipe.decorators = [
 MonthPipe.ctorParameters = function () { return [
     { type: undefined, decorators: [{ type: core.Inject, args: [core.LOCALE_ID,] },] },
 ]; };
-var MonthDayPipe = (function () {
+var MonthDayPipe = /** @class */ (function () {
     /**
      * @param {?=} locale
      */
@@ -3046,7 +3046,7 @@ MonthDayPipe.decorators = [
 MonthDayPipe.ctorParameters = function () { return [
     { type: undefined, decorators: [{ type: core.Inject, args: [core.LOCALE_ID,] },] },
 ]; };
-var YearPipe = (function () {
+var YearPipe = /** @class */ (function () {
     /**
      * @param {?=} locale
      */
@@ -3076,7 +3076,7 @@ YearPipe.decorators = [
 YearPipe.ctorParameters = function () { return [
     { type: undefined, decorators: [{ type: core.Inject, args: [core.LOCALE_ID,] },] },
 ]; };
-var HoursPipe = (function () {
+var HoursPipe = /** @class */ (function () {
     /**
      * @param {?=} locale
      */
@@ -3106,7 +3106,7 @@ HoursPipe.decorators = [
 HoursPipe.ctorParameters = function () { return [
     { type: undefined, decorators: [{ type: core.Inject, args: [core.LOCALE_ID,] },] },
 ]; };
-var DayOfMonthPipe = (function () {
+var DayOfMonthPipe = /** @class */ (function () {
     /**
      * @param {?=} locale
      */
@@ -3136,7 +3136,7 @@ DayOfMonthPipe.decorators = [
 DayOfMonthPipe.ctorParameters = function () { return [
     { type: undefined, decorators: [{ type: core.Inject, args: [core.LOCALE_ID,] },] },
 ]; };
-var EndOfWeekDisplayPipe = (function () {
+var EndOfWeekDisplayPipe = /** @class */ (function () {
     /**
      * @param {?=} locale
      */
@@ -3177,7 +3177,7 @@ EndOfWeekDisplayPipe.ctorParameters = function () { return [
 // Week View
 // Day View
 // Common
-var NovoCalendarModule = (function () {
+var NovoCalendarModule = /** @class */ (function () {
     function NovoCalendarModule() {
     }
     return NovoCalendarModule;
@@ -3234,7 +3234,7 @@ NovoCalendarModule.decorators = [
  */
 NovoCalendarModule.ctorParameters = function () { return []; };
 // NG2
-var NovoToastElement = (function () {
+var NovoToastElement = /** @class */ (function () {
     /**
      * @param {?} sanitizer
      */
@@ -3346,7 +3346,7 @@ NovoToastElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoToastModule = (function () {
+var NovoToastModule = /** @class */ (function () {
     function NovoToastModule() {
     }
     return NovoToastModule;
@@ -3363,7 +3363,7 @@ NovoToastModule.decorators = [
  * @nocollapse
  */
 NovoToastModule.ctorParameters = function () { return []; };
-var NovoHeaderSpacer = (function () {
+var NovoHeaderSpacer = /** @class */ (function () {
     function NovoHeaderSpacer() {
     }
     return NovoHeaderSpacer;
@@ -3378,7 +3378,7 @@ NovoHeaderSpacer.decorators = [
  * @nocollapse
  */
 NovoHeaderSpacer.ctorParameters = function () { return []; };
-var NovoUtilsComponent = (function () {
+var NovoUtilsComponent = /** @class */ (function () {
     function NovoUtilsComponent() {
     }
     return NovoUtilsComponent;
@@ -3393,7 +3393,7 @@ NovoUtilsComponent.decorators = [
  * @nocollapse
  */
 NovoUtilsComponent.ctorParameters = function () { return []; };
-var NovoUtilActionComponent = (function () {
+var NovoUtilActionComponent = /** @class */ (function () {
     function NovoUtilActionComponent() {
     }
     return NovoUtilActionComponent;
@@ -3413,7 +3413,7 @@ NovoUtilActionComponent.propDecorators = {
     'inverse': [{ type: core.Input },],
     'disabled': [{ type: core.Input },],
 };
-var NovoHeaderComponent = (function () {
+var NovoHeaderComponent = /** @class */ (function () {
     function NovoHeaderComponent() {
         this.headerClass = 'novo-header';
         this.condensed = false;
@@ -3451,7 +3451,7 @@ NovoHeaderComponent.propDecorators = {
     'icon': [{ type: core.Input },],
     'condensed': [{ type: core.HostBinding, args: ['class.condensed',] }, { type: core.Input },],
 };
-var NovoHeaderModule = (function () {
+var NovoHeaderModule = /** @class */ (function () {
     function NovoHeaderModule() {
     }
     return NovoHeaderModule;
@@ -3481,7 +3481,7 @@ NovoHeaderModule.decorators = [
  */
 NovoHeaderModule.ctorParameters = function () { return []; };
 // NG2
-var NovoNavElement = (function () {
+var NovoNavElement = /** @class */ (function () {
     function NovoNavElement() {
         this.theme = '';
         this.direction = '';
@@ -3550,7 +3550,7 @@ NovoNavElement.propDecorators = {
     'router': [{ type: core.Input },],
     'condensed': [{ type: core.HostBinding, args: ['class.condensed',] }, { type: core.Input },],
 };
-var NovoTabElement = (function () {
+var NovoTabElement = /** @class */ (function () {
     /**
      * @param {?} nav
      */
@@ -3594,7 +3594,7 @@ NovoTabElement.propDecorators = {
     'disabled': [{ type: core.Input },],
     'activeChange': [{ type: core.Output },],
 };
-var NovoTabButtonElement = (function () {
+var NovoTabButtonElement = /** @class */ (function () {
     /**
      * @param {?} nav
      */
@@ -3635,7 +3635,7 @@ NovoTabButtonElement.propDecorators = {
     'active': [{ type: core.Input },],
     'disabled': [{ type: core.Input },],
 };
-var NovoTabLinkElement = (function () {
+var NovoTabLinkElement = /** @class */ (function () {
     /**
      * @param {?} nav
      */
@@ -3676,7 +3676,7 @@ NovoTabLinkElement.propDecorators = {
     'active': [{ type: core.Input },],
     'disabled': [{ type: core.Input },],
 };
-var NovoNavOutletElement = (function () {
+var NovoNavOutletElement = /** @class */ (function () {
     function NovoNavOutletElement() {
         this.items = [];
     }
@@ -3724,7 +3724,7 @@ NovoNavOutletElement.decorators = [
  * @nocollapse
  */
 NovoNavOutletElement.ctorParameters = function () { return []; };
-var NovoNavContentElement = (function () {
+var NovoNavContentElement = /** @class */ (function () {
     /**
      * @param {?} outlet
      */
@@ -3752,7 +3752,7 @@ NovoNavContentElement.ctorParameters = function () { return [
 NovoNavContentElement.propDecorators = {
     'active': [{ type: core.Input },],
 };
-var NovoNavHeaderElement = (function () {
+var NovoNavHeaderElement = /** @class */ (function () {
     /**
      * @param {?} outlet
      */
@@ -3800,7 +3800,7 @@ NovoNavHeaderElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoTabModule = (function () {
+var NovoTabModule = /** @class */ (function () {
     function NovoTabModule() {
     }
     return NovoTabModule;
@@ -3840,7 +3840,7 @@ var TILES_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoTilesElement; }),
     multi: true
 };
-var NovoTilesElement = (function () {
+var NovoTilesElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} ref
@@ -4035,7 +4035,7 @@ NovoTilesElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoTilesModule = (function () {
+var NovoTilesModule = /** @class */ (function () {
     function NovoTilesModule() {
     }
     return NovoTilesModule;
@@ -4066,7 +4066,7 @@ function Deferred() {
     return promise;
 }
 // NG2
-var ComponentUtils = (function () {
+var ComponentUtils = /** @class */ (function () {
     /**
      * @param {?} componentFactoryResolver
      */
@@ -4116,7 +4116,7 @@ ComponentUtils.ctorParameters = function () { return [
 ]; };
 // NG2
 // APP
-var NovoModalParams = (function () {
+var NovoModalParams = /** @class */ (function () {
     function NovoModalParams() {
     }
     return NovoModalParams;
@@ -4124,7 +4124,7 @@ var NovoModalParams = (function () {
 /**
  * Reference to an opened dialog.
  */
-var NovoModalRef = (function () {
+var NovoModalRef = /** @class */ (function () {
     function NovoModalRef() {
         this.component = null;
         this.contentRef = null;
@@ -4171,7 +4171,7 @@ NovoModalRef.decorators = [
  * @nocollapse
  */
 NovoModalRef.ctorParameters = function () { return []; };
-var NovoModalContainerElement = (function () {
+var NovoModalContainerElement = /** @class */ (function () {
     /**
      * @param {?} modalRef
      * @param {?} componentUtils
@@ -4207,7 +4207,7 @@ NovoModalContainerElement.ctorParameters = function () { return [
 NovoModalContainerElement.propDecorators = {
     'container': [{ type: core.ViewChild, args: ['container', { read: core.ViewContainerRef },] },],
 };
-var NovoModalElement = (function () {
+var NovoModalElement = /** @class */ (function () {
     /**
      * @param {?} modalRef
      */
@@ -4234,7 +4234,7 @@ NovoModalElement.decorators = [
 NovoModalElement.ctorParameters = function () { return [
     { type: NovoModalRef, },
 ]; };
-var NovoModalNotificationElement = (function () {
+var NovoModalNotificationElement = /** @class */ (function () {
     /**
      * @param {?} modalRef
      */
@@ -4292,7 +4292,7 @@ NovoModalNotificationElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoModalModule = (function () {
+var NovoModalModule = /** @class */ (function () {
     function NovoModalModule() {
     }
     return NovoModalModule;
@@ -4310,7 +4310,7 @@ NovoModalModule.decorators = [
  */
 NovoModalModule.ctorParameters = function () { return []; };
 // NG2
-var NovoListElement = (function () {
+var NovoListElement = /** @class */ (function () {
     /**
      * @param {?} element
      */
@@ -4340,7 +4340,7 @@ NovoListElement.propDecorators = {
     'theme': [{ type: core.Input },],
     'direction': [{ type: core.Input },],
 };
-var NovoListItemElement = (function () {
+var NovoListItemElement = /** @class */ (function () {
     /**
      * @param {?} element
      */
@@ -4368,7 +4368,7 @@ NovoListItemElement.decorators = [
 NovoListItemElement.ctorParameters = function () { return [
     { type: core.ElementRef, },
 ]; };
-var NovoItemAvatarElement = (function () {
+var NovoItemAvatarElement = /** @class */ (function () {
     function NovoItemAvatarElement() {
     }
     /**
@@ -4400,7 +4400,7 @@ NovoItemAvatarElement.ctorParameters = function () { return []; };
 NovoItemAvatarElement.propDecorators = {
     'icon': [{ type: core.Input },],
 };
-var NovoItemTitleElement = (function () {
+var NovoItemTitleElement = /** @class */ (function () {
     function NovoItemTitleElement() {
     }
     return NovoItemTitleElement;
@@ -4415,7 +4415,7 @@ NovoItemTitleElement.decorators = [
  * @nocollapse
  */
 NovoItemTitleElement.ctorParameters = function () { return []; };
-var NovoItemHeaderElement = (function () {
+var NovoItemHeaderElement = /** @class */ (function () {
     function NovoItemHeaderElement() {
     }
     return NovoItemHeaderElement;
@@ -4430,7 +4430,7 @@ NovoItemHeaderElement.decorators = [
  * @nocollapse
  */
 NovoItemHeaderElement.ctorParameters = function () { return []; };
-var NovoItemDateElement = (function () {
+var NovoItemDateElement = /** @class */ (function () {
     function NovoItemDateElement() {
     }
     return NovoItemDateElement;
@@ -4445,7 +4445,7 @@ NovoItemDateElement.decorators = [
  * @nocollapse
  */
 NovoItemDateElement.ctorParameters = function () { return []; };
-var NovoItemContentElement = (function () {
+var NovoItemContentElement = /** @class */ (function () {
     function NovoItemContentElement() {
     }
     return NovoItemContentElement;
@@ -4467,7 +4467,7 @@ NovoItemContentElement.ctorParameters = function () { return []; };
 NovoItemContentElement.propDecorators = {
     'direction': [{ type: core.Input },],
 };
-var NovoItemEndElement = (function () {
+var NovoItemEndElement = /** @class */ (function () {
     function NovoItemEndElement() {
     }
     return NovoItemEndElement;
@@ -4484,7 +4484,7 @@ NovoItemEndElement.decorators = [
 NovoItemEndElement.ctorParameters = function () { return []; };
 // NG2
 // APP
-var NovoListModule = (function () {
+var NovoListModule = /** @class */ (function () {
     function NovoListModule() {
     }
     return NovoListModule;
@@ -4505,7 +4505,7 @@ NovoListModule.ctorParameters = function () { return []; };
 /**
  * Outside click helper, makes to set the element as inactive when clicking outside of it
  */
-var OutsideClick = (function () {
+var OutsideClick = /** @class */ (function () {
     /**
      * @param {?} element
      */
@@ -4664,7 +4664,7 @@ var KeyCodes = {
  * \@description This is the actual list of matches that gets injected into the DOM. It's also the piece that can be
  * overwritten if custom list options are needed.
  */
-var BasePickerResults = (function () {
+var BasePickerResults = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} ref
@@ -5024,7 +5024,7 @@ BasePickerResults.propDecorators = {
 };
 // NG2
 // APP
-var PickerResults = (function (_super) {
+var PickerResults = /** @class */ (function (_super) {
     __extends(PickerResults, _super);
     /**
      * @param {?} element
@@ -5064,7 +5064,7 @@ PickerResults.ctorParameters = function () { return [
 // NG2
 // Vendor
 // APP
-var QuickNoteResults = (function (_super) {
+var QuickNoteResults = /** @class */ (function (_super) {
     __extends(QuickNoteResults, _super);
     /**
      * @param {?} element
@@ -5220,7 +5220,7 @@ var QUICK_NOTE_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return QuickNoteElement; }),
     multi: true
 };
-var QuickNoteElement = (function (_super) {
+var QuickNoteElement = /** @class */ (function (_super) {
     __extends(QuickNoteElement, _super);
     /**
      * @param {?} zone
@@ -5798,7 +5798,7 @@ QuickNoteElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoQuickNoteModule = (function () {
+var NovoQuickNoteModule = /** @class */ (function () {
     function NovoQuickNoteModule() {
     }
     return NovoQuickNoteModule;
@@ -5823,7 +5823,7 @@ var RADIO_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoRadioElement; }),
     multi: true
 };
-var NovoRadioGroup = (function () {
+var NovoRadioGroup = /** @class */ (function () {
     function NovoRadioGroup() {
     }
     return NovoRadioGroup;
@@ -5838,7 +5838,7 @@ NovoRadioGroup.decorators = [
  * @nocollapse
  */
 NovoRadioGroup.ctorParameters = function () { return []; };
-var NovoRadioElement = (function () {
+var NovoRadioElement = /** @class */ (function () {
     /**
      * @param {?} ref
      */
@@ -5919,7 +5919,7 @@ NovoRadioElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoRadioModule = (function () {
+var NovoRadioModule = /** @class */ (function () {
     function NovoRadioModule() {
     }
     return NovoRadioModule;
@@ -5937,7 +5937,7 @@ NovoRadioModule.decorators = [
 NovoRadioModule.ctorParameters = function () { return []; };
 // NG2
 // APP
-var NovoDropdownContainer = (function () {
+var NovoDropdownContainer = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} renderer
@@ -6035,7 +6035,7 @@ NovoDropdownContainer.ctorParameters = function () { return [
 NovoDropdownContainer.propDecorators = {
     'onKeyDown': [{ type: core.HostListener, args: ['keydown', ['$event'],] },],
 };
-var NovoDropdownElement = (function (_super) {
+var NovoDropdownElement = /** @class */ (function (_super) {
     __extends(NovoDropdownElement, _super);
     /**
      * @param {?} element
@@ -6268,7 +6268,7 @@ NovoDropdownElement.propDecorators = {
     'button': [{ type: core.ViewChild, args: ['trigger',] },],
     'onKeyDown': [{ type: core.HostListener, args: ['keydown', ['$event'],] },],
 };
-var NovoItemElement = (function () {
+var NovoItemElement = /** @class */ (function () {
     /**
      * @param {?} dropdown
      * @param {?} element
@@ -6319,7 +6319,7 @@ NovoItemElement.propDecorators = {
     'action': [{ type: core.Output },],
     'onClick': [{ type: core.HostListener, args: ['click', [],] },],
 };
-var NovoListElement$1 = (function () {
+var NovoListElement$1 = /** @class */ (function () {
     /**
      * @param {?} dropdown
      */
@@ -6349,7 +6349,7 @@ NovoListElement$1.ctorParameters = function () { return [
 NovoListElement$1.propDecorators = {
     'items': [{ type: core.ContentChildren, args: [NovoItemElement,] },],
 };
-var NovoItemHeaderElement$1 = (function () {
+var NovoItemHeaderElement$1 = /** @class */ (function () {
     function NovoItemHeaderElement$1() {
     }
     return NovoItemHeaderElement$1;
@@ -6366,7 +6366,7 @@ NovoItemHeaderElement$1.decorators = [
 NovoItemHeaderElement$1.ctorParameters = function () { return []; };
 // NG2
 // APP
-var NovoDropdownModule = (function () {
+var NovoDropdownModule = /** @class */ (function () {
     function NovoDropdownModule() {
     }
     return NovoDropdownModule;
@@ -6726,6 +6726,7 @@ var Subscriber = (function (_super) {
                 }
                 if (typeof destinationOrNext === 'object') {
                     if (destinationOrNext instanceof Subscriber) {
+                        this.syncErrorThrowable = destinationOrNext.syncErrorThrowable;
                         this.destination = destinationOrNext;
                         this.destination.add(this);
                     }
@@ -7401,7 +7402,7 @@ var Observable$2 = (function () {
             operator.call(sink, this.source);
         }
         else {
-            sink.add(this.source ? this._subscribe(sink) : this._trySubscribe(sink));
+            sink.add(this.source || !sink.syncErrorThrowable ? this._subscribe(sink) : this._trySubscribe(sink));
         }
         if (sink.syncErrorThrowable) {
             sink.syncErrorThrowable = false;
@@ -7839,7 +7840,6 @@ var SwitchMapSubscriber = (function (_super) {
     };
     return SwitchMapSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-// CDK
 /**
  * Injection token that determines the scroll handling while the autocomplete panel is open.
  */
@@ -7860,7 +7860,7 @@ var DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER = {
     deps: [overlay.Overlay],
     useFactory: DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY,
 };
-var NovoOverlayTemplate = (function () {
+var NovoOverlayTemplate = /** @class */ (function () {
     /**
      * @param {?} _overlay
      * @param {?} _viewContainerRef
@@ -7878,6 +7878,7 @@ var NovoOverlayTemplate = (function () {
         this._document = _document;
         this.id = "novo-overlay-" + Date.now();
         this.position = 'default';
+        this.size = 'none';
         this.closeOnSelect = true;
         this.select = new core.EventEmitter();
         this.closing = new core.EventEmitter();
@@ -7899,23 +7900,35 @@ var NovoOverlayTemplate = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(NovoOverlayTemplate.prototype, "parent", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._parent;
+        },
+        /**
+         * @param {?} value
+         * @return {?}
+         */
+        set: function (value) {
+            this._parent = value;
+            this._checkSizes();
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Opens the autocomplete suggestion panel.
      * @return {?}
      */
     NovoOverlayTemplate.prototype.openPanel = function () {
         var _this = this;
-        //if (!this.overlayTemplate) {
-        //throw getMdAutocompleteMissingPanelError();
-        //}
         if (!this._overlayRef) {
             this._createOverlay(this.template);
         }
         else {
-            /** Update the panel width, in case the host width has changed */
-            this._overlayRef.getConfig().width = this._getHostWidth();
-            this._overlayRef.updateSize();
-            this._overlayRef.updatePosition();
+            this._checkSizes();
         }
         if (this._overlayRef && !this._overlayRef.hasAttached()) {
             this._overlayRef.attach(this._portal);
@@ -7939,10 +7952,6 @@ var NovoOverlayTemplate = (function () {
             _this.closing.emit(true);
             if (_this._panelOpen) {
                 _this._panelOpen = false;
-                // We need to trigger change detection manually, because
-                // `fromEvent` doesn't seem to do it at the proper time.
-                // This ensures that the placeholder is reset when the
-                // user clicks outside.
                 _this._changeDetectorRef.markForCheck();
             }
         });
@@ -7962,7 +7971,7 @@ var NovoOverlayTemplate = (function () {
          */
         get: function () {
             return merge.merge(
-            //this.overlayTemplate._keyManager.tabOut,
+            // this.overlayTemplate._keyManager.tabOut,
             this._outsideClickStream);
         },
         enumerable: true,
@@ -7976,14 +7985,13 @@ var NovoOverlayTemplate = (function () {
         get: function () {
             var _this = this;
             if (!this._document) {
-                return of.of(null);
+                return of.of();
             }
-            return merge.merge(fromEvent.fromEvent(this._document, 'click'), fromEvent.fromEvent(this._document, 'touchend'))
-                .pipe(filter.filter(function (event) {
+            return merge.merge(fromEvent.fromEvent(this._document, 'click'), fromEvent.fromEvent(this._document, 'touchend')).pipe(filter.filter(function (event) {
                 var /** @type {?} */ clickTarget = (event.target);
                 var /** @type {?} */ clicked = _this._panelOpen &&
                     clickTarget !== _this._getConnectedElement().nativeElement &&
-                    (!_this._getConnectedElement().nativeElement.contains(clickTarget)) &&
+                    !_this._getConnectedElement().nativeElement.contains(clickTarget) &&
                     (!!_this._overlayRef && !_this._overlayRef.overlayElement.contains(clickTarget));
                 if (_this._panelOpen && !!_this._overlayRef && _this._overlayRef.overlayElement.contains(clickTarget) && _this.closeOnSelect) {
                     _this.select.emit(event);
@@ -8002,9 +8010,9 @@ var NovoOverlayTemplate = (function () {
     NovoOverlayTemplate.prototype._subscribeToClosingActions = function () {
         var _this = this;
         var /** @type {?} */ firstStable = this._zone.onStable.asObservable().pipe(first_2());
-        //const valueChanges = Observable.from(this.value);
+        // const valueChanges = Observable.from(this.value);
         // When the zone is stable initially, and when the option list changes...
-        return merge.merge(firstStable)
+        return (merge.merge(firstStable)
             .pipe(
         // create a new stream of panelClosingActions, replacing any previous streams
         // that were created, and flatten it so our stream only emits closing events...
@@ -8013,7 +8021,7 @@ var NovoOverlayTemplate = (function () {
         }), 
         // when the first closing event occurs...
         first_2())
-            .subscribe(function (event) { return _this.onClosingAction(event); });
+            .subscribe(function (event) { return _this.onClosingAction(event); }));
     };
     /**
      * Destroys the autocomplete suggestion panel.
@@ -8023,7 +8031,7 @@ var NovoOverlayTemplate = (function () {
         if (this._overlayRef) {
             this.closePanel();
             this._overlayRef.dispose();
-            this._overlayRef = null;
+            this._overlayRef = undefined;
         }
     };
     /**
@@ -8033,7 +8041,6 @@ var NovoOverlayTemplate = (function () {
     NovoOverlayTemplate.prototype._createOverlay = function (template) {
         this._portal = new portal.TemplatePortal(template, this._viewContainerRef);
         this._overlayRef = this._overlay.create(this._getOverlayConfig());
-        this._overlayRef.getConfig().width = this._getHostWidth();
     };
     /**
      * @return {?}
@@ -8041,7 +8048,9 @@ var NovoOverlayTemplate = (function () {
     NovoOverlayTemplate.prototype._getOverlayConfig = function () {
         var /** @type {?} */ overlayState = new overlay.OverlayConfig();
         overlayState.positionStrategy = this._getOverlayPosition();
-        //overlayState.width = this._getHostWidth();
+        if (this.size === 'inherit') {
+            overlayState.width = this._getHostWidth();
+        }
         overlayState.direction = 'ltr';
         overlayState.scrollStrategy = this._scrollStrategy();
         return overlayState;
@@ -8052,18 +8061,41 @@ var NovoOverlayTemplate = (function () {
     NovoOverlayTemplate.prototype._getOverlayPosition = function () {
         switch (this.position) {
             case 'center':
-                this._positionStrategy = this._overlay.position()
+                this._positionStrategy = this._overlay
+                    .position()
                     .connectedTo(this._getConnectedElement(), { originX: 'start', originY: 'center' }, { overlayX: 'start', overlayY: 'center' })
                     .withFallbackPosition({ originX: 'start', originY: 'top' }, { overlayX: 'start', overlayY: 'top' })
                     .withFallbackPosition({ originX: 'start', originY: 'bottom' }, { overlayX: 'start', overlayY: 'bottom' });
                 break;
+            case 'right':
+                this._positionStrategy = this._overlay
+                    .position()
+                    .connectedTo(this._getConnectedElement(), { originX: 'end', originY: 'bottom' }, { overlayX: 'end', overlayY: 'top' })
+                    .withFallbackPosition({ originX: 'start', originY: 'bottom' }, { overlayX: 'start', overlayY: 'top' })
+                    .withFallbackPosition({ originX: 'end', originY: 'top' }, { overlayX: 'end', overlayY: 'bottom' })
+                    .withFallbackPosition({ originX: 'start', originY: 'top' }, { overlayX: 'start', overlayY: 'bottom' });
+                break;
             default:
-                this._positionStrategy = this._overlay.position()
+                this._positionStrategy = this._overlay
+                    .position()
                     .connectedTo(this._getConnectedElement(), { originX: 'start', originY: 'bottom' }, { overlayX: 'start', overlayY: 'top' })
                     .withFallbackPosition({ originX: 'start', originY: 'top' }, { overlayX: 'start', overlayY: 'bottom' });
                 break;
         }
         return this._positionStrategy;
+    };
+    /**
+     * @return {?}
+     */
+    NovoOverlayTemplate.prototype._checkSizes = function () {
+        if (this._overlayRef) {
+            if (this.size === 'inherit') {
+                this._overlayRef.getConfig().width = this._getHostWidth();
+            }
+            this._overlayRef.updateSize(this._overlayRef.getConfig());
+            this._overlayRef.updatePosition();
+            this._changeDetectorRef.markForCheck();
+        }
     };
     /**
      * @return {?}
@@ -8084,7 +8116,7 @@ NovoOverlayTemplate.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-overlay-template',
                 changeDetection: core.ChangeDetectionStrategy.OnPush,
-                template: "\n    <ng-template>\n        <div class=\"novo-overlay-panel\" role=\"listbox\" [id]=\"id\" #panel>\n            <ng-content></ng-content>\n        </div>\n    </ng-template>\n  "
+                template: "\n    <ng-template>\n        <div class=\"novo-overlay-panel\" role=\"listbox\" [id]=\"id\" #panel>\n            <ng-content></ng-content>\n        </div>\n    </ng-template>\n  ",
             },] },
 ];
 /**
@@ -8096,20 +8128,21 @@ NovoOverlayTemplate.ctorParameters = function () { return [
     { type: core.NgZone, },
     { type: core.ChangeDetectorRef, },
     { type: undefined, decorators: [{ type: core.Inject, args: [DEFAULT_OVERLAY_SCROLL_STRATEGY,] },] },
-    { type: undefined, decorators: [{ type: core.Optional }, { type: core.Inject, args: [common.DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: core.Optional }, { type: core.Inject, args: [platformBrowser.DOCUMENT,] },] },
 ]; };
 NovoOverlayTemplate.propDecorators = {
     'template': [{ type: core.ViewChild, args: [core.TemplateRef,] },],
     'panel': [{ type: core.ViewChild, args: ['panel',] },],
-    'parent': [{ type: core.Input },],
     'position': [{ type: core.Input },],
+    'size': [{ type: core.Input },],
     'closeOnSelect': [{ type: core.Input },],
     'select': [{ type: core.Output },],
     'closing': [{ type: core.Output },],
+    'parent': [{ type: core.Input },],
 };
 // NG2
 // APP
-var NovoOverlayModule = (function () {
+var NovoOverlayModule = /** @class */ (function () {
     function NovoOverlayModule() {
     }
     return NovoOverlayModule;
@@ -8134,7 +8167,7 @@ var SELECT_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoSelectElement; }),
     multi: true
 };
-var NovoSelectElement = (function () {
+var NovoSelectElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} labels
@@ -8473,7 +8506,7 @@ NovoSelectElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoSelectModule = (function () {
+var NovoSelectModule = /** @class */ (function () {
     function NovoSelectModule() {
     }
     return NovoSelectModule;
@@ -8497,7 +8530,7 @@ var SWITCH_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoSwitchElement; }),
     multi: true
 };
-var NovoSwitchElement = (function () {
+var NovoSwitchElement = /** @class */ (function () {
     /**
      * @param {?} ref
      */
@@ -8605,7 +8638,7 @@ NovoSwitchElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoSwitchModule = (function () {
+var NovoSwitchModule = /** @class */ (function () {
     function NovoSwitchModule() {
     }
     return NovoSwitchModule;
@@ -8638,7 +8671,7 @@ var PICKER_VALUE_ACCESSOR = {
  * Picker should be added as a two-way bound ngModel instance `[(picker)]=""` in order to have the picker options
  * dynamically populate.
  */
-var NovoPickerElement = (function () {
+var NovoPickerElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} componentUtils
@@ -9012,7 +9045,7 @@ NovoPickerElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoPickerContainer = (function () {
+var NovoPickerContainer = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} renderer
@@ -9108,7 +9141,7 @@ NovoPickerContainer.propDecorators = {
 // NG2
 // Vendor
 // APP
-var EntityPickerResult = (function () {
+var EntityPickerResult = /** @class */ (function () {
     /**
      * @param {?} labels
      */
@@ -9233,7 +9266,7 @@ EntityPickerResult.propDecorators = {
     'match': [{ type: core.Input },],
     'term': [{ type: core.Input },],
 };
-var EntityPickerResults = (function (_super) {
+var EntityPickerResults = /** @class */ (function (_super) {
     __extends(EntityPickerResults, _super);
     /**
      * @param {?} element
@@ -9288,7 +9321,7 @@ EntityPickerResults.propDecorators = {
  *
  * \@description This is the actual list of matches that gets injected into the DOM.
  */
-var ChecklistPickerResults = (function (_super) {
+var ChecklistPickerResults = /** @class */ (function (_super) {
     __extends(ChecklistPickerResults, _super);
     /**
      * @param {?} element
@@ -9400,7 +9433,7 @@ ChecklistPickerResults.ctorParameters = function () { return [
     { type: NovoLabelService, },
     { type: core.ChangeDetectorRef, },
 ]; };
-var GroupedMultiPickerResults = (function (_super) {
+var GroupedMultiPickerResults = /** @class */ (function (_super) {
     __extends(GroupedMultiPickerResults, _super);
     /**
      * @param {?} element
@@ -9664,7 +9697,7 @@ GroupedMultiPickerResults.propDecorators = {
 };
 // NG2
 // App
-var SkillsSpecialtyPickerResults = (function (_super) {
+var SkillsSpecialtyPickerResults = /** @class */ (function (_super) {
     __extends(SkillsSpecialtyPickerResults, _super);
     /**
      * @param {?} element
@@ -9705,7 +9738,7 @@ SkillsSpecialtyPickerResults.propDecorators = {
 };
 // NG2
 // Vendor
-var DistributionListPickerResults = (function (_super) {
+var DistributionListPickerResults = /** @class */ (function (_super) {
     __extends(DistributionListPickerResults, _super);
     /**
      * @param {?} element
@@ -9767,7 +9800,7 @@ DistributionListPickerResults.propDecorators = {
 };
 // NG2
 // APP
-var NovoPickerModule = (function () {
+var NovoPickerModule = /** @class */ (function () {
     function NovoPickerModule() {
     }
     return NovoPickerModule;
@@ -9820,7 +9853,7 @@ var SEARCH_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoSearchBoxElement; }),
     multi: true
 };
-var NovoSearchBoxElement = (function () {
+var NovoSearchBoxElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} labels
@@ -10042,7 +10075,7 @@ NovoSearchBoxElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoSearchBoxModule = (function () {
+var NovoSearchBoxModule = /** @class */ (function () {
     function NovoSearchBoxModule() {
     }
     return NovoSearchBoxModule;
@@ -10061,7 +10094,7 @@ NovoSearchBoxModule.ctorParameters = function () { return []; };
 // NG2
 // Vendor
 var dragula$1 = dragulaImported;
-var NovoDragulaService = (function () {
+var NovoDragulaService = /** @class */ (function () {
     function NovoDragulaService() {
         this.cancel = new core.EventEmitter();
         this.cloned = new core.EventEmitter();
@@ -10224,7 +10257,7 @@ NovoDragulaService.ctorParameters = function () { return []; };
 // Vendor
 var dragula = dragulaImported;
 // APP
-var NovoDragulaElement = (function () {
+var NovoDragulaElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} dragulaService
@@ -10302,7 +10335,7 @@ NovoDragulaElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoDragulaModule = (function () {
+var NovoDragulaModule = /** @class */ (function () {
     function NovoDragulaModule() {
     }
     return NovoDragulaModule;
@@ -10319,7 +10352,7 @@ NovoDragulaModule.decorators = [
 NovoDragulaModule.ctorParameters = function () { return []; };
 // NG2
 // APP
-var NovoSliderElement = (function () {
+var NovoSliderElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} labels
@@ -10407,7 +10440,7 @@ NovoSliderElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoSliderModule = (function () {
+var NovoSliderModule = /** @class */ (function () {
     function NovoSliderModule() {
     }
     return NovoSliderModule;
@@ -10431,7 +10464,7 @@ var CHIPS_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoChipsElement; }),
     multi: true
 };
-var NovoChipElement = (function () {
+var NovoChipElement = /** @class */ (function () {
     function NovoChipElement() {
         this.select = new core.EventEmitter();
         this.remove = new core.EventEmitter();
@@ -10488,7 +10521,7 @@ NovoChipElement.propDecorators = {
     'select': [{ type: core.Output },],
     'remove': [{ type: core.Output },],
 };
-var NovoChipsElement = (function () {
+var NovoChipsElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} componentUtils
@@ -10822,7 +10855,7 @@ NovoChipsElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoChipsModule = (function () {
+var NovoChipsModule = /** @class */ (function () {
     function NovoChipsModule() {
     }
     return NovoChipsModule;
@@ -10847,7 +10880,7 @@ var DATE_PICKER_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoDatePickerElement; }),
     multi: true
 };
-var NovoDatePickerElement = (function () {
+var NovoDatePickerElement = /** @class */ (function () {
     /**
      * @param {?} labels
      * @param {?} element
@@ -11394,7 +11427,7 @@ NovoDatePickerElement.propDecorators = {
 };
 // NG2
 // APP
-var DateFormatService = (function () {
+var DateFormatService = /** @class */ (function () {
     /**
      * @param {?} labels
      */
@@ -11601,7 +11634,7 @@ var DATE_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoDatePickerInputElement; }),
     multi: true
 };
-var NovoDatePickerInputElement = (function () {
+var NovoDatePickerInputElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} labels
@@ -11785,7 +11818,7 @@ NovoDatePickerInputElement.propDecorators = {
 // NG2
 // Vendor
 // APP
-var NovoDatePickerModule = (function () {
+var NovoDatePickerModule = /** @class */ (function () {
     function NovoDatePickerModule() {
     }
     return NovoDatePickerModule;
@@ -11809,7 +11842,7 @@ var TIME_PICKER_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoTimePickerElement; }),
     multi: true
 };
-var NovoTimePickerElement = (function () {
+var NovoTimePickerElement = /** @class */ (function () {
     function NovoTimePickerElement() {
         this.military = false;
         this.inline = false;
@@ -11997,7 +12030,7 @@ var DATE_VALUE_ACCESSOR$1 = {
     useExisting: core.forwardRef(function () { return NovoTimePickerInputElement; }),
     multi: true
 };
-var NovoTimePickerInputElement = (function () {
+var NovoTimePickerInputElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} labels
@@ -12189,7 +12222,7 @@ NovoTimePickerInputElement.propDecorators = {
 // NG2
 // Vendor
 // APP
-var NovoTimePickerModule = (function () {
+var NovoTimePickerModule = /** @class */ (function () {
     function NovoTimePickerModule() {
     }
     return NovoTimePickerModule;
@@ -12214,7 +12247,7 @@ var DATE_TIME_PICKER_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoDateTimePickerElement; }),
     multi: true
 };
-var NovoDateTimePickerElement = (function () {
+var NovoDateTimePickerElement = /** @class */ (function () {
     /**
      * @param {?} labels
      * @param {?} element
@@ -12402,7 +12435,7 @@ var DATE_VALUE_ACCESSOR$2 = {
     useExisting: core.forwardRef(function () { return NovoDateTimePickerInputElement; }),
     multi: true
 };
-var NovoDateTimePickerInputElement = (function () {
+var NovoDateTimePickerInputElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} labels
@@ -12597,7 +12630,7 @@ NovoDateTimePickerInputElement.propDecorators = {
 // NG2
 // Vendor
 // APP
-var NovoDateTimePickerModule = (function () {
+var NovoDateTimePickerModule = /** @class */ (function () {
     function NovoDateTimePickerModule() {
     }
     return NovoDateTimePickerModule;
@@ -12625,7 +12658,7 @@ var CKEDITOR_CONTROL_VALUE_ACCESSOR = {
  * Usage :
  *  <novo-editor [(ngModel)]="data" [config]="{...}" debounce="500"></novo-editor>
  */
-var NovoCKEditorElement = (function () {
+var NovoCKEditorElement = /** @class */ (function () {
     /**
      * @param {?} zone
      */
@@ -12855,7 +12888,7 @@ NovoCKEditorElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoNovoCKEditorModule = (function () {
+var NovoNovoCKEditorModule = /** @class */ (function () {
     function NovoNovoCKEditorModule() {
     }
     return NovoNovoCKEditorModule;
@@ -12873,7 +12906,7 @@ NovoNovoCKEditorModule.decorators = [
 NovoNovoCKEditorModule.ctorParameters = function () { return []; };
 // NG2
 // APP
-var NovoTipWellElement = (function () {
+var NovoTipWellElement = /** @class */ (function () {
     /**
      * @param {?} labels
      */
@@ -12954,7 +12987,7 @@ NovoTipWellElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoTipWellModule = (function () {
+var NovoTipWellModule = /** @class */ (function () {
     function NovoTipWellModule() {
     }
     return NovoTipWellModule;
@@ -12972,7 +13005,7 @@ NovoTipWellModule.decorators = [
 NovoTipWellModule.ctorParameters = function () { return []; };
 // NG2
 // APP
-var NovoFieldsetHeaderElement = (function () {
+var NovoFieldsetHeaderElement = /** @class */ (function () {
     function NovoFieldsetHeaderElement() {
     }
     return NovoFieldsetHeaderElement;
@@ -12991,7 +13024,7 @@ NovoFieldsetHeaderElement.propDecorators = {
     'title': [{ type: core.Input },],
     'icon': [{ type: core.Input },],
 };
-var NovoControlCustom = (function () {
+var NovoControlCustom = /** @class */ (function () {
     /**
      * @param {?} componentUtils
      */
@@ -13028,7 +13061,7 @@ NovoControlCustom.propDecorators = {
     'form': [{ type: core.Input },],
     'referencePoint': [{ type: core.ViewChild, args: ['ref', { read: core.ViewContainerRef },] },],
 };
-var NovoFieldsetElement = (function () {
+var NovoFieldsetElement = /** @class */ (function () {
     function NovoFieldsetElement() {
         this.controls = [];
     }
@@ -13052,7 +13085,7 @@ NovoFieldsetElement.propDecorators = {
     'index': [{ type: core.Input },],
     'autoFocus': [{ type: core.Input },],
 };
-var NovoDynamicFormElement = (function () {
+var NovoDynamicFormElement = /** @class */ (function () {
     /**
      * @param {?} element
      */
@@ -13228,7 +13261,7 @@ NovoDynamicFormElement.propDecorators = {
     'autoFocusFirstField': [{ type: core.Input },],
 };
 // NG2
-var NovoFormElement = (function () {
+var NovoFormElement = /** @class */ (function () {
     function NovoFormElement() {
         this.hideHeader = false;
         this.showingAllFields = false;
@@ -13326,7 +13359,7 @@ NovoFormElement.propDecorators = {
     'hideHeader': [{ type: core.Input },],
 };
 // NG2
-var NovoFormControl = (function (_super) {
+var NovoFormControl = /** @class */ (function (_super) {
     __extends(NovoFormControl, _super);
     /**
      * @param {?} value
@@ -13471,7 +13504,7 @@ var NovoFormControl = (function (_super) {
     };
     return NovoFormControl;
 }(forms.FormControl));
-var NovoFormGroup = (function (_super) {
+var NovoFormGroup = /** @class */ (function (_super) {
     __extends(NovoFormGroup, _super);
     function NovoFormGroup() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -13497,7 +13530,7 @@ var NovoFormGroup = (function (_super) {
 }(forms.FormGroup));
 // NG2
 // APP
-var BaseControl = (function () {
+var BaseControl = /** @class */ (function () {
     /**
      * @param {?=} type
      * @param {?=} config
@@ -13565,7 +13598,7 @@ var BaseControl = (function () {
 }());
 var MAX_INTEGER = 2147483647;
 var MIN_YEAR = 1753;
-var FormValidators = (function () {
+var FormValidators = /** @class */ (function () {
     function FormValidators() {
     }
     /**
@@ -13623,7 +13656,7 @@ var FormValidators = (function () {
     return FormValidators;
 }());
 // APP
-var AddressControl = (function (_super) {
+var AddressControl = /** @class */ (function (_super) {
     __extends(AddressControl, _super);
     /**
      * @param {?} config
@@ -13637,7 +13670,7 @@ var AddressControl = (function (_super) {
     return AddressControl;
 }(BaseControl));
 // APP
-var CheckListControl = (function (_super) {
+var CheckListControl = /** @class */ (function (_super) {
     __extends(CheckListControl, _super);
     /**
      * @param {?} config
@@ -13651,7 +13684,7 @@ var CheckListControl = (function (_super) {
     return CheckListControl;
 }(BaseControl));
 // APP
-var CheckboxControl = (function (_super) {
+var CheckboxControl = /** @class */ (function (_super) {
     __extends(CheckboxControl, _super);
     /**
      * @param {?} config
@@ -13664,7 +13697,7 @@ var CheckboxControl = (function (_super) {
     return CheckboxControl;
 }(BaseControl));
 // APP
-var DateControl = (function (_super) {
+var DateControl = /** @class */ (function (_super) {
     __extends(DateControl, _super);
     /**
      * @param {?} config
@@ -13677,7 +13710,7 @@ var DateControl = (function (_super) {
     return DateControl;
 }(BaseControl));
 // APP
-var DateTimeControl = (function (_super) {
+var DateTimeControl = /** @class */ (function (_super) {
     __extends(DateTimeControl, _super);
     /**
      * @param {?} config
@@ -13690,7 +13723,7 @@ var DateTimeControl = (function (_super) {
     return DateTimeControl;
 }(BaseControl));
 // APP
-var EditorControl = (function (_super) {
+var EditorControl = /** @class */ (function (_super) {
     __extends(EditorControl, _super);
     /**
      * @param {?} config
@@ -13704,7 +13737,7 @@ var EditorControl = (function (_super) {
     return EditorControl;
 }(BaseControl));
 // APP
-var AceEditorControl = (function (_super) {
+var AceEditorControl = /** @class */ (function (_super) {
     __extends(AceEditorControl, _super);
     /**
      * @param {?} config
@@ -13717,7 +13750,7 @@ var AceEditorControl = (function (_super) {
     return AceEditorControl;
 }(BaseControl));
 // APP
-var FileControl = (function (_super) {
+var FileControl = /** @class */ (function (_super) {
     __extends(FileControl, _super);
     /**
      * @param {?} config
@@ -13733,7 +13766,7 @@ var FileControl = (function (_super) {
     return FileControl;
 }(BaseControl));
 // APP
-var NativeSelectControl = (function (_super) {
+var NativeSelectControl = /** @class */ (function (_super) {
     __extends(NativeSelectControl, _super);
     /**
      * @param {?} config
@@ -13748,7 +13781,7 @@ var NativeSelectControl = (function (_super) {
     return NativeSelectControl;
 }(BaseControl));
 // APP
-var PickerControl = (function (_super) {
+var PickerControl = /** @class */ (function (_super) {
     __extends(PickerControl, _super);
     /**
      * @param {?} config
@@ -13762,7 +13795,7 @@ var PickerControl = (function (_super) {
     }
     return PickerControl;
 }(BaseControl));
-var TablePickerControl = (function (_super) {
+var TablePickerControl = /** @class */ (function (_super) {
     __extends(TablePickerControl, _super);
     /**
      * @param {?} config
@@ -13774,7 +13807,7 @@ var TablePickerControl = (function (_super) {
     }
     return TablePickerControl;
 }(PickerControl));
-var AppendToBodyPickerControl = (function (_super) {
+var AppendToBodyPickerControl = /** @class */ (function (_super) {
     __extends(AppendToBodyPickerControl, _super);
     /**
      * @param {?} config
@@ -13787,7 +13820,7 @@ var AppendToBodyPickerControl = (function (_super) {
     return AppendToBodyPickerControl;
 }(PickerControl));
 // APP
-var QuickNoteControl = (function (_super) {
+var QuickNoteControl = /** @class */ (function (_super) {
     __extends(QuickNoteControl, _super);
     /**
      * @param {?} config
@@ -13802,7 +13835,7 @@ var QuickNoteControl = (function (_super) {
     return QuickNoteControl;
 }(BaseControl));
 // APP
-var RadioControl = (function (_super) {
+var RadioControl = /** @class */ (function (_super) {
     __extends(RadioControl, _super);
     /**
      * @param {?} config
@@ -13817,7 +13850,7 @@ var RadioControl = (function (_super) {
     return RadioControl;
 }(BaseControl));
 // APP
-var ReadOnlyControl = (function (_super) {
+var ReadOnlyControl = /** @class */ (function (_super) {
     __extends(ReadOnlyControl, _super);
     /**
      * @param {?} config
@@ -13831,7 +13864,7 @@ var ReadOnlyControl = (function (_super) {
     return ReadOnlyControl;
 }(BaseControl));
 // APP
-var SelectControl = (function (_super) {
+var SelectControl = /** @class */ (function (_super) {
     __extends(SelectControl, _super);
     /**
      * @param {?} config
@@ -13847,7 +13880,7 @@ var SelectControl = (function (_super) {
     return SelectControl;
 }(BaseControl));
 // APP
-var TextAreaControl = (function (_super) {
+var TextAreaControl = /** @class */ (function (_super) {
     __extends(TextAreaControl, _super);
     /**
      * @param {?} config
@@ -13860,7 +13893,7 @@ var TextAreaControl = (function (_super) {
     return TextAreaControl;
 }(BaseControl));
 // APP
-var TextBoxControl = (function (_super) {
+var TextBoxControl = /** @class */ (function (_super) {
     __extends(TextBoxControl, _super);
     /**
      * @param {?} config
@@ -13915,7 +13948,7 @@ var TextBoxControl = (function (_super) {
     return TextBoxControl;
 }(BaseControl));
 // APP
-var TilesControl = (function (_super) {
+var TilesControl = /** @class */ (function (_super) {
     __extends(TilesControl, _super);
     /**
      * @param {?} config
@@ -13930,7 +13963,7 @@ var TilesControl = (function (_super) {
     return TilesControl;
 }(BaseControl));
 // APP
-var TimeControl = (function (_super) {
+var TimeControl = /** @class */ (function (_super) {
     __extends(TimeControl, _super);
     /**
      * @param {?} config
@@ -13943,7 +13976,7 @@ var TimeControl = (function (_super) {
     return TimeControl;
 }(BaseControl));
 // APP
-var GroupedControl = (function () {
+var GroupedControl = /** @class */ (function () {
     /**
      * @param {?} config
      */
@@ -13954,7 +13987,7 @@ var GroupedControl = (function () {
     }
     return GroupedControl;
 }());
-var ControlFactory = (function () {
+var ControlFactory = /** @class */ (function () {
     function ControlFactory() {
     }
     /**
@@ -14010,7 +14043,7 @@ var ControlFactory = (function () {
     return ControlFactory;
 }());
 // NG2
-var OptionsService = (function () {
+var OptionsService = /** @class */ (function () {
     function OptionsService() {
     }
     /**
@@ -14048,7 +14081,7 @@ OptionsService.ctorParameters = function () { return []; };
 // NG2
 // Vendor
 // APP
-var FormUtils = (function () {
+var FormUtils = /** @class */ (function () {
     /**
      * @param {?} labels
      * @param {?} optionsService
@@ -14645,7 +14678,7 @@ FormUtils.ctorParameters = function () { return [
 ]; };
 // NG2
 // APP
-var NovoToastService = (function () {
+var NovoToastService = /** @class */ (function () {
     /**
      * @param {?} componentUtils
      */
@@ -14801,7 +14834,7 @@ NovoToastService.ctorParameters = function () { return [
 ]; };
 // NG2
 // APP
-var NovoModalService = (function () {
+var NovoModalService = /** @class */ (function () {
     /**
      * @param {?} componentUtils
      */
@@ -14854,7 +14887,7 @@ NovoModalService.ctorParameters = function () { return [
 ]; };
 // NG2
 // APP
-var ControlConfirmModal = (function () {
+var ControlConfirmModal = /** @class */ (function () {
     /**
      * @param {?} modalRef
      * @param {?} params
@@ -14888,7 +14921,7 @@ ControlConfirmModal.ctorParameters = function () { return [
     { type: NovoModalParams, },
     { type: NovoLabelService, },
 ]; };
-var ControlPromptModal = (function () {
+var ControlPromptModal = /** @class */ (function () {
     /**
      * @param {?} modalRef
      * @param {?} params
@@ -14925,7 +14958,7 @@ ControlPromptModal.ctorParameters = function () { return [
 // NG2
 // Vendor
 // APP
-var FieldInteractionApi = (function () {
+var FieldInteractionApi = /** @class */ (function () {
     /**
      * @param {?} toaster
      * @param {?} modalService
@@ -15702,7 +15735,7 @@ FieldInteractionApi.ctorParameters = function () { return [
     { type: NovoLabelService, },
 ]; };
 // NG2
-var NovoAutoSize = (function () {
+var NovoAutoSize = /** @class */ (function () {
     /**
      * @param {?} element
      */
@@ -15754,7 +15787,7 @@ NovoAutoSize.ctorParameters = function () { return [
 NovoAutoSize.propDecorators = {
     'onInput': [{ type: core.HostListener, args: ['input', ['$event.target'],] },],
 };
-var NovoCustomControlContainerElement = (function () {
+var NovoCustomControlContainerElement = /** @class */ (function () {
     function NovoCustomControlContainerElement() {
     }
     return NovoCustomControlContainerElement;
@@ -15773,7 +15806,7 @@ NovoCustomControlContainerElement.propDecorators = {
     'control': [{ type: core.Input },],
     'form': [{ type: core.Input },],
 };
-var NovoControlElement = (function (_super) {
+var NovoControlElement = /** @class */ (function (_super) {
     __extends(NovoControlElement, _super);
     /**
      * @param {?} element
@@ -27318,7 +27351,7 @@ var ADDRESS_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoAddressElement; }),
     multi: true
 };
-var NovoAddressElement = (function () {
+var NovoAddressElement = /** @class */ (function () {
     /**
      * @param {?} labels
      */
@@ -27449,7 +27482,7 @@ var CHECKBOX_VALUE_ACCESSOR = {
     multi: true
 };
 var LAYOUT_DEFAULTS = { iconStyle: 'box' };
-var NovoCheckboxElement = (function () {
+var NovoCheckboxElement = /** @class */ (function () {
     /**
      * @param {?} ref
      */
@@ -27531,7 +27564,7 @@ var CHECKLIST_VALUE_ACCESSOR = {
     useExisting: core.forwardRef(function () { return NovoCheckListElement; }),
     multi: true
 };
-var NovoCheckListElement = (function () {
+var NovoCheckListElement = /** @class */ (function () {
     function NovoCheckListElement() {
         this.onSelect = new core.EventEmitter();
         this.onModelChange = function () {
@@ -27632,7 +27665,7 @@ NovoCheckListElement.propDecorators = {
     'options': [{ type: core.Input },],
     'onSelect': [{ type: core.Output },],
 };
-var NovoFile = (function () {
+var NovoFile = /** @class */ (function () {
     /**
      * @param {?} file
      */
@@ -27689,7 +27722,7 @@ var FILE_VALUE_ACCESSOR = {
     multi: true
 };
 var LAYOUT_DEFAULTS$1 = { order: 'default', download: true, labelStyle: 'default', draggable: false };
-var NovoFileInputElement = (function () {
+var NovoFileInputElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} labels
@@ -27934,7 +27967,7 @@ NovoFileInputElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoFormExtrasModule = (function () {
+var NovoFormExtrasModule = /** @class */ (function () {
     function NovoFormExtrasModule() {
     }
     return NovoFormExtrasModule;
@@ -27950,7 +27983,7 @@ NovoFormExtrasModule.decorators = [
  * @nocollapse
  */
 NovoFormExtrasModule.ctorParameters = function () { return []; };
-var NovoControlGroup = (function () {
+var NovoControlGroup = /** @class */ (function () {
     /**
      * @param {?} formUtils
      * @param {?} fb
@@ -28255,7 +28288,7 @@ NovoControlGroup.propDecorators = {
 // NG2
 // Vendor
 // APP
-var NovoFormModule = (function () {
+var NovoFormModule = /** @class */ (function () {
     function NovoFormModule() {
     }
     return NovoFormModule;
@@ -28304,7 +28337,7 @@ NovoFormModule.decorators = [
 NovoFormModule.ctorParameters = function () { return []; };
 // NG2
 // APP
-var Pagination = (function () {
+var Pagination = /** @class */ (function () {
     /**
      * @param {?} labels
      */
@@ -28477,7 +28510,7 @@ Pagination.propDecorators = {
     'itemsPerPageChange': [{ type: core.Output },],
     'onPageChange': [{ type: core.Output },],
 };
-var BaseRenderer = (function () {
+var BaseRenderer = /** @class */ (function () {
     function BaseRenderer() {
         this.data = {};
         this.value = '';
@@ -28487,7 +28520,7 @@ var BaseRenderer = (function () {
 }());
 // NG2
 // APP
-var RowDetails = (function () {
+var RowDetails = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} componentUtils
@@ -28537,7 +28570,7 @@ RowDetails.propDecorators = {
 // NG2
 // Vendor
 // APP
-var TableCell = (function () {
+var TableCell = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} componentUtils
@@ -28626,7 +28659,7 @@ TableCell.propDecorators = {
 };
 // NG2
 // APP
-var TableFilter = (function () {
+var TableFilter = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} renderer
@@ -28705,7 +28738,7 @@ TableFilter.propDecorators = {
 };
 // NG2
 // App
-var ThOrderable = (function () {
+var ThOrderable = /** @class */ (function () {
     /**
      * @param {?} element
      */
@@ -28882,7 +28915,7 @@ ThOrderable.propDecorators = {
     'onOrderChange': [{ type: core.Output },],
 };
 // NG2
-var ThSortable = (function () {
+var ThSortable = /** @class */ (function () {
     function ThSortable() {
         this.onSortChange = new core.EventEmitter();
     }
@@ -28927,7 +28960,7 @@ ThSortable.propDecorators = {
 };
 // NG2
 // APP
-var DateCell = (function (_super) {
+var DateCell = /** @class */ (function (_super) {
     __extends(DateCell, _super);
     function DateCell() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -28949,7 +28982,7 @@ DateCell.propDecorators = {
 };
 // NG2
 // APP
-var PercentageCell = (function (_super) {
+var PercentageCell = /** @class */ (function (_super) {
     __extends(PercentageCell, _super);
     function PercentageCell() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -28968,7 +29001,7 @@ PercentageCell.decorators = [
 PercentageCell.ctorParameters = function () { return []; };
 // NG2
 // APP
-var NovoDropdownCell = (function (_super) {
+var NovoDropdownCell = /** @class */ (function (_super) {
     __extends(NovoDropdownCell, _super);
     function NovoDropdownCell() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -29009,7 +29042,7 @@ NovoDropdownCell.propDecorators = {
     'value': [{ type: core.Input },],
 };
 // NG2
-var NovoTableKeepFilterFocus = (function () {
+var NovoTableKeepFilterFocus = /** @class */ (function () {
     /**
      * @param {?} element
      */
@@ -29036,7 +29069,7 @@ NovoTableKeepFilterFocus.ctorParameters = function () { return [
     { type: core.ElementRef, },
 ]; };
 // NG2
-var NovoTableActionsElement = (function () {
+var NovoTableActionsElement = /** @class */ (function () {
     function NovoTableActionsElement() {
     }
     return NovoTableActionsElement;
@@ -29052,7 +29085,7 @@ NovoTableActionsElement.decorators = [
  */
 NovoTableActionsElement.ctorParameters = function () { return []; };
 // NG2
-var NovoTableFooterElement = (function () {
+var NovoTableFooterElement = /** @class */ (function () {
     function NovoTableFooterElement() {
     }
     return NovoTableFooterElement;
@@ -29068,7 +29101,7 @@ NovoTableFooterElement.decorators = [
  */
 NovoTableFooterElement.ctorParameters = function () { return []; };
 // NG2
-var NovoTableHeaderElement = (function () {
+var NovoTableHeaderElement = /** @class */ (function () {
     function NovoTableHeaderElement() {
     }
     return NovoTableHeaderElement;
@@ -29085,7 +29118,7 @@ NovoTableHeaderElement.decorators = [
 NovoTableHeaderElement.ctorParameters = function () { return []; };
 // NG2
 // APP
-var NovoTableExtrasModule = (function () {
+var NovoTableExtrasModule = /** @class */ (function () {
     function NovoTableExtrasModule() {
     }
     return NovoTableExtrasModule;
@@ -29140,7 +29173,7 @@ NovoTableExtrasModule.decorators = [
  * @nocollapse
  */
 NovoTableExtrasModule.ctorParameters = function () { return []; };
-var CollectionEvent = (function () {
+var CollectionEvent = /** @class */ (function () {
     /**
      * @param {?=} type
      * @param {?=} data
@@ -29182,7 +29215,7 @@ CollectionEvent.NUMBEROFPAGES_CHANGE = 'Collection.NUMBEROFPAGES_CHANGE';
  *  var myList:List = new List();
  *  myList.dataProvider = dp;
  */
-var ArrayCollection = (function () {
+var ArrayCollection = /** @class */ (function () {
     /**
      * @param {?=} source
      */
@@ -29587,7 +29620,7 @@ var ArrayCollection = (function () {
     };
     return ArrayCollection;
 }());
-var PagedArrayCollection = (function (_super) {
+var PagedArrayCollection = /** @class */ (function (_super) {
     __extends(PagedArrayCollection, _super);
     /**
      * @param {?=} source
@@ -29722,7 +29755,7 @@ NovoTableMode.VIEW = 1;
 NovoTableMode.EDIT = 2;
 NovoTableMode[NovoTableMode.VIEW] = "VIEW";
 NovoTableMode[NovoTableMode.EDIT] = "EDIT";
-var NovoTableElement = (function () {
+var NovoTableElement = /** @class */ (function () {
     /**
      * @param {?} labels
      * @param {?} formUtils
@@ -30662,7 +30695,7 @@ NovoTableElement.propDecorators = {
 // NG2
 // Vendor
 // APP
-var NovoTableModule = (function () {
+var NovoTableModule = /** @class */ (function () {
     function NovoTableModule() {
     }
     return NovoTableModule;
@@ -30707,7 +30740,7 @@ NOVO_VALUE_THEME.DEFAULT = 0;
 NOVO_VALUE_THEME.MOBILE = 1;
 NOVO_VALUE_THEME[NOVO_VALUE_THEME.DEFAULT] = "DEFAULT";
 NOVO_VALUE_THEME[NOVO_VALUE_THEME.MOBILE] = "MOBILE";
-var NovoValueElement = (function () {
+var NovoValueElement = /** @class */ (function () {
     function NovoValueElement() {
         this.theme = NOVO_VALUE_THEME.DEFAULT;
         this.NOVO_VALUE_TYPE = NOVO_VALUE_TYPE;
@@ -30893,7 +30926,7 @@ NovoValueElement.propDecorators = {
  * {{ expression | render:field }}
  * ```
  */
-var RenderPipe = (function () {
+var RenderPipe = /** @class */ (function () {
     /**
      * @param {?} changeDetector
      * @param {?} sanitizationService
@@ -31293,7 +31326,7 @@ RenderPipe.ctorParameters = function () { return [
     { type: NovoLabelService, },
 ]; };
 // NG2
-var EntityList = (function () {
+var EntityList = /** @class */ (function () {
     function EntityList() {
         this.baseEntity = '';
         this.ENTITY_SHORT_NAMES = {
@@ -31380,7 +31413,7 @@ EntityList.propDecorators = {
 };
 // NG2
 // APP
-var NovoValueModule = (function () {
+var NovoValueModule = /** @class */ (function () {
     function NovoValueModule() {
     }
     return NovoValueModule;
@@ -31396,7 +31429,7 @@ NovoValueModule.decorators = [
  * @nocollapse
  */
 NovoValueModule.ctorParameters = function () { return []; };
-var NovoIconComponent = (function () {
+var NovoIconComponent = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} cdr
@@ -31480,7 +31513,7 @@ NovoIconComponent.propDecorators = {
     'alt': [{ type: core.Input },],
     'name': [{ type: core.Input },],
 };
-var NovoIconModule = (function () {
+var NovoIconModule = /** @class */ (function () {
     function NovoIconModule() {
     }
     return NovoIconModule;
@@ -31497,7 +31530,7 @@ NovoIconModule.decorators = [
 NovoIconModule.ctorParameters = function () { return []; };
 // NG2
 // APP
-var NovoCategoryDropdownElement = (function (_super) {
+var NovoCategoryDropdownElement = /** @class */ (function (_super) {
     __extends(NovoCategoryDropdownElement, _super);
     /**
      * @param {?} element
@@ -31674,7 +31707,7 @@ NovoCategoryDropdownElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoCategoryDropdownModule = (function () {
+var NovoCategoryDropdownModule = /** @class */ (function () {
     function NovoCategoryDropdownModule() {
     }
     return NovoCategoryDropdownModule;
@@ -31698,7 +31731,7 @@ var CHIPS_VALUE_ACCESSOR$1 = {
     useExisting: core.forwardRef(function () { return NovoMultiPickerElement; }),
     multi: true
 };
-var NovoMultiPickerElement = (function () {
+var NovoMultiPickerElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} labels
@@ -32467,7 +32500,7 @@ NovoMultiPickerElement.propDecorators = {
 };
 // NG2
 // APP
-var NovoMultiPickerModule = (function () {
+var NovoMultiPickerModule = /** @class */ (function () {
     function NovoMultiPickerModule() {
     }
     return NovoMultiPickerModule;
@@ -32484,7 +32517,7 @@ NovoMultiPickerModule.decorators = [
  */
 NovoMultiPickerModule.ctorParameters = function () { return []; };
 // NG2
-var Security = (function () {
+var Security = /** @class */ (function () {
     function Security() {
         this.credentials = [];
         this.change = new core.EventEmitter();
@@ -32583,7 +32616,7 @@ Security.decorators = [
 Security.ctorParameters = function () { return []; };
 // NG2
 // App
-var Unless = (function () {
+var Unless = /** @class */ (function () {
     /**
      * @param {?} templateRef
      * @param {?} viewContainer
@@ -32658,7 +32691,7 @@ Unless.propDecorators = {
 };
 // NG2
 // APP
-var UnlessModule = (function () {
+var UnlessModule = /** @class */ (function () {
     function UnlessModule() {
     }
     return UnlessModule;
@@ -32677,7 +32710,7 @@ UnlessModule.ctorParameters = function () { return []; };
 /**
  * @abstract
  */
-var RemoteActivityTableService = (function () {
+var RemoteActivityTableService = /** @class */ (function () {
     function RemoteActivityTableService() {
     }
     /**
@@ -32693,7 +32726,7 @@ var RemoteActivityTableService = (function () {
     RemoteActivityTableService.prototype.getTableResults = function (sort, filter$$1, page, pageSize, globalSearch, outsideFilter) { };
     return RemoteActivityTableService;
 }());
-var StaticActivityTableService = (function () {
+var StaticActivityTableService = /** @class */ (function () {
     /**
      * @param {?=} data
      */
@@ -32732,7 +32765,7 @@ var StaticActivityTableService = (function () {
     };
     return StaticActivityTableService;
 }());
-var ActivityTableDataSource = (function (_super) {
+var ActivityTableDataSource = /** @class */ (function (_super) {
     __extends(ActivityTableDataSource, _super);
     /**
      * @param {?} tableService
@@ -32805,7 +32838,7 @@ var ActivityTableDataSource = (function (_super) {
     ActivityTableDataSource.prototype.disconnect = function () { };
     return ActivityTableDataSource;
 }(table.DataSource));
-var NovoActivityTableState = (function () {
+var NovoActivityTableState = /** @class */ (function () {
     function NovoActivityTableState() {
         this.id = Math.random();
         this.sort = undefined;
@@ -32856,7 +32889,7 @@ var NovoActivityTableState = (function () {
  * Workaround for https://github.com/angular/angular/issues/17849
  */
 var _NovoTable = table.CdkTable;
-var NovoTable = (function (_super) {
+var NovoTable = /** @class */ (function (_super) {
     __extends(NovoTable, _super);
     function NovoTable() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -32875,7 +32908,7 @@ NovoTable.decorators = [
  * @nocollapse
  */
 NovoTable.ctorParameters = function () { return []; };
-var NovoActivityTableActions = (function () {
+var NovoActivityTableActions = /** @class */ (function () {
     function NovoActivityTableActions() {
     }
     return NovoActivityTableActions;
@@ -32889,7 +32922,7 @@ NovoActivityTableActions.decorators = [
  * @nocollapse
  */
 NovoActivityTableActions.ctorParameters = function () { return []; };
-var NovoActivityTableCustomHeader = (function () {
+var NovoActivityTableCustomHeader = /** @class */ (function () {
     function NovoActivityTableCustomHeader() {
     }
     return NovoActivityTableCustomHeader;
@@ -32903,7 +32936,7 @@ NovoActivityTableCustomHeader.decorators = [
  * @nocollapse
  */
 NovoActivityTableCustomHeader.ctorParameters = function () { return []; };
-var NovoActivityTableCustomFilter = (function () {
+var NovoActivityTableCustomFilter = /** @class */ (function () {
     function NovoActivityTableCustomFilter() {
     }
     return NovoActivityTableCustomFilter;
@@ -32917,7 +32950,7 @@ NovoActivityTableCustomFilter.decorators = [
  * @nocollapse
  */
 NovoActivityTableCustomFilter.ctorParameters = function () { return []; };
-var NovoActivityTableEmptyMessage = (function () {
+var NovoActivityTableEmptyMessage = /** @class */ (function () {
     function NovoActivityTableEmptyMessage() {
     }
     return NovoActivityTableEmptyMessage;
@@ -32931,7 +32964,7 @@ NovoActivityTableEmptyMessage.decorators = [
  * @nocollapse
  */
 NovoActivityTableEmptyMessage.ctorParameters = function () { return []; };
-var NovoActivityTableNoResultsMessage = (function () {
+var NovoActivityTableNoResultsMessage = /** @class */ (function () {
     function NovoActivityTableNoResultsMessage() {
     }
     return NovoActivityTableNoResultsMessage;
@@ -32945,7 +32978,7 @@ NovoActivityTableNoResultsMessage.decorators = [
  * @nocollapse
  */
 NovoActivityTableNoResultsMessage.ctorParameters = function () { return []; };
-var NovoActivityTable = (function () {
+var NovoActivityTable = /** @class */ (function () {
     /**
      * @param {?} labels
      * @param {?} ref
@@ -33139,7 +33172,7 @@ NovoActivityTable.propDecorators = {
     'empty': [{ type: core.HostBinding, args: ['class.empty',] },],
     'loadingClass': [{ type: core.HostBinding, args: ['class.loading',] },],
 };
-var NovoSortFilter = (function () {
+var NovoSortFilter = /** @class */ (function () {
     /**
      * @param {?} state
      */
@@ -33189,7 +33222,7 @@ NovoSortFilter.decorators = [
 NovoSortFilter.ctorParameters = function () { return [
     { type: NovoActivityTableState, },
 ]; };
-var NovoSelection = (function () {
+var NovoSelection = /** @class */ (function () {
     /**
      * @param {?} state
      */
@@ -33279,7 +33312,7 @@ var _NovoHeaderCellDef = table.CdkHeaderCellDef;
 var _NovoColumnDef = table.CdkColumnDef;
 var _NovoHeaderCell = table.CdkHeaderCell;
 var _NovoCell = table.CdkCell;
-var NovoSimpleCellDef = (function (_super) {
+var NovoSimpleCellDef = /** @class */ (function (_super) {
     __extends(NovoSimpleCellDef, _super);
     function NovoSimpleCellDef() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -33289,14 +33322,14 @@ var NovoSimpleCellDef = (function (_super) {
 NovoSimpleCellDef.decorators = [
     { type: core.Directive, args: [{
                 selector: '[novoSimpleCellDef]',
-                providers: [{ provide: table.CdkCellDef, useExisting: NovoSimpleCellDef }]
+                providers: [{ provide: table.CdkCellDef, useExisting: NovoSimpleCellDef }],
             },] },
 ];
 /**
  * @nocollapse
  */
 NovoSimpleCellDef.ctorParameters = function () { return []; };
-var NovoSimpleHeaderCellDef = (function (_super) {
+var NovoSimpleHeaderCellDef = /** @class */ (function (_super) {
     __extends(NovoSimpleHeaderCellDef, _super);
     function NovoSimpleHeaderCellDef() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -33306,14 +33339,14 @@ var NovoSimpleHeaderCellDef = (function (_super) {
 NovoSimpleHeaderCellDef.decorators = [
     { type: core.Directive, args: [{
                 selector: '[novoSimpleHeaderCellDef]',
-                providers: [{ provide: table.CdkHeaderCellDef, useExisting: NovoSimpleHeaderCellDef }]
+                providers: [{ provide: table.CdkHeaderCellDef, useExisting: NovoSimpleHeaderCellDef }],
             },] },
 ];
 /**
  * @nocollapse
  */
 NovoSimpleHeaderCellDef.ctorParameters = function () { return []; };
-var NovoSimpleColumnDef = (function (_super) {
+var NovoSimpleColumnDef = /** @class */ (function (_super) {
     __extends(NovoSimpleColumnDef, _super);
     function NovoSimpleColumnDef() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -33333,7 +33366,7 @@ NovoSimpleColumnDef.ctorParameters = function () { return []; };
 NovoSimpleColumnDef.propDecorators = {
     'name': [{ type: core.Input, args: ['novoSimpleColumnDef',] },],
 };
-var NovoSimpleHeaderCell = (function (_super) {
+var NovoSimpleHeaderCell = /** @class */ (function (_super) {
     __extends(NovoSimpleHeaderCell, _super);
     /**
      * @param {?} columnDef
@@ -33341,7 +33374,7 @@ var NovoSimpleHeaderCell = (function (_super) {
      * @param {?} renderer
      */
     function NovoSimpleHeaderCell(columnDef, elementRef, renderer) {
-        var _this = _super.call(this, columnDef, elementRef, renderer) || this;
+        var _this = _super.call(this, columnDef, elementRef) || this;
         _this.elementRef = elementRef;
         _this.renderer = renderer;
         _this.role = 'columnheader';
@@ -33364,7 +33397,7 @@ var NovoSimpleHeaderCell = (function (_super) {
 }(_NovoHeaderCell));
 NovoSimpleHeaderCell.decorators = [
     { type: core.Directive, args: [{
-                selector: 'novo-simple-header-cell'
+                selector: 'novo-simple-header-cell',
             },] },
 ];
 /**
@@ -33379,7 +33412,7 @@ NovoSimpleHeaderCell.propDecorators = {
     'role': [{ type: core.HostBinding, args: ['attr.role',] },],
     'column': [{ type: core.Input },],
 };
-var NovoSimpleEmptyHeaderCell = (function (_super) {
+var NovoSimpleEmptyHeaderCell = /** @class */ (function (_super) {
     __extends(NovoSimpleEmptyHeaderCell, _super);
     /**
      * @param {?} columnDef
@@ -33387,7 +33420,7 @@ var NovoSimpleEmptyHeaderCell = (function (_super) {
      * @param {?} renderer
      */
     function NovoSimpleEmptyHeaderCell(columnDef, elementRef, renderer) {
-        var _this = _super.call(this, columnDef, elementRef, renderer) || this;
+        var _this = _super.call(this, columnDef, elementRef) || this;
         _this.role = 'columnheader';
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-column-header-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, "novo-column-" + columnDef.cssClassFriendlyName);
@@ -33398,7 +33431,7 @@ var NovoSimpleEmptyHeaderCell = (function (_super) {
 }(_NovoHeaderCell));
 NovoSimpleEmptyHeaderCell.decorators = [
     { type: core.Directive, args: [{
-                selector: 'novo-simple-empty-header-cell'
+                selector: 'novo-simple-empty-header-cell',
             },] },
 ];
 /**
@@ -33412,7 +33445,7 @@ NovoSimpleEmptyHeaderCell.ctorParameters = function () { return [
 NovoSimpleEmptyHeaderCell.propDecorators = {
     'role': [{ type: core.HostBinding, args: ['attr.role',] },],
 };
-var NovoSimpleCheckboxHeaderCell = (function (_super) {
+var NovoSimpleCheckboxHeaderCell = /** @class */ (function (_super) {
     __extends(NovoSimpleCheckboxHeaderCell, _super);
     /**
      * @param {?} columnDef
@@ -33422,7 +33455,7 @@ var NovoSimpleCheckboxHeaderCell = (function (_super) {
      * @param {?} _selection
      */
     function NovoSimpleCheckboxHeaderCell(columnDef, elementRef, renderer, ref, _selection) {
-        var _this = _super.call(this, columnDef, elementRef, renderer) || this;
+        var _this = _super.call(this, columnDef, elementRef) || this;
         _this._selection = _selection;
         _this.role = 'columnheader';
         _this.selectAll = false;
@@ -33453,7 +33486,7 @@ var NovoSimpleCheckboxHeaderCell = (function (_super) {
 NovoSimpleCheckboxHeaderCell.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-simple-checkbox-header-cell',
-                template: "<novo-checkbox [(ngModel)]=\"selectAll\" (ngModelChange)=\"toggle($event)\"></novo-checkbox>"
+                template: "<novo-checkbox [(ngModel)]=\"selectAll\" (ngModelChange)=\"toggle($event)\"></novo-checkbox>",
             },] },
 ];
 /**
@@ -33469,7 +33502,7 @@ NovoSimpleCheckboxHeaderCell.ctorParameters = function () { return [
 NovoSimpleCheckboxHeaderCell.propDecorators = {
     'role': [{ type: core.HostBinding, args: ['attr.role',] },],
 };
-var NovoSimpleCell = (function (_super) {
+var NovoSimpleCell = /** @class */ (function (_super) {
     __extends(NovoSimpleCell, _super);
     /**
      * @param {?} columnDef
@@ -33477,7 +33510,7 @@ var NovoSimpleCell = (function (_super) {
      * @param {?} renderer
      */
     function NovoSimpleCell(columnDef, elementRef, renderer) {
-        var _this = _super.call(this, columnDef, elementRef, renderer) || this;
+        var _this = _super.call(this, columnDef, elementRef) || this;
         _this.elementRef = elementRef;
         _this.renderer = renderer;
         _this.role = 'gridcell';
@@ -33526,7 +33559,7 @@ NovoSimpleCell.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-simple-cell',
                 template: "\n        <span [class.clickable]=\"!!column.onClick\" (click)=\"onClick($event)\" #span>{{ column.renderer(row) }}</span>\n    ",
-                changeDetection: core.ChangeDetectionStrategy.OnPush
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
             },] },
 ];
 /**
@@ -33543,7 +33576,7 @@ NovoSimpleCell.propDecorators = {
     'column': [{ type: core.Input },],
     'spanElement': [{ type: core.ViewChild, args: ['span',] },],
 };
-var NovoSimpleCheckboxCell = (function (_super) {
+var NovoSimpleCheckboxCell = /** @class */ (function (_super) {
     __extends(NovoSimpleCheckboxCell, _super);
     /**
      * @param {?} columnDef
@@ -33552,7 +33585,7 @@ var NovoSimpleCheckboxCell = (function (_super) {
      * @param {?} _selection
      */
     function NovoSimpleCheckboxCell(columnDef, elementRef, renderer, _selection) {
-        var _this = _super.call(this, columnDef, elementRef, renderer) || this;
+        var _this = _super.call(this, columnDef, elementRef) || this;
         _this.columnDef = columnDef;
         _this._selection = _selection;
         _this.role = 'gridcell';
@@ -33591,7 +33624,7 @@ var NovoSimpleCheckboxCell = (function (_super) {
 NovoSimpleCheckboxCell.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-simple-checkbox-cell',
-                template: "\n        <novo-checkbox [ngModel]=\"selected\" (ngModelChange)=\"toggle($event)\"></novo-checkbox>\n    "
+                template: "\n        <novo-checkbox [ngModel]=\"selected\" (ngModelChange)=\"toggle($event)\"></novo-checkbox>\n    ",
             },] },
 ];
 /**
@@ -33608,7 +33641,7 @@ NovoSimpleCheckboxCell.propDecorators = {
     'row': [{ type: core.Input },],
     'index': [{ type: core.Input },],
 };
-var NovoSimpleActionCell = (function (_super) {
+var NovoSimpleActionCell = /** @class */ (function (_super) {
     __extends(NovoSimpleActionCell, _super);
     /**
      * @param {?} columnDef
@@ -33617,7 +33650,7 @@ var NovoSimpleActionCell = (function (_super) {
      * @param {?} labels
      */
     function NovoSimpleActionCell(columnDef, elementRef, renderer, labels) {
-        var _this = _super.call(this, columnDef, elementRef, renderer) || this;
+        var _this = _super.call(this, columnDef, elementRef) || this;
         _this.elementRef = elementRef;
         _this.renderer = renderer;
         _this.labels = labels;
@@ -33656,7 +33689,7 @@ NovoSimpleActionCell.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-simple-action-cell',
                 template: "\n        <ng-container *ngIf=\"!column.options\">\n            <button theme=\"icon\" [icon]=\"column.icon\" (click)=\"column.onClick(row)\" [disabled]=\"isDisabled(column, row)\"></button>\n        </ng-container>\n        <ng-container *ngIf=\"column.options\">\n            <novo-dropdown appendToBody=\"true\" parentScrollSelector=\".novo-simple-table\" containerClass=\"novo-table-dropdown-cell\">\n                <button type=\"button\" theme=\"dialogue\" icon=\"collapse\" inverse>{{ column.label || labels.actions }}</button>\n                <list>\n                    <item *ngFor=\"let option of column.options\" (action)=\"option.onClick(row)\" [disabled]=\"isDisabled(option, row)\">\n                        <span [attr.data-automation-id]=\"option.label\">{{ option.label }}</span>\n                    </item>\n                </list>\n            </novo-dropdown>\n        </ng-container>\n    ",
-                changeDetection: core.ChangeDetectionStrategy.OnPush
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
             },] },
 ];
 /**
@@ -33680,7 +33713,7 @@ var _NovoHeaderRowDef = table.CdkHeaderRowDef;
 var _NovoCdkRowDef = table.CdkRowDef;
 var _NovoHeaderRow = table.CdkHeaderRow;
 var _NovoRow = table.CdkRow;
-var NovoSimpleHeaderRowDef = (function (_super) {
+var NovoSimpleHeaderRowDef = /** @class */ (function (_super) {
     __extends(NovoSimpleHeaderRowDef, _super);
     function NovoSimpleHeaderRowDef() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -33700,7 +33733,7 @@ NovoSimpleHeaderRowDef.ctorParameters = function () { return []; };
 NovoSimpleHeaderRowDef.propDecorators = {
     'columns': [{ type: core.Input, args: ['novoSimpleHeaderRowDef',] },],
 };
-var NovoSimpleRowDef = (function (_super) {
+var NovoSimpleRowDef = /** @class */ (function (_super) {
     __extends(NovoSimpleRowDef, _super);
     function NovoSimpleRowDef() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -33720,7 +33753,7 @@ NovoSimpleRowDef.ctorParameters = function () { return []; };
 NovoSimpleRowDef.propDecorators = {
     'columns': [{ type: core.Input, args: ['novoSimpleRowDefColumns',] },],
 };
-var NovoSimpleHeaderRow = (function (_super) {
+var NovoSimpleHeaderRow = /** @class */ (function (_super) {
     __extends(NovoSimpleHeaderRow, _super);
     function NovoSimpleHeaderRow() {
         var _this = _super.apply(this, arguments) || this;
@@ -33745,7 +33778,7 @@ NovoSimpleHeaderRow.propDecorators = {
     'rowClass': [{ type: core.HostBinding, args: ['class',] },],
     'role': [{ type: core.HostBinding, args: ['attr.role',] },],
 };
-var NovoSimpleRow = (function (_super) {
+var NovoSimpleRow = /** @class */ (function (_super) {
     __extends(NovoSimpleRow, _super);
     function NovoSimpleRow() {
         var _this = _super.apply(this, arguments) || this;
@@ -33770,7 +33803,7 @@ NovoSimpleRow.propDecorators = {
     'rowClass': [{ type: core.HostBinding, args: ['class',] },],
     'role': [{ type: core.HostBinding, args: ['attr.role',] },],
 };
-var NovoSimpleFilterFocus = (function () {
+var NovoSimpleFilterFocus = /** @class */ (function () {
     /**
      * @param {?} element
      */
@@ -33796,7 +33829,7 @@ NovoSimpleFilterFocus.decorators = [
 NovoSimpleFilterFocus.ctorParameters = function () { return [
     { type: core.ElementRef, },
 ]; };
-var NovoSimpleCellHeader = (function () {
+var NovoSimpleCellHeader = /** @class */ (function () {
     /**
      * @param {?} changeDetectorRef
      * @param {?} labels
@@ -34008,7 +34041,7 @@ NovoSimpleCellHeader.propDecorators = {
     'config': [{ type: core.Input, args: ['novo-simple-cell-config',] },],
 };
 var DEFAULT_PAGE_SIZE = 50;
-var NovoSimpleTablePagination = (function () {
+var NovoSimpleTablePagination = /** @class */ (function () {
     /**
      * @param {?} changeDetectorRef
      * @param {?} labels
@@ -34218,7 +34251,7 @@ NovoSimpleTablePagination.propDecorators = {
     'pageSizeOptions': [{ type: core.Input },],
     'pageChange': [{ type: core.Output },],
 };
-var ActivityTableRenderers = (function () {
+var ActivityTableRenderers = /** @class */ (function () {
     function ActivityTableRenderers() {
     }
     /**
@@ -34244,7 +34277,7 @@ var ActivityTableRenderers = (function () {
     };
     return ActivityTableRenderers;
 }());
-var NovoSimpleTableModule = (function () {
+var NovoSimpleTableModule = /** @class */ (function () {
     function NovoSimpleTableModule() {
     }
     return NovoSimpleTableModule;
@@ -34279,7 +34312,7 @@ NovoSimpleTableModule.ctorParameters = function () { return []; };
 /**
  * @abstract
  */
-var GlobalRef = (function () {
+var GlobalRef = /** @class */ (function () {
     function GlobalRef() {
     }
     /**
@@ -34289,7 +34322,7 @@ var GlobalRef = (function () {
     GlobalRef.prototype.nativeGlobal = function () { };
     return GlobalRef;
 }());
-var BrowserGlobalRef = (function (_super) {
+var BrowserGlobalRef = /** @class */ (function (_super) {
     __extends(BrowserGlobalRef, _super);
     function BrowserGlobalRef() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -34299,14 +34332,14 @@ var BrowserGlobalRef = (function (_super) {
          * @return {?}
          */
         get: function () {
-            return (window);
+            return /** @type {?} */ (window);
         },
         enumerable: true,
         configurable: true
     });
     return BrowserGlobalRef;
 }(GlobalRef));
-var LocalStorageService = (function () {
+var LocalStorageService = /** @class */ (function () {
     function LocalStorageService() {
     }
     /**
@@ -34340,7 +34373,7 @@ LocalStorageService.decorators = [
  * @nocollapse
  */
 LocalStorageService.ctorParameters = function () { return []; };
-var GooglePlacesService = (function () {
+var GooglePlacesService = /** @class */ (function () {
     /**
      * @param {?} _http
      * @param {?} platformId
@@ -34704,7 +34737,7 @@ var MESSAGE_TYPES = {
     REQUEST_DATA: 'requestData',
     CALLBACK: 'callback'
 };
-var AppBridgeService = (function () {
+var AppBridgeService = /** @class */ (function () {
     function AppBridgeService() {
     }
     /**
@@ -34716,7 +34749,7 @@ var AppBridgeService = (function () {
     };
     return AppBridgeService;
 }());
-var DevAppBridgeService = (function () {
+var DevAppBridgeService = /** @class */ (function () {
     /**
      * @param {?} http
      */
@@ -34732,7 +34765,7 @@ var DevAppBridgeService = (function () {
     };
     return DevAppBridgeService;
 }());
-var AppBridge = (function () {
+var AppBridge = /** @class */ (function () {
     /**
      * @param {?=} traceName
      */
@@ -35352,7 +35385,7 @@ var AppBridge = (function () {
     };
     return AppBridge;
 }());
-var DevAppBridge = (function (_super) {
+var DevAppBridge = /** @class */ (function (_super) {
     __extends(DevAppBridge, _super);
     /**
      * @param {?=} traceName
@@ -35449,7 +35482,7 @@ var NOVO_ELEMENTS_PROVIDERS = [
     DateFormatService,
     Security,
 ];
-var NovoElementProviders = (function () {
+var NovoElementProviders = /** @class */ (function () {
     function NovoElementProviders() {
     }
     /**
@@ -35480,7 +35513,7 @@ NovoElementProviders.decorators = [
  * @nocollapse
  */
 NovoElementProviders.ctorParameters = function () { return []; };
-var PopOverContent = (function () {
+var PopOverContent = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} cdr
@@ -35720,7 +35753,7 @@ PopOverContent.propDecorators = {
     'popoverDiv': [{ type: core.ViewChild, args: ['popoverDiv',] },],
 };
 // NG2
-var PopOverDirective = (function () {
+var PopOverDirective = /** @class */ (function () {
     /**
      * @param {?} viewContainerRef
      * @param {?} resolver
@@ -35805,7 +35838,7 @@ var PopOverDirective = (function () {
             this.popover = this.viewContainerRef.createComponent(factory);
             var /** @type {?} */ popover = (this.popover.instance);
             popover.popover = this;
-            popover.content = (this.content);
+            popover.content = /** @type {?} */ (this.content);
             if (this.popoverPlacement !== undefined) {
                 popover.placement = this.popoverPlacement;
             }
@@ -35893,7 +35926,7 @@ PopOverDirective.propDecorators = {
 };
 // NG2
 // APP
-var NovoPopOverModule = (function () {
+var NovoPopOverModule = /** @class */ (function () {
     function NovoPopOverModule() {
     }
     return NovoPopOverModule;
@@ -35910,7 +35943,7 @@ NovoPopOverModule.decorators = [
  */
 NovoPopOverModule.ctorParameters = function () { return []; };
 // NG2
-var PlacesListComponent = (function () {
+var PlacesListComponent = /** @class */ (function () {
     /**
      * @param {?} platformId
      * @param {?} _elmRef
@@ -36317,7 +36350,7 @@ PlacesListComponent.propDecorators = {
     'termChange': [{ type: core.Output },],
     'select': [{ type: core.Output },],
 };
-var GooglePlacesModule = (function () {
+var GooglePlacesModule = /** @class */ (function () {
     function GooglePlacesModule() {
     }
     return GooglePlacesModule;
@@ -36347,7 +36380,7 @@ GooglePlacesModule.decorators = [
 GooglePlacesModule.ctorParameters = function () { return []; };
 // NG2
 // APP
-var NovoElementsModule = (function () {
+var NovoElementsModule = /** @class */ (function () {
     function NovoElementsModule() {
     }
     return NovoElementsModule;
