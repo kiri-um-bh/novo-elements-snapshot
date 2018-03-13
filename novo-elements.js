@@ -8314,7 +8314,7 @@ class NovoOverlayTemplate {
         this._document = _document;
         this.id = `novo-overlay-${Date.now()}`;
         this.position = 'default';
-        this.size = 'none';
+        this.size = 'inherit';
         this.closeOnSelect = true;
         this.select = new EventEmitter();
         this.closing = new EventEmitter();
