@@ -16481,6 +16481,9 @@ class NovoControlElement extends OutsideClick {
         this.condensed = false;
         this.autoFocus = false;
         this.change = new EventEmitter();
+        this.edit = new EventEmitter();
+        this.save = new EventEmitter();
+        this.delete = new EventEmitter();
         this._blurEmitter = new EventEmitter();
         this._focusEmitter = new EventEmitter();
         this._focused = false;
@@ -16511,7 +16514,9 @@ class NovoControlElement extends OutsideClick {
      * @return {?}
      */
     get showCount() {
-        return this.form.controls[this.control.key].maxlength && this.focused && (this.form.controls[this.control.key].controlType === 'text-area' || this.form.controls[this.control.key].controlType === 'textbox');
+        return (this.form.controls[this.control.key].maxlength &&
+            this.focused &&
+            (this.form.controls[this.control.key].controlType === 'text-area' || this.form.controls[this.control.key].controlType === 'textbox'));
     }
     /**
      * @return {?}
@@ -16577,7 +16582,7 @@ class NovoControlElement extends OutsideClick {
             if (!Helpers.isEmpty(this.form.controls[this.control.key].value)) {
                 this.percentValue = Number((this.form.controls[this.control.key].value * 100).toFixed(6).replace(/\.?0*$/, ''));
             }
-            this.percentChangeSubscription = this.form.controls[this.control.key].displayValueChanges.subscribe(value => {
+            this.percentChangeSubscription = this.form.controls[this.control.key].displayValueChanges.subscribe((value) => {
                 if (!Helpers.isEmpty(value)) {
                     this.percentValue = Number((value * 100).toFixed(6).replace(/\.?0*$/, ''));
                 }
@@ -16821,6 +16826,27 @@ class NovoControlElement extends OutsideClick {
         this.change.emit(value);
         this.checkMaxLength(value);
     }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    handleEdit(value) {
+        this.edit.emit(value);
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    handleSave(value) {
+        this.save.emit(value);
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    handleDelete(value) {
+        this.delete.emit(value);
+    }
 }
 NovoControlElement.decorators = [
     { type: Component, args: [{
@@ -16877,7 +16903,7 @@ NovoControlElement.decorators = [
                                 <option *ngFor="let opt of form.controls[control.key].options" [value]="opt.key">{{opt.value}}</option>
                             </select>
                             <!--File-->
-                            <novo-file-input *ngSwitchCase="'file'" [formControlName]="control.key" [id]="control.key" [name]="control.key" [placeholder]="form.controls[control.key].placeholder" [value]="form.controls[control.key].value" [multiple]="form.controls[control.key].multiple" [layoutOptions]="form.controls[control.key].layoutOptions" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></novo-file-input>
+                            <novo-file-input *ngSwitchCase="'file'" [formControlName]="control.key" [id]="control.key" [name]="control.key" [placeholder]="form.controls[control.key].placeholder" [value]="form.controls[control.key].value" [multiple]="form.controls[control.key].multiple" [layoutOptions]="form.controls[control.key].layoutOptions" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" (edit)="handleEdit($event)" (save)="handleSave($event)" (delete)="handleDelete($event)"></novo-file-input>
                             <!--Tiles-->
                             <novo-tiles *ngSwitchCase="'tiles'" [options]="control.options" [formControlName]="control.key" (onChange)="modelChange($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></novo-tiles>
                             <!--Picker-->
@@ -16961,7 +16987,7 @@ NovoControlElement.decorators = [
                     '[class.disabled]': 'form.controls[control.key].readOnly',
                     '[class.hidden]': 'form.controls[control.key].hidden',
                     '[attr.data-control-key]': 'control.key',
-                }
+                },
             },] },
 ];
 /**
@@ -16979,6 +17005,9 @@ NovoControlElement.propDecorators = {
     'condensed': [{ type: Input },],
     'autoFocus': [{ type: Input },],
     'change': [{ type: Output },],
+    'edit': [{ type: Output },],
+    'save': [{ type: Output },],
+    'delete': [{ type: Output },],
     'onBlur': [{ type: Output, args: ['blur',] },],
     'onFocus': [{ type: Output, args: ['focus',] },],
 };
@@ -28489,25 +28518,26 @@ class NovoFileInputElement {
         this.multiple = false;
         this.disabled = false;
         this.value = [];
+        this.edit = new EventEmitter();
+        this.save = new EventEmitter();
+        this.delete = new EventEmitter();
         this.elements = [];
         this.files = [];
         this.active = false;
-        this.onModelChange = () => {
-        };
-        this.onModelTouched = () => {
-        };
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
         this.commands = {
             dragenter: this.dragEnterHandler.bind(this),
             dragleave: this.dragLeaveHandler.bind(this),
             dragover: this.dragOverHandler.bind(this),
-            drop: this.dropHandler.bind(this)
+            drop: this.dropHandler.bind(this),
         };
     }
     /**
      * @return {?}
      */
     ngOnInit() {
-        ['dragenter', 'dragleave', 'dragover', 'drop'].forEach(type => {
+        ['dragenter', 'dragleave', 'dragover', 'drop'].forEach((type) => {
             this.element.nativeElement.addEventListener(type, this.commands[type]);
         });
         this.updateLayout();
@@ -28518,10 +28548,10 @@ class NovoFileInputElement {
      * @return {?}
      */
     ngOnDestroy() {
-        ['dragenter', 'dragleave', 'dragover', 'drop'].forEach(type => {
+        ['dragenter', 'dragleave', 'dragover', 'drop'].forEach((type) => {
             this.element.nativeElement.removeEventListener(type, this.commands[type]);
         });
-        let /** @type {?} */ dragulaHasFileOutputBag = this.dragula.bags.length > 0 && this.dragula.bags.filter(x => x.name === this.fileOutputBag).length > 0;
+        let /** @type {?} */ dragulaHasFileOutputBag = this.dragula.bags.length > 0 && this.dragula.bags.filter((x) => x.name === this.fileOutputBag).length > 0;
         if (dragulaHasFileOutputBag) {
             this.dragula.destroy(this.fileOutputBag);
         }
@@ -28565,7 +28595,7 @@ class NovoFileInputElement {
         this.dragula.setOptions(this.fileOutputBag, {
             moves: (el, container, handle) => {
                 return this.layoutOptions.draggable;
-            }
+            },
         });
     }
     /**
@@ -28674,7 +28704,7 @@ class NovoFileInputElement {
      * @return {?}
      */
     remove(file) {
-        this.files.splice(this.files.findIndex(f => (f.name === file.name && f.size === file.size)), 1);
+        this.files.splice(this.files.findIndex((f) => f.name === file.name && f.size === file.size), 1);
         this.model = this.files;
         this.onModelChange(this.model);
     }
@@ -28684,6 +28714,27 @@ class NovoFileInputElement {
      */
     readFile(file) {
         return new NovoFile(file).read();
+    }
+    /**
+     * @param {?} file
+     * @return {?}
+     */
+    customEdit(file) {
+        this.edit.emit(file);
+    }
+    /**
+     * @param {?} file
+     * @return {?}
+     */
+    customSave(file) {
+        this.save.emit(file);
+    }
+    /**
+     * @param {?} file
+     * @return {?}
+     */
+    customDelete(file) {
+        this.delete.emit(file);
     }
 }
 NovoFileInputElement.decorators = [
@@ -28709,16 +28760,24 @@ NovoFileInputElement.decorators = [
         <ng-template #fileOutput>
             <div class="file-output-group" [dragula]="fileOutputBag" [dragulaModel]="files">
                 <div class="file-item" *ngFor="let file of files">
-                    <i *ngIf="layoutOptions.draggable" class="bhi-move"></i>
-                    <label>{{ file.name | decodeURI }}</label>
-                    <div class="actions" [attr.data-automation-id]="'file-actions'" *ngIf="file.loaded">
-                        <button *ngIf="layoutOptions.download" type="button" theme="icon" icon="save" (click)="download(file)" [attr.data-automation-id]="'file-download'" tabindex="-1"></button>
-                        <button type="button" theme="icon" icon="close" (click)="remove(file)" [attr.data-automation-id]="'file-remove'" tabindex="-1"></button>
+                  <i *ngIf="layoutOptions.draggable" class="bhi-move"></i>
+                  <label *ngIf="file.link"><span><a href="{{ file.link }}">{{ file.name | decodeURI }}</a></span><span  *ngIf="file.description">||</span><span>{{ file.description }}</span></label> 
+                  <label *ngIf="!file.link">{{ file.name | decodeURI }}</label> 
+                  <div class="actions" [attr.data-automation-id]="'file-actions'" *ngIf="file.loaded">
+                    <div *ngIf="!layoutOptions.customActions">
+                      <button *ngIf="layoutOptions.download" type="button" theme="icon" icon="save" (click)="download(file)" [attr.data-automation-id]="'file-download'" tabindex="-1"></button>
+                      <button type="button" theme="icon" icon="close" (click)="remove(file)" [attr.data-automation-id]="'file-remove'" tabindex="-1"></button>
                     </div>
+                    <div *ngIf="layoutOptions.customActions">
+                      <button *ngIf="layoutOptions.edit" type="button" theme="icon" icon="edit" (click)="customEdit(file)" [attr.data-automation-id]="'file-edit'" tabindex="-1"></button>
+                      <button *ngIf="layoutOptions.download" type="button" theme="icon" icon="save" (click)="customSave(file)" [attr.data-automation-id]="'file-download'" tabindex="-1"></button>
+                      <button type="button" theme="icon" icon="close" (click)="customDelete(file)" [attr.data-automation-id]="'file-remove'" tabindex="-1"></button>
+                    </div> 
+                  </div>
                     <novo-loading *ngIf="!file.loaded"></novo-loading>
                 </div>
             </div>
-        </ng-template>`
+        </ng-template>`,
             },] },
 ];
 /**
@@ -28739,6 +28798,9 @@ NovoFileInputElement.propDecorators = {
     'placeholder': [{ type: Input },],
     'layoutOptions': [{ type: Input },],
     'value': [{ type: Input },],
+    'edit': [{ type: Output },],
+    'save': [{ type: Output },],
+    'delete': [{ type: Output },],
 };
 
 // NG2

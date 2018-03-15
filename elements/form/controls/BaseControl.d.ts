@@ -48,6 +48,8 @@ export interface NovoControlConfig {
     layoutOptions?: {
         order?: string;
         download?: boolean;
+        edit?: boolean;
+        customActions?: boolean;
         labelStyle?: string;
         draggable?: boolean;
         iconStyle?: string;

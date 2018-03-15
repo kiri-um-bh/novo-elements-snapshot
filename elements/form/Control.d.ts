@@ -30,6 +30,9 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     condensed: boolean;
     autoFocus: boolean;
     change: EventEmitter<any>;
+    edit: EventEmitter<any>;
+    save: EventEmitter<any>;
+    delete: EventEmitter<any>;
     readonly onBlur: Observable<FocusEvent>;
     readonly onFocus: Observable<FocusEvent>;
     private _blurEmitter;
@@ -73,4 +76,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     handlePercentChange(event: KeyboardEvent): void;
     handleTabForPickers(event: any): void;
     emitChange(value: any): void;
+    handleEdit(value: any): void;
+    handleSave(value: any): void;
+    handleDelete(value: any): void;
 }

@@ -1,4 +1,4 @@
-import { ElementRef, OnInit, OnDestroy, OnChanges, ViewContainerRef, TemplateRef, SimpleChanges } from '@angular/core';
+import { ElementRef, OnInit, OnDestroy, OnChanges, ViewContainerRef, TemplateRef, SimpleChanges, EventEmitter } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../../../services/novo-label-service';
 import { NovoDragulaService } from '../../../../elements/dragula/DragulaService';
@@ -16,10 +16,14 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
     layoutOptions: {
         order?: string;
         download?: boolean;
+        edit?: boolean;
         labelStyle?: string;
         draggable?: boolean;
     };
     value: Array<any>;
+    edit: EventEmitter<any>;
+    save: EventEmitter<any>;
+    delete: EventEmitter<any>;
     elements: Array<any>;
     files: Array<any>;
     model: any;
@@ -50,4 +54,7 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
     download(file: any): void;
     remove(file: any): void;
     readFile(file: any): Promise<{}>;
+    customEdit(file: any): void;
+    customSave(file: any): void;
+    customDelete(file: any): void;
 }
