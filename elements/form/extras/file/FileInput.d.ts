@@ -24,6 +24,7 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
     edit: EventEmitter<any>;
     save: EventEmitter<any>;
     delete: EventEmitter<any>;
+    upload: EventEmitter<any>;
     elements: Array<any>;
     files: Array<any>;
     model: any;
@@ -57,4 +58,5 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
     customEdit(file: any): void;
     customSave(file: any): void;
     customDelete(file: any): void;
+    customCheck(event: any): void;
 }

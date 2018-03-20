@@ -33,6 +33,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     edit: EventEmitter<any>;
     save: EventEmitter<any>;
     delete: EventEmitter<any>;
+    upload: EventEmitter<any>;
     readonly onBlur: Observable<FocusEvent>;
     readonly onFocus: Observable<FocusEvent>;
     private _blurEmitter;
@@ -79,4 +80,5 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     handleEdit(value: any): void;
     handleSave(value: any): void;
     handleDelete(value: any): void;
+    handleUpload(value: any): void;
 }

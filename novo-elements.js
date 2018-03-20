@@ -16484,6 +16484,7 @@ class NovoControlElement extends OutsideClick {
         this.edit = new EventEmitter();
         this.save = new EventEmitter();
         this.delete = new EventEmitter();
+        this.upload = new EventEmitter();
         this._blurEmitter = new EventEmitter();
         this._focusEmitter = new EventEmitter();
         this._focused = false;
@@ -16847,6 +16848,13 @@ class NovoControlElement extends OutsideClick {
     handleDelete(value) {
         this.delete.emit(value);
     }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    handleUpload(value) {
+        this.upload.emit(value);
+    }
 }
 NovoControlElement.decorators = [
     { type: Component, args: [{
@@ -16903,7 +16911,7 @@ NovoControlElement.decorators = [
                                 <option *ngFor="let opt of form.controls[control.key].options" [value]="opt.key">{{opt.value}}</option>
                             </select>
                             <!--File-->
-                            <novo-file-input *ngSwitchCase="'file'" [formControlName]="control.key" [id]="control.key" [name]="control.key" [placeholder]="form.controls[control.key].placeholder" [value]="form.controls[control.key].value" [multiple]="form.controls[control.key].multiple" [layoutOptions]="form.controls[control.key].layoutOptions" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" (edit)="handleEdit($event)" (save)="handleSave($event)" (delete)="handleDelete($event)"></novo-file-input>
+                            <novo-file-input *ngSwitchCase="'file'" [formControlName]="control.key" [id]="control.key" [name]="control.key" [placeholder]="form.controls[control.key].placeholder" [value]="form.controls[control.key].value" [multiple]="form.controls[control.key].multiple" [layoutOptions]="form.controls[control.key].layoutOptions" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" (edit)="handleEdit($event)" (save)="handleSave($event)" (delete)="handleDelete($event)" (upload)="handleUpload($event)"></novo-file-input>
                             <!--Tiles-->
                             <novo-tiles *ngSwitchCase="'tiles'" [options]="control.options" [formControlName]="control.key" (onChange)="modelChange($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></novo-tiles>
                             <!--Picker-->
@@ -17008,6 +17016,7 @@ NovoControlElement.propDecorators = {
     'edit': [{ type: Output },],
     'save': [{ type: Output },],
     'delete': [{ type: Output },],
+    'upload': [{ type: Output },],
     'onBlur': [{ type: Output, args: ['blur',] },],
     'onFocus': [{ type: Output, args: ['focus',] },],
 };
@@ -28521,6 +28530,7 @@ class NovoFileInputElement {
         this.edit = new EventEmitter();
         this.save = new EventEmitter();
         this.delete = new EventEmitter();
+        this.upload = new EventEmitter();
         this.elements = [];
         this.files = [];
         this.active = false;
@@ -28736,6 +28746,13 @@ class NovoFileInputElement {
     customDelete(file) {
         this.delete.emit(file);
     }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    customCheck(event) {
+        this.upload.emit(event);
+    }
 }
 NovoFileInputElement.decorators = [
     { type: Component, args: [{
@@ -28745,7 +28762,8 @@ NovoFileInputElement.decorators = [
         <div #container></div>
         <ng-template #fileInput>
             <div class="file-input-group" [class.disabled]="disabled" [class.active]="active">
-                <input type="file" [name]="name" [attr.id]="name" (change)="check($event)" [attr.multiple]="multiple" tabindex="-1"/>
+                <input *ngIf="!layoutOptions.customActions" type="file" [name]="name" [attr.id]="name" (change)="check($event)" [attr.multiple]="multiple" tabindex="-1"/>
+                <input *ngIf="layoutOptions.customActions" type="file" [name]="name" [attr.id]="name" (change)="customCheck($event)" [attr.multiple]="multiple" tabindex="-1"/>
                 <section [ngSwitch]="layoutOptions.labelStyle">
                     <label *ngSwitchCase="'no-box'" [attr.for]="name" class="no-box">
                         <div><i class="bhi-dropzone"></i>{{ placeholder || labels.chooseAFile }} {{ labels.or }} <strong class="link">{{ labels.clickToBrowse }}</strong></div>
@@ -28801,6 +28819,7 @@ NovoFileInputElement.propDecorators = {
     'edit': [{ type: Output },],
     'save': [{ type: Output },],
     'delete': [{ type: Output },],
+    'upload': [{ type: Output },],
 };
 
 // NG2
