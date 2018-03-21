@@ -31587,7 +31587,7 @@ NovoTableElement.decorators = [
                         </tr>
                         <tr class="details-row" *ngIf="config.hasDetails" [hidden]="!row._expanded" [attr.data-automation-id]="'details-row-'+row.id">
                             <td class="row-actions"></td>
-                            <td [attr.colspan]="columns.length">
+                            <td [attr.colspan]="config.rowSelectionStyle === 'checkbox' ? (columns.length + 1) : columns.length">
                                 <novo-row-details [data]="row" [renderer]="config.detailsRenderer"></novo-row-details>
                             </td>
                         </tr>
