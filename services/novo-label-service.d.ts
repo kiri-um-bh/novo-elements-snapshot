@@ -82,15 +82,17 @@ export declare class NovoLabelService {
         quantity: number;
     }): string;
     selectedRecords(selected: number): string;
-    totalRecords(total: number): string;
+    totalRecords(total: number, select: boolean): string;
     formatDateWithFormat(value: any, format: Intl.DateTimeFormatOptions): any;
     getWeekdays(): string[];
     getMonths(): string[];
     getProperty(value: string): any;
     getRangeText(page: number, pageSize: number, length: number, short: boolean): string;
     formatCurrency(value: number): string;
-    formatNumber(value: any, options: Intl.NumberFormatOptions): string;
+    formatNumber(value: any, options?: Intl.NumberFormatOptions): string;
     formatDateShort(value: any): string;
+    formatTime(value: any): string;
+    formatDate(value: any): string;
 }
 export declare const NOVO_ELEMENTS_LABELS_PROVIDERS: {
     provide: typeof NovoLabelService;

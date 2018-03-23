@@ -26,6 +26,16 @@ export { CardActionsElement as ɵq, CardElement as ɵr } from './elements/card/C
 export { NovoCategoryDropdownElement as ɵeb } from './elements/category-dropdown/CategoryDropdown';
 export { NovoChipElement as ɵcr, NovoChipsElement as ɵcs } from './elements/chips/Chips';
 export { NovoCKEditorElement as ɵda } from './elements/ckeditor/CKEditor';
+export { NovoDataTableCellHeader as ɵeq, NovoDataTableCheckboxHeaderCell as ɵfa, NovoDataTableEmptyHeaderCell as ɵet, NovoDataTableHeaderCell as ɵeu, NovoDataTableHeaderCellDef as ɵem } from './elements/data-table/cell-headers';
+export { NovoDataTableActionCell as ɵes, NovoDataTableCell as ɵev, NovoDataTableCellDef as ɵel, NovoDataTableCheckboxCell as ɵez, NovoIDataTableColumnDef as ɵen } from './elements/data-table/cells';
+export { NovoDataTableValue as ɵfe } from './elements/data-table/data-table-value.component';
+export { NovoDataTable as ɵfc } from './elements/data-table/data-table.component';
+export { NovoDataTableModule as ɵek } from './elements/data-table/data-table.module';
+export { NovoDataTablePagination as ɵey } from './elements/data-table/pagination';
+export { NovoDataTableHeaderRow as ɵew, NovoDataTableHeaderRowDef as ɵeo, NovoDataTableRow as ɵex, NovoDataTableRowDef as ɵep } from './elements/data-table/rows';
+export { NovoDataTableSelection as ɵfb } from './elements/data-table/selection';
+export { NovoDataTableSortFilter as ɵer } from './elements/data-table/sort-filter';
+export { DataTableState as ɵfd } from './elements/data-table/state';
 export { NovoDatePickerElement as ɵct } from './elements/date-picker/DatePicker';
 export { NovoDatePickerInputElement as ɵcu } from './elements/date-picker/DatePickerInput';
 export { NovoDateTimePickerElement as ɵcy } from './elements/date-time-picker/DateTimePicker';
@@ -49,8 +59,8 @@ export { DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵcg, DEFAULT_OVERLAY_SCROLL_STRATEG
 export { NovoOverlayModule as ɵcf } from './elements/overlay/Overlay.module';
 export { NovoPickerElement as ɵcm } from './elements/picker/Picker';
 export { NovoPickerContainer as ɵcn } from './elements/picker/extras/picker-container/PickerContainer';
-export { PlacesListComponent as ɵel } from './elements/places/places.component';
-export { GooglePlacesModule as ɵek } from './elements/places/places.module';
+export { PlacesListComponent as ɵfg } from './elements/places/places.component';
+export { GooglePlacesModule as ɵff } from './elements/places/places.module';
 export { PopOverDirective as ɵej } from './elements/popover/PopOver';
 export { NovoPopOverModule as ɵeh } from './elements/popover/PopOver.module';
 export { PopOverContent as ɵei } from './elements/popover/PopOverContent';

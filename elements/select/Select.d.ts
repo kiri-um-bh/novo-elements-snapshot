@@ -1,9 +1,10 @@
-import { EventEmitter, ElementRef, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { EventEmitter, ElementRef, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { NovoOverlayTemplate } from '../overlay/Overlay';
 import { NovoLabelService } from '../../services/novo-label-service';
 export declare class NovoSelectElement implements OnInit, OnChanges {
     element: ElementRef;
     labels: NovoLabelService;
+    ref: ChangeDetectorRef;
     name: string;
     options: Array<any>;
     placeholder: string;
@@ -23,7 +24,7 @@ export declare class NovoSelectElement implements OnInit, OnChanges {
     filteredOptions: any;
     /** Element for the panel containing the autocomplete options. */
     overlay: NovoOverlayTemplate;
-    constructor(element: ElementRef, labels: NovoLabelService);
+    constructor(element: ElementRef, labels: NovoLabelService, ref: ChangeDetectorRef);
     ngOnInit(): void;
     ngOnChanges(changes?: SimpleChanges): void;
     /** BEGIN: Convienient Panel Methods. */
@@ -32,10 +33,10 @@ export declare class NovoSelectElement implements OnInit, OnChanges {
     readonly panelOpen: boolean;
     /** END: Convienient Panel Methods. */
     /**
-    * This method closes the panel, and if a value is specified, also sets the associated
-    * control to that value. It will also mark the control as dirty if this interaction
-    * stemmed from the user.
-    */
+     * This method closes the panel, and if a value is specified, also sets the associated
+     * control to that value. It will also mark the control as dirty if this interaction
+     * stemmed from the user.
+     */
     setValueAndClose(event: any | null): void;
     select(option: any, i: any, fireEvents?: boolean): void;
     clear(): void;

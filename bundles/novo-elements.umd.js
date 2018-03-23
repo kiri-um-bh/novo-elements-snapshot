@@ -1,6 +1,6 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('@angular/platform-browser'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('rxjs/operators/filter'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('@bullhorn/dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/animations'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/cdk/table'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/observable/of'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', '@angular/platform-browser', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/observable/fromEvent', 'rxjs/observable/of', 'rxjs/operators/filter', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', '@bullhorn/dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/animations', '@angular/http', 'rxjs/add/operator/map', '@angular/cdk/table', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/observable/of', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('@angular/platform-browser'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('rxjs/operators/filter'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('@bullhorn/dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/animations'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/cdk/table'), require('rxjs/add/observable/of'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', '@angular/platform-browser', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/observable/fromEvent', 'rxjs/observable/of', 'rxjs/operators/filter', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', '@bullhorn/dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/animations', '@angular/http', 'rxjs/add/operator/map', '@angular/cdk/table', 'rxjs/add/observable/of', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
 	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.ng.platformBrowser,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.animations,global.ng.http,global.Rx.Observable.prototype,global.ng.cdk.table));
 }(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,platformBrowser,Observable,fromPromise,overlay,portal,merge,fromEvent,of,filter,coercion,fromEvent$2,debounceTime,distinctUntilChanged,keycodes,dragulaImported,ReplaySubject,angular2TextMask,animations,http,map,table) { 'use strict';
 
@@ -62,7 +62,7 @@ var Helpers = /** @class */ (function () {
      * @return {?}
      */
     Helpers.isObject = function (item) {
-        return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
+        return item && typeof item === 'object' && !Array.isArray(item) && item !== null;
     };
     /**
      * Checks to see if the object is a string
@@ -113,7 +113,7 @@ var Helpers = /** @class */ (function () {
         if (reverse === void 0) { reverse = false; }
         return function (previous, current) {
             if (Helpers.isFunction(fields)) {
-                return fields((reverse) ? 'desc' : 'asc', previous, current);
+                return fields(reverse ? 'desc' : 'asc', previous, current);
             }
             if (!Array.isArray(fields)) {
                 fields = [fields];
@@ -138,10 +138,10 @@ var Helpers = /** @class */ (function () {
                     second = isNaN(Number(second)) ? second : Number(second);
                 }
                 if (first_1 > second) {
-                    return (reverse) ? -1 : 1;
+                    return reverse ? -1 : 1;
                 }
                 else if (first_1 < second) {
-                    return (reverse) ? 1 : -1;
+                    return reverse ? 1 : -1;
                 }
             }
             return 0;
@@ -210,11 +210,9 @@ var Helpers = /** @class */ (function () {
             return;
         }
         var /** @type {?} */ supportPageOffset = window.pageXOffset !== undefined;
-        var /** @type {?} */ isCSS1Compat = ((document.compatMode || '') === 'CSS1Compat');
-        var /** @type {?} */ x = supportPageOffset ? window.pageXOffset : isCSS1Compat ?
-            document.documentElement.scrollLeft : document.body.scrollLeft;
-        var /** @type {?} */ y = supportPageOffset ? window.pageYOffset : isCSS1Compat ?
-            document.documentElement.scrollTop : document.body.scrollTop;
+        var /** @type {?} */ isCSS1Compat = (document.compatMode || '') === 'CSS1Compat';
+        var /** @type {?} */ x = supportPageOffset ? window.pageXOffset : isCSS1Compat ? document.documentElement.scrollLeft : document.body.scrollLeft;
+        var /** @type {?} */ y = supportPageOffset ? window.pageYOffset : isCSS1Compat ? document.documentElement.scrollTop : document.body.scrollTop;
         var /** @type {?} */ sideOffset = 0;
         if (side === 'right') {
             sideOffset = position.width - element.clientWidth;
@@ -233,11 +231,11 @@ var Helpers = /** @class */ (function () {
         }
         // Force open middle
         if (parseInt(top.replace('px', '')) <= window.scrollY) {
-            top = parseInt(top.replace('px', '')) + (clientHeight / 2) + (position.height / 2) + 10 + "px";
+            top = parseInt(top.replace('px', '')) + clientHeight / 2 + position.height / 2 + 10 + "px";
         }
         // Force open left
         if (parseInt(left.replace('px', '')) <= window.scrollX) {
-            left = parseInt(left.replace('px', '')) + (clientWidth / 2) + (position.width * 2) - 4 + "px";
+            left = parseInt(left.replace('px', '')) + clientWidth / 2 + position.width * 2 - 4 + "px";
         }
         return { top: top, left: left, width: width };
     };
@@ -247,7 +245,7 @@ var Helpers = /** @class */ (function () {
      * @return {?}
      */
     Helpers.findAncestor = function (element, selector) {
-        while ((element = element.parentElement) && !(element.matches.call(element, selector)))
+        while ((element = element.parentElement) && !element.matches.call(element, selector))
             ; // tslint:disable-line
         return element;
     };
@@ -259,11 +257,12 @@ var Helpers = /** @class */ (function () {
         if (Array.isArray(item)) {
             var /** @type {?} */ newArr = [];
             for (var /** @type {?} */ i = item.length; i-- > 0;) {
+                // tslint:disable-line
                 newArr[i] = Helpers.deepClone(item[i]);
             }
             return newArr;
         }
-        if (typeof item === 'function' && !(/\(\) \{ \[native/).test(item.toString())) {
+        if (typeof item === 'function' && !/\(\) \{ \[native/.test(item.toString())) {
             var /** @type {?} */ obj = void 0;
             eval('obj = ' + item.toString()); // tslint:disable-line
             for (var /** @type {?} */ k in item) {
@@ -290,8 +289,8 @@ var Helpers = /** @class */ (function () {
      */
     Helpers.deepAssign = function () {
         var objs = [];
-        for (var _b = 0; _b < arguments.length; _b++) {
-            objs[_b] = arguments[_b];
+        for (var _d = 0; _d < arguments.length; _d++) {
+            objs[_d] = arguments[_d];
         }
         if (objs.length < 2) {
             throw new Error('Need two or more objects to merge');
@@ -1076,8 +1075,8 @@ var GroupByPipe = /** @class */ (function () {
             return input;
         }
         var /** @type {?} */ arr = {};
-        for (var _b = 0, input_1 = input; _b < input_1.length; _b++) {
-            var value = input_1[_b];
+        for (var _d = 0, input_1 = input; _d < input_1.length; _d++) {
+            var value = input_1[_d];
             var /** @type {?} */ field = can(value).have(prop);
             if (Helpers.isBlank(arr[field])) {
                 arr[field] = [];
@@ -1419,14 +1418,15 @@ var NovoLabelService = /** @class */ (function () {
      * @return {?}
      */
     NovoLabelService.prototype.selectedRecords = function (selected) {
-        return "Only " + selected + " records selected.";
+        return selected + " records are selected.";
     };
     /**
      * @param {?} total
+     * @param {?} select
      * @return {?}
      */
-    NovoLabelService.prototype.totalRecords = function (total) {
-        return "Select all " + total + " matching records.";
+    NovoLabelService.prototype.totalRecords = function (total, select) {
+        return select ? "Select all " + total + " records." : "De-select remaining " + total + " records.";
     };
     /**
      * @param {?} value
@@ -1452,8 +1452,7 @@ var NovoLabelService = /** @class */ (function () {
             var /** @type {?} */ dt = new Date();
             return dt.setDate(dt.getDate() - dt.getDay() + dayOfWeek);
         }
-        return [getDay$$1(0), getDay$$1(1), getDay$$1(2), getDay$$1(3), getDay$$1(4), getDay$$1(5), getDay$$1(6)]
-            .reduce(function (weekdays, dt) {
+        return [getDay$$1(0), getDay$$1(1), getDay$$1(2), getDay$$1(3), getDay$$1(4), getDay$$1(5), getDay$$1(6)].reduce(function (weekdays, dt) {
             weekdays.push(new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(dt));
             return weekdays;
         }, []);
@@ -1470,9 +1469,20 @@ var NovoLabelService = /** @class */ (function () {
             var /** @type {?} */ dt = new Date();
             return dt.setMonth(month, 1);
         }
-        return [getMonth$$1(0), getMonth$$1(1), getMonth$$1(2), getMonth$$1(3), getMonth$$1(4), getMonth$$1(5), getMonth$$1(6),
-            getMonth$$1(7), getMonth$$1(8), getMonth$$1(9), getMonth$$1(10), getMonth$$1(11)]
-            .reduce(function (months, dt) {
+        return [
+            getMonth$$1(0),
+            getMonth$$1(1),
+            getMonth$$1(2),
+            getMonth$$1(3),
+            getMonth$$1(4),
+            getMonth$$1(5),
+            getMonth$$1(6),
+            getMonth$$1(7),
+            getMonth$$1(8),
+            getMonth$$1(9),
+            getMonth$$1(10),
+            getMonth$$1(11),
+        ].reduce(function (months, dt) {
             months.push(new Intl.DateTimeFormat('en-US', { month: 'long' }).format(dt));
             return months;
         }, []);
@@ -1498,9 +1508,7 @@ var NovoLabelService = /** @class */ (function () {
         length = Math.max(length, 0);
         var /** @type {?} */ startIndex = page * pageSize;
         // If the start index exceeds the list length, do not try and fix the end index to the end.
-        var /** @type {?} */ endIndex = startIndex < length ?
-            Math.min(startIndex + pageSize, length) :
-            startIndex + pageSize;
+        var /** @type {?} */ endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
         return short ? startIndex + 1 + " - " + endIndex + "/" + length : "Displaying " + (startIndex + 1) + " - " + endIndex + " of " + length;
     };
     /**
@@ -1513,7 +1521,7 @@ var NovoLabelService = /** @class */ (function () {
     };
     /**
      * @param {?} value
-     * @param {?} options
+     * @param {?=} options
      * @return {?}
      */
     NovoLabelService.prototype.formatNumber = function (value, options) {
@@ -1525,11 +1533,39 @@ var NovoLabelService = /** @class */ (function () {
      */
     NovoLabelService.prototype.formatDateShort = function (value) {
         var /** @type {?} */ options = {
+            // DD/MM/YYYY, HH:MM A - 02/14/2017, 1:17 PM
             month: '2-digit',
             day: '2-digit',
             year: 'numeric',
             hour: '2-digit',
-            minute: '2-digit'
+            minute: '2-digit',
+        };
+        var /** @type {?} */ _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
+        return new Intl.DateTimeFormat('en-US', options).format(_value);
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoLabelService.prototype.formatTime = function (value) {
+        var /** @type {?} */ options = {
+            //HH:MM A - 1:17 PM
+            hour: '2-digit',
+            minute: '2-digit',
+        };
+        var /** @type {?} */ _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
+        return new Intl.DateTimeFormat('en-US', options).format(_value);
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoLabelService.prototype.formatDate = function (value) {
+        var /** @type {?} */ options = {
+            // DD/MM/YYYY - 02/14/2017
+            month: '2-digit',
+            day: '2-digit',
+            year: 'numeric',
         };
         var /** @type {?} */ _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
         return new Intl.DateTimeFormat('en-US', options).format(_value);
@@ -1770,8 +1806,8 @@ CalendarEventResponse[CalendarEventResponse.Rejected] = "Rejected";
  * @param {?} __0
  * @return {?}
  */
-function getExcludedDays(_b) {
-    var startDate = _b.startDate, days = _b.days, excluded = _b.excluded;
+function getExcludedDays(_d) {
+    var startDate = _d.startDate, days = _d.days, excluded = _d.excluded;
     if (excluded.length < 1) {
         return 0;
     }
@@ -1792,8 +1828,8 @@ function getExcludedDays(_b) {
  * @param {?} __0
  * @return {?}
  */
-function getWeekViewEventOffset(_b) {
-    var event = _b.event, startOfWeek$$1 = _b.startOfWeek, _c = _b.excluded, excluded = _c === void 0 ? [] : _c;
+function getWeekViewEventOffset(_d) {
+    var event = _d.event, startOfWeek$$1 = _d.startOfWeek, _e = _d.excluded, excluded = _e === void 0 ? [] : _e;
     if (event.start < startOfWeek$$1) {
         return 0;
     }
@@ -1804,8 +1840,8 @@ function getWeekViewEventOffset(_b) {
  * @param {?} __0
  * @return {?}
  */
-function isEventIsPeriod(_b) {
-    var event = _b.event, periodStart = _b.periodStart, periodEnd = _b.periodEnd;
+function isEventIsPeriod(_d) {
+    var event = _d.event, periodStart = _d.periodStart, periodEnd = _d.periodEnd;
     var /** @type {?} */ eventStart = event.start;
     var /** @type {?} */ eventEnd = event.end || event.start;
     if (eventStart > periodStart && eventStart < periodEnd) {
@@ -1829,8 +1865,8 @@ function isEventIsPeriod(_b) {
  * @param {?} __0
  * @return {?}
  */
-function getEventsInPeriod(_b) {
-    var events = _b.events, periodStart = _b.periodStart, periodEnd = _b.periodEnd;
+function getEventsInPeriod(_d) {
+    var events = _d.events, periodStart = _d.periodStart, periodEnd = _d.periodEnd;
     return events.filter(function (event) { return isEventIsPeriod({ event: event, periodStart: periodStart, periodEnd: periodEnd }); });
 }
 /**
@@ -1853,8 +1889,8 @@ function getEventsInTimeRange(events, dayStart, dayEnd) {
  * @param {?} __0
  * @return {?}
  */
-function getWeekDay(_b) {
-    var date = _b.date;
+function getWeekDay(_d) {
+    var date = _d.date;
     var /** @type {?} */ today = dateFns.startOfDay(new Date());
     return {
         date: date,
@@ -1868,8 +1904,8 @@ function getWeekDay(_b) {
  * @param {?} __0
  * @return {?}
  */
-function getWeekViewHeader(_b) {
-    var viewDate = _b.viewDate, weekStartsOn = _b.weekStartsOn, _c = _b.excluded, excluded = _c === void 0 ? [] : _c;
+function getWeekViewHeader(_d) {
+    var viewDate = _d.viewDate, weekStartsOn = _d.weekStartsOn, _e = _d.excluded, excluded = _e === void 0 ? [] : _e;
     var /** @type {?} */ start = dateFns.startOfWeek(viewDate, { weekStartsOn: weekStartsOn });
     var /** @type {?} */ days = [];
     var _loop_3 = function (i) {
@@ -1887,8 +1923,8 @@ function getWeekViewHeader(_b) {
  * @param {?} __0
  * @return {?}
  */
-function getWeekView(_b) {
-    var _c = _b.events, events = _c === void 0 ? [] : _c, viewDate = _b.viewDate, weekStartsOn = _b.weekStartsOn, _d = _b.excluded, excluded = _d === void 0 ? [] : _d, hourSegments = _b.hourSegments, segmentHeight = _b.segmentHeight, dayStart = _b.dayStart, dayEnd = _b.dayEnd;
+function getWeekView(_d) {
+    var _e = _d.events, events = _e === void 0 ? [] : _e, viewDate = _d.viewDate, weekStartsOn = _d.weekStartsOn, _f = _d.excluded, excluded = _f === void 0 ? [] : _f, hourSegments = _d.hourSegments, segmentHeight = _d.segmentHeight, dayStart = _d.dayStart, dayEnd = _d.dayEnd;
     if (!events) {
         events = [];
     }
@@ -1968,8 +2004,8 @@ function getWeekView(_b) {
  * @param {?} __0
  * @return {?}
  */
-function getMonthView(_b) {
-    var _c = _b.events, events = _c === void 0 ? [] : _c, viewDate = _b.viewDate, weekStartsOn = _b.weekStartsOn, _d = _b.excluded, excluded = _d === void 0 ? [] : _d;
+function getMonthView(_d) {
+    var _e = _d.events, events = _e === void 0 ? [] : _e, viewDate = _d.viewDate, weekStartsOn = _d.weekStartsOn, _f = _d.excluded, excluded = _f === void 0 ? [] : _f;
     if (!events) {
         events = [];
     }
@@ -2015,8 +2051,8 @@ function getMonthView(_b) {
  * @param {?} __0
  * @return {?}
  */
-function getDayView(_b) {
-    var _c = _b.events, events = _c === void 0 ? [] : _c, viewDate = _b.viewDate, hourSegments = _b.hourSegments, dayStart = _b.dayStart, dayEnd = _b.dayEnd, eventWidth = _b.eventWidth, segmentHeight = _b.segmentHeight;
+function getDayView(_d) {
+    var _e = _d.events, events = _e === void 0 ? [] : _e, viewDate = _d.viewDate, hourSegments = _d.hourSegments, dayStart = _d.dayStart, dayEnd = _d.dayEnd, eventWidth = _d.eventWidth, segmentHeight = _d.segmentHeight;
     if (!events) {
         events = [];
     }
@@ -2095,8 +2131,8 @@ function getDayView(_b) {
  * @param {?} __0
  * @return {?}
  */
-function getDayViewHourGrid(_b) {
-    var viewDate = _b.viewDate, hourSegments = _b.hourSegments, dayStart = _b.dayStart, dayEnd = _b.dayEnd;
+function getDayViewHourGrid(_d) {
+    var viewDate = _d.viewDate, hourSegments = _d.hourSegments, dayStart = _d.dayStart, dayEnd = _d.dayEnd;
     var /** @type {?} */ hours = [];
     var /** @type {?} */ startOfView = dateFns.setMinutes(dateFns.setHours(dateFns.startOfDay(viewDate), dayStart.hour), dayStart.minute);
     var /** @type {?} */ endOfView = dateFns.setMinutes(dateFns.setHours(dateFns.startOfMinute(dateFns.endOfDay(viewDate)), dayEnd.hour), dayEnd.minute);
@@ -3923,8 +3959,8 @@ var NovoTilesElement = /** @class */ (function () {
             return;
         }
         if (!item.disabled) {
-            for (var _b = 0, _c = this._options; _b < _c.length; _b++) {
-                var option = _c[_b];
+            for (var _d = 0, _e = this._options; _d < _e.length; _d++) {
+                var option = _e[_d];
                 option.checked = false;
             }
             item.checked = !item.checked;
@@ -4003,7 +4039,7 @@ NovoTilesElement.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-tiles',
                 providers: [TILES_VALUE_ACCESSOR],
-                template: "\n        <div class=\"tile-container\" [class.active]=\"focused\">\n            <div class=\"tile\" *ngFor=\"let option of _options; let i = index\" [ngClass]=\"{active: option.checked, disabled: option.disabled}\" (click)=\"select($event, option, i)\" [attr.data-automation-id]=\"option.label || option\">\n                <input class=\"tiles-input\" [name]=\"name\" type=\"radio\" [value]=\"option.checked || option\" [attr.id]=\"name + i\" (change)=\"select($event, option, i)\" (focus)=\"setFocus(true)\" (blur)=\"setFocus(false)\">\n                <label [attr.for]=\"name + i\" [attr.data-automation-id]=\"option.label || option\">\n                    {{ option.label || option}}\n                </label>\n            </div>\n            <span class=\"active-indicator\" [@tileState]=\"state\" [hidden]=\"activeTile === undefined || activeTile === null\"></span>\n        </div>\n    ",
+                template: "\n        <div class=\"tile-container\" [class.active]=\"focused\">\n            <div class=\"tile\" *ngFor=\"let option of _options; let i = index\" [ngClass]=\"{active: option.checked, disabled: option.disabled}\" (click)=\"select($event, option, i)\" [attr.data-automation-id]=\"option.label || option\">\n                <input class=\"tiles-input\" [name]=\"name\" type=\"radio\" [value]=\"option.checked || option\" [attr.id]=\"name + i\" (change)=\"select($event, option, i)\" (focus)=\"setFocus(true)\" (blur)=\"setFocus(false)\">\n                <label [attr.for]=\"name + i\" [attr.data-automation-id]=\"option.label || option\">\n                    {{ option.label || option }}\n                </label>\n            </div>\n            <span class=\"active-indicator\" [@tileState]=\"state\" [hidden]=\"activeTile === undefined || activeTile === null\"></span>\n        </div>\n    ",
                 animations: [
                     core.trigger('tileState', [
                         core.state('inactive', core.style({
@@ -6021,7 +6057,7 @@ var NovoDropdownContainer = /** @class */ (function () {
 NovoDropdownContainer.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-dropdown-container',
-                template: '<ng-content></ng-content>'
+                template: '<ng-content></ng-content>',
             },] },
 ];
 /**
@@ -6199,11 +6235,16 @@ var NovoDropdownElement = /** @class */ (function (_super) {
             this._items.toArray()[this.activeIndex].active = true;
             this.scrollToActive();
         }
-        else if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 96 && event.keyCode <= 105) || (event.keyCode >= 48 && event.keyCode <= 57) || event.keyCode === KeyCodes.SPACE) {
+        else if ((event.keyCode >= 65 && event.keyCode <= 90) ||
+            (event.keyCode >= 96 && event.keyCode <= 105) ||
+            (event.keyCode >= 48 && event.keyCode <= 57) ||
+            event.keyCode === KeyCodes.SPACE) {
             // A-Z, 0-9, space -- filter the list and scroll to active filter
             // filter has hard reset after 2s
             clearTimeout(this.filterTermTimeout);
-            this.filterTermTimeout = setTimeout(function () { _this.filterTerm = ''; }, 2000);
+            this.filterTermTimeout = setTimeout(function () {
+                _this.filterTerm = '';
+            }, 2000);
             var /** @type {?} */ char = String.fromCharCode(event.keyCode);
             this.filterTerm = this.filterTerm.concat(char);
             var /** @type {?} */ index$$1 = this._textItems.findIndex(function (value) {
@@ -6221,7 +6262,9 @@ var NovoDropdownElement = /** @class */ (function (_super) {
         else if ([KeyCodes.BACKSPACE, KeyCodes.DELETE].includes(event.keyCode)) {
             // backspace, delete -- remove partial filters
             clearTimeout(this.filterTermTimeout);
-            this.filterTermTimeout = setTimeout(function () { _this.filterTerm = ''; }, 2000);
+            this.filterTermTimeout = setTimeout(function () {
+                _this.filterTerm = '';
+            }, 2000);
             this.filterTerm = this.filterTerm.slice(0, -1);
         }
     };
@@ -6247,7 +6290,7 @@ var NovoDropdownElement = /** @class */ (function (_super) {
 NovoDropdownElement.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-dropdown',
-                template: "\n        <ng-content select=\"button\" #trigger></ng-content>\n        <novo-dropdown-container class=\"dropdown-container {{ containerClass }}\">\n            <ng-content></ng-content>\n        </novo-dropdown-container>\n    "
+                template: "\n        <ng-content select=\"button\" #trigger></ng-content>\n        <novo-dropdown-container class=\"dropdown-container {{ containerClass }}\">\n            <ng-content></ng-content>\n        </novo-dropdown-container>\n    ",
             },] },
 ];
 /**
@@ -6291,7 +6334,7 @@ var NovoItemElement = /** @class */ (function () {
                 this.dropdown.toggleActive();
             }
             // Emit the action
-            this.action.emit();
+            this.action.emit({ originalEvent: event });
         }
     };
     return NovoItemElement;
@@ -6302,8 +6345,8 @@ NovoItemElement.decorators = [
                 template: '<ng-content></ng-content>',
                 host: {
                     '[class.disabled]': 'disabled',
-                    '[class.active]': 'active'
-                }
+                    '[class.active]': 'active',
+                },
             },] },
 ];
 /**
@@ -6317,7 +6360,7 @@ NovoItemElement.propDecorators = {
     'disabled': [{ type: core.Input },],
     'keepOpen': [{ type: core.Input },],
     'action': [{ type: core.Output },],
-    'onClick': [{ type: core.HostListener, args: ['click', [],] },],
+    'onClick': [{ type: core.HostListener, args: ['click', ['$event'],] },],
 };
 var NovoListElement$1 = /** @class */ (function () {
     /**
@@ -6337,7 +6380,7 @@ var NovoListElement$1 = /** @class */ (function () {
 NovoListElement$1.decorators = [
     { type: core.Component, args: [{
                 selector: 'list',
-                template: '<ng-content></ng-content>'
+                template: '<ng-content></ng-content>',
             },] },
 ];
 /**
@@ -7840,6 +7883,9 @@ var SwitchMapSubscriber = (function (_super) {
     };
     return SwitchMapSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
+var switchMap_1 = {
+    switchMap: switchMap_2
+};
 /**
  * Injection token that determines the scroll handling while the autocomplete panel is open.
  */
@@ -8165,16 +8211,18 @@ NovoOverlayModule.ctorParameters = function () { return []; };
 var SELECT_VALUE_ACCESSOR = {
     provide: forms.NG_VALUE_ACCESSOR,
     useExisting: core.forwardRef(function () { return NovoSelectElement; }),
-    multi: true
+    multi: true,
 };
 var NovoSelectElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} labels
+     * @param {?} ref
      */
-    function NovoSelectElement(element, labels) {
+    function NovoSelectElement(element, labels, ref) {
         this.element = element;
         this.labels = labels;
+        this.ref = ref;
         this.placeholder = 'Select...';
         this.onSelect = new core.EventEmitter();
         this.selectedIndex = -1;
@@ -8182,7 +8230,7 @@ var NovoSelectElement = /** @class */ (function () {
         this.header = {
             open: false,
             valid: true,
-            value: ''
+            value: '',
         };
         this.onModelChange = function () { };
         this.onModelTouched = function () { };
@@ -8292,12 +8340,12 @@ var NovoSelectElement = /** @class */ (function () {
         this.selected = {
             label: this.placeholder,
             value: null,
-            active: false
+            active: false,
         };
         this.header = {
             open: false,
             valid: true,
-            value: ''
+            value: '',
         };
         this.selectedIndex = -1;
         this.empty = true;
@@ -8343,9 +8391,11 @@ var NovoSelectElement = /** @class */ (function () {
                 this.selectedIndex--;
                 this.toggleHeader(null, true);
             }
-            else if (event.keyCode >= 65 && event.keyCode <= 90 || event.keyCode === KeyCodes.SPACE) {
+            else if ((event.keyCode >= 65 && event.keyCode <= 90) || event.keyCode === KeyCodes.SPACE) {
                 clearTimeout(this.filterTermTimeout);
-                this.filterTermTimeout = setTimeout(function () { _this.filterTerm = ''; }, 2000);
+                this.filterTermTimeout = setTimeout(function () {
+                    _this.filterTerm = '';
+                }, 2000);
                 var /** @type {?} */ char = String.fromCharCode(event.keyCode);
                 this.filterTerm = this.filterTerm.concat(char);
                 // let element = this.element.nativeElement;
@@ -8359,7 +8409,9 @@ var NovoSelectElement = /** @class */ (function () {
             }
             else if ([KeyCodes.BACKSPACE, KeyCodes.DELETE].includes(event.keyCode)) {
                 clearTimeout(this.filterTermTimeout);
-                this.filterTermTimeout = setTimeout(function () { _this.filterTerm = ''; }, 2000);
+                this.filterTermTimeout = setTimeout(function () {
+                    _this.filterTerm = '';
+                }, 2000);
                 this.filterTerm = this.filterTerm.slice(0, -1);
             }
         }
@@ -8402,7 +8454,7 @@ var NovoSelectElement = /** @class */ (function () {
         this.header = {
             open: forceValue !== undefined ? forceValue : !this.header.open,
             value: '',
-            valid: true
+            valid: true,
         };
     };
     /**
@@ -8446,7 +8498,7 @@ var NovoSelectElement = /** @class */ (function () {
             if (!item && !Helpers.isEmpty(model)) {
                 item = {
                     label: model,
-                    value: model
+                    value: model,
                 };
                 if (!item.readOnly) {
                     this.options.unshift(item);
@@ -8460,6 +8512,7 @@ var NovoSelectElement = /** @class */ (function () {
                 this.clear();
             }
         }
+        this.ref.markForCheck();
     };
     /**
      * @param {?} fn
@@ -8483,8 +8536,8 @@ NovoSelectElement.decorators = [
                 providers: [SELECT_VALUE_ACCESSOR],
                 template: "\n        <div (click)=\"openPanel()\" tabIndex=\"0\" type=\"button\" [class.empty]=\"empty\">{{selected.label}}<i class=\"bhi-collapse\"></i></div>\n        <novo-overlay-template [parent]=\"element\" position=\"center\">\n            <ul class=\"novo-select-list\" tabIndex=\"-1\" [class.header]=\"headerConfig\" [class.active]=\"panelOpen\">\n                <ng-content></ng-content>\n                <li *ngIf=\"headerConfig\" class=\"select-header\" [class.open]=\"header.open\">\n                    <button  *ngIf=\"!header.open\" (click)=\"toggleHeader($event); false\" tabIndex=\"-1\" type=\"button\" class=\"header\"><i class=\"bhi-add-thin\"></i>&nbsp;{{headerConfig.label}}</button>\n                    <div *ngIf=\"header.open\" [ngClass]=\"{active: header.open}\">\n                        <input autofocus type=\"text\" [placeholder]=\"headerConfig.placeholder\" [attr.id]=\"name\" autocomplete=\"false\" [(ngModel)]=\"header.value\" [ngClass]=\"{invalid: !header.valid}\"/>\n                        <footer>\n                            <button (click)=\"toggleHeader($event, false)\">{{labels.cancel}}</button>\n                            <button (click)=\"saveHeader()\" class=\"primary\">{{labels.save}}</button>\n                        </footer>\n                    </div>\n                </li>\n                <li *ngFor=\"let option of filteredOptions; let i = index\" [ngClass]=\"{active: option.active}\" (click)=\"setValueAndClose({value: option, index: i})\" [attr.data-automation-value]=\"option.label\">\n                    <span [innerHtml]=\"highlight(option.label, filterTerm)\"></span>\n                    <i *ngIf=\"option.active\" class=\"bhi-check\"></i>\n                </li>\n            </ul>\n        </novo-overlay-template>\n    ",
                 host: {
-                    '(keydown)': 'onKeyDown($event)'
-                }
+                    '(keydown)': 'onKeyDown($event)',
+                },
             },] },
 ];
 /**
@@ -8493,6 +8546,7 @@ NovoSelectElement.decorators = [
 NovoSelectElement.ctorParameters = function () { return [
     { type: core.ElementRef, },
     { type: NovoLabelService, },
+    { type: core.ChangeDetectorRef, },
 ]; };
 NovoSelectElement.propDecorators = {
     'name': [{ type: core.Input },],
@@ -10613,8 +10667,8 @@ var NovoChipsElement = /** @class */ (function () {
         this.items = [];
         if (this.model && Array.isArray(this.model)) {
             var /** @type {?} */ noLabels = [];
-            for (var _b = 0, _c = this.model; _b < _c.length; _b++) {
-                var value = _c[_b];
+            for (var _d = 0, _e = this.model; _d < _e.length; _d++) {
+                var value = _e[_d];
                 var /** @type {?} */ label = void 0;
                 if (this.source && this.source.format && Helpers.validateInterpolationProps(this.source.format, value)) {
                     label = Helpers.interpolate(this.source.format, value);
@@ -10640,8 +10694,8 @@ var NovoChipsElement = /** @class */ (function () {
             }
             if (noLabels.length > 0 && this.source && this.source.getLabels && typeof this.source.getLabels === 'function') {
                 this.source.getLabels(noLabels).then(function (result) {
-                    for (var _b = 0, result_1 = result; _b < result_1.length; _b++) {
-                        var value = result_1[_b];
+                    for (var _d = 0, result_1 = result; _d < result_1.length; _d++) {
+                        var value = result_1[_d];
                         if (value.hasOwnProperty('label')) {
                             _this.items.push({
                                 value: value,
@@ -11448,8 +11502,8 @@ var DateFormatService = /** @class */ (function () {
             timeFormatArray = timeFormat.split('hh:mm');
             if (timeFormatArray && timeFormatArray.length) {
                 mask = [];
-                for (var _b = 0, timeFormatArray_1 = timeFormatArray; _b < timeFormatArray_1.length; _b++) {
-                    var timeFormatPart = timeFormatArray_1[_b];
+                for (var _d = 0, timeFormatArray_1 = timeFormatArray; _d < timeFormatArray_1.length; _d++) {
+                    var timeFormatPart = timeFormatArray_1[_d];
                     if (timeFormatPart === '') {
                         mask = mask.concat([/\d/, /\d|:/, /:|\d/, /\d|\w|\s/, /\d|\s|\w/]);
                     }
@@ -11549,8 +11603,8 @@ var DateFormatService = /** @class */ (function () {
                 pm = true;
             }
             if (splits && splits.length) {
-                for (var _b = 0, splits_1 = splits; _b < splits_1.length; _b++) {
-                    var item = splits_1[_b];
+                for (var _d = 0, splits_1 = splits; _d < splits_1.length; _d++) {
+                    var item = splits_1[_d];
                     if (item && item.trim().includes(':')) {
                         timeStringParts = item.trim().split(':');
                     }
@@ -11702,7 +11756,7 @@ var NovoDatePickerInputElement = /** @class */ (function () {
     NovoDatePickerInputElement.prototype._handleInput = function (event) {
         if (document.activeElement === event.target) {
             this._onChange(((event.target)).value);
-            var _b = this.dateFormatService.parseString(((event.target)).value, false, 'date'), dateTimeValue = _b[0], formatted = _b[1];
+            var _d = this.dateFormatService.parseString(((event.target)).value, false, 'date'), dateTimeValue = _d[0], formatted = _d[1];
             if (dateTimeValue && dateTimeValue.getTime() > 0) {
                 this._setTriggerValue(dateTimeValue);
             }
@@ -12099,7 +12153,7 @@ var NovoTimePickerInputElement = /** @class */ (function () {
     NovoTimePickerInputElement.prototype._handleInput = function (event) {
         if (document.activeElement === event.target) {
             this._onChange(((event.target)).value);
-            var _b = this.dateFormatService.parseString(((event.target)).value, this.military, 'time'), dateTimeValue = _b[0], formatted = _b[1];
+            var _d = this.dateFormatService.parseString(((event.target)).value, this.military, 'time'), dateTimeValue = _d[0], formatted = _d[1];
             if (dateTimeValue && dateTimeValue.getTime() > 0) {
                 this._setTriggerValue(dateTimeValue);
             }
@@ -12504,7 +12558,7 @@ var NovoDateTimePickerInputElement = /** @class */ (function () {
     NovoDateTimePickerInputElement.prototype._handleInput = function (event) {
         if (document.activeElement === event.target) {
             this._onChange(((event.target)).value);
-            var _b = this.dateFormatService.parseString(((event.target)).value, false, 'date'), dateTimeValue = _b[0], formatted = _b[1];
+            var _d = this.dateFormatService.parseString(((event.target)).value, false, 'date'), dateTimeValue = _d[0], formatted = _d[1];
             if (dateTimeValue && dateTimeValue.getTime() > 0) {
                 this._setTriggerValue(dateTimeValue);
             }
@@ -13465,9 +13519,9 @@ var NovoFormControl = /** @class */ (function (_super) {
      * @param {?=} __1
      * @return {?}
      */
-    NovoFormControl.prototype.setValue = function (value, _b) {
+    NovoFormControl.prototype.setValue = function (value, _d) {
         var _this = this;
-        var _c = _b === void 0 ? {} : _b, onlySelf = _c.onlySelf, emitEvent = _c.emitEvent, emitModelToViewChange = _c.emitModelToViewChange, emitViewToModelChange = _c.emitViewToModelChange;
+        var _e = _d === void 0 ? {} : _d, onlySelf = _e.onlySelf, emitEvent = _e.emitEvent, emitModelToViewChange = _e.emitModelToViewChange, emitViewToModelChange = _e.emitViewToModelChange;
         this.markAsDirty();
         this.markAsTouched();
         this.displayValueChanges.emit(value);
@@ -14382,8 +14436,8 @@ var FormUtils = /** @class */ (function () {
                 break;
             case 'address':
                 if (field.fields && field.fields.length) {
-                    for (var _b = 0, _c = field.fields; _b < _c.length; _b++) {
-                        var subfield = _c[_b];
+                    for (var _d = 0, _e = field.fields; _d < _e.length; _d++) {
+                        var subfield = _e[_d];
                         if (subfield.defaultValue) {
                             if (Helpers.isBlank(controlConfig.value)) {
                                 controlConfig.value = {};
@@ -15938,8 +15992,8 @@ var NovoControlElement = /** @class */ (function (_super) {
                     }
                 };
                 var this_1 = this;
-                for (var _b = 0, _c = this.control.interactions; _b < _c.length; _b++) {
-                    var interaction = _c[_b];
+                for (var _d = 0, _e = this.control.interactions; _d < _e.length; _d++) {
+                    var interaction = _e[_d];
                     _loop_5(/** @type {?} */ interaction);
                 }
             }
@@ -27512,7 +27566,6 @@ NovoAddressElement.ctorParameters = function () { return [
     { type: NovoLabelService, },
 ]; };
 // NG2
-// APP
 // Value accessor for the component (supports ngModel)
 var CHECKBOX_VALUE_ACCESSOR = {
     provide: forms.NG_VALUE_ACCESSOR,
@@ -27527,6 +27580,7 @@ var NovoCheckboxElement = /** @class */ (function () {
     function NovoCheckboxElement(ref) {
         this.ref = ref;
         this.indeterminate = false;
+        this.onSelect = new core.EventEmitter();
         this.boxIcon = true;
         this.onModelChange = function () {
         };
@@ -27545,9 +27599,9 @@ var NovoCheckboxElement = /** @class */ (function () {
      * @return {?}
      */
     NovoCheckboxElement.prototype.select = function (event) {
-        Helpers.swallowEvent(event);
         this.model = !this.model;
         this.onModelChange(this.model);
+        this.onSelect.emit({ originalEvent: event, value: this.model });
     };
     /**
      * @param {?} model
@@ -27593,6 +27647,7 @@ NovoCheckboxElement.propDecorators = {
     'indeterminate': [{ type: core.Input },],
     'disabled': [{ type: core.Input },],
     'layoutOptions': [{ type: core.Input },],
+    'onSelect': [{ type: core.Output },],
 };
 // NG2
 // APP
@@ -27944,14 +27999,14 @@ var NovoFileInputElement = /** @class */ (function () {
         var _this = this;
         Promise.all(filelist.map(function (file) { return _this.readFile(file); })).then(function (files) {
             if (_this.multiple) {
-                (_b = _this.files).push.apply(_b, files);
+                (_d = _this.files).push.apply(_d, files);
             }
             else {
                 _this.files = files;
             }
             _this.model = _this.files;
             _this.onModelChange(_this.model);
-            var _b;
+            var _d;
         });
     };
     /**
@@ -29420,10 +29475,10 @@ var ArrayCollection = /** @class */ (function () {
      * @return {?}
      */
     ArrayCollection.prototype.addItems = function (items) {
-        this.isEditing ? (_b = this.editData).push.apply(_b, items) : (_c = this.source).push.apply(_c, items);
+        this.isEditing ? (_d = this.editData).push.apply(_d, items) : (_e = this.source).push.apply(_e, items);
         this.onDataChange(new CollectionEvent(CollectionEvent.ADD, items));
         this.refresh();
-        var _b, _c;
+        var _d, _e;
     };
     /**
      * Adds several items to the data provider at the specified index and dispatches a CollectionEvent.ADD event.
@@ -29435,8 +29490,8 @@ var ArrayCollection = /** @class */ (function () {
      * @return {?}
      */
     ArrayCollection.prototype.addItemsAt = function (items, index$$1) {
-        this.isEditing ? (_b = this.editData).splice.apply(_b, [index$$1, 0].concat(items)) : (_c = this.source).splice.apply(_c, [index$$1, 0].concat(items));
-        var _b, _c;
+        this.isEditing ? (_d = this.editData).splice.apply(_d, [index$$1, 0].concat(items)) : (_e = this.source).splice.apply(_e, [index$$1, 0].concat(items));
+        var _d, _e;
     };
     /**
      * Creates a copy of the current ArrayCollection any.
@@ -29510,8 +29565,8 @@ var ArrayCollection = /** @class */ (function () {
      * @return {?}
      */
     ArrayCollection.prototype.merge = function (newData) {
-        for (var _b = 0, newData_1 = newData; _b < newData_1.length; _b++) {
-            var obj = newData_1[_b];
+        for (var _d = 0, newData_1 = newData; _d < newData_1.length; _d++) {
+            var obj = newData_1[_d];
             var /** @type {?} */ existing = ~this.getItemIndex(obj);
             if (existing) {
                 this.replaceItem(obj, existing);
@@ -29663,8 +29718,8 @@ var ArrayCollection = /** @class */ (function () {
      */
     ArrayCollection.prototype.refresh = function () {
         this.filterData = this.isEditing ? this.editData.slice() : this.source.slice();
-        for (var _b = 0, _c = this._sort.reverse(); _b < _c.length; _b++) {
-            var item = _c[_b];
+        for (var _d = 0, _e = this._sort.reverse(); _d < _e.length; _d++) {
+            var item = _e[_d];
             this.sortOn(item.field, item.reverse);
         }
         for (var /** @type {?} */ key in this._filter) {
@@ -29798,8 +29853,8 @@ var PagedArrayCollection = /** @class */ (function (_super) {
      */
     PagedArrayCollection.prototype.refresh = function () {
         this.filterData = this.isEditing ? this.editData.slice() : this.source.slice();
-        for (var _b = 0, _c = this._sort.reverse(); _b < _c.length; _b++) {
-            var item = _c[_b];
+        for (var _d = 0, _e = this._sort.reverse(); _d < _e.length; _d++) {
+            var item = _e[_d];
             this.sortOn(item.field, item.reverse);
         }
         for (var /** @type {?} */ key in this._filter) {
@@ -30200,8 +30255,8 @@ var NovoTableElement = /** @class */ (function () {
                     }
                 };
                 var this_2 = this;
-                for (var _b = 0, filters_1 = filters; _b < filters_1.length; _b++) {
-                    var column = filters_1[_b];
+                for (var _d = 0, filters_1 = filters; _d < filters_1.length; _d++) {
+                    var column = filters_1[_d];
                     _loop_6(/** @type {?} */ column);
                 }
                 if (Helpers.isFunction(this.config.filtering)) {
@@ -30281,8 +30336,8 @@ var NovoTableElement = /** @class */ (function () {
         var /** @type {?} */ sortedColumns = this.columns.filter(function (thisColumn) {
             return thisColumn.sort && thisColumn !== _this.currentSortColumn;
         });
-        for (var _b = 0, sortedColumns_1 = sortedColumns; _b < sortedColumns_1.length; _b++) {
-            var sortedColumn = sortedColumns_1[_b];
+        for (var _d = 0, sortedColumns_1 = sortedColumns; _d < sortedColumns_1.length; _d++) {
+            var sortedColumn = sortedColumns_1[_d];
             sortedColumn.sort = null;
         }
         if (column) {
@@ -30352,8 +30407,8 @@ var NovoTableElement = /** @class */ (function () {
      */
     NovoTableElement.prototype.expandAllOnPage = function (expanded) {
         this.config.expandAll = !expanded;
-        for (var _b = 0, _c = this.dataProvider.list; _b < _c.length; _b++) {
-            var row = _c[_b];
+        for (var _d = 0, _e = this.dataProvider.list; _d < _e.length; _d++) {
+            var row = _e[_d];
             row._expanded = this.config.expandAll;
         }
     };
@@ -30371,8 +30426,8 @@ var NovoTableElement = /** @class */ (function () {
         else {
             this.indeterminate = false;
             //this.pagedData = this.rows.slice(this.getPageStart(), this.getPageEnd());
-            for (var _b = 0, _c = this.pagedData; _b < _c.length; _b++) {
-                var row = _c[_b];
+            for (var _d = 0, _e = this.pagedData; _d < _e.length; _d++) {
+                var row = _e[_d];
                 row._selected = this.master;
             }
             this.selected = this.dataProvider.list.filter(function (r) { return r._selected; });
@@ -30391,8 +30446,8 @@ var NovoTableElement = /** @class */ (function () {
     NovoTableElement.prototype.selectAll = function (value) {
         this.master = value;
         this.indeterminate = false;
-        for (var _b = 0, _c = this.dataProvider.list; _b < _c.length; _b++) {
-            var row = _c[_b];
+        for (var _d = 0, _e = this.dataProvider.list; _d < _e.length; _d++) {
+            var row = _e[_d];
             row._selected = value;
         }
         this.selected = value ? this.dataProvider.list : [];
@@ -31339,15 +31394,15 @@ var RenderPipe = /** @class */ (function () {
      */
     RenderPipe.prototype.concat = function (list) {
         var fields = [];
-        for (var _b = 1; _b < arguments.length; _b++) {
-            fields[_b - 1] = arguments[_b];
+        for (var _d = 1; _d < arguments.length; _d++) {
+            fields[_d - 1] = arguments[_d];
         }
         var /** @type {?} */ data = [];
-        for (var _c = 0, list_1 = list; _c < list_1.length; _c++) {
-            var item = list_1[_c];
+        for (var _e = 0, list_1 = list; _e < list_1.length; _e++) {
+            var item = list_1[_e];
             var /** @type {?} */ label = [];
-            for (var _d = 0, fields_1 = fields; _d < fields_1.length; _d++) {
-                var field = fields_1[_d];
+            for (var _f = 0, fields_1 = fields; _f < fields_1.length; _f++) {
+                var field = fields_1[_f];
                 label.push("" + item[field]);
             }
             data.push(label.join(' '));
@@ -31363,8 +31418,8 @@ var RenderPipe = /** @class */ (function () {
      */
     RenderPipe.prototype.options = function (value, list) {
         try {
-            for (var _b = 0, list_2 = list; _b < list_2.length; _b++) {
-                var item = list_2[_b];
+            for (var _d = 0, list_2 = list; _d < list_2.length; _d++) {
+                var item = list_2[_d];
                 if (item.value === value) {
                     return item.label;
                 }
@@ -31455,8 +31510,8 @@ var EntityList = /** @class */ (function () {
     EntityList.prototype.ngOnInit = function () {
         this.meta.type = 'TO_ONE';
         this.baseEntity = this.meta.associatedEntity.entity;
-        for (var _b = 0, _c = this.data.data; _b < _c.length; _b++) {
-            var entity = _c[_b];
+        for (var _d = 0, _e = this.data.data; _d < _e.length; _d++) {
+            var entity = _e[_d];
             entity.isLinkable = this.isLinkable(entity);
             entity.class = this.getClass(entity);
         }
@@ -32617,16 +32672,16 @@ var Security = /** @class */ (function () {
     Security.prototype.grant = function (data) {
         var /** @type {?} */ parsed = [];
         if (data instanceof Array) {
-            for (var _b = 0, data_1 = data; _b < data_1.length; _b++) {
-                var permission = data_1[_b];
+            for (var _d = 0, data_1 = data; _d < data_1.length; _d++) {
+                var permission = data_1[_d];
                 parsed.push(permission.replace(/\s/gi, ''));
             }
         }
         else if (typeof data === 'object') {
             for (var /** @type {?} */ key in data) {
                 if (data[key] instanceof Array) {
-                    for (var _c = 0, _d = data[key]; _c < _d.length; _c++) {
-                        var permission = _d[_c];
+                    for (var _e = 0, _f = data[key]; _e < _f.length; _e++) {
+                        var permission = _f[_e];
                         parsed.push(key + "." + permission);
                     }
                 }
@@ -32673,8 +32728,8 @@ var Security = /** @class */ (function () {
     Security.prototype.checkRoutes = function (routes, options) {
         var _this = this;
         var /** @type {?} */ filtered = [];
-        for (var _b = 0, routes_1 = routes; _b < routes_1.length; _b++) {
-            var route = routes_1[_b];
+        for (var _d = 0, routes_1 = routes; _d < routes_1.length; _d++) {
+            var route = routes_1[_d];
             if (route.entities && ~route.entities.indexOf(options.entityType)) {
                 if (route.permissions instanceof Function) {
                     if (route.permissions(options, this)) {
@@ -32738,8 +32793,8 @@ var Unless = /** @class */ (function () {
         var /** @type {?} */ display = false;
         if (~this.permissions.indexOf('||')) {
             var /** @type {?} */ ps = this.permissions.split('||');
-            for (var _b = 0, ps_1 = ps; _b < ps_1.length; _b++) {
-                var p = ps_1[_b];
+            for (var _d = 0, ps_1 = ps; _d < ps_1.length; _d++) {
+                var p = ps_1[_d];
                 if (this.security.has(p.trim())) {
                     display = true;
                 }
@@ -32795,6 +32850,8962 @@ UnlessModule.decorators = [
  * @nocollapse
  */
 UnlessModule.ctorParameters = function () { return []; };
+var __extends$7 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var AuditSubscriber = (function (_super) {
+    __extends$7(AuditSubscriber, _super);
+    function AuditSubscriber(destination, durationSelector) {
+        _super.call(this, destination);
+        this.durationSelector = durationSelector;
+        this.hasValue = false;
+    }
+    AuditSubscriber.prototype._next = function (value) {
+        this.value = value;
+        this.hasValue = true;
+        if (!this.throttled) {
+            var duration = tryCatch_1.tryCatch(this.durationSelector)(value);
+            if (duration === errorObject.errorObject) {
+                this.destination.error(errorObject.errorObject.e);
+            }
+            else {
+                var innerSubscription = subscribeToResult_1.subscribeToResult(this, duration);
+                if (innerSubscription.closed) {
+                    this.clearThrottle();
+                }
+                else {
+                    this.add(this.throttled = innerSubscription);
+                }
+            }
+        }
+    };
+    AuditSubscriber.prototype.clearThrottle = function () {
+        var _a = this, value = _a.value, hasValue = _a.hasValue, throttled = _a.throttled;
+        if (throttled) {
+            this.remove(throttled);
+            this.throttled = null;
+            throttled.unsubscribe();
+        }
+        if (hasValue) {
+            this.value = null;
+            this.hasValue = false;
+            this.destination.next(value);
+        }
+    };
+    AuditSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex) {
+        this.clearThrottle();
+    };
+    AuditSubscriber.prototype.notifyComplete = function () {
+        this.clearThrottle();
+    };
+    return AuditSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$9 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * A unit of work to be executed in a {@link Scheduler}. An action is typically
+ * created from within a Scheduler and an RxJS user does not need to concern
+ * themselves about creating and manipulating an Action.
+ *
+ * ```ts
+ * class Action<T> extends Subscription {
+ *   new (scheduler: Scheduler, work: (state?: T) => void);
+ *   schedule(state?: T, delay: number = 0): Subscription;
+ * }
+ * ```
+ *
+ * @class Action<T>
+ */
+var Action = (function (_super) {
+    __extends$9(Action, _super);
+    function Action(scheduler, work) {
+        _super.call(this);
+    }
+    /**
+     * Schedules this action on its parent Scheduler for execution. May be passed
+     * some context object, `state`. May happen at some point in the future,
+     * according to the `delay` parameter, if specified.
+     * @param {T} [state] Some contextual data that the `work` function uses when
+     * called by the Scheduler.
+     * @param {number} [delay] Time to wait before executing the work, where the
+     * time unit is implicit and defined by the Scheduler.
+     * @return {void}
+     */
+    Action.prototype.schedule = function (state$$1, delay) {
+        if (delay === void 0) {
+            delay = 0;
+        }
+        return this;
+    };
+    return Action;
+}(Subscription_1.Subscription));
+var Action_2 = Action;
+var Action_1 = {
+    Action: Action_2
+};
+var __extends$8 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var AsyncAction = (function (_super) {
+    __extends$8(AsyncAction, _super);
+    function AsyncAction(scheduler, work) {
+        _super.call(this, scheduler, work);
+        this.scheduler = scheduler;
+        this.work = work;
+        this.pending = false;
+    }
+    AsyncAction.prototype.schedule = function (state$$1, delay) {
+        if (delay === void 0) {
+            delay = 0;
+        }
+        if (this.closed) {
+            return this;
+        }
+        // Always replace the current state with the new state.
+        this.state = state$$1;
+        // Set the pending flag indicating that this action has been scheduled, or
+        // has recursively rescheduled itself.
+        this.pending = true;
+        var id = this.id;
+        var scheduler = this.scheduler;
+        //
+        // Important implementation note:
+        //
+        // Actions only execute once by default, unless rescheduled from within the
+        // scheduled callback. This allows us to implement single and repeat
+        // actions via the same code path, without adding API surface area, as well
+        // as mimic traditional recursion but across asynchronous boundaries.
+        //
+        // However, JS runtimes and timers distinguish between intervals achieved by
+        // serial `setTimeout` calls vs. a single `setInterval` call. An interval of
+        // serial `setTimeout` calls can be individually delayed, which delays
+        // scheduling the next `setTimeout`, and so on. `setInterval` attempts to
+        // guarantee the interval callback will be invoked more precisely to the
+        // interval period, regardless of load.
+        //
+        // Therefore, we use `setInterval` to schedule single and repeat actions.
+        // If the action reschedules itself with the same delay, the interval is not
+        // canceled. If the action doesn't reschedule, or reschedules with a
+        // different delay, the interval will be canceled after scheduled callback
+        // execution.
+        //
+        if (id != null) {
+            this.id = this.recycleAsyncId(scheduler, id, delay);
+        }
+        this.delay = delay;
+        // If this action has already an async Id, don't request a new one.
+        this.id = this.id || this.requestAsyncId(scheduler, this.id, delay);
+        return this;
+    };
+    AsyncAction.prototype.requestAsyncId = function (scheduler, id, delay) {
+        if (delay === void 0) {
+            delay = 0;
+        }
+        return root.root.setInterval(scheduler.flush.bind(scheduler, this), delay);
+    };
+    AsyncAction.prototype.recycleAsyncId = function (scheduler, id, delay) {
+        if (delay === void 0) {
+            delay = 0;
+        }
+        // If this action is rescheduled with the same delay time, don't clear the interval id.
+        if (delay !== null && this.delay === delay && this.pending === false) {
+            return id;
+        }
+        // Otherwise, if the action's delay time is different from the current delay,
+        // or the action has been rescheduled before it's executed, clear the interval id
+        return root.root.clearInterval(id) && undefined || undefined;
+    };
+    /**
+     * Immediately executes this action and the `work` it contains.
+     * @return {any}
+     */
+    AsyncAction.prototype.execute = function (state$$1, delay) {
+        if (this.closed) {
+            return new Error('executing a cancelled action');
+        }
+        this.pending = false;
+        var error = this._execute(state$$1, delay);
+        if (error) {
+            return error;
+        }
+        else if (this.pending === false && this.id != null) {
+            // Dequeue if the action didn't reschedule itself. Don't call
+            // unsubscribe(), because the action could reschedule later.
+            // For example:
+            // ```
+            // scheduler.schedule(function doWork(counter) {
+            //   /* ... I'm a busy worker bee ... */
+            //   var originalAction = this;
+            //   /* wait 100ms before rescheduling the action */
+            //   setTimeout(function () {
+            //     originalAction.schedule(counter + 1);
+            //   }, 100);
+            // }, 1000);
+            // ```
+            this.id = this.recycleAsyncId(this.scheduler, this.id, null);
+        }
+    };
+    AsyncAction.prototype._execute = function (state$$1, delay) {
+        var errored = false;
+        var errorValue = undefined;
+        try {
+            this.work(state$$1);
+        }
+        catch (e) {
+            errored = true;
+            errorValue = !!e && e || new Error(e);
+        }
+        if (errored) {
+            this.unsubscribe();
+            return errorValue;
+        }
+    };
+    AsyncAction.prototype._unsubscribe = function () {
+        var id = this.id;
+        var scheduler = this.scheduler;
+        var actions = scheduler.actions;
+        var index$$1 = actions.indexOf(this);
+        this.work = null;
+        this.state = null;
+        this.pending = false;
+        this.scheduler = null;
+        if (index$$1 !== -1) {
+            actions.splice(index$$1, 1);
+        }
+        if (id != null) {
+            this.id = this.recycleAsyncId(scheduler, id, null);
+        }
+        this.delay = null;
+    };
+    return AsyncAction;
+}(Action_1.Action));
+var AsyncAction_2 = AsyncAction;
+var AsyncAction_1 = {
+    AsyncAction: AsyncAction_2
+};
+/**
+ * An execution context and a data structure to order tasks and schedule their
+ * execution. Provides a notion of (potentially virtual) time, through the
+ * `now()` getter method.
+ *
+ * Each unit of work in a Scheduler is called an {@link Action}.
+ *
+ * ```ts
+ * class Scheduler {
+ *   now(): number;
+ *   schedule(work, delay?, state?): Subscription;
+ * }
+ * ```
+ *
+ * @class Scheduler
+ */
+var Scheduler = (function () {
+    function Scheduler(SchedulerAction, now) {
+        if (now === void 0) {
+            now = Scheduler.now;
+        }
+        this.SchedulerAction = SchedulerAction;
+        this.now = now;
+    }
+    /**
+     * Schedules a function, `work`, for execution. May happen at some point in
+     * the future, according to the `delay` parameter, if specified. May be passed
+     * some context object, `state`, which will be passed to the `work` function.
+     *
+     * The given arguments will be processed an stored as an Action object in a
+     * queue of actions.
+     *
+     * @param {function(state: ?T): ?Subscription} work A function representing a
+     * task, or some unit of work to be executed by the Scheduler.
+     * @param {number} [delay] Time to wait before executing the work, where the
+     * time unit is implicit and defined by the Scheduler itself.
+     * @param {T} [state] Some contextual data that the `work` function uses when
+     * called by the Scheduler.
+     * @return {Subscription} A subscription in order to be able to unsubscribe
+     * the scheduled work.
+     */
+    Scheduler.prototype.schedule = function (work, delay, state$$1) {
+        if (delay === void 0) {
+            delay = 0;
+        }
+        return new this.SchedulerAction(this, work).schedule(state$$1, delay);
+    };
+    Scheduler.now = Date.now ? Date.now : function () { return +new Date(); };
+    return Scheduler;
+}());
+var Scheduler_2 = Scheduler;
+var Scheduler_1 = {
+    Scheduler: Scheduler_2
+};
+var __extends$10 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var AsyncScheduler = (function (_super) {
+    __extends$10(AsyncScheduler, _super);
+    function AsyncScheduler() {
+        _super.apply(this, arguments);
+        this.actions = [];
+        /**
+         * A flag to indicate whether the Scheduler is currently executing a batch of
+         * queued actions.
+         * @type {boolean}
+         */
+        this.active = false;
+        /**
+         * An internal ID used to track the latest asynchronous task such as those
+         * coming from `setTimeout`, `setInterval`, `requestAnimationFrame`, and
+         * others.
+         * @type {any}
+         */
+        this.scheduled = undefined;
+    }
+    AsyncScheduler.prototype.flush = function (action) {
+        var actions = this.actions;
+        if (this.active) {
+            actions.push(action);
+            return;
+        }
+        var error;
+        this.active = true;
+        do {
+            if (error = action.execute(action.state, action.delay)) {
+                break;
+            }
+        } while (action = actions.shift()); // exhaust the scheduler queue
+        this.active = false;
+        if (error) {
+            while (action = actions.shift()) {
+                action.unsubscribe();
+            }
+            throw error;
+        }
+    };
+    return AsyncScheduler;
+}(Scheduler_1.Scheduler));
+var AsyncScheduler_2 = AsyncScheduler;
+var AsyncScheduler_1 = {
+    AsyncScheduler: AsyncScheduler_2
+};
+/**
+ *
+ * Async Scheduler
+ *
+ * <span class="informal">Schedule task as if you used setTimeout(task, duration)</span>
+ *
+ * `async` scheduler schedules tasks asynchronously, by putting them on the JavaScript
+ * event loop queue. It is best used to delay tasks in time or to schedule tasks repeating
+ * in intervals.
+ *
+ * If you just want to "defer" task, that is to perform it right after currently
+ * executing synchronous code ends (commonly achieved by `setTimeout(deferredTask, 0)`),
+ * better choice will be the {@link asap} scheduler.
+ *
+ * @example <caption>Use async scheduler to delay task</caption>
+ * const task = () => console.log('it works!');
+ *
+ * Rx.Scheduler.async.schedule(task, 2000);
+ *
+ * // After 2 seconds logs:
+ * // "it works!"
+ *
+ *
+ * @example <caption>Use async scheduler to repeat task in intervals</caption>
+ * function task(state) {
+ *   console.log(state);
+ *   this.schedule(state + 1, 1000); // `this` references currently executing Action,
+ *                                   // which we reschedule with new state and delay
+ * }
+ *
+ * Rx.Scheduler.async.schedule(task, 3000, 0);
+ *
+ * // Logs:
+ * // 0 after 3s
+ * // 1 after 4s
+ * // 2 after 5s
+ * // 3 after 6s
+ *
+ * @static true
+ * @name async
+ * @owner Scheduler
+ */
+var async_1 = new AsyncScheduler_1.AsyncScheduler(AsyncAction_1.AsyncAction);
+var async = {
+    async: async_1
+};
+function isNumeric(val) {
+    // parseFloat NaNs numeric-cast false positives (null|true|false|"")
+    // ...but misinterprets leading-number strings, particularly hex literals ("0x...")
+    // subtraction forces infinities to NaN
+    // adding 1 corrects loss of precision from parseFloat (#15100)
+    return !isArray.isArray(val) && (val - parseFloat(val) + 1) >= 0;
+}
+var isNumeric_2 = isNumeric;
+var isNumeric_1 = {
+    isNumeric: isNumeric_2
+};
+function isScheduler(value) {
+    return value && typeof value.schedule === 'function';
+}
+var isScheduler_2 = isScheduler;
+var isScheduler_1 = {
+    isScheduler: isScheduler_2
+};
+function isDate(value) {
+    return value instanceof Date && !isNaN(+value);
+}
+var isDate_2 = isDate;
+var isDate_1 = {
+    isDate: isDate_2
+};
+var __extends$11 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var TimerObservable = (function (_super) {
+    __extends$11(TimerObservable, _super);
+    function TimerObservable(dueTime, period, scheduler) {
+        if (dueTime === void 0) {
+            dueTime = 0;
+        }
+        _super.call(this);
+        this.period = -1;
+        this.dueTime = 0;
+        if (isNumeric_1.isNumeric(period)) {
+            this.period = Number(period) < 1 && 1 || Number(period);
+        }
+        else if (isScheduler_1.isScheduler(period)) {
+            scheduler = period;
+        }
+        if (!isScheduler_1.isScheduler(scheduler)) {
+            scheduler = async.async;
+        }
+        this.scheduler = scheduler;
+        this.dueTime = isDate_1.isDate(dueTime) ?
+            (+dueTime - this.scheduler.now()) :
+            dueTime;
+    }
+    /**
+     * Creates an Observable that starts emitting after an `initialDelay` and
+     * emits ever increasing numbers after each `period` of time thereafter.
+     *
+     * <span class="informal">Its like {@link interval}, but you can specify when
+     * should the emissions start.</span>
+     *
+     * <img src="./img/timer.png" width="100%">
+     *
+     * `timer` returns an Observable that emits an infinite sequence of ascending
+     * integers, with a constant interval of time, `period` of your choosing
+     * between those emissions. The first emission happens after the specified
+     * `initialDelay`. The initial delay may be a {@link Date}. By default, this
+     * operator uses the `async` IScheduler to provide a notion of time, but you
+     * may pass any IScheduler to it. If `period` is not specified, the output
+     * Observable emits only one value, `0`. Otherwise, it emits an infinite
+     * sequence.
+     *
+     * @example <caption>Emits ascending numbers, one every second (1000ms), starting after 3 seconds</caption>
+     * var numbers = Rx.Observable.timer(3000, 1000);
+     * numbers.subscribe(x => console.log(x));
+     *
+     * @example <caption>Emits one number after five seconds</caption>
+     * var numbers = Rx.Observable.timer(5000);
+     * numbers.subscribe(x => console.log(x));
+     *
+     * @see {@link interval}
+     * @see {@link delay}
+     *
+     * @param {number|Date} initialDelay The initial delay time to wait before
+     * emitting the first value of `0`.
+     * @param {number} [period] The period of time between emissions of the
+     * subsequent numbers.
+     * @param {Scheduler} [scheduler=async] The IScheduler to use for scheduling
+     * the emission of values, and providing a notion of "time".
+     * @return {Observable} An Observable that emits a `0` after the
+     * `initialDelay` and ever increasing numbers after each `period` of time
+     * thereafter.
+     * @static true
+     * @name timer
+     * @owner Observable
+     */
+    TimerObservable.create = function (initialDelay, period, scheduler) {
+        if (initialDelay === void 0) {
+            initialDelay = 0;
+        }
+        return new TimerObservable(initialDelay, period, scheduler);
+    };
+    TimerObservable.dispatch = function (state$$1) {
+        var index$$1 = state$$1.index, period = state$$1.period, subscriber = state$$1.subscriber;
+        var action = this;
+        subscriber.next(index$$1);
+        if (subscriber.closed) {
+            return;
+        }
+        else if (period === -1) {
+            return subscriber.complete();
+        }
+        state$$1.index = index$$1 + 1;
+        action.schedule(state$$1, period);
+    };
+    TimerObservable.prototype._subscribe = function (subscriber) {
+        var index$$1 = 0;
+        var _a = this, period = _a.period, dueTime = _a.dueTime, scheduler = _a.scheduler;
+        return scheduler.schedule(TimerObservable.dispatch, dueTime, {
+            index: index$$1, period: period, subscriber: subscriber
+        });
+    };
+    return TimerObservable;
+}(Observable_1.Observable));
+var __extends$12 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var BufferSubscriber = (function (_super) {
+    __extends$12(BufferSubscriber, _super);
+    function BufferSubscriber(destination, closingNotifier) {
+        _super.call(this, destination);
+        this.buffer = [];
+        this.add(subscribeToResult_1.subscribeToResult(this, closingNotifier));
+    }
+    BufferSubscriber.prototype._next = function (value) {
+        this.buffer.push(value);
+    };
+    BufferSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        var buffer = this.buffer;
+        this.buffer = [];
+        this.destination.next(buffer);
+    };
+    return BufferSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$13 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var BufferCountSubscriber = (function (_super) {
+    __extends$13(BufferCountSubscriber, _super);
+    function BufferCountSubscriber(destination, bufferSize) {
+        _super.call(this, destination);
+        this.bufferSize = bufferSize;
+        this.buffer = [];
+    }
+    BufferCountSubscriber.prototype._next = function (value) {
+        var buffer = this.buffer;
+        buffer.push(value);
+        if (buffer.length == this.bufferSize) {
+            this.destination.next(buffer);
+            this.buffer = [];
+        }
+    };
+    BufferCountSubscriber.prototype._complete = function () {
+        var buffer = this.buffer;
+        if (buffer.length > 0) {
+            this.destination.next(buffer);
+        }
+        _super.prototype._complete.call(this);
+    };
+    return BufferCountSubscriber;
+}(Subscriber_1.Subscriber));
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var BufferSkipCountSubscriber = (function (_super) {
+    __extends$13(BufferSkipCountSubscriber, _super);
+    function BufferSkipCountSubscriber(destination, bufferSize, startBufferEvery) {
+        _super.call(this, destination);
+        this.bufferSize = bufferSize;
+        this.startBufferEvery = startBufferEvery;
+        this.buffers = [];
+        this.count = 0;
+    }
+    BufferSkipCountSubscriber.prototype._next = function (value) {
+        var _a = this, bufferSize = _a.bufferSize, startBufferEvery = _a.startBufferEvery, buffers = _a.buffers, count = _a.count;
+        this.count++;
+        if (count % startBufferEvery === 0) {
+            buffers.push([]);
+        }
+        for (var i = buffers.length; i--;) {
+            var buffer = buffers[i];
+            buffer.push(value);
+            if (buffer.length === bufferSize) {
+                buffers.splice(i, 1);
+                this.destination.next(buffer);
+            }
+        }
+    };
+    BufferSkipCountSubscriber.prototype._complete = function () {
+        var _a = this, buffers = _a.buffers, destination = _a.destination;
+        while (buffers.length > 0) {
+            var buffer = buffers.shift();
+            if (buffer.length > 0) {
+                destination.next(buffer);
+            }
+        }
+        _super.prototype._complete.call(this);
+    };
+    return BufferSkipCountSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$14 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Context = (function () {
+    function Context() {
+        this.buffer = [];
+    }
+    return Context;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var BufferTimeSubscriber = (function (_super) {
+    __extends$14(BufferTimeSubscriber, _super);
+    function BufferTimeSubscriber(destination, bufferTimeSpan, bufferCreationInterval, maxBufferSize, scheduler) {
+        _super.call(this, destination);
+        this.bufferTimeSpan = bufferTimeSpan;
+        this.bufferCreationInterval = bufferCreationInterval;
+        this.maxBufferSize = maxBufferSize;
+        this.scheduler = scheduler;
+        this.contexts = [];
+        var context = this.openContext();
+        this.timespanOnly = bufferCreationInterval == null || bufferCreationInterval < 0;
+        if (this.timespanOnly) {
+            var timeSpanOnlyState = { subscriber: this, context: context, bufferTimeSpan: bufferTimeSpan };
+            this.add(context.closeAction = scheduler.schedule(dispatchBufferTimeSpanOnly, bufferTimeSpan, timeSpanOnlyState));
+        }
+        else {
+            var closeState = { subscriber: this, context: context };
+            var creationState = { bufferTimeSpan: bufferTimeSpan, bufferCreationInterval: bufferCreationInterval, subscriber: this, scheduler: scheduler };
+            this.add(context.closeAction = scheduler.schedule(dispatchBufferClose, bufferTimeSpan, closeState));
+            this.add(scheduler.schedule(dispatchBufferCreation, bufferCreationInterval, creationState));
+        }
+    }
+    BufferTimeSubscriber.prototype._next = function (value) {
+        var contexts = this.contexts;
+        var len = contexts.length;
+        var filledBufferContext;
+        for (var i = 0; i < len; i++) {
+            var context = contexts[i];
+            var buffer = context.buffer;
+            buffer.push(value);
+            if (buffer.length == this.maxBufferSize) {
+                filledBufferContext = context;
+            }
+        }
+        if (filledBufferContext) {
+            this.onBufferFull(filledBufferContext);
+        }
+    };
+    BufferTimeSubscriber.prototype._error = function (err) {
+        this.contexts.length = 0;
+        _super.prototype._error.call(this, err);
+    };
+    BufferTimeSubscriber.prototype._complete = function () {
+        var _a = this, contexts = _a.contexts, destination = _a.destination;
+        while (contexts.length > 0) {
+            var context = contexts.shift();
+            destination.next(context.buffer);
+        }
+        _super.prototype._complete.call(this);
+    };
+    BufferTimeSubscriber.prototype._unsubscribe = function () {
+        this.contexts = null;
+    };
+    BufferTimeSubscriber.prototype.onBufferFull = function (context) {
+        this.closeContext(context);
+        var closeAction = context.closeAction;
+        closeAction.unsubscribe();
+        this.remove(closeAction);
+        if (!this.closed && this.timespanOnly) {
+            context = this.openContext();
+            var bufferTimeSpan = this.bufferTimeSpan;
+            var timeSpanOnlyState = { subscriber: this, context: context, bufferTimeSpan: bufferTimeSpan };
+            this.add(context.closeAction = this.scheduler.schedule(dispatchBufferTimeSpanOnly, bufferTimeSpan, timeSpanOnlyState));
+        }
+    };
+    BufferTimeSubscriber.prototype.openContext = function () {
+        var context = new Context();
+        this.contexts.push(context);
+        return context;
+    };
+    BufferTimeSubscriber.prototype.closeContext = function (context) {
+        this.destination.next(context.buffer);
+        var contexts = this.contexts;
+        var spliceIndex = contexts ? contexts.indexOf(context) : -1;
+        if (spliceIndex >= 0) {
+            contexts.splice(contexts.indexOf(context), 1);
+        }
+    };
+    return BufferTimeSubscriber;
+}(Subscriber_1.Subscriber));
+function dispatchBufferTimeSpanOnly(state$$1) {
+    var subscriber = state$$1.subscriber;
+    var prevContext = state$$1.context;
+    if (prevContext) {
+        subscriber.closeContext(prevContext);
+    }
+    if (!subscriber.closed) {
+        state$$1.context = subscriber.openContext();
+        state$$1.context.closeAction = this.schedule(state$$1, state$$1.bufferTimeSpan);
+    }
+}
+function dispatchBufferCreation(state$$1) {
+    var bufferCreationInterval = state$$1.bufferCreationInterval, bufferTimeSpan = state$$1.bufferTimeSpan, subscriber = state$$1.subscriber, scheduler = state$$1.scheduler;
+    var context = subscriber.openContext();
+    var action = this;
+    if (!subscriber.closed) {
+        subscriber.add(context.closeAction = scheduler.schedule(dispatchBufferClose, bufferTimeSpan, { subscriber: subscriber, context: context }));
+        action.schedule(state$$1, bufferCreationInterval);
+    }
+}
+function dispatchBufferClose(arg) {
+    var subscriber = arg.subscriber, context = arg.context;
+    subscriber.closeContext(context);
+}
+var __extends$15 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var BufferToggleSubscriber = (function (_super) {
+    __extends$15(BufferToggleSubscriber, _super);
+    function BufferToggleSubscriber(destination, openings, closingSelector) {
+        _super.call(this, destination);
+        this.openings = openings;
+        this.closingSelector = closingSelector;
+        this.contexts = [];
+        this.add(subscribeToResult_1.subscribeToResult(this, openings));
+    }
+    BufferToggleSubscriber.prototype._next = function (value) {
+        var contexts = this.contexts;
+        var len = contexts.length;
+        for (var i = 0; i < len; i++) {
+            contexts[i].buffer.push(value);
+        }
+    };
+    BufferToggleSubscriber.prototype._error = function (err) {
+        var contexts = this.contexts;
+        while (contexts.length > 0) {
+            var context = contexts.shift();
+            context.subscription.unsubscribe();
+            context.buffer = null;
+            context.subscription = null;
+        }
+        this.contexts = null;
+        _super.prototype._error.call(this, err);
+    };
+    BufferToggleSubscriber.prototype._complete = function () {
+        var contexts = this.contexts;
+        while (contexts.length > 0) {
+            var context = contexts.shift();
+            this.destination.next(context.buffer);
+            context.subscription.unsubscribe();
+            context.buffer = null;
+            context.subscription = null;
+        }
+        this.contexts = null;
+        _super.prototype._complete.call(this);
+    };
+    BufferToggleSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        outerValue ? this.closeBuffer(outerValue) : this.openBuffer(innerValue);
+    };
+    BufferToggleSubscriber.prototype.notifyComplete = function (innerSub) {
+        this.closeBuffer(innerSub.context);
+    };
+    BufferToggleSubscriber.prototype.openBuffer = function (value) {
+        try {
+            var closingSelector = this.closingSelector;
+            var closingNotifier = closingSelector.call(this, value);
+            if (closingNotifier) {
+                this.trySubscribe(closingNotifier);
+            }
+        }
+        catch (err) {
+            this._error(err);
+        }
+    };
+    BufferToggleSubscriber.prototype.closeBuffer = function (context) {
+        var contexts = this.contexts;
+        if (contexts && context) {
+            var buffer = context.buffer, subscription = context.subscription;
+            this.destination.next(buffer);
+            contexts.splice(contexts.indexOf(context), 1);
+            this.remove(subscription);
+            subscription.unsubscribe();
+        }
+    };
+    BufferToggleSubscriber.prototype.trySubscribe = function (closingNotifier) {
+        var contexts = this.contexts;
+        var buffer = [];
+        var subscription = new Subscription_1.Subscription();
+        var context = { buffer: buffer, subscription: subscription };
+        contexts.push(context);
+        var innerSubscription = subscribeToResult_1.subscribeToResult(this, closingNotifier, context);
+        if (!innerSubscription || innerSubscription.closed) {
+            this.closeBuffer(context);
+        }
+        else {
+            innerSubscription.context = context;
+            this.add(innerSubscription);
+            subscription.add(innerSubscription);
+        }
+    };
+    return BufferToggleSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$16 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var BufferWhenSubscriber = (function (_super) {
+    __extends$16(BufferWhenSubscriber, _super);
+    function BufferWhenSubscriber(destination, closingSelector) {
+        _super.call(this, destination);
+        this.closingSelector = closingSelector;
+        this.subscribing = false;
+        this.openBuffer();
+    }
+    BufferWhenSubscriber.prototype._next = function (value) {
+        this.buffer.push(value);
+    };
+    BufferWhenSubscriber.prototype._complete = function () {
+        var buffer = this.buffer;
+        if (buffer) {
+            this.destination.next(buffer);
+        }
+        _super.prototype._complete.call(this);
+    };
+    BufferWhenSubscriber.prototype._unsubscribe = function () {
+        this.buffer = null;
+        this.subscribing = false;
+    };
+    BufferWhenSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.openBuffer();
+    };
+    BufferWhenSubscriber.prototype.notifyComplete = function () {
+        if (this.subscribing) {
+            this.complete();
+        }
+        else {
+            this.openBuffer();
+        }
+    };
+    BufferWhenSubscriber.prototype.openBuffer = function () {
+        var closingSubscription = this.closingSubscription;
+        if (closingSubscription) {
+            this.remove(closingSubscription);
+            closingSubscription.unsubscribe();
+        }
+        var buffer = this.buffer;
+        if (this.buffer) {
+            this.destination.next(buffer);
+        }
+        this.buffer = [];
+        var closingNotifier = tryCatch_1.tryCatch(this.closingSelector)();
+        if (closingNotifier === errorObject.errorObject) {
+            this.error(errorObject.errorObject.e);
+        }
+        else {
+            closingSubscription = new Subscription_1.Subscription();
+            this.closingSubscription = closingSubscription;
+            this.add(closingSubscription);
+            this.subscribing = true;
+            closingSubscription.add(subscribeToResult_1.subscribeToResult(this, closingNotifier));
+            this.subscribing = false;
+        }
+    };
+    return BufferWhenSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$17 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * Catches errors on the observable to be handled by returning a new observable or throwing an error.
+ *
+ * <img src="./img/catch.png" width="100%">
+ *
+ * @example <caption>Continues with a different Observable when there's an error</caption>
+ *
+ * Observable.of(1, 2, 3, 4, 5)
+ *   .map(n => {
+ * 	   if (n == 4) {
+ * 	     throw 'four!';
+ *     }
+ *	   return n;
+ *   })
+ *   .catch(err => Observable.of('I', 'II', 'III', 'IV', 'V'))
+ *   .subscribe(x => console.log(x));
+ *   // 1, 2, 3, I, II, III, IV, V
+ *
+ * @example <caption>Retries the caught source Observable again in case of error, similar to retry() operator</caption>
+ *
+ * Observable.of(1, 2, 3, 4, 5)
+ *   .map(n => {
+ * 	   if (n === 4) {
+ * 	     throw 'four!';
+ *     }
+ * 	   return n;
+ *   })
+ *   .catch((err, caught) => caught)
+ *   .take(30)
+ *   .subscribe(x => console.log(x));
+ *   // 1, 2, 3, 1, 2, 3, ...
+ *
+ * @example <caption>Throws a new error when the source Observable throws an error</caption>
+ *
+ * Observable.of(1, 2, 3, 4, 5)
+ *   .map(n => {
+ *     if (n == 4) {
+ *       throw 'four!';
+ *     }
+ *     return n;
+ *   })
+ *   .catch(err => {
+ *     throw 'error in source. Details: ' + err;
+ *   })
+ *   .subscribe(
+ *     x => console.log(x),
+ *     err => console.log(err)
+ *   );
+ *   // 1, 2, 3, error in source. Details: four!
+ *
+ * @param {function} selector a function that takes as arguments `err`, which is the error, and `caught`, which
+ *  is the source observable, in case you'd like to "retry" that observable by returning it again. Whatever observable
+ *  is returned by the `selector` will be used to continue the observable chain.
+ * @return {Observable} An observable that originates from either the source or the observable returned by the
+ *  catch `selector` function.
+ * @name catchError
+ */
+function catchError$1(selector) {
+    return function catchErrorOperatorFunction(source) {
+        var operator = new CatchOperator(selector);
+        var caught = source.lift(operator);
+        return (operator.caught = caught);
+    };
+}
+var catchError_2 = catchError$1;
+var CatchOperator = (function () {
+    function CatchOperator(selector) {
+        this.selector = selector;
+    }
+    CatchOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new CatchSubscriber(subscriber, this.selector, this.caught));
+    };
+    return CatchOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var CatchSubscriber = (function (_super) {
+    __extends$17(CatchSubscriber, _super);
+    function CatchSubscriber(destination, selector, caught) {
+        _super.call(this, destination);
+        this.selector = selector;
+        this.caught = caught;
+    }
+    // NOTE: overriding `error` instead of `_error` because we don't want
+    // to have this flag this subscriber as `isStopped`. We can mimic the
+    // behavior of the RetrySubscriber (from the `retry` operator), where
+    // we unsubscribe from our source chain, reset our Subscriber flags,
+    // then subscribe to the selector result.
+    CatchSubscriber.prototype.error = function (err) {
+        if (!this.isStopped) {
+            var result = void 0;
+            try {
+                result = this.selector(err, this.caught);
+            }
+            catch (err2) {
+                _super.prototype.error.call(this, err2);
+                return;
+            }
+            this._unsubscribeAndRecycle();
+            this.add(subscribeToResult_1.subscribeToResult(this, result));
+        }
+    };
+    return CatchSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var catchError_1 = {
+    catchError: catchError_2
+};
+var __extends$20 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var ScalarObservable = (function (_super) {
+    __extends$20(ScalarObservable, _super);
+    function ScalarObservable(value, scheduler) {
+        _super.call(this);
+        this.value = value;
+        this.scheduler = scheduler;
+        this._isScalar = true;
+        if (scheduler) {
+            this._isScalar = false;
+        }
+    }
+    ScalarObservable.create = function (value, scheduler) {
+        return new ScalarObservable(value, scheduler);
+    };
+    ScalarObservable.dispatch = function (state$$1) {
+        var done = state$$1.done, value = state$$1.value, subscriber = state$$1.subscriber;
+        if (done) {
+            subscriber.complete();
+            return;
+        }
+        subscriber.next(value);
+        if (subscriber.closed) {
+            return;
+        }
+        state$$1.done = true;
+        this.schedule(state$$1);
+    };
+    ScalarObservable.prototype._subscribe = function (subscriber) {
+        var value = this.value;
+        var scheduler = this.scheduler;
+        if (scheduler) {
+            return scheduler.schedule(ScalarObservable.dispatch, 0, {
+                done: false, value: value, subscriber: subscriber
+            });
+        }
+        else {
+            subscriber.next(value);
+            if (!subscriber.closed) {
+                subscriber.complete();
+            }
+        }
+    };
+    return ScalarObservable;
+}(Observable_1.Observable));
+var ScalarObservable_2 = ScalarObservable;
+var ScalarObservable_1 = {
+    ScalarObservable: ScalarObservable_2
+};
+var __extends$21 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var EmptyObservable = (function (_super) {
+    __extends$21(EmptyObservable, _super);
+    function EmptyObservable(scheduler) {
+        _super.call(this);
+        this.scheduler = scheduler;
+    }
+    /**
+     * Creates an Observable that emits no items to the Observer and immediately
+     * emits a complete notification.
+     *
+     * <span class="informal">Just emits 'complete', and nothing else.
+     * </span>
+     *
+     * <img src="./img/empty.png" width="100%">
+     *
+     * This static operator is useful for creating a simple Observable that only
+     * emits the complete notification. It can be used for composing with other
+     * Observables, such as in a {@link mergeMap}.
+     *
+     * @example <caption>Emit the number 7, then complete.</caption>
+     * var result = Rx.Observable.empty().startWith(7);
+     * result.subscribe(x => console.log(x));
+     *
+     * @example <caption>Map and flatten only odd numbers to the sequence 'a', 'b', 'c'</caption>
+     * var interval = Rx.Observable.interval(1000);
+     * var result = interval.mergeMap(x =>
+     *   x % 2 === 1 ? Rx.Observable.of('a', 'b', 'c') : Rx.Observable.empty()
+     * );
+     * result.subscribe(x => console.log(x));
+     *
+     * // Results in the following to the console:
+     * // x is equal to the count on the interval eg(0,1,2,3,...)
+     * // x will occur every 1000ms
+     * // if x % 2 is equal to 1 print abc
+     * // if x % 2 is not equal to 1 nothing will be output
+     *
+     * @see {@link create}
+     * @see {@link never}
+     * @see {@link of}
+     * @see {@link throw}
+     *
+     * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
+     * the emission of the complete notification.
+     * @return {Observable} An "empty" Observable: emits only the complete
+     * notification.
+     * @static true
+     * @name empty
+     * @owner Observable
+     */
+    EmptyObservable.create = function (scheduler) {
+        return new EmptyObservable(scheduler);
+    };
+    EmptyObservable.dispatch = function (arg) {
+        var subscriber = arg.subscriber;
+        subscriber.complete();
+    };
+    EmptyObservable.prototype._subscribe = function (subscriber) {
+        var scheduler = this.scheduler;
+        if (scheduler) {
+            return scheduler.schedule(EmptyObservable.dispatch, 0, { subscriber: subscriber });
+        }
+        else {
+            subscriber.complete();
+        }
+    };
+    return EmptyObservable;
+}(Observable_1.Observable));
+var EmptyObservable_2 = EmptyObservable;
+var EmptyObservable_1 = {
+    EmptyObservable: EmptyObservable_2
+};
+var __extends$19 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var ArrayObservable = (function (_super) {
+    __extends$19(ArrayObservable, _super);
+    function ArrayObservable(array, scheduler) {
+        _super.call(this);
+        this.array = array;
+        this.scheduler = scheduler;
+        if (!scheduler && array.length === 1) {
+            this._isScalar = true;
+            this.value = array[0];
+        }
+    }
+    ArrayObservable.create = function (array, scheduler) {
+        return new ArrayObservable(array, scheduler);
+    };
+    /**
+     * Creates an Observable that emits some values you specify as arguments,
+     * immediately one after the other, and then emits a complete notification.
+     *
+     * <span class="informal">Emits the arguments you provide, then completes.
+     * </span>
+     *
+     * <img src="./img/of.png" width="100%">
+     *
+     * This static operator is useful for creating a simple Observable that only
+     * emits the arguments given, and the complete notification thereafter. It can
+     * be used for composing with other Observables, such as with {@link concat}.
+     * By default, it uses a `null` IScheduler, which means the `next`
+     * notifications are sent synchronously, although with a different IScheduler
+     * it is possible to determine when those notifications will be delivered.
+     *
+     * @example <caption>Emit 10, 20, 30, then 'a', 'b', 'c', then start ticking every second.</caption>
+     * var numbers = Rx.Observable.of(10, 20, 30);
+     * var letters = Rx.Observable.of('a', 'b', 'c');
+     * var interval = Rx.Observable.interval(1000);
+     * var result = numbers.concat(letters).concat(interval);
+     * result.subscribe(x => console.log(x));
+     *
+     * @see {@link create}
+     * @see {@link empty}
+     * @see {@link never}
+     * @see {@link throw}
+     *
+     * @param {...T} values Arguments that represent `next` values to be emitted.
+     * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
+     * the emissions of the `next` notifications.
+     * @return {Observable<T>} An Observable that emits each given input value.
+     * @static true
+     * @name of
+     * @owner Observable
+     */
+    ArrayObservable.of = function () {
+        var array = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            array[_i - 0] = arguments[_i];
+        }
+        var scheduler = array[array.length - 1];
+        if (isScheduler_1.isScheduler(scheduler)) {
+            array.pop();
+        }
+        else {
+            scheduler = null;
+        }
+        var len = array.length;
+        if (len > 1) {
+            return new ArrayObservable(array, scheduler);
+        }
+        else if (len === 1) {
+            return new ScalarObservable_1.ScalarObservable(array[0], scheduler);
+        }
+        else {
+            return new EmptyObservable_1.EmptyObservable(scheduler);
+        }
+    };
+    ArrayObservable.dispatch = function (state$$1) {
+        var array = state$$1.array, index$$1 = state$$1.index, count = state$$1.count, subscriber = state$$1.subscriber;
+        if (index$$1 >= count) {
+            subscriber.complete();
+            return;
+        }
+        subscriber.next(array[index$$1]);
+        if (subscriber.closed) {
+            return;
+        }
+        state$$1.index = index$$1 + 1;
+        this.schedule(state$$1);
+    };
+    ArrayObservable.prototype._subscribe = function (subscriber) {
+        var index$$1 = 0;
+        var array = this.array;
+        var count = array.length;
+        var scheduler = this.scheduler;
+        if (scheduler) {
+            return scheduler.schedule(ArrayObservable.dispatch, 0, {
+                array: array, index: index$$1, count: count, subscriber: subscriber
+            });
+        }
+        else {
+            for (var i = 0; i < count && !subscriber.closed; i++) {
+                subscriber.next(array[i]);
+            }
+            subscriber.complete();
+        }
+    };
+    return ArrayObservable;
+}(Observable_1.Observable));
+var ArrayObservable_2 = ArrayObservable;
+var ArrayObservable_1 = {
+    ArrayObservable: ArrayObservable_2
+};
+var __extends$18 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var none = {};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var CombineLatestSubscriber = (function (_super) {
+    __extends$18(CombineLatestSubscriber, _super);
+    function CombineLatestSubscriber(destination, project) {
+        _super.call(this, destination);
+        this.project = project;
+        this.active = 0;
+        this.values = [];
+        this.observables = [];
+    }
+    CombineLatestSubscriber.prototype._next = function (observable) {
+        this.values.push(none);
+        this.observables.push(observable);
+    };
+    CombineLatestSubscriber.prototype._complete = function () {
+        var observables = this.observables;
+        var len = observables.length;
+        if (len === 0) {
+            this.destination.complete();
+        }
+        else {
+            this.active = len;
+            this.toRespond = len;
+            for (var i = 0; i < len; i++) {
+                var observable = observables[i];
+                this.add(subscribeToResult_1.subscribeToResult(this, observable, observable, i));
+            }
+        }
+    };
+    CombineLatestSubscriber.prototype.notifyComplete = function (unused) {
+        if ((this.active -= 1) === 0) {
+            this.destination.complete();
+        }
+    };
+    CombineLatestSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        var values = this.values;
+        var oldVal = values[outerIndex];
+        var toRespond = !this.toRespond
+            ? 0
+            : oldVal === none ? --this.toRespond : this.toRespond;
+        values[outerIndex] = innerValue;
+        if (toRespond === 0) {
+            if (this.project) {
+                this._tryProject(values);
+            }
+            else {
+                this.destination.next(values.slice());
+            }
+        }
+    };
+    CombineLatestSubscriber.prototype._tryProject = function (values) {
+        var result;
+        try {
+            result = this.project.apply(this, values);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        this.destination.next(result);
+    };
+    return CombineLatestSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var of_1 = ArrayObservable_1.ArrayObservable.of;
+var of$3 = {
+    of: of_1
+};
+var __extends$23 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var PromiseObservable = (function (_super) {
+    __extends$23(PromiseObservable, _super);
+    function PromiseObservable(promise, scheduler) {
+        _super.call(this);
+        this.promise = promise;
+        this.scheduler = scheduler;
+    }
+    /**
+     * Converts a Promise to an Observable.
+     *
+     * <span class="informal">Returns an Observable that just emits the Promise's
+     * resolved value, then completes.</span>
+     *
+     * Converts an ES2015 Promise or a Promises/A+ spec compliant Promise to an
+     * Observable. If the Promise resolves with a value, the output Observable
+     * emits that resolved value as a `next`, and then completes. If the Promise
+     * is rejected, then the output Observable emits the corresponding Error.
+     *
+     * @example <caption>Convert the Promise returned by Fetch to an Observable</caption>
+     * var result = Rx.Observable.fromPromise(fetch('http://myserver.com/'));
+     * result.subscribe(x => console.log(x), e => console.error(e));
+     *
+     * @see {@link bindCallback}
+     * @see {@link from}
+     *
+     * @param {PromiseLike<T>} promise The promise to be converted.
+     * @param {Scheduler} [scheduler] An optional IScheduler to use for scheduling
+     * the delivery of the resolved value (or the rejection).
+     * @return {Observable<T>} An Observable which wraps the Promise.
+     * @static true
+     * @name fromPromise
+     * @owner Observable
+     */
+    PromiseObservable.create = function (promise, scheduler) {
+        return new PromiseObservable(promise, scheduler);
+    };
+    PromiseObservable.prototype._subscribe = function (subscriber) {
+        var _this = this;
+        var promise = this.promise;
+        var scheduler = this.scheduler;
+        if (scheduler == null) {
+            if (this._isScalar) {
+                if (!subscriber.closed) {
+                    subscriber.next(this.value);
+                    subscriber.complete();
+                }
+            }
+            else {
+                promise.then(function (value) {
+                    _this.value = value;
+                    _this._isScalar = true;
+                    if (!subscriber.closed) {
+                        subscriber.next(value);
+                        subscriber.complete();
+                    }
+                }, function (err) {
+                    if (!subscriber.closed) {
+                        subscriber.error(err);
+                    }
+                })
+                    .then(null, function (err) {
+                    // escape the promise trap, throw unhandled errors
+                    root.root.setTimeout(function () { throw err; });
+                });
+            }
+        }
+        else {
+            if (this._isScalar) {
+                if (!subscriber.closed) {
+                    return scheduler.schedule(dispatchNext, 0, { value: this.value, subscriber: subscriber });
+                }
+            }
+            else {
+                promise.then(function (value) {
+                    _this.value = value;
+                    _this._isScalar = true;
+                    if (!subscriber.closed) {
+                        subscriber.add(scheduler.schedule(dispatchNext, 0, { value: value, subscriber: subscriber }));
+                    }
+                }, function (err) {
+                    if (!subscriber.closed) {
+                        subscriber.add(scheduler.schedule(dispatchError, 0, { err: err, subscriber: subscriber }));
+                    }
+                })
+                    .then(null, function (err) {
+                    // escape the promise trap, throw unhandled errors
+                    root.root.setTimeout(function () { throw err; });
+                });
+            }
+        }
+    };
+    return PromiseObservable;
+}(Observable_1.Observable));
+var PromiseObservable_2 = PromiseObservable;
+function dispatchNext(arg) {
+    var value = arg.value, subscriber = arg.subscriber;
+    if (!subscriber.closed) {
+        subscriber.next(value);
+        subscriber.complete();
+    }
+}
+function dispatchError(arg) {
+    var err = arg.err, subscriber = arg.subscriber;
+    if (!subscriber.closed) {
+        subscriber.error(err);
+    }
+}
+var PromiseObservable_1 = {
+    PromiseObservable: PromiseObservable_2
+};
+var __extends$24 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var IteratorObservable = (function (_super) {
+    __extends$24(IteratorObservable, _super);
+    function IteratorObservable(iterator$$2, scheduler) {
+        _super.call(this);
+        this.scheduler = scheduler;
+        if (iterator$$2 == null) {
+            throw new Error('iterator cannot be null.');
+        }
+        this.iterator = getIterator(iterator$$2);
+    }
+    IteratorObservable.create = function (iterator$$2, scheduler) {
+        return new IteratorObservable(iterator$$2, scheduler);
+    };
+    IteratorObservable.dispatch = function (state$$1) {
+        var index$$1 = state$$1.index, hasError = state$$1.hasError, iterator$$2 = state$$1.iterator, subscriber = state$$1.subscriber;
+        if (hasError) {
+            subscriber.error(state$$1.error);
+            return;
+        }
+        var result = iterator$$2.next();
+        if (result.done) {
+            subscriber.complete();
+            return;
+        }
+        subscriber.next(result.value);
+        state$$1.index = index$$1 + 1;
+        if (subscriber.closed) {
+            if (typeof iterator$$2.return === 'function') {
+                iterator$$2.return();
+            }
+            return;
+        }
+        this.schedule(state$$1);
+    };
+    IteratorObservable.prototype._subscribe = function (subscriber) {
+        var index$$1 = 0;
+        var _a = this, iterator$$2 = _a.iterator, scheduler = _a.scheduler;
+        if (scheduler) {
+            return scheduler.schedule(IteratorObservable.dispatch, 0, {
+                index: index$$1, iterator: iterator$$2, subscriber: subscriber
+            });
+        }
+        else {
+            do {
+                var result = iterator$$2.next();
+                if (result.done) {
+                    subscriber.complete();
+                    break;
+                }
+                else {
+                    subscriber.next(result.value);
+                }
+                if (subscriber.closed) {
+                    if (typeof iterator$$2.return === 'function') {
+                        iterator$$2.return();
+                    }
+                    break;
+                }
+            } while (true);
+        }
+    };
+    return IteratorObservable;
+}(Observable_1.Observable));
+var IteratorObservable_2 = IteratorObservable;
+var StringIterator = (function () {
+    function StringIterator(str, idx, len) {
+        if (idx === void 0) {
+            idx = 0;
+        }
+        if (len === void 0) {
+            len = str.length;
+        }
+        this.str = str;
+        this.idx = idx;
+        this.len = len;
+    }
+    StringIterator.prototype[iterator.iterator] = function () { return (this); };
+    StringIterator.prototype.next = function () {
+        return this.idx < this.len ? {
+            done: false,
+            value: this.str.charAt(this.idx++)
+        } : {
+            done: true,
+            value: undefined
+        };
+    };
+    return StringIterator;
+}());
+var ArrayIterator = (function () {
+    function ArrayIterator(arr, idx, len) {
+        if (idx === void 0) {
+            idx = 0;
+        }
+        if (len === void 0) {
+            len = toLength(arr);
+        }
+        this.arr = arr;
+        this.idx = idx;
+        this.len = len;
+    }
+    ArrayIterator.prototype[iterator.iterator] = function () { return this; };
+    ArrayIterator.prototype.next = function () {
+        return this.idx < this.len ? {
+            done: false,
+            value: this.arr[this.idx++]
+        } : {
+            done: true,
+            value: undefined
+        };
+    };
+    return ArrayIterator;
+}());
+function getIterator(obj) {
+    var i = obj[iterator.iterator];
+    if (!i && typeof obj === 'string') {
+        return new StringIterator(obj);
+    }
+    if (!i && obj.length !== undefined) {
+        return new ArrayIterator(obj);
+    }
+    if (!i) {
+        throw new TypeError('object is not iterable');
+    }
+    return obj[iterator.iterator]();
+}
+var maxSafeInteger = Math.pow(2, 53) - 1;
+function toLength(o) {
+    var len = +o.length;
+    if (isNaN(len)) {
+        return 0;
+    }
+    if (len === 0 || !numberIsFinite(len)) {
+        return len;
+    }
+    len = sign(len) * Math.floor(Math.abs(len));
+    if (len <= 0) {
+        return 0;
+    }
+    if (len > maxSafeInteger) {
+        return maxSafeInteger;
+    }
+    return len;
+}
+function numberIsFinite(value) {
+    return typeof value === 'number' && root.root.isFinite(value);
+}
+function sign(value) {
+    var valueAsNumber = +value;
+    if (valueAsNumber === 0) {
+        return valueAsNumber;
+    }
+    if (isNaN(valueAsNumber)) {
+        return valueAsNumber;
+    }
+    return valueAsNumber < 0 ? -1 : 1;
+}
+var IteratorObservable_1 = {
+    IteratorObservable: IteratorObservable_2
+};
+var __extends$25 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var ArrayLikeObservable = (function (_super) {
+    __extends$25(ArrayLikeObservable, _super);
+    function ArrayLikeObservable(arrayLike, scheduler) {
+        _super.call(this);
+        this.arrayLike = arrayLike;
+        this.scheduler = scheduler;
+        if (!scheduler && arrayLike.length === 1) {
+            this._isScalar = true;
+            this.value = arrayLike[0];
+        }
+    }
+    ArrayLikeObservable.create = function (arrayLike, scheduler) {
+        var length = arrayLike.length;
+        if (length === 0) {
+            return new EmptyObservable_1.EmptyObservable();
+        }
+        else if (length === 1) {
+            return new ScalarObservable_1.ScalarObservable(arrayLike[0], scheduler);
+        }
+        else {
+            return new ArrayLikeObservable(arrayLike, scheduler);
+        }
+    };
+    ArrayLikeObservable.dispatch = function (state$$1) {
+        var arrayLike = state$$1.arrayLike, index$$1 = state$$1.index, length = state$$1.length, subscriber = state$$1.subscriber;
+        if (subscriber.closed) {
+            return;
+        }
+        if (index$$1 >= length) {
+            subscriber.complete();
+            return;
+        }
+        subscriber.next(arrayLike[index$$1]);
+        state$$1.index = index$$1 + 1;
+        this.schedule(state$$1);
+    };
+    ArrayLikeObservable.prototype._subscribe = function (subscriber) {
+        var index$$1 = 0;
+        var _a = this, arrayLike = _a.arrayLike, scheduler = _a.scheduler;
+        var length = arrayLike.length;
+        if (scheduler) {
+            return scheduler.schedule(ArrayLikeObservable.dispatch, 0, {
+                arrayLike: arrayLike, index: index$$1, length: length, subscriber: subscriber
+            });
+        }
+        else {
+            for (var i = 0; i < length && !subscriber.closed; i++) {
+                subscriber.next(arrayLike[i]);
+            }
+            subscriber.complete();
+        }
+    };
+    return ArrayLikeObservable;
+}(Observable_1.Observable));
+var ArrayLikeObservable_2 = ArrayLikeObservable;
+var ArrayLikeObservable_1 = {
+    ArrayLikeObservable: ArrayLikeObservable_2
+};
+/**
+ * Represents a push-based event or value that an {@link Observable} can emit.
+ * This class is particularly useful for operators that manage notifications,
+ * like {@link materialize}, {@link dematerialize}, {@link observeOn}, and
+ * others. Besides wrapping the actual delivered value, it also annotates it
+ * with metadata of, for instance, what type of push message it is (`next`,
+ * `error`, or `complete`).
+ *
+ * @see {@link materialize}
+ * @see {@link dematerialize}
+ * @see {@link observeOn}
+ *
+ * @class Notification<T>
+ */
+var Notification = (function () {
+    function Notification(kind, value, error) {
+        this.kind = kind;
+        this.value = value;
+        this.error = error;
+        this.hasValue = kind === 'N';
+    }
+    /**
+     * Delivers to the given `observer` the value wrapped by this Notification.
+     * @param {Observer} observer
+     * @return
+     */
+    Notification.prototype.observe = function (observer) {
+        switch (this.kind) {
+            case 'N':
+                return observer.next && observer.next(this.value);
+            case 'E':
+                return observer.error && observer.error(this.error);
+            case 'C':
+                return observer.complete && observer.complete();
+        }
+    };
+    /**
+     * Given some {@link Observer} callbacks, deliver the value represented by the
+     * current Notification to the correctly corresponding callback.
+     * @param {function(value: T): void} next An Observer `next` callback.
+     * @param {function(err: any): void} [error] An Observer `error` callback.
+     * @param {function(): void} [complete] An Observer `complete` callback.
+     * @return {any}
+     */
+    Notification.prototype.do = function (next, error, complete) {
+        var kind = this.kind;
+        switch (kind) {
+            case 'N':
+                return next && next(this.value);
+            case 'E':
+                return error && error(this.error);
+            case 'C':
+                return complete && complete();
+        }
+    };
+    /**
+     * Takes an Observer or its individual callback functions, and calls `observe`
+     * or `do` methods accordingly.
+     * @param {Observer|function(value: T): void} nextOrObserver An Observer or
+     * the `next` callback.
+     * @param {function(err: any): void} [error] An Observer `error` callback.
+     * @param {function(): void} [complete] An Observer `complete` callback.
+     * @return {any}
+     */
+    Notification.prototype.accept = function (nextOrObserver, error, complete) {
+        if (nextOrObserver && typeof nextOrObserver.next === 'function') {
+            return this.observe(nextOrObserver);
+        }
+        else {
+            return this.do(nextOrObserver, error, complete);
+        }
+    };
+    /**
+     * Returns a simple Observable that just delivers the notification represented
+     * by this Notification instance.
+     * @return {any}
+     */
+    Notification.prototype.toObservable = function () {
+        var kind = this.kind;
+        switch (kind) {
+            case 'N':
+                return Observable_1.Observable.of(this.value);
+            case 'E':
+                return Observable_1.Observable.throw(this.error);
+            case 'C':
+                return Observable_1.Observable.empty();
+        }
+        throw new Error('unexpected notification kind value');
+    };
+    /**
+     * A shortcut to create a Notification instance of the type `next` from a
+     * given value.
+     * @param {T} value The `next` value.
+     * @return {Notification<T>} The "next" Notification representing the
+     * argument.
+     */
+    Notification.createNext = function (value) {
+        if (typeof value !== 'undefined') {
+            return new Notification('N', value);
+        }
+        return Notification.undefinedValueNotification;
+    };
+    /**
+     * A shortcut to create a Notification instance of the type `error` from a
+     * given error.
+     * @param {any} [err] The `error` error.
+     * @return {Notification<T>} The "error" Notification representing the
+     * argument.
+     */
+    Notification.createError = function (err) {
+        return new Notification('E', undefined, err);
+    };
+    /**
+     * A shortcut to create a Notification instance of the type `complete`.
+     * @return {Notification<any>} The valueless "complete" Notification.
+     */
+    Notification.createComplete = function () {
+        return Notification.completeNotification;
+    };
+    Notification.completeNotification = new Notification('C');
+    Notification.undefinedValueNotification = new Notification('N', undefined);
+    return Notification;
+}());
+var Notification_2 = Notification;
+var Notification_1 = {
+    Notification: Notification_2
+};
+var __extends$26 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ *
+ * Re-emits all notifications from source Observable with specified scheduler.
+ *
+ * <span class="informal">Ensure a specific scheduler is used, from outside of an Observable.</span>
+ *
+ * `observeOn` is an operator that accepts a scheduler as a first parameter, which will be used to reschedule
+ * notifications emitted by the source Observable. It might be useful, if you do not have control over
+ * internal scheduler of a given Observable, but want to control when its values are emitted nevertheless.
+ *
+ * Returned Observable emits the same notifications (nexted values, complete and error events) as the source Observable,
+ * but rescheduled with provided scheduler. Note that this doesn't mean that source Observables internal
+ * scheduler will be replaced in any way. Original scheduler still will be used, but when the source Observable emits
+ * notification, it will be immediately scheduled again - this time with scheduler passed to `observeOn`.
+ * An anti-pattern would be calling `observeOn` on Observable that emits lots of values synchronously, to split
+ * that emissions into asynchronous chunks. For this to happen, scheduler would have to be passed into the source
+ * Observable directly (usually into the operator that creates it). `observeOn` simply delays notifications a
+ * little bit more, to ensure that they are emitted at expected moments.
+ *
+ * As a matter of fact, `observeOn` accepts second parameter, which specifies in milliseconds with what delay notifications
+ * will be emitted. The main difference between {@link delay} operator and `observeOn` is that `observeOn`
+ * will delay all notifications - including error notifications - while `delay` will pass through error
+ * from source Observable immediately when it is emitted. In general it is highly recommended to use `delay` operator
+ * for any kind of delaying of values in the stream, while using `observeOn` to specify which scheduler should be used
+ * for notification emissions in general.
+ *
+ * @example <caption>Ensure values in subscribe are called just before browser repaint.</caption>
+ * const intervals = Rx.Observable.interval(10); // Intervals are scheduled
+ *                                               // with async scheduler by default...
+ *
+ * intervals
+ * .observeOn(Rx.Scheduler.animationFrame)       // ...but we will observe on animationFrame
+ * .subscribe(val => {                           // scheduler to ensure smooth animation.
+ *   someDiv.style.height = val + 'px';
+ * });
+ *
+ * @see {@link delay}
+ *
+ * @param {IScheduler} scheduler Scheduler that will be used to reschedule notifications from source Observable.
+ * @param {number} [delay] Number of milliseconds that states with what delay every notification should be rescheduled.
+ * @return {Observable<T>} Observable that emits the same notifications as the source Observable,
+ * but with provided scheduler.
+ *
+ * @method observeOn
+ * @owner Observable
+ */
+function observeOn$1(scheduler, delay) {
+    if (delay === void 0) {
+        delay = 0;
+    }
+    return function observeOnOperatorFunction(source) {
+        return source.lift(new ObserveOnOperator(scheduler, delay));
+    };
+}
+var observeOn_2 = observeOn$1;
+var ObserveOnOperator = (function () {
+    function ObserveOnOperator(scheduler, delay) {
+        if (delay === void 0) {
+            delay = 0;
+        }
+        this.scheduler = scheduler;
+        this.delay = delay;
+    }
+    ObserveOnOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new ObserveOnSubscriber(subscriber, this.scheduler, this.delay));
+    };
+    return ObserveOnOperator;
+}());
+var ObserveOnOperator_1 = ObserveOnOperator;
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var ObserveOnSubscriber = (function (_super) {
+    __extends$26(ObserveOnSubscriber, _super);
+    function ObserveOnSubscriber(destination, scheduler, delay) {
+        if (delay === void 0) {
+            delay = 0;
+        }
+        _super.call(this, destination);
+        this.scheduler = scheduler;
+        this.delay = delay;
+    }
+    ObserveOnSubscriber.dispatch = function (arg) {
+        var notification = arg.notification, destination = arg.destination;
+        notification.observe(destination);
+        this.unsubscribe();
+    };
+    ObserveOnSubscriber.prototype.scheduleMessage = function (notification) {
+        this.add(this.scheduler.schedule(ObserveOnSubscriber.dispatch, this.delay, new ObserveOnMessage(notification, this.destination)));
+    };
+    ObserveOnSubscriber.prototype._next = function (value) {
+        this.scheduleMessage(Notification_1.Notification.createNext(value));
+    };
+    ObserveOnSubscriber.prototype._error = function (err) {
+        this.scheduleMessage(Notification_1.Notification.createError(err));
+    };
+    ObserveOnSubscriber.prototype._complete = function () {
+        this.scheduleMessage(Notification_1.Notification.createComplete());
+    };
+    return ObserveOnSubscriber;
+}(Subscriber_1.Subscriber));
+var ObserveOnSubscriber_1 = ObserveOnSubscriber;
+var ObserveOnMessage = (function () {
+    function ObserveOnMessage(notification, destination) {
+        this.notification = notification;
+        this.destination = destination;
+    }
+    return ObserveOnMessage;
+}());
+var ObserveOnMessage_1 = ObserveOnMessage;
+var observeOn_1 = {
+    observeOn: observeOn_2,
+    ObserveOnOperator: ObserveOnOperator_1,
+    ObserveOnSubscriber: ObserveOnSubscriber_1,
+    ObserveOnMessage: ObserveOnMessage_1
+};
+var __extends$22 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var FromObservable = (function (_super) {
+    __extends$22(FromObservable, _super);
+    function FromObservable(ish, scheduler) {
+        _super.call(this, null);
+        this.ish = ish;
+        this.scheduler = scheduler;
+    }
+    /**
+     * Creates an Observable from an Array, an array-like object, a Promise, an
+     * iterable object, or an Observable-like object.
+     *
+     * <span class="informal">Converts almost anything to an Observable.</span>
+     *
+     * <img src="./img/from.png" width="100%">
+     *
+     * Convert various other objects and data types into Observables. `from`
+     * converts a Promise or an array-like or an
+     * [iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#iterable)
+     * object into an Observable that emits the items in that promise or array or
+     * iterable. A String, in this context, is treated as an array of characters.
+     * Observable-like objects (contains a function named with the ES2015 Symbol
+     * for Observable) can also be converted through this operator.
+     *
+     * @example <caption>Converts an array to an Observable</caption>
+     * var array = [10, 20, 30];
+     * var result = Rx.Observable.from(array);
+     * result.subscribe(x => console.log(x));
+     *
+     * // Results in the following:
+     * // 10 20 30
+     *
+     * @example <caption>Convert an infinite iterable (from a generator) to an Observable</caption>
+     * function* generateDoubles(seed) {
+     *   var i = seed;
+     *   while (true) {
+     *     yield i;
+     *     i = 2 * i; // double it
+     *   }
+     * }
+     *
+     * var iterator = generateDoubles(3);
+     * var result = Rx.Observable.from(iterator).take(10);
+     * result.subscribe(x => console.log(x));
+     *
+     * // Results in the following:
+     * // 3 6 12 24 48 96 192 384 768 1536
+     *
+     * @see {@link create}
+     * @see {@link fromEvent}
+     * @see {@link fromEventPattern}
+     * @see {@link fromPromise}
+     *
+     * @param {ObservableInput<T>} ish A subscribable object, a Promise, an
+     * Observable-like, an Array, an iterable or an array-like object to be
+     * converted.
+     * @param {Scheduler} [scheduler] The scheduler on which to schedule the
+     * emissions of values.
+     * @return {Observable<T>} The Observable whose values are originally from the
+     * input object that was converted.
+     * @static true
+     * @name from
+     * @owner Observable
+     */
+    FromObservable.create = function (ish, scheduler) {
+        if (ish != null) {
+            if (typeof ish[observable.observable] === 'function') {
+                if (ish instanceof Observable_1.Observable && !scheduler) {
+                    return ish;
+                }
+                return new FromObservable(ish, scheduler);
+            }
+            else if (isArray.isArray(ish)) {
+                return new ArrayObservable_1.ArrayObservable(ish, scheduler);
+            }
+            else if (isPromise_1.isPromise(ish)) {
+                return new PromiseObservable_1.PromiseObservable(ish, scheduler);
+            }
+            else if (typeof ish[iterator.iterator] === 'function' || typeof ish === 'string') {
+                return new IteratorObservable_1.IteratorObservable(ish, scheduler);
+            }
+            else if (isArrayLike.isArrayLike(ish)) {
+                return new ArrayLikeObservable_1.ArrayLikeObservable(ish, scheduler);
+            }
+        }
+        throw new TypeError((ish !== null && typeof ish || ish) + ' is not observable');
+    };
+    FromObservable.prototype._subscribe = function (subscriber) {
+        var ish = this.ish;
+        var scheduler = this.scheduler;
+        if (scheduler == null) {
+            return ish[observable.observable]().subscribe(subscriber);
+        }
+        else {
+            return ish[observable.observable]().subscribe(new observeOn_1.ObserveOnSubscriber(subscriber, scheduler, 0));
+        }
+    };
+    return FromObservable;
+}(Observable_1.Observable));
+var FromObservable_2 = FromObservable;
+var FromObservable_1 = {
+    FromObservable: FromObservable_2
+};
+var from_1 = FromObservable_1.FromObservable.create;
+var from = {
+    from: from_1
+};
+var __extends$27 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/* tslint:enable:max-line-length */
+/**
+ * Projects each source value to an Observable which is merged in the output
+ * Observable.
+ *
+ * <span class="informal">Maps each value to an Observable, then flattens all of
+ * these inner Observables using {@link mergeAll}.</span>
+ *
+ * <img src="./img/mergeMap.png" width="100%">
+ *
+ * Returns an Observable that emits items based on applying a function that you
+ * supply to each item emitted by the source Observable, where that function
+ * returns an Observable, and then merging those resulting Observables and
+ * emitting the results of this merger.
+ *
+ * @example <caption>Map and flatten each letter to an Observable ticking every 1 second</caption>
+ * var letters = Rx.Observable.of('a', 'b', 'c');
+ * var result = letters.mergeMap(x =>
+ *   Rx.Observable.interval(1000).map(i => x+i)
+ * );
+ * result.subscribe(x => console.log(x));
+ *
+ * // Results in the following:
+ * // a0
+ * // b0
+ * // c0
+ * // a1
+ * // b1
+ * // c1
+ * // continues to list a,b,c with respective ascending integers
+ *
+ * @see {@link concatMap}
+ * @see {@link exhaustMap}
+ * @see {@link merge}
+ * @see {@link mergeAll}
+ * @see {@link mergeMapTo}
+ * @see {@link mergeScan}
+ * @see {@link switchMap}
+ *
+ * @param {function(value: T, ?index: number): ObservableInput} project A function
+ * that, when applied to an item emitted by the source Observable, returns an
+ * Observable.
+ * @param {function(outerValue: T, innerValue: I, outerIndex: number, innerIndex: number): any} [resultSelector]
+ * A function to produce the value on the output Observable based on the values
+ * and the indices of the source (outer) emission and the inner Observable
+ * emission. The arguments passed to this function are:
+ * - `outerValue`: the value that came from the source
+ * - `innerValue`: the value that came from the projected Observable
+ * - `outerIndex`: the "index" of the value that came from the source
+ * - `innerIndex`: the "index" of the value from the projected Observable
+ * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
+ * Observables being subscribed to concurrently.
+ * @return {Observable} An Observable that emits the result of applying the
+ * projection function (and the optional `resultSelector`) to each item emitted
+ * by the source Observable and merging the results of the Observables obtained
+ * from this transformation.
+ * @method mergeMap
+ * @owner Observable
+ */
+function mergeMap$1(project, resultSelector, concurrent) {
+    if (concurrent === void 0) {
+        concurrent = Number.POSITIVE_INFINITY;
+    }
+    return function mergeMapOperatorFunction(source) {
+        if (typeof resultSelector === 'number') {
+            concurrent = resultSelector;
+            resultSelector = null;
+        }
+        return source.lift(new MergeMapOperator(project, resultSelector, concurrent));
+    };
+}
+var mergeMap_2$1 = mergeMap$1;
+var MergeMapOperator = (function () {
+    function MergeMapOperator(project, resultSelector, concurrent) {
+        if (concurrent === void 0) {
+            concurrent = Number.POSITIVE_INFINITY;
+        }
+        this.project = project;
+        this.resultSelector = resultSelector;
+        this.concurrent = concurrent;
+    }
+    MergeMapOperator.prototype.call = function (observer, source) {
+        return source.subscribe(new MergeMapSubscriber(observer, this.project, this.resultSelector, this.concurrent));
+    };
+    return MergeMapOperator;
+}());
+var MergeMapOperator_1 = MergeMapOperator;
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var MergeMapSubscriber = (function (_super) {
+    __extends$27(MergeMapSubscriber, _super);
+    function MergeMapSubscriber(destination, project, resultSelector, concurrent) {
+        if (concurrent === void 0) {
+            concurrent = Number.POSITIVE_INFINITY;
+        }
+        _super.call(this, destination);
+        this.project = project;
+        this.resultSelector = resultSelector;
+        this.concurrent = concurrent;
+        this.hasCompleted = false;
+        this.buffer = [];
+        this.active = 0;
+        this.index = 0;
+    }
+    MergeMapSubscriber.prototype._next = function (value) {
+        if (this.active < this.concurrent) {
+            this._tryNext(value);
+        }
+        else {
+            this.buffer.push(value);
+        }
+    };
+    MergeMapSubscriber.prototype._tryNext = function (value) {
+        var result;
+        var index$$1 = this.index++;
+        try {
+            result = this.project(value, index$$1);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        this.active++;
+        this._innerSub(result, value, index$$1);
+    };
+    MergeMapSubscriber.prototype._innerSub = function (ish, value, index$$1) {
+        this.add(subscribeToResult_1.subscribeToResult(this, ish, value, index$$1));
+    };
+    MergeMapSubscriber.prototype._complete = function () {
+        this.hasCompleted = true;
+        if (this.active === 0 && this.buffer.length === 0) {
+            this.destination.complete();
+        }
+    };
+    MergeMapSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        if (this.resultSelector) {
+            this._notifyResultSelector(outerValue, innerValue, outerIndex, innerIndex);
+        }
+        else {
+            this.destination.next(innerValue);
+        }
+    };
+    MergeMapSubscriber.prototype._notifyResultSelector = function (outerValue, innerValue, outerIndex, innerIndex) {
+        var result;
+        try {
+            result = this.resultSelector(outerValue, innerValue, outerIndex, innerIndex);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        this.destination.next(result);
+    };
+    MergeMapSubscriber.prototype.notifyComplete = function (innerSub) {
+        var buffer = this.buffer;
+        this.remove(innerSub);
+        this.active--;
+        if (buffer.length > 0) {
+            this._next(buffer.shift());
+        }
+        else if (this.active === 0 && this.hasCompleted) {
+            this.destination.complete();
+        }
+    };
+    return MergeMapSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var MergeMapSubscriber_1 = MergeMapSubscriber;
+var mergeMap_1 = {
+    mergeMap: mergeMap_2$1,
+    MergeMapOperator: MergeMapOperator_1,
+    MergeMapSubscriber: MergeMapSubscriber_1
+};
+function identity(x) {
+    return x;
+}
+var identity_2 = identity;
+var identity_1 = {
+    identity: identity_2
+};
+/**
+ * Converts a higher-order Observable into a first-order Observable which
+ * concurrently delivers all values that are emitted on the inner Observables.
+ *
+ * <span class="informal">Flattens an Observable-of-Observables.</span>
+ *
+ * <img src="./img/mergeAll.png" width="100%">
+ *
+ * `mergeAll` subscribes to an Observable that emits Observables, also known as
+ * a higher-order Observable. Each time it observes one of these emitted inner
+ * Observables, it subscribes to that and delivers all the values from the
+ * inner Observable on the output Observable. The output Observable only
+ * completes once all inner Observables have completed. Any error delivered by
+ * a inner Observable will be immediately emitted on the output Observable.
+ *
+ * @example <caption>Spawn a new interval Observable for each click event, and blend their outputs as one Observable</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var higherOrder = clicks.map((ev) => Rx.Observable.interval(1000));
+ * var firstOrder = higherOrder.mergeAll();
+ * firstOrder.subscribe(x => console.log(x));
+ *
+ * @example <caption>Count from 0 to 9 every second for each click, but only allow 2 concurrent timers</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var higherOrder = clicks.map((ev) => Rx.Observable.interval(1000).take(10));
+ * var firstOrder = higherOrder.mergeAll(2);
+ * firstOrder.subscribe(x => console.log(x));
+ *
+ * @see {@link combineAll}
+ * @see {@link concatAll}
+ * @see {@link exhaust}
+ * @see {@link merge}
+ * @see {@link mergeMap}
+ * @see {@link mergeMapTo}
+ * @see {@link mergeScan}
+ * @see {@link switch}
+ * @see {@link zipAll}
+ *
+ * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of inner
+ * Observables being subscribed to concurrently.
+ * @return {Observable} An Observable that emits values coming from all the
+ * inner Observables emitted by the source Observable.
+ * @method mergeAll
+ * @owner Observable
+ */
+function mergeAll$1(concurrent) {
+    if (concurrent === void 0) {
+        concurrent = Number.POSITIVE_INFINITY;
+    }
+    return mergeMap_1.mergeMap(identity_1.identity, null, concurrent);
+}
+var mergeAll_2 = mergeAll$1;
+var mergeAll_1 = {
+    mergeAll: mergeAll_2
+};
+/**
+ * Converts a higher-order Observable into a first-order Observable by
+ * concatenating the inner Observables in order.
+ *
+ * <span class="informal">Flattens an Observable-of-Observables by putting one
+ * inner Observable after the other.</span>
+ *
+ * <img src="./img/concatAll.png" width="100%">
+ *
+ * Joins every Observable emitted by the source (a higher-order Observable), in
+ * a serial fashion. It subscribes to each inner Observable only after the
+ * previous inner Observable has completed, and merges all of their values into
+ * the returned observable.
+ *
+ * __Warning:__ If the source Observable emits Observables quickly and
+ * endlessly, and the inner Observables it emits generally complete slower than
+ * the source emits, you can run into memory issues as the incoming Observables
+ * collect in an unbounded buffer.
+ *
+ * Note: `concatAll` is equivalent to `mergeAll` with concurrency parameter set
+ * to `1`.
+ *
+ * @example <caption>For each click event, tick every second from 0 to 3, with no concurrency</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var higherOrder = clicks.map(ev => Rx.Observable.interval(1000).take(4));
+ * var firstOrder = higherOrder.concatAll();
+ * firstOrder.subscribe(x => console.log(x));
+ *
+ * // Results in the following:
+ * // (results are not concurrent)
+ * // For every click on the "document" it will emit values 0 to 3 spaced
+ * // on a 1000ms interval
+ * // one click = 1000ms-> 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3
+ *
+ * @see {@link combineAll}
+ * @see {@link concat}
+ * @see {@link concatMap}
+ * @see {@link concatMapTo}
+ * @see {@link exhaust}
+ * @see {@link mergeAll}
+ * @see {@link switch}
+ * @see {@link zipAll}
+ *
+ * @return {Observable} An Observable emitting values from all the inner
+ * Observables concatenated.
+ * @method concatAll
+ * @owner Observable
+ */
+function concatAll$1() {
+    return mergeAll_1.mergeAll(1);
+}
+var concatAll_2 = concatAll$1;
+var concatAll_1 = {
+    concatAll: concatAll_2
+};
+/* tslint:enable:max-line-length */
+/**
+ * Creates an output Observable which sequentially emits all values from given
+ * Observable and then moves on to the next.
+ *
+ * <span class="informal">Concatenates multiple Observables together by
+ * sequentially emitting their values, one Observable after the other.</span>
+ *
+ * <img src="./img/concat.png" width="100%">
+ *
+ * `concat` joins multiple Observables together, by subscribing to them one at a time and
+ * merging their results into the output Observable. You can pass either an array of
+ * Observables, or put them directly as arguments. Passing an empty array will result
+ * in Observable that completes immediately.
+ *
+ * `concat` will subscribe to first input Observable and emit all its values, without
+ * changing or affecting them in any way. When that Observable completes, it will
+ * subscribe to then next Observable passed and, again, emit its values. This will be
+ * repeated, until the operator runs out of Observables. When last input Observable completes,
+ * `concat` will complete as well. At any given moment only one Observable passed to operator
+ * emits values. If you would like to emit values from passed Observables concurrently, check out
+ * {@link merge} instead, especially with optional `concurrent` parameter. As a matter of fact,
+ * `concat` is an equivalent of `merge` operator with `concurrent` parameter set to `1`.
+ *
+ * Note that if some input Observable never completes, `concat` will also never complete
+ * and Observables following the one that did not complete will never be subscribed. On the other
+ * hand, if some Observable simply completes immediately after it is subscribed, it will be
+ * invisible for `concat`, which will just move on to the next Observable.
+ *
+ * If any Observable in chain errors, instead of passing control to the next Observable,
+ * `concat` will error immediately as well. Observables that would be subscribed after
+ * the one that emitted error, never will.
+ *
+ * If you pass to `concat` the same Observable many times, its stream of values
+ * will be "replayed" on every subscription, which means you can repeat given Observable
+ * as many times as you like. If passing the same Observable to `concat` 1000 times becomes tedious,
+ * you can always use {@link repeat}.
+ *
+ * @example <caption>Concatenate a timer counting from 0 to 3 with a synchronous sequence from 1 to 10</caption>
+ * var timer = Rx.Observable.interval(1000).take(4);
+ * var sequence = Rx.Observable.range(1, 10);
+ * var result = Rx.Observable.concat(timer, sequence);
+ * result.subscribe(x => console.log(x));
+ *
+ * // results in:
+ * // 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3 -immediate-> 1 ... 10
+ *
+ *
+ * @example <caption>Concatenate an array of 3 Observables</caption>
+ * var timer1 = Rx.Observable.interval(1000).take(10);
+ * var timer2 = Rx.Observable.interval(2000).take(6);
+ * var timer3 = Rx.Observable.interval(500).take(10);
+ * var result = Rx.Observable.concat([timer1, timer2, timer3]); // note that array is passed
+ * result.subscribe(x => console.log(x));
+ *
+ * // results in the following:
+ * // (Prints to console sequentially)
+ * // -1000ms-> 0 -1000ms-> 1 -1000ms-> ... 9
+ * // -2000ms-> 0 -2000ms-> 1 -2000ms-> ... 5
+ * // -500ms-> 0 -500ms-> 1 -500ms-> ... 9
+ *
+ *
+ * @example <caption>Concatenate the same Observable to repeat it</caption>
+ * const timer = Rx.Observable.interval(1000).take(2);
+ *
+ * Rx.Observable.concat(timer, timer) // concating the same Observable!
+ * .subscribe(
+ *   value => console.log(value),
+ *   err => {},
+ *   () => console.log('...and it is done!')
+ * );
+ *
+ * // Logs:
+ * // 0 after 1s
+ * // 1 after 2s
+ * // 0 after 3s
+ * // 1 after 4s
+ * // "...and it is done!" also after 4s
+ *
+ * @see {@link concatAll}
+ * @see {@link concatMap}
+ * @see {@link concatMapTo}
+ *
+ * @param {ObservableInput} input1 An input Observable to concatenate with others.
+ * @param {ObservableInput} input2 An input Observable to concatenate with others.
+ * More than one input Observables may be given as argument.
+ * @param {Scheduler} [scheduler=null] An optional IScheduler to schedule each
+ * Observable subscription on.
+ * @return {Observable} All values of each passed Observable merged into a
+ * single Observable, in order, in serial fashion.
+ * @static true
+ * @name concat
+ * @owner Observable
+ */
+function concat$2() {
+    var observables = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        observables[_i - 0] = arguments[_i];
+    }
+    if (observables.length === 1 || (observables.length === 2 && isScheduler_1.isScheduler(observables[1]))) {
+        return from.from(observables[0]);
+    }
+    return concatAll_1.concatAll()(of$3.of.apply(void 0, observables));
+}
+var concat_2$1 = concat$2;
+var concat_1 = {
+    concat: concat_2$1
+};
+var __extends$28 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var CountSubscriber = (function (_super) {
+    __extends$28(CountSubscriber, _super);
+    function CountSubscriber(destination, predicate, source) {
+        _super.call(this, destination);
+        this.predicate = predicate;
+        this.source = source;
+        this.count = 0;
+        this.index = 0;
+    }
+    CountSubscriber.prototype._next = function (value) {
+        if (this.predicate) {
+            this._tryPredicate(value);
+        }
+        else {
+            this.count++;
+        }
+    };
+    CountSubscriber.prototype._tryPredicate = function (value) {
+        var result;
+        try {
+            result = this.predicate(value, this.index++, this.source);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        if (result) {
+            this.count++;
+        }
+    };
+    CountSubscriber.prototype._complete = function () {
+        this.destination.next(this.count);
+        this.destination.complete();
+    };
+    return CountSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$29 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var DebounceSubscriber = (function (_super) {
+    __extends$29(DebounceSubscriber, _super);
+    function DebounceSubscriber(destination, durationSelector) {
+        _super.call(this, destination);
+        this.durationSelector = durationSelector;
+        this.hasValue = false;
+        this.durationSubscription = null;
+    }
+    DebounceSubscriber.prototype._next = function (value) {
+        try {
+            var result = this.durationSelector.call(this, value);
+            if (result) {
+                this._tryNext(value, result);
+            }
+        }
+        catch (err) {
+            this.destination.error(err);
+        }
+    };
+    DebounceSubscriber.prototype._complete = function () {
+        this.emitValue();
+        this.destination.complete();
+    };
+    DebounceSubscriber.prototype._tryNext = function (value, duration) {
+        var subscription = this.durationSubscription;
+        this.value = value;
+        this.hasValue = true;
+        if (subscription) {
+            subscription.unsubscribe();
+            this.remove(subscription);
+        }
+        subscription = subscribeToResult_1.subscribeToResult(this, duration);
+        if (!subscription.closed) {
+            this.add(this.durationSubscription = subscription);
+        }
+    };
+    DebounceSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.emitValue();
+    };
+    DebounceSubscriber.prototype.notifyComplete = function () {
+        this.emitValue();
+    };
+    DebounceSubscriber.prototype.emitValue = function () {
+        if (this.hasValue) {
+            var value = this.value;
+            var subscription = this.durationSubscription;
+            if (subscription) {
+                this.durationSubscription = null;
+                subscription.unsubscribe();
+                this.remove(subscription);
+            }
+            this.value = null;
+            this.hasValue = false;
+            _super.prototype._next.call(this, value);
+        }
+    };
+    return DebounceSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$30 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var DebounceTimeSubscriber = (function (_super) {
+    __extends$30(DebounceTimeSubscriber, _super);
+    function DebounceTimeSubscriber(destination, dueTime, scheduler) {
+        _super.call(this, destination);
+        this.dueTime = dueTime;
+        this.scheduler = scheduler;
+        this.debouncedSubscription = null;
+        this.lastValue = null;
+        this.hasValue = false;
+    }
+    DebounceTimeSubscriber.prototype._next = function (value) {
+        this.clearDebounce();
+        this.lastValue = value;
+        this.hasValue = true;
+        this.add(this.debouncedSubscription = this.scheduler.schedule(dispatchNext$1, this.dueTime, this));
+    };
+    DebounceTimeSubscriber.prototype._complete = function () {
+        this.debouncedNext();
+        this.destination.complete();
+    };
+    DebounceTimeSubscriber.prototype.debouncedNext = function () {
+        this.clearDebounce();
+        if (this.hasValue) {
+            this.destination.next(this.lastValue);
+            this.lastValue = null;
+            this.hasValue = false;
+        }
+    };
+    DebounceTimeSubscriber.prototype.clearDebounce = function () {
+        var debouncedSubscription = this.debouncedSubscription;
+        if (debouncedSubscription !== null) {
+            this.remove(debouncedSubscription);
+            debouncedSubscription.unsubscribe();
+            this.debouncedSubscription = null;
+        }
+    };
+    return DebounceTimeSubscriber;
+}(Subscriber_1.Subscriber));
+function dispatchNext$1(subscriber) {
+    subscriber.debouncedNext();
+}
+var __extends$31 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var DefaultIfEmptySubscriber = (function (_super) {
+    __extends$31(DefaultIfEmptySubscriber, _super);
+    function DefaultIfEmptySubscriber(destination, defaultValue) {
+        _super.call(this, destination);
+        this.defaultValue = defaultValue;
+        this.isEmpty = true;
+    }
+    DefaultIfEmptySubscriber.prototype._next = function (value) {
+        this.isEmpty = false;
+        this.destination.next(value);
+    };
+    DefaultIfEmptySubscriber.prototype._complete = function () {
+        if (this.isEmpty) {
+            this.destination.next(this.defaultValue);
+        }
+        this.destination.complete();
+    };
+    return DefaultIfEmptySubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$32 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var DelaySubscriber = (function (_super) {
+    __extends$32(DelaySubscriber, _super);
+    function DelaySubscriber(destination, delay, scheduler) {
+        _super.call(this, destination);
+        this.delay = delay;
+        this.scheduler = scheduler;
+        this.queue = [];
+        this.active = false;
+        this.errored = false;
+    }
+    DelaySubscriber.dispatch = function (state$$1) {
+        var source = state$$1.source;
+        var queue = source.queue;
+        var scheduler = state$$1.scheduler;
+        var destination = state$$1.destination;
+        while (queue.length > 0 && (queue[0].time - scheduler.now()) <= 0) {
+            queue.shift().notification.observe(destination);
+        }
+        if (queue.length > 0) {
+            var delay_1 = Math.max(0, queue[0].time - scheduler.now());
+            this.schedule(state$$1, delay_1);
+        }
+        else {
+            source.active = false;
+        }
+    };
+    DelaySubscriber.prototype._schedule = function (scheduler) {
+        this.active = true;
+        this.add(scheduler.schedule(DelaySubscriber.dispatch, this.delay, {
+            source: this, destination: this.destination, scheduler: scheduler
+        }));
+    };
+    DelaySubscriber.prototype.scheduleNotification = function (notification) {
+        if (this.errored === true) {
+            return;
+        }
+        var scheduler = this.scheduler;
+        var message = new DelayMessage(scheduler.now() + this.delay, notification);
+        this.queue.push(message);
+        if (this.active === false) {
+            this._schedule(scheduler);
+        }
+    };
+    DelaySubscriber.prototype._next = function (value) {
+        this.scheduleNotification(Notification_1.Notification.createNext(value));
+    };
+    DelaySubscriber.prototype._error = function (err) {
+        this.errored = true;
+        this.queue = [];
+        this.destination.error(err);
+    };
+    DelaySubscriber.prototype._complete = function () {
+        this.scheduleNotification(Notification_1.Notification.createComplete());
+    };
+    return DelaySubscriber;
+}(Subscriber_1.Subscriber));
+var DelayMessage = (function () {
+    function DelayMessage(time, notification) {
+        this.time = time;
+        this.notification = notification;
+    }
+    return DelayMessage;
+}());
+var __extends$33 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var DelayWhenSubscriber = (function (_super) {
+    __extends$33(DelayWhenSubscriber, _super);
+    function DelayWhenSubscriber(destination, delayDurationSelector) {
+        _super.call(this, destination);
+        this.delayDurationSelector = delayDurationSelector;
+        this.completed = false;
+        this.delayNotifierSubscriptions = [];
+        this.values = [];
+    }
+    DelayWhenSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.destination.next(outerValue);
+        this.removeSubscription(innerSub);
+        this.tryComplete();
+    };
+    DelayWhenSubscriber.prototype.notifyError = function (error, innerSub) {
+        this._error(error);
+    };
+    DelayWhenSubscriber.prototype.notifyComplete = function (innerSub) {
+        var value = this.removeSubscription(innerSub);
+        if (value) {
+            this.destination.next(value);
+        }
+        this.tryComplete();
+    };
+    DelayWhenSubscriber.prototype._next = function (value) {
+        try {
+            var delayNotifier = this.delayDurationSelector(value);
+            if (delayNotifier) {
+                this.tryDelay(delayNotifier, value);
+            }
+        }
+        catch (err) {
+            this.destination.error(err);
+        }
+    };
+    DelayWhenSubscriber.prototype._complete = function () {
+        this.completed = true;
+        this.tryComplete();
+    };
+    DelayWhenSubscriber.prototype.removeSubscription = function (subscription) {
+        subscription.unsubscribe();
+        var subscriptionIdx = this.delayNotifierSubscriptions.indexOf(subscription);
+        var value = null;
+        if (subscriptionIdx !== -1) {
+            value = this.values[subscriptionIdx];
+            this.delayNotifierSubscriptions.splice(subscriptionIdx, 1);
+            this.values.splice(subscriptionIdx, 1);
+        }
+        return value;
+    };
+    DelayWhenSubscriber.prototype.tryDelay = function (delayNotifier, value) {
+        var notifierSubscription = subscribeToResult_1.subscribeToResult(this, delayNotifier, value);
+        if (notifierSubscription && !notifierSubscription.closed) {
+            this.add(notifierSubscription);
+            this.delayNotifierSubscriptions.push(notifierSubscription);
+        }
+        this.values.push(value);
+    };
+    DelayWhenSubscriber.prototype.tryComplete = function () {
+        if (this.completed && this.delayNotifierSubscriptions.length === 0) {
+            this.destination.complete();
+        }
+    };
+    return DelayWhenSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SubscriptionDelayObservable = (function (_super) {
+    __extends$33(SubscriptionDelayObservable, _super);
+    function SubscriptionDelayObservable(source, subscriptionDelay) {
+        _super.call(this);
+        this.source = source;
+        this.subscriptionDelay = subscriptionDelay;
+    }
+    SubscriptionDelayObservable.prototype._subscribe = function (subscriber) {
+        this.subscriptionDelay.subscribe(new SubscriptionDelaySubscriber(subscriber, this.source));
+    };
+    return SubscriptionDelayObservable;
+}(Observable_1.Observable));
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SubscriptionDelaySubscriber = (function (_super) {
+    __extends$33(SubscriptionDelaySubscriber, _super);
+    function SubscriptionDelaySubscriber(parent, source) {
+        _super.call(this);
+        this.parent = parent;
+        this.source = source;
+        this.sourceSubscribed = false;
+    }
+    SubscriptionDelaySubscriber.prototype._next = function (unused) {
+        this.subscribeToSource();
+    };
+    SubscriptionDelaySubscriber.prototype._error = function (err) {
+        this.unsubscribe();
+        this.parent.error(err);
+    };
+    SubscriptionDelaySubscriber.prototype._complete = function () {
+        this.subscribeToSource();
+    };
+    SubscriptionDelaySubscriber.prototype.subscribeToSource = function () {
+        if (!this.sourceSubscribed) {
+            this.sourceSubscribed = true;
+            this.unsubscribe();
+            this.source.subscribe(this.parent);
+        }
+    };
+    return SubscriptionDelaySubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$34 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var DeMaterializeSubscriber = (function (_super) {
+    __extends$34(DeMaterializeSubscriber, _super);
+    function DeMaterializeSubscriber(destination) {
+        _super.call(this, destination);
+    }
+    DeMaterializeSubscriber.prototype._next = function (value) {
+        value.observe(this.destination);
+    };
+    return DeMaterializeSubscriber;
+}(Subscriber_1.Subscriber));
+function minimalSetImpl() {
+    // THIS IS NOT a full impl of Set, this is just the minimum
+    // bits of functionality we need for this library.
+    return (function () {
+        function MinimalSet() {
+            this._values = [];
+        }
+        MinimalSet.prototype.add = function (value) {
+            if (!this.has(value)) {
+                this._values.push(value);
+            }
+        };
+        MinimalSet.prototype.has = function (value) {
+            return this._values.indexOf(value) !== -1;
+        };
+        Object.defineProperty(MinimalSet.prototype, "size", {
+            get: function () {
+                return this._values.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        MinimalSet.prototype.clear = function () {
+            this._values.length = 0;
+        };
+        return MinimalSet;
+    }());
+}
+var minimalSetImpl_1 = minimalSetImpl;
+var Set = root.root.Set || minimalSetImpl();
+var _Set = {
+    minimalSetImpl: minimalSetImpl_1,
+    Set: Set
+};
+var __extends$35 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var DistinctSubscriber = (function (_super) {
+    __extends$35(DistinctSubscriber, _super);
+    function DistinctSubscriber(destination, keySelector, flushes) {
+        _super.call(this, destination);
+        this.keySelector = keySelector;
+        this.values = new _Set.Set();
+        if (flushes) {
+            this.add(subscribeToResult_1.subscribeToResult(this, flushes));
+        }
+    }
+    DistinctSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.values.clear();
+    };
+    DistinctSubscriber.prototype.notifyError = function (error, innerSub) {
+        this._error(error);
+    };
+    DistinctSubscriber.prototype._next = function (value) {
+        if (this.keySelector) {
+            this._useKeySelector(value);
+        }
+        else {
+            this._finalizeNext(value, value);
+        }
+    };
+    DistinctSubscriber.prototype._useKeySelector = function (value) {
+        var key;
+        var destination = this.destination;
+        try {
+            key = this.keySelector(value);
+        }
+        catch (err) {
+            destination.error(err);
+            return;
+        }
+        this._finalizeNext(key, value);
+    };
+    DistinctSubscriber.prototype._finalizeNext = function (key, value) {
+        var values = this.values;
+        if (!values.has(key)) {
+            values.add(key);
+            this.destination.next(value);
+        }
+    };
+    return DistinctSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$36 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var DistinctUntilChangedSubscriber = (function (_super) {
+    __extends$36(DistinctUntilChangedSubscriber, _super);
+    function DistinctUntilChangedSubscriber(destination, compare, keySelector) {
+        _super.call(this, destination);
+        this.keySelector = keySelector;
+        this.hasKey = false;
+        if (typeof compare === 'function') {
+            this.compare = compare;
+        }
+    }
+    DistinctUntilChangedSubscriber.prototype.compare = function (x, y) {
+        return x === y;
+    };
+    DistinctUntilChangedSubscriber.prototype._next = function (value) {
+        var keySelector = this.keySelector;
+        var key = value;
+        if (keySelector) {
+            key = tryCatch_1.tryCatch(this.keySelector)(value);
+            if (key === errorObject.errorObject) {
+                return this.destination.error(errorObject.errorObject.e);
+            }
+        }
+        var result = false;
+        if (this.hasKey) {
+            result = tryCatch_1.tryCatch(this.compare)(this.key, key);
+            if (result === errorObject.errorObject) {
+                return this.destination.error(errorObject.errorObject.e);
+            }
+        }
+        else {
+            this.hasKey = true;
+        }
+        if (Boolean(result) === false) {
+            this.key = key;
+            this.destination.next(value);
+        }
+    };
+    return DistinctUntilChangedSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$38 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * An error thrown when an element was queried at a certain index of an
+ * Observable, but no such index or position exists in that sequence.
+ *
+ * @see {@link elementAt}
+ * @see {@link take}
+ * @see {@link takeLast}
+ *
+ * @class ArgumentOutOfRangeError
+ */
+var ArgumentOutOfRangeError = (function (_super) {
+    __extends$38(ArgumentOutOfRangeError, _super);
+    function ArgumentOutOfRangeError() {
+        var err = _super.call(this, 'argument out of range');
+        this.name = err.name = 'ArgumentOutOfRangeError';
+        this.stack = err.stack;
+        this.message = err.message;
+    }
+    return ArgumentOutOfRangeError;
+}(Error));
+var ArgumentOutOfRangeError_2 = ArgumentOutOfRangeError;
+var ArgumentOutOfRangeError_1 = {
+    ArgumentOutOfRangeError: ArgumentOutOfRangeError_2
+};
+var __extends$37 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var ElementAtSubscriber = (function (_super) {
+    __extends$37(ElementAtSubscriber, _super);
+    function ElementAtSubscriber(destination, index$$1, defaultValue) {
+        _super.call(this, destination);
+        this.index = index$$1;
+        this.defaultValue = defaultValue;
+    }
+    ElementAtSubscriber.prototype._next = function (x) {
+        if (this.index-- === 0) {
+            this.destination.next(x);
+            this.destination.complete();
+        }
+    };
+    ElementAtSubscriber.prototype._complete = function () {
+        var destination = this.destination;
+        if (this.index >= 0) {
+            if (typeof this.defaultValue !== 'undefined') {
+                destination.next(this.defaultValue);
+            }
+            else {
+                destination.error(new ArgumentOutOfRangeError_1.ArgumentOutOfRangeError);
+            }
+        }
+        destination.complete();
+    };
+    return ElementAtSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$39 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var EverySubscriber = (function (_super) {
+    __extends$39(EverySubscriber, _super);
+    function EverySubscriber(destination, predicate, thisArg, source) {
+        _super.call(this, destination);
+        this.predicate = predicate;
+        this.thisArg = thisArg;
+        this.source = source;
+        this.index = 0;
+        this.thisArg = thisArg || this;
+    }
+    EverySubscriber.prototype.notifyComplete = function (everyValueMatch) {
+        this.destination.next(everyValueMatch);
+        this.destination.complete();
+    };
+    EverySubscriber.prototype._next = function (value) {
+        var result = false;
+        try {
+            result = this.predicate.call(this.thisArg, value, this.index++, this.source);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        if (!result) {
+            this.notifyComplete(false);
+        }
+    };
+    EverySubscriber.prototype._complete = function () {
+        this.notifyComplete(true);
+    };
+    return EverySubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$40 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SwitchFirstSubscriber = (function (_super) {
+    __extends$40(SwitchFirstSubscriber, _super);
+    function SwitchFirstSubscriber(destination) {
+        _super.call(this, destination);
+        this.hasCompleted = false;
+        this.hasSubscription = false;
+    }
+    SwitchFirstSubscriber.prototype._next = function (value) {
+        if (!this.hasSubscription) {
+            this.hasSubscription = true;
+            this.add(subscribeToResult_1.subscribeToResult(this, value));
+        }
+    };
+    SwitchFirstSubscriber.prototype._complete = function () {
+        this.hasCompleted = true;
+        if (!this.hasSubscription) {
+            this.destination.complete();
+        }
+    };
+    SwitchFirstSubscriber.prototype.notifyComplete = function (innerSub) {
+        this.remove(innerSub);
+        this.hasSubscription = false;
+        if (this.hasCompleted) {
+            this.destination.complete();
+        }
+    };
+    return SwitchFirstSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$41 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SwitchFirstMapSubscriber = (function (_super) {
+    __extends$41(SwitchFirstMapSubscriber, _super);
+    function SwitchFirstMapSubscriber(destination, project, resultSelector) {
+        _super.call(this, destination);
+        this.project = project;
+        this.resultSelector = resultSelector;
+        this.hasSubscription = false;
+        this.hasCompleted = false;
+        this.index = 0;
+    }
+    SwitchFirstMapSubscriber.prototype._next = function (value) {
+        if (!this.hasSubscription) {
+            this.tryNext(value);
+        }
+    };
+    SwitchFirstMapSubscriber.prototype.tryNext = function (value) {
+        var index$$1 = this.index++;
+        var destination = this.destination;
+        try {
+            var result = this.project(value, index$$1);
+            this.hasSubscription = true;
+            this.add(subscribeToResult_1.subscribeToResult(this, result, value, index$$1));
+        }
+        catch (err) {
+            destination.error(err);
+        }
+    };
+    SwitchFirstMapSubscriber.prototype._complete = function () {
+        this.hasCompleted = true;
+        if (!this.hasSubscription) {
+            this.destination.complete();
+        }
+    };
+    SwitchFirstMapSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        var _a = this, resultSelector = _a.resultSelector, destination = _a.destination;
+        if (resultSelector) {
+            this.trySelectResult(outerValue, innerValue, outerIndex, innerIndex);
+        }
+        else {
+            destination.next(innerValue);
+        }
+    };
+    SwitchFirstMapSubscriber.prototype.trySelectResult = function (outerValue, innerValue, outerIndex, innerIndex) {
+        var _a = this, resultSelector = _a.resultSelector, destination = _a.destination;
+        try {
+            var result = resultSelector(outerValue, innerValue, outerIndex, innerIndex);
+            destination.next(result);
+        }
+        catch (err) {
+            destination.error(err);
+        }
+    };
+    SwitchFirstMapSubscriber.prototype.notifyError = function (err) {
+        this.destination.error(err);
+    };
+    SwitchFirstMapSubscriber.prototype.notifyComplete = function (innerSub) {
+        this.remove(innerSub);
+        this.hasSubscription = false;
+        if (this.hasCompleted) {
+            this.destination.complete();
+        }
+    };
+    return SwitchFirstMapSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$42 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var ExpandSubscriber = (function (_super) {
+    __extends$42(ExpandSubscriber, _super);
+    function ExpandSubscriber(destination, project, concurrent, scheduler) {
+        _super.call(this, destination);
+        this.project = project;
+        this.concurrent = concurrent;
+        this.scheduler = scheduler;
+        this.index = 0;
+        this.active = 0;
+        this.hasCompleted = false;
+        if (concurrent < Number.POSITIVE_INFINITY) {
+            this.buffer = [];
+        }
+    }
+    ExpandSubscriber.dispatch = function (arg) {
+        var subscriber = arg.subscriber, result = arg.result, value = arg.value, index$$1 = arg.index;
+        subscriber.subscribeToProjection(result, value, index$$1);
+    };
+    ExpandSubscriber.prototype._next = function (value) {
+        var destination = this.destination;
+        if (destination.closed) {
+            this._complete();
+            return;
+        }
+        var index$$1 = this.index++;
+        if (this.active < this.concurrent) {
+            destination.next(value);
+            var result = tryCatch_1.tryCatch(this.project)(value, index$$1);
+            if (result === errorObject.errorObject) {
+                destination.error(errorObject.errorObject.e);
+            }
+            else if (!this.scheduler) {
+                this.subscribeToProjection(result, value, index$$1);
+            }
+            else {
+                var state$$1 = { subscriber: this, result: result, value: value, index: index$$1 };
+                this.add(this.scheduler.schedule(ExpandSubscriber.dispatch, 0, state$$1));
+            }
+        }
+        else {
+            this.buffer.push(value);
+        }
+    };
+    ExpandSubscriber.prototype.subscribeToProjection = function (result, value, index$$1) {
+        this.active++;
+        this.add(subscribeToResult_1.subscribeToResult(this, result, value, index$$1));
+    };
+    ExpandSubscriber.prototype._complete = function () {
+        this.hasCompleted = true;
+        if (this.hasCompleted && this.active === 0) {
+            this.destination.complete();
+        }
+    };
+    ExpandSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this._next(innerValue);
+    };
+    ExpandSubscriber.prototype.notifyComplete = function (innerSub) {
+        var buffer = this.buffer;
+        this.remove(innerSub);
+        this.active--;
+        if (buffer && buffer.length > 0) {
+            this._next(buffer.shift());
+        }
+        if (this.hasCompleted && this.active === 0) {
+            this.destination.complete();
+        }
+    };
+    return ExpandSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$43 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var FilterSubscriber = (function (_super) {
+    __extends$43(FilterSubscriber, _super);
+    function FilterSubscriber(destination, predicate, thisArg) {
+        _super.call(this, destination);
+        this.predicate = predicate;
+        this.thisArg = thisArg;
+        this.count = 0;
+    }
+    // the try catch block below is left specifically for
+    // optimization and perf reasons. a tryCatcher is not necessary here.
+    FilterSubscriber.prototype._next = function (value) {
+        var result;
+        try {
+            result = this.predicate.call(this.thisArg, value, this.count++);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        if (result) {
+            this.destination.next(value);
+        }
+    };
+    return FilterSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$44 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var FinallySubscriber = (function (_super) {
+    __extends$44(FinallySubscriber, _super);
+    function FinallySubscriber(destination, callback) {
+        _super.call(this, destination);
+        this.add(new Subscription_1.Subscription(callback));
+    }
+    return FinallySubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$45 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var FindValueSubscriber = (function (_super) {
+    __extends$45(FindValueSubscriber, _super);
+    function FindValueSubscriber(destination, predicate, source, yieldIndex, thisArg) {
+        _super.call(this, destination);
+        this.predicate = predicate;
+        this.source = source;
+        this.yieldIndex = yieldIndex;
+        this.thisArg = thisArg;
+        this.index = 0;
+    }
+    FindValueSubscriber.prototype.notifyComplete = function (value) {
+        var destination = this.destination;
+        destination.next(value);
+        destination.complete();
+    };
+    FindValueSubscriber.prototype._next = function (value) {
+        var _a = this, predicate = _a.predicate, thisArg = _a.thisArg;
+        var index$$1 = this.index++;
+        try {
+            var result = predicate.call(thisArg || this, value, index$$1, this.source);
+            if (result) {
+                this.notifyComplete(this.yieldIndex ? index$$1 : value);
+            }
+        }
+        catch (err) {
+            this.destination.error(err);
+        }
+    };
+    FindValueSubscriber.prototype._complete = function () {
+        this.notifyComplete(this.yieldIndex ? -1 : undefined);
+    };
+    return FindValueSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$48 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * An error thrown when an action is invalid because the object has been
+ * unsubscribed.
+ *
+ * @see {@link Subject}
+ * @see {@link BehaviorSubject}
+ *
+ * @class ObjectUnsubscribedError
+ */
+var ObjectUnsubscribedError = (function (_super) {
+    __extends$48(ObjectUnsubscribedError, _super);
+    function ObjectUnsubscribedError() {
+        var err = _super.call(this, 'object unsubscribed');
+        this.name = err.name = 'ObjectUnsubscribedError';
+        this.stack = err.stack;
+        this.message = err.message;
+    }
+    return ObjectUnsubscribedError;
+}(Error));
+var ObjectUnsubscribedError_2 = ObjectUnsubscribedError;
+var ObjectUnsubscribedError_1 = {
+    ObjectUnsubscribedError: ObjectUnsubscribedError_2
+};
+var __extends$49 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SubjectSubscription = (function (_super) {
+    __extends$49(SubjectSubscription, _super);
+    function SubjectSubscription(subject, subscriber) {
+        _super.call(this);
+        this.subject = subject;
+        this.subscriber = subscriber;
+        this.closed = false;
+    }
+    SubjectSubscription.prototype.unsubscribe = function () {
+        if (this.closed) {
+            return;
+        }
+        this.closed = true;
+        var subject = this.subject;
+        var observers = subject.observers;
+        this.subject = null;
+        if (!observers || observers.length === 0 || subject.isStopped || subject.closed) {
+            return;
+        }
+        var subscriberIndex = observers.indexOf(this.subscriber);
+        if (subscriberIndex !== -1) {
+            observers.splice(subscriberIndex, 1);
+        }
+    };
+    return SubjectSubscription;
+}(Subscription_1.Subscription));
+var SubjectSubscription_2 = SubjectSubscription;
+var SubjectSubscription_1 = {
+    SubjectSubscription: SubjectSubscription_2
+};
+var __extends$47 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * @class SubjectSubscriber<T>
+ */
+var SubjectSubscriber = (function (_super) {
+    __extends$47(SubjectSubscriber, _super);
+    function SubjectSubscriber(destination) {
+        _super.call(this, destination);
+        this.destination = destination;
+    }
+    return SubjectSubscriber;
+}(Subscriber_1.Subscriber));
+var SubjectSubscriber_1 = SubjectSubscriber;
+/**
+ * @class Subject<T>
+ */
+var Subject = (function (_super) {
+    __extends$47(Subject, _super);
+    function Subject() {
+        _super.call(this);
+        this.observers = [];
+        this.closed = false;
+        this.isStopped = false;
+        this.hasError = false;
+        this.thrownError = null;
+    }
+    Subject.prototype[rxSubscriber.rxSubscriber] = function () {
+        return new SubjectSubscriber(this);
+    };
+    Subject.prototype.lift = function (operator) {
+        var subject = new AnonymousSubject(this, this);
+        subject.operator = operator;
+        return subject;
+    };
+    Subject.prototype.next = function (value) {
+        if (this.closed) {
+            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+        }
+        if (!this.isStopped) {
+            var observers = this.observers;
+            var len = observers.length;
+            var copy = observers.slice();
+            for (var i = 0; i < len; i++) {
+                copy[i].next(value);
+            }
+        }
+    };
+    Subject.prototype.error = function (err) {
+        if (this.closed) {
+            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+        }
+        this.hasError = true;
+        this.thrownError = err;
+        this.isStopped = true;
+        var observers = this.observers;
+        var len = observers.length;
+        var copy = observers.slice();
+        for (var i = 0; i < len; i++) {
+            copy[i].error(err);
+        }
+        this.observers.length = 0;
+    };
+    Subject.prototype.complete = function () {
+        if (this.closed) {
+            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+        }
+        this.isStopped = true;
+        var observers = this.observers;
+        var len = observers.length;
+        var copy = observers.slice();
+        for (var i = 0; i < len; i++) {
+            copy[i].complete();
+        }
+        this.observers.length = 0;
+    };
+    Subject.prototype.unsubscribe = function () {
+        this.isStopped = true;
+        this.closed = true;
+        this.observers = null;
+    };
+    Subject.prototype._trySubscribe = function (subscriber) {
+        if (this.closed) {
+            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+        }
+        else {
+            return _super.prototype._trySubscribe.call(this, subscriber);
+        }
+    };
+    Subject.prototype._subscribe = function (subscriber) {
+        if (this.closed) {
+            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+        }
+        else if (this.hasError) {
+            subscriber.error(this.thrownError);
+            return Subscription_1.Subscription.EMPTY;
+        }
+        else if (this.isStopped) {
+            subscriber.complete();
+            return Subscription_1.Subscription.EMPTY;
+        }
+        else {
+            this.observers.push(subscriber);
+            return new SubjectSubscription_1.SubjectSubscription(this, subscriber);
+        }
+    };
+    Subject.prototype.asObservable = function () {
+        var observable = new Observable_1.Observable();
+        observable.source = this;
+        return observable;
+    };
+    Subject.create = function (destination, source) {
+        return new AnonymousSubject(destination, source);
+    };
+    return Subject;
+}(Observable_1.Observable));
+var Subject_2 = Subject;
+/**
+ * @class AnonymousSubject<T>
+ */
+var AnonymousSubject = (function (_super) {
+    __extends$47(AnonymousSubject, _super);
+    function AnonymousSubject(destination, source) {
+        _super.call(this);
+        this.destination = destination;
+        this.source = source;
+    }
+    AnonymousSubject.prototype.next = function (value) {
+        var destination = this.destination;
+        if (destination && destination.next) {
+            destination.next(value);
+        }
+    };
+    AnonymousSubject.prototype.error = function (err) {
+        var destination = this.destination;
+        if (destination && destination.error) {
+            this.destination.error(err);
+        }
+    };
+    AnonymousSubject.prototype.complete = function () {
+        var destination = this.destination;
+        if (destination && destination.complete) {
+            this.destination.complete();
+        }
+    };
+    AnonymousSubject.prototype._subscribe = function (subscriber) {
+        var source = this.source;
+        if (source) {
+            return this.source.subscribe(subscriber);
+        }
+        else {
+            return Subscription_1.Subscription.EMPTY;
+        }
+    };
+    return AnonymousSubject;
+}(Subject));
+var AnonymousSubject_1 = AnonymousSubject;
+var Subject_1 = {
+    SubjectSubscriber: SubjectSubscriber_1,
+    Subject: Subject_2,
+    AnonymousSubject: AnonymousSubject_1
+};
+var MapPolyfill = (function () {
+    function MapPolyfill() {
+        this.size = 0;
+        this._values = [];
+        this._keys = [];
+    }
+    MapPolyfill.prototype.get = function (key) {
+        var i = this._keys.indexOf(key);
+        return i === -1 ? undefined : this._values[i];
+    };
+    MapPolyfill.prototype.set = function (key, value) {
+        var i = this._keys.indexOf(key);
+        if (i === -1) {
+            this._keys.push(key);
+            this._values.push(value);
+            this.size++;
+        }
+        else {
+            this._values[i] = value;
+        }
+        return this;
+    };
+    MapPolyfill.prototype.delete = function (key) {
+        var i = this._keys.indexOf(key);
+        if (i === -1) {
+            return false;
+        }
+        this._values.splice(i, 1);
+        this._keys.splice(i, 1);
+        this.size--;
+        return true;
+    };
+    MapPolyfill.prototype.clear = function () {
+        this._keys.length = 0;
+        this._values.length = 0;
+        this.size = 0;
+    };
+    MapPolyfill.prototype.forEach = function (cb, thisArg) {
+        for (var i = 0; i < this.size; i++) {
+            cb.call(thisArg, this._values[i], this._keys[i]);
+        }
+    };
+    return MapPolyfill;
+}());
+var MapPolyfill_2 = MapPolyfill;
+var MapPolyfill_1 = {
+    MapPolyfill: MapPolyfill_2
+};
+var Map$1 = root.root.Map || (function () { return MapPolyfill_1.MapPolyfill; })();
+var _Map = {
+    Map: Map$1
+};
+var FastMap = (function () {
+    function FastMap() {
+        this.values = {};
+    }
+    FastMap.prototype.delete = function (key) {
+        this.values[key] = null;
+        return true;
+    };
+    FastMap.prototype.set = function (key, value) {
+        this.values[key] = value;
+        return this;
+    };
+    FastMap.prototype.get = function (key) {
+        return this.values[key];
+    };
+    FastMap.prototype.forEach = function (cb, thisArg) {
+        var values = this.values;
+        for (var key in values) {
+            if (values.hasOwnProperty(key) && values[key] !== null) {
+                cb.call(thisArg, values[key], key);
+            }
+        }
+    };
+    FastMap.prototype.clear = function () {
+        this.values = {};
+    };
+    return FastMap;
+}());
+var FastMap_2 = FastMap;
+var FastMap_1 = {
+    FastMap: FastMap_2
+};
+var __extends$46 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var GroupBySubscriber = (function (_super) {
+    __extends$46(GroupBySubscriber, _super);
+    function GroupBySubscriber(destination, keySelector, elementSelector, durationSelector, subjectSelector) {
+        _super.call(this, destination);
+        this.keySelector = keySelector;
+        this.elementSelector = elementSelector;
+        this.durationSelector = durationSelector;
+        this.subjectSelector = subjectSelector;
+        this.groups = null;
+        this.attemptedToUnsubscribe = false;
+        this.count = 0;
+    }
+    GroupBySubscriber.prototype._next = function (value) {
+        var key;
+        try {
+            key = this.keySelector(value);
+        }
+        catch (err) {
+            this.error(err);
+            return;
+        }
+        this._group(value, key);
+    };
+    GroupBySubscriber.prototype._group = function (value, key) {
+        var groups = this.groups;
+        if (!groups) {
+            groups = this.groups = typeof key === 'string' ? new FastMap_1.FastMap() : new _Map.Map();
+        }
+        var group = groups.get(key);
+        var element;
+        if (this.elementSelector) {
+            try {
+                element = this.elementSelector(value);
+            }
+            catch (err) {
+                this.error(err);
+            }
+        }
+        else {
+            element = value;
+        }
+        if (!group) {
+            group = this.subjectSelector ? this.subjectSelector() : new Subject_1.Subject();
+            groups.set(key, group);
+            var groupedObservable = new GroupedObservable(key, group, this);
+            this.destination.next(groupedObservable);
+            if (this.durationSelector) {
+                var duration = void 0;
+                try {
+                    duration = this.durationSelector(new GroupedObservable(key, group));
+                }
+                catch (err) {
+                    this.error(err);
+                    return;
+                }
+                this.add(duration.subscribe(new GroupDurationSubscriber(key, group, this)));
+            }
+        }
+        if (!group.closed) {
+            group.next(element);
+        }
+    };
+    GroupBySubscriber.prototype._error = function (err) {
+        var groups = this.groups;
+        if (groups) {
+            groups.forEach(function (group, key) {
+                group.error(err);
+            });
+            groups.clear();
+        }
+        this.destination.error(err);
+    };
+    GroupBySubscriber.prototype._complete = function () {
+        var groups = this.groups;
+        if (groups) {
+            groups.forEach(function (group, key) {
+                group.complete();
+            });
+            groups.clear();
+        }
+        this.destination.complete();
+    };
+    GroupBySubscriber.prototype.removeGroup = function (key) {
+        this.groups.delete(key);
+    };
+    GroupBySubscriber.prototype.unsubscribe = function () {
+        if (!this.closed) {
+            this.attemptedToUnsubscribe = true;
+            if (this.count === 0) {
+                _super.prototype.unsubscribe.call(this);
+            }
+        }
+    };
+    return GroupBySubscriber;
+}(Subscriber_1.Subscriber));
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var GroupDurationSubscriber = (function (_super) {
+    __extends$46(GroupDurationSubscriber, _super);
+    function GroupDurationSubscriber(key, group, parent) {
+        _super.call(this, group);
+        this.key = key;
+        this.group = group;
+        this.parent = parent;
+    }
+    GroupDurationSubscriber.prototype._next = function (value) {
+        this.complete();
+    };
+    GroupDurationSubscriber.prototype._unsubscribe = function () {
+        var _a = this, parent = _a.parent, key = _a.key;
+        this.key = this.parent = null;
+        if (parent) {
+            parent.removeGroup(key);
+        }
+    };
+    return GroupDurationSubscriber;
+}(Subscriber_1.Subscriber));
+/**
+ * An Observable representing values belonging to the same group represented by
+ * a common key. The values emitted by a GroupedObservable come from the source
+ * Observable. The common key is available as the field `key` on a
+ * GroupedObservable instance.
+ *
+ * @class GroupedObservable<K, T>
+ */
+var GroupedObservable = (function (_super) {
+    __extends$46(GroupedObservable, _super);
+    function GroupedObservable(key, groupSubject, refCountSubscription) {
+        _super.call(this);
+        this.key = key;
+        this.groupSubject = groupSubject;
+        this.refCountSubscription = refCountSubscription;
+    }
+    GroupedObservable.prototype._subscribe = function (subscriber) {
+        var subscription = new Subscription_1.Subscription();
+        var _a = this, refCountSubscription = _a.refCountSubscription, groupSubject = _a.groupSubject;
+        if (refCountSubscription && !refCountSubscription.closed) {
+            subscription.add(new InnerRefCountSubscription(refCountSubscription));
+        }
+        subscription.add(groupSubject.subscribe(subscriber));
+        return subscription;
+    };
+    return GroupedObservable;
+}(Observable_1.Observable));
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var InnerRefCountSubscription = (function (_super) {
+    __extends$46(InnerRefCountSubscription, _super);
+    function InnerRefCountSubscription(parent) {
+        _super.call(this);
+        this.parent = parent;
+        parent.count++;
+    }
+    InnerRefCountSubscription.prototype.unsubscribe = function () {
+        var parent = this.parent;
+        if (!parent.closed && !this.closed) {
+            _super.prototype.unsubscribe.call(this);
+            parent.count -= 1;
+            if (parent.count === 0 && parent.attemptedToUnsubscribe) {
+                parent.unsubscribe();
+            }
+        }
+    };
+    return InnerRefCountSubscription;
+}(Subscription_1.Subscription));
+var __extends$50 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var IgnoreElementsSubscriber = (function (_super) {
+    __extends$50(IgnoreElementsSubscriber, _super);
+    function IgnoreElementsSubscriber() {
+        _super.apply(this, arguments);
+    }
+    IgnoreElementsSubscriber.prototype._next = function (unused) {
+        noop_1.noop();
+    };
+    return IgnoreElementsSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$51 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var IsEmptySubscriber = (function (_super) {
+    __extends$51(IsEmptySubscriber, _super);
+    function IsEmptySubscriber(destination) {
+        _super.call(this, destination);
+    }
+    IsEmptySubscriber.prototype.notifyComplete = function (isEmpty) {
+        var destination = this.destination;
+        destination.next(isEmpty);
+        destination.complete();
+    };
+    IsEmptySubscriber.prototype._next = function (value) {
+        this.notifyComplete(false);
+    };
+    IsEmptySubscriber.prototype._complete = function () {
+        this.notifyComplete(true);
+    };
+    return IsEmptySubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$52 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var LastSubscriber = (function (_super) {
+    __extends$52(LastSubscriber, _super);
+    function LastSubscriber(destination, predicate, resultSelector, defaultValue, source) {
+        _super.call(this, destination);
+        this.predicate = predicate;
+        this.resultSelector = resultSelector;
+        this.defaultValue = defaultValue;
+        this.source = source;
+        this.hasValue = false;
+        this.index = 0;
+        if (typeof defaultValue !== 'undefined') {
+            this.lastValue = defaultValue;
+            this.hasValue = true;
+        }
+    }
+    LastSubscriber.prototype._next = function (value) {
+        var index$$1 = this.index++;
+        if (this.predicate) {
+            this._tryPredicate(value, index$$1);
+        }
+        else {
+            if (this.resultSelector) {
+                this._tryResultSelector(value, index$$1);
+                return;
+            }
+            this.lastValue = value;
+            this.hasValue = true;
+        }
+    };
+    LastSubscriber.prototype._tryPredicate = function (value, index$$1) {
+        var result;
+        try {
+            result = this.predicate(value, index$$1, this.source);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        if (result) {
+            if (this.resultSelector) {
+                this._tryResultSelector(value, index$$1);
+                return;
+            }
+            this.lastValue = value;
+            this.hasValue = true;
+        }
+    };
+    LastSubscriber.prototype._tryResultSelector = function (value, index$$1) {
+        var result;
+        try {
+            result = this.resultSelector(value, index$$1);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        this.lastValue = result;
+        this.hasValue = true;
+    };
+    LastSubscriber.prototype._complete = function () {
+        var destination = this.destination;
+        if (this.hasValue) {
+            destination.next(this.lastValue);
+            destination.complete();
+        }
+        else {
+            destination.error(new EmptyError_1.EmptyError);
+        }
+    };
+    return LastSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$53 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * Applies a given `project` function to each value emitted by the source
+ * Observable, and emits the resulting values as an Observable.
+ *
+ * <span class="informal">Like [Array.prototype.map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map),
+ * it passes each source value through a transformation function to get
+ * corresponding output values.</span>
+ *
+ * <img src="./img/map.png" width="100%">
+ *
+ * Similar to the well known `Array.prototype.map` function, this operator
+ * applies a projection to each value and emits that projection in the output
+ * Observable.
+ *
+ * @example <caption>Map every click to the clientX position of that click</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var positions = clicks.map(ev => ev.clientX);
+ * positions.subscribe(x => console.log(x));
+ *
+ * @see {@link mapTo}
+ * @see {@link pluck}
+ *
+ * @param {function(value: T, index: number): R} project The function to apply
+ * to each `value` emitted by the source Observable. The `index` parameter is
+ * the number `i` for the i-th emission that has happened since the
+ * subscription, starting from the number `0`.
+ * @param {any} [thisArg] An optional argument to define what `this` is in the
+ * `project` function.
+ * @return {Observable<R>} An Observable that emits the values from the source
+ * Observable transformed by the given `project` function.
+ * @method map
+ * @owner Observable
+ */
+function map$2(project, thisArg) {
+    return function mapOperation(source) {
+        if (typeof project !== 'function') {
+            throw new TypeError('argument is not a function. Are you looking for `mapTo()`?');
+        }
+        return source.lift(new MapOperator(project, thisArg));
+    };
+}
+var map_2 = map$2;
+var MapOperator = (function () {
+    function MapOperator(project, thisArg) {
+        this.project = project;
+        this.thisArg = thisArg;
+    }
+    MapOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new MapSubscriber(subscriber, this.project, this.thisArg));
+    };
+    return MapOperator;
+}());
+var MapOperator_1 = MapOperator;
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var MapSubscriber = (function (_super) {
+    __extends$53(MapSubscriber, _super);
+    function MapSubscriber(destination, project, thisArg) {
+        _super.call(this, destination);
+        this.project = project;
+        this.count = 0;
+        this.thisArg = thisArg || this;
+    }
+    // NOTE: This looks unoptimized, but it's actually purposefully NOT
+    // using try/catch optimizations.
+    MapSubscriber.prototype._next = function (value) {
+        var result;
+        try {
+            result = this.project.call(this.thisArg, value, this.count++);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        this.destination.next(result);
+    };
+    return MapSubscriber;
+}(Subscriber_1.Subscriber));
+var map_1 = {
+    map: map_2,
+    MapOperator: MapOperator_1
+};
+var __extends$54 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var MapToSubscriber = (function (_super) {
+    __extends$54(MapToSubscriber, _super);
+    function MapToSubscriber(destination, value) {
+        _super.call(this, destination);
+        this.value = value;
+    }
+    MapToSubscriber.prototype._next = function (x) {
+        this.destination.next(this.value);
+    };
+    return MapToSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$55 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var MaterializeSubscriber = (function (_super) {
+    __extends$55(MaterializeSubscriber, _super);
+    function MaterializeSubscriber(destination) {
+        _super.call(this, destination);
+    }
+    MaterializeSubscriber.prototype._next = function (value) {
+        this.destination.next(Notification_1.Notification.createNext(value));
+    };
+    MaterializeSubscriber.prototype._error = function (err) {
+        var destination = this.destination;
+        destination.next(Notification_1.Notification.createError(err));
+        destination.complete();
+    };
+    MaterializeSubscriber.prototype._complete = function () {
+        var destination = this.destination;
+        destination.next(Notification_1.Notification.createComplete());
+        destination.complete();
+    };
+    return MaterializeSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$56 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var ScanSubscriber = (function (_super) {
+    __extends$56(ScanSubscriber, _super);
+    function ScanSubscriber(destination, accumulator, _seed, hasSeed) {
+        _super.call(this, destination);
+        this.accumulator = accumulator;
+        this._seed = _seed;
+        this.hasSeed = hasSeed;
+        this.index = 0;
+    }
+    Object.defineProperty(ScanSubscriber.prototype, "seed", {
+        get: function () {
+            return this._seed;
+        },
+        set: function (value) {
+            this.hasSeed = true;
+            this._seed = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ScanSubscriber.prototype._next = function (value) {
+        if (!this.hasSeed) {
+            this.seed = value;
+            this.destination.next(value);
+        }
+        else {
+            return this._tryNext(value);
+        }
+    };
+    ScanSubscriber.prototype._tryNext = function (value) {
+        var index$$1 = this.index++;
+        var result;
+        try {
+            result = this.accumulator(this.seed, value, index$$1);
+        }
+        catch (err) {
+            this.destination.error(err);
+        }
+        this.seed = result;
+        this.destination.next(result);
+    };
+    return ScanSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$57 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TakeLastSubscriber = (function (_super) {
+    __extends$57(TakeLastSubscriber, _super);
+    function TakeLastSubscriber(destination, total) {
+        _super.call(this, destination);
+        this.total = total;
+        this.ring = new Array();
+        this.count = 0;
+    }
+    TakeLastSubscriber.prototype._next = function (value) {
+        var ring = this.ring;
+        var total = this.total;
+        var count = this.count++;
+        if (ring.length < total) {
+            ring.push(value);
+        }
+        else {
+            var index$$1 = count % total;
+            ring[index$$1] = value;
+        }
+    };
+    TakeLastSubscriber.prototype._complete = function () {
+        var destination = this.destination;
+        var count = this.count;
+        if (count > 0) {
+            var total = this.count >= this.total ? this.total : this.count;
+            var ring = this.ring;
+            for (var i = 0; i < total; i++) {
+                var idx = (count++) % total;
+                destination.next(ring[idx]);
+            }
+        }
+        destination.complete();
+    };
+    return TakeLastSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$58 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var MergeMapToSubscriber = (function (_super) {
+    __extends$58(MergeMapToSubscriber, _super);
+    function MergeMapToSubscriber(destination, ish, resultSelector, concurrent) {
+        if (concurrent === void 0) {
+            concurrent = Number.POSITIVE_INFINITY;
+        }
+        _super.call(this, destination);
+        this.ish = ish;
+        this.resultSelector = resultSelector;
+        this.concurrent = concurrent;
+        this.hasCompleted = false;
+        this.buffer = [];
+        this.active = 0;
+        this.index = 0;
+    }
+    MergeMapToSubscriber.prototype._next = function (value) {
+        if (this.active < this.concurrent) {
+            var resultSelector = this.resultSelector;
+            var index$$1 = this.index++;
+            var ish = this.ish;
+            var destination = this.destination;
+            this.active++;
+            this._innerSub(ish, destination, resultSelector, value, index$$1);
+        }
+        else {
+            this.buffer.push(value);
+        }
+    };
+    MergeMapToSubscriber.prototype._innerSub = function (ish, destination, resultSelector, value, index$$1) {
+        this.add(subscribeToResult_1.subscribeToResult(this, ish, value, index$$1));
+    };
+    MergeMapToSubscriber.prototype._complete = function () {
+        this.hasCompleted = true;
+        if (this.active === 0 && this.buffer.length === 0) {
+            this.destination.complete();
+        }
+    };
+    MergeMapToSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        var _a = this, resultSelector = _a.resultSelector, destination = _a.destination;
+        if (resultSelector) {
+            this.trySelectResult(outerValue, innerValue, outerIndex, innerIndex);
+        }
+        else {
+            destination.next(innerValue);
+        }
+    };
+    MergeMapToSubscriber.prototype.trySelectResult = function (outerValue, innerValue, outerIndex, innerIndex) {
+        var _a = this, resultSelector = _a.resultSelector, destination = _a.destination;
+        var result;
+        try {
+            result = resultSelector(outerValue, innerValue, outerIndex, innerIndex);
+        }
+        catch (err) {
+            destination.error(err);
+            return;
+        }
+        destination.next(result);
+    };
+    MergeMapToSubscriber.prototype.notifyError = function (err) {
+        this.destination.error(err);
+    };
+    MergeMapToSubscriber.prototype.notifyComplete = function (innerSub) {
+        var buffer = this.buffer;
+        this.remove(innerSub);
+        this.active--;
+        if (buffer.length > 0) {
+            this._next(buffer.shift());
+        }
+        else if (this.active === 0 && this.hasCompleted) {
+            this.destination.complete();
+        }
+    };
+    return MergeMapToSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$59 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var MergeScanSubscriber = (function (_super) {
+    __extends$59(MergeScanSubscriber, _super);
+    function MergeScanSubscriber(destination, accumulator, acc, concurrent) {
+        _super.call(this, destination);
+        this.accumulator = accumulator;
+        this.acc = acc;
+        this.concurrent = concurrent;
+        this.hasValue = false;
+        this.hasCompleted = false;
+        this.buffer = [];
+        this.active = 0;
+        this.index = 0;
+    }
+    MergeScanSubscriber.prototype._next = function (value) {
+        if (this.active < this.concurrent) {
+            var index$$1 = this.index++;
+            var ish = tryCatch_1.tryCatch(this.accumulator)(this.acc, value);
+            var destination = this.destination;
+            if (ish === errorObject.errorObject) {
+                destination.error(errorObject.errorObject.e);
+            }
+            else {
+                this.active++;
+                this._innerSub(ish, value, index$$1);
+            }
+        }
+        else {
+            this.buffer.push(value);
+        }
+    };
+    MergeScanSubscriber.prototype._innerSub = function (ish, value, index$$1) {
+        this.add(subscribeToResult_1.subscribeToResult(this, ish, value, index$$1));
+    };
+    MergeScanSubscriber.prototype._complete = function () {
+        this.hasCompleted = true;
+        if (this.active === 0 && this.buffer.length === 0) {
+            if (this.hasValue === false) {
+                this.destination.next(this.acc);
+            }
+            this.destination.complete();
+        }
+    };
+    MergeScanSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        var destination = this.destination;
+        this.acc = innerValue;
+        this.hasValue = true;
+        destination.next(innerValue);
+    };
+    MergeScanSubscriber.prototype.notifyComplete = function (innerSub) {
+        var buffer = this.buffer;
+        this.remove(innerSub);
+        this.active--;
+        if (buffer.length > 0) {
+            this._next(buffer.shift());
+        }
+        else if (this.active === 0 && this.hasCompleted) {
+            if (this.hasValue === false) {
+                this.destination.next(this.acc);
+            }
+            this.destination.complete();
+        }
+    };
+    return MergeScanSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$61 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+function refCount$1() {
+    return function refCountOperatorFunction(source) {
+        return source.lift(new RefCountOperator$1(source));
+    };
+}
+var refCount_2 = refCount$1;
+var RefCountOperator$1 = (function () {
+    function RefCountOperator(connectable) {
+        this.connectable = connectable;
+    }
+    RefCountOperator.prototype.call = function (subscriber, source) {
+        var connectable = this.connectable;
+        connectable._refCount++;
+        var refCounter = new RefCountSubscriber$1(subscriber, connectable);
+        var subscription = source.subscribe(refCounter);
+        if (!refCounter.closed) {
+            refCounter.connection = connectable.connect();
+        }
+        return subscription;
+    };
+    return RefCountOperator;
+}());
+var RefCountSubscriber$1 = (function (_super) {
+    __extends$61(RefCountSubscriber, _super);
+    function RefCountSubscriber(destination, connectable) {
+        _super.call(this, destination);
+        this.connectable = connectable;
+    }
+    RefCountSubscriber.prototype._unsubscribe = function () {
+        var connectable = this.connectable;
+        if (!connectable) {
+            this.connection = null;
+            return;
+        }
+        this.connectable = null;
+        var refCount = connectable._refCount;
+        if (refCount <= 0) {
+            this.connection = null;
+            return;
+        }
+        connectable._refCount = refCount - 1;
+        if (refCount > 1) {
+            this.connection = null;
+            return;
+        }
+        ///
+        // Compare the local RefCountSubscriber's connection Subscription to the
+        // connection Subscription on the shared ConnectableObservable. In cases
+        // where the ConnectableObservable source synchronously emits values, and
+        // the RefCountSubscriber's downstream Observers synchronously unsubscribe,
+        // execution continues to here before the RefCountOperator has a chance to
+        // supply the RefCountSubscriber with the shared connection Subscription.
+        // For example:
+        // ```
+        // Observable.range(0, 10)
+        //   .publish()
+        //   .refCount()
+        //   .take(5)
+        //   .subscribe();
+        // ```
+        // In order to account for this case, RefCountSubscriber should only dispose
+        // the ConnectableObservable's shared connection Subscription if the
+        // connection Subscription exists, *and* either:
+        //   a. RefCountSubscriber doesn't have a reference to the shared connection
+        //      Subscription yet, or,
+        //   b. RefCountSubscriber's connection Subscription reference is identical
+        //      to the shared connection Subscription
+        ///
+        var connection = this.connection;
+        var sharedConnection = connectable._connection;
+        this.connection = null;
+        if (sharedConnection && (!connection || sharedConnection === connection)) {
+            sharedConnection.unsubscribe();
+        }
+    };
+    return RefCountSubscriber;
+}(Subscriber_1.Subscriber));
+var refCount_1 = {
+    refCount: refCount_2
+};
+var __extends$60 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * @class ConnectableObservable<T>
+ */
+var ConnectableObservable = (function (_super) {
+    __extends$60(ConnectableObservable, _super);
+    function ConnectableObservable(source, subjectFactory) {
+        _super.call(this);
+        this.source = source;
+        this.subjectFactory = subjectFactory;
+        this._refCount = 0;
+        this._isComplete = false;
+    }
+    ConnectableObservable.prototype._subscribe = function (subscriber) {
+        return this.getSubject().subscribe(subscriber);
+    };
+    ConnectableObservable.prototype.getSubject = function () {
+        var subject = this._subject;
+        if (!subject || subject.isStopped) {
+            this._subject = this.subjectFactory();
+        }
+        return this._subject;
+    };
+    ConnectableObservable.prototype.connect = function () {
+        var connection = this._connection;
+        if (!connection) {
+            this._isComplete = false;
+            connection = this._connection = new Subscription_1.Subscription();
+            connection.add(this.source
+                .subscribe(new ConnectableSubscriber(this.getSubject(), this)));
+            if (connection.closed) {
+                this._connection = null;
+                connection = Subscription_1.Subscription.EMPTY;
+            }
+            else {
+                this._connection = connection;
+            }
+        }
+        return connection;
+    };
+    ConnectableObservable.prototype.refCount = function () {
+        return refCount_1.refCount()(this);
+    };
+    return ConnectableObservable;
+}(Observable_1.Observable));
+var ConnectableSubscriber = (function (_super) {
+    __extends$60(ConnectableSubscriber, _super);
+    function ConnectableSubscriber(destination, connectable) {
+        _super.call(this, destination);
+        this.connectable = connectable;
+    }
+    ConnectableSubscriber.prototype._error = function (err) {
+        this._unsubscribe();
+        _super.prototype._error.call(this, err);
+    };
+    ConnectableSubscriber.prototype._complete = function () {
+        this.connectable._isComplete = true;
+        this._unsubscribe();
+        _super.prototype._complete.call(this);
+    };
+    ConnectableSubscriber.prototype._unsubscribe = function () {
+        var connectable = this.connectable;
+        if (connectable) {
+            this.connectable = null;
+            var connection = connectable._connection;
+            connectable._refCount = 0;
+            connectable._subject = null;
+            connectable._connection = null;
+            if (connection) {
+                connection.unsubscribe();
+            }
+        }
+    };
+    return ConnectableSubscriber;
+}(Subject_1.SubjectSubscriber));
+var RefCountSubscriber = (function (_super) {
+    __extends$60(RefCountSubscriber, _super);
+    function RefCountSubscriber(destination, connectable) {
+        _super.call(this, destination);
+        this.connectable = connectable;
+    }
+    RefCountSubscriber.prototype._unsubscribe = function () {
+        var connectable = this.connectable;
+        if (!connectable) {
+            this.connection = null;
+            return;
+        }
+        this.connectable = null;
+        var refCount = connectable._refCount;
+        if (refCount <= 0) {
+            this.connection = null;
+            return;
+        }
+        connectable._refCount = refCount - 1;
+        if (refCount > 1) {
+            this.connection = null;
+            return;
+        }
+        ///
+        // Compare the local RefCountSubscriber's connection Subscription to the
+        // connection Subscription on the shared ConnectableObservable. In cases
+        // where the ConnectableObservable source synchronously emits values, and
+        // the RefCountSubscriber's downstream Observers synchronously unsubscribe,
+        // execution continues to here before the RefCountOperator has a chance to
+        // supply the RefCountSubscriber with the shared connection Subscription.
+        // For example:
+        // ```
+        // Observable.range(0, 10)
+        //   .publish()
+        //   .refCount()
+        //   .take(5)
+        //   .subscribe();
+        // ```
+        // In order to account for this case, RefCountSubscriber should only dispose
+        // the ConnectableObservable's shared connection Subscription if the
+        // connection Subscription exists, *and* either:
+        //   a. RefCountSubscriber doesn't have a reference to the shared connection
+        //      Subscription yet, or,
+        //   b. RefCountSubscriber's connection Subscription reference is identical
+        //      to the shared connection Subscription
+        ///
+        var connection = this.connection;
+        var sharedConnection = connectable._connection;
+        this.connection = null;
+        if (sharedConnection && (!connection || sharedConnection === connection)) {
+            sharedConnection.unsubscribe();
+        }
+    };
+    return RefCountSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$62 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var OnErrorResumeNextSubscriber = (function (_super) {
+    __extends$62(OnErrorResumeNextSubscriber, _super);
+    function OnErrorResumeNextSubscriber(destination, nextSources) {
+        _super.call(this, destination);
+        this.destination = destination;
+        this.nextSources = nextSources;
+    }
+    OnErrorResumeNextSubscriber.prototype.notifyError = function (error, innerSub) {
+        this.subscribeToNextSource();
+    };
+    OnErrorResumeNextSubscriber.prototype.notifyComplete = function (innerSub) {
+        this.subscribeToNextSource();
+    };
+    OnErrorResumeNextSubscriber.prototype._error = function (err) {
+        this.subscribeToNextSource();
+    };
+    OnErrorResumeNextSubscriber.prototype._complete = function () {
+        this.subscribeToNextSource();
+    };
+    OnErrorResumeNextSubscriber.prototype.subscribeToNextSource = function () {
+        var next = this.nextSources.shift();
+        if (next) {
+            this.add(subscribeToResult_1.subscribeToResult(this, next));
+        }
+        else {
+            this.destination.complete();
+        }
+    };
+    return OnErrorResumeNextSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$63 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var PairwiseSubscriber = (function (_super) {
+    __extends$63(PairwiseSubscriber, _super);
+    function PairwiseSubscriber(destination) {
+        _super.call(this, destination);
+        this.hasPrev = false;
+    }
+    PairwiseSubscriber.prototype._next = function (value) {
+        if (this.hasPrev) {
+            this.destination.next([this.prev, value]);
+        }
+        else {
+            this.hasPrev = true;
+        }
+        this.prev = value;
+    };
+    return PairwiseSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$64 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * @class BehaviorSubject<T>
+ */
+var BehaviorSubject = (function (_super) {
+    __extends$64(BehaviorSubject, _super);
+    function BehaviorSubject(_value) {
+        _super.call(this);
+        this._value = _value;
+    }
+    Object.defineProperty(BehaviorSubject.prototype, "value", {
+        get: function () {
+            return this.getValue();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    BehaviorSubject.prototype._subscribe = function (subscriber) {
+        var subscription = _super.prototype._subscribe.call(this, subscriber);
+        if (subscription && !subscription.closed) {
+            subscriber.next(this._value);
+        }
+        return subscription;
+    };
+    BehaviorSubject.prototype.getValue = function () {
+        if (this.hasError) {
+            throw this.thrownError;
+        }
+        else if (this.closed) {
+            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+        }
+        else {
+            return this._value;
+        }
+    };
+    BehaviorSubject.prototype.next = function (value) {
+        _super.prototype.next.call(this, this._value = value);
+    };
+    return BehaviorSubject;
+}(Subject_1.Subject));
+var __extends$65 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * @class AsyncSubject<T>
+ */
+var AsyncSubject = (function (_super) {
+    __extends$65(AsyncSubject, _super);
+    function AsyncSubject() {
+        _super.apply(this, arguments);
+        this.value = null;
+        this.hasNext = false;
+        this.hasCompleted = false;
+    }
+    AsyncSubject.prototype._subscribe = function (subscriber) {
+        if (this.hasError) {
+            subscriber.error(this.thrownError);
+            return Subscription_1.Subscription.EMPTY;
+        }
+        else if (this.hasCompleted && this.hasNext) {
+            subscriber.next(this.value);
+            subscriber.complete();
+            return Subscription_1.Subscription.EMPTY;
+        }
+        return _super.prototype._subscribe.call(this, subscriber);
+    };
+    AsyncSubject.prototype.next = function (value) {
+        if (!this.hasCompleted) {
+            this.value = value;
+            this.hasNext = true;
+        }
+    };
+    AsyncSubject.prototype.error = function (error) {
+        if (!this.hasCompleted) {
+            _super.prototype.error.call(this, error);
+        }
+    };
+    AsyncSubject.prototype.complete = function () {
+        this.hasCompleted = true;
+        if (this.hasNext) {
+            _super.prototype.next.call(this, this.value);
+        }
+        _super.prototype.complete.call(this);
+    };
+    return AsyncSubject;
+}(Subject_1.Subject));
+var __extends$67 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var QueueAction = (function (_super) {
+    __extends$67(QueueAction, _super);
+    function QueueAction(scheduler, work) {
+        _super.call(this, scheduler, work);
+        this.scheduler = scheduler;
+        this.work = work;
+    }
+    QueueAction.prototype.schedule = function (state$$1, delay) {
+        if (delay === void 0) {
+            delay = 0;
+        }
+        if (delay > 0) {
+            return _super.prototype.schedule.call(this, state$$1, delay);
+        }
+        this.delay = delay;
+        this.state = state$$1;
+        this.scheduler.flush(this);
+        return this;
+    };
+    QueueAction.prototype.execute = function (state$$1, delay) {
+        return (delay > 0 || this.closed) ?
+            _super.prototype.execute.call(this, state$$1, delay) :
+            this._execute(state$$1, delay);
+    };
+    QueueAction.prototype.requestAsyncId = function (scheduler, id, delay) {
+        if (delay === void 0) {
+            delay = 0;
+        }
+        // If delay exists and is greater than 0, or if the delay is null (the
+        // action wasn't rescheduled) but was originally scheduled as an async
+        // action, then recycle as an async action.
+        if ((delay !== null && delay > 0) || (delay === null && this.delay > 0)) {
+            return _super.prototype.requestAsyncId.call(this, scheduler, id, delay);
+        }
+        // Otherwise flush the scheduler starting with this action.
+        return scheduler.flush(this);
+    };
+    return QueueAction;
+}(AsyncAction_1.AsyncAction));
+var QueueAction_2 = QueueAction;
+var QueueAction_1 = {
+    QueueAction: QueueAction_2
+};
+var __extends$68 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var QueueScheduler = (function (_super) {
+    __extends$68(QueueScheduler, _super);
+    function QueueScheduler() {
+        _super.apply(this, arguments);
+    }
+    return QueueScheduler;
+}(AsyncScheduler_1.AsyncScheduler));
+var QueueScheduler_2 = QueueScheduler;
+var QueueScheduler_1 = {
+    QueueScheduler: QueueScheduler_2
+};
+/**
+ *
+ * Queue Scheduler
+ *
+ * <span class="informal">Put every next task on a queue, instead of executing it immediately</span>
+ *
+ * `queue` scheduler, when used with delay, behaves the same as {@link async} scheduler.
+ *
+ * When used without delay, it schedules given task synchronously - executes it right when
+ * it is scheduled. However when called recursively, that is when inside the scheduled task,
+ * another task is scheduled with queue scheduler, instead of executing immediately as well,
+ * that task will be put on a queue and wait for current one to finish.
+ *
+ * This means that when you execute task with `queue` scheduler, you are sure it will end
+ * before any other task scheduled with that scheduler will start.
+ *
+ * @examples <caption>Schedule recursively first, then do something</caption>
+ *
+ * Rx.Scheduler.queue.schedule(() => {
+ *   Rx.Scheduler.queue.schedule(() => console.log('second')); // will not happen now, but will be put on a queue
+ *
+ *   console.log('first');
+ * });
+ *
+ * // Logs:
+ * // "first"
+ * // "second"
+ *
+ *
+ * @example <caption>Reschedule itself recursively</caption>
+ *
+ * Rx.Scheduler.queue.schedule(function(state) {
+ *   if (state !== 0) {
+ *     console.log('before', state);
+ *     this.schedule(state - 1); // `this` references currently executing Action,
+ *                               // which we reschedule with new state
+ *     console.log('after', state);
+ *   }
+ * }, 0, 3);
+ *
+ * // In scheduler that runs recursively, you would expect:
+ * // "before", 3
+ * // "before", 2
+ * // "before", 1
+ * // "after", 1
+ * // "after", 2
+ * // "after", 3
+ *
+ * // But with queue it logs:
+ * // "before", 3
+ * // "after", 3
+ * // "before", 2
+ * // "after", 2
+ * // "before", 1
+ * // "after", 1
+ *
+ *
+ * @static true
+ * @name queue
+ * @owner Scheduler
+ */
+var queue_1 = new QueueScheduler_1.QueueScheduler(QueueAction_1.QueueAction);
+var queue = {
+    queue: queue_1
+};
+var __extends$66 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * @class ReplaySubject<T>
+ */
+var ReplaySubject$2 = (function (_super) {
+    __extends$66(ReplaySubject$$1, _super);
+    function ReplaySubject$$1(bufferSize, windowTime, scheduler) {
+        if (bufferSize === void 0) {
+            bufferSize = Number.POSITIVE_INFINITY;
+        }
+        if (windowTime === void 0) {
+            windowTime = Number.POSITIVE_INFINITY;
+        }
+        _super.call(this);
+        this.scheduler = scheduler;
+        this._events = [];
+        this._bufferSize = bufferSize < 1 ? 1 : bufferSize;
+        this._windowTime = windowTime < 1 ? 1 : windowTime;
+    }
+    ReplaySubject$$1.prototype.next = function (value) {
+        var now = this._getNow();
+        this._events.push(new ReplayEvent(now, value));
+        this._trimBufferThenGetEvents();
+        _super.prototype.next.call(this, value);
+    };
+    ReplaySubject$$1.prototype._subscribe = function (subscriber) {
+        var _events = this._trimBufferThenGetEvents();
+        var scheduler = this.scheduler;
+        var subscription;
+        if (this.closed) {
+            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+        }
+        else if (this.hasError) {
+            subscription = Subscription_1.Subscription.EMPTY;
+        }
+        else if (this.isStopped) {
+            subscription = Subscription_1.Subscription.EMPTY;
+        }
+        else {
+            this.observers.push(subscriber);
+            subscription = new SubjectSubscription_1.SubjectSubscription(this, subscriber);
+        }
+        if (scheduler) {
+            subscriber.add(subscriber = new observeOn_1.ObserveOnSubscriber(subscriber, scheduler));
+        }
+        var len = _events.length;
+        for (var i = 0; i < len && !subscriber.closed; i++) {
+            subscriber.next(_events[i].value);
+        }
+        if (this.hasError) {
+            subscriber.error(this.thrownError);
+        }
+        else if (this.isStopped) {
+            subscriber.complete();
+        }
+        return subscription;
+    };
+    ReplaySubject$$1.prototype._getNow = function () {
+        return (this.scheduler || queue.queue).now();
+    };
+    ReplaySubject$$1.prototype._trimBufferThenGetEvents = function () {
+        var now = this._getNow();
+        var _bufferSize = this._bufferSize;
+        var _windowTime = this._windowTime;
+        var _events = this._events;
+        var eventsCount = _events.length;
+        var spliceCount = 0;
+        // Trim events that fall out of the time window.
+        // Start at the front of the list. Break early once
+        // we encounter an event that falls within the window.
+        while (spliceCount < eventsCount) {
+            if ((now - _events[spliceCount].time) < _windowTime) {
+                break;
+            }
+            spliceCount++;
+        }
+        if (eventsCount > _bufferSize) {
+            spliceCount = Math.max(spliceCount, eventsCount - _bufferSize);
+        }
+        if (spliceCount > 0) {
+            _events.splice(0, spliceCount);
+        }
+        return _events;
+    };
+    return ReplaySubject$$1;
+}(Subject_1.Subject));
+var ReplayEvent = (function () {
+    function ReplayEvent(time, value) {
+        this.time = time;
+        this.value = value;
+    }
+    return ReplayEvent;
+}());
+var __extends$69 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var RaceSubscriber = (function (_super) {
+    __extends$69(RaceSubscriber, _super);
+    function RaceSubscriber(destination) {
+        _super.call(this, destination);
+        this.hasFirst = false;
+        this.observables = [];
+        this.subscriptions = [];
+    }
+    RaceSubscriber.prototype._next = function (observable) {
+        this.observables.push(observable);
+    };
+    RaceSubscriber.prototype._complete = function () {
+        var observables = this.observables;
+        var len = observables.length;
+        if (len === 0) {
+            this.destination.complete();
+        }
+        else {
+            for (var i = 0; i < len && !this.hasFirst; i++) {
+                var observable = observables[i];
+                var subscription = subscribeToResult_1.subscribeToResult(this, observable, observable, i);
+                if (this.subscriptions) {
+                    this.subscriptions.push(subscription);
+                }
+                this.add(subscription);
+            }
+            this.observables = null;
+        }
+    };
+    RaceSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        if (!this.hasFirst) {
+            this.hasFirst = true;
+            for (var i = 0; i < this.subscriptions.length; i++) {
+                if (i !== outerIndex) {
+                    var subscription = this.subscriptions[i];
+                    subscription.unsubscribe();
+                    this.remove(subscription);
+                }
+            }
+            this.subscriptions = null;
+        }
+        this.destination.next(innerValue);
+    };
+    return RaceSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$70 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var RepeatSubscriber = (function (_super) {
+    __extends$70(RepeatSubscriber, _super);
+    function RepeatSubscriber(destination, count, source) {
+        _super.call(this, destination);
+        this.count = count;
+        this.source = source;
+    }
+    RepeatSubscriber.prototype.complete = function () {
+        if (!this.isStopped) {
+            var _a = this, source = _a.source, count = _a.count;
+            if (count === 0) {
+                return _super.prototype.complete.call(this);
+            }
+            else if (count > -1) {
+                this.count = count - 1;
+            }
+            source.subscribe(this._unsubscribeAndRecycle());
+        }
+    };
+    return RepeatSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$71 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var RepeatWhenSubscriber = (function (_super) {
+    __extends$71(RepeatWhenSubscriber, _super);
+    function RepeatWhenSubscriber(destination, notifier, source) {
+        _super.call(this, destination);
+        this.notifier = notifier;
+        this.source = source;
+        this.sourceIsBeingSubscribedTo = true;
+    }
+    RepeatWhenSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.sourceIsBeingSubscribedTo = true;
+        this.source.subscribe(this);
+    };
+    RepeatWhenSubscriber.prototype.notifyComplete = function (innerSub) {
+        if (this.sourceIsBeingSubscribedTo === false) {
+            return _super.prototype.complete.call(this);
+        }
+    };
+    RepeatWhenSubscriber.prototype.complete = function () {
+        this.sourceIsBeingSubscribedTo = false;
+        if (!this.isStopped) {
+            if (!this.retries) {
+                this.subscribeToRetries();
+            }
+            else if (this.retriesSubscription.closed) {
+                return _super.prototype.complete.call(this);
+            }
+            this._unsubscribeAndRecycle();
+            this.notifications.next();
+        }
+    };
+    RepeatWhenSubscriber.prototype._unsubscribe = function () {
+        var _a = this, notifications = _a.notifications, retriesSubscription = _a.retriesSubscription;
+        if (notifications) {
+            notifications.unsubscribe();
+            this.notifications = null;
+        }
+        if (retriesSubscription) {
+            retriesSubscription.unsubscribe();
+            this.retriesSubscription = null;
+        }
+        this.retries = null;
+    };
+    RepeatWhenSubscriber.prototype._unsubscribeAndRecycle = function () {
+        var _a = this, notifications = _a.notifications, retries = _a.retries, retriesSubscription = _a.retriesSubscription;
+        this.notifications = null;
+        this.retries = null;
+        this.retriesSubscription = null;
+        _super.prototype._unsubscribeAndRecycle.call(this);
+        this.notifications = notifications;
+        this.retries = retries;
+        this.retriesSubscription = retriesSubscription;
+        return this;
+    };
+    RepeatWhenSubscriber.prototype.subscribeToRetries = function () {
+        this.notifications = new Subject_1.Subject();
+        var retries = tryCatch_1.tryCatch(this.notifier)(this.notifications);
+        if (retries === errorObject.errorObject) {
+            return _super.prototype.complete.call(this);
+        }
+        this.retries = retries;
+        this.retriesSubscription = subscribeToResult_1.subscribeToResult(this, retries);
+    };
+    return RepeatWhenSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$72 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var RetrySubscriber = (function (_super) {
+    __extends$72(RetrySubscriber, _super);
+    function RetrySubscriber(destination, count, source) {
+        _super.call(this, destination);
+        this.count = count;
+        this.source = source;
+    }
+    RetrySubscriber.prototype.error = function (err) {
+        if (!this.isStopped) {
+            var _a = this, source = _a.source, count = _a.count;
+            if (count === 0) {
+                return _super.prototype.error.call(this, err);
+            }
+            else if (count > -1) {
+                this.count = count - 1;
+            }
+            source.subscribe(this._unsubscribeAndRecycle());
+        }
+    };
+    return RetrySubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$73 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var RetryWhenSubscriber = (function (_super) {
+    __extends$73(RetryWhenSubscriber, _super);
+    function RetryWhenSubscriber(destination, notifier, source) {
+        _super.call(this, destination);
+        this.notifier = notifier;
+        this.source = source;
+    }
+    RetryWhenSubscriber.prototype.error = function (err) {
+        if (!this.isStopped) {
+            var errors = this.errors;
+            var retries = this.retries;
+            var retriesSubscription = this.retriesSubscription;
+            if (!retries) {
+                errors = new Subject_1.Subject();
+                retries = tryCatch_1.tryCatch(this.notifier)(errors);
+                if (retries === errorObject.errorObject) {
+                    return _super.prototype.error.call(this, errorObject.errorObject.e);
+                }
+                retriesSubscription = subscribeToResult_1.subscribeToResult(this, retries);
+            }
+            else {
+                this.errors = null;
+                this.retriesSubscription = null;
+            }
+            this._unsubscribeAndRecycle();
+            this.errors = errors;
+            this.retries = retries;
+            this.retriesSubscription = retriesSubscription;
+            errors.next(err);
+        }
+    };
+    RetryWhenSubscriber.prototype._unsubscribe = function () {
+        var _a = this, errors = _a.errors, retriesSubscription = _a.retriesSubscription;
+        if (errors) {
+            errors.unsubscribe();
+            this.errors = null;
+        }
+        if (retriesSubscription) {
+            retriesSubscription.unsubscribe();
+            this.retriesSubscription = null;
+        }
+        this.retries = null;
+    };
+    RetryWhenSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        var _a = this, errors = _a.errors, retries = _a.retries, retriesSubscription = _a.retriesSubscription;
+        this.errors = null;
+        this.retries = null;
+        this.retriesSubscription = null;
+        this._unsubscribeAndRecycle();
+        this.errors = errors;
+        this.retries = retries;
+        this.retriesSubscription = retriesSubscription;
+        this.source.subscribe(this);
+    };
+    return RetryWhenSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$74 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SampleSubscriber = (function (_super) {
+    __extends$74(SampleSubscriber, _super);
+    function SampleSubscriber() {
+        _super.apply(this, arguments);
+        this.hasValue = false;
+    }
+    SampleSubscriber.prototype._next = function (value) {
+        this.value = value;
+        this.hasValue = true;
+    };
+    SampleSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.emitValue();
+    };
+    SampleSubscriber.prototype.notifyComplete = function () {
+        this.emitValue();
+    };
+    SampleSubscriber.prototype.emitValue = function () {
+        if (this.hasValue) {
+            this.hasValue = false;
+            this.destination.next(this.value);
+        }
+    };
+    return SampleSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$75 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SampleTimeSubscriber = (function (_super) {
+    __extends$75(SampleTimeSubscriber, _super);
+    function SampleTimeSubscriber(destination, period, scheduler) {
+        _super.call(this, destination);
+        this.period = period;
+        this.scheduler = scheduler;
+        this.hasValue = false;
+        this.add(scheduler.schedule(dispatchNotification, period, { subscriber: this, period: period }));
+    }
+    SampleTimeSubscriber.prototype._next = function (value) {
+        this.lastValue = value;
+        this.hasValue = true;
+    };
+    SampleTimeSubscriber.prototype.notifyNext = function () {
+        if (this.hasValue) {
+            this.hasValue = false;
+            this.destination.next(this.lastValue);
+        }
+    };
+    return SampleTimeSubscriber;
+}(Subscriber_1.Subscriber));
+function dispatchNotification(state$$1) {
+    var subscriber = state$$1.subscriber, period = state$$1.period;
+    subscriber.notifyNext();
+    this.schedule(state$$1, period);
+}
+var __extends$76 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SequenceEqualSubscriber = (function (_super) {
+    __extends$76(SequenceEqualSubscriber, _super);
+    function SequenceEqualSubscriber(destination, compareTo, comparor) {
+        _super.call(this, destination);
+        this.compareTo = compareTo;
+        this.comparor = comparor;
+        this._a = [];
+        this._b = [];
+        this._oneComplete = false;
+        this.add(compareTo.subscribe(new SequenceEqualCompareToSubscriber(destination, this)));
+    }
+    SequenceEqualSubscriber.prototype._next = function (value) {
+        if (this._oneComplete && this._b.length === 0) {
+            this.emit(false);
+        }
+        else {
+            this._a.push(value);
+            this.checkValues();
+        }
+    };
+    SequenceEqualSubscriber.prototype._complete = function () {
+        if (this._oneComplete) {
+            this.emit(this._a.length === 0 && this._b.length === 0);
+        }
+        else {
+            this._oneComplete = true;
+        }
+    };
+    SequenceEqualSubscriber.prototype.checkValues = function () {
+        var _c = this, _a = _c._a, _b = _c._b, comparor = _c.comparor;
+        while (_a.length > 0 && _b.length > 0) {
+            var a = _a.shift();
+            var b = _b.shift();
+            var areEqual = false;
+            if (comparor) {
+                areEqual = tryCatch_1.tryCatch(comparor)(a, b);
+                if (areEqual === errorObject.errorObject) {
+                    this.destination.error(errorObject.errorObject.e);
+                }
+            }
+            else {
+                areEqual = a === b;
+            }
+            if (!areEqual) {
+                this.emit(false);
+            }
+        }
+    };
+    SequenceEqualSubscriber.prototype.emit = function (value) {
+        var destination = this.destination;
+        destination.next(value);
+        destination.complete();
+    };
+    SequenceEqualSubscriber.prototype.nextB = function (value) {
+        if (this._oneComplete && this._a.length === 0) {
+            this.emit(false);
+        }
+        else {
+            this._b.push(value);
+            this.checkValues();
+        }
+    };
+    return SequenceEqualSubscriber;
+}(Subscriber_1.Subscriber));
+var SequenceEqualCompareToSubscriber = (function (_super) {
+    __extends$76(SequenceEqualCompareToSubscriber, _super);
+    function SequenceEqualCompareToSubscriber(destination, parent) {
+        _super.call(this, destination);
+        this.parent = parent;
+    }
+    SequenceEqualCompareToSubscriber.prototype._next = function (value) {
+        this.parent.nextB(value);
+    };
+    SequenceEqualCompareToSubscriber.prototype._error = function (err) {
+        this.parent.error(err);
+    };
+    SequenceEqualCompareToSubscriber.prototype._complete = function () {
+        this.parent._complete();
+    };
+    return SequenceEqualCompareToSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$77 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SingleSubscriber = (function (_super) {
+    __extends$77(SingleSubscriber, _super);
+    function SingleSubscriber(destination, predicate, source) {
+        _super.call(this, destination);
+        this.predicate = predicate;
+        this.source = source;
+        this.seenValue = false;
+        this.index = 0;
+    }
+    SingleSubscriber.prototype.applySingleValue = function (value) {
+        if (this.seenValue) {
+            this.destination.error('Sequence contains more than one element');
+        }
+        else {
+            this.seenValue = true;
+            this.singleValue = value;
+        }
+    };
+    SingleSubscriber.prototype._next = function (value) {
+        var index$$1 = this.index++;
+        if (this.predicate) {
+            this.tryNext(value, index$$1);
+        }
+        else {
+            this.applySingleValue(value);
+        }
+    };
+    SingleSubscriber.prototype.tryNext = function (value, index$$1) {
+        try {
+            if (this.predicate(value, index$$1, this.source)) {
+                this.applySingleValue(value);
+            }
+        }
+        catch (err) {
+            this.destination.error(err);
+        }
+    };
+    SingleSubscriber.prototype._complete = function () {
+        var destination = this.destination;
+        if (this.index > 0) {
+            destination.next(this.seenValue ? this.singleValue : undefined);
+            destination.complete();
+        }
+        else {
+            destination.error(new EmptyError_1.EmptyError);
+        }
+    };
+    return SingleSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$78 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SkipSubscriber = (function (_super) {
+    __extends$78(SkipSubscriber, _super);
+    function SkipSubscriber(destination, total) {
+        _super.call(this, destination);
+        this.total = total;
+        this.count = 0;
+    }
+    SkipSubscriber.prototype._next = function (x) {
+        if (++this.count > this.total) {
+            this.destination.next(x);
+        }
+    };
+    return SkipSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$79 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SkipLastSubscriber = (function (_super) {
+    __extends$79(SkipLastSubscriber, _super);
+    function SkipLastSubscriber(destination, _skipCount) {
+        _super.call(this, destination);
+        this._skipCount = _skipCount;
+        this._count = 0;
+        this._ring = new Array(_skipCount);
+    }
+    SkipLastSubscriber.prototype._next = function (value) {
+        var skipCount = this._skipCount;
+        var count = this._count++;
+        if (count < skipCount) {
+            this._ring[count] = value;
+        }
+        else {
+            var currentIndex = count % skipCount;
+            var ring = this._ring;
+            var oldValue = ring[currentIndex];
+            ring[currentIndex] = value;
+            this.destination.next(oldValue);
+        }
+    };
+    return SkipLastSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$80 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SkipUntilSubscriber = (function (_super) {
+    __extends$80(SkipUntilSubscriber, _super);
+    function SkipUntilSubscriber(destination, notifier) {
+        _super.call(this, destination);
+        this.hasValue = false;
+        this.isInnerStopped = false;
+        this.add(subscribeToResult_1.subscribeToResult(this, notifier));
+    }
+    SkipUntilSubscriber.prototype._next = function (value) {
+        if (this.hasValue) {
+            _super.prototype._next.call(this, value);
+        }
+    };
+    SkipUntilSubscriber.prototype._complete = function () {
+        if (this.isInnerStopped) {
+            _super.prototype._complete.call(this);
+        }
+        else {
+            this.unsubscribe();
+        }
+    };
+    SkipUntilSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.hasValue = true;
+    };
+    SkipUntilSubscriber.prototype.notifyComplete = function () {
+        this.isInnerStopped = true;
+        if (this.isStopped) {
+            _super.prototype._complete.call(this);
+        }
+    };
+    return SkipUntilSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$81 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SkipWhileSubscriber = (function (_super) {
+    __extends$81(SkipWhileSubscriber, _super);
+    function SkipWhileSubscriber(destination, predicate) {
+        _super.call(this, destination);
+        this.predicate = predicate;
+        this.skipping = true;
+        this.index = 0;
+    }
+    SkipWhileSubscriber.prototype._next = function (value) {
+        var destination = this.destination;
+        if (this.skipping) {
+            this.tryCallPredicate(value);
+        }
+        if (!this.skipping) {
+            destination.next(value);
+        }
+    };
+    SkipWhileSubscriber.prototype.tryCallPredicate = function (value) {
+        try {
+            var result = this.predicate(value, this.index++);
+            this.skipping = Boolean(result);
+        }
+        catch (err) {
+            this.destination.error(err);
+        }
+    };
+    return SkipWhileSubscriber;
+}(Subscriber_1.Subscriber));
+/* tslint:enable:max-line-length */
+/**
+ * Returns an Observable that emits the items you specify as arguments before it begins to emit
+ * items emitted by the source Observable.
+ *
+ * <img src="./img/startWith.png" width="100%">
+ *
+ * @param {...T} values - Items you want the modified Observable to emit first.
+ * @param {Scheduler} [scheduler] - A {@link IScheduler} to use for scheduling
+ * the emissions of the `next` notifications.
+ * @return {Observable} An Observable that emits the items in the specified Iterable and then emits the items
+ * emitted by the source Observable.
+ * @method startWith
+ * @owner Observable
+ */
+function startWith$2() {
+    var array = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        array[_i - 0] = arguments[_i];
+    }
+    return function (source) {
+        var scheduler = array[array.length - 1];
+        if (isScheduler_1.isScheduler(scheduler)) {
+            array.pop();
+        }
+        else {
+            scheduler = null;
+        }
+        var len = array.length;
+        if (len === 1) {
+            return concat_1.concat(new ScalarObservable_1.ScalarObservable(array[0], scheduler), source);
+        }
+        else if (len > 1) {
+            return concat_1.concat(new ArrayObservable_1.ArrayObservable(array, scheduler), source);
+        }
+        else {
+            return concat_1.concat(new EmptyObservable_1.EmptyObservable(scheduler), source);
+        }
+    };
+}
+var startWith_2 = startWith$2;
+var startWith_1 = {
+    startWith: startWith_2
+};
+var __extends$82 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SwitchMapToSubscriber = (function (_super) {
+    __extends$82(SwitchMapToSubscriber, _super);
+    function SwitchMapToSubscriber(destination, inner, resultSelector) {
+        _super.call(this, destination);
+        this.inner = inner;
+        this.resultSelector = resultSelector;
+        this.index = 0;
+    }
+    SwitchMapToSubscriber.prototype._next = function (value) {
+        var innerSubscription = this.innerSubscription;
+        if (innerSubscription) {
+            innerSubscription.unsubscribe();
+        }
+        this.add(this.innerSubscription = subscribeToResult_1.subscribeToResult(this, this.inner, value, this.index++));
+    };
+    SwitchMapToSubscriber.prototype._complete = function () {
+        var innerSubscription = this.innerSubscription;
+        if (!innerSubscription || innerSubscription.closed) {
+            _super.prototype._complete.call(this);
+        }
+    };
+    SwitchMapToSubscriber.prototype._unsubscribe = function () {
+        this.innerSubscription = null;
+    };
+    SwitchMapToSubscriber.prototype.notifyComplete = function (innerSub) {
+        this.remove(innerSub);
+        this.innerSubscription = null;
+        if (this.isStopped) {
+            _super.prototype._complete.call(this);
+        }
+    };
+    SwitchMapToSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        var _a = this, resultSelector = _a.resultSelector, destination = _a.destination;
+        if (resultSelector) {
+            this.tryResultSelector(outerValue, innerValue, outerIndex, innerIndex);
+        }
+        else {
+            destination.next(innerValue);
+        }
+    };
+    SwitchMapToSubscriber.prototype.tryResultSelector = function (outerValue, innerValue, outerIndex, innerIndex) {
+        var _a = this, resultSelector = _a.resultSelector, destination = _a.destination;
+        var result;
+        try {
+            result = resultSelector(outerValue, innerValue, outerIndex, innerIndex);
+        }
+        catch (err) {
+            destination.error(err);
+            return;
+        }
+        destination.next(result);
+    };
+    return SwitchMapToSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$83 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TakeSubscriber = (function (_super) {
+    __extends$83(TakeSubscriber, _super);
+    function TakeSubscriber(destination, total) {
+        _super.call(this, destination);
+        this.total = total;
+        this.count = 0;
+    }
+    TakeSubscriber.prototype._next = function (value) {
+        var total = this.total;
+        var count = ++this.count;
+        if (count <= total) {
+            this.destination.next(value);
+            if (count === total) {
+                this.destination.complete();
+                this.unsubscribe();
+            }
+        }
+    };
+    return TakeSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$84 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TakeUntilSubscriber = (function (_super) {
+    __extends$84(TakeUntilSubscriber, _super);
+    function TakeUntilSubscriber(destination, notifier) {
+        _super.call(this, destination);
+        this.notifier = notifier;
+        this.add(subscribeToResult_1.subscribeToResult(this, notifier));
+    }
+    TakeUntilSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.complete();
+    };
+    TakeUntilSubscriber.prototype.notifyComplete = function () {
+        // noop
+    };
+    return TakeUntilSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$85 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TakeWhileSubscriber = (function (_super) {
+    __extends$85(TakeWhileSubscriber, _super);
+    function TakeWhileSubscriber(destination, predicate) {
+        _super.call(this, destination);
+        this.predicate = predicate;
+        this.index = 0;
+    }
+    TakeWhileSubscriber.prototype._next = function (value) {
+        var destination = this.destination;
+        var result;
+        try {
+            result = this.predicate(value, this.index++);
+        }
+        catch (err) {
+            destination.error(err);
+            return;
+        }
+        this.nextOrComplete(value, result);
+    };
+    TakeWhileSubscriber.prototype.nextOrComplete = function (value, predicateResult) {
+        var destination = this.destination;
+        if (Boolean(predicateResult)) {
+            destination.next(value);
+        }
+        else {
+            destination.complete();
+        }
+    };
+    return TakeWhileSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$86 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var DoSubscriber = (function (_super) {
+    __extends$86(DoSubscriber, _super);
+    function DoSubscriber(destination, nextOrObserver, error, complete) {
+        _super.call(this, destination);
+        var safeSubscriber = new Subscriber_1.Subscriber(nextOrObserver, error, complete);
+        safeSubscriber.syncErrorThrowable = true;
+        this.add(safeSubscriber);
+        this.safeSubscriber = safeSubscriber;
+    }
+    DoSubscriber.prototype._next = function (value) {
+        var safeSubscriber = this.safeSubscriber;
+        safeSubscriber.next(value);
+        if (safeSubscriber.syncErrorThrown) {
+            this.destination.error(safeSubscriber.syncErrorValue);
+        }
+        else {
+            this.destination.next(value);
+        }
+    };
+    DoSubscriber.prototype._error = function (err) {
+        var safeSubscriber = this.safeSubscriber;
+        safeSubscriber.error(err);
+        if (safeSubscriber.syncErrorThrown) {
+            this.destination.error(safeSubscriber.syncErrorValue);
+        }
+        else {
+            this.destination.error(err);
+        }
+    };
+    DoSubscriber.prototype._complete = function () {
+        var safeSubscriber = this.safeSubscriber;
+        safeSubscriber.complete();
+        if (safeSubscriber.syncErrorThrown) {
+            this.destination.error(safeSubscriber.syncErrorValue);
+        }
+        else {
+            this.destination.complete();
+        }
+    };
+    return DoSubscriber;
+}(Subscriber_1.Subscriber));
+var throttle_1 = createCommonjsModule(function (module, exports) {
+    var __extends = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+        for (var p in b)
+            if (b.hasOwnProperty(p))
+                d[p] = b[p];
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+    exports.defaultThrottleConfig = {
+        leading: true,
+        trailing: false
+    };
+    /**
+     * Emits a value from the source Observable, then ignores subsequent source
+     * values for a duration determined by another Observable, then repeats this
+     * process.
+     *
+     * <span class="informal">It's like {@link throttleTime}, but the silencing
+     * duration is determined by a second Observable.</span>
+     *
+     * <img src="./img/throttle.png" width="100%">
+     *
+     * `throttle` emits the source Observable values on the output Observable
+     * when its internal timer is disabled, and ignores source values when the timer
+     * is enabled. Initially, the timer is disabled. As soon as the first source
+     * value arrives, it is forwarded to the output Observable, and then the timer
+     * is enabled by calling the `durationSelector` function with the source value,
+     * which returns the "duration" Observable. When the duration Observable emits a
+     * value or completes, the timer is disabled, and this process repeats for the
+     * next source value.
+     *
+     * @example <caption>Emit clicks at a rate of at most one click per second</caption>
+     * var clicks = Rx.Observable.fromEvent(document, 'click');
+     * var result = clicks.throttle(ev => Rx.Observable.interval(1000));
+     * result.subscribe(x => console.log(x));
+     *
+     * @see {@link audit}
+     * @see {@link debounce}
+     * @see {@link delayWhen}
+     * @see {@link sample}
+     * @see {@link throttleTime}
+     *
+     * @param {function(value: T): SubscribableOrPromise} durationSelector A function
+     * that receives a value from the source Observable, for computing the silencing
+     * duration for each source value, returned as an Observable or a Promise.
+     * @param {Object} config a configuration object to define `leading` and `trailing` behavior. Defaults
+     * to `{ leading: true, trailing: false }`.
+     * @return {Observable<T>} An Observable that performs the throttle operation to
+     * limit the rate of emissions from the source.
+     * @method throttle
+     * @owner Observable
+     */
+    function throttle(durationSelector, config) {
+        if (config === void 0) {
+            config = exports.defaultThrottleConfig;
+        }
+        return function (source) { return source.lift(new ThrottleOperator(durationSelector, config.leading, config.trailing)); };
+    }
+    exports.throttle = throttle;
+    var ThrottleOperator = (function () {
+        function ThrottleOperator(durationSelector, leading, trailing) {
+            this.durationSelector = durationSelector;
+            this.leading = leading;
+            this.trailing = trailing;
+        }
+        ThrottleOperator.prototype.call = function (subscriber, source) {
+            return source.subscribe(new ThrottleSubscriber(subscriber, this.durationSelector, this.leading, this.trailing));
+        };
+        return ThrottleOperator;
+    }());
+    /**
+     * We need this JSDoc comment for affecting ESDoc
+     * @ignore
+     * @extends {Ignored}
+     */
+    var ThrottleSubscriber = (function (_super) {
+        __extends(ThrottleSubscriber, _super);
+        function ThrottleSubscriber(destination, durationSelector, _leading, _trailing) {
+            _super.call(this, destination);
+            this.destination = destination;
+            this.durationSelector = durationSelector;
+            this._leading = _leading;
+            this._trailing = _trailing;
+            this._hasTrailingValue = false;
+        }
+        ThrottleSubscriber.prototype._next = function (value) {
+            if (this.throttled) {
+                if (this._trailing) {
+                    this._hasTrailingValue = true;
+                    this._trailingValue = value;
+                }
+            }
+            else {
+                var duration = this.tryDurationSelector(value);
+                if (duration) {
+                    this.add(this.throttled = subscribeToResult_1.subscribeToResult(this, duration));
+                }
+                if (this._leading) {
+                    this.destination.next(value);
+                    if (this._trailing) {
+                        this._hasTrailingValue = true;
+                        this._trailingValue = value;
+                    }
+                }
+            }
+        };
+        ThrottleSubscriber.prototype.tryDurationSelector = function (value) {
+            try {
+                return this.durationSelector(value);
+            }
+            catch (err) {
+                this.destination.error(err);
+                return null;
+            }
+        };
+        ThrottleSubscriber.prototype._unsubscribe = function () {
+            var _a = this, throttled = _a.throttled, _trailingValue = _a._trailingValue, _hasTrailingValue = _a._hasTrailingValue, _trailing = _a._trailing;
+            this._trailingValue = null;
+            this._hasTrailingValue = false;
+            if (throttled) {
+                this.remove(throttled);
+                this.throttled = null;
+                throttled.unsubscribe();
+            }
+        };
+        ThrottleSubscriber.prototype._sendTrailing = function () {
+            var _a = this, destination = _a.destination, throttled = _a.throttled, _trailing = _a._trailing, _trailingValue = _a._trailingValue, _hasTrailingValue = _a._hasTrailingValue;
+            if (throttled && _trailing && _hasTrailingValue) {
+                destination.next(_trailingValue);
+                this._trailingValue = null;
+                this._hasTrailingValue = false;
+            }
+        };
+        ThrottleSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+            this._sendTrailing();
+            this._unsubscribe();
+        };
+        ThrottleSubscriber.prototype.notifyComplete = function () {
+            this._sendTrailing();
+            this._unsubscribe();
+        };
+        return ThrottleSubscriber;
+    }(OuterSubscriber_1.OuterSubscriber));
+});
+var throttle_2 = throttle_1.defaultThrottleConfig;
+var throttle_3 = throttle_1.throttle;
+var __extends$87 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var ThrottleTimeSubscriber = (function (_super) {
+    __extends$87(ThrottleTimeSubscriber, _super);
+    function ThrottleTimeSubscriber(destination, duration, scheduler, leading, trailing) {
+        _super.call(this, destination);
+        this.duration = duration;
+        this.scheduler = scheduler;
+        this.leading = leading;
+        this.trailing = trailing;
+        this._hasTrailingValue = false;
+        this._trailingValue = null;
+    }
+    ThrottleTimeSubscriber.prototype._next = function (value) {
+        if (this.throttled) {
+            if (this.trailing) {
+                this._trailingValue = value;
+                this._hasTrailingValue = true;
+            }
+        }
+        else {
+            this.add(this.throttled = this.scheduler.schedule(dispatchNext$2, this.duration, { subscriber: this }));
+            if (this.leading) {
+                this.destination.next(value);
+            }
+        }
+    };
+    ThrottleTimeSubscriber.prototype.clearThrottle = function () {
+        var throttled = this.throttled;
+        if (throttled) {
+            if (this.trailing && this._hasTrailingValue) {
+                this.destination.next(this._trailingValue);
+                this._trailingValue = null;
+                this._hasTrailingValue = false;
+            }
+            throttled.unsubscribe();
+            this.remove(throttled);
+            this.throttled = null;
+        }
+    };
+    return ThrottleTimeSubscriber;
+}(Subscriber_1.Subscriber));
+function dispatchNext$2(arg) {
+    var subscriber = arg.subscriber;
+    subscriber.clearThrottle();
+}
+var __extends$88 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var TimeInterval = (function () {
+    function TimeInterval(value, interval) {
+        this.value = value;
+        this.interval = interval;
+    }
+    return TimeInterval;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TimeIntervalSubscriber = (function (_super) {
+    __extends$88(TimeIntervalSubscriber, _super);
+    function TimeIntervalSubscriber(destination, scheduler) {
+        _super.call(this, destination);
+        this.scheduler = scheduler;
+        this.lastTime = 0;
+        this.lastTime = scheduler.now();
+    }
+    TimeIntervalSubscriber.prototype._next = function (value) {
+        var now = this.scheduler.now();
+        var span = now - this.lastTime;
+        this.lastTime = now;
+        this.destination.next(new TimeInterval(value, span));
+    };
+    return TimeIntervalSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$90 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * An error thrown when duetime elapses.
+ *
+ * @see {@link timeout}
+ *
+ * @class TimeoutError
+ */
+var TimeoutError = (function (_super) {
+    __extends$90(TimeoutError, _super);
+    function TimeoutError() {
+        var err = _super.call(this, 'Timeout has occurred');
+        this.name = err.name = 'TimeoutError';
+        this.stack = err.stack;
+        this.message = err.message;
+    }
+    return TimeoutError;
+}(Error));
+var __extends$89 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TimeoutSubscriber = (function (_super) {
+    __extends$89(TimeoutSubscriber, _super);
+    function TimeoutSubscriber(destination, absoluteTimeout, waitFor, scheduler, errorInstance) {
+        _super.call(this, destination);
+        this.absoluteTimeout = absoluteTimeout;
+        this.waitFor = waitFor;
+        this.scheduler = scheduler;
+        this.errorInstance = errorInstance;
+        this.action = null;
+        this.scheduleTimeout();
+    }
+    TimeoutSubscriber.dispatchTimeout = function (subscriber) {
+        subscriber.error(subscriber.errorInstance);
+    };
+    TimeoutSubscriber.prototype.scheduleTimeout = function () {
+        var action = this.action;
+        if (action) {
+            // Recycle the action if we've already scheduled one. All the production
+            // Scheduler Actions mutate their state/delay time and return themeselves.
+            // VirtualActions are immutable, so they create and return a clone. In this
+            // case, we need to set the action reference to the most recent VirtualAction,
+            // to ensure that's the one we clone from next time.
+            this.action = action.schedule(this, this.waitFor);
+        }
+        else {
+            this.add(this.action = this.scheduler.schedule(TimeoutSubscriber.dispatchTimeout, this.waitFor, this));
+        }
+    };
+    TimeoutSubscriber.prototype._next = function (value) {
+        if (!this.absoluteTimeout) {
+            this.scheduleTimeout();
+        }
+        _super.prototype._next.call(this, value);
+    };
+    TimeoutSubscriber.prototype._unsubscribe = function () {
+        this.action = null;
+        this.scheduler = null;
+        this.errorInstance = null;
+    };
+    return TimeoutSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$91 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TimeoutWithSubscriber = (function (_super) {
+    __extends$91(TimeoutWithSubscriber, _super);
+    function TimeoutWithSubscriber(destination, absoluteTimeout, waitFor, withObservable, scheduler) {
+        _super.call(this, destination);
+        this.absoluteTimeout = absoluteTimeout;
+        this.waitFor = waitFor;
+        this.withObservable = withObservable;
+        this.scheduler = scheduler;
+        this.action = null;
+        this.scheduleTimeout();
+    }
+    TimeoutWithSubscriber.dispatchTimeout = function (subscriber) {
+        var withObservable = subscriber.withObservable;
+        subscriber._unsubscribeAndRecycle();
+        subscriber.add(subscribeToResult_1.subscribeToResult(subscriber, withObservable));
+    };
+    TimeoutWithSubscriber.prototype.scheduleTimeout = function () {
+        var action = this.action;
+        if (action) {
+            // Recycle the action if we've already scheduled one. All the production
+            // Scheduler Actions mutate their state/delay time and return themeselves.
+            // VirtualActions are immutable, so they create and return a clone. In this
+            // case, we need to set the action reference to the most recent VirtualAction,
+            // to ensure that's the one we clone from next time.
+            this.action = action.schedule(this, this.waitFor);
+        }
+        else {
+            this.add(this.action = this.scheduler.schedule(TimeoutWithSubscriber.dispatchTimeout, this.waitFor, this));
+        }
+    };
+    TimeoutWithSubscriber.prototype._next = function (value) {
+        if (!this.absoluteTimeout) {
+            this.scheduleTimeout();
+        }
+        _super.prototype._next.call(this, value);
+    };
+    TimeoutWithSubscriber.prototype._unsubscribe = function () {
+        this.action = null;
+        this.scheduler = null;
+        this.withObservable = null;
+    };
+    return TimeoutWithSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$92 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var WindowSubscriber = (function (_super) {
+    __extends$92(WindowSubscriber, _super);
+    function WindowSubscriber(destination) {
+        _super.call(this, destination);
+        this.window = new Subject_1.Subject();
+        destination.next(this.window);
+    }
+    WindowSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.openWindow();
+    };
+    WindowSubscriber.prototype.notifyError = function (error, innerSub) {
+        this._error(error);
+    };
+    WindowSubscriber.prototype.notifyComplete = function (innerSub) {
+        this._complete();
+    };
+    WindowSubscriber.prototype._next = function (value) {
+        this.window.next(value);
+    };
+    WindowSubscriber.prototype._error = function (err) {
+        this.window.error(err);
+        this.destination.error(err);
+    };
+    WindowSubscriber.prototype._complete = function () {
+        this.window.complete();
+        this.destination.complete();
+    };
+    WindowSubscriber.prototype._unsubscribe = function () {
+        this.window = null;
+    };
+    WindowSubscriber.prototype.openWindow = function () {
+        var prevWindow = this.window;
+        if (prevWindow) {
+            prevWindow.complete();
+        }
+        var destination = this.destination;
+        var newWindow = this.window = new Subject_1.Subject();
+        destination.next(newWindow);
+    };
+    return WindowSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$93 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var WindowCountSubscriber = (function (_super) {
+    __extends$93(WindowCountSubscriber, _super);
+    function WindowCountSubscriber(destination, windowSize, startWindowEvery) {
+        _super.call(this, destination);
+        this.destination = destination;
+        this.windowSize = windowSize;
+        this.startWindowEvery = startWindowEvery;
+        this.windows = [new Subject_1.Subject()];
+        this.count = 0;
+        destination.next(this.windows[0]);
+    }
+    WindowCountSubscriber.prototype._next = function (value) {
+        var startWindowEvery = (this.startWindowEvery > 0) ? this.startWindowEvery : this.windowSize;
+        var destination = this.destination;
+        var windowSize = this.windowSize;
+        var windows = this.windows;
+        var len = windows.length;
+        for (var i = 0; i < len && !this.closed; i++) {
+            windows[i].next(value);
+        }
+        var c = this.count - windowSize + 1;
+        if (c >= 0 && c % startWindowEvery === 0 && !this.closed) {
+            windows.shift().complete();
+        }
+        if (++this.count % startWindowEvery === 0 && !this.closed) {
+            var window_1 = new Subject_1.Subject();
+            windows.push(window_1);
+            destination.next(window_1);
+        }
+    };
+    WindowCountSubscriber.prototype._error = function (err) {
+        var windows = this.windows;
+        if (windows) {
+            while (windows.length > 0 && !this.closed) {
+                windows.shift().error(err);
+            }
+        }
+        this.destination.error(err);
+    };
+    WindowCountSubscriber.prototype._complete = function () {
+        var windows = this.windows;
+        if (windows) {
+            while (windows.length > 0 && !this.closed) {
+                windows.shift().complete();
+            }
+        }
+        this.destination.complete();
+    };
+    WindowCountSubscriber.prototype._unsubscribe = function () {
+        this.count = 0;
+        this.windows = null;
+    };
+    return WindowCountSubscriber;
+}(Subscriber_1.Subscriber));
+var __extends$94 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var CountedSubject = (function (_super) {
+    __extends$94(CountedSubject, _super);
+    function CountedSubject() {
+        _super.apply(this, arguments);
+        this._numberOfNextedValues = 0;
+    }
+    CountedSubject.prototype.next = function (value) {
+        this._numberOfNextedValues++;
+        _super.prototype.next.call(this, value);
+    };
+    Object.defineProperty(CountedSubject.prototype, "numberOfNextedValues", {
+        get: function () {
+            return this._numberOfNextedValues;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return CountedSubject;
+}(Subject_1.Subject));
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var WindowTimeSubscriber = (function (_super) {
+    __extends$94(WindowTimeSubscriber, _super);
+    function WindowTimeSubscriber(destination, windowTimeSpan, windowCreationInterval, maxWindowSize, scheduler) {
+        _super.call(this, destination);
+        this.destination = destination;
+        this.windowTimeSpan = windowTimeSpan;
+        this.windowCreationInterval = windowCreationInterval;
+        this.maxWindowSize = maxWindowSize;
+        this.scheduler = scheduler;
+        this.windows = [];
+        var window = this.openWindow();
+        if (windowCreationInterval !== null && windowCreationInterval >= 0) {
+            var closeState = { subscriber: this, window: window, context: null };
+            var creationState = { windowTimeSpan: windowTimeSpan, windowCreationInterval: windowCreationInterval, subscriber: this, scheduler: scheduler };
+            this.add(scheduler.schedule(dispatchWindowClose, windowTimeSpan, closeState));
+            this.add(scheduler.schedule(dispatchWindowCreation, windowCreationInterval, creationState));
+        }
+        else {
+            var timeSpanOnlyState = { subscriber: this, window: window, windowTimeSpan: windowTimeSpan };
+            this.add(scheduler.schedule(dispatchWindowTimeSpanOnly, windowTimeSpan, timeSpanOnlyState));
+        }
+    }
+    WindowTimeSubscriber.prototype._next = function (value) {
+        var windows = this.windows;
+        var len = windows.length;
+        for (var i = 0; i < len; i++) {
+            var window_1 = windows[i];
+            if (!window_1.closed) {
+                window_1.next(value);
+                if (window_1.numberOfNextedValues >= this.maxWindowSize) {
+                    this.closeWindow(window_1);
+                }
+            }
+        }
+    };
+    WindowTimeSubscriber.prototype._error = function (err) {
+        var windows = this.windows;
+        while (windows.length > 0) {
+            windows.shift().error(err);
+        }
+        this.destination.error(err);
+    };
+    WindowTimeSubscriber.prototype._complete = function () {
+        var windows = this.windows;
+        while (windows.length > 0) {
+            var window_2 = windows.shift();
+            if (!window_2.closed) {
+                window_2.complete();
+            }
+        }
+        this.destination.complete();
+    };
+    WindowTimeSubscriber.prototype.openWindow = function () {
+        var window = new CountedSubject();
+        this.windows.push(window);
+        var destination = this.destination;
+        destination.next(window);
+        return window;
+    };
+    WindowTimeSubscriber.prototype.closeWindow = function (window) {
+        window.complete();
+        var windows = this.windows;
+        windows.splice(windows.indexOf(window), 1);
+    };
+    return WindowTimeSubscriber;
+}(Subscriber_1.Subscriber));
+function dispatchWindowTimeSpanOnly(state$$1) {
+    var subscriber = state$$1.subscriber, windowTimeSpan = state$$1.windowTimeSpan, window = state$$1.window;
+    if (window) {
+        subscriber.closeWindow(window);
+    }
+    state$$1.window = subscriber.openWindow();
+    this.schedule(state$$1, windowTimeSpan);
+}
+function dispatchWindowCreation(state$$1) {
+    var windowTimeSpan = state$$1.windowTimeSpan, subscriber = state$$1.subscriber, scheduler = state$$1.scheduler, windowCreationInterval = state$$1.windowCreationInterval;
+    var window = subscriber.openWindow();
+    var action = this;
+    var context = { action: action, subscription: null };
+    var timeSpanState = { subscriber: subscriber, window: window, context: context };
+    context.subscription = scheduler.schedule(dispatchWindowClose, windowTimeSpan, timeSpanState);
+    action.add(context.subscription);
+    action.schedule(state$$1, windowCreationInterval);
+}
+function dispatchWindowClose(state$$1) {
+    var subscriber = state$$1.subscriber, window = state$$1.window, context = state$$1.context;
+    if (context && context.action && context.subscription) {
+        context.action.remove(context.subscription);
+    }
+    subscriber.closeWindow(window);
+}
+var __extends$95 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var WindowToggleSubscriber = (function (_super) {
+    __extends$95(WindowToggleSubscriber, _super);
+    function WindowToggleSubscriber(destination, openings, closingSelector) {
+        _super.call(this, destination);
+        this.openings = openings;
+        this.closingSelector = closingSelector;
+        this.contexts = [];
+        this.add(this.openSubscription = subscribeToResult_1.subscribeToResult(this, openings, openings));
+    }
+    WindowToggleSubscriber.prototype._next = function (value) {
+        var contexts = this.contexts;
+        if (contexts) {
+            var len = contexts.length;
+            for (var i = 0; i < len; i++) {
+                contexts[i].window.next(value);
+            }
+        }
+    };
+    WindowToggleSubscriber.prototype._error = function (err) {
+        var contexts = this.contexts;
+        this.contexts = null;
+        if (contexts) {
+            var len = contexts.length;
+            var index$$1 = -1;
+            while (++index$$1 < len) {
+                var context = contexts[index$$1];
+                context.window.error(err);
+                context.subscription.unsubscribe();
+            }
+        }
+        _super.prototype._error.call(this, err);
+    };
+    WindowToggleSubscriber.prototype._complete = function () {
+        var contexts = this.contexts;
+        this.contexts = null;
+        if (contexts) {
+            var len = contexts.length;
+            var index$$1 = -1;
+            while (++index$$1 < len) {
+                var context = contexts[index$$1];
+                context.window.complete();
+                context.subscription.unsubscribe();
+            }
+        }
+        _super.prototype._complete.call(this);
+    };
+    WindowToggleSubscriber.prototype._unsubscribe = function () {
+        var contexts = this.contexts;
+        this.contexts = null;
+        if (contexts) {
+            var len = contexts.length;
+            var index$$1 = -1;
+            while (++index$$1 < len) {
+                var context = contexts[index$$1];
+                context.window.unsubscribe();
+                context.subscription.unsubscribe();
+            }
+        }
+    };
+    WindowToggleSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        if (outerValue === this.openings) {
+            var closingSelector = this.closingSelector;
+            var closingNotifier = tryCatch_1.tryCatch(closingSelector)(innerValue);
+            if (closingNotifier === errorObject.errorObject) {
+                return this.error(errorObject.errorObject.e);
+            }
+            else {
+                var window_1 = new Subject_1.Subject();
+                var subscription = new Subscription_1.Subscription();
+                var context = { window: window_1, subscription: subscription };
+                this.contexts.push(context);
+                var innerSubscription = subscribeToResult_1.subscribeToResult(this, closingNotifier, context);
+                if (innerSubscription.closed) {
+                    this.closeWindow(this.contexts.length - 1);
+                }
+                else {
+                    innerSubscription.context = context;
+                    subscription.add(innerSubscription);
+                }
+                this.destination.next(window_1);
+            }
+        }
+        else {
+            this.closeWindow(this.contexts.indexOf(outerValue));
+        }
+    };
+    WindowToggleSubscriber.prototype.notifyError = function (err) {
+        this.error(err);
+    };
+    WindowToggleSubscriber.prototype.notifyComplete = function (inner) {
+        if (inner !== this.openSubscription) {
+            this.closeWindow(this.contexts.indexOf(inner.context));
+        }
+    };
+    WindowToggleSubscriber.prototype.closeWindow = function (index$$1) {
+        if (index$$1 === -1) {
+            return;
+        }
+        var contexts = this.contexts;
+        var context = contexts[index$$1];
+        var window = context.window, subscription = context.subscription;
+        contexts.splice(index$$1, 1);
+        window.complete();
+        subscription.unsubscribe();
+    };
+    return WindowToggleSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$96 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var WindowSubscriber$1 = (function (_super) {
+    __extends$96(WindowSubscriber, _super);
+    function WindowSubscriber(destination, closingSelector) {
+        _super.call(this, destination);
+        this.destination = destination;
+        this.closingSelector = closingSelector;
+        this.openWindow();
+    }
+    WindowSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.openWindow(innerSub);
+    };
+    WindowSubscriber.prototype.notifyError = function (error, innerSub) {
+        this._error(error);
+    };
+    WindowSubscriber.prototype.notifyComplete = function (innerSub) {
+        this.openWindow(innerSub);
+    };
+    WindowSubscriber.prototype._next = function (value) {
+        this.window.next(value);
+    };
+    WindowSubscriber.prototype._error = function (err) {
+        this.window.error(err);
+        this.destination.error(err);
+        this.unsubscribeClosingNotification();
+    };
+    WindowSubscriber.prototype._complete = function () {
+        this.window.complete();
+        this.destination.complete();
+        this.unsubscribeClosingNotification();
+    };
+    WindowSubscriber.prototype.unsubscribeClosingNotification = function () {
+        if (this.closingNotification) {
+            this.closingNotification.unsubscribe();
+        }
+    };
+    WindowSubscriber.prototype.openWindow = function (innerSub) {
+        if (innerSub === void 0) {
+            innerSub = null;
+        }
+        if (innerSub) {
+            this.remove(innerSub);
+            innerSub.unsubscribe();
+        }
+        var prevWindow = this.window;
+        if (prevWindow) {
+            prevWindow.complete();
+        }
+        var window = this.window = new Subject_1.Subject();
+        this.destination.next(window);
+        var closingNotifier = tryCatch_1.tryCatch(this.closingSelector)();
+        if (closingNotifier === errorObject.errorObject) {
+            var err = errorObject.errorObject.e;
+            this.destination.error(err);
+            this.window.error(err);
+        }
+        else {
+            this.add(this.closingNotification = subscribeToResult_1.subscribeToResult(this, closingNotifier));
+        }
+    };
+    return WindowSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$97 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var WithLatestFromSubscriber = (function (_super) {
+    __extends$97(WithLatestFromSubscriber, _super);
+    function WithLatestFromSubscriber(destination, observables, project) {
+        _super.call(this, destination);
+        this.observables = observables;
+        this.project = project;
+        this.toRespond = [];
+        var len = observables.length;
+        this.values = new Array(len);
+        for (var i = 0; i < len; i++) {
+            this.toRespond.push(i);
+        }
+        for (var i = 0; i < len; i++) {
+            var observable = observables[i];
+            this.add(subscribeToResult_1.subscribeToResult(this, observable, observable, i));
+        }
+    }
+    WithLatestFromSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.values[outerIndex] = innerValue;
+        var toRespond = this.toRespond;
+        if (toRespond.length > 0) {
+            var found = toRespond.indexOf(outerIndex);
+            if (found !== -1) {
+                toRespond.splice(found, 1);
+            }
+        }
+    };
+    WithLatestFromSubscriber.prototype.notifyComplete = function () {
+        // noop
+    };
+    WithLatestFromSubscriber.prototype._next = function (value) {
+        if (this.toRespond.length === 0) {
+            var args = [value].concat(this.values);
+            if (this.project) {
+                this._tryProject(args);
+            }
+            else {
+                this.destination.next(args);
+            }
+        }
+    };
+    WithLatestFromSubscriber.prototype._tryProject = function (args) {
+        var result;
+        try {
+            result = this.project.apply(this, args);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        this.destination.next(result);
+    };
+    return WithLatestFromSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+var __extends$98 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var ZipSubscriber = (function (_super) {
+    __extends$98(ZipSubscriber, _super);
+    function ZipSubscriber(destination, project, values) {
+        if (values === void 0) {
+            values = Object.create(null);
+        }
+        _super.call(this, destination);
+        this.iterators = [];
+        this.active = 0;
+        this.project = (typeof project === 'function') ? project : null;
+        this.values = values;
+    }
+    ZipSubscriber.prototype._next = function (value) {
+        var iterators = this.iterators;
+        if (isArray.isArray(value)) {
+            iterators.push(new StaticArrayIterator(value));
+        }
+        else if (typeof value[iterator.iterator] === 'function') {
+            iterators.push(new StaticIterator(value[iterator.iterator]()));
+        }
+        else {
+            iterators.push(new ZipBufferIterator(this.destination, this, value));
+        }
+    };
+    ZipSubscriber.prototype._complete = function () {
+        var iterators = this.iterators;
+        var len = iterators.length;
+        if (len === 0) {
+            this.destination.complete();
+            return;
+        }
+        this.active = len;
+        for (var i = 0; i < len; i++) {
+            var iterator$$2 = iterators[i];
+            if (iterator$$2.stillUnsubscribed) {
+                this.add(iterator$$2.subscribe(iterator$$2, i));
+            }
+            else {
+                this.active--; // not an observable
+            }
+        }
+    };
+    ZipSubscriber.prototype.notifyInactive = function () {
+        this.active--;
+        if (this.active === 0) {
+            this.destination.complete();
+        }
+    };
+    ZipSubscriber.prototype.checkIterators = function () {
+        var iterators = this.iterators;
+        var len = iterators.length;
+        var destination = this.destination;
+        // abort if not all of them have values
+        for (var i = 0; i < len; i++) {
+            var iterator$$2 = iterators[i];
+            if (typeof iterator$$2.hasValue === 'function' && !iterator$$2.hasValue()) {
+                return;
+            }
+        }
+        var shouldComplete = false;
+        var args = [];
+        for (var i = 0; i < len; i++) {
+            var iterator$$2 = iterators[i];
+            var result = iterator$$2.next();
+            // check to see if it's completed now that you've gotten
+            // the next value.
+            if (iterator$$2.hasCompleted()) {
+                shouldComplete = true;
+            }
+            if (result.done) {
+                destination.complete();
+                return;
+            }
+            args.push(result.value);
+        }
+        if (this.project) {
+            this._tryProject(args);
+        }
+        else {
+            destination.next(args);
+        }
+        if (shouldComplete) {
+            destination.complete();
+        }
+    };
+    ZipSubscriber.prototype._tryProject = function (args) {
+        var result;
+        try {
+            result = this.project.apply(this, args);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        this.destination.next(result);
+    };
+    return ZipSubscriber;
+}(Subscriber_1.Subscriber));
+var StaticIterator = (function () {
+    function StaticIterator(iterator$$2) {
+        this.iterator = iterator$$2;
+        this.nextResult = iterator$$2.next();
+    }
+    StaticIterator.prototype.hasValue = function () {
+        return true;
+    };
+    StaticIterator.prototype.next = function () {
+        var result = this.nextResult;
+        this.nextResult = this.iterator.next();
+        return result;
+    };
+    StaticIterator.prototype.hasCompleted = function () {
+        var nextResult = this.nextResult;
+        return nextResult && nextResult.done;
+    };
+    return StaticIterator;
+}());
+var StaticArrayIterator = (function () {
+    function StaticArrayIterator(array) {
+        this.array = array;
+        this.index = 0;
+        this.length = 0;
+        this.length = array.length;
+    }
+    StaticArrayIterator.prototype[iterator.iterator] = function () {
+        return this;
+    };
+    StaticArrayIterator.prototype.next = function (value) {
+        var i = this.index++;
+        var array = this.array;
+        return i < this.length ? { value: array[i], done: false } : { value: null, done: true };
+    };
+    StaticArrayIterator.prototype.hasValue = function () {
+        return this.array.length > this.index;
+    };
+    StaticArrayIterator.prototype.hasCompleted = function () {
+        return this.array.length === this.index;
+    };
+    return StaticArrayIterator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var ZipBufferIterator = (function (_super) {
+    __extends$98(ZipBufferIterator, _super);
+    function ZipBufferIterator(destination, parent, observable) {
+        _super.call(this, destination);
+        this.parent = parent;
+        this.observable = observable;
+        this.stillUnsubscribed = true;
+        this.buffer = [];
+        this.isComplete = false;
+    }
+    ZipBufferIterator.prototype[iterator.iterator] = function () {
+        return this;
+    };
+    // NOTE: there is actually a name collision here with Subscriber.next and Iterator.next
+    //    this is legit because `next()` will never be called by a subscription in this case.
+    ZipBufferIterator.prototype.next = function () {
+        var buffer = this.buffer;
+        if (buffer.length === 0 && this.isComplete) {
+            return { value: null, done: true };
+        }
+        else {
+            return { value: buffer.shift(), done: false };
+        }
+    };
+    ZipBufferIterator.prototype.hasValue = function () {
+        return this.buffer.length > 0;
+    };
+    ZipBufferIterator.prototype.hasCompleted = function () {
+        return this.buffer.length === 0 && this.isComplete;
+    };
+    ZipBufferIterator.prototype.notifyComplete = function () {
+        if (this.buffer.length > 0) {
+            this.isComplete = true;
+            this.parent.notifyInactive();
+        }
+        else {
+            this.destination.complete();
+        }
+    };
+    ZipBufferIterator.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.buffer.push(innerValue);
+        this.parent.checkIterators();
+    };
+    ZipBufferIterator.prototype.subscribe = function (value, index$$1) {
+        return subscribeToResult_1.subscribeToResult(this, this.observable, this, index$$1);
+    };
+    return ZipBufferIterator;
+}(OuterSubscriber_1.OuterSubscriber));
+var catchError = catchError_1.catchError;
+var map$1 = map_1.map;
+var startWith$1 = startWith_1.startWith;
+var switchMap$2 = switchMap_1.switchMap;
+var throttle = throttle_1.throttle;
+var DataTableSource = /** @class */ (function (_super) {
+    __extends(DataTableSource, _super);
+    /**
+     * @param {?} tableService
+     * @param {?} state
+     * @param {?} ref
+     */
+    function DataTableSource(tableService, state$$1, ref) {
+        var _this = _super.call(this) || this;
+        _this.tableService = tableService;
+        _this.state = state$$1;
+        _this.ref = ref;
+        _this.total = 0;
+        _this.current = 0;
+        _this.loading = false;
+        _this.pristine = true;
+        return _this;
+    }
+    Object.defineProperty(DataTableSource.prototype, "totallyEmpty", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this.total === 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DataTableSource.prototype, "currentlyEmpty", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this.current === 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    DataTableSource.prototype.connect = function () {
+        var _this = this;
+        var /** @type {?} */ displayDataChanges = [this.state.updates];
+        return Observable.Observable.merge.apply(Observable.Observable, displayDataChanges).pipe(startWith$1(null), switchMap$2(function () {
+            _this.pristine = false;
+            _this.loading = true;
+            return _this.tableService.getTableResults(_this.state.sort, _this.state.filter, _this.state.page, _this.state.pageSize, _this.state.globalSearch, _this.state.outsideFilter);
+        }), map$1(function (data) {
+            _this.loading = false;
+            _this.total = data.total;
+            _this.current = data.results.length;
+            setTimeout(function () {
+                _this.ref.markForCheck();
+            });
+            return data.results;
+        }), catchError(function (err, caught) {
+            console.error(err, caught); // tslint: disable-line
+            _this.loading = false;
+            return Observable.Observable.of(null);
+        }));
+    };
+    /**
+     * @return {?}
+     */
+    DataTableSource.prototype.disconnect = function () { };
+    return DataTableSource;
+}(table.DataSource));
+var DataTableState = /** @class */ (function () {
+    function DataTableState() {
+        this.id = Math.random();
+        this.sort = undefined;
+        this.filter = undefined;
+        this.page = 0;
+        this.pageSize = undefined;
+        this.globalSearch = undefined;
+        this.selectedRows = new Map();
+        this.updates = new core.EventEmitter();
+        this.onReset = new core.EventEmitter();
+    }
+    Object.defineProperty(DataTableState.prototype, "userFiltered", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return !!(this.filter || this.sort || this.globalSearch || this.outsideFilter);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @param {?=} fireUpdate
+     * @param {?=} persistUserFilters
+     * @return {?}
+     */
+    DataTableState.prototype.reset = function (fireUpdate, persistUserFilters) {
+        if (fireUpdate === void 0) { fireUpdate = true; }
+        if (!persistUserFilters) {
+            this.sort = undefined;
+            this.globalSearch = undefined;
+            this.filter = undefined;
+        }
+        this.page = 0;
+        this.selectedRows.clear();
+        this.onReset.emit(true);
+        if (fireUpdate) {
+            this.updates.emit({
+                sort: this.sort,
+                filter: this.filter,
+                globalSearch: this.globalSearch,
+            });
+        }
+    };
+    return DataTableState;
+}());
+var NovoTemplate = /** @class */ (function () {
+    /**
+     * @param {?} template
+     */
+    function NovoTemplate(template) {
+        this.template = template;
+    }
+    /**
+     * @return {?}
+     */
+    NovoTemplate.prototype.getType = function () {
+        return this.name;
+    };
+    return NovoTemplate;
+}());
+NovoTemplate.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[novoTemplate]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoTemplate.ctorParameters = function () { return [
+    { type: core.TemplateRef, },
+]; };
+NovoTemplate.propDecorators = {
+    'type': [{ type: core.Input },],
+    'name': [{ type: core.Input, args: ['novoTemplate',] },],
+};
+var StaticDataTableService = /** @class */ (function () {
+    /**
+     * @param {?=} data
+     */
+    function StaticDataTableService(data) {
+        if (data === void 0) { data = []; }
+        this.data = data;
+    }
+    /**
+     * @param {?} sort
+     * @param {?} filter
+     * @param {?=} page
+     * @param {?=} pageSize
+     * @param {?=} globalSearch
+     * @param {?=} outsideFilter
+     * @return {?}
+     */
+    StaticDataTableService.prototype.getTableResults = function (sort, filter$$1, page, pageSize, globalSearch, outsideFilter) {
+        if (page === void 0) { page = 0; }
+        var /** @type {?} */ ret = this.data.slice();
+        if (ret.length !== 0) {
+            if (globalSearch) {
+                ret = ret.filter(function (item) { return Object.keys(item).some(function (key) { return ("" + item[key]).toLowerCase().includes(globalSearch.toLowerCase()); }); });
+            }
+            if (filter$$1) {
+                var /** @type {?} */ value = Helpers.isString(filter$$1.value) ? filter$$1.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter$$1.value;
+                ret = ret.filter(Helpers.filterByField(filter$$1.id, value));
+            }
+            if (sort) {
+                ret = ret.sort(Helpers.sortByField(sort.id, sort.value === 'desc'));
+            }
+            if (!Helpers.isBlank(page) && !Helpers.isBlank(pageSize)) {
+                ret = ret.slice(page * pageSize, (page + 1) * pageSize);
+            }
+        }
+        return Observable.Observable.of({ results: ret, total: this.data.length });
+    };
+    return StaticDataTableService;
+}());
+var NovoDataTable = /** @class */ (function () {
+    /**
+     * @param {?} labels
+     * @param {?} ref
+     * @param {?} state
+     */
+    function NovoDataTable(labels, ref, state$$1) {
+        this.labels = labels;
+        this.ref = ref;
+        this.state = state$$1;
+        this.globalSearchHiddenClassToggle = false;
+        this.name = 'novo-data-table';
+        this.rowIdentifier = 'id';
+        this.trackByFn = function (index$$1, item) { return item.id; };
+        this._hideGlobalSearch = true;
+        this.loading = true;
+        this.templates = {};
+        this.columnToTemplate = {};
+        this.columnsLoaded = false;
+    }
+    Object.defineProperty(NovoDataTable.prototype, "dataTableService", {
+        /**
+         * @param {?} service
+         * @return {?}
+         */
+        set: function (service) {
+            this.loading = false;
+            if (!service) {
+                service = new StaticDataTableService([]);
+            }
+            this.dataSource = new DataTableSource(service, this.state, this.ref);
+            this.ref.detectChanges();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoDataTable.prototype, "rows", {
+        /**
+         * @param {?} rows
+         * @return {?}
+         */
+        set: function (rows) {
+            this.loading = false;
+            var /** @type {?} */ service = new StaticDataTableService(rows);
+            this.dataSource = new DataTableSource(service, this.state, this.ref);
+            this.ref.detectChanges();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoDataTable.prototype, "outsideFilter", {
+        /**
+         * @param {?} outsideFilter
+         * @return {?}
+         */
+        set: function (outsideFilter) {
+            var _this = this;
+            // Unsubscribe
+            if (this.outsideFilterSubscription) {
+                this.outsideFilterSubscription.unsubscribe();
+            }
+            // Re-subscribe
+            this.outsideFilterSubscription = outsideFilter.subscribe(function (filter$$1) {
+                _this.state.outsideFilter = filter$$1;
+                _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort });
+                _this.ref.markForCheck();
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoDataTable.prototype, "columns", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._columns;
+        },
+        /**
+         * @param {?} columns
+         * @return {?}
+         */
+        set: function (columns) {
+            this._columns = columns;
+            this.configureColumns();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoDataTable.prototype, "customFilter", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._customFilter;
+        },
+        /**
+         * @param {?} v
+         * @return {?}
+         */
+        set: function (v) {
+            this._customFilter = coercion.coerceBooleanProperty(v);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoDataTable.prototype, "forceShowHeader", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._forceShowHeader;
+        },
+        /**
+         * @param {?} v
+         * @return {?}
+         */
+        set: function (v) {
+            this._forceShowHeader = coercion.coerceBooleanProperty(v);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoDataTable.prototype, "hideGlobalSearch", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._hideGlobalSearch;
+        },
+        /**
+         * @param {?} v
+         * @return {?}
+         */
+        set: function (v) {
+            this._hideGlobalSearch = coercion.coerceBooleanProperty(v);
+            this.globalSearchHiddenClassToggle = this._hideGlobalSearch;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoDataTable.prototype, "empty", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this.dataSource && this.dataSource.totallyEmpty;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoDataTable.prototype, "loadingClass", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this.loading || (this.dataSource && this.dataSource.loading);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    NovoDataTable.prototype.ngOnDestroy = function () {
+        if (this.outsideFilterSubscription) {
+            this.outsideFilterSubscription.unsubscribe();
+        }
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTable.prototype.ngAfterContentInit = function () {
+        var _this = this;
+        // Default templates defined here
+        this.defaultTemplates.forEach(function (item) {
+            _this.templates[item.getType()] = item.template;
+        });
+        // Custom templates passed in
+        this.customTemplates.forEach(function (item) {
+            _this.templates[item.getType()] = item.template;
+        });
+        // Load columns
+        this.configureColumns();
+        if (this.paginationOptions && !this.paginationOptions.page) {
+            this.paginationOptions.page = 0;
+        }
+        if (this.paginationOptions && !this.paginationOptions.pageSize) {
+            this.paginationOptions.pageSize = 50;
+        }
+        if (this.paginationOptions && !this.paginationOptions.pageSizeOptions) {
+            this.paginationOptions.pageSizeOptions = [10, 25, 50, 100];
+        }
+        this.state.page = this.paginationOptions ? this.paginationOptions.page : undefined;
+        this.state.pageSize = this.paginationOptions ? this.paginationOptions.pageSize : undefined;
+        this.ref.markForCheck();
+    };
+    /**
+     * @param {?} term
+     * @return {?}
+     */
+    NovoDataTable.prototype.onSearchChange = function (term) {
+        this.state.globalSearch = term;
+        this.state.reset(false, true);
+        this.state.updates.next({ globalSearch: term, filter: this.state.filter, sort: this.state.sort });
+    };
+    /**
+     * @param {?} index
+     * @param {?} item
+     * @return {?}
+     */
+    NovoDataTable.prototype.trackColumnsBy = function (index$$1, item) {
+        return item.id;
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTable.prototype.configureColumns = function () {
+        var _this = this;
+        if (this.columns && this.columns.length !== 0 && Object.keys(this.templates).length !== 0) {
+            // Figure the column templates
+            this.columns.forEach(function (column) {
+                // Figure the template
+                var /** @type {?} */ templateName;
+                if (column.template) {
+                    // Pass it in as template
+                    templateName = column.template;
+                }
+                else if (!!_this.templates[column.id]) {
+                    // Custom template for the column id
+                    templateName = column.id;
+                }
+                else {
+                    // Default to the defaulCellTemplate
+                    templateName = 'defaultCellTemplate';
+                }
+                _this.columnToTemplate[column.id] = _this.templates[templateName];
+            });
+            this.columnsLoaded = true;
+        }
+    };
+    return NovoDataTable;
+}());
+NovoDataTable.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-data-table',
+                template: "\n        <header *ngIf=\"(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader\">\n          <ng-container *ngTemplateOutlet=\"templates['customHeader']\"></ng-container>\n            <novo-search\n                alwaysOpen=\"true\"\n                (searchChanged)=\"onSearchChange($event)\"\n                [(ngModel)]=\"state.globalSearch\"\n                *ngIf=\"!hideGlobalSearch\"\n                [placeholder]=\"searchOptions?.placeholder\"\n                [hint]=\"searchOptions?.tooltip\">\n            </novo-search>\n            <novo-data-table-pagination\n                *ngIf=\"paginationOptions\"\n                [theme]=\"paginationOptions.theme\"\n                [length]=\"dataSource?.total\"\n                [page]=\"paginationOptions.page\"\n                [pageSize]=\"paginationOptions.pageSize\"\n                [pageSizeOptions]=\"paginationOptions.pageSizeOptions\">\n            </novo-data-table-pagination>\n            <div class=\"novo-data-table-actions\" *ngIf=\"templates['customActions']\">\n              <ng-container *ngTemplateOutlet=\"templates['customActions']\"></ng-container>\n            </div>\n        </header>\n        <div class=\"novo-data-table-loading-mask\" *ngIf=\"dataSource?.loading || loading\" data-automation-id=\"novo-data-table-loading\">\n            <novo-loading></novo-loading>\n        </div>\n        <div class=\"novo-data-table-outside-container\">\n            <div class=\"novo-data-table-custom-filter\" *ngIf=\"customFilter\">\n              <ng-container *ngTemplateOutlet=\"templates['customFiler']\"></ng-container>\n            </div>\n            <div class=\"novo-data-table-container\" [class.empty-user-filtered]=\"dataSource?.currentlyEmpty && state.userFiltered\" [class.empty]=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n                <cdk-table *ngIf=\"(columns?.length > 0) && columnsLoaded && dataSource\" [dataSource]=\"dataSource\" [trackBy]=\"trackByFn\" novoDataTableSortFilter novoDataTableSelection [class.empty]=\"dataSource?.currentlyEmpty && state.userFiltered\" [hidden]=\"dataSource?.totallyEmpty && !userFiltered\">\n                    <ng-container novoDataTableColumnDef=\"selection\">\n                        <novo-data-table-checkbox-header-cell *novoDataTableHeaderCellDef></novo-data-table-checkbox-header-cell>\n                        <novo-data-table-checkbox-cell *novoDataTableCellDef=\"let row; let i = index\" [row]=\"row\" [index]=\"i\"></novo-data-table-checkbox-cell>\n                    </ng-container>\n                    <ng-container *ngFor=\"let column of columns;trackBy: trackColumnsBy\" [novoDataTableColumnDef]=\"column.id\">\n                        <ng-container [ngSwitch]=\"column.type\">\n                            <ng-container *ngSwitchCase=\"'action'\">\n                              <novo-data-table-empty-header-cell [column]=\"column\" [class.empty]=\"!column?.label\" [class.button-header-cell]=\"!column?.action?.options\" [class.dropdown-header-cell]=\"column?.action?.options\" *novoDataTableHeaderCellDef></novo-data-table-empty-header-cell>\n                              <novo-data-table-action-cell *novoDataTableCellDef=\"let row; let i = index\" [row]=\"row\" [column]=\"column\"></novo-data-table-action-cell>\n                            </ng-container>\n                            <ng-container *ngSwitchDefault>\n                              <novo-data-table-header-cell *novoDataTableHeaderCellDef [column]=\"column\" [novo-data-table-cell-config]=\"column\" [defaultSort]=\"defaultSort\"></novo-data-table-header-cell>\n                              <novo-data-table-cell *novoDataTableCellDef=\"let row\" [column]=\"column\" [row]=\"row\" [template]=\"columnToTemplate[column.id]\"></novo-data-table-cell>\n                            </ng-container>\n                        </ng-container>\n                    </ng-container>\n                    <novo-data-table-header-row *novoDataTableHeaderRowDef=\"displayedColumns\" data-automation-id=\"novo-data-table-header-row\"></novo-data-table-header-row>\n                    <novo-data-table-row *novoDataTableRowDef=\"let row; columns: displayedColumns;\" [id]=\"name + '-' + row[rowIdentifier]\" [dataAutomationId]=\"'data-automation-id-' + row[rowIdentifier]\"></novo-data-table-row>\n                </cdk-table>\n                <div class=\"novo-data-table-no-results-container\" *ngIf=\"dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine\">\n                  <div class=\"novo-data-table-empty-message\" >\n                    <ng-container *ngTemplateOutlet=\"templates['noResultsMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n                  </div>\n                </div>\n            </div>\n            <div class=\"novo-data-table-empty-container\" *ngIf=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n              <div class=\"novo-data-table-empty-message\">\n                <ng-container *ngTemplateOutlet=\"templates['emptyMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n              </div>\n            </div>\n        </div>\n\n         <!-- DEFAULT CELL TEMPLATE -->\n        <ng-template novoTemplate=\"defaultCellTemplate\"\n              let-row\n              let-col=\"col\">\n            <novo-data-table-value [column]=\"col\" [row]=\"row\"></novo-data-table-value>\n        </ng-template>\n        <ng-template novoTemplate=\"defaultNoResultsMessage\">\n            <h4><i class=\"bhi-search-question\"></i> {{ labels.noMatchingRecordsMessage }}</h4>\n        </ng-template>\n        <ng-template novoTemplate=\"defaultEmptyMessage\">\n          <h4><i class=\"bhi-search-question\"></i> {{ labels.emptyTableMessage }}</h4>\n        </ng-template>\n        <!-- CUSTOM CELLS PASSED IN -->\n        <ng-content></ng-content>\n    ",
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+                providers: [DataTableState],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTable.ctorParameters = function () { return [
+    { type: NovoLabelService, },
+    { type: core.ChangeDetectorRef, },
+    { type: DataTableState, },
+]; };
+NovoDataTable.propDecorators = {
+    'globalSearchHiddenClassToggle': [{ type: core.HostBinding, args: ['class.global-search-hidden',] },],
+    'customTemplates': [{ type: core.ContentChildren, args: [NovoTemplate,] },],
+    'defaultTemplates': [{ type: core.ViewChildren, args: [NovoTemplate,] },],
+    'displayedColumns': [{ type: core.Input },],
+    'paginationOptions': [{ type: core.Input },],
+    'searchOptions': [{ type: core.Input },],
+    'defaultSort': [{ type: core.Input },],
+    'name': [{ type: core.Input },],
+    'rowIdentifier': [{ type: core.Input },],
+    'trackByFn': [{ type: core.Input },],
+    'dataTableService': [{ type: core.Input },],
+    'rows': [{ type: core.Input },],
+    'outsideFilter': [{ type: core.Input },],
+    'columns': [{ type: core.Input },],
+    'customFilter': [{ type: core.Input },],
+    'forceShowHeader': [{ type: core.Input },],
+    'hideGlobalSearch': [{ type: core.Input },],
+    'empty': [{ type: core.HostBinding, args: ['class.empty',] },],
+    'loadingClass': [{ type: core.HostBinding, args: ['class.loading',] },],
+};
+var NovoDataTableValue = /** @class */ (function () {
+    /**
+     * @param {?} labels
+     */
+    function NovoDataTableValue(labels) {
+        this.labels = labels;
+        this.isClickable = false;
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoDataTableValue.prototype.onClick = function (event) {
+        if (this.isClickable) {
+            if (this.column.handlers && this.column.handlers.click) {
+                this.column.handlers.click({ originalEvent: event, row: this.row });
+            }
+            return;
+        }
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableValue.prototype.ngOnInit = function () {
+        // Clickable?
+        this.isClickable = this.column.type === 'link';
+        // Configure the value
+        var /** @type {?} */ interpolatedValue = this.interpolateCell(this.row, this.column);
+        switch (this.column.type) {
+            case 'string':
+                this.value = interpolatedValue;
+                break;
+            case 'date':
+                this.value = this.labels.formatDate(interpolatedValue);
+                break;
+            case 'datetime':
+                this.value = this.labels.formatDateShort(interpolatedValue);
+                break;
+            case 'time':
+                this.value = this.labels.formatTime(interpolatedValue);
+                break;
+            case 'currency':
+                this.value = this.labels.formatCurrency(Number(interpolatedValue));
+                break;
+            case 'number':
+                this.value = this.labels.formatNumber(interpolatedValue);
+                break;
+            default:
+                this.value = interpolatedValue;
+                break;
+        }
+    };
+    /**
+     * @param {?} row
+     * @param {?} col
+     * @return {?}
+     */
+    NovoDataTableValue.prototype.interpolateCell = function (row, col) {
+        if (col.property) {
+            var /** @type {?} */ keys = col.property.split('.');
+            var /** @type {?} */ value = row[keys.shift()];
+            while (keys.length && value !== undefined) {
+                var /** @type {?} */ k = keys.shift();
+                value = k ? value[k] : value + ".";
+            }
+            return value !== undefined ? value : col.property;
+        }
+        return row[col.id];
+    };
+    return NovoDataTableValue;
+}());
+NovoDataTableValue.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-data-table-value',
+                template: '{{ value }}',
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableValue.ctorParameters = function () { return [
+    { type: NovoLabelService, },
+]; };
+NovoDataTableValue.propDecorators = {
+    'isClickable': [{ type: core.HostBinding, args: ['class.clickable',] },],
+    'onClick': [{ type: core.HostListener, args: ['click', ['$event'],] },],
+    'column': [{ type: core.Input },],
+    'row': [{ type: core.Input },],
+};
+var NovoDataTableCellDef = /** @class */ (function (_super) {
+    __extends(NovoDataTableCellDef, _super);
+    function NovoDataTableCellDef() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return NovoDataTableCellDef;
+}(table.CdkCellDef));
+NovoDataTableCellDef.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[novoDataTableCellDef]',
+                providers: [{ provide: table.CdkCellDef, useExisting: NovoDataTableCellDef }],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableCellDef.ctorParameters = function () { return []; };
+var NovoIDataTableColumnDef = /** @class */ (function (_super) {
+    __extends(NovoIDataTableColumnDef, _super);
+    function NovoIDataTableColumnDef() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return NovoIDataTableColumnDef;
+}(table.CdkColumnDef));
+NovoIDataTableColumnDef.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[novoDataTableColumnDef]',
+                providers: [{ provide: table.CdkColumnDef, useExisting: NovoIDataTableColumnDef }],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoIDataTableColumnDef.ctorParameters = function () { return []; };
+NovoIDataTableColumnDef.propDecorators = {
+    'name': [{ type: core.Input, args: ['novoDataTableColumnDef',] },],
+};
+var NovoDataTableActionCell = /** @class */ (function (_super) {
+    __extends(NovoDataTableActionCell, _super);
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     * @param {?} labels
+     */
+    function NovoDataTableActionCell(columnDef, elementRef, renderer, labels) {
+        var _this = _super.call(this, columnDef, elementRef) || this;
+        _this.elementRef = elementRef;
+        _this.renderer = renderer;
+        _this.labels = labels;
+        _this.role = 'gridcell';
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-action-column-" + columnDef.cssClassFriendlyName);
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    NovoDataTableActionCell.prototype.ngOnInit = function () {
+        if (this.column.action && this.column.action.options) {
+            this.renderer.addClass(this.elementRef.nativeElement, 'novo-data-table-dropdown-cell');
+        }
+        else {
+            this.renderer.addClass(this.elementRef.nativeElement, 'novo-data-table-button-cell');
+        }
+        if (this.column.cellClass) {
+            this.renderer.addClass(this.elementRef.nativeElement, this.column.cellClass(this.row));
+        }
+        if (this.column.width) {
+            this.renderer.setStyle(this.elementRef.nativeElement, 'min-width', this.column.width + "px");
+            this.renderer.setStyle(this.elementRef.nativeElement, 'max-width', this.column.width + "px");
+            this.renderer.setStyle(this.elementRef.nativeElement, 'width', this.column.width + "px");
+        }
+    };
+    /**
+     * @param {?} check
+     * @param {?} row
+     * @return {?}
+     */
+    NovoDataTableActionCell.prototype.isDisabled = function (check, row) {
+        if (check.disabled === true) {
+            return true;
+        }
+        if (check.disabledFunc) {
+            return check.disabledFunc(row);
+        }
+        return false;
+    };
+    return NovoDataTableActionCell;
+}(table.CdkCell));
+NovoDataTableActionCell.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-data-table-action-cell',
+                template: "\n        <ng-container *ngIf=\"!column?.action?.options\">\n            <button theme=\"icon\" [icon]=\"column?.action?.icon\" (click)=\"column.handlers?.click({ originalEvent: $event, row: row })\" [disabled]=\"isDisabled(column, row)\"></button>\n        </ng-container>\n        <ng-container *ngIf=\"column?.action?.options\">\n            <novo-dropdown appendToBody=\"true\" parentScrollSelector=\".novo-data-table\" containerClass=\"novo-data-table-dropdown\">\n                <button type=\"button\" theme=\"dialogue\" icon=\"collapse\" inverse>{{ column.label }}</button>\n                <list>\n                    <item *ngFor=\"let option of column?.action?.options\" (action)=\"option.handlers.click({ originalEvent: $event?.originalEvent, row: row })\" [disabled]=\"isDisabled(option, row)\">\n                        <span [attr.data-automation-id]=\"option.label\">{{ option.label }}</span>\n                    </item>\n                </list>\n            </novo-dropdown>\n        </ng-container>\n    ",
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableActionCell.ctorParameters = function () { return [
+    { type: table.CdkColumnDef, },
+    { type: core.ElementRef, },
+    { type: core.Renderer2, },
+    { type: NovoLabelService, },
+]; };
+NovoDataTableActionCell.propDecorators = {
+    'role': [{ type: core.HostBinding, args: ['attr.role',] },],
+    'row': [{ type: core.Input },],
+    'column': [{ type: core.Input },],
+};
+var NovoDataTableCell = /** @class */ (function (_super) {
+    __extends(NovoDataTableCell, _super);
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     */
+    function NovoDataTableCell(columnDef, elementRef, renderer) {
+        var _this = _super.call(this, columnDef, elementRef) || this;
+        _this.elementRef = elementRef;
+        _this.renderer = renderer;
+        _this.role = 'gridcell';
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, "novo-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, 'novo-data-table-cell');
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    NovoDataTableCell.prototype.ngOnInit = function () {
+        if (this.column.cellClass) {
+            this.renderer.addClass(this.elementRef.nativeElement, this.column.cellClass(this.row));
+        }
+        if (this.column.width) {
+            this.renderer.setStyle(this.elementRef.nativeElement, 'min-width', this.column.width + "px");
+            this.renderer.setStyle(this.elementRef.nativeElement, 'max-width', this.column.width + "px");
+            this.renderer.setStyle(this.elementRef.nativeElement, 'width', this.column.width + "px");
+        }
+    };
+    return NovoDataTableCell;
+}(table.CdkCell));
+NovoDataTableCell.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-data-table-cell',
+                template: "\n        <ng-container *ngTemplateOutlet=\"template; context: {$implicit: row, col: column}\"></ng-container>\n    ",
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableCell.ctorParameters = function () { return [
+    { type: table.CdkColumnDef, },
+    { type: core.ElementRef, },
+    { type: core.Renderer2, },
+]; };
+NovoDataTableCell.propDecorators = {
+    'role': [{ type: core.HostBinding, args: ['attr.role',] },],
+    'row': [{ type: core.Input },],
+    'template': [{ type: core.Input },],
+    'column': [{ type: core.Input },],
+};
+var NovoDataTableSelection = /** @class */ (function () {
+    /**
+     * @param {?} state
+     */
+    function NovoDataTableSelection(state$$1) {
+        this.state = state$$1;
+        this.novoSelectAllToggle = new core.EventEmitter();
+        this.allRows = new Map();
+    }
+    /**
+     * @param {?} id
+     * @param {?} row
+     * @return {?}
+     */
+    NovoDataTableSelection.prototype.register = function (id, row) {
+        this.allRows.set(id, row);
+    };
+    /**
+     * @param {?} id
+     * @return {?}
+     */
+    NovoDataTableSelection.prototype.deregister = function (id) {
+        var _this = this;
+        this.allRows.delete(id);
+        this.state.selectedRows.delete(id);
+        clearTimeout(this.throttleTimeout);
+        this.throttleTimeout = setTimeout(function () {
+            if (_this.state.selectedRows.size === 0) {
+                _this.novoSelectAllToggle.emit(false);
+            }
+        });
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableSelection.prototype.ngOnDestroy = function () {
+        this.allRows.clear();
+        this.state.selectedRows.clear();
+    };
+    /**
+     * @param {?} id
+     * @param {?} selected
+     * @param {?} row
+     * @return {?}
+     */
+    NovoDataTableSelection.prototype.toggle = function (id, selected, row) {
+        if (selected) {
+            this.state.selectedRows.set(id, row);
+        }
+        else {
+            this.state.selectedRows.delete(id);
+        }
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoDataTableSelection.prototype.selectAll = function (value) {
+        if (value) {
+            this.state.selectedRows = new Map(this.allRows);
+        }
+        else {
+            this.state.selectedRows.clear();
+        }
+        this.novoSelectAllToggle.emit(value);
+    };
+    return NovoDataTableSelection;
+}());
+NovoDataTableSelection.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[novoDataTableSelection]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableSelection.ctorParameters = function () { return [
+    { type: DataTableState, },
+]; };
+NovoDataTableSelection.propDecorators = {
+    'novoSelectAllToggle': [{ type: core.Output },],
+};
+var NovoDataTableCheckboxCell = /** @class */ (function (_super) {
+    __extends(NovoDataTableCheckboxCell, _super);
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     * @param {?} _selection
+     */
+    function NovoDataTableCheckboxCell(columnDef, elementRef, renderer, _selection) {
+        var _this = _super.call(this, columnDef, elementRef) || this;
+        _this.columnDef = columnDef;
+        _this._selection = _selection;
+        _this.role = 'gridcell';
+        _this.selected = false;
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-checkbox-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, "novo-checkbox-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, 'novo-data-table-checkbox-cell');
+        _this.selectAllSubscription = _selection.novoSelectAllToggle.subscribe(function (value) {
+            _this.selected = value;
+        });
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    NovoDataTableCheckboxCell.prototype.ngOnInit = function () {
+        this._selection.register(this.row.id || this.index, this.row);
+        this.selected = this._selection.state.selectedRows.has(this.row.id || this.index);
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableCheckboxCell.prototype.ngOnDestroy = function () {
+        this._selection.deregister(this.row.id || this.index);
+        this.selectAllSubscription.unsubscribe();
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoDataTableCheckboxCell.prototype.toggle = function (value) {
+        this._selection.toggle(this.row.id || this.index, value, this.row);
+    };
+    return NovoDataTableCheckboxCell;
+}(table.CdkCell));
+NovoDataTableCheckboxCell.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-data-table-checkbox-cell',
+                template: "\n        <novo-checkbox [ngModel]=\"selected\" (ngModelChange)=\"toggle($event)\"></novo-checkbox>\n    ",
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableCheckboxCell.ctorParameters = function () { return [
+    { type: table.CdkColumnDef, },
+    { type: core.ElementRef, },
+    { type: core.Renderer2, },
+    { type: NovoDataTableSelection, decorators: [{ type: core.Optional },] },
+]; };
+NovoDataTableCheckboxCell.propDecorators = {
+    'role': [{ type: core.HostBinding, args: ['attr.role',] },],
+    'row': [{ type: core.Input },],
+    'index': [{ type: core.Input },],
+};
+var NovoDataTableHeaderRowDef = /** @class */ (function (_super) {
+    __extends(NovoDataTableHeaderRowDef, _super);
+    function NovoDataTableHeaderRowDef() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return NovoDataTableHeaderRowDef;
+}(table.CdkHeaderRowDef));
+NovoDataTableHeaderRowDef.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[novoDataTableHeaderRowDef]',
+                providers: [{ provide: table.CdkHeaderRowDef, useExisting: NovoDataTableHeaderRowDef }],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableHeaderRowDef.ctorParameters = function () { return []; };
+NovoDataTableHeaderRowDef.propDecorators = {
+    'columns': [{ type: core.Input, args: ['novoDataTableHeaderRowDef',] },],
+};
+var NovoDataTableRowDef = /** @class */ (function (_super) {
+    __extends(NovoDataTableRowDef, _super);
+    function NovoDataTableRowDef() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return NovoDataTableRowDef;
+}(table.CdkRowDef));
+NovoDataTableRowDef.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[novoDataTableRowDef]',
+                providers: [{ provide: table.CdkRowDef, useExisting: NovoDataTableRowDef }],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableRowDef.ctorParameters = function () { return []; };
+NovoDataTableRowDef.propDecorators = {
+    'columns': [{ type: core.Input, args: ['novoDataTableRowDefColumns',] },],
+};
+var NovoDataTableHeaderRow = /** @class */ (function (_super) {
+    __extends(NovoDataTableHeaderRow, _super);
+    function NovoDataTableHeaderRow() {
+        var _this = _super.apply(this, arguments) || this;
+        _this.rowClass = 'novo-data-table-header-row';
+        _this.role = 'row';
+        return _this;
+    }
+    return NovoDataTableHeaderRow;
+}(table.CdkHeaderRow));
+NovoDataTableHeaderRow.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-data-table-header-row',
+                template: table.CDK_ROW_TEMPLATE,
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableHeaderRow.ctorParameters = function () { return []; };
+NovoDataTableHeaderRow.propDecorators = {
+    'rowClass': [{ type: core.HostBinding, args: ['class',] },],
+    'role': [{ type: core.HostBinding, args: ['attr.role',] },],
+};
+var NovoDataTableRow = /** @class */ (function (_super) {
+    __extends(NovoDataTableRow, _super);
+    function NovoDataTableRow() {
+        var _this = _super.apply(this, arguments) || this;
+        _this.rowClass = 'novo-data-table-row';
+        _this.role = 'row';
+        return _this;
+    }
+    return NovoDataTableRow;
+}(table.CdkRow));
+NovoDataTableRow.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-data-table-row',
+                template: table.CDK_ROW_TEMPLATE,
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableRow.ctorParameters = function () { return []; };
+NovoDataTableRow.propDecorators = {
+    'rowClass': [{ type: core.HostBinding, args: ['class',] },],
+    'role': [{ type: core.HostBinding, args: ['attr.role',] },],
+    'id': [{ type: core.HostBinding, args: ['attr.id',] }, { type: core.Input },],
+    'dataAutomationId': [{ type: core.HostBinding, args: ['attr.data-automation-id',] }, { type: core.Input },],
+};
+var NovoDataTableHeaderCellDef = /** @class */ (function (_super) {
+    __extends(NovoDataTableHeaderCellDef, _super);
+    function NovoDataTableHeaderCellDef() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return NovoDataTableHeaderCellDef;
+}(table.CdkHeaderCellDef));
+NovoDataTableHeaderCellDef.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[novoDataTableHeaderCellDef]',
+                providers: [{ provide: table.CdkHeaderCellDef, useExisting: NovoDataTableHeaderCellDef }],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableHeaderCellDef.ctorParameters = function () { return []; };
+var NovoDataTableCheckboxHeaderCell = /** @class */ (function (_super) {
+    __extends(NovoDataTableCheckboxHeaderCell, _super);
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     * @param {?} _selection
+     */
+    function NovoDataTableCheckboxHeaderCell(columnDef, elementRef, renderer, _selection) {
+        var _this = _super.call(this, columnDef, elementRef) || this;
+        _this._selection = _selection;
+        _this.role = 'columnheader';
+        _this.selectAll = false;
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-checkbox-column-header-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, "novo-checkbox-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, 'novo-data-table-checkbox-header-cell');
+        _this.selectAllSubscription = _selection.novoSelectAllToggle.subscribe(function (value) {
+            _this.selectAll = value;
+        });
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    NovoDataTableCheckboxHeaderCell.prototype.ngOnDestroy = function () {
+        this.selectAllSubscription.unsubscribe();
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoDataTableCheckboxHeaderCell.prototype.toggle = function (value) {
+        this._selection.selectAll(value);
+    };
+    return NovoDataTableCheckboxHeaderCell;
+}(table.CdkHeaderCell));
+NovoDataTableCheckboxHeaderCell.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-data-table-checkbox-header-cell',
+                template: "<novo-checkbox [(ngModel)]=\"selectAll\" (ngModelChange)=\"toggle($event)\"></novo-checkbox>",
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableCheckboxHeaderCell.ctorParameters = function () { return [
+    { type: table.CdkColumnDef, },
+    { type: core.ElementRef, },
+    { type: core.Renderer2, },
+    { type: NovoDataTableSelection, decorators: [{ type: core.Optional },] },
+]; };
+NovoDataTableCheckboxHeaderCell.propDecorators = {
+    'role': [{ type: core.HostBinding, args: ['attr.role',] },],
+};
+var NovoDataTableEmptyHeaderCell = /** @class */ (function (_super) {
+    __extends(NovoDataTableEmptyHeaderCell, _super);
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     */
+    function NovoDataTableEmptyHeaderCell(columnDef, elementRef, renderer) {
+        var _this = _super.call(this, columnDef, elementRef) || this;
+        _this.elementRef = elementRef;
+        _this.renderer = renderer;
+        _this.role = 'columnheader';
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-column-header-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, "novo-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, 'novo-data-table-empty-header-cell');
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    NovoDataTableEmptyHeaderCell.prototype.ngOnInit = function () {
+        if (this.column.width) {
+            this.renderer.setStyle(this.elementRef.nativeElement, 'min-width', this.column.width + "px");
+            this.renderer.setStyle(this.elementRef.nativeElement, 'max-width', this.column.width + "px");
+            this.renderer.setStyle(this.elementRef.nativeElement, 'width', this.column.width + "px");
+        }
+    };
+    return NovoDataTableEmptyHeaderCell;
+}(table.CdkHeaderCell));
+NovoDataTableEmptyHeaderCell.decorators = [
+    { type: core.Directive, args: [{
+                selector: 'novo-data-table-empty-header-cell',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableEmptyHeaderCell.ctorParameters = function () { return [
+    { type: table.CdkColumnDef, },
+    { type: core.ElementRef, },
+    { type: core.Renderer2, },
+]; };
+NovoDataTableEmptyHeaderCell.propDecorators = {
+    'role': [{ type: core.HostBinding, args: ['attr.role',] },],
+    'column': [{ type: core.Input },],
+};
+var NovoDataTableHeaderCell = /** @class */ (function (_super) {
+    __extends(NovoDataTableHeaderCell, _super);
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     */
+    function NovoDataTableHeaderCell(columnDef, elementRef, renderer) {
+        var _this = _super.call(this, columnDef, elementRef) || this;
+        _this.elementRef = elementRef;
+        _this.renderer = renderer;
+        _this.role = 'columnheader';
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-column-header-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, "novo-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, 'novo-data-table-header-cell');
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    NovoDataTableHeaderCell.prototype.ngOnInit = function () {
+        if (this.column.width) {
+            this.renderer.setStyle(this.elementRef.nativeElement, 'min-width', this.column.width + "px");
+            this.renderer.setStyle(this.elementRef.nativeElement, 'max-width', this.column.width + "px");
+            this.renderer.setStyle(this.elementRef.nativeElement, 'width', this.column.width + "px");
+        }
+    };
+    return NovoDataTableHeaderCell;
+}(table.CdkHeaderCell));
+NovoDataTableHeaderCell.decorators = [
+    { type: core.Directive, args: [{
+                selector: 'novo-data-table-header-cell',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableHeaderCell.ctorParameters = function () { return [
+    { type: table.CdkColumnDef, },
+    { type: core.ElementRef, },
+    { type: core.Renderer2, },
+]; };
+NovoDataTableHeaderCell.propDecorators = {
+    'role': [{ type: core.HostBinding, args: ['attr.role',] },],
+    'column': [{ type: core.Input },],
+};
+var NovoDataTableSortFilter = /** @class */ (function () {
+    /**
+     * @param {?} state
+     */
+    function NovoDataTableSortFilter(state$$1) {
+        this.state = state$$1;
+    }
+    /**
+     * @param {?} id
+     * @param {?} value
+     * @param {?} transform
+     * @return {?}
+     */
+    NovoDataTableSortFilter.prototype.filter = function (id, value, transform) {
+        var /** @type {?} */ filter$$1;
+        if (!Helpers.isBlank(value)) {
+            filter$$1 = { id: id, value: value, transform: transform };
+        }
+        else {
+            filter$$1 = undefined;
+        }
+        this.state.filter = filter$$1;
+        this.state.reset(false, true);
+        this.state.updates.next({ filter: filter$$1, sort: this.state.sort });
+    };
+    /**
+     * @param {?} id
+     * @param {?} value
+     * @param {?} transform
+     * @return {?}
+     */
+    NovoDataTableSortFilter.prototype.sort = function (id, value, transform) {
+        var /** @type {?} */ sort = { id: id, value: value, transform: transform };
+        this.state.sort = sort;
+        this.state.reset(false, true);
+        this.state.updates.next({ sort: sort, filter: this.state.filter });
+    };
+    return NovoDataTableSortFilter;
+}());
+NovoDataTableSortFilter.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[novoDataTableSortFilter]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableSortFilter.ctorParameters = function () { return [
+    { type: DataTableState, },
+]; };
+var NovoDataTableCellHeader = /** @class */ (function () {
+    /**
+     * @param {?} changeDetectorRef
+     * @param {?} labels
+     * @param {?} state
+     * @param {?} _sort
+     * @param {?} _cdkColumnDef
+     */
+    function NovoDataTableCellHeader(changeDetectorRef, labels, state$$1, _sort, _cdkColumnDef) {
+        var _this = this;
+        this.changeDetectorRef = changeDetectorRef;
+        this.labels = labels;
+        this.state = state$$1;
+        this._sort = _sort;
+        this._cdkColumnDef = _cdkColumnDef;
+        this.icon = 'sortable';
+        this.filterActive = false;
+        this.sortActive = false;
+        this.showCustomRange = false;
+        this._rerenderSubscription = state$$1.updates.subscribe(function (change) {
+            if (change.sort && change.sort.id === _this.id) {
+                _this.icon = "sort-" + change.sort.value;
+                _this.sortActive = true;
+            }
+            else {
+                _this.icon = 'sortable';
+                _this.sortActive = false;
+            }
+            if (change.filter && change.filter.id === _this.id) {
+                _this.filterActive = true;
+                _this.filter = change.filter.value;
+            }
+            else {
+                _this.filterActive = false;
+                _this.filter = undefined;
+            }
+            changeDetectorRef.markForCheck();
+        });
+    }
+    Object.defineProperty(NovoDataTableCellHeader.prototype, "column", {
+        /**
+         * @param {?} column
+         * @return {?}
+         */
+        set: function (column) {
+            this.label = column.label;
+            this.config = {
+                sortable: !!column.sortable,
+                filterable: !!column.filterable,
+            };
+            var /** @type {?} */ transforms = {};
+            if (column.filterable && Helpers.isObject(column.filterable)) {
+                this.config.filterConfig = /** @type {?} */ (column.filterable);
+                if (!this.config.filterConfig.type) {
+                    this.config.filterConfig = { type: 'text' };
+                }
+                if (((column.filterable)).transform) {
+                    transforms.filter = ((column.filterable)).transform;
+                }
+            }
+            else {
+                this.config.filterConfig = { type: 'text' };
+            }
+            if (column.sortable && Helpers.isObject(column.sortable)) {
+                if (((column.sortable)).transform) {
+                    transforms.sort = ((column.sortable)).transform;
+                }
+            }
+            if (this.config.filterConfig.type === 'date' && !this.config.filterConfig.options) {
+                this.config.filterConfig.options = this.getDefaultDateFilterOptions();
+            }
+            this.config.transforms = transforms;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.ngOnInit = function () {
+        if (this._cdkColumnDef) {
+            this.id = this._cdkColumnDef.name;
+        }
+        if (this.defaultSort && this.id === this.defaultSort.id) {
+            this.icon = "sort-" + this.defaultSort.value;
+            this.sortActive = true;
+            this.changeDetectorRef.markForCheck();
+        }
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.ngOnDestroy = function () {
+        this._rerenderSubscription.unsubscribe();
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.focusInput = function () {
+        var _this = this;
+        if (this.filterInput && this.filterInput.nativeElement) {
+            setTimeout(function () { return _this.filterInput.nativeElement.focus(); }, 0);
+        }
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.sort = function () {
+        var _this = this;
+        if (this.changeTimeout) {
+            clearTimeout(this.changeTimeout);
+        }
+        this.changeTimeout = setTimeout(function () {
+            _this.direction = _this.getNextSortDirection(_this.direction);
+            _this._sort.sort(_this.id, _this.direction, _this.config.transforms.sort);
+            _this.changeDetectorRef.markForCheck();
+        }, 300);
+    };
+    /**
+     * @param {?=} filter
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.filterData = function (filter$$1) {
+        var _this = this;
+        if (this.config.filterConfig.type === 'date' && filter$$1) {
+            this.activeDateFilter = filter$$1.label || this.labels.customDateRange;
+            if (filter$$1.startDate && filter$$1.endDate) {
+                filter$$1 = {
+                    min: dateFns.startOfDay(filter$$1.startDate),
+                    max: dateFns.endOfDay(filter$$1.endDate),
+                };
+            }
+            else {
+                filter$$1 = {
+                    min: dateFns.startOfDay(dateFns.addDays(dateFns.startOfToday(), filter$$1.min)),
+                    max: dateFns.endOfDay(dateFns.addDays(dateFns.startOfToday(), filter$$1.max)),
+                };
+            }
+        }
+        if (filter$$1) {
+            if (filter$$1.hasOwnProperty('value')) {
+                this.filter = filter$$1.value;
+            }
+            else {
+                this.filter = filter$$1;
+            }
+        }
+        if (this.changeTimeout) {
+            clearTimeout(this.changeTimeout);
+        }
+        this.changeTimeout = setTimeout(function () {
+            if (_this.filter === '') {
+                _this.filter = undefined;
+            }
+            _this._sort.filter(_this.id, _this.filter, _this.config.transforms.filter);
+            _this.changeDetectorRef.markForCheck();
+        }, 300);
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.clearFilter = function () {
+        this.filter = undefined;
+        this.activeDateFilter = undefined;
+        this.filterData();
+    };
+    /**
+     * @param {?} direction
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.getNextSortDirection = function (direction) {
+        if (!direction) {
+            return 'asc';
+        }
+        if (direction === 'asc') {
+            return 'desc';
+        }
+        return 'asc';
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.getDefaultDateFilterOptions = function () {
+        var /** @type {?} */ opts = [
+            { label: this.labels.past1Day, min: -1, max: 0 },
+            { label: this.labels.past7Days, min: -7, max: 0 },
+            { label: this.labels.past30Days, min: -30, max: 0 },
+            { label: this.labels.past90Days, min: -90, max: 0 },
+            { label: this.labels.past1Year, min: -366, max: 0 },
+            { label: this.labels.next1Day, min: 0, max: 1 },
+            { label: this.labels.next7Days, min: 0, max: 7 },
+            { label: this.labels.next30Days, min: 0, max: 30 },
+            { label: this.labels.next90Days, min: 0, max: 90 },
+            { label: this.labels.next1Year, min: 0, max: 366 },
+        ];
+        return opts;
+    };
+    return NovoDataTableCellHeader;
+}());
+NovoDataTableCellHeader.decorators = [
+    { type: core.Component, args: [{
+                selector: '[novo-data-table-cell-config]',
+                template: "\n        <label data-automation-id=\"novo-data-table-label\">{{ label }}</label>\n        <div>\n            <button *ngIf=\"config.sortable\" theme=\"icon\" [icon]=\"icon\" (click)=\"sort()\" [class.active]=\"sortActive\" data-automation-id=\"novo-data-table-sort\"></button>\n            <novo-dropdown *ngIf=\"config.filterable\" side=\"right\" appendToBody=\"true\" parentScrollSelector=\".novo-data-table\" containerClass=\"data-table-dropdown\" data-automation-id=\"novo-data-table-filter\">\n                <button type=\"button\" theme=\"icon\" icon=\"filter\" [class.active]=\"filterActive\" (click)=\"focusInput()\"></button>\n                <div class=\"header\">\n                    <span>{{ labels.filters }}</span>\n                    <button theme=\"dialogue\" color=\"negative\" icon=\"times\" (click)=\"clearFilter()\" *ngIf=\"filter !== null && filter !== undefined && filter !== ''\" data-automation-id=\"novo-data-table-filter-clear\">{{ labels.clear }}</button>\n                </div>\n                <ng-container [ngSwitch]=\"config.filterConfig.type\">\n                    <list *ngSwitchCase=\"'date'\">\n                        <ng-container *ngIf=\"!showCustomRange\">\n                            <item [class.active]=\"activeDateFilter === option.label\" *ngFor=\"let option of config.filterConfig.options\" (click)=\"filterData(option)\" [attr.data-automation-id]=\"'novo-data-table-filter-' + option.label\">\n                                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n                            </item>\n                        </ng-container>\n                        <item [class.active]=\"labels.customDateRange === activeDateFilter\" (click)=\"showCustomRange = true\" *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\" [keepOpen]=\"true\">\n                            {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n                        </item>\n                        <div class=\"calender-container\" *ngIf=\"showCustomRange\">\n                            <div (click)=\"showCustomRange = false\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n                            <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n                        </div>\n                    </list>\n                    <list *ngSwitchCase=\"'select'\">\n                        <item [class.active]=\"filter === option\" *ngFor=\"let option of config.filterConfig.options\" (click)=\"filterData(option)\" [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\">\n                            <span>{{ option?.label || option }}</span> <i class=\"bhi-check\" *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n                        </item>\n                    </list>\n                    <list *ngSwitchDefault>\n                        <item class=\"filter-search\" keepOpen=\"true\">\n                            <input type=\"text\" [(ngModel)]=\"filter\" (ngModelChange)=\"filterData()\" #filterInput data-automation-id=\"novo-data-table-filter-input\"/>\n                        </item>\n                    </list>\n                </ng-container>\n            </novo-dropdown>\n        </div>\n    ",
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableCellHeader.ctorParameters = function () { return [
+    { type: core.ChangeDetectorRef, },
+    { type: NovoLabelService, },
+    { type: DataTableState, },
+    { type: NovoDataTableSortFilter, decorators: [{ type: core.Optional },] },
+    { type: table.CdkColumnDef, decorators: [{ type: core.Optional },] },
+]; };
+NovoDataTableCellHeader.propDecorators = {
+    'filterInput': [{ type: core.ViewChild, args: ['filterInput',] },],
+    'defaultSort': [{ type: core.Input },],
+    'column': [{ type: core.Input, args: ['novo-data-table-cell-config',] },],
+};
+var MAX_PAGES_DISPLAYED = 5;
+var NovoDataTablePagination = /** @class */ (function () {
+    /**
+     * @param {?} changeDetectorRef
+     * @param {?} labels
+     * @param {?} state
+     */
+    function NovoDataTablePagination(changeDetectorRef, labels, state$$1) {
+        var _this = this;
+        this.changeDetectorRef = changeDetectorRef;
+        this.labels = labels;
+        this.state = state$$1;
+        this.theme = 'standard';
+        this._page = 0;
+        this._length = 0;
+        this._pageSizeOptions = [];
+        this.pageChange = new core.EventEmitter();
+        if (state$$1 && state$$1.onReset) {
+            this.resetSubscription = this.state.onReset.subscribe(function (clear) {
+                if (clear) {
+                    _this.page = 0;
+                    _this.changeDetectorRef.markForCheck();
+                }
+            });
+        }
+    }
+    Object.defineProperty(NovoDataTablePagination.prototype, "page", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._page;
+        },
+        /**
+         * @param {?} page
+         * @return {?}
+         */
+        set: function (page) {
+            this._page = page;
+            this.changeDetectorRef.markForCheck();
+            this.longRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, false);
+            this.shortRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, true);
+            this.state.page = this._page;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoDataTablePagination.prototype, "length", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._length;
+        },
+        /**
+         * @param {?} length
+         * @return {?}
+         */
+        set: function (length) {
+            this._length = length;
+            this.changeDetectorRef.markForCheck();
+            this.longRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, false);
+            this.shortRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoDataTablePagination.prototype, "pageSize", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._pageSize;
+        },
+        /**
+         * @param {?} pageSize
+         * @return {?}
+         */
+        set: function (pageSize) {
+            this._pageSize = pageSize;
+            this.updateDisplayedPageSizeOptions();
+            this.state.pageSize = this._pageSize;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoDataTablePagination.prototype, "pageSizeOptions", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._pageSizeOptions;
+        },
+        /**
+         * @param {?} pageSizeOptions
+         * @return {?}
+         */
+        set: function (pageSizeOptions) {
+            this._pageSizeOptions = pageSizeOptions;
+            this.updateDisplayedPageSizeOptions();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.ngOnInit = function () {
+        this._initialized = true;
+        this.updateDisplayedPageSizeOptions();
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.ngOnDestroy = function () {
+        this.resetSubscription.unsubscribe();
+    };
+    /**
+     * @param {?} page
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.selectPage = function (page) {
+        this.page = page;
+        this.emitPageEvent();
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.nextPage = function () {
+        if (!this.hasNextPage()) {
+            return;
+        }
+        this.page++;
+        this.pages = this.getPages(this.page, this.totalPages);
+        this.emitPageEvent();
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.previousPage = function () {
+        if (!this.hasPreviousPage()) {
+            return;
+        }
+        this.page--;
+        this.pages = this.getPages(this.page, this.totalPages);
+        this.emitPageEvent();
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.hasPreviousPage = function () {
+        return this.page >= 1 && this.pageSize !== 0;
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.hasNextPage = function () {
+        var /** @type {?} */ numberOfPages = Math.ceil(this.length / this.pageSize) - 1;
+        return this.page < numberOfPages && this.pageSize !== 0;
+    };
+    /**
+     * @param {?} pageSize
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.changePageSize = function (pageSize) {
+        this.page = 0;
+        this.pageSize = pageSize;
+        this.emitPageEvent();
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.updateDisplayedPageSizeOptions = function () {
+        var _this = this;
+        if (!this._initialized) {
+            return;
+        }
+        if (!this.displayedPageSizeOptions) {
+            this.displayedPageSizeOptions = [];
+            this.pageSizeOptions.forEach(function (option) {
+                if (option.hasOwnProperty('value')) {
+                    _this.displayedPageSizeOptions.push(option);
+                }
+                else {
+                    _this.displayedPageSizeOptions.push({
+                        value: option,
+                        label: option,
+                    });
+                }
+            });
+        }
+        this.longRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, false);
+        this.shortRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, true);
+        this.totalPages = this.calculateTotalPages();
+        this.pages = this.getPages(this.page, this.totalPages);
+        this.changeDetectorRef.detectChanges();
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.emitPageEvent = function () {
+        var /** @type {?} */ event = {
+            page: this.page,
+            pageSize: this.pageSize,
+            length: this.length,
+            filter: this.state.filter,
+            sort: this.state.sort,
+        };
+        this.pageChange.next(event);
+        this.state.page = this.page;
+        this.state.pageSize = this.pageSize;
+        this.longRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, false);
+        this.shortRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, true);
+        this.totalPages = this.calculateTotalPages();
+        this.pages = this.getPages(this.page, this.totalPages);
+        this.state.updates.next(event);
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.calculateTotalPages = function () {
+        var /** @type {?} */ totalPages = this.pageSize < 1 ? 1 : Math.ceil(this.length / this.pageSize);
+        return Math.max(totalPages || 0, 1);
+    };
+    /**
+     * @param {?} number
+     * @param {?} text
+     * @param {?} isActive
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.makePage = function (number, text, isActive) {
+        return {
+            number: number,
+            text: text,
+            active: isActive,
+        };
+    };
+    /**
+     * @param {?} currentPage
+     * @param {?} totalPages
+     * @return {?}
+     */
+    NovoDataTablePagination.prototype.getPages = function (currentPage, totalPages) {
+        var /** @type {?} */ pages = [];
+        // Default page limits
+        var /** @type {?} */ startPage = 1;
+        var /** @type {?} */ endPage = totalPages;
+        var /** @type {?} */ isMaxSized = MAX_PAGES_DISPLAYED < totalPages;
+        // Recompute if maxPagesDisplayed
+        if (isMaxSized) {
+            // Current page is displayed in the middle of the visible ones
+            startPage = Math.max(currentPage - Math.floor(MAX_PAGES_DISPLAYED / 2), 1);
+            endPage = startPage + MAX_PAGES_DISPLAYED - 1;
+            // Adjust if limit is exceeded
+            if (endPage > totalPages) {
+                endPage = totalPages;
+                startPage = endPage - MAX_PAGES_DISPLAYED + 1;
+            }
+        }
+        // Add page number links
+        for (var /** @type {?} */ number = startPage; number <= endPage; number++) {
+            var /** @type {?} */ page = this.makePage(number, number.toString(), number === currentPage);
+            pages.push(page);
+        }
+        return pages;
+    };
+    return NovoDataTablePagination;
+}());
+NovoDataTablePagination.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-data-table-pagination',
+                template: "\n      <ng-container *ngIf=\"theme === 'basic'\">\n        <div class=\"novo-data-table-pagination-size\">\n            <novo-tiles *ngIf=\"displayedPageSizeOptions.length > 1\"\n                        [(ngModel)]=\"pageSize\"\n                        [options]=\"displayedPageSizeOptions\"\n                        (onChange)=\"changePageSize($event)\"\n                        data-automation-id=\"novo-data-table-pagination-tiles\">\n            </novo-tiles>\n            <div *ngIf=\"displayedPageSizeOptions.length <= 1\">{{ pageSize }}</div>\n        </div>\n\n        <div class=\"novo-data-table-range-label-long\" data-automation-id=\"novo-data-table-pagination-range-label-long\">\n            {{ longRangeLabel }}\n        </div>\n        <div class=\"novo-data-table-range-label-short\" data-automation-id=\"novo-data-table-pagination-range-label-short\">\n            {{ shortRangeLabel }}\n        </div>\n\n        <button theme=\"dialogue\" type=\"button\"\n                class=\"novo-data-table-pagination-navigation-previous\"\n                (click)=\"previousPage()\"\n                icon=\"previous\"\n                side=\"left\"\n                [disabled]=\"!hasPreviousPage()\"\n                data-automation-id=\"novo-data-table-pagination-previous\">\n            <span>{{ labels.previous }}</span>\n        </button>\n        <button theme=\"dialogue\" type=\"button\"\n                class=\"novo-data-table-pagination-navigation-next\"\n                (click)=\"nextPage()\"\n                icon=\"next\"\n                side=\"right\"\n                [disabled]=\"!hasNextPage()\"\n                data-automation-id=\"novo-data-table-pagination-next\">\n            <span>{{ labels.next }}</span>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"theme === 'standard'\">\n        <h5 class=\"rows\">{{ labels.itemsPerPage }}</h5>\n        <novo-select [options]=\"displayedPageSizeOptions\" [placeholder]=\"labels.select\" [(ngModel)]=\"pageSize\" (onSelect)=\"changePageSize($event.selected)\" data-automation-id=\"pager-select\"></novo-select>\n        <span class=\"spacer\"></span>\n        <ul class=\"pager\" data-automation-id=\"pager\">\n            <li class=\"page\" (click)=\"selectPage(page - 1)\" [ngClass]=\"{ 'disabled': page === 0 }\"><i class=\"bhi-previous\" data-automation-id=\"pager-previous\"></i></li>\n            <li class=\"page\" [ngClass]=\"{active: p.number === page + 1}\" *ngFor=\"let p of pages\" (click)=\"selectPage(p.number)\">{{ p.text }}</li>\n            <li class=\"page\" (click)=\"selectPage(page + 1)\" [ngClass]=\"{ 'disabled': page + 1 === totalPages }\"><i class=\"bhi-next\" data-automation-id=\"pager-next\"></i></li>\n        </ul>\n      </ng-container>\n  ",
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTablePagination.ctorParameters = function () { return [
+    { type: core.ChangeDetectorRef, },
+    { type: NovoLabelService, },
+    { type: DataTableState, },
+]; };
+NovoDataTablePagination.propDecorators = {
+    'theme': [{ type: core.HostBinding, args: ['class',] }, { type: core.Input },],
+    'page': [{ type: core.Input },],
+    'length': [{ type: core.Input },],
+    'pageSize': [{ type: core.Input },],
+    'pageSizeOptions': [{ type: core.Input },],
+    'pageChange': [{ type: core.Output },],
+};
+/**
+ * @abstract
+ */
+var RemoteDataTableService = /** @class */ (function () {
+    function RemoteDataTableService() {
+    }
+    /**
+     * @abstract
+     * @param {?} sort
+     * @param {?} filter
+     * @param {?} page
+     * @param {?} pageSize
+     * @param {?=} globalSearch
+     * @param {?=} outsideFilter
+     * @return {?}
+     */
+    RemoteDataTableService.prototype.getTableResults = function (sort, filter$$1, page, pageSize, globalSearch, outsideFilter) { };
+    return RemoteDataTableService;
+}());
+var NovoCommonModule = /** @class */ (function () {
+    function NovoCommonModule() {
+    }
+    return NovoCommonModule;
+}());
+NovoCommonModule.decorators = [
+    { type: core.NgModule, args: [{
+                imports: [common.CommonModule],
+                exports: [NovoTemplate],
+                declarations: [NovoTemplate],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoCommonModule.ctorParameters = function () { return []; };
+var NovoDataTableModule = /** @class */ (function () {
+    function NovoDataTableModule() {
+    }
+    return NovoDataTableModule;
+}());
+NovoDataTableModule.decorators = [
+    { type: core.NgModule, args: [{
+                imports: [
+                    NovoDatePickerModule,
+                    table.CdkTableModule,
+                    common.CommonModule,
+                    forms.FormsModule,
+                    NovoButtonModule,
+                    NovoDropdownModule,
+                    NovoFormExtrasModule,
+                    NovoLoadingModule,
+                    NovoTilesModule,
+                    NovoSearchBoxModule,
+                    NovoCommonModule,
+                    NovoSelectModule,
+                ],
+                exports: [
+                    NovoDataTableCellDef,
+                    NovoDataTableHeaderCellDef,
+                    NovoIDataTableColumnDef,
+                    NovoDataTableHeaderRowDef,
+                    NovoDataTableRowDef,
+                    NovoDataTableCellHeader,
+                    NovoDataTableSortFilter,
+                    NovoDataTableActionCell,
+                    NovoDataTableEmptyHeaderCell,
+                    NovoDataTableHeaderCell,
+                    NovoDataTableCell,
+                    NovoDataTableHeaderRow,
+                    NovoDataTableRow,
+                    NovoDataTablePagination,
+                    NovoDataTableCheckboxCell,
+                    NovoDataTableCheckboxHeaderCell,
+                    NovoDataTableSelection,
+                    NovoDataTable,
+                ],
+                declarations: [
+                    NovoDataTableCellDef,
+                    NovoDataTableHeaderCellDef,
+                    NovoIDataTableColumnDef,
+                    NovoDataTableHeaderRowDef,
+                    NovoDataTableRowDef,
+                    NovoDataTableCellHeader,
+                    NovoDataTableSortFilter,
+                    NovoDataTableActionCell,
+                    NovoDataTableEmptyHeaderCell,
+                    NovoDataTableHeaderCell,
+                    NovoDataTableCell,
+                    NovoDataTableHeaderRow,
+                    NovoDataTableRow,
+                    NovoDataTablePagination,
+                    NovoDataTableCheckboxCell,
+                    NovoDataTableCheckboxHeaderCell,
+                    NovoDataTableSelection,
+                    NovoDataTable,
+                    NovoDataTableValue,
+                ],
+                providers: [DataTableState],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableModule.ctorParameters = function () { return []; };
 /**
  * @abstract
  */
@@ -34128,7 +43139,7 @@ NovoSimpleCellHeader.propDecorators = {
     'defaultSort': [{ type: core.Input },],
     'config': [{ type: core.Input, args: ['novo-simple-cell-config',] },],
 };
-var DEFAULT_PAGE_SIZE = 50;
+var DEFAULT_PAGE_SIZE$1 = 50;
 var NovoSimpleTablePagination = /** @class */ (function () {
     /**
      * @param {?} changeDetectorRef
@@ -34288,7 +43299,7 @@ var NovoSimpleTablePagination = /** @class */ (function () {
         if (!this.pageSize) {
             this._pageSize = this.pageSizeOptions.length !== 0 ?
                 this.pageSizeOptions[0] :
-                DEFAULT_PAGE_SIZE;
+                DEFAULT_PAGE_SIZE$1;
         }
         this.displayedPageSizeOptions = this.pageSizeOptions.slice();
         if (this.displayedPageSizeOptions.indexOf(this.pageSize) === -1) {
@@ -35485,8 +44496,8 @@ var DevAppBridge = /** @class */ (function (_super) {
         _this.http = http$$1;
         var cookie = _this.getCookie('UlEncodedIdentity');
         if (cookie && cookie.length) {
-            var identity = JSON.parse(decodeURIComponent(cookie));
-            var endpoints = identity.sessions.reduce(function (obj, session) {
+            var identity_3 = JSON.parse(decodeURIComponent(cookie));
+            var endpoints = identity_3.sessions.reduce(function (obj, session) {
                 obj[session.name] = session.value.endpoint;
                 return obj;
             }, {});
@@ -36259,8 +45270,8 @@ var PlacesListComponent = /** @class */ (function () {
         var /** @type {?} */ _tempObj = {};
         if (this.userSettings && typeof (this.userSettings) === 'object') {
             var /** @type {?} */ keys = Object.keys(this.defaultSettings);
-            for (var _b = 0, keys_1 = keys; _b < keys_1.length; _b++) {
-                var value = keys_1[_b];
+            for (var _d = 0, keys_1 = keys; _d < keys_1.length; _d++) {
+                var value = keys_1[_d];
                 _tempObj[value] = (this.userSettings[value] !== undefined) ? this.userSettings[value] : this.defaultSettings[value];
             }
             return _tempObj;
@@ -36305,8 +45316,8 @@ var PlacesListComponent = /** @class */ (function () {
     PlacesListComponent.prototype.extractServerList = function (arrayList, data) {
         if (arrayList.length) {
             var /** @type {?} */ _tempData = data;
-            for (var _b = 0, arrayList_1 = arrayList; _b < arrayList_1.length; _b++) {
-                var key = arrayList_1[_b];
+            for (var _d = 0, arrayList_1 = arrayList; _d < arrayList_1.length; _d++) {
+                var key = arrayList_1[_d];
                 _tempData = _tempData[key];
             }
             return _tempData;
@@ -36475,9 +45486,7 @@ var NovoElementsModule = /** @class */ (function () {
 }());
 NovoElementsModule.decorators = [
     { type: core.NgModule, args: [{
-                imports: [
-                    forms.ReactiveFormsModule
-                ],
+                imports: [forms.ReactiveFormsModule],
                 exports: [
                     NovoPipesModule,
                     NovoButtonModule,
@@ -36512,6 +45521,7 @@ NovoElementsModule.decorators = [
                     NovoCategoryDropdownModule,
                     NovoMultiPickerModule,
                     NovoPopOverModule,
+                    NovoDataTableModule,
                     NovoSimpleTableModule,
                     NovoSearchBoxModule,
                     NovoOverlayModule,
@@ -36520,6 +45530,7 @@ NovoElementsModule.decorators = [
                     NovoAceEditorModule,
                     NovoIconModule,
                     UnlessModule,
+                    NovoCommonModule,
                 ],
                 providers: [
                     { provide: ComponentUtils, useClass: ComponentUtils },
@@ -36531,7 +45542,7 @@ NovoElementsModule.decorators = [
                     { provide: LocalStorageService, useClass: LocalStorageService },
                     { provide: OptionsService, useClass: OptionsService },
                     { provide: FormUtils, useClass: FormUtils },
-                ]
+                ],
             },] },
 ];
 /**
@@ -36577,6 +45588,28 @@ exports.NovoFormExtrasModule = NovoFormExtrasModule;
 exports.NovoCategoryDropdownModule = NovoCategoryDropdownModule;
 exports.NovoMultiPickerModule = NovoMultiPickerModule;
 exports.UnlessModule = UnlessModule;
+exports.NovoDataTable = NovoDataTable;
+exports.NovoDataTableCell = NovoDataTableCell;
+exports.NovoDataTableCheckboxCell = NovoDataTableCheckboxCell;
+exports.NovoDataTableCheckboxHeaderCell = NovoDataTableCheckboxHeaderCell;
+exports.NovoDataTableHeaderCell = NovoDataTableHeaderCell;
+exports.NovoDataTableCellDef = NovoDataTableCellDef;
+exports.NovoDataTableHeaderCellDef = NovoDataTableHeaderCellDef;
+exports.NovoIDataTableColumnDef = NovoIDataTableColumnDef;
+exports.NovoDataTableActionCell = NovoDataTableActionCell;
+exports.NovoDataTableEmptyHeaderCell = NovoDataTableEmptyHeaderCell;
+exports.NovoDataTableHeaderRow = NovoDataTableHeaderRow;
+exports.NovoDataTableRow = NovoDataTableRow;
+exports.NovoDataTableCellHeader = NovoDataTableCellHeader;
+exports.NovoDataTableSortFilter = NovoDataTableSortFilter;
+exports.NovoDataTableSelection = NovoDataTableSelection;
+exports.NovoDataTablePagination = NovoDataTablePagination;
+exports.DataTableSource = DataTableSource;
+exports.RemoteDataTableService = RemoteDataTableService;
+exports.StaticDataTableService = StaticDataTableService;
+exports.DataTableState = DataTableState;
+exports.NovoDataTableModule = NovoDataTableModule;
+exports.NovoDataTableValue = NovoDataTableValue;
 exports.NovoTable = NovoTable;
 exports.NovoActivityTable = NovoActivityTable;
 exports.NovoActivityTableActions = NovoActivityTableActions;
@@ -36608,8 +45641,10 @@ exports.StaticActivityTableService = StaticActivityTableService;
 exports.ActivityTableRenderers = ActivityTableRenderers;
 exports.NovoActivityTableState = NovoActivityTableState;
 exports.NovoSimpleTableModule = NovoSimpleTableModule;
+exports.NovoCommonModule = NovoCommonModule;
 exports.NovoTableElement = NovoTableElement;
 exports.NovoCalendarDateChangeElement = NovoCalendarDateChangeElement;
+exports.NovoTemplate = NovoTemplate;
 exports.NovoToastService = NovoToastService;
 exports.NovoModalService = NovoModalService;
 exports.NovoLabelService = NovoLabelService;
@@ -36725,6 +45760,27 @@ exports.ɵeb = NovoCategoryDropdownElement;
 exports.ɵcr = NovoChipElement;
 exports.ɵcs = NovoChipsElement;
 exports.ɵda = NovoCKEditorElement;
+exports.ɵeq = NovoDataTableCellHeader;
+exports.ɵfa = NovoDataTableCheckboxHeaderCell;
+exports.ɵet = NovoDataTableEmptyHeaderCell;
+exports.ɵeu = NovoDataTableHeaderCell;
+exports.ɵem = NovoDataTableHeaderCellDef;
+exports.ɵes = NovoDataTableActionCell;
+exports.ɵev = NovoDataTableCell;
+exports.ɵel = NovoDataTableCellDef;
+exports.ɵez = NovoDataTableCheckboxCell;
+exports.ɵen = NovoIDataTableColumnDef;
+exports.ɵfe = NovoDataTableValue;
+exports.ɵfc = NovoDataTable;
+exports.ɵek = NovoDataTableModule;
+exports.ɵey = NovoDataTablePagination;
+exports.ɵew = NovoDataTableHeaderRow;
+exports.ɵeo = NovoDataTableHeaderRowDef;
+exports.ɵex = NovoDataTableRow;
+exports.ɵep = NovoDataTableRowDef;
+exports.ɵfb = NovoDataTableSelection;
+exports.ɵer = NovoDataTableSortFilter;
+exports.ɵfd = DataTableState;
 exports.ɵct = NovoDatePickerElement;
 exports.ɵcu = NovoDatePickerInputElement;
 exports.ɵcy = NovoDateTimePickerElement;
@@ -36773,8 +45829,8 @@ exports.ɵcj = NovoOverlayTemplate;
 exports.ɵcf = NovoOverlayModule;
 exports.ɵcm = NovoPickerElement;
 exports.ɵcn = NovoPickerContainer;
-exports.ɵel = PlacesListComponent;
-exports.ɵek = GooglePlacesModule;
+exports.ɵfg = PlacesListComponent;
+exports.ɵff = GooglePlacesModule;
 exports.ɵej = PopOverDirective;
 exports.ɵeh = NovoPopOverModule;
 exports.ɵei = PopOverContent;

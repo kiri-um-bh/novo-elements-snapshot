@@ -36,6 +36,7 @@ export { NovoFormExtrasModule } from './elements/form/extras/FormExtras.module';
 export { NovoCategoryDropdownModule } from './elements/category-dropdown/CategoryDropdown.module';
 export { NovoMultiPickerModule } from './elements/multi-picker/MultiPicker.module';
 export { UnlessModule } from './elements/unless/Unless.module';
+export { NovoDataTable, NovoDataTableCell, NovoDataTableCheckboxCell, NovoDataTableCheckboxHeaderCell, NovoDataTableHeaderCell, NovoDataTableCellDef, NovoDataTableHeaderCellDef, NovoIDataTableColumnDef, NovoDataTableActionCell, NovoDataTableEmptyHeaderCell, NovoDataTableHeaderRow, NovoDataTableRow, NovoDataTableCellHeader, NovoDataTableSortFilter, NovoDataTableSelection, NovoDataTablePagination, IDataTableColumn, IDataTablePaginationOptions, IDataTableColumnFilterConfig, IDataTableColumnFilterOption, IDataTableSearchOptions, IDataTableSortFilter, IDataTableChangeEvent, IDataTableSelectionChangeEvent, IDataTablePaginationEvent, DataTableSource, IDataTableService, RemoteDataTableService, StaticDataTableService, DataTableState, NovoDataTableModule, NovoDataTableValue } from './elements/data-table';
 export { NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader } from './elements/simple-table/table';
 export { NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell } from './elements/simple-table/cell';
 export { NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef } from './elements/simple-table/row';
@@ -47,8 +48,10 @@ export { ActivityTableDataSource, ActivityTableService, RemoteActivityTableServi
 export { ActivityTableRenderers } from './elements/simple-table/activity-table-renderers';
 export { NovoActivityTableState } from './elements/simple-table/state';
 export { NovoSimpleTableModule } from './elements/simple-table/simple-table.module';
+export { NovoCommonModule } from './elements/common/common.module';
 export { NovoTableElement, NovoTableConfig } from './elements/table/Table';
 export { NovoCalendarDateChangeElement } from './elements/calendar/common/CalendarDateChange';
+export { NovoTemplate } from './elements/common/novo-template/novo-template.directive';
 export { NovoToastService } from './elements/toast/ToastService';
 export { NovoModalService } from './elements/modal/ModalService';
 export { NovoLabelService } from './services/novo-label-service';
