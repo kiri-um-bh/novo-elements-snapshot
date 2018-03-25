@@ -40591,10 +40591,6 @@ NovoDataTableValue.propDecorators = {
     'column': [{ type: core.Input },],
     'row': [{ type: core.Input },],
 };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoCell = table.CdkCell;
 var NovoDataTableActionCell = /** @class */ (function (_super) {
     __extends(NovoDataTableActionCell, _super);
     /**
@@ -40646,7 +40642,7 @@ var NovoDataTableActionCell = /** @class */ (function (_super) {
         return false;
     };
     return NovoDataTableActionCell;
-}(_NovoCell));
+}(table.CdkCell));
 NovoDataTableActionCell.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-data-table-action-cell',
@@ -40668,10 +40664,6 @@ NovoDataTableActionCell.propDecorators = {
     'row': [{ type: core.Input },],
     'column': [{ type: core.Input },],
 };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoCell$1 = table.CdkCell;
 var NovoDataTableCell = /** @class */ (function (_super) {
     __extends(NovoDataTableCell, _super);
     /**
@@ -40703,7 +40695,7 @@ var NovoDataTableCell = /** @class */ (function (_super) {
         }
     };
     return NovoDataTableCell;
-}(_NovoCell$1));
+}(table.CdkCell));
 NovoDataTableCell.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-data-table-cell',
@@ -40807,10 +40799,6 @@ NovoDataTableSelection.ctorParameters = function () { return [
 NovoDataTableSelection.propDecorators = {
     'novoSelectAllToggle': [{ type: core.Output },],
 };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoCell$2 = table.CdkCell;
 var NovoDataTableCheckboxCell = /** @class */ (function (_super) {
     __extends(NovoDataTableCheckboxCell, _super);
     /**
@@ -40855,7 +40843,7 @@ var NovoDataTableCheckboxCell = /** @class */ (function (_super) {
         this._selection.toggle(this.row.id || this.index, value, this.row);
     };
     return NovoDataTableCheckboxCell;
-}(_NovoCell$2));
+}(table.CdkCell));
 NovoDataTableCheckboxCell.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-data-table-checkbox-cell',
@@ -40876,10 +40864,6 @@ NovoDataTableCheckboxCell.propDecorators = {
     'row': [{ type: core.Input },],
     'index': [{ type: core.Input },],
 };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoHeaderRow = table.CdkHeaderRow;
 var NovoDataTableHeaderRow = /** @class */ (function (_super) {
     __extends(NovoDataTableHeaderRow, _super);
     function NovoDataTableHeaderRow() {
@@ -40889,7 +40873,7 @@ var NovoDataTableHeaderRow = /** @class */ (function (_super) {
         return _this;
     }
     return NovoDataTableHeaderRow;
-}(_NovoHeaderRow));
+}(table.CdkHeaderRow));
 NovoDataTableHeaderRow.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-data-table-header-row',
@@ -40905,10 +40889,6 @@ NovoDataTableHeaderRow.propDecorators = {
     'rowClass': [{ type: core.HostBinding, args: ['class',] },],
     'role': [{ type: core.HostBinding, args: ['attr.role',] },],
 };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoRow = table.CdkRow;
 var NovoDataTableRow = /** @class */ (function (_super) {
     __extends(NovoDataTableRow, _super);
     function NovoDataTableRow() {
@@ -40918,7 +40898,7 @@ var NovoDataTableRow = /** @class */ (function (_super) {
         return _this;
     }
     return NovoDataTableRow;
-}(_NovoRow));
+}(table.CdkRow));
 NovoDataTableRow.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-data-table-row',
@@ -41207,10 +41187,6 @@ NovoDataTableCellHeader.propDecorators = {
     'defaultSort': [{ type: core.Input },],
     'column': [{ type: core.Input, args: ['novo-data-table-cell-config',] },],
 };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoHeaderCell = table.CdkHeaderCell;
 var NovoDataTableCheckboxHeaderCell = /** @class */ (function (_super) {
     __extends(NovoDataTableCheckboxHeaderCell, _super);
     /**
@@ -41246,7 +41222,7 @@ var NovoDataTableCheckboxHeaderCell = /** @class */ (function (_super) {
         this._selection.selectAll(value);
     };
     return NovoDataTableCheckboxHeaderCell;
-}(_NovoHeaderCell));
+}(table.CdkHeaderCell));
 NovoDataTableCheckboxHeaderCell.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-data-table-checkbox-header-cell',
@@ -41265,10 +41241,6 @@ NovoDataTableCheckboxHeaderCell.ctorParameters = function () { return [
 NovoDataTableCheckboxHeaderCell.propDecorators = {
     'role': [{ type: core.HostBinding, args: ['attr.role',] },],
 };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoHeaderCell$1 = table.CdkHeaderCell;
 var NovoDataTableEmptyHeaderCell = /** @class */ (function (_super) {
     __extends(NovoDataTableEmptyHeaderCell, _super);
     /**
@@ -41297,7 +41269,7 @@ var NovoDataTableEmptyHeaderCell = /** @class */ (function (_super) {
         }
     };
     return NovoDataTableEmptyHeaderCell;
-}(_NovoHeaderCell$1));
+}(table.CdkHeaderCell));
 NovoDataTableEmptyHeaderCell.decorators = [
     { type: core.Directive, args: [{
                 selector: 'novo-data-table-empty-header-cell',
@@ -41315,10 +41287,6 @@ NovoDataTableEmptyHeaderCell.propDecorators = {
     'role': [{ type: core.HostBinding, args: ['attr.role',] },],
     'column': [{ type: core.Input },],
 };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoHeaderCell$2 = table.CdkHeaderCell;
 var NovoDataTableHeaderCell = /** @class */ (function (_super) {
     __extends(NovoDataTableHeaderCell, _super);
     /**
@@ -41347,7 +41315,7 @@ var NovoDataTableHeaderCell = /** @class */ (function (_super) {
         }
     };
     return NovoDataTableHeaderCell;
-}(_NovoHeaderCell$2));
+}(table.CdkHeaderCell));
 NovoDataTableHeaderCell.decorators = [
     { type: core.Directive, args: [{
                 selector: 'novo-data-table-header-cell',
@@ -41656,17 +41624,13 @@ NovoDataTablePagination.propDecorators = {
     'pageSizeOptions': [{ type: core.Input },],
     'pageChange': [{ type: core.Output },],
 };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoHeaderCellDef = table.CdkHeaderCellDef;
 var NovoDataTableHeaderCellDef = /** @class */ (function (_super) {
     __extends(NovoDataTableHeaderCellDef, _super);
     function NovoDataTableHeaderCellDef() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoDataTableHeaderCellDef;
-}(_NovoHeaderCellDef));
+}(table.CdkHeaderCellDef));
 NovoDataTableHeaderCellDef.decorators = [
     { type: core.Directive, args: [{
                 selector: '[novoDataTableHeaderCellDef]',
@@ -41677,17 +41641,13 @@ NovoDataTableHeaderCellDef.decorators = [
  * @nocollapse
  */
 NovoDataTableHeaderCellDef.ctorParameters = function () { return []; };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoColumnDef = table.CdkColumnDef;
 var NovoDataTableColumnDef = /** @class */ (function (_super) {
     __extends(NovoDataTableColumnDef, _super);
     function NovoDataTableColumnDef() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoDataTableColumnDef;
-}(_NovoColumnDef));
+}(table.CdkColumnDef));
 NovoDataTableColumnDef.decorators = [
     { type: core.Directive, args: [{
                 selector: '[novoDataTableColumnDef]',
@@ -41701,17 +41661,13 @@ NovoDataTableColumnDef.ctorParameters = function () { return []; };
 NovoDataTableColumnDef.propDecorators = {
     'name': [{ type: core.Input, args: ['novoDataTableColumnDef',] },],
 };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoCellDef = table.CdkCellDef;
 var NovoDataTableCellDef = /** @class */ (function (_super) {
     __extends(NovoDataTableCellDef, _super);
     function NovoDataTableCellDef() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoDataTableCellDef;
-}(_NovoCellDef));
+}(table.CdkCellDef));
 NovoDataTableCellDef.decorators = [
     { type: core.Directive, args: [{
                 selector: '[novoDataTableCellDef]',
@@ -41722,17 +41678,13 @@ NovoDataTableCellDef.decorators = [
  * @nocollapse
  */
 NovoDataTableCellDef.ctorParameters = function () { return []; };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoHeaderRowDef = table.CdkHeaderRowDef;
 var NovoDataTableHeaderRowDef = /** @class */ (function (_super) {
     __extends(NovoDataTableHeaderRowDef, _super);
     function NovoDataTableHeaderRowDef() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoDataTableHeaderRowDef;
-}(_NovoHeaderRowDef));
+}(table.CdkHeaderRowDef));
 NovoDataTableHeaderRowDef.decorators = [
     { type: core.Directive, args: [{
                 selector: '[novoDataTableHeaderRowDef]',
@@ -41746,17 +41698,13 @@ NovoDataTableHeaderRowDef.ctorParameters = function () { return []; };
 NovoDataTableHeaderRowDef.propDecorators = {
     'columns': [{ type: core.Input, args: ['novoDataTableHeaderRowDef',] },],
 };
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-var _NovoCdkRowDef = table.CdkRowDef;
 var NovoDataTableRowDef = /** @class */ (function (_super) {
     __extends(NovoDataTableRowDef, _super);
     function NovoDataTableRowDef() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoDataTableRowDef;
-}(_NovoCdkRowDef));
+}(table.CdkRowDef));
 NovoDataTableRowDef.decorators = [
     { type: core.Directive, args: [{
                 selector: '[novoDataTableRowDef]',
@@ -42439,18 +42387,18 @@ NovoSelection.propDecorators = {
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
  */
-var _NovoCellDef$1 = table.CdkCellDef;
-var _NovoHeaderCellDef$1 = table.CdkHeaderCellDef;
-var _NovoColumnDef$1 = table.CdkColumnDef;
-var _NovoHeaderCell$3 = table.CdkHeaderCell;
-var _NovoCell$3 = table.CdkCell;
+var _NovoCellDef = table.CdkCellDef;
+var _NovoHeaderCellDef = table.CdkHeaderCellDef;
+var _NovoColumnDef = table.CdkColumnDef;
+var _NovoHeaderCell = table.CdkHeaderCell;
+var _NovoCell = table.CdkCell;
 var NovoSimpleCellDef = /** @class */ (function (_super) {
     __extends(NovoSimpleCellDef, _super);
     function NovoSimpleCellDef() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoSimpleCellDef;
-}(_NovoCellDef$1));
+}(_NovoCellDef));
 NovoSimpleCellDef.decorators = [
     { type: core.Directive, args: [{
                 selector: '[novoSimpleCellDef]',
@@ -42467,7 +42415,7 @@ var NovoSimpleHeaderCellDef = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoSimpleHeaderCellDef;
-}(_NovoHeaderCellDef$1));
+}(_NovoHeaderCellDef));
 NovoSimpleHeaderCellDef.decorators = [
     { type: core.Directive, args: [{
                 selector: '[novoSimpleHeaderCellDef]',
@@ -42484,7 +42432,7 @@ var NovoSimpleColumnDef = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoSimpleColumnDef;
-}(_NovoColumnDef$1));
+}(_NovoColumnDef));
 NovoSimpleColumnDef.decorators = [
     { type: core.Directive, args: [{
                 selector: '[novoSimpleColumnDef]',
@@ -42526,7 +42474,7 @@ var NovoSimpleHeaderCell = /** @class */ (function (_super) {
         }
     };
     return NovoSimpleHeaderCell;
-}(_NovoHeaderCell$3));
+}(_NovoHeaderCell));
 NovoSimpleHeaderCell.decorators = [
     { type: core.Directive, args: [{
                 selector: 'novo-simple-header-cell',
@@ -42560,7 +42508,7 @@ var NovoSimpleEmptyHeaderCell = /** @class */ (function (_super) {
         return _this;
     }
     return NovoSimpleEmptyHeaderCell;
-}(_NovoHeaderCell$3));
+}(_NovoHeaderCell));
 NovoSimpleEmptyHeaderCell.decorators = [
     { type: core.Directive, args: [{
                 selector: 'novo-simple-empty-header-cell',
@@ -42614,7 +42562,7 @@ var NovoSimpleCheckboxHeaderCell = /** @class */ (function (_super) {
         this._selection.selectAll(value);
     };
     return NovoSimpleCheckboxHeaderCell;
-}(_NovoHeaderCell$3));
+}(_NovoHeaderCell));
 NovoSimpleCheckboxHeaderCell.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-simple-checkbox-header-cell',
@@ -42686,7 +42634,7 @@ var NovoSimpleCell = /** @class */ (function (_super) {
         return;
     };
     return NovoSimpleCell;
-}(_NovoCell$3));
+}(_NovoCell));
 NovoSimpleCell.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-simple-cell',
@@ -42752,7 +42700,7 @@ var NovoSimpleCheckboxCell = /** @class */ (function (_super) {
         this._selection.toggle(this.row.id || this.index, value, this.row);
     };
     return NovoSimpleCheckboxCell;
-}(_NovoCell$3));
+}(_NovoCell));
 NovoSimpleCheckboxCell.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-simple-checkbox-cell',
@@ -42816,7 +42764,7 @@ var NovoSimpleActionCell = /** @class */ (function (_super) {
         return false;
     };
     return NovoSimpleActionCell;
-}(_NovoCell$3));
+}(_NovoCell));
 NovoSimpleActionCell.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-simple-action-cell',
@@ -42841,17 +42789,17 @@ NovoSimpleActionCell.propDecorators = {
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
  */
-var _NovoHeaderRowDef$1 = table.CdkHeaderRowDef;
-var _NovoCdkRowDef$1 = table.CdkRowDef;
-var _NovoHeaderRow$1 = table.CdkHeaderRow;
-var _NovoRow$1 = table.CdkRow;
+var _NovoHeaderRowDef = table.CdkHeaderRowDef;
+var _NovoCdkRowDef = table.CdkRowDef;
+var _NovoHeaderRow = table.CdkHeaderRow;
+var _NovoRow = table.CdkRow;
 var NovoSimpleHeaderRowDef = /** @class */ (function (_super) {
     __extends(NovoSimpleHeaderRowDef, _super);
     function NovoSimpleHeaderRowDef() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoSimpleHeaderRowDef;
-}(_NovoHeaderRowDef$1));
+}(_NovoHeaderRowDef));
 NovoSimpleHeaderRowDef.decorators = [
     { type: core.Directive, args: [{
                 selector: '[novoSimpleHeaderRowDef]',
@@ -42871,7 +42819,7 @@ var NovoSimpleRowDef = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoSimpleRowDef;
-}(_NovoCdkRowDef$1));
+}(_NovoCdkRowDef));
 NovoSimpleRowDef.decorators = [
     { type: core.Directive, args: [{
                 selector: '[novoSimpleRowDef]',
@@ -42894,7 +42842,7 @@ var NovoSimpleHeaderRow = /** @class */ (function (_super) {
         return _this;
     }
     return NovoSimpleHeaderRow;
-}(_NovoHeaderRow$1));
+}(_NovoHeaderRow));
 NovoSimpleHeaderRow.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-simple-header-row',
@@ -42919,7 +42867,7 @@ var NovoSimpleRow = /** @class */ (function (_super) {
         return _this;
     }
     return NovoSimpleRow;
-}(_NovoRow$1));
+}(_NovoRow));
 NovoSimpleRow.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-simple-row',

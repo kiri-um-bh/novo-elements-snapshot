@@ -41725,11 +41725,7 @@ NovoDataTableValue.propDecorators = {
     'row': [{ type: Input },],
 };
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoCell = CdkCell;
-class NovoDataTableActionCell extends _NovoCell {
+class NovoDataTableActionCell extends CdkCell {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -41814,11 +41810,7 @@ NovoDataTableActionCell.propDecorators = {
     'column': [{ type: Input },],
 };
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoCell$1 = CdkCell;
-class NovoDataTableCell extends _NovoCell$1 {
+class NovoDataTableCell extends CdkCell {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -41952,11 +41944,7 @@ NovoDataTableSelection.propDecorators = {
     'novoSelectAllToggle': [{ type: Output },],
 };
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoCell$2 = CdkCell;
-class NovoDataTableCheckboxCell extends _NovoCell$2 {
+class NovoDataTableCheckboxCell extends CdkCell {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -42021,11 +42009,7 @@ NovoDataTableCheckboxCell.propDecorators = {
     'index': [{ type: Input },],
 };
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoHeaderRow = CdkHeaderRow;
-class NovoDataTableHeaderRow extends _NovoHeaderRow {
+class NovoDataTableHeaderRow extends CdkHeaderRow {
     constructor() {
         super(...arguments);
         this.rowClass = 'novo-data-table-header-row';
@@ -42048,11 +42032,7 @@ NovoDataTableHeaderRow.propDecorators = {
     'role': [{ type: HostBinding, args: ['attr.role',] },],
 };
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoRow = CdkRow;
-class NovoDataTableRow extends _NovoRow {
+class NovoDataTableRow extends CdkRow {
     constructor() {
         super(...arguments);
         this.rowClass = 'novo-data-table-row';
@@ -42378,11 +42358,7 @@ NovoDataTableCellHeader.propDecorators = {
     'column': [{ type: Input, args: ['novo-data-table-cell-config',] },],
 };
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoHeaderCell = CdkHeaderCell;
-class NovoDataTableCheckboxHeaderCell extends _NovoHeaderCell {
+class NovoDataTableCheckboxHeaderCell extends CdkHeaderCell {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -42434,11 +42410,7 @@ NovoDataTableCheckboxHeaderCell.propDecorators = {
     'role': [{ type: HostBinding, args: ['attr.role',] },],
 };
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoHeaderCell$1 = CdkHeaderCell;
-class NovoDataTableEmptyHeaderCell extends _NovoHeaderCell$1 {
+class NovoDataTableEmptyHeaderCell extends CdkHeaderCell {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -42482,11 +42454,7 @@ NovoDataTableEmptyHeaderCell.propDecorators = {
     'column': [{ type: Input },],
 };
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoHeaderCell$2 = CdkHeaderCell;
-class NovoDataTableHeaderCell extends _NovoHeaderCell$2 {
+class NovoDataTableHeaderCell extends CdkHeaderCell {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -42851,11 +42819,7 @@ NovoDataTablePagination.propDecorators = {
     'pageChange': [{ type: Output },],
 };
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoHeaderCellDef = CdkHeaderCellDef;
-class NovoDataTableHeaderCellDef extends _NovoHeaderCellDef {
+class NovoDataTableHeaderCellDef extends CdkHeaderCellDef {
 }
 NovoDataTableHeaderCellDef.decorators = [
     { type: Directive, args: [{
@@ -42868,11 +42832,7 @@ NovoDataTableHeaderCellDef.decorators = [
  */
 NovoDataTableHeaderCellDef.ctorParameters = () => [];
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoColumnDef = CdkColumnDef;
-class NovoDataTableColumnDef extends _NovoColumnDef {
+class NovoDataTableColumnDef extends CdkColumnDef {
 }
 NovoDataTableColumnDef.decorators = [
     { type: Directive, args: [{
@@ -42888,11 +42848,7 @@ NovoDataTableColumnDef.propDecorators = {
     'name': [{ type: Input, args: ['novoDataTableColumnDef',] },],
 };
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoCellDef = CdkCellDef;
-class NovoDataTableCellDef extends _NovoCellDef {
+class NovoDataTableCellDef extends CdkCellDef {
 }
 NovoDataTableCellDef.decorators = [
     { type: Directive, args: [{
@@ -42905,11 +42861,7 @@ NovoDataTableCellDef.decorators = [
  */
 NovoDataTableCellDef.ctorParameters = () => [];
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoHeaderRowDef = CdkHeaderRowDef;
-class NovoDataTableHeaderRowDef extends _NovoHeaderRowDef {
+class NovoDataTableHeaderRowDef extends CdkHeaderRowDef {
 }
 NovoDataTableHeaderRowDef.decorators = [
     { type: Directive, args: [{
@@ -42925,11 +42877,7 @@ NovoDataTableHeaderRowDef.propDecorators = {
     'columns': [{ type: Input, args: ['novoDataTableHeaderRowDef',] },],
 };
 
-/**
- * Workaround for https://github.com/angular/angular/issues/17849
- */
-const _NovoCdkRowDef = CdkRowDef;
-class NovoDataTableRowDef extends _NovoCdkRowDef {
+class NovoDataTableRowDef extends CdkRowDef {
 }
 NovoDataTableRowDef.decorators = [
     { type: Directive, args: [{
@@ -43612,12 +43560,12 @@ NovoSelection.propDecorators = {
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
  */
-const _NovoCellDef$1 = CdkCellDef;
-const _NovoHeaderCellDef$1 = CdkHeaderCellDef;
-const _NovoColumnDef$1 = CdkColumnDef;
-const _NovoHeaderCell$3 = CdkHeaderCell;
-const _NovoCell$3 = CdkCell;
-class NovoSimpleCellDef extends _NovoCellDef$1 {
+const _NovoCellDef = CdkCellDef;
+const _NovoHeaderCellDef = CdkHeaderCellDef;
+const _NovoColumnDef = CdkColumnDef;
+const _NovoHeaderCell = CdkHeaderCell;
+const _NovoCell = CdkCell;
+class NovoSimpleCellDef extends _NovoCellDef {
 }
 NovoSimpleCellDef.decorators = [
     { type: Directive, args: [{
@@ -43629,7 +43577,7 @@ NovoSimpleCellDef.decorators = [
  * @nocollapse
  */
 NovoSimpleCellDef.ctorParameters = () => [];
-class NovoSimpleHeaderCellDef extends _NovoHeaderCellDef$1 {
+class NovoSimpleHeaderCellDef extends _NovoHeaderCellDef {
 }
 NovoSimpleHeaderCellDef.decorators = [
     { type: Directive, args: [{
@@ -43641,7 +43589,7 @@ NovoSimpleHeaderCellDef.decorators = [
  * @nocollapse
  */
 NovoSimpleHeaderCellDef.ctorParameters = () => [];
-class NovoSimpleColumnDef extends _NovoColumnDef$1 {
+class NovoSimpleColumnDef extends _NovoColumnDef {
 }
 NovoSimpleColumnDef.decorators = [
     { type: Directive, args: [{
@@ -43656,7 +43604,7 @@ NovoSimpleColumnDef.ctorParameters = () => [];
 NovoSimpleColumnDef.propDecorators = {
     'name': [{ type: Input, args: ['novoSimpleColumnDef',] },],
 };
-class NovoSimpleHeaderCell extends _NovoHeaderCell$3 {
+class NovoSimpleHeaderCell extends _NovoHeaderCell {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -43699,7 +43647,7 @@ NovoSimpleHeaderCell.propDecorators = {
     'role': [{ type: HostBinding, args: ['attr.role',] },],
     'column': [{ type: Input },],
 };
-class NovoSimpleEmptyHeaderCell extends _NovoHeaderCell$3 {
+class NovoSimpleEmptyHeaderCell extends _NovoHeaderCell {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -43729,7 +43677,7 @@ NovoSimpleEmptyHeaderCell.ctorParameters = () => [
 NovoSimpleEmptyHeaderCell.propDecorators = {
     'role': [{ type: HostBinding, args: ['attr.role',] },],
 };
-class NovoSimpleCheckboxHeaderCell extends _NovoHeaderCell$3 {
+class NovoSimpleCheckboxHeaderCell extends _NovoHeaderCell {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -43783,7 +43731,7 @@ NovoSimpleCheckboxHeaderCell.ctorParameters = () => [
 NovoSimpleCheckboxHeaderCell.propDecorators = {
     'role': [{ type: HostBinding, args: ['attr.role',] },],
 };
-class NovoSimpleCell extends _NovoCell$3 {
+class NovoSimpleCell extends _NovoCell {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -43856,7 +43804,7 @@ NovoSimpleCell.propDecorators = {
     'column': [{ type: Input },],
     'spanElement': [{ type: ViewChild, args: ['span',] },],
 };
-class NovoSimpleCheckboxCell extends _NovoCell$3 {
+class NovoSimpleCheckboxCell extends _NovoCell {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -43920,7 +43868,7 @@ NovoSimpleCheckboxCell.propDecorators = {
     'row': [{ type: Input },],
     'index': [{ type: Input },],
 };
-class NovoSimpleActionCell extends _NovoCell$3 {
+class NovoSimpleActionCell extends _NovoCell {
     /**
      * @param {?} columnDef
      * @param {?} elementRef
@@ -44000,11 +43948,11 @@ NovoSimpleActionCell.propDecorators = {
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
  */
-const _NovoHeaderRowDef$1 = CdkHeaderRowDef;
-const _NovoCdkRowDef$1 = CdkRowDef;
-const _NovoHeaderRow$1 = CdkHeaderRow;
-const _NovoRow$1 = CdkRow;
-class NovoSimpleHeaderRowDef extends _NovoHeaderRowDef$1 {
+const _NovoHeaderRowDef = CdkHeaderRowDef;
+const _NovoCdkRowDef = CdkRowDef;
+const _NovoHeaderRow = CdkHeaderRow;
+const _NovoRow = CdkRow;
+class NovoSimpleHeaderRowDef extends _NovoHeaderRowDef {
 }
 NovoSimpleHeaderRowDef.decorators = [
     { type: Directive, args: [{
@@ -44019,7 +43967,7 @@ NovoSimpleHeaderRowDef.ctorParameters = () => [];
 NovoSimpleHeaderRowDef.propDecorators = {
     'columns': [{ type: Input, args: ['novoSimpleHeaderRowDef',] },],
 };
-class NovoSimpleRowDef extends _NovoCdkRowDef$1 {
+class NovoSimpleRowDef extends _NovoCdkRowDef {
 }
 NovoSimpleRowDef.decorators = [
     { type: Directive, args: [{
@@ -44034,7 +43982,7 @@ NovoSimpleRowDef.ctorParameters = () => [];
 NovoSimpleRowDef.propDecorators = {
     'columns': [{ type: Input, args: ['novoSimpleRowDefColumns',] },],
 };
-class NovoSimpleHeaderRow extends _NovoHeaderRow$1 {
+class NovoSimpleHeaderRow extends _NovoHeaderRow {
     constructor() {
         super(...arguments);
         this.rowClass = 'novo-simple-header-row';
@@ -44056,7 +44004,7 @@ NovoSimpleHeaderRow.propDecorators = {
     'rowClass': [{ type: HostBinding, args: ['class',] },],
     'role': [{ type: HostBinding, args: ['attr.role',] },],
 };
-class NovoSimpleRow extends _NovoRow$1 {
+class NovoSimpleRow extends _NovoRow {
     constructor() {
         super(...arguments);
         this.rowClass = 'novo-simple-row';

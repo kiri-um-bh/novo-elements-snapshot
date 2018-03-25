@@ -1,9 +1,7 @@
 import { ElementRef, Renderer2, OnInit, TemplateRef } from '@angular/core';
 import { CdkCell, CdkColumnDef } from '@angular/cdk/table';
 import { IDataTableColumn } from '../interfaces';
-/** Workaround for https://github.com/angular/angular/issues/17849 */
-export declare const _NovoCell: typeof CdkCell;
-export declare class NovoDataTableCell<T> extends _NovoCell implements OnInit {
+export declare class NovoDataTableCell<T> extends CdkCell implements OnInit {
     private elementRef;
     private renderer;
     role: string;
