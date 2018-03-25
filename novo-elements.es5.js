@@ -32879,6 +32879,52 @@ UnlessModule.decorators = [
  * @nocollapse
  */
 UnlessModule.ctorParameters = function () { return []; };
+var NovoTemplate = /** @class */ (function () {
+    /**
+     * @param {?} template
+     */
+    function NovoTemplate(template) {
+        this.template = template;
+    }
+    /**
+     * @return {?}
+     */
+    NovoTemplate.prototype.getType = function () {
+        return this.name;
+    };
+    return NovoTemplate;
+}());
+NovoTemplate.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoTemplate]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoTemplate.ctorParameters = function () { return [
+    { type: TemplateRef, },
+]; };
+NovoTemplate.propDecorators = {
+    'type': [{ type: Input },],
+    'name': [{ type: Input, args: ['novoTemplate',] },],
+};
+var NovoCommonModule = /** @class */ (function () {
+    function NovoCommonModule() {
+    }
+    return NovoCommonModule;
+}());
+NovoCommonModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule],
+                exports: [NovoTemplate],
+                declarations: [NovoTemplate],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoCommonModule.ctorParameters = function () { return []; };
 var __extends$7 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
@@ -40165,36 +40211,6 @@ var DataTableState = /** @class */ (function () {
     };
     return DataTableState;
 }());
-var NovoTemplate = /** @class */ (function () {
-    /**
-     * @param {?} template
-     */
-    function NovoTemplate(template) {
-        this.template = template;
-    }
-    /**
-     * @return {?}
-     */
-    NovoTemplate.prototype.getType = function () {
-        return this.name;
-    };
-    return NovoTemplate;
-}());
-NovoTemplate.decorators = [
-    { type: Directive, args: [{
-                selector: '[novoTemplate]',
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoTemplate.ctorParameters = function () { return [
-    { type: TemplateRef, },
-]; };
-NovoTemplate.propDecorators = {
-    'type': [{ type: Input },],
-    'name': [{ type: Input, args: ['novoTemplate',] },],
-};
 var StaticDataTableService = /** @class */ (function () {
     /**
      * @param {?=} data
@@ -40604,43 +40620,10 @@ NovoDataTableValue.propDecorators = {
     'column': [{ type: Input },],
     'row': [{ type: Input },],
 };
-var NovoDataTableCellDef = /** @class */ (function (_super) {
-    __extends(NovoDataTableCellDef, _super);
-    function NovoDataTableCellDef() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return NovoDataTableCellDef;
-}(CdkCellDef));
-NovoDataTableCellDef.decorators = [
-    { type: Directive, args: [{
-                selector: '[novoDataTableCellDef]',
-                providers: [{ provide: CdkCellDef, useExisting: NovoDataTableCellDef }],
-            },] },
-];
 /**
- * @nocollapse
+ * Workaround for https://github.com/angular/angular/issues/17849
  */
-NovoDataTableCellDef.ctorParameters = function () { return []; };
-var NovoIDataTableColumnDef = /** @class */ (function (_super) {
-    __extends(NovoIDataTableColumnDef, _super);
-    function NovoIDataTableColumnDef() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return NovoIDataTableColumnDef;
-}(CdkColumnDef));
-NovoIDataTableColumnDef.decorators = [
-    { type: Directive, args: [{
-                selector: '[novoDataTableColumnDef]',
-                providers: [{ provide: CdkColumnDef, useExisting: NovoIDataTableColumnDef }],
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoIDataTableColumnDef.ctorParameters = function () { return []; };
-NovoIDataTableColumnDef.propDecorators = {
-    'name': [{ type: Input, args: ['novoDataTableColumnDef',] },],
-};
+var _NovoCell = CdkCell;
 var NovoDataTableActionCell = /** @class */ (function (_super) {
     __extends(NovoDataTableActionCell, _super);
     /**
@@ -40692,7 +40675,7 @@ var NovoDataTableActionCell = /** @class */ (function (_super) {
         return false;
     };
     return NovoDataTableActionCell;
-}(CdkCell));
+}(_NovoCell));
 NovoDataTableActionCell.decorators = [
     { type: Component, args: [{
                 selector: 'novo-data-table-action-cell',
@@ -40714,6 +40697,10 @@ NovoDataTableActionCell.propDecorators = {
     'row': [{ type: Input },],
     'column': [{ type: Input },],
 };
+/**
+ * Workaround for https://github.com/angular/angular/issues/17849
+ */
+var _NovoCell$1 = CdkCell;
 var NovoDataTableCell = /** @class */ (function (_super) {
     __extends(NovoDataTableCell, _super);
     /**
@@ -40745,7 +40732,7 @@ var NovoDataTableCell = /** @class */ (function (_super) {
         }
     };
     return NovoDataTableCell;
-}(CdkCell));
+}(_NovoCell$1));
 NovoDataTableCell.decorators = [
     { type: Component, args: [{
                 selector: 'novo-data-table-cell',
@@ -40849,6 +40836,10 @@ NovoDataTableSelection.ctorParameters = function () { return [
 NovoDataTableSelection.propDecorators = {
     'novoSelectAllToggle': [{ type: Output },],
 };
+/**
+ * Workaround for https://github.com/angular/angular/issues/17849
+ */
+var _NovoCell$2 = CdkCell;
 var NovoDataTableCheckboxCell = /** @class */ (function (_super) {
     __extends(NovoDataTableCheckboxCell, _super);
     /**
@@ -40893,7 +40884,7 @@ var NovoDataTableCheckboxCell = /** @class */ (function (_super) {
         this._selection.toggle(this.row.id || this.index, value, this.row);
     };
     return NovoDataTableCheckboxCell;
-}(CdkCell));
+}(_NovoCell$2));
 NovoDataTableCheckboxCell.decorators = [
     { type: Component, args: [{
                 selector: 'novo-data-table-checkbox-cell',
@@ -40914,46 +40905,10 @@ NovoDataTableCheckboxCell.propDecorators = {
     'row': [{ type: Input },],
     'index': [{ type: Input },],
 };
-var NovoDataTableHeaderRowDef = /** @class */ (function (_super) {
-    __extends(NovoDataTableHeaderRowDef, _super);
-    function NovoDataTableHeaderRowDef() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return NovoDataTableHeaderRowDef;
-}(CdkHeaderRowDef));
-NovoDataTableHeaderRowDef.decorators = [
-    { type: Directive, args: [{
-                selector: '[novoDataTableHeaderRowDef]',
-                providers: [{ provide: CdkHeaderRowDef, useExisting: NovoDataTableHeaderRowDef }],
-            },] },
-];
 /**
- * @nocollapse
+ * Workaround for https://github.com/angular/angular/issues/17849
  */
-NovoDataTableHeaderRowDef.ctorParameters = function () { return []; };
-NovoDataTableHeaderRowDef.propDecorators = {
-    'columns': [{ type: Input, args: ['novoDataTableHeaderRowDef',] },],
-};
-var NovoDataTableRowDef = /** @class */ (function (_super) {
-    __extends(NovoDataTableRowDef, _super);
-    function NovoDataTableRowDef() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return NovoDataTableRowDef;
-}(CdkRowDef));
-NovoDataTableRowDef.decorators = [
-    { type: Directive, args: [{
-                selector: '[novoDataTableRowDef]',
-                providers: [{ provide: CdkRowDef, useExisting: NovoDataTableRowDef }],
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoDataTableRowDef.ctorParameters = function () { return []; };
-NovoDataTableRowDef.propDecorators = {
-    'columns': [{ type: Input, args: ['novoDataTableRowDefColumns',] },],
-};
+var _NovoHeaderRow = CdkHeaderRow;
 var NovoDataTableHeaderRow = /** @class */ (function (_super) {
     __extends(NovoDataTableHeaderRow, _super);
     function NovoDataTableHeaderRow() {
@@ -40963,7 +40918,7 @@ var NovoDataTableHeaderRow = /** @class */ (function (_super) {
         return _this;
     }
     return NovoDataTableHeaderRow;
-}(CdkHeaderRow));
+}(_NovoHeaderRow));
 NovoDataTableHeaderRow.decorators = [
     { type: Component, args: [{
                 selector: 'novo-data-table-header-row',
@@ -40979,6 +40934,10 @@ NovoDataTableHeaderRow.propDecorators = {
     'rowClass': [{ type: HostBinding, args: ['class',] },],
     'role': [{ type: HostBinding, args: ['attr.role',] },],
 };
+/**
+ * Workaround for https://github.com/angular/angular/issues/17849
+ */
+var _NovoRow = CdkRow;
 var NovoDataTableRow = /** @class */ (function (_super) {
     __extends(NovoDataTableRow, _super);
     function NovoDataTableRow() {
@@ -40988,7 +40947,7 @@ var NovoDataTableRow = /** @class */ (function (_super) {
         return _this;
     }
     return NovoDataTableRow;
-}(CdkRow));
+}(_NovoRow));
 NovoDataTableRow.decorators = [
     { type: Component, args: [{
                 selector: 'novo-data-table-row',
@@ -41005,169 +40964,6 @@ NovoDataTableRow.propDecorators = {
     'role': [{ type: HostBinding, args: ['attr.role',] },],
     'id': [{ type: HostBinding, args: ['attr.id',] }, { type: Input },],
     'dataAutomationId': [{ type: HostBinding, args: ['attr.data-automation-id',] }, { type: Input },],
-};
-var NovoDataTableHeaderCellDef = /** @class */ (function (_super) {
-    __extends(NovoDataTableHeaderCellDef, _super);
-    function NovoDataTableHeaderCellDef() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return NovoDataTableHeaderCellDef;
-}(CdkHeaderCellDef));
-NovoDataTableHeaderCellDef.decorators = [
-    { type: Directive, args: [{
-                selector: '[novoDataTableHeaderCellDef]',
-                providers: [{ provide: CdkHeaderCellDef, useExisting: NovoDataTableHeaderCellDef }],
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoDataTableHeaderCellDef.ctorParameters = function () { return []; };
-var NovoDataTableCheckboxHeaderCell = /** @class */ (function (_super) {
-    __extends(NovoDataTableCheckboxHeaderCell, _super);
-    /**
-     * @param {?} columnDef
-     * @param {?} elementRef
-     * @param {?} renderer
-     * @param {?} _selection
-     */
-    function NovoDataTableCheckboxHeaderCell(columnDef, elementRef, renderer, _selection) {
-        var _this = _super.call(this, columnDef, elementRef) || this;
-        _this._selection = _selection;
-        _this.role = 'columnheader';
-        _this.selectAll = false;
-        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-checkbox-column-header-" + columnDef.cssClassFriendlyName);
-        renderer.addClass(elementRef.nativeElement, "novo-checkbox-column-" + columnDef.cssClassFriendlyName);
-        renderer.addClass(elementRef.nativeElement, 'novo-data-table-checkbox-header-cell');
-        _this.selectAllSubscription = _selection.novoSelectAllToggle.subscribe(function (value) {
-            _this.selectAll = value;
-        });
-        return _this;
-    }
-    /**
-     * @return {?}
-     */
-    NovoDataTableCheckboxHeaderCell.prototype.ngOnDestroy = function () {
-        this.selectAllSubscription.unsubscribe();
-    };
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    NovoDataTableCheckboxHeaderCell.prototype.toggle = function (value) {
-        this._selection.selectAll(value);
-    };
-    return NovoDataTableCheckboxHeaderCell;
-}(CdkHeaderCell));
-NovoDataTableCheckboxHeaderCell.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-data-table-checkbox-header-cell',
-                template: "<novo-checkbox [(ngModel)]=\"selectAll\" (ngModelChange)=\"toggle($event)\"></novo-checkbox>",
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoDataTableCheckboxHeaderCell.ctorParameters = function () { return [
-    { type: CdkColumnDef, },
-    { type: ElementRef, },
-    { type: Renderer2, },
-    { type: NovoDataTableSelection, decorators: [{ type: Optional },] },
-]; };
-NovoDataTableCheckboxHeaderCell.propDecorators = {
-    'role': [{ type: HostBinding, args: ['attr.role',] },],
-};
-var NovoDataTableEmptyHeaderCell = /** @class */ (function (_super) {
-    __extends(NovoDataTableEmptyHeaderCell, _super);
-    /**
-     * @param {?} columnDef
-     * @param {?} elementRef
-     * @param {?} renderer
-     */
-    function NovoDataTableEmptyHeaderCell(columnDef, elementRef, renderer) {
-        var _this = _super.call(this, columnDef, elementRef) || this;
-        _this.elementRef = elementRef;
-        _this.renderer = renderer;
-        _this.role = 'columnheader';
-        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-column-header-" + columnDef.cssClassFriendlyName);
-        renderer.addClass(elementRef.nativeElement, "novo-column-" + columnDef.cssClassFriendlyName);
-        renderer.addClass(elementRef.nativeElement, 'novo-data-table-empty-header-cell');
-        return _this;
-    }
-    /**
-     * @return {?}
-     */
-    NovoDataTableEmptyHeaderCell.prototype.ngOnInit = function () {
-        if (this.column.width) {
-            this.renderer.setStyle(this.elementRef.nativeElement, 'min-width', this.column.width + "px");
-            this.renderer.setStyle(this.elementRef.nativeElement, 'max-width', this.column.width + "px");
-            this.renderer.setStyle(this.elementRef.nativeElement, 'width', this.column.width + "px");
-        }
-    };
-    return NovoDataTableEmptyHeaderCell;
-}(CdkHeaderCell));
-NovoDataTableEmptyHeaderCell.decorators = [
-    { type: Directive, args: [{
-                selector: 'novo-data-table-empty-header-cell',
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoDataTableEmptyHeaderCell.ctorParameters = function () { return [
-    { type: CdkColumnDef, },
-    { type: ElementRef, },
-    { type: Renderer2, },
-]; };
-NovoDataTableEmptyHeaderCell.propDecorators = {
-    'role': [{ type: HostBinding, args: ['attr.role',] },],
-    'column': [{ type: Input },],
-};
-var NovoDataTableHeaderCell = /** @class */ (function (_super) {
-    __extends(NovoDataTableHeaderCell, _super);
-    /**
-     * @param {?} columnDef
-     * @param {?} elementRef
-     * @param {?} renderer
-     */
-    function NovoDataTableHeaderCell(columnDef, elementRef, renderer) {
-        var _this = _super.call(this, columnDef, elementRef) || this;
-        _this.elementRef = elementRef;
-        _this.renderer = renderer;
-        _this.role = 'columnheader';
-        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-column-header-" + columnDef.cssClassFriendlyName);
-        renderer.addClass(elementRef.nativeElement, "novo-column-" + columnDef.cssClassFriendlyName);
-        renderer.addClass(elementRef.nativeElement, 'novo-data-table-header-cell');
-        return _this;
-    }
-    /**
-     * @return {?}
-     */
-    NovoDataTableHeaderCell.prototype.ngOnInit = function () {
-        if (this.column.width) {
-            this.renderer.setStyle(this.elementRef.nativeElement, 'min-width', this.column.width + "px");
-            this.renderer.setStyle(this.elementRef.nativeElement, 'max-width', this.column.width + "px");
-            this.renderer.setStyle(this.elementRef.nativeElement, 'width', this.column.width + "px");
-        }
-    };
-    return NovoDataTableHeaderCell;
-}(CdkHeaderCell));
-NovoDataTableHeaderCell.decorators = [
-    { type: Directive, args: [{
-                selector: 'novo-data-table-header-cell',
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoDataTableHeaderCell.ctorParameters = function () { return [
-    { type: CdkColumnDef, },
-    { type: ElementRef, },
-    { type: Renderer2, },
-]; };
-NovoDataTableHeaderCell.propDecorators = {
-    'role': [{ type: HostBinding, args: ['attr.role',] },],
-    'column': [{ type: Input },],
 };
 var NovoDataTableSortFilter = /** @class */ (function () {
     /**
@@ -41439,6 +41235,164 @@ NovoDataTableCellHeader.propDecorators = {
     'filterInput': [{ type: ViewChild, args: ['filterInput',] },],
     'defaultSort': [{ type: Input },],
     'column': [{ type: Input, args: ['novo-data-table-cell-config',] },],
+};
+/**
+ * Workaround for https://github.com/angular/angular/issues/17849
+ */
+var _NovoHeaderCell = CdkHeaderCell;
+var NovoDataTableCheckboxHeaderCell = /** @class */ (function (_super) {
+    __extends(NovoDataTableCheckboxHeaderCell, _super);
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     * @param {?} _selection
+     */
+    function NovoDataTableCheckboxHeaderCell(columnDef, elementRef, renderer, _selection) {
+        var _this = _super.call(this, columnDef, elementRef) || this;
+        _this._selection = _selection;
+        _this.role = 'columnheader';
+        _this.selectAll = false;
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-checkbox-column-header-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, "novo-checkbox-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, 'novo-data-table-checkbox-header-cell');
+        _this.selectAllSubscription = _selection.novoSelectAllToggle.subscribe(function (value) {
+            _this.selectAll = value;
+        });
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    NovoDataTableCheckboxHeaderCell.prototype.ngOnDestroy = function () {
+        this.selectAllSubscription.unsubscribe();
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoDataTableCheckboxHeaderCell.prototype.toggle = function (value) {
+        this._selection.selectAll(value);
+    };
+    return NovoDataTableCheckboxHeaderCell;
+}(_NovoHeaderCell));
+NovoDataTableCheckboxHeaderCell.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-data-table-checkbox-header-cell',
+                template: "<novo-checkbox [(ngModel)]=\"selectAll\" (ngModelChange)=\"toggle($event)\"></novo-checkbox>",
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableCheckboxHeaderCell.ctorParameters = function () { return [
+    { type: CdkColumnDef, },
+    { type: ElementRef, },
+    { type: Renderer2, },
+    { type: NovoDataTableSelection, decorators: [{ type: Optional },] },
+]; };
+NovoDataTableCheckboxHeaderCell.propDecorators = {
+    'role': [{ type: HostBinding, args: ['attr.role',] },],
+};
+/**
+ * Workaround for https://github.com/angular/angular/issues/17849
+ */
+var _NovoHeaderCell$1 = CdkHeaderCell;
+var NovoDataTableEmptyHeaderCell = /** @class */ (function (_super) {
+    __extends(NovoDataTableEmptyHeaderCell, _super);
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     */
+    function NovoDataTableEmptyHeaderCell(columnDef, elementRef, renderer) {
+        var _this = _super.call(this, columnDef, elementRef) || this;
+        _this.elementRef = elementRef;
+        _this.renderer = renderer;
+        _this.role = 'columnheader';
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-column-header-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, "novo-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, 'novo-data-table-empty-header-cell');
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    NovoDataTableEmptyHeaderCell.prototype.ngOnInit = function () {
+        if (this.column.width) {
+            this.renderer.setStyle(this.elementRef.nativeElement, 'min-width', this.column.width + "px");
+            this.renderer.setStyle(this.elementRef.nativeElement, 'max-width', this.column.width + "px");
+            this.renderer.setStyle(this.elementRef.nativeElement, 'width', this.column.width + "px");
+        }
+    };
+    return NovoDataTableEmptyHeaderCell;
+}(_NovoHeaderCell$1));
+NovoDataTableEmptyHeaderCell.decorators = [
+    { type: Directive, args: [{
+                selector: 'novo-data-table-empty-header-cell',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableEmptyHeaderCell.ctorParameters = function () { return [
+    { type: CdkColumnDef, },
+    { type: ElementRef, },
+    { type: Renderer2, },
+]; };
+NovoDataTableEmptyHeaderCell.propDecorators = {
+    'role': [{ type: HostBinding, args: ['attr.role',] },],
+    'column': [{ type: Input },],
+};
+/**
+ * Workaround for https://github.com/angular/angular/issues/17849
+ */
+var _NovoHeaderCell$2 = CdkHeaderCell;
+var NovoDataTableHeaderCell = /** @class */ (function (_super) {
+    __extends(NovoDataTableHeaderCell, _super);
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     */
+    function NovoDataTableHeaderCell(columnDef, elementRef, renderer) {
+        var _this = _super.call(this, columnDef, elementRef) || this;
+        _this.elementRef = elementRef;
+        _this.renderer = renderer;
+        _this.role = 'columnheader';
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-column-header-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, "novo-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, 'novo-data-table-header-cell');
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    NovoDataTableHeaderCell.prototype.ngOnInit = function () {
+        if (this.column.width) {
+            this.renderer.setStyle(this.elementRef.nativeElement, 'min-width', this.column.width + "px");
+            this.renderer.setStyle(this.elementRef.nativeElement, 'max-width', this.column.width + "px");
+            this.renderer.setStyle(this.elementRef.nativeElement, 'width', this.column.width + "px");
+        }
+    };
+    return NovoDataTableHeaderCell;
+}(_NovoHeaderCell$2));
+NovoDataTableHeaderCell.decorators = [
+    { type: Directive, args: [{
+                selector: 'novo-data-table-header-cell',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableHeaderCell.ctorParameters = function () { return [
+    { type: CdkColumnDef, },
+    { type: ElementRef, },
+    { type: Renderer2, },
+]; };
+NovoDataTableHeaderCell.propDecorators = {
+    'role': [{ type: HostBinding, args: ['attr.role',] },],
+    'column': [{ type: Input },],
 };
 var MAX_PAGES_DISPLAYED = 5;
 var NovoDataTablePagination = /** @class */ (function () {
@@ -41732,40 +41686,119 @@ NovoDataTablePagination.propDecorators = {
     'pageChange': [{ type: Output },],
 };
 /**
- * @abstract
+ * Workaround for https://github.com/angular/angular/issues/17849
  */
-var RemoteDataTableService = /** @class */ (function () {
-    function RemoteDataTableService() {
+var _NovoHeaderCellDef = CdkHeaderCellDef;
+var NovoDataTableHeaderCellDef = /** @class */ (function (_super) {
+    __extends(NovoDataTableHeaderCellDef, _super);
+    function NovoDataTableHeaderCellDef() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-    /**
-     * @abstract
-     * @param {?} sort
-     * @param {?} filter
-     * @param {?} page
-     * @param {?} pageSize
-     * @param {?=} globalSearch
-     * @param {?=} outsideFilter
-     * @return {?}
-     */
-    RemoteDataTableService.prototype.getTableResults = function (sort, filter$$1, page, pageSize, globalSearch, outsideFilter) { };
-    return RemoteDataTableService;
-}());
-var NovoCommonModule = /** @class */ (function () {
-    function NovoCommonModule() {
-    }
-    return NovoCommonModule;
-}());
-NovoCommonModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [CommonModule],
-                exports: [NovoTemplate],
-                declarations: [NovoTemplate],
+    return NovoDataTableHeaderCellDef;
+}(_NovoHeaderCellDef));
+NovoDataTableHeaderCellDef.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoDataTableHeaderCellDef]',
+                providers: [{ provide: CdkHeaderCellDef, useExisting: NovoDataTableHeaderCellDef }],
             },] },
 ];
 /**
  * @nocollapse
  */
-NovoCommonModule.ctorParameters = function () { return []; };
+NovoDataTableHeaderCellDef.ctorParameters = function () { return []; };
+/**
+ * Workaround for https://github.com/angular/angular/issues/17849
+ */
+var _NovoColumnDef = CdkColumnDef;
+var NovoDataTableColumnDef = /** @class */ (function (_super) {
+    __extends(NovoDataTableColumnDef, _super);
+    function NovoDataTableColumnDef() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return NovoDataTableColumnDef;
+}(_NovoColumnDef));
+NovoDataTableColumnDef.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoDataTableColumnDef]',
+                providers: [{ provide: CdkColumnDef, useExisting: NovoDataTableColumnDef }],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableColumnDef.ctorParameters = function () { return []; };
+NovoDataTableColumnDef.propDecorators = {
+    'name': [{ type: Input, args: ['novoDataTableColumnDef',] },],
+};
+/**
+ * Workaround for https://github.com/angular/angular/issues/17849
+ */
+var _NovoCellDef = CdkCellDef;
+var NovoDataTableCellDef = /** @class */ (function (_super) {
+    __extends(NovoDataTableCellDef, _super);
+    function NovoDataTableCellDef() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return NovoDataTableCellDef;
+}(_NovoCellDef));
+NovoDataTableCellDef.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoDataTableCellDef]',
+                providers: [{ provide: CdkCellDef, useExisting: NovoDataTableCellDef }],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableCellDef.ctorParameters = function () { return []; };
+/**
+ * Workaround for https://github.com/angular/angular/issues/17849
+ */
+var _NovoHeaderRowDef = CdkHeaderRowDef;
+var NovoDataTableHeaderRowDef = /** @class */ (function (_super) {
+    __extends(NovoDataTableHeaderRowDef, _super);
+    function NovoDataTableHeaderRowDef() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return NovoDataTableHeaderRowDef;
+}(_NovoHeaderRowDef));
+NovoDataTableHeaderRowDef.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoDataTableHeaderRowDef]',
+                providers: [{ provide: CdkHeaderRowDef, useExisting: NovoDataTableHeaderRowDef }],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableHeaderRowDef.ctorParameters = function () { return []; };
+NovoDataTableHeaderRowDef.propDecorators = {
+    'columns': [{ type: Input, args: ['novoDataTableHeaderRowDef',] },],
+};
+/**
+ * Workaround for https://github.com/angular/angular/issues/17849
+ */
+var _NovoCdkRowDef = CdkRowDef;
+var NovoDataTableRowDef = /** @class */ (function (_super) {
+    __extends(NovoDataTableRowDef, _super);
+    function NovoDataTableRowDef() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return NovoDataTableRowDef;
+}(_NovoCdkRowDef));
+NovoDataTableRowDef.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoDataTableRowDef]',
+                providers: [{ provide: CdkRowDef, useExisting: NovoDataTableRowDef }],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableRowDef.ctorParameters = function () { return []; };
+NovoDataTableRowDef.propDecorators = {
+    'columns': [{ type: Input, args: ['novoDataTableRowDefColumns',] },],
+};
 var NovoDataTableModule = /** @class */ (function () {
     function NovoDataTableModule() {
     }
@@ -41787,30 +41820,10 @@ NovoDataTableModule.decorators = [
                     NovoCommonModule,
                     NovoSelectModule,
                 ],
-                exports: [
-                    NovoDataTableCellDef,
-                    NovoDataTableHeaderCellDef,
-                    NovoIDataTableColumnDef,
-                    NovoDataTableHeaderRowDef,
-                    NovoDataTableRowDef,
-                    NovoDataTableCellHeader,
-                    NovoDataTableSortFilter,
-                    NovoDataTableActionCell,
-                    NovoDataTableEmptyHeaderCell,
-                    NovoDataTableHeaderCell,
-                    NovoDataTableCell,
-                    NovoDataTableHeaderRow,
-                    NovoDataTableRow,
-                    NovoDataTablePagination,
-                    NovoDataTableCheckboxCell,
-                    NovoDataTableCheckboxHeaderCell,
-                    NovoDataTableSelection,
-                    NovoDataTable,
-                ],
                 declarations: [
-                    NovoDataTableCellDef,
                     NovoDataTableHeaderCellDef,
-                    NovoIDataTableColumnDef,
+                    NovoDataTableColumnDef,
+                    NovoDataTableCellDef,
                     NovoDataTableHeaderRowDef,
                     NovoDataTableRowDef,
                     NovoDataTableCellHeader,
@@ -41829,12 +41842,32 @@ NovoDataTableModule.decorators = [
                     NovoDataTableValue,
                 ],
                 providers: [DataTableState],
+                exports: [NovoDataTableValue, NovoDataTable],
             },] },
 ];
 /**
  * @nocollapse
  */
 NovoDataTableModule.ctorParameters = function () { return []; };
+/**
+ * @abstract
+ */
+var RemoteDataTableService = /** @class */ (function () {
+    function RemoteDataTableService() {
+    }
+    /**
+     * @abstract
+     * @param {?} sort
+     * @param {?} filter
+     * @param {?} page
+     * @param {?} pageSize
+     * @param {?=} globalSearch
+     * @param {?=} outsideFilter
+     * @return {?}
+     */
+    RemoteDataTableService.prototype.getTableResults = function (sort, filter$$1, page, pageSize, globalSearch, outsideFilter) { };
+    return RemoteDataTableService;
+}());
 /**
  * @abstract
  */
@@ -42435,18 +42468,18 @@ NovoSelection.propDecorators = {
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
  */
-var _NovoCellDef = CdkCellDef;
-var _NovoHeaderCellDef = CdkHeaderCellDef;
-var _NovoColumnDef = CdkColumnDef;
-var _NovoHeaderCell = CdkHeaderCell;
-var _NovoCell = CdkCell;
+var _NovoCellDef$1 = CdkCellDef;
+var _NovoHeaderCellDef$1 = CdkHeaderCellDef;
+var _NovoColumnDef$1 = CdkColumnDef;
+var _NovoHeaderCell$3 = CdkHeaderCell;
+var _NovoCell$3 = CdkCell;
 var NovoSimpleCellDef = /** @class */ (function (_super) {
     __extends(NovoSimpleCellDef, _super);
     function NovoSimpleCellDef() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoSimpleCellDef;
-}(_NovoCellDef));
+}(_NovoCellDef$1));
 NovoSimpleCellDef.decorators = [
     { type: Directive, args: [{
                 selector: '[novoSimpleCellDef]',
@@ -42463,7 +42496,7 @@ var NovoSimpleHeaderCellDef = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoSimpleHeaderCellDef;
-}(_NovoHeaderCellDef));
+}(_NovoHeaderCellDef$1));
 NovoSimpleHeaderCellDef.decorators = [
     { type: Directive, args: [{
                 selector: '[novoSimpleHeaderCellDef]',
@@ -42480,7 +42513,7 @@ var NovoSimpleColumnDef = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoSimpleColumnDef;
-}(_NovoColumnDef));
+}(_NovoColumnDef$1));
 NovoSimpleColumnDef.decorators = [
     { type: Directive, args: [{
                 selector: '[novoSimpleColumnDef]',
@@ -42522,7 +42555,7 @@ var NovoSimpleHeaderCell = /** @class */ (function (_super) {
         }
     };
     return NovoSimpleHeaderCell;
-}(_NovoHeaderCell));
+}(_NovoHeaderCell$3));
 NovoSimpleHeaderCell.decorators = [
     { type: Directive, args: [{
                 selector: 'novo-simple-header-cell',
@@ -42556,7 +42589,7 @@ var NovoSimpleEmptyHeaderCell = /** @class */ (function (_super) {
         return _this;
     }
     return NovoSimpleEmptyHeaderCell;
-}(_NovoHeaderCell));
+}(_NovoHeaderCell$3));
 NovoSimpleEmptyHeaderCell.decorators = [
     { type: Directive, args: [{
                 selector: 'novo-simple-empty-header-cell',
@@ -42610,7 +42643,7 @@ var NovoSimpleCheckboxHeaderCell = /** @class */ (function (_super) {
         this._selection.selectAll(value);
     };
     return NovoSimpleCheckboxHeaderCell;
-}(_NovoHeaderCell));
+}(_NovoHeaderCell$3));
 NovoSimpleCheckboxHeaderCell.decorators = [
     { type: Component, args: [{
                 selector: 'novo-simple-checkbox-header-cell',
@@ -42682,7 +42715,7 @@ var NovoSimpleCell = /** @class */ (function (_super) {
         return;
     };
     return NovoSimpleCell;
-}(_NovoCell));
+}(_NovoCell$3));
 NovoSimpleCell.decorators = [
     { type: Component, args: [{
                 selector: 'novo-simple-cell',
@@ -42748,7 +42781,7 @@ var NovoSimpleCheckboxCell = /** @class */ (function (_super) {
         this._selection.toggle(this.row.id || this.index, value, this.row);
     };
     return NovoSimpleCheckboxCell;
-}(_NovoCell));
+}(_NovoCell$3));
 NovoSimpleCheckboxCell.decorators = [
     { type: Component, args: [{
                 selector: 'novo-simple-checkbox-cell',
@@ -42812,7 +42845,7 @@ var NovoSimpleActionCell = /** @class */ (function (_super) {
         return false;
     };
     return NovoSimpleActionCell;
-}(_NovoCell));
+}(_NovoCell$3));
 NovoSimpleActionCell.decorators = [
     { type: Component, args: [{
                 selector: 'novo-simple-action-cell',
@@ -42837,17 +42870,17 @@ NovoSimpleActionCell.propDecorators = {
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
  */
-var _NovoHeaderRowDef = CdkHeaderRowDef;
-var _NovoCdkRowDef = CdkRowDef;
-var _NovoHeaderRow = CdkHeaderRow;
-var _NovoRow = CdkRow;
+var _NovoHeaderRowDef$1 = CdkHeaderRowDef;
+var _NovoCdkRowDef$1 = CdkRowDef;
+var _NovoHeaderRow$1 = CdkHeaderRow;
+var _NovoRow$1 = CdkRow;
 var NovoSimpleHeaderRowDef = /** @class */ (function (_super) {
     __extends(NovoSimpleHeaderRowDef, _super);
     function NovoSimpleHeaderRowDef() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoSimpleHeaderRowDef;
-}(_NovoHeaderRowDef));
+}(_NovoHeaderRowDef$1));
 NovoSimpleHeaderRowDef.decorators = [
     { type: Directive, args: [{
                 selector: '[novoSimpleHeaderRowDef]',
@@ -42867,7 +42900,7 @@ var NovoSimpleRowDef = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return NovoSimpleRowDef;
-}(_NovoCdkRowDef));
+}(_NovoCdkRowDef$1));
 NovoSimpleRowDef.decorators = [
     { type: Directive, args: [{
                 selector: '[novoSimpleRowDef]',
@@ -42890,7 +42923,7 @@ var NovoSimpleHeaderRow = /** @class */ (function (_super) {
         return _this;
     }
     return NovoSimpleHeaderRow;
-}(_NovoHeaderRow));
+}(_NovoHeaderRow$1));
 NovoSimpleHeaderRow.decorators = [
     { type: Component, args: [{
                 selector: 'novo-simple-header-row',
@@ -42915,7 +42948,7 @@ var NovoSimpleRow = /** @class */ (function (_super) {
         return _this;
     }
     return NovoSimpleRow;
-}(_NovoRow));
+}(_NovoRow$1));
 NovoSimpleRow.decorators = [
     { type: Component, args: [{
                 selector: 'novo-simple-row',
@@ -45582,5 +45615,5 @@ NovoElementsModule.ctorParameters = function () { return []; };
 /**
  * Generated bundle index. Do not edit.
  */
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTable, NovoDataTableCell, NovoDataTableCheckboxCell, NovoDataTableCheckboxHeaderCell, NovoDataTableHeaderCell, NovoDataTableCellDef, NovoDataTableHeaderCellDef, NovoIDataTableColumnDef, NovoDataTableActionCell, NovoDataTableEmptyHeaderCell, NovoDataTableHeaderRow, NovoDataTableRow, NovoDataTableCellHeader, NovoDataTableSortFilter, NovoDataTableSelection, NovoDataTablePagination, DataTableSource, RemoteDataTableService, StaticDataTableService, DataTableState, NovoDataTableModule, NovoDataTableValue, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵl, NovoButtonElement as ɵm, NovoEventTypeLegendElement as ɵs, NovoCalendarAllDayEventElement as ɵbc, NovoCalendarDayEventElement as ɵba, NovoCalendarDayViewElement as ɵz, NovoCalendarHourSegmentElement as ɵbb, NovoCalendarMonthDayElement as ɵv, NovoCalendarMonthHeaderElement as ɵu, NovoCalendarMonthViewElement as ɵt, DayOfMonthPipe as ɵbe, EndOfWeekDisplayPipe as ɵbj, HoursPipe as ɵbi, MonthPipe as ɵbf, MonthDayPipe as ɵbg, WeekdayPipe as ɵbd, YearPipe as ɵbh, NovoCalendarWeekEventElement as ɵy, NovoCalendarWeekHeaderElement as ɵx, NovoCalendarWeekViewElement as ɵw, CardActionsElement as ɵq, CardElement as ɵr, NovoCategoryDropdownElement as ɵeb, NovoChipElement as ɵcr, NovoChipsElement as ɵcs, NovoCKEditorElement as ɵda, NovoDataTableCellHeader as ɵeq, NovoDataTableCheckboxHeaderCell as ɵfa, NovoDataTableEmptyHeaderCell as ɵet, NovoDataTableHeaderCell as ɵeu, NovoDataTableHeaderCellDef as ɵem, NovoDataTableActionCell as ɵes, NovoDataTableCell as ɵev, NovoDataTableCellDef as ɵel, NovoDataTableCheckboxCell as ɵez, NovoIDataTableColumnDef as ɵen, NovoDataTableValue as ɵfe, NovoDataTable as ɵfc, NovoDataTableModule as ɵek, NovoDataTablePagination as ɵey, NovoDataTableHeaderRow as ɵew, NovoDataTableHeaderRowDef as ɵeo, NovoDataTableRow as ɵex, NovoDataTableRowDef as ɵep, NovoDataTableSelection as ɵfb, NovoDataTableSortFilter as ɵer, DataTableState as ɵfd, NovoDatePickerElement as ɵct, NovoDatePickerInputElement as ɵcu, NovoDateTimePickerElement as ɵcy, NovoDateTimePickerInputElement as ɵcz, NovoDragulaElement as ɵcp, NovoDropdownContainer as ɵca, NovoDropdownElement as ɵcb, NovoItemElement as ɵcc, NovoItemHeaderElement$1 as ɵce, NovoListElement$1 as ɵcd, NovoAutoSize as ɵdf, NovoControlElement as ɵdh, NovoCustomControlContainerElement as ɵdg, NovoControlCustom as ɵdj, NovoDynamicFormElement as ɵdl, NovoFieldsetElement as ɵdk, NovoFieldsetHeaderElement as ɵdi, ControlConfirmModal as ɵdn, ControlPromptModal as ɵdo, NovoFormElement as ɵdm, NovoAddressElement as ɵdc, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbo, NovoHeaderSpacer as ɵbl, NovoUtilActionComponent as ɵbn, NovoUtilsComponent as ɵbm, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵn, NovoSpinnerElement as ɵo, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵec, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵcg, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵci, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵch, NovoOverlayTemplate as ɵcj, NovoOverlayModule as ɵcf, NovoPickerElement as ɵcm, NovoPickerContainer as ɵcn, PlacesListComponent as ɵfg, GooglePlacesModule as ɵff, PopOverDirective as ɵej, NovoPopOverModule as ɵeh, PopOverContent as ɵei, QuickNoteElement as ɵbx, NovoRadioElement as ɵbz, NovoRadioGroup as ɵby, NovoSearchBoxElement as ɵco, NovoSelectElement as ɵck, NovoSliderElement as ɵcq, NovoSwitchElement as ɵcl, NovoTableKeepFilterFocus as ɵds, Pagination as ɵdt, RowDetails as ɵdu, NovoTableActionsElement as ɵdr, TableCell as ɵdv, TableFilter as ɵdw, NovoTableFooterElement as ɵdq, NovoTableHeaderElement as ɵdp, ThOrderable as ɵdx, ThSortable as ɵdy, NovoNavContentElement as ɵbu, NovoNavElement as ɵbp, NovoNavHeaderElement as ɵbv, NovoNavOutletElement as ɵbt, NovoTabButtonElement as ɵbr, NovoTabElement as ɵbq, NovoTabLinkElement as ɵbs, NovoTilesElement as ɵbw, NovoTimePickerElement as ɵcw, NovoTimePickerInputElement as ɵcx, NovoTipWellElement as ɵdb, NovoToastElement as ɵbk, TooltipDirective as ɵp, Unless as ɵed, EntityList as ɵdz, NovoValueElement as ɵk, DateFormatService as ɵcv, BrowserGlobalRef as ɵef, GlobalRef as ɵee, LocalStorageService as ɵeg };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵl, NovoButtonElement as ɵm, NovoEventTypeLegendElement as ɵs, NovoCalendarAllDayEventElement as ɵbc, NovoCalendarDayEventElement as ɵba, NovoCalendarDayViewElement as ɵz, NovoCalendarHourSegmentElement as ɵbb, NovoCalendarMonthDayElement as ɵv, NovoCalendarMonthHeaderElement as ɵu, NovoCalendarMonthViewElement as ɵt, DayOfMonthPipe as ɵbe, EndOfWeekDisplayPipe as ɵbj, HoursPipe as ɵbi, MonthPipe as ɵbf, MonthDayPipe as ɵbg, WeekdayPipe as ɵbd, YearPipe as ɵbh, NovoCalendarWeekEventElement as ɵy, NovoCalendarWeekHeaderElement as ɵx, NovoCalendarWeekViewElement as ɵw, CardActionsElement as ɵq, CardElement as ɵr, NovoCategoryDropdownElement as ɵeb, NovoChipElement as ɵcr, NovoChipsElement as ɵcs, NovoCKEditorElement as ɵda, NovoDataTableCheckboxHeaderCell as ɵev, NovoDataTableEmptyHeaderCell as ɵen, NovoDataTableCellHeader as ɵej, NovoDataTableHeaderCell as ɵeo, NovoDataTableHeaderCellDef as ɵee, NovoDataTableActionCell as ɵem, NovoDataTableCell as ɵep, NovoDataTableCheckboxCell as ɵet, NovoDataTableCellDef as ɵeg, NovoDataTableColumnDef as ɵef, NovoDataTableValue as ɵex, NovoDataTable as ɵew, NovoDataTablePagination as ɵes, NovoDataTableHeaderRow as ɵeq, NovoDataTableRow as ɵer, NovoDataTableHeaderRowDef as ɵeh, NovoDataTableRowDef as ɵei, NovoDataTableSelection as ɵeu, NovoDataTableSortFilter as ɵel, DataTableState as ɵek, NovoDatePickerElement as ɵct, NovoDatePickerInputElement as ɵcu, NovoDateTimePickerElement as ɵcy, NovoDateTimePickerInputElement as ɵcz, NovoDragulaElement as ɵcp, NovoDropdownContainer as ɵca, NovoDropdownElement as ɵcb, NovoItemElement as ɵcc, NovoItemHeaderElement$1 as ɵce, NovoListElement$1 as ɵcd, NovoAutoSize as ɵdf, NovoControlElement as ɵdh, NovoCustomControlContainerElement as ɵdg, NovoControlCustom as ɵdj, NovoDynamicFormElement as ɵdl, NovoFieldsetElement as ɵdk, NovoFieldsetHeaderElement as ɵdi, ControlConfirmModal as ɵdn, ControlPromptModal as ɵdo, NovoFormElement as ɵdm, NovoAddressElement as ɵdc, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbo, NovoHeaderSpacer as ɵbl, NovoUtilActionComponent as ɵbn, NovoUtilsComponent as ɵbm, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵn, NovoSpinnerElement as ɵo, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵec, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵcg, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵci, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵch, NovoOverlayTemplate as ɵcj, NovoOverlayModule as ɵcf, NovoPickerElement as ɵcm, NovoPickerContainer as ɵcn, PlacesListComponent as ɵff, GooglePlacesModule as ɵfe, PopOverDirective as ɵfd, NovoPopOverModule as ɵfb, PopOverContent as ɵfc, QuickNoteElement as ɵbx, NovoRadioElement as ɵbz, NovoRadioGroup as ɵby, NovoSearchBoxElement as ɵco, NovoSelectElement as ɵck, NovoSliderElement as ɵcq, NovoSwitchElement as ɵcl, NovoTableKeepFilterFocus as ɵds, Pagination as ɵdt, RowDetails as ɵdu, NovoTableActionsElement as ɵdr, TableCell as ɵdv, TableFilter as ɵdw, NovoTableFooterElement as ɵdq, NovoTableHeaderElement as ɵdp, ThOrderable as ɵdx, ThSortable as ɵdy, NovoNavContentElement as ɵbu, NovoNavElement as ɵbp, NovoNavHeaderElement as ɵbv, NovoNavOutletElement as ɵbt, NovoTabButtonElement as ɵbr, NovoTabElement as ɵbq, NovoTabLinkElement as ɵbs, NovoTilesElement as ɵbw, NovoTimePickerElement as ɵcw, NovoTimePickerInputElement as ɵcx, NovoTipWellElement as ɵdb, NovoToastElement as ɵbk, TooltipDirective as ɵp, Unless as ɵed, EntityList as ɵdz, NovoValueElement as ɵk, DateFormatService as ɵcv, BrowserGlobalRef as ɵez, GlobalRef as ɵey, LocalStorageService as ɵfa };
 //# sourceMappingURL=novo-elements.es5.js.map

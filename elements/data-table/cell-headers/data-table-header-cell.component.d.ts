@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, OnDestroy, OnInit, ElementRef } from '@angular/core';
 import { CdkColumnDef } from '@angular/cdk/table';
 import { IDataTableSortFilter, IDataTableColumn, IDataTableColumnFilterConfig } from '../interfaces';
-import { NovoDataTableSortFilter } from '../sort-filter';
+import { NovoDataTableSortFilter } from '../sort-filter/sort-filter.directive';
 import { NovoLabelService } from '../../../services/novo-label-service';
-import { DataTableState } from '../state';
+import { DataTableState } from '../state/data-table-state.service';
 export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter, OnInit, OnDestroy {
     private changeDetectorRef;
     labels: NovoLabelService;

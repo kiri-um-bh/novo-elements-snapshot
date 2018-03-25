@@ -1,5 +1,7 @@
 import { CdkRow } from '@angular/cdk/table';
-export declare class NovoDataTableRow extends CdkRow {
+/** Workaround for https://github.com/angular/angular/issues/17849 */
+export declare const _NovoRow: typeof CdkRow;
+export declare class NovoDataTableRow extends _NovoRow {
     rowClass: string;
     role: string;
     id: any;

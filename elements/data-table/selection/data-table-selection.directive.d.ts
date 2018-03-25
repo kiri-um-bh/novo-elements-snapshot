@@ -1,5 +1,5 @@
 import { EventEmitter, OnDestroy } from '@angular/core';
-import { DataTableState } from '../state';
+import { DataTableState } from '../state/data-table-state.service';
 export declare class NovoDataTableSelection implements OnDestroy {
     state: DataTableState;
     novoSelectAllToggle: EventEmitter<boolean>;

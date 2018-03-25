@@ -1,3 +1,5 @@
 import { CdkCellDef } from '@angular/cdk/table';
-export declare class NovoDataTableCellDef extends CdkCellDef {
+/** Workaround for https://github.com/angular/angular/issues/17849 */
+export declare const _NovoCellDef: typeof CdkCellDef;
+export declare class NovoDataTableCellDef extends _NovoCellDef {
 }

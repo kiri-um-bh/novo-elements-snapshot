@@ -1,4 +1,4 @@
-import { DataTableState } from '../state';
+import { DataTableState } from '../state/data-table-state.service';
 export declare class NovoDataTableSortFilter {
     private state;
     constructor(state: DataTableState);

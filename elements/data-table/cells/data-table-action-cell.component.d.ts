@@ -2,7 +2,9 @@ import { ElementRef, Renderer2, OnInit } from '@angular/core';
 import { CdkCell, CdkColumnDef } from '@angular/cdk/table';
 import { IDataTableColumn } from '../interfaces';
 import { NovoLabelService } from '../../../services/novo-label-service';
-export declare class NovoDataTableActionCell<T> extends CdkCell implements OnInit {
+/** Workaround for https://github.com/angular/angular/issues/17849 */
+export declare const _NovoCell: typeof CdkCell;
+export declare class NovoDataTableActionCell<T> extends _NovoCell implements OnInit {
     private elementRef;
     private renderer;
     labels: NovoLabelService;

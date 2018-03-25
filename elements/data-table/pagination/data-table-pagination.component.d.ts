@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { IDataTablePaginationEvent } from '../interfaces';
 import { NovoLabelService } from '../../../services/novo-label-service';
-import { DataTableState } from '../state';
+import { DataTableState } from '../state/data-table-state.service';
 export declare class NovoDataTablePagination implements OnInit, OnDestroy {
     private changeDetectorRef;
     labels: NovoLabelService;
