@@ -25,6 +25,9 @@ export interface IDataTableColumn<T> {
             disabledFunc?: (row: T) => boolean;
         }[];
     };
+    attributes?: {
+        [key: string]: any;
+    };
 }
 export interface IDataTablePaginationOptions {
     theme: 'basic' | 'standard';

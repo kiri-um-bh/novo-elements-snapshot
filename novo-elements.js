@@ -9436,7 +9436,17 @@ class NovoPickerElement {
             this.term = '';
         }
         else {
-            if (typeof value === 'string') {
+            if (typeof this.config.getLabels === 'function') {
+                this.config.getLabels(value).then((result) => {
+                    if (result) {
+                        this.term = result.length ? result[0].label || '' : result.label || '';
+                    }
+                    else {
+                        this.term = value;
+                    }
+                });
+            }
+            else if (typeof value === 'string') {
                 this.term = value;
             }
             else if (value && value.label) {
@@ -9447,16 +9457,6 @@ class NovoPickerElement {
             }
             else if (value && value.name) {
                 this.term = value.name;
-            }
-            else if (typeof this.config.getLabels === 'function') {
-                this.config.getLabels(value).then(result => {
-                    if (result) {
-                        this.term = result.length ? result[0].label || '' : result.label || '';
-                    }
-                    else {
-                        this.term = value;
-                    }
-                });
             }
             else {
                 this.term = value || '';
@@ -42158,6 +42158,7 @@ class NovoDataTableCellHeader {
         let /** @type {?} */ transforms = {};
         if (column.filterable && Helpers.isObject(column.filterable)) {
             this.config.filterConfig = /** @type {?} */ (column.filterable);
+            this.showCustomRange = !!this.config.filterConfig.allowCustomRange;
             if (!this.config.filterConfig.type) {
                 this.config.filterConfig = { type: 'text' };
             }
