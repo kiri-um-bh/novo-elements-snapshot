@@ -28814,8 +28814,14 @@ class NovoFileInputElement {
         if (event.dataTransfer.types[0] !== 'Files') {
             return;
         }
-        let /** @type {?} */ filelist = Array.from(event.dataTransfer.files);
-        this.process(this.multiple ? filelist : [filelist[0]]);
+        let /** @type {?} */ options = this.layoutOptions;
+        if (options.customActions) {
+            this.upload.emit(event);
+        }
+        else {
+            let /** @type {?} */ filelist = Array.from(event.dataTransfer.files);
+            this.process(this.multiple ? filelist : [filelist[0]]);
+        }
         this.active = false;
     }
     /**
@@ -28939,7 +28945,7 @@ NovoFileInputElement.decorators = [
             <div class="file-output-group" [dragula]="fileOutputBag" [dragulaModel]="files">
                 <div class="file-item" *ngFor="let file of files">
                   <i *ngIf="layoutOptions.draggable" class="bhi-move"></i>
-                  <label *ngIf="file.link"><span><a href="{{ file.link }}">{{ file.name | decodeURI }}</a></span><span  *ngIf="file.description">||</span><span>{{ file.description }}</span></label> 
+                  <label *ngIf="file.link"><span><a href="{{ file.link }}" target="_blank">{{ file.name | decodeURI }}</a></span><span  *ngIf="file.description">||</span><span>{{ file.description }}</span></label> 
                   <label *ngIf="!file.link">{{ file.name | decodeURI }}</label> 
                   <div class="actions" [attr.data-automation-id]="'file-actions'" *ngIf="file.loaded">
                     <div *ngIf="!layoutOptions.customActions">
