@@ -1,4 +1,5 @@
 export declare class NovoLabelService {
+    userLocale: string;
     filters: string;
     clear: string;
     sort: string;
@@ -78,6 +79,7 @@ export declare class NovoLabelService {
     groupedMultiPickerSelectCategory: string;
     add: string;
     encryptedFieldTooltip: string;
+    constructor(userLocale?: string);
     getToManyPlusMore(toMany: {
         quantity: number;
     }): string;

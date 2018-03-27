@@ -15,7 +15,7 @@ import 'brace/index';
 import 'brace/theme/chrome';
 import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
-import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isSameDay, isSameMonth, isSameSecond, isToday, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
+import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isDate, isSameDay, isSameMonth, isSameSecond, isToday, parse, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
 import { DOCUMENT, DomSanitizer } from '@angular/platform-browser';
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
@@ -1354,7 +1354,12 @@ NovoTooltipModule.decorators = [
 NovoTooltipModule.ctorParameters = function () { return []; };
 // NG2
 var NovoLabelService = /** @class */ (function () {
-    function NovoLabelService() {
+    /**
+     * @param {?=} userLocale
+     */
+    function NovoLabelService(userLocale) {
+        if (userLocale === void 0) { userLocale = 'en-US'; }
+        this.userLocale = userLocale;
         this.filters = 'Filter';
         this.clear = 'Clear';
         this.sort = 'Sort';
@@ -1467,12 +1472,13 @@ var NovoLabelService = /** @class */ (function () {
         if (date.getTime() !== date.getTime()) {
             return value;
         }
-        return new Intl.DateTimeFormat('en-US', format).format(date);
+        return new Intl.DateTimeFormat(this.userLocale, format).format(date);
     };
     /**
      * @return {?}
      */
     NovoLabelService.prototype.getWeekdays = function () {
+        var _this = this;
         /**
          * @param {?} dayOfWeek
          * @return {?}
@@ -1482,7 +1488,7 @@ var NovoLabelService = /** @class */ (function () {
             return dt.setDate(dt.getDate() - dt.getDay() + dayOfWeek);
         }
         return [getDay$$1(0), getDay$$1(1), getDay$$1(2), getDay$$1(3), getDay$$1(4), getDay$$1(5), getDay$$1(6)].reduce(function (weekdays, dt) {
-            weekdays.push(new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(dt));
+            weekdays.push(new Intl.DateTimeFormat(_this.userLocale, { weekday: 'long' }).format(dt));
             return weekdays;
         }, []);
     };
@@ -1490,6 +1496,7 @@ var NovoLabelService = /** @class */ (function () {
      * @return {?}
      */
     NovoLabelService.prototype.getMonths = function () {
+        var _this = this;
         /**
          * @param {?} month
          * @return {?}
@@ -1512,7 +1519,7 @@ var NovoLabelService = /** @class */ (function () {
             getMonth$$1(10),
             getMonth$$1(11),
         ].reduce(function (months, dt) {
-            months.push(new Intl.DateTimeFormat('en-US', { month: 'long' }).format(dt));
+            months.push(new Intl.DateTimeFormat(_this.userLocale, { month: 'long' }).format(dt));
             return months;
         }, []);
     };
@@ -1546,7 +1553,7 @@ var NovoLabelService = /** @class */ (function () {
      */
     NovoLabelService.prototype.formatCurrency = function (value) {
         var /** @type {?} */ options = { style: 'currency', currency: 'USD' };
-        return new Intl.NumberFormat('en-US', options).format(value);
+        return new Intl.NumberFormat(this.userLocale, options).format(value);
     };
     /**
      * @param {?} value
@@ -1554,7 +1561,7 @@ var NovoLabelService = /** @class */ (function () {
      * @return {?}
      */
     NovoLabelService.prototype.formatNumber = function (value, options) {
-        return new Intl.NumberFormat('en-US', options).format(value);
+        return new Intl.NumberFormat(this.userLocale, options).format(value);
     };
     /**
      * @param {?} value
@@ -1570,7 +1577,7 @@ var NovoLabelService = /** @class */ (function () {
             minute: '2-digit',
         };
         var /** @type {?} */ _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
-        return new Intl.DateTimeFormat('en-US', options).format(_value);
+        return new Intl.DateTimeFormat(this.userLocale, options).format(_value);
     };
     /**
      * @param {?} value
@@ -1583,7 +1590,7 @@ var NovoLabelService = /** @class */ (function () {
             minute: '2-digit',
         };
         var /** @type {?} */ _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
-        return new Intl.DateTimeFormat('en-US', options).format(_value);
+        return new Intl.DateTimeFormat(this.userLocale, options).format(_value);
     };
     /**
      * @param {?} value
@@ -1597,7 +1604,7 @@ var NovoLabelService = /** @class */ (function () {
             year: 'numeric',
         };
         var /** @type {?} */ _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
-        return new Intl.DateTimeFormat('en-US', options).format(_value);
+        return new Intl.DateTimeFormat(this.userLocale, options).format(_value);
     };
     return NovoLabelService;
 }());
@@ -1607,7 +1614,9 @@ NovoLabelService.decorators = [
 /**
  * @nocollapse
  */
-NovoLabelService.ctorParameters = function () { return []; };
+NovoLabelService.ctorParameters = function () { return [
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [LOCALE_ID,] },] },
+]; };
 // NG2
 // APP
 var CardActionsElement = /** @class */ (function () {
@@ -4424,7 +4433,7 @@ var NovoListItemElement = /** @class */ (function () {
 NovoListItemElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-list-item',
-                template: "\n        <div class=\"list-item\" [ngClass]=\"{'avatar': avatar}\">\n            <ng-content select=\"item-header\"></ng-content>\n            <ng-content select=\"item-content\"></ng-content>\n        </div>\n        <ng-content select=\"item-end\"></ng-content>\n    "
+                template: "\n        <div class=\"list-item\" [ngClass]=\"{'avatar': avatar}\">\n            <ng-content select=\"item-header\"></ng-content>\n            <ng-content select=\"item-content\"></ng-content>   \n        </div>\n        <ng-content></ng-content>\n        <ng-content select=\"item-end\"></ng-content>\n    "
             },] },
 ];
 /**
@@ -6454,6 +6463,9 @@ NovoDropdownModule.decorators = [
  */
 NovoDropdownModule.ctorParameters = function () { return []; };
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+function unwrapExports(x) {
+    return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
 function createCommonjsModule(fn, module) {
     return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
@@ -10983,8 +10995,8 @@ var NovoDatePickerElement = /** @class */ (function () {
         // Default view mode (select days)
         this.view = 'days';
         this.rangeSelectMode = 'startDate';
-        this.onModelChange = function () { };
-        this.onModelTouched = function () { };
+        this._onChange = function () { };
+        this._onTouched = function () { };
     }
     /**
      * @return {?}
@@ -11256,7 +11268,7 @@ var NovoDatePickerElement = /** @class */ (function () {
             if (this.range && this.selected && this.selected2) {
                 this.fireRangeSelect();
                 // Also, update the ngModel
-                this.onModelChange({
+                this._onChange({
                     startDate: this.selected,
                     endDate: this.selected2 ? this.selected2 : null
                 });
@@ -11273,7 +11285,7 @@ var NovoDatePickerElement = /** @class */ (function () {
                     date: this.selected
                 });
                 // Also, update the ngModel
-                this.onModelChange(this.selected);
+                this._onChange(this.selected);
                 this.model = this.selected;
             }
         }
@@ -11442,14 +11454,14 @@ var NovoDatePickerElement = /** @class */ (function () {
      * @return {?}
      */
     NovoDatePickerElement.prototype.registerOnChange = function (fn) {
-        this.onModelChange = fn;
+        this._onChange = fn;
     };
     /**
      * @param {?} fn
      * @return {?}
      */
     NovoDatePickerElement.prototype.registerOnTouched = function (fn) {
-        this.onModelTouched = fn;
+        this._onTouched = fn;
     };
     return NovoDatePickerElement;
 }());
@@ -11508,6 +11520,470 @@ NovoDatePickerElement.propDecorators = {
     'onSelect': [{ type: Output },],
     'template': [{ type: ViewChild, args: [TemplateRef,] },],
 };
+var createAutoCorrectedDatePipe = createCommonjsModule(function (module, exports) {
+    !function (e, t) { module.exports = t(); }(commonjsGlobal, function () { return function (e) { function t(n) { if (r[n])
+        return r[n].exports; var o = r[n] = { exports: {}, id: n, loaded: !1 }; return e[n].call(o.exports, o, o.exports, t), o.loaded = !0, o.exports; } var r = {}; return t.m = e, t.c = r, t.p = "", t(0); }([function (e, t, r) { e.exports = r(1); }, function (e, t) { function r() { var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : "mm dd yyyy"; return function (t) { var r = [], n = e.split(/[^dmyHMS]+/), o = { dd: 31, mm: 12, yy: 99, yyyy: 9999, HH: 24, MM: 59, SS: 59 }, i = { dd: 1, mm: 1, yy: 0, yyyy: 1, HH: 0, MM: 0, SS: 0 }, u = t.split(""); n.forEach(function (t) { var n = e.indexOf(t), i = parseInt(o[t].toString().substr(0, 1), 10); parseInt(u[n], 10) > i && (u[n + 1] = u[n], u[n] = 0, r.push(n)); }); var d = n.some(function (r) { var n = e.indexOf(r), u = r.length, d = t.substr(n, u).replace(/\D/g, ""), s = parseInt(d, 10); return s > o[r] || d.length === u && s < i[r]; }); return !d && { value: u.join(""), indexesOfPipedChars: r }; }; } Object.defineProperty(t, "__esModule", { value: !0 }), t.default = r; }]); });
+});
+var createAutoCorrectedDatePipe$1 = unwrapExports(createAutoCorrectedDatePipe);
+var createAutoCorrectedDatePipe_1 = createAutoCorrectedDatePipe.createAutoCorrectedDatePipe;
+// NG
+// Value accessor for the component (supports ngModel)
+var DATE_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(function () { return NovoDatePickerInputElement; }),
+    multi: true,
+};
+var NovoDatePickerInputElement = /** @class */ (function () {
+    /**
+     * @param {?} element
+     * @param {?} labels
+     * @param {?} _changeDetectorRef
+     */
+    function NovoDatePickerInputElement(element, labels, _changeDetectorRef) {
+        this.element = element;
+        this.labels = labels;
+        this._changeDetectorRef = _changeDetectorRef;
+        this.formattedValue = '';
+        /**
+         * View -> model callback called when value changes
+         */
+        this._onChange = function () { };
+        /**
+         * View -> model callback called when autocomplete has been touched
+         */
+        this._onTouched = function () { };
+        this.placeholder = this.labels.dateFormatPlaceholder;
+    }
+    /**
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype.ngOnInit = function () {
+        this.maskOptions = this.maskOptions || {
+            mask: [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/],
+            pipe: createAutoCorrectedDatePipe$1(this.format || this.labels.dateFormat.toLowerCase()),
+            keepCharPositions: false,
+            guide: true,
+        };
+    };
+    /**
+     * BEGIN: Convienient Panel Methods.
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype.openPanel = function () {
+        this.overlay.openPanel();
+    };
+    /**
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype.closePanel = function () {
+        this.overlay.closePanel();
+    };
+    Object.defineProperty(NovoDatePickerInputElement.prototype, "panelOpen", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this.overlay && this.overlay.panelOpen;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * END: Convienient Panel Methods.
+     * @param {?} event
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype._handleKeydown = function (event) {
+        if ((event.keyCode === ESCAPE || event.keyCode === ENTER || event.keyCode === TAB) && this.panelOpen) {
+            this.closePanel();
+            event.stopPropagation();
+        }
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype._handleInput = function (event) {
+        if (document.activeElement === event.target) {
+            var /** @type {?} */ value = ((event.target)).value;
+            try {
+                var /** @type {?} */ dateTimeValue = Date.parse(value);
+                if (!isNaN(dateTimeValue)) {
+                    var /** @type {?} */ dt = new Date(dateTimeValue);
+                    this.dispatchOnChange(dt);
+                }
+                else {
+                    this.dispatchOnChange(null);
+                }
+            }
+            catch (err) { }
+            this.openPanel();
+        }
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype.writeValue = function (value) {
+        var _this = this;
+        Promise.resolve(null).then(function () { return _this._setTriggerValue(value); });
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype.registerOnChange = function (fn) {
+        this._onChange = fn;
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype.registerOnTouched = function (fn) {
+        this._onTouched = fn;
+    };
+    /**
+     * @param {?=} newValue
+     * @param {?=} skip
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype.dispatchOnChange = function (newValue, skip) {
+        if (skip === void 0) { skip = false; }
+        if (newValue !== this.value) {
+            this._onChange(newValue);
+            !skip && this.writeValue(newValue);
+        }
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype._setTriggerValue = function (value) {
+        if (value instanceof Date && this.value instanceof Date) {
+            value = new Date(value.setHours(this.value.getHours(), this.value.getMinutes()));
+        }
+        this.value = value;
+        if (this.value) {
+            var /** @type {?} */ test = this.formatDateValue(this.value);
+            this.formattedValue = test;
+        }
+        this._changeDetectorRef.markForCheck();
+    };
+    /**
+     * This method closes the panel, and if a value is specified, also sets the associated
+     * control to that value. It will also mark the control as dirty if this interaction
+     * stemmed from the user.
+     * @param {?} event
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype.setValueAndClose = function (event) {
+        if (event && event.date) {
+            this.dispatchOnChange(event.date);
+        }
+        this.closePanel();
+    };
+    /**
+     * Clear any previous selected option and emit a selection change event for this option
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype.clearValue = function () {
+        this.formattedValue = '';
+        this.dispatchOnChange(null);
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype.formatDateValue = function (value) {
+        try {
+            if (!value) {
+                return '';
+            }
+            if (!(value instanceof Date)) {
+                value = new Date(value);
+            }
+            return this.labels.formatDateWithFormat(value, {
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric',
+            });
+        }
+        catch (err) {
+            return '';
+        }
+    };
+    Object.defineProperty(NovoDatePickerInputElement.prototype, "hasValue", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return !Helpers.isEmpty(this.value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return NovoDatePickerInputElement;
+}());
+NovoDatePickerInputElement.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-date-picker-input',
+                providers: [DATE_VALUE_ACCESSOR],
+                template: "\n        <input type=\"text\" [name]=\"name\" [(ngModel)]=\"formattedValue\" [textMask]=\"maskOptions\" [placeholder]=\"placeholder\" (focus)=\"openPanel()\" (keydown)=\"_handleKeydown($event)\" (input)=\"_handleInput($event)\" #input data-automation-id=\"date-input\"/>\n        <i *ngIf=\"!hasValue\" (click)=\"openPanel()\" class=\"bhi-calendar\"></i>\n        <i *ngIf=\"hasValue\" (click)=\"clearValue()\" class=\"bhi-times\"></i>\n\n        <novo-overlay-template [parent]=\"element\">\n            <novo-date-picker inline=\"true\" (onSelect)=\"setValueAndClose($event)\" [ngModel]=\"value\"></novo-date-picker>\n        </novo-overlay-template>\n  ",
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDatePickerInputElement.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: NovoLabelService, },
+    { type: ChangeDetectorRef, },
+]; };
+NovoDatePickerInputElement.propDecorators = {
+    'name': [{ type: Input },],
+    'placeholder': [{ type: Input },],
+    'maskOptions': [{ type: Input },],
+    'format': [{ type: Input },],
+    'overlay': [{ type: ViewChild, args: [NovoOverlayTemplate,] },],
+};
+// NG2
+// Vendor
+// APP
+var NovoDatePickerModule = /** @class */ (function () {
+    function NovoDatePickerModule() {
+    }
+    return NovoDatePickerModule;
+}());
+NovoDatePickerModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule, FormsModule, NovoOverlayModule, TextMaskModule],
+                declarations: [NovoDatePickerElement, NovoDatePickerInputElement],
+                exports: [NovoDatePickerElement, NovoDatePickerInputElement]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDatePickerModule.ctorParameters = function () { return []; };
+// NG2
+// APP
+// Value accessor for the component (supports ngModel)
+var TIME_PICKER_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(function () { return NovoTimePickerElement; }),
+    multi: true
+};
+var NovoTimePickerElement = /** @class */ (function () {
+    function NovoTimePickerElement() {
+        this.military = false;
+        this.analog = false;
+        this.inline = false;
+        this.onSelect = new EventEmitter();
+        this.hours = 12;
+        this.minutes = 0;
+        this.value = null;
+        this.increments = [];
+        this.MERIDIANS = ['am', 'pm'];
+        this.MINUTES = ['05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '00'];
+        this.HOURS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+        this._onChange = function () { };
+        this._onTouched = function () { };
+    }
+    /**
+     * @param {?} arr
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.flatten = function (arr) {
+        return (_d = Array.prototype).concat.apply(_d, arr);
+        var _d;
+    };
+    /**
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.ngOnInit = function () {
+        if (this.military) {
+            this.HOURS = ['0'].concat(this.HOURS, ['13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']);
+            this.increments = this.flatten(this.HOURS.map(function (hour) { return [hour + ":00", hour + ":15", hour + ":30", hour + ":45"]; }).slice());
+        }
+        else {
+            var /** @type {?} */ hours = ['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+            this.increments = this.flatten(hours.map(function (hour) { return [hour + ":00 AM", hour + ":15 AM", hour + ":30 AM", hour + ":45 AM"]; }).concat(hours.map(function (hour) { return [hour + ":00 PM", hour + ":15 PM", hour + ":30 PM", hour + ":45 PM"]; })));
+        }
+        this.ngOnChanges();
+    };
+    /**
+     * @param {?=} changes
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.ngOnChanges = function (changes) {
+        if (this.model) {
+            this.init(this.model, false);
+        }
+        else {
+            this.selected = null;
+            this.init(new Date(), false);
+        }
+    };
+    /**
+     * @param {?} value
+     * @param {?} dispatch
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.init = function (value, dispatch) {
+        var /** @type {?} */ _value = new Date(value);
+        var /** @type {?} */ hours = _value.getHours();
+        var /** @type {?} */ minutes = _value.getMinutes();
+        if (!this.military) {
+            this.meridian = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours || 12;
+        }
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        this.setHours(null, hours, dispatch);
+        this.setMinutes(null, minutes, dispatch);
+        this.checkBetween(minutes);
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.checkBetween = function (value) {
+        this.inBetween = this.MINUTES.indexOf(String(value)) < 0;
+    };
+    /**
+     * @param {?} event
+     * @param {?} value
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.setValue = function (event, value) {
+        Helpers.swallowEvent(event);
+        this.selected = value;
+        var _d = value.split(' '), time = _d[0], meridian = _d[1];
+        var _e = time.split(':'), hours = _e[0], minutes = _e[1];
+        this.hours = hours;
+        this.minutes = minutes;
+        this.meridian = meridian;
+        this.dispatchChange();
+    };
+    /**
+     * @param {?} event
+     * @param {?} hours
+     * @param {?} dispatch
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.setHours = function (event, hours, dispatch) {
+        Helpers.swallowEvent(event);
+        this.hours = hours;
+        this.hoursClass = "hour-" + hours;
+        this.activeHour = hours;
+        if (dispatch) {
+            this.dispatchChange();
+        }
+    };
+    /**
+     * @param {?} event
+     * @param {?} minutes
+     * @param {?} dispatch
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.setMinutes = function (event, minutes, dispatch) {
+        Helpers.swallowEvent(event);
+        this.minutes = minutes;
+        this.minutesClass = "min-" + minutes;
+        this.activeMinute = minutes;
+        this.checkBetween(minutes);
+        if (dispatch) {
+            this.dispatchChange();
+        }
+    };
+    /**
+     * @param {?} event
+     * @param {?} period
+     * @param {?} dispatch
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.setPeriod = function (event, period, dispatch) {
+        Helpers.swallowEvent(event);
+        this.meridian = period;
+        if (dispatch) {
+            this.dispatchChange();
+        }
+    };
+    /**
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.dispatchChange = function () {
+        var /** @type {?} */ hours = Number(this.hours);
+        if (!this.military) {
+            hours = this.meridian.toLowerCase() === 'pm' ? hours + 12 : hours;
+            // Special case for 12
+            if (this.meridian.toLowerCase() === 'pm' && hours === 24) {
+                hours = 12;
+            }
+            else if (this.meridian.toLowerCase() === 'am' && hours === 12) {
+                hours = 0;
+            }
+        }
+        var /** @type {?} */ value = new Date();
+        value.setHours(hours);
+        value.setMinutes(this.minutes);
+        value.setSeconds(0);
+        this.value = this.hours + ":" + this.minutes + " " + this.meridian;
+        this.onSelect.next({
+            hours: hours,
+            minutes: this.minutes,
+            meridian: this.meridian,
+            date: value,
+            text: this.value,
+        });
+        this._onChange(value);
+    };
+    /**
+     * @param {?} model
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.writeValue = function (model) {
+        this.model = model;
+        if (Helpers.isDate(model)) {
+            this.init(model, false);
+        }
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.registerOnChange = function (fn) {
+        this._onChange = fn;
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    NovoTimePickerElement.prototype.registerOnTouched = function (fn) {
+        this._onTouched = fn;
+    };
+    return NovoTimePickerElement;
+}());
+NovoTimePickerElement.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-time-picker',
+                providers: [TIME_PICKER_VALUE_ACCESSOR],
+                template: "\n        <div class=\"digital\" [class.inline]=\"inline\" [class.military]=\"military\">\n            <div class=\"digital--inner\">\n                <span class=\"digital--clock\" *ngIf=\"!inline\">\n                    <span class=\"hours\" data-automation-id=\"novo-time-picker-hours\">{{hours}}</span>:<span class=\"minutes\" data-automation-id=\"novo-time-picker-minutes\">{{minutes}}</span>\n                </span>\n                <div class=\"control-block\" *ngIf=\"!military\">\n                    <span *ngFor=\"let period of MERIDIANS\" class=\"digital--period\" [class.active]=\"meridian==period\" (click)=\"setPeriod($event, period, true)\" [attr.data-automation-id]=\"period\">{{period}}</span>\n                </div>\n            </div>\n        </div>\n        <div class=\"increments\" *ngIf=\"!analog\">\n            <novo-list direction=\"vertical\" data-automation-id=\"novo-time-picker-increments\">\n                <novo-list-item *ngFor=\"let increment of increments\" (click)=\"setValue($event, increment)\" [class.active]=\"increment==selected\" [attr.data-automation-id]=\"increment\">\n                    <item-content>{{increment}}</item-content>\n                    <i *ngIf=\"increment==selected\" class=\"bhi-check\"></i>\n                </novo-list-item>\n            </novo-list>\n        </div>\n        <div class=\"analog\" *ngIf=\"analog\">\n            <div class=\"analog--inner\">\n                <div class=\"analog--face\">\n                    <span class=\"analog--center\"></span>\n                    <span class=\"analog--hand--hours\" [ngClass]=\"hoursClass\">\n                        <span class=\"analog--ball\"></span>\n                    </span>\n                    <span class=\"analog--hand--minutes\" [ngClass]=\"minutesClass\">\n                        <span class=\"analog--ball\" [ngClass]=\"{between: inBetween}\"></span>\n                    </span>\n                </div>\n                <div class=\"analog--hours\">\n                    <span *ngFor=\"let hour of HOURS\" class=\"analog--hour\" [ngClass]=\"{active: activeHour == hour}\" (click)=\"setHours($event, hour, true)\" [attr.data-automation-id]=\"hour\">{{hour}}</span>\n                </div>\n                <div class=\"analog--minutes\">\n                    <span *ngFor=\"let minute of MINUTES\" class=\"analog--minute\" [ngClass]=\"{active: activeMinute == minute}\" (click)=\"setMinutes($event, minute, true)\" [attr.data-automation-id]=\"minute\">{{minute}}</span>\n                </div>\n            </div>\n        </div>\n    ",
+                host: {
+                    '[class.military]': 'military'
+                }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoTimePickerElement.ctorParameters = function () { return []; };
+NovoTimePickerElement.propDecorators = {
+    'military': [{ type: Input },],
+    'analog': [{ type: Input },],
+    'inline': [{ type: Input },],
+    'onSelect': [{ type: Output },],
+};
 // NG2
 // APP
 var DateFormatService = /** @class */ (function () {
@@ -11551,6 +12027,14 @@ var DateFormatService = /** @class */ (function () {
      */
     DateFormatService.prototype.getDateMask = function () {
         return [/\d/, /\d|\/|\.|\-/, /\/|\.|\-|\d/, /\d|\/|\.|\-/, /\d|\/|\.|\-/, /\d|\/|\.|\-/, /\d|\/|\.|\-/, /\d|\/|\.|\-/, /\d/, /\d/];
+    };
+    /**
+     * @param {?=} militaryTime
+     * @return {?}
+     */
+    DateFormatService.prototype.getDateTimeMask = function (militaryTime) {
+        if (militaryTime === void 0) { militaryTime = false; }
+        return this.getDateMask().concat([/\,?/, /\s/], this.getTimeMask(militaryTime));
     };
     /**
      * @param {?} militaryTime
@@ -11673,6 +12157,15 @@ var DateFormatService = /** @class */ (function () {
      */
     DateFormatService.prototype.parseString = function (dateTimeString, militaryTime, type) {
         switch (type) {
+            case 'datetime':
+                var /** @type {?} */ str = dateTimeString.replace(/-/g, '/');
+                var /** @type {?} */ parts = str.split(' ');
+                var _d = this.parseDateString(parts[0]), dt = _d[0], dts = _d[1];
+                if (parts.length > 1) {
+                    var _e = this.parseTimeString(parts[1], militaryTime), tm = _e[0], tms = _e[1];
+                    return [new Date(dt.setHours(tm.getHours(), tm.getMinutes())), dts + " " + tms];
+                }
+                return [dt, dts];
             case 'date':
                 return this.parseDateString(dateTimeString);
             case 'time':
@@ -11711,401 +12204,6 @@ DateFormatService.ctorParameters = function () { return [
     { type: NovoLabelService, },
 ]; };
 // NG
-// Value accessor for the component (supports ngModel)
-var DATE_VALUE_ACCESSOR = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return NovoDatePickerInputElement; }),
-    multi: true
-};
-var NovoDatePickerInputElement = /** @class */ (function () {
-    /**
-     * @param {?} element
-     * @param {?} labels
-     * @param {?} dateFormatService
-     * @param {?} _changeDetectorRef
-     */
-    function NovoDatePickerInputElement(element, labels, dateFormatService, _changeDetectorRef) {
-        this.element = element;
-        this.labels = labels;
-        this.dateFormatService = dateFormatService;
-        this._changeDetectorRef = _changeDetectorRef;
-        /**
-         * View -> model callback called when value changes
-         */
-        this._onChange = function () { };
-        /**
-         * View -> model callback called when autocomplete has been touched
-         */
-        this._onTouched = function () { };
-        this.maskOptions = {
-            mask: this.dateFormatService.getDateMask(),
-            keepCharPositions: true,
-            guide: false
-        };
-        this.placeholder = this.labels.dateFormatPlaceholder;
-    }
-    /**
-     * BEGIN: Convienient Panel Methods.
-     * @return {?}
-     */
-    NovoDatePickerInputElement.prototype.openPanel = function () {
-        this.overlay.openPanel();
-    };
-    /**
-     * @return {?}
-     */
-    NovoDatePickerInputElement.prototype.closePanel = function () {
-        this.overlay.closePanel();
-    };
-    Object.defineProperty(NovoDatePickerInputElement.prototype, "panelOpen", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return this.overlay && this.overlay.panelOpen;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * END: Convienient Panel Methods.
-     * @param {?} event
-     * @return {?}
-     */
-    NovoDatePickerInputElement.prototype._handleKeydown = function (event) {
-        if ((event.keyCode === ESCAPE || event.keyCode === ENTER || event.keyCode === TAB) && this.panelOpen) {
-            this.closePanel();
-            event.stopPropagation();
-        }
-    };
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    NovoDatePickerInputElement.prototype._handleInput = function (event) {
-        if (document.activeElement === event.target) {
-            this._onChange(((event.target)).value);
-            var _d = this.dateFormatService.parseString(((event.target)).value, false, 'date'), dateTimeValue = _d[0], formatted = _d[1];
-            if (dateTimeValue && dateTimeValue.getTime() > 0) {
-                this._setTriggerValue(dateTimeValue);
-            }
-            this.openPanel();
-        }
-    };
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    NovoDatePickerInputElement.prototype.writeValue = function (value) {
-        var _this = this;
-        Promise.resolve(null).then(function () { return _this._setTriggerValue(value); });
-    };
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    NovoDatePickerInputElement.prototype.registerOnChange = function (fn) {
-        this._onChange = fn;
-    };
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    NovoDatePickerInputElement.prototype.registerOnTouched = function (fn) {
-        this._onTouched = fn;
-    };
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    NovoDatePickerInputElement.prototype._setTriggerValue = function (value) {
-        var /** @type {?} */ toDisplay = value;
-        // Simply falling back to an empty string if the display value is falsy does not work properly.
-        // The display value can also be the number zero and shouldn't fall back to an empty string.
-        var /** @type {?} */ inputValue = toDisplay !== null ? toDisplay : '';
-        this.value = inputValue;
-        this.formattedValue = this.formatDateValue(inputValue);
-        this._changeDetectorRef.markForCheck();
-    };
-    /**
-     * This method closes the panel, and if a value is specified, also sets the associated
-     * control to that value. It will also mark the control as dirty if this interaction
-     * stemmed from the user.
-     * @param {?} event
-     * @return {?}
-     */
-    NovoDatePickerInputElement.prototype.setValueAndClose = function (event) {
-        if (event && event.date) {
-            this._setTriggerValue(event.date);
-            this._onChange(event.date);
-        }
-        this.closePanel();
-    };
-    /**
-     * Clear any previous selected option and emit a selection change event for this option
-     * @param {?} skip
-     * @return {?}
-     */
-    NovoDatePickerInputElement.prototype.clearValue = function (skip) {
-        this.writeValue(null);
-        this._onChange(null);
-    };
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    NovoDatePickerInputElement.prototype.formatDateValue = function (value) {
-        if (!value) {
-            return '';
-        }
-        return this.labels.formatDateWithFormat(value, {
-            month: 'numeric',
-            day: 'numeric',
-            year: 'numeric'
-        });
-    };
-    Object.defineProperty(NovoDatePickerInputElement.prototype, "hasValue", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return !Helpers.isEmpty(this.value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return NovoDatePickerInputElement;
-}());
-NovoDatePickerInputElement.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-date-picker-input',
-                providers: [DATE_VALUE_ACCESSOR],
-                template: "\n        <input type=\"text\" [name]=\"name\" [value]=\"formattedValue\" [textMask]=\"maskOptions\" [placeholder]=\"placeholder\" (focus)=\"openPanel()\" (keydown)=\"_handleKeydown($event)\" (input)=\"_handleInput($event)\" #input/>\n        <i *ngIf=\"!hasValue\" (click)=\"openPanel()\" class=\"bhi-calendar\"></i>\n        <i *ngIf=\"hasValue\" (click)=\"clearValue()\" class=\"bhi-times\"></i>\n\n        <novo-overlay-template [parent]=\"element\">\n            <novo-date-picker inline=\"true\" (onSelect)=\"setValueAndClose($event)\" [ngModel]=\"value\"></novo-date-picker>\n        </novo-overlay-template>\n  "
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoDatePickerInputElement.ctorParameters = function () { return [
-    { type: ElementRef, },
-    { type: NovoLabelService, },
-    { type: DateFormatService, },
-    { type: ChangeDetectorRef, },
-]; };
-NovoDatePickerInputElement.propDecorators = {
-    'name': [{ type: Input },],
-    'placeholder': [{ type: Input },],
-    'maskOptions': [{ type: Input },],
-    'overlay': [{ type: ViewChild, args: [NovoOverlayTemplate,] },],
-};
-// NG2
-// Vendor
-// APP
-var NovoDatePickerModule = /** @class */ (function () {
-    function NovoDatePickerModule() {
-    }
-    return NovoDatePickerModule;
-}());
-NovoDatePickerModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [CommonModule, FormsModule, NovoOverlayModule, TextMaskModule],
-                declarations: [NovoDatePickerElement, NovoDatePickerInputElement],
-                exports: [NovoDatePickerElement, NovoDatePickerInputElement]
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoDatePickerModule.ctorParameters = function () { return []; };
-// NG2
-// APP
-// Value accessor for the component (supports ngModel)
-var TIME_PICKER_VALUE_ACCESSOR = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return NovoTimePickerElement; }),
-    multi: true
-};
-var NovoTimePickerElement = /** @class */ (function () {
-    function NovoTimePickerElement() {
-        this.military = false;
-        this.inline = false;
-        this.onSelect = new EventEmitter();
-        this.hours = 12;
-        this.minutes = 0;
-        this.value = null;
-        this.MERIDIANS = ['am', 'pm'];
-        this.MINUTES = ['05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '00'];
-        this.HOURS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-        this.onModelChange = function () {
-        };
-        this.onModelTouched = function () {
-        };
-    }
-    /**
-     * @return {?}
-     */
-    NovoTimePickerElement.prototype.ngOnInit = function () {
-        if (this.military) {
-            this.HOURS = ['0'].concat(this.HOURS, ['13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']);
-        }
-        this.ngOnChanges();
-    };
-    /**
-     * @param {?=} changes
-     * @return {?}
-     */
-    NovoTimePickerElement.prototype.ngOnChanges = function (changes) {
-        if (this.model) {
-            this.init(this.model, false);
-        }
-        else {
-            this.init(new Date(), false);
-        }
-    };
-    /**
-     * @param {?} value
-     * @param {?} dispatch
-     * @return {?}
-     */
-    NovoTimePickerElement.prototype.init = function (value, dispatch) {
-        var /** @type {?} */ _value = new Date(value);
-        var /** @type {?} */ hours = _value.getHours();
-        var /** @type {?} */ minutes = _value.getMinutes();
-        if (!this.military) {
-            this.meridian = hours >= 12 ? 'pm' : 'am';
-            hours = hours % 12;
-            hours = hours || 12;
-        }
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        this.setHours(null, hours, dispatch);
-        this.setMinutes(null, minutes, dispatch);
-        this.checkBetween(minutes);
-    };
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    NovoTimePickerElement.prototype.checkBetween = function (value) {
-        this.inBetween = this.MINUTES.indexOf(String(value)) < 0;
-    };
-    /**
-     * @param {?} event
-     * @param {?} hours
-     * @param {?} dispatch
-     * @return {?}
-     */
-    NovoTimePickerElement.prototype.setHours = function (event, hours, dispatch) {
-        Helpers.swallowEvent(event);
-        this.hours = hours;
-        this.hoursClass = "hour-" + hours;
-        this.activeHour = hours;
-        if (dispatch) {
-            this.dispatchChange();
-        }
-    };
-    /**
-     * @param {?} event
-     * @param {?} minutes
-     * @param {?} dispatch
-     * @return {?}
-     */
-    NovoTimePickerElement.prototype.setMinutes = function (event, minutes, dispatch) {
-        Helpers.swallowEvent(event);
-        this.minutes = minutes;
-        this.minutesClass = "min-" + minutes;
-        this.activeMinute = minutes;
-        this.checkBetween(minutes);
-        if (dispatch) {
-            this.dispatchChange();
-        }
-    };
-    /**
-     * @param {?} event
-     * @param {?} period
-     * @param {?} dispatch
-     * @return {?}
-     */
-    NovoTimePickerElement.prototype.setPeriod = function (event, period, dispatch) {
-        Helpers.swallowEvent(event);
-        this.meridian = period;
-        if (dispatch) {
-            this.dispatchChange();
-        }
-    };
-    /**
-     * @return {?}
-     */
-    NovoTimePickerElement.prototype.dispatchChange = function () {
-        var /** @type {?} */ hours = Number(this.hours);
-        if (!this.military) {
-            hours = this.meridian === 'pm' ? hours + 12 : hours;
-            // Special case for 12
-            if (this.meridian === 'pm' && hours === 24) {
-                hours = 12;
-            }
-            else if (this.meridian === 'am' && hours === 12) {
-                hours = 0;
-            }
-        }
-        var /** @type {?} */ value = new Date();
-        value.setHours(hours);
-        value.setMinutes(this.minutes);
-        value.setSeconds(0);
-        this.onSelect.next({
-            hours: hours,
-            minutes: this.minutes,
-            meridian: this.meridian,
-            date: value,
-            text: this.hours + ":" + this.minutes + " " + this.meridian
-        });
-        this.onModelChange(value);
-    };
-    /**
-     * @param {?} model
-     * @return {?}
-     */
-    NovoTimePickerElement.prototype.writeValue = function (model) {
-        this.model = model;
-        if (Helpers.isDate(model)) {
-            this.init(model, false);
-        }
-    };
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    NovoTimePickerElement.prototype.registerOnChange = function (fn) {
-        this.onModelChange = fn;
-    };
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    NovoTimePickerElement.prototype.registerOnTouched = function (fn) {
-        this.onModelTouched = fn;
-    };
-    return NovoTimePickerElement;
-}());
-NovoTimePickerElement.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-time-picker',
-                providers: [TIME_PICKER_VALUE_ACCESSOR],
-                template: "\n        <div class=\"digital\" [class.inline]=\"inline\" [class.military]=\"military\">\n            <div class=\"digital--inner\">\n                <span class=\"digital--clock\" *ngIf=\"!inline\">\n                    <span class=\"hours\" data-automation-id=\"novo-time-picker-hours\">{{hours}}</span>:<span class=\"minutes\" data-automation-id=\"novo-time-picker-minutes\">{{minutes}}</span>\n                </span>\n                <div class=\"control-block\" *ngIf=\"!military\">\n                    <span *ngFor=\"let period of MERIDIANS\" class=\"digital--period\" [class.active]=\"meridian==period\" (click)=\"setPeriod($event, period, true)\" [attr.data-automation-id]=\"period\">{{period}}</span>\n                </div>\n            </div>\n        </div>\n        <div class=\"analog\">\n            <div class=\"analog--inner\">\n                <div class=\"analog--face\">\n                    <span class=\"analog--center\"></span>\n                    <span class=\"analog--hand--hours\" [ngClass]=\"hoursClass\">\n                        <span class=\"analog--ball\"></span>\n                    </span>\n                    <span class=\"analog--hand--minutes\" [ngClass]=\"minutesClass\">\n                        <span class=\"analog--ball\" [ngClass]=\"{between: inBetween}\"></span>\n                    </span>\n                </div>\n                <div class=\"analog--hours\">\n                    <span *ngFor=\"let hour of HOURS\" class=\"analog--hour\" [ngClass]=\"{active: activeHour == hour}\" (click)=\"setHours($event, hour, true)\" [attr.data-automation-id]=\"hour\">{{hour}}</span>\n                </div>\n                <div class=\"analog--minutes\">\n                    <span *ngFor=\"let minute of MINUTES\" class=\"analog--minute\" [ngClass]=\"{active: activeMinute == minute}\" (click)=\"setMinutes($event, minute, true)\" [attr.data-automation-id]=\"minute\">{{minute}}</span>\n                </div>\n            </div>\n        </div>\n    ",
-                host: {
-                    '[class.military]': 'military'
-                }
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoTimePickerElement.ctorParameters = function () { return []; };
-NovoTimePickerElement.propDecorators = {
-    'military': [{ type: Input },],
-    'inline': [{ type: Input },],
-    'onSelect': [{ type: Output },],
-};
-// NG
 // App
 // Value accessor for the component (supports ngModel)
 var DATE_VALUE_ACCESSOR$1 = {
@@ -12125,6 +12223,7 @@ var NovoTimePickerInputElement = /** @class */ (function () {
         this.labels = labels;
         this.dateFormatService = dateFormatService;
         this._changeDetectorRef = _changeDetectorRef;
+        this.formattedValue = '';
         /**
          * View -> model callback called when value changes
          */
@@ -12134,19 +12233,30 @@ var NovoTimePickerInputElement = /** @class */ (function () {
          */
         this._onTouched = function () { };
         this.military = false;
-        this.maskOptions = {
-            mask: this.dateFormatService.getTimeMask(this.military),
-            keepCharPositions: true,
-            guide: false
-        };
-        this.placeholder = this.labels.dateFormatPlaceholder;
     }
+    /**
+     * @return {?}
+     */
+    NovoTimePickerInputElement.prototype.ngOnInit = function () {
+        this.placeholder = this.military ? this.labels.timeFormatPlaceholder24Hour : this.labels.timeFormatPlaceholderAM;
+        this.maskOptions = {
+            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP]/, /[mM]/],
+            pipe: this.military ? createAutoCorrectedDatePipe$1('HH:MM') : createAutoCorrectedDatePipe$1('mm:MM'),
+            keepCharPositions: false,
+            guide: true,
+        };
+    };
     /**
      * BEGIN: Convienient Panel Methods.
      * @return {?}
      */
     NovoTimePickerInputElement.prototype.openPanel = function () {
-        this.overlay.openPanel();
+        var _this = this;
+        if (!this.overlay.panelOpen) {
+            this.overlay.openPanel();
+            var /** @type {?} */ hour_1 = new Date().getHours();
+            Promise.resolve(null).then(function () { return _this.scrollToIndex((hour_1 * 4)); });
+        }
     };
     /**
      * @return {?}
@@ -12173,6 +12283,7 @@ var NovoTimePickerInputElement = /** @class */ (function () {
         if ((event.keyCode === ESCAPE || event.keyCode === ENTER || event.keyCode === TAB) && this.panelOpen) {
             this.closePanel();
             event.stopPropagation();
+            event.stopImmediatePropagation();
         }
     };
     /**
@@ -12181,12 +12292,18 @@ var NovoTimePickerInputElement = /** @class */ (function () {
      */
     NovoTimePickerInputElement.prototype._handleInput = function (event) {
         if (document.activeElement === event.target) {
-            this._onChange(((event.target)).value);
-            var _d = this.dateFormatService.parseString(((event.target)).value, this.military, 'time'), dateTimeValue = _d[0], formatted = _d[1];
-            if (dateTimeValue && dateTimeValue.getTime() > 0) {
-                this._setTriggerValue(dateTimeValue);
+            // this._onChange((event.target as HTMLInputElement).value);
+            var /** @type {?} */ text = ((event.target)).value;
+            if (this.military ? text.replace(/_/g, '').length === 5 : text.replace(/_/g, '').length === 8) {
+                var _d = this.dateFormatService.parseString(text, this.military, 'time'), dateTimeValue = _d[0], formatted = _d[1];
+                this.dispatchOnChange(dateTimeValue);
+            }
+            else {
+                this.dispatchOnChange(null);
             }
             this.openPanel();
+            var /** @type {?} */ num = Number(text.split(':')[0]);
+            this.scrollToIndex((num * 4));
         }
     };
     /**
@@ -12212,19 +12329,29 @@ var NovoTimePickerInputElement = /** @class */ (function () {
         this._onTouched = fn;
     };
     /**
+     * @param {?=} newValue
+     * @param {?=} skip
+     * @return {?}
+     */
+    NovoTimePickerInputElement.prototype.dispatchOnChange = function (newValue, skip) {
+        if (skip === void 0) { skip = false; }
+        if (newValue !== this.value) {
+            this._onChange(newValue);
+            !skip && this.writeValue(newValue);
+        }
+    };
+    /**
      * @param {?} value
      * @return {?}
      */
     NovoTimePickerInputElement.prototype._setTriggerValue = function (value) {
-        var /** @type {?} */ toDisplay = value;
-        // Simply falling back to an empty string if the display value is falsy does not work properly.
-        // The display value can also be the number zero and shouldn't fall back to an empty string.
-        var /** @type {?} */ inputValue = toDisplay !== null ? toDisplay : '';
-        // If it's used within a `MdFormField`, we should set it through the property so it can go
-        // through change detection.
-        //this._element.nativeElement.value = inputValue;
-        this.value = inputValue;
-        this.formattedValue = this.formatDateValue(inputValue);
+        if (value instanceof Date && this.value instanceof Date) {
+            value = new Date(value.setFullYear(this.value.getFullYear(), this.value.getMonth(), this.value.getDate()));
+        }
+        this.value = value;
+        if (this.value) {
+            this.formattedValue = this.formatDateValue(this.value);
+        }
         this._changeDetectorRef.markForCheck();
     };
     /**
@@ -12233,8 +12360,7 @@ var NovoTimePickerInputElement = /** @class */ (function () {
      */
     NovoTimePickerInputElement.prototype.setValue = function (event) {
         if (event && event.date) {
-            this._setTriggerValue(event.date);
-            this._onChange(event.date);
+            this.dispatchOnChange(event.date);
         }
     };
     /**
@@ -12247,12 +12373,11 @@ var NovoTimePickerInputElement = /** @class */ (function () {
     };
     /**
      * Clear any previous selected option and emit a selection change event for this option
-     * @param {?} skip
      * @return {?}
      */
-    NovoTimePickerInputElement.prototype.clearValue = function (skip) {
-        this.writeValue(null);
-        this._onChange(null);
+    NovoTimePickerInputElement.prototype.clearValue = function () {
+        this.formattedValue = '';
+        this.dispatchOnChange(null);
     };
     /**
      * @param {?} value
@@ -12262,10 +12387,15 @@ var NovoTimePickerInputElement = /** @class */ (function () {
         if (!value) {
             return '';
         }
-        return this.labels.formatDateWithFormat(value, {
-            hour: 'numeric',
-            minute: 'numeric'
+        var /** @type {?} */ format = this.labels.formatDateWithFormat(value, {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: !this.military
         });
+        if (format.split(':')[0].length === 1) {
+            return "0" + format;
+        }
+        return format;
     };
     Object.defineProperty(NovoTimePickerInputElement.prototype, "hasValue", {
         /**
@@ -12277,13 +12407,26 @@ var NovoTimePickerInputElement = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @param {?} index
+     * @return {?}
+     */
+    NovoTimePickerInputElement.prototype.scrollToIndex = function (index$$1) {
+        var /** @type {?} */ element = this.overlay._overlayRef.overlayElement;
+        var /** @type {?} */ list = element.querySelector('.increments');
+        var /** @type {?} */ items = list.querySelectorAll('novo-list-item');
+        var /** @type {?} */ item = items[index$$1];
+        if (item) {
+            list.scrollTop = ((item)).offsetTop;
+        }
+    };
     return NovoTimePickerInputElement;
 }());
 NovoTimePickerInputElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-time-picker-input',
                 providers: [DATE_VALUE_ACCESSOR$1],
-                template: "\n        <input type=\"text\" [name]=\"name\" [value]=\"formattedValue\" [textMask]=\"maskOptions\" [placeholder]=\"placeholder\" (focus)=\"openPanel()\" (keydown)=\"_handleKeydown($event)\" (input)=\"_handleInput($event)\" #input/>\n        <i *ngIf=\"!hasValue\" (click)=\"openPanel()\" class=\"bhi-clock\"></i>\n        <i *ngIf=\"hasValue\" (click)=\"clearValue()\" class=\"bhi-times\"></i>\n\n        <novo-overlay-template [parent]=\"element\">\n            <novo-time-picker inline=\"true\" (onSelect)=\"setValue($event)\" [ngModel]=\"value\"></novo-time-picker>\n        </novo-overlay-template>\n  "
+                template: "\n        <input type=\"text\" [name]=\"name\" [(ngModel)]=\"formattedValue\" [textMask]=\"maskOptions\" [placeholder]=\"placeholder\" (focus)=\"openPanel()\" (keydown)=\"_handleKeydown($event)\" (input)=\"_handleInput($event)\" #input data-automation-id=\"time-input\"/>\n        <i *ngIf=\"!hasValue\" (click)=\"openPanel()\" class=\"bhi-clock\"></i>\n        <i *ngIf=\"hasValue\" (click)=\"clearValue()\" class=\"bhi-times\"></i>\n\n        <novo-overlay-template [parent]=\"element\">\n            <novo-time-picker inline=\"true\" (onSelect)=\"setValue($event)\" [ngModel]=\"value\" [military]=\"military\"></novo-time-picker>\n        </novo-overlay-template>\n  "
             },] },
 ];
 /**
@@ -12312,7 +12455,7 @@ var NovoTimePickerModule = /** @class */ (function () {
 }());
 NovoTimePickerModule.decorators = [
     { type: NgModule, args: [{
-                imports: [CommonModule, FormsModule, TextMaskModule, NovoOverlayModule],
+                imports: [CommonModule, FormsModule, TextMaskModule, NovoOverlayModule, NovoListModule],
                 declarations: [NovoTimePickerElement, NovoTimePickerInputElement],
                 exports: [NovoTimePickerElement, NovoTimePickerInputElement]
             },] },
@@ -12343,8 +12486,8 @@ var NovoDateTimePickerElement = /** @class */ (function () {
         this.componentTabState = 'date';
         this.datePickerValue = new Date();
         this.timePickerValue = new Date();
-        this.onModelChange = function () { };
-        this.onModelTouched = function () { };
+        this._onChange = function () { };
+        this._onTouched = function () { };
     }
     /**
      * @param {?} tab
@@ -12393,8 +12536,8 @@ var NovoDateTimePickerElement = /** @class */ (function () {
         this.datePickerValue = event.date;
         this.model = this.createFullDateValue(this.datePickerValue, this.timePickerValue);
         this.setDateLabels(this.model);
-        this.onModelChange(this.model);
         this.onSelect.emit({ date: this.model });
+        this._onChange(this.model);
         this.toggleView('time');
     };
     /**
@@ -12403,10 +12546,10 @@ var NovoDateTimePickerElement = /** @class */ (function () {
      */
     NovoDateTimePickerElement.prototype.onTimeSelected = function (event) {
         this.timePickerValue = event.date;
-        this.model = this.createFullDateValue(this.datePickerValue, this.timePickerValue);
+        this.model = this.createFullDateValue(this.model, this.timePickerValue);
         this.setTimeLabels(this.model);
-        this.onModelChange(this.model);
         this.onSelect.emit({ date: this.model });
+        this._onChange(this.model);
     };
     /**
      * @param {?} datePickerValue
@@ -12440,14 +12583,14 @@ var NovoDateTimePickerElement = /** @class */ (function () {
      * @return {?}
      */
     NovoDateTimePickerElement.prototype.registerOnChange = function (fn) {
-        this.onModelChange = fn;
+        this._onChange = fn;
     };
     /**
      * @param {?} fn
      * @return {?}
      */
     NovoDateTimePickerElement.prototype.registerOnTouched = function (fn) {
-        this.onModelTouched = fn;
+        this._onTouched = fn;
     };
     return NovoDateTimePickerElement;
 }());
@@ -12493,7 +12636,7 @@ NovoDateTimePickerElement.decorators = [
                         transition('date <=> time', animate('200ms ease-in'))
                     ])
                 ],
-                template: "\n        <div class=\"date-time-container\">\n            <div class=\"date-time-tabs\">\n                <span class=\"date-tab\" (click)=\"toggleView('date')\" [@dateTextState]=\"componentTabState\">{{selectedLabel}}</span>\n                <span class=\"time-tab\" (click)=\"toggleView('time')\" [@timeTextState]=\"componentTabState\">\n                    <span class=\"hours\" data-automation-id=\"novo-time-picker-hours\">{{hours}}</span>:<span\n                    class=\"minutes\" data-automation-id=\"novo-time-picker-minutes\">{{minutes}}</span>\n                    <span *ngIf=\"!military\" class=\"meridian\">{{meridian}}</span>\n                </span>\n                <i class=\"date-time-indicator\" [@indicatorState]=\"componentTabState\"></i>\n            </div>\n            <div class=\"view-container\" [@containerState]=\"componentTabState\">\n                <div class=\"calendar\">\n                    <novo-date-picker (onSelect)=\"onDateSelected($event)\" [(ngModel)]=\"model\" inline=\"true\" [minYear]=\"minYear\" [maxYear]=\"maxYear\" [start]=\"start\" [end]=\"end\"></novo-date-picker>\n                </div>\n                <div class=\"time-picker\">\n                    <novo-time-picker (onSelect)=\"onTimeSelected($event)\" [(ngModel)]=\"model\" [military]=\"military\" inline=\"true\"></novo-time-picker>\n                </div>\n            </div>\n        </div>\n    "
+                template: "\n        <div class=\"date-time-container\">\n            <div class=\"date-time-tabs\">\n                <span class=\"date-tab\" (click)=\"toggleView('date')\" [@dateTextState]=\"componentTabState\" data-automation-id=\"novo-date-time-date-tab\">{{selectedLabel}}</span>\n                <span class=\"time-tab\" (click)=\"toggleView('time')\" [@timeTextState]=\"componentTabState\" data-automation-id=\"novo-date-time-time-tab\">\n                    <span class=\"hours\" data-automation-id=\"novo-time-picker-hours\">{{hours}}</span>:<span\n                    class=\"minutes\" data-automation-id=\"novo-time-picker-minutes\">{{minutes}}</span>\n                    <span *ngIf=\"!military\" class=\"meridian\">{{meridian}}</span>\n                </span>\n                <i class=\"date-time-indicator\" [@indicatorState]=\"componentTabState\"></i>\n            </div>\n            <div class=\"view-container\" [@containerState]=\"componentTabState\">\n                <div class=\"calendar\">\n                    <novo-date-picker (onSelect)=\"onDateSelected($event)\" [(ngModel)]=\"model\" inline=\"true\" [minYear]=\"minYear\" [maxYear]=\"maxYear\" [start]=\"start\" [end]=\"end\"></novo-date-picker>\n                </div>\n                <div class=\"time-picker\">\n                    <novo-time-picker (onSelect)=\"onTimeSelected($event)\" [(ngModel)]=\"model\" [military]=\"military\" inline=\"true\"></novo-time-picker>\n                </div>\n            </div>\n        </div>\n    "
             },] },
 ];
 /**
@@ -12512,23 +12655,22 @@ NovoDateTimePickerElement.propDecorators = {
     'onSelect': [{ type: Output },],
 };
 // NG
+// Vendor
 // Value accessor for the component (supports ngModel)
 var DATE_VALUE_ACCESSOR$2 = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(function () { return NovoDateTimePickerInputElement; }),
-    multi: true
+    multi: true,
 };
 var NovoDateTimePickerInputElement = /** @class */ (function () {
     /**
      * @param {?} element
      * @param {?} labels
-     * @param {?} dateFormatService
      * @param {?} _changeDetectorRef
      */
-    function NovoDateTimePickerInputElement(element, labels, dateFormatService, _changeDetectorRef) {
+    function NovoDateTimePickerInputElement(element, labels, _changeDetectorRef) {
         this.element = element;
         this.labels = labels;
-        this.dateFormatService = dateFormatService;
         this._changeDetectorRef = _changeDetectorRef;
         /**
          * View -> model callback called when value changes
@@ -12539,68 +12681,50 @@ var NovoDateTimePickerInputElement = /** @class */ (function () {
          */
         this._onTouched = function () { };
         this.military = false;
-        this.maskOptions = {
-            mask: this.dateFormatService.getDateMask(),
-            keepCharPositions: true,
-            guide: false
-        };
-        this.placeholder = this.labels.dateFormatPlaceholder;
     }
-    /**
-     * BEGIN: Convienient Panel Methods.
-     * @return {?}
-     */
-    NovoDateTimePickerInputElement.prototype.openPanel = function () {
-        this.overlay.openPanel();
-    };
-    /**
-     * @return {?}
-     */
-    NovoDateTimePickerInputElement.prototype.closePanel = function () {
-        this.overlay.closePanel();
-    };
-    Object.defineProperty(NovoDateTimePickerInputElement.prototype, "panelOpen", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return this.overlay && this.overlay.panelOpen;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * END: Convienient Panel Methods.
-     * @param {?} event
-     * @return {?}
-     */
-    NovoDateTimePickerInputElement.prototype._handleKeydown = function (event) {
-        if ((event.keyCode === ESCAPE || event.keyCode === ENTER || event.keyCode === TAB) && this.panelOpen) {
-            this.closePanel();
-            event.stopPropagation();
-        }
-    };
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    NovoDateTimePickerInputElement.prototype._handleInput = function (event) {
-        if (document.activeElement === event.target) {
-            this._onChange(((event.target)).value);
-            var _d = this.dateFormatService.parseString(((event.target)).value, false, 'date'), dateTimeValue = _d[0], formatted = _d[1];
-            if (dateTimeValue && dateTimeValue.getTime() > 0) {
-                this._setTriggerValue(dateTimeValue);
-            }
-            this.openPanel();
-        }
-    };
     /**
      * @param {?} value
      * @return {?}
      */
     NovoDateTimePickerInputElement.prototype.writeValue = function (value) {
         var _this = this;
+        this.datePart = isDate(value) ? parse(value) : value;
+        this.timePart = isDate(value) ? parse(value) : value;
         Promise.resolve(null).then(function () { return _this._setTriggerValue(value); });
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoDateTimePickerInputElement.prototype.updateDate = function (event) {
+        this.datePart = event;
+        this.checkParts();
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoDateTimePickerInputElement.prototype.updateTime = function (event) {
+        this.timePart = event;
+        this.checkParts();
+    };
+    /**
+     * @return {?}
+     */
+    NovoDateTimePickerInputElement.prototype.checkParts = function () {
+        try {
+            if (this.datePart instanceof Date && this.timePart instanceof Date) {
+                var /** @type {?} */ newDt = new Date(this.datePart.getFullYear(), this.datePart.getMonth(), this.datePart.getDate(), this.timePart.getHours(), this.timePart.getMinutes());
+                this.dispatchOnChange(newDt);
+            }
+            else {
+                this.dispatchOnChange(null);
+            }
+        }
+        catch (err) {
+            // Date not valid
+            this.dispatchOnChange(null);
+        }
     };
     /**
      * @param {?} fn
@@ -12617,19 +12741,21 @@ var NovoDateTimePickerInputElement = /** @class */ (function () {
         this._onTouched = fn;
     };
     /**
+     * @param {?=} newValue
+     * @return {?}
+     */
+    NovoDateTimePickerInputElement.prototype.dispatchOnChange = function (newValue) {
+        if (newValue !== this.value) {
+            this._onChange(newValue);
+            this._setTriggerValue(newValue);
+        }
+    };
+    /**
      * @param {?} value
      * @return {?}
      */
     NovoDateTimePickerInputElement.prototype._setTriggerValue = function (value) {
-        var /** @type {?} */ toDisplay = value;
-        // Simply falling back to an empty string if the display value is falsy does not work properly.
-        // The display value can also be the number zero and shouldn't fall back to an empty string.
-        var /** @type {?} */ inputValue = toDisplay !== null ? toDisplay : '';
-        // If it's used within a `MdFormField`, we should set it through the property so it can go
-        // through change detection.
-        //this._element.nativeElement.value = inputValue;
-        this.value = inputValue;
-        this.formattedValue = this.formatDateValue(inputValue);
+        this.value = value;
         this._changeDetectorRef.markForCheck();
     };
     /**
@@ -12638,8 +12764,7 @@ var NovoDateTimePickerInputElement = /** @class */ (function () {
      */
     NovoDateTimePickerInputElement.prototype.setValue = function (event) {
         if (event && event.date) {
-            this._setTriggerValue(event.date);
-            this._onChange(event.date);
+            this.dispatchOnChange(event.date);
         }
     };
     /**
@@ -12648,32 +12773,13 @@ var NovoDateTimePickerInputElement = /** @class */ (function () {
      */
     NovoDateTimePickerInputElement.prototype.setValueAndClose = function (event) {
         this.setValue(event);
-        this.closePanel();
     };
     /**
      * Clear any previous selected option and emit a selection change event for this option
-     * @param {?} skip
      * @return {?}
      */
-    NovoDateTimePickerInputElement.prototype.clearValue = function (skip) {
-        this.writeValue(null);
-        this._onChange(null);
-    };
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    NovoDateTimePickerInputElement.prototype.formatDateValue = function (value) {
-        if (!value) {
-            return '';
-        }
-        return this.labels.formatDateWithFormat(value, {
-            month: 'numeric',
-            day: 'numeric',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric'
-        });
+    NovoDateTimePickerInputElement.prototype.clearValue = function () {
+        this.dispatchOnChange(null);
     };
     Object.defineProperty(NovoDateTimePickerInputElement.prototype, "hasValue", {
         /**
@@ -12691,7 +12797,7 @@ NovoDateTimePickerInputElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-date-time-picker-input',
                 providers: [DATE_VALUE_ACCESSOR$2],
-                template: "\n        <input type=\"text\" [name]=\"name\" [value]=\"formattedValue\" [placeholder]=\"placeholder\" (focus)=\"openPanel()\" (keydown)=\"_handleKeydown($event)\" (input)=\"_handleInput($event)\" #input readOnly/>\n        <i *ngIf=\"!hasValue\" (click)=\"openPanel()\" class=\"bhi-calendar\"></i>\n        <i *ngIf=\"hasValue\" (click)=\"clearValue()\" class=\"bhi-times\"></i>\n\n        <novo-overlay-template [parent]=\"element\">\n            <novo-date-time-picker inline=\"true\" (onSelect)=\"setValue($event)\" [ngModel]=\"value\" [military]=\"military\"></novo-date-time-picker>\n        </novo-overlay-template>\n  "
+                template: "\n        <novo-date-picker-input [ngModel]=\"datePart\" (ngModelChange)=\"updateDate($event)\" [maskOptions]=\"maskOptions\"></novo-date-picker-input>\n        <novo-time-picker-input [ngModel]=\"timePart\" (ngModelChange)=\"updateTime($event)\" [military]=\"military\"></novo-time-picker-input>\n  ",
             },] },
 ];
 /**
@@ -12700,7 +12806,6 @@ NovoDateTimePickerInputElement.decorators = [
 NovoDateTimePickerInputElement.ctorParameters = function () { return [
     { type: ElementRef, },
     { type: NovoLabelService, },
-    { type: DateFormatService, },
     { type: ChangeDetectorRef, },
 ]; };
 NovoDateTimePickerInputElement.propDecorators = {
@@ -12708,7 +12813,7 @@ NovoDateTimePickerInputElement.propDecorators = {
     'placeholder': [{ type: Input },],
     'maskOptions': [{ type: Input },],
     'military': [{ type: Input },],
-    'overlay': [{ type: ViewChild, args: [NovoOverlayTemplate,] },],
+    'format': [{ type: Input },],
 };
 // NG2
 // Vendor
@@ -16165,7 +16270,7 @@ var NovoControlElement = /** @class */ (function (_super) {
                 return true;
             }
             // Controls that always have the label active
-            return ['tiles', 'checklist', 'checkbox', 'address', 'file', 'editor', 'ace-editor', 'radio', 'text-area', 'quick-note'].indexOf(this.form.controls[this.control.key].controlType) !== -1;
+            return ['tiles', 'checklist', 'checkbox', 'date', 'time', 'date-time', 'address', 'file', 'editor', 'ace-editor', 'radio', 'text-area', 'quick-note'].indexOf(this.form.controls[this.control.key].controlType) !== -1;
         },
         enumerable: true,
         configurable: true
@@ -33352,10 +33457,10 @@ var isScheduler_2 = isScheduler;
 var isScheduler_1 = {
     isScheduler: isScheduler_2
 };
-function isDate(value) {
+function isDate$1(value) {
     return value instanceof Date && !isNaN(+value);
 }
-var isDate_2 = isDate;
+var isDate_2 = isDate$1;
 var isDate_1 = {
     isDate: isDate_2
 };
@@ -45564,5 +45669,5 @@ NovoElementsModule.ctorParameters = function () { return []; };
 /**
  * Generated bundle index. Do not edit.
  */
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵl, NovoButtonElement as ɵm, NovoEventTypeLegendElement as ɵs, NovoCalendarAllDayEventElement as ɵbc, NovoCalendarDayEventElement as ɵba, NovoCalendarDayViewElement as ɵz, NovoCalendarHourSegmentElement as ɵbb, NovoCalendarMonthDayElement as ɵv, NovoCalendarMonthHeaderElement as ɵu, NovoCalendarMonthViewElement as ɵt, DayOfMonthPipe as ɵbe, EndOfWeekDisplayPipe as ɵbj, HoursPipe as ɵbi, MonthPipe as ɵbf, MonthDayPipe as ɵbg, WeekdayPipe as ɵbd, YearPipe as ɵbh, NovoCalendarWeekEventElement as ɵy, NovoCalendarWeekHeaderElement as ɵx, NovoCalendarWeekViewElement as ɵw, CardActionsElement as ɵq, CardElement as ɵr, NovoCategoryDropdownElement as ɵeb, NovoChipElement as ɵcr, NovoChipsElement as ɵcs, NovoCKEditorElement as ɵda, NovoDataTableCheckboxHeaderCell as ɵev, NovoDataTableEmptyHeaderCell as ɵen, NovoDataTableCellHeader as ɵej, NovoDataTableHeaderCell as ɵeo, NovoDataTableHeaderCellDef as ɵee, NovoDataTableActionCell as ɵem, NovoDataTableCell as ɵep, NovoDataTableCheckboxCell as ɵet, NovoDataTableCellDef as ɵeg, NovoDataTableColumnDef as ɵef, NovoDataTableValue as ɵex, NovoDataTable as ɵew, NovoDataTablePagination as ɵes, NovoDataTableHeaderRow as ɵeq, NovoDataTableRow as ɵer, NovoDataTableHeaderRowDef as ɵeh, NovoDataTableRowDef as ɵei, NovoDataTableSelection as ɵeu, NovoDataTableSortFilter as ɵel, DataTableState as ɵek, NovoDatePickerElement as ɵct, NovoDatePickerInputElement as ɵcu, NovoDateTimePickerElement as ɵcy, NovoDateTimePickerInputElement as ɵcz, NovoDragulaElement as ɵcp, NovoDropdownContainer as ɵca, NovoDropdownElement as ɵcb, NovoItemElement as ɵcc, NovoItemHeaderElement$1 as ɵce, NovoListElement$1 as ɵcd, NovoAutoSize as ɵdf, NovoControlElement as ɵdh, NovoCustomControlContainerElement as ɵdg, NovoControlCustom as ɵdj, NovoDynamicFormElement as ɵdl, NovoFieldsetElement as ɵdk, NovoFieldsetHeaderElement as ɵdi, ControlConfirmModal as ɵdn, ControlPromptModal as ɵdo, NovoFormElement as ɵdm, NovoAddressElement as ɵdc, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbo, NovoHeaderSpacer as ɵbl, NovoUtilActionComponent as ɵbn, NovoUtilsComponent as ɵbm, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵn, NovoSpinnerElement as ɵo, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵec, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵcg, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵci, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵch, NovoOverlayTemplate as ɵcj, NovoOverlayModule as ɵcf, NovoPickerElement as ɵcm, NovoPickerContainer as ɵcn, PlacesListComponent as ɵff, GooglePlacesModule as ɵfe, PopOverDirective as ɵfd, NovoPopOverModule as ɵfb, PopOverContent as ɵfc, QuickNoteElement as ɵbx, NovoRadioElement as ɵbz, NovoRadioGroup as ɵby, NovoSearchBoxElement as ɵco, NovoSelectElement as ɵck, NovoSliderElement as ɵcq, NovoSwitchElement as ɵcl, NovoTableKeepFilterFocus as ɵds, Pagination as ɵdt, RowDetails as ɵdu, NovoTableActionsElement as ɵdr, TableCell as ɵdv, TableFilter as ɵdw, NovoTableFooterElement as ɵdq, NovoTableHeaderElement as ɵdp, ThOrderable as ɵdx, ThSortable as ɵdy, NovoNavContentElement as ɵbu, NovoNavElement as ɵbp, NovoNavHeaderElement as ɵbv, NovoNavOutletElement as ɵbt, NovoTabButtonElement as ɵbr, NovoTabElement as ɵbq, NovoTabLinkElement as ɵbs, NovoTilesElement as ɵbw, NovoTimePickerElement as ɵcw, NovoTimePickerInputElement as ɵcx, NovoTipWellElement as ɵdb, NovoToastElement as ɵbk, TooltipDirective as ɵp, Unless as ɵed, EntityList as ɵdz, NovoValueElement as ɵk, DateFormatService as ɵcv, BrowserGlobalRef as ɵez, GlobalRef as ɵey, LocalStorageService as ɵfa };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵl, NovoButtonElement as ɵm, NovoEventTypeLegendElement as ɵs, NovoCalendarAllDayEventElement as ɵbc, NovoCalendarDayEventElement as ɵba, NovoCalendarDayViewElement as ɵz, NovoCalendarHourSegmentElement as ɵbb, NovoCalendarMonthDayElement as ɵv, NovoCalendarMonthHeaderElement as ɵu, NovoCalendarMonthViewElement as ɵt, DayOfMonthPipe as ɵbe, EndOfWeekDisplayPipe as ɵbj, HoursPipe as ɵbi, MonthPipe as ɵbf, MonthDayPipe as ɵbg, WeekdayPipe as ɵbd, YearPipe as ɵbh, NovoCalendarWeekEventElement as ɵy, NovoCalendarWeekHeaderElement as ɵx, NovoCalendarWeekViewElement as ɵw, CardActionsElement as ɵq, CardElement as ɵr, NovoCategoryDropdownElement as ɵeb, NovoChipElement as ɵcr, NovoChipsElement as ɵcs, NovoCKEditorElement as ɵda, NovoDataTableCheckboxHeaderCell as ɵev, NovoDataTableEmptyHeaderCell as ɵen, NovoDataTableCellHeader as ɵej, NovoDataTableHeaderCell as ɵeo, NovoDataTableHeaderCellDef as ɵee, NovoDataTableActionCell as ɵem, NovoDataTableCell as ɵep, NovoDataTableCheckboxCell as ɵet, NovoDataTableCellDef as ɵeg, NovoDataTableColumnDef as ɵef, NovoDataTableValue as ɵex, NovoDataTable as ɵew, NovoDataTablePagination as ɵes, NovoDataTableHeaderRow as ɵeq, NovoDataTableRow as ɵer, NovoDataTableHeaderRowDef as ɵeh, NovoDataTableRowDef as ɵei, NovoDataTableSelection as ɵeu, NovoDataTableSortFilter as ɵel, DataTableState as ɵek, NovoDatePickerElement as ɵct, NovoDatePickerInputElement as ɵcu, NovoDateTimePickerElement as ɵcy, NovoDateTimePickerInputElement as ɵcz, NovoDragulaElement as ɵcp, NovoDropdownContainer as ɵca, NovoDropdownElement as ɵcb, NovoItemElement as ɵcc, NovoItemHeaderElement$1 as ɵce, NovoListElement$1 as ɵcd, NovoAutoSize as ɵdf, NovoControlElement as ɵdh, NovoCustomControlContainerElement as ɵdg, NovoControlCustom as ɵdj, NovoDynamicFormElement as ɵdl, NovoFieldsetElement as ɵdk, NovoFieldsetHeaderElement as ɵdi, ControlConfirmModal as ɵdn, ControlPromptModal as ɵdo, NovoFormElement as ɵdm, NovoAddressElement as ɵdc, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbo, NovoHeaderSpacer as ɵbl, NovoUtilActionComponent as ɵbn, NovoUtilsComponent as ɵbm, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵn, NovoSpinnerElement as ɵo, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵec, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵcg, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵci, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵch, NovoOverlayTemplate as ɵcj, NovoOverlayModule as ɵcf, NovoPickerElement as ɵcm, NovoPickerContainer as ɵcn, PlacesListComponent as ɵff, GooglePlacesModule as ɵfe, PopOverDirective as ɵfd, NovoPopOverModule as ɵfb, PopOverContent as ɵfc, QuickNoteElement as ɵbx, NovoRadioElement as ɵbz, NovoRadioGroup as ɵby, NovoSearchBoxElement as ɵco, NovoSelectElement as ɵck, NovoSliderElement as ɵcq, NovoSwitchElement as ɵcl, NovoTableKeepFilterFocus as ɵds, Pagination as ɵdt, RowDetails as ɵdu, NovoTableActionsElement as ɵdr, TableCell as ɵdv, TableFilter as ɵdw, NovoTableFooterElement as ɵdq, NovoTableHeaderElement as ɵdp, ThOrderable as ɵdx, ThSortable as ɵdy, NovoNavContentElement as ɵbu, NovoNavElement as ɵbp, NovoNavHeaderElement as ɵbv, NovoNavOutletElement as ɵbt, NovoTabButtonElement as ɵbr, NovoTabElement as ɵbq, NovoTabLinkElement as ɵbs, NovoTilesElement as ɵbw, NovoTimePickerElement as ɵcv, NovoTimePickerInputElement as ɵcw, NovoTipWellElement as ɵdb, NovoToastElement as ɵbk, TooltipDirective as ɵp, Unless as ɵed, EntityList as ɵdz, NovoValueElement as ɵk, DateFormatService as ɵcx, BrowserGlobalRef as ɵez, GlobalRef as ɵey, LocalStorageService as ɵfa };
 //# sourceMappingURL=novo-elements.es5.js.map

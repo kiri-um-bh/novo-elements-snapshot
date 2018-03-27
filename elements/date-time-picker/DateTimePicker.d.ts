@@ -18,8 +18,8 @@ export declare class NovoDateTimePickerElement implements ControlValueAccessor {
     datePickerValue: Date;
     timePickerValue: Date;
     model: any;
-    onModelChange: Function;
-    onModelTouched: Function;
+    _onChange: Function;
+    _onTouched: Function;
     constructor(labels: NovoLabelService, element: ElementRef);
     toggleView(tab: string): void;
     setDateLabels(value: Date): void;

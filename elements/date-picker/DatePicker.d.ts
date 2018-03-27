@@ -42,8 +42,8 @@ export declare class NovoDatePickerElement implements ControlValueAccessor, OnIn
     selected2Label: string;
     hoverDay: any;
     rangeSelectMode: rangeSelectModes;
-    onModelChange: Function;
-    onModelTouched: Function;
+    _onChange: Function;
+    _onTouched: Function;
     constructor(labels: NovoLabelService, element: ElementRef);
     ngOnInit(): void;
     ngOnChanges(changes: SimpleChanges): void;

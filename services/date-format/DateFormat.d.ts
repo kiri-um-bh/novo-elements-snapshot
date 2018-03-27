@@ -4,6 +4,7 @@ export declare class DateFormatService {
     constructor(labels: NovoLabelService);
     getTimeMask(militaryTime: boolean): Array<RegExp>;
     getDateMask(): Array<RegExp>;
+    getDateTimeMask(militaryTime?: boolean): Array<RegExp>;
     getTimePlaceHolder(militaryTime: boolean): string;
     parseDateString(dateString: string): [Date, string];
     parseTimeString(timeString: string, militaryTime: boolean): [Date, string];

@@ -1,15 +1,13 @@
 import { ChangeDetectorRef, ElementRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { NovoOverlayTemplate } from '../overlay/Overlay';
 import { NovoLabelService } from '../../services/novo-label-service';
-import { DateFormatService } from '../../services/date-format/DateFormat';
 export declare class NovoDateTimePickerInputElement implements ControlValueAccessor {
     element: ElementRef;
     labels: NovoLabelService;
-    private dateFormatService;
     private _changeDetectorRef;
     value: any;
-    formattedValue: any;
+    datePart: any;
+    timePart: any;
     /** View -> model callback called when value changes */
     _onChange: (value: any) => void;
     /** View -> model callback called when autocomplete has been touched */
@@ -18,26 +16,21 @@ export declare class NovoDateTimePickerInputElement implements ControlValueAcces
     placeholder: string;
     maskOptions: any;
     military: boolean;
-    /** Element for the panel containing the autocomplete options. */
-    overlay: NovoOverlayTemplate;
-    constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, _changeDetectorRef: ChangeDetectorRef);
-    /** BEGIN: Convienient Panel Methods. */
-    openPanel(): void;
-    closePanel(): void;
-    readonly panelOpen: boolean;
-    /** END: Convienient Panel Methods. */
-    _handleKeydown(event: KeyboardEvent): void;
-    _handleInput(event: KeyboardEvent): void;
+    format: string;
+    constructor(element: ElementRef, labels: NovoLabelService, _changeDetectorRef: ChangeDetectorRef);
     writeValue(value: any): void;
+    updateDate(event: any): void;
+    updateTime(event: any): void;
+    checkParts(): void;
     registerOnChange(fn: (value: any) => {}): void;
     registerOnTouched(fn: () => {}): void;
+    dispatchOnChange(newValue?: any): void;
     private _setTriggerValue(value);
     setValue(event: any | null): void;
     setValueAndClose(event: any | null): void;
     /**
      * Clear any previous selected option and emit a selection change event for this option
      */
-    clearValue(skip: any): void;
-    formatDateValue(value: any): any;
+    clearValue(): void;
     readonly hasValue: boolean;
 }
