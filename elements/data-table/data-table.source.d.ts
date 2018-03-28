@@ -12,9 +12,10 @@ export declare class DataTableSource<T> extends DataSource<T> {
     current: number;
     loading: boolean;
     pristine: boolean;
+    data: T[];
     readonly totallyEmpty: boolean;
     readonly currentlyEmpty: boolean;
-    constructor(tableService: IDataTableService<T>, state: DataTableState, ref: ChangeDetectorRef);
+    constructor(tableService: IDataTableService<T>, state: DataTableState<T>, ref: ChangeDetectorRef);
     connect(): Observable<any[]>;
     disconnect(): void;
 }

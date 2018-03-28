@@ -7,7 +7,7 @@ import { NovoTemplate } from '../common/novo-template/novo-template.directive';
 export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     labels: NovoLabelService;
     private ref;
-    state: DataTableState;
+    state: DataTableState<T>;
     globalSearchHiddenClassToggle: boolean;
     customTemplates: QueryList<NovoTemplate>;
     defaultTemplates: QueryList<NovoTemplate>;
@@ -40,15 +40,20 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
         [key: string]: TemplateRef<any>;
     };
     columnsLoaded: boolean;
+    selection: Set<string>;
     private outsideFilterSubscription;
     private _columns;
     readonly empty: boolean;
     readonly loadingClass: boolean;
-    constructor(labels: NovoLabelService, ref: ChangeDetectorRef, state: DataTableState);
+    constructor(labels: NovoLabelService, ref: ChangeDetectorRef, state: DataTableState<T>);
     ngOnDestroy(): void;
     ngAfterContentInit(): void;
     onSearchChange(term: string): void;
     trackColumnsBy(index: number, item: IDataTableColumn<T>): string;
     isDisabled(check: any, row: T): boolean;
+    isSelected(row: T): boolean;
+    selectRow(row: T): void;
+    selectRows(selected: boolean): void;
+    allCurrentRowsSelected(): boolean;
     private configureColumns();
 }

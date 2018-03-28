@@ -8,7 +8,7 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
     private changeDetectorRef;
     labels: NovoLabelService;
     private state;
-    _sort: NovoDataTableSortFilter;
+    _sort: NovoDataTableSortFilter<T>;
     _cdkColumnDef: CdkColumnDef;
     filterInput: ElementRef;
     defaultSort: {
@@ -36,7 +36,7 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
         };
         filterConfig?: IDataTableColumnFilterConfig;
     };
-    constructor(changeDetectorRef: ChangeDetectorRef, labels: NovoLabelService, state: DataTableState, _sort: NovoDataTableSortFilter, _cdkColumnDef: CdkColumnDef);
+    constructor(changeDetectorRef: ChangeDetectorRef, labels: NovoLabelService, state: DataTableState<T>, _sort: NovoDataTableSortFilter<T>, _cdkColumnDef: CdkColumnDef);
     ngOnInit(): void;
     ngOnDestroy(): void;
     focusInput(): void;

@@ -1,16 +1,17 @@
-import { ElementRef, Renderer2, OnInit, OnDestroy } from '@angular/core';
+import { ElementRef, Renderer2, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CdkCell, CdkColumnDef } from '@angular/cdk/table';
-import { NovoDataTableSelection } from '../selection/data-table-selection.directive';
-export declare class NovoDataTableCheckboxCell extends CdkCell implements OnInit, OnDestroy {
+import { NovoDataTable } from '../data-table.component';
+export declare class NovoDataTableCheckboxCell<T> extends CdkCell implements OnInit, OnDestroy {
     columnDef: CdkColumnDef;
-    _selection: NovoDataTableSelection;
+    dataTable: NovoDataTable<T>;
+    private ref;
     role: string;
-    row: any;
-    index: any;
-    selected: boolean;
-    private selectAllSubscription;
-    constructor(columnDef: CdkColumnDef, elementRef: ElementRef, renderer: Renderer2, _selection: NovoDataTableSelection);
+    row: T;
+    checked: boolean;
+    private selectionSubscription;
+    private resetSubscription;
+    constructor(columnDef: CdkColumnDef, elementRef: ElementRef, renderer: Renderer2, dataTable: NovoDataTable<T>, ref: ChangeDetectorRef);
     ngOnInit(): void;
+    onClick(): void;
     ngOnDestroy(): void;
-    toggle(value: boolean): void;
 }
