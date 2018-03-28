@@ -1,7 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { IDataTableChangeEvent } from '../interfaces';
 export declare class DataTableState {
-    id: number;
     sort: {
         id: string;
         value: string;

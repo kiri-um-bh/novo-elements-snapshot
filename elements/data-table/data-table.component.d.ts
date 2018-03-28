@@ -49,5 +49,6 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     ngAfterContentInit(): void;
     onSearchChange(term: string): void;
     trackColumnsBy(index: number, item: IDataTableColumn<T>): string;
+    isDisabled(check: any, row: T): boolean;
     private configureColumns();
 }

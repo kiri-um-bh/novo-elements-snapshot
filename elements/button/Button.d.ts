@@ -1,12 +1,8 @@
-import { OnChanges, SimpleChanges } from '@angular/core';
-export declare class NovoButtonElement implements OnChanges {
-    icon: string;
+export declare class NovoButtonElement {
     color: string;
     side: string;
     theme: string;
     loading: boolean;
-    leftSide: boolean;
-    rightSide: boolean;
-    iconClass: string;
-    ngOnChanges(changes?: SimpleChanges): void;
+    icon: string;
+    private _icon;
 }

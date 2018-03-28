@@ -1092,19 +1092,20 @@ NovoPipesModule.ctorParameters = () => [];
 // NG2
 class NovoButtonElement {
     constructor() {
-        this.leftSide = false;
-        this.rightSide = true;
+        this.side = 'right';
     }
     /**
-     * @param {?=} changes
+     * @param {?} icon
      * @return {?}
      */
-    ngOnChanges(changes) {
-        this.iconClass = (this.icon && !this.loading) ? `bhi-${this.icon}` : '';
-        if (this.side !== null && this.theme !== 'primary') {
-            this.leftSide = (this.side === 'left');
-            this.rightSide = !this.leftSide;
-        }
+    set icon(icon) {
+        this._icon = `bhi-${icon}`;
+    }
+    /**
+     * @return {?}
+     */
+    get icon() {
+        return this._icon;
     }
 }
 NovoButtonElement.decorators = [
@@ -1114,16 +1115,17 @@ NovoButtonElement.decorators = [
                     '[attr.theme]': 'theme',
                     '[attr.color]': 'color',
                     '[attr.icon]': 'icon',
-                    '[attr.loading]': 'loading'
+                    '[attr.loading]': 'loading',
+                    '[attr.side]': 'side',
                 },
                 template: `
         <div class="flex-wrapper">
             <!--Left Icon-->
-            <i *ngIf="icon && iconClass && leftSide" [ngClass]="iconClass"></i>
+            <i *ngIf="icon && side === 'left' && !loading" [ngClass]="icon"></i>
             <!--Transcluded Content-->
             <ng-content></ng-content>
             <!--Right Icon-->
-            <i *ngIf="icon && iconClass && rightSide" [ngClass]="iconClass"></i>
+            <i *ngIf="icon && side === 'right' && !loading" [ngClass]="icon"></i>
             <!--Loading-->
             <i *ngIf="loading" class="loading">
                 <svg version="1.1"
@@ -1139,7 +1141,8 @@ NovoButtonElement.decorators = [
                 </svg>
             </i>
         </div>
-    `
+    `,
+                changeDetection: ChangeDetectionStrategy.OnPush,
             },] },
 ];
 /**
@@ -1147,11 +1150,11 @@ NovoButtonElement.decorators = [
  */
 NovoButtonElement.ctorParameters = () => [];
 NovoButtonElement.propDecorators = {
-    'icon': [{ type: Input },],
     'color': [{ type: Input },],
     'side': [{ type: Input },],
     'theme': [{ type: Input },],
     'loading': [{ type: Input },],
+    'icon': [{ type: Input },],
 };
 
 // NG2
@@ -7174,10 +7177,13 @@ var Subscriber = (function (_super) {
                     break;
                 }
                 if (typeof destinationOrNext === 'object') {
-                    if (destinationOrNext instanceof Subscriber) {
-                        this.syncErrorThrowable = destinationOrNext.syncErrorThrowable;
-                        this.destination = destinationOrNext;
-                        this.destination.add(this);
+                    // HACK(benlesh): To resolve an issue where Node users may have multiple
+                    // copies of rxjs in their node_modules directory.
+                    if (isTrustedSubscriber(destinationOrNext)) {
+                        var trustedSubscriber = destinationOrNext[rxSubscriber.rxSubscriber]();
+                        this.syncErrorThrowable = trustedSubscriber.syncErrorThrowable;
+                        this.destination = trustedSubscriber;
+                        trustedSubscriber.add(this);
                     }
                     else {
                         this.syncErrorThrowable = true;
@@ -7392,6 +7398,9 @@ var SafeSubscriber = (function (_super) {
     };
     return SafeSubscriber;
 }(Subscriber));
+function isTrustedSubscriber(obj) {
+    return obj instanceof Subscriber || ('syncErrorThrowable' in obj && obj[rxSubscriber.rxSubscriber]);
+}
 
 
 var Subscriber_1 = {
@@ -12179,7 +12188,7 @@ NovoDatePickerElement.propDecorators = {
 };
 
 var createAutoCorrectedDatePipe = createCommonjsModule(function (module, exports) {
-!function(e,t){module.exports=t();}(commonjsGlobal,function(){return function(e){function t(n){if(r[n])return r[n].exports;var o=r[n]={exports:{},id:n,loaded:!1};return e[n].call(o.exports,o,o.exports,t), o.loaded=!0, o.exports}var r={};return t.m=e, t.c=r, t.p="", t(0)}([function(e,t,r){e.exports=r(1);},function(e,t){function r(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"mm dd yyyy";return function(t){var r=[],n=e.split(/[^dmyHMS]+/),o={dd:31,mm:12,yy:99,yyyy:9999,HH:24,MM:59,SS:59},i={dd:1,mm:1,yy:0,yyyy:1,HH:0,MM:0,SS:0},u=t.split("");n.forEach(function(t){var n=e.indexOf(t),i=parseInt(o[t].toString().substr(0,1),10);parseInt(u[n],10)>i&&(u[n+1]=u[n], u[n]=0, r.push(n));});var d=n.some(function(r){var n=e.indexOf(r),u=r.length,d=t.substr(n,u).replace(/\D/g,""),s=parseInt(d,10);return s>o[r]||d.length===u&&s<i[r]});return!d&&{value:u.join(""),indexesOfPipedChars:r}}}Object.defineProperty(t,"__esModule",{value:!0}), t.default=r;}])});
+!function(e,t){module.exports=t();}(commonjsGlobal,function(){return function(e){function t(n){if(r[n])return r[n].exports;var o=r[n]={exports:{},id:n,loaded:!1};return e[n].call(o.exports,o,o.exports,t), o.loaded=!0, o.exports}var r={};return t.m=e, t.c=r, t.p="", t(0)}([function(e,t,r){e.exports=r(1);},function(e,t){function r(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"mm dd yyyy";return function(t){var r=[],n=e.split(/[^dmyHMS]+/),o={dd:31,mm:12,yy:99,yyyy:9999,HH:23,MM:59,SS:59},i={dd:1,mm:1,yy:0,yyyy:1,HH:0,MM:0,SS:0},u=t.split("");n.forEach(function(t){var n=e.indexOf(t),i=parseInt(o[t].toString().substr(0,1),10);parseInt(u[n],10)>i&&(u[n+1]=u[n], u[n]=0, r.push(n));});var d=n.some(function(r){var n=e.indexOf(r),u=r.length,d=t.substr(n,u).replace(/\D/g,""),s=parseInt(d,10);return s>o[r]||d.length===u&&s<i[r]});return!d&&{value:u.join(""),indexesOfPipedChars:r}}}Object.defineProperty(t,"__esModule",{value:!0}), t.default=r;}])});
 });
 
 var createAutoCorrectedDatePipe$1 = unwrapExports(createAutoCorrectedDatePipe);
@@ -41221,7 +41230,7 @@ var RepeatWhenSubscriber = (function (_super) {
             if (!this.retries) {
                 this.subscribeToRetries();
             }
-            else if (this.retriesSubscription.closed) {
+            if (!this.retriesSubscription || this.retriesSubscription.closed) {
                 return _super.prototype.complete.call(this);
             }
             this._unsubscribeAndRecycle();
@@ -43189,7 +43198,6 @@ class DataTableSource extends DataSource {
 
 class DataTableState {
     constructor() {
-        this.id = Math.random();
         this.sort = undefined;
         this.filter = undefined;
         this.page = 0;
@@ -43443,6 +43451,20 @@ class NovoDataTable {
         return item.id;
     }
     /**
+     * @param {?} check
+     * @param {?} row
+     * @return {?}
+     */
+    isDisabled(check, row) {
+        if (check.disabled === true) {
+            return true;
+        }
+        if (check.disabledFunc) {
+            return check.disabledFunc(row);
+        }
+        return false;
+    }
+    /**
      * @return {?}
      */
     configureColumns() {
@@ -43461,7 +43483,17 @@ class NovoDataTable {
                 }
                 else {
                     // Default to the defaulCellTemplate
-                    templateName = 'defaultCellTemplate';
+                    if (column.type === 'action') {
+                        if (column.action && column.action.options) {
+                            templateName = 'dropdownCellTemplate';
+                        }
+                        else {
+                            templateName = 'buttonCellTemplate';
+                        }
+                    }
+                    else {
+                        templateName = `${column.type}CellTemplate`;
+                    }
                 }
                 this.columnToTemplate[column.id] = this.templates[templateName];
             });
@@ -43509,16 +43541,8 @@ NovoDataTable.decorators = [
                         <novo-data-table-checkbox-cell *novoDataTableCellDef="let row; let i = index" [row]="row" [index]="i"></novo-data-table-checkbox-cell>
                     </ng-container>
                     <ng-container *ngFor="let column of columns;trackBy: trackColumnsBy" [novoDataTableColumnDef]="column.id">
-                        <ng-container [ngSwitch]="column.type">
-                            <ng-container *ngSwitchCase="'action'">
-                              <novo-data-table-empty-header-cell [column]="column" [class.empty]="!column?.label" [class.button-header-cell]="!column?.action?.options" [class.dropdown-header-cell]="column?.action?.options" *novoDataTableHeaderCellDef></novo-data-table-empty-header-cell>
-                              <novo-data-table-action-cell *novoDataTableCellDef="let row; let i = index" [row]="row" [column]="column"></novo-data-table-action-cell>
-                            </ng-container>
-                            <ng-container *ngSwitchDefault>
-                              <novo-data-table-header-cell *novoDataTableHeaderCellDef [column]="column" [novo-data-table-cell-config]="column" [defaultSort]="defaultSort"></novo-data-table-header-cell>
-                              <novo-data-table-cell *novoDataTableCellDef="let row" [column]="column" [row]="row" [template]="columnToTemplate[column.id]"></novo-data-table-cell>
-                            </ng-container>
-                        </ng-container>
+                      <novo-data-table-header-cell *novoDataTableHeaderCellDef [column]="column" [novo-data-table-cell-config]="column" [defaultSort]="defaultSort" [class.empty]="column?.type === 'action' && !column?.label" [class.button-header-cell]="column?.type === 'action' && !column?.action?.options" [class.dropdown-header-cell]="column?.type === 'action' && column?.action?.options"></novo-data-table-header-cell>
+                      <novo-data-table-cell *novoDataTableCellDef="let row" [column]="column" [row]="row" [template]="columnToTemplate[column.id]" [class.empty]="column?.type === 'action' && !column?.label" [class.button-cell]="column?.type === 'action' && !column?.action?.options" [class.dropdown-cell]="column?.type === 'action' && column?.action?.options"></novo-data-table-cell>
                     </ng-container>
                     <novo-data-table-header-row *novoDataTableHeaderRowDef="displayedColumns" data-automation-id="novo-data-table-header-row"></novo-data-table-header-row>
                     <novo-data-table-row *novoDataTableRowDef="let row; columns: displayedColumns;" [id]="name + '-' + row[rowIdentifier]" [dataAutomationId]="'data-automation-id-' + row[rowIdentifier]"></novo-data-table-row>
@@ -43537,10 +43561,57 @@ NovoDataTable.decorators = [
         </div>
 
          <!-- DEFAULT CELL TEMPLATE -->
-        <ng-template novoTemplate="defaultCellTemplate"
+        <ng-template novoTemplate="stringCellTemplate"
               let-row
               let-col="col">
-            <novo-data-table-value [column]="col" [row]="row"></novo-data-table-value>
+              <span>{{ row[col.id] | dataTableInterpolate:col }}</span>
+        </ng-template>
+        <ng-template novoTemplate="dateCellTemplate"
+              let-row
+              let-col="col">
+              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateRenderer:col }}</span>
+        </ng-template>
+        <ng-template novoTemplate="datetimeCellTemplate"
+              let-row
+              let-col="col">
+              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateTimeRenderer:col }}</span>
+        </ng-template>
+        <ng-template novoTemplate="timeCellTemplate"
+              let-row
+              let-col="col">
+              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableTimeRenderer:col }}</span>
+        </ng-template>
+        <ng-template novoTemplate="currencyCellTemplate"
+              let-row
+              let-col="col">
+              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableCurrencyRenderer:col }}</span>
+        </ng-template>
+        <ng-template novoTemplate="numberCellTemplate"
+              let-row
+              let-col="col">
+              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col }}</span>
+        </ng-template>
+        <ng-template novoTemplate="linkCellTemplate"
+              let-row
+              let-col="col">
+              <a (click)="col.handlers?.click({originalEvent: $event, row: row})">{{ row[col.id] | dataTableInterpolate:col }}</a>
+        </ng-template>
+        <ng-template novoTemplate="buttonCellTemplate"
+              let-row
+              let-col="col">
+              <i class="bhi-{{ col?.action?.icon }} data-table-icon" (click)="col.handlers?.click({ originalEvent: $event, row: row })" [class.disabled]="isDisabled(col, row)"></i>
+        </ng-template>
+        <ng-template novoTemplate="dropdownCellTemplate"
+              let-row
+              let-col="col">
+              <novo-dropdown appendToBody="true" parentScrollSelector=".novo-data-table" containerClass="novo-data-table-dropdown">
+                <button type="button" theme="dialogue" icon="collapse" inverse>{{ col.label }}</button>
+                <list>
+                    <item *ngFor="let option of col?.action?.options" (action)="option.handlers.click({ originalEvent: $event?.originalEvent, row: row })" [disabled]="isDisabled(option, row)">
+                        <span [attr.data-automation-id]="option.label">{{ option.label }}</span>
+                    </item>
+                </list>
+            </novo-dropdown>
         </ng-template>
         <ng-template novoTemplate="defaultNoResultsMessage">
             <h4><i class="bhi-search-question"></i> {{ labels.noMatchingRecordsMessage }}</h4>
@@ -43583,96 +43654,6 @@ NovoDataTable.propDecorators = {
     'hideGlobalSearch': [{ type: Input },],
     'empty': [{ type: HostBinding, args: ['class.empty',] },],
     'loadingClass': [{ type: HostBinding, args: ['class.loading',] },],
-};
-
-class NovoDataTableValue {
-    /**
-     * @param {?} labels
-     */
-    constructor(labels) {
-        this.labels = labels;
-        this.isClickable = false;
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    onClick(event) {
-        if (this.isClickable) {
-            if (this.column.handlers && this.column.handlers.click) {
-                this.column.handlers.click({ originalEvent: event, row: this.row });
-            }
-            return;
-        }
-    }
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-        // Clickable?
-        this.isClickable = this.column.type === 'link';
-        // Configure the value
-        let /** @type {?} */ interpolatedValue = this.interpolateCell(this.row, this.column);
-        switch (this.column.type) {
-            case 'string':
-                this.value = interpolatedValue;
-                break;
-            case 'date':
-                this.value = this.labels.formatDate(interpolatedValue);
-                break;
-            case 'datetime':
-                this.value = this.labels.formatDateShort(interpolatedValue);
-                break;
-            case 'time':
-                this.value = this.labels.formatTime(interpolatedValue);
-                break;
-            case 'currency':
-                this.value = this.labels.formatCurrency(Number(interpolatedValue));
-                break;
-            case 'number':
-                this.value = this.labels.formatNumber(interpolatedValue);
-                break;
-            default:
-                this.value = interpolatedValue;
-                break;
-        }
-    }
-    /**
-     * @param {?} row
-     * @param {?} col
-     * @return {?}
-     */
-    interpolateCell(row, col) {
-        if (col.property) {
-            let /** @type {?} */ keys = col.property.split('.');
-            let /** @type {?} */ value = row[keys.shift()];
-            while (keys.length && value !== undefined) {
-                let /** @type {?} */ k = keys.shift();
-                value = k ? value[k] : `${value}.`;
-            }
-            return value !== undefined ? value : col.property;
-        }
-        return row[col.id];
-    }
-}
-NovoDataTableValue.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-data-table-value',
-                template: '{{ value }}',
-                changeDetection: ChangeDetectionStrategy.OnPush,
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoDataTableValue.ctorParameters = () => [
-    { type: NovoLabelService, },
-];
-NovoDataTableValue.propDecorators = {
-    'isClickable': [{ type: HostBinding, args: ['class.clickable',] },],
-    'onClick': [{ type: HostListener, args: ['click', ['$event'],] },],
-    'column': [{ type: Input },],
-    'row': [{ type: Input },],
 };
 
 class NovoDataTableActionCell extends CdkCell {
@@ -43793,7 +43774,7 @@ NovoDataTableCell.decorators = [
     { type: Component, args: [{
                 selector: 'novo-data-table-cell',
                 template: `
-        <ng-container *ngTemplateOutlet="template; context: {$implicit: row, col: column}"></ng-container>
+          <ng-container *ngTemplateOutlet="template; context: {$implicit: row, col: column}"></ng-container>
     `,
                 changeDetection: ChangeDetectionStrategy.OnPush,
             },] },
@@ -44770,6 +44751,190 @@ NovoDataTablePagination.propDecorators = {
     'pageChange': [{ type: Output },],
 };
 
+/**
+ * @template T
+ * @param {?} value
+ * @param {?} col
+ * @return {?}
+ */
+function interpolateCell(value, col) {
+    if (col.property) {
+        let /** @type {?} */ keys = col.property.split('.');
+        let /** @type {?} */ currValue = value[keys.shift()];
+        while (keys.length && value !== undefined) {
+            let /** @type {?} */ k = keys.shift();
+            value = k ? value[k] : `${value}.`;
+        }
+        return currValue !== undefined ? currValue : col.property;
+    }
+    return value;
+}
+class DataTableInterpolatePipe {
+    /**
+     * @param {?} value
+     * @param {?} column
+     * @return {?}
+     */
+    transform(value, column) {
+        return interpolateCell(value, column);
+    }
+}
+DataTableInterpolatePipe.decorators = [
+    { type: Pipe, args: [{
+                name: 'dataTableInterpolate',
+                pure: true,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+DataTableInterpolatePipe.ctorParameters = () => [];
+class DateTableDateRendererPipe {
+    /**
+     * @param {?} labels
+     */
+    constructor(labels) {
+        this.labels = labels;
+    }
+    /**
+     * @param {?} value
+     * @param {?} column
+     * @return {?}
+     */
+    transform(value, column) {
+        let /** @type {?} */ val = interpolateCell(value, column);
+        return this.labels.formatDate(val);
+    }
+}
+DateTableDateRendererPipe.decorators = [
+    { type: Pipe, args: [{
+                name: 'dataTableDateRenderer',
+                pure: true,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+DateTableDateRendererPipe.ctorParameters = () => [
+    { type: NovoLabelService, },
+];
+class DateTableDateTimeRendererPipe {
+    /**
+     * @param {?} labels
+     */
+    constructor(labels) {
+        this.labels = labels;
+    }
+    /**
+     * @param {?} value
+     * @param {?} column
+     * @return {?}
+     */
+    transform(value, column) {
+        let /** @type {?} */ val = interpolateCell(value, column);
+        return this.labels.formatDateShort(val);
+    }
+}
+DateTableDateTimeRendererPipe.decorators = [
+    { type: Pipe, args: [{
+                name: 'dataTableDateTimeRenderer',
+                pure: true,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+DateTableDateTimeRendererPipe.ctorParameters = () => [
+    { type: NovoLabelService, },
+];
+class DateTableTimeRendererPipe {
+    /**
+     * @param {?} labels
+     */
+    constructor(labels) {
+        this.labels = labels;
+    }
+    /**
+     * @param {?} value
+     * @param {?} column
+     * @return {?}
+     */
+    transform(value, column) {
+        let /** @type {?} */ val = interpolateCell(value, column);
+        return this.labels.formatTime(val);
+    }
+}
+DateTableTimeRendererPipe.decorators = [
+    { type: Pipe, args: [{
+                name: 'dataTableTimeRenderer',
+                pure: true,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+DateTableTimeRendererPipe.ctorParameters = () => [
+    { type: NovoLabelService, },
+];
+class DateTableNumberRendererPipe {
+    /**
+     * @param {?} labels
+     */
+    constructor(labels) {
+        this.labels = labels;
+    }
+    /**
+     * @param {?} value
+     * @param {?} column
+     * @return {?}
+     */
+    transform(value, column) {
+        let /** @type {?} */ val = interpolateCell(value, column);
+        return this.labels.formatNumber(val);
+    }
+}
+DateTableNumberRendererPipe.decorators = [
+    { type: Pipe, args: [{
+                name: 'dataTableNumberRenderer',
+                pure: true,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+DateTableNumberRendererPipe.ctorParameters = () => [
+    { type: NovoLabelService, },
+];
+class DateTableCurrencyRendererPipe {
+    /**
+     * @param {?} labels
+     */
+    constructor(labels) {
+        this.labels = labels;
+    }
+    /**
+     * @param {?} value
+     * @param {?} column
+     * @return {?}
+     */
+    transform(value, column) {
+        let /** @type {?} */ val = interpolateCell(value, column);
+        return this.labels.formatCurrency(Number(val));
+    }
+}
+DateTableCurrencyRendererPipe.decorators = [
+    { type: Pipe, args: [{
+                name: 'dataTableCurrencyRenderer',
+                pure: true,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+DateTableCurrencyRendererPipe.ctorParameters = () => [
+    { type: NovoLabelService, },
+];
+
 class NovoDataTableHeaderCellDef extends CdkHeaderCellDef {
 }
 NovoDataTableHeaderCellDef.decorators = [
@@ -44863,6 +45028,12 @@ NovoDataTableModule.decorators = [
                     NovoSelectModule,
                 ],
                 declarations: [
+                    DataTableInterpolatePipe,
+                    DateTableDateRendererPipe,
+                    DateTableCurrencyRendererPipe,
+                    DateTableDateTimeRendererPipe,
+                    DateTableNumberRendererPipe,
+                    DateTableTimeRendererPipe,
                     NovoDataTableHeaderCellDef,
                     NovoDataTableColumnDef,
                     NovoDataTableCellDef,
@@ -44881,10 +45052,17 @@ NovoDataTableModule.decorators = [
                     NovoDataTableCheckboxHeaderCell,
                     NovoDataTableSelection,
                     NovoDataTable,
-                    NovoDataTableValue,
                 ],
                 providers: [DataTableState],
-                exports: [NovoDataTableValue, NovoDataTable],
+                exports: [
+                    NovoDataTable,
+                    DataTableInterpolatePipe,
+                    DateTableDateRendererPipe,
+                    DateTableCurrencyRendererPipe,
+                    DateTableDateTimeRendererPipe,
+                    DateTableNumberRendererPipe,
+                    DateTableTimeRendererPipe,
+                ],
             },] },
 ];
 /**
@@ -48632,5 +48810,5 @@ NovoElementsModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵl, NovoButtonElement as ɵm, NovoEventTypeLegendElement as ɵs, NovoCalendarAllDayEventElement as ɵbc, NovoCalendarDayEventElement as ɵba, NovoCalendarDayViewElement as ɵz, NovoCalendarHourSegmentElement as ɵbb, NovoCalendarMonthDayElement as ɵv, NovoCalendarMonthHeaderElement as ɵu, NovoCalendarMonthViewElement as ɵt, DayOfMonthPipe as ɵbe, EndOfWeekDisplayPipe as ɵbj, HoursPipe as ɵbi, MonthPipe as ɵbf, MonthDayPipe as ɵbg, WeekdayPipe as ɵbd, YearPipe as ɵbh, NovoCalendarWeekEventElement as ɵy, NovoCalendarWeekHeaderElement as ɵx, NovoCalendarWeekViewElement as ɵw, CardActionsElement as ɵq, CardElement as ɵr, NovoCategoryDropdownElement as ɵeb, NovoChipElement as ɵcr, NovoChipsElement as ɵcs, NovoCKEditorElement as ɵda, NovoDataTableCheckboxHeaderCell as ɵev, NovoDataTableEmptyHeaderCell as ɵen, NovoDataTableCellHeader as ɵej, NovoDataTableHeaderCell as ɵeo, NovoDataTableHeaderCellDef as ɵee, NovoDataTableActionCell as ɵem, NovoDataTableCell as ɵep, NovoDataTableCheckboxCell as ɵet, NovoDataTableCellDef as ɵeg, NovoDataTableColumnDef as ɵef, NovoDataTableValue as ɵex, NovoDataTable as ɵew, NovoDataTablePagination as ɵes, NovoDataTableHeaderRow as ɵeq, NovoDataTableRow as ɵer, NovoDataTableHeaderRowDef as ɵeh, NovoDataTableRowDef as ɵei, NovoDataTableSelection as ɵeu, NovoDataTableSortFilter as ɵel, DataTableState as ɵek, NovoDatePickerElement as ɵct, NovoDatePickerInputElement as ɵcu, NovoDateTimePickerElement as ɵcy, NovoDateTimePickerInputElement as ɵcz, NovoDragulaElement as ɵcp, NovoDropdownContainer as ɵca, NovoDropdownElement as ɵcb, NovoItemElement as ɵcc, NovoItemHeaderElement$1 as ɵce, NovoListElement$1 as ɵcd, NovoAutoSize as ɵdf, NovoControlElement as ɵdh, NovoCustomControlContainerElement as ɵdg, NovoControlCustom as ɵdj, NovoDynamicFormElement as ɵdl, NovoFieldsetElement as ɵdk, NovoFieldsetHeaderElement as ɵdi, ControlConfirmModal as ɵdn, ControlPromptModal as ɵdo, NovoFormElement as ɵdm, NovoAddressElement as ɵdc, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbo, NovoHeaderSpacer as ɵbl, NovoUtilActionComponent as ɵbn, NovoUtilsComponent as ɵbm, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵn, NovoSpinnerElement as ɵo, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵec, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵcg, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵci, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵch, NovoOverlayTemplate as ɵcj, NovoOverlayModule as ɵcf, NovoPickerElement as ɵcm, NovoPickerContainer as ɵcn, PlacesListComponent as ɵff, GooglePlacesModule as ɵfe, PopOverDirective as ɵfd, NovoPopOverModule as ɵfb, PopOverContent as ɵfc, QuickNoteElement as ɵbx, NovoRadioElement as ɵbz, NovoRadioGroup as ɵby, NovoSearchBoxElement as ɵco, NovoSelectElement as ɵck, NovoSliderElement as ɵcq, NovoSwitchElement as ɵcl, NovoTableKeepFilterFocus as ɵds, Pagination as ɵdt, RowDetails as ɵdu, NovoTableActionsElement as ɵdr, TableCell as ɵdv, TableFilter as ɵdw, NovoTableFooterElement as ɵdq, NovoTableHeaderElement as ɵdp, ThOrderable as ɵdx, ThSortable as ɵdy, NovoNavContentElement as ɵbu, NovoNavElement as ɵbp, NovoNavHeaderElement as ɵbv, NovoNavOutletElement as ɵbt, NovoTabButtonElement as ɵbr, NovoTabElement as ɵbq, NovoTabLinkElement as ɵbs, NovoTilesElement as ɵbw, NovoTimePickerElement as ɵcv, NovoTimePickerInputElement as ɵcw, NovoTipWellElement as ɵdb, NovoToastElement as ɵbk, TooltipDirective as ɵp, Unless as ɵed, EntityList as ɵdz, NovoValueElement as ɵk, DateFormatService as ɵcx, BrowserGlobalRef as ɵez, GlobalRef as ɵey, LocalStorageService as ɵfa };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵl, NovoButtonElement as ɵm, NovoEventTypeLegendElement as ɵs, NovoCalendarAllDayEventElement as ɵbc, NovoCalendarDayEventElement as ɵba, NovoCalendarDayViewElement as ɵz, NovoCalendarHourSegmentElement as ɵbb, NovoCalendarMonthDayElement as ɵv, NovoCalendarMonthHeaderElement as ɵu, NovoCalendarMonthViewElement as ɵt, DayOfMonthPipe as ɵbe, EndOfWeekDisplayPipe as ɵbj, HoursPipe as ɵbi, MonthPipe as ɵbf, MonthDayPipe as ɵbg, WeekdayPipe as ɵbd, YearPipe as ɵbh, NovoCalendarWeekEventElement as ɵy, NovoCalendarWeekHeaderElement as ɵx, NovoCalendarWeekViewElement as ɵw, CardActionsElement as ɵq, CardElement as ɵr, NovoCategoryDropdownElement as ɵeb, NovoChipElement as ɵcr, NovoChipsElement as ɵcs, NovoCKEditorElement as ɵda, NovoDataTableCheckboxHeaderCell as ɵfb, NovoDataTableEmptyHeaderCell as ɵet, NovoDataTableCellHeader as ɵep, NovoDataTableHeaderCell as ɵeu, NovoDataTableHeaderCellDef as ɵek, NovoDataTableActionCell as ɵes, NovoDataTableCell as ɵev, NovoDataTableCheckboxCell as ɵez, NovoDataTableCellDef as ɵem, NovoDataTableColumnDef as ɵel, NovoDataTable as ɵfc, DataTableInterpolatePipe as ɵee, DateTableCurrencyRendererPipe as ɵej, DateTableDateRendererPipe as ɵef, DateTableDateTimeRendererPipe as ɵeg, DateTableNumberRendererPipe as ɵei, DateTableTimeRendererPipe as ɵeh, NovoDataTablePagination as ɵey, NovoDataTableHeaderRow as ɵew, NovoDataTableRow as ɵex, NovoDataTableHeaderRowDef as ɵen, NovoDataTableRowDef as ɵeo, NovoDataTableSelection as ɵfa, NovoDataTableSortFilter as ɵer, DataTableState as ɵeq, NovoDatePickerElement as ɵct, NovoDatePickerInputElement as ɵcu, NovoDateTimePickerElement as ɵcy, NovoDateTimePickerInputElement as ɵcz, NovoDragulaElement as ɵcp, NovoDropdownContainer as ɵca, NovoDropdownElement as ɵcb, NovoItemElement as ɵcc, NovoItemHeaderElement$1 as ɵce, NovoListElement$1 as ɵcd, NovoAutoSize as ɵdf, NovoControlElement as ɵdh, NovoCustomControlContainerElement as ɵdg, NovoControlCustom as ɵdj, NovoDynamicFormElement as ɵdl, NovoFieldsetElement as ɵdk, NovoFieldsetHeaderElement as ɵdi, ControlConfirmModal as ɵdn, ControlPromptModal as ɵdo, NovoFormElement as ɵdm, NovoAddressElement as ɵdc, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbo, NovoHeaderSpacer as ɵbl, NovoUtilActionComponent as ɵbn, NovoUtilsComponent as ɵbm, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵn, NovoSpinnerElement as ɵo, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵec, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵcg, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵci, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵch, NovoOverlayTemplate as ɵcj, NovoOverlayModule as ɵcf, NovoPickerElement as ɵcm, NovoPickerContainer as ɵcn, PlacesListComponent as ɵfk, GooglePlacesModule as ɵfj, PopOverDirective as ɵfi, NovoPopOverModule as ɵfg, PopOverContent as ɵfh, QuickNoteElement as ɵbx, NovoRadioElement as ɵbz, NovoRadioGroup as ɵby, NovoSearchBoxElement as ɵco, NovoSelectElement as ɵck, NovoSliderElement as ɵcq, NovoSwitchElement as ɵcl, NovoTableKeepFilterFocus as ɵds, Pagination as ɵdt, RowDetails as ɵdu, NovoTableActionsElement as ɵdr, TableCell as ɵdv, TableFilter as ɵdw, NovoTableFooterElement as ɵdq, NovoTableHeaderElement as ɵdp, ThOrderable as ɵdx, ThSortable as ɵdy, NovoNavContentElement as ɵbu, NovoNavElement as ɵbp, NovoNavHeaderElement as ɵbv, NovoNavOutletElement as ɵbt, NovoTabButtonElement as ɵbr, NovoTabElement as ɵbq, NovoTabLinkElement as ɵbs, NovoTilesElement as ɵbw, NovoTimePickerElement as ɵcv, NovoTimePickerInputElement as ɵcw, NovoTipWellElement as ɵdb, NovoToastElement as ɵbk, TooltipDirective as ɵp, Unless as ɵed, EntityList as ɵdz, NovoValueElement as ɵk, DateFormatService as ɵcx, BrowserGlobalRef as ɵfe, GlobalRef as ɵfd, LocalStorageService as ɵff };
 //# sourceMappingURL=novo-elements.js.map

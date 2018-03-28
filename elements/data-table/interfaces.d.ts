@@ -2,6 +2,7 @@ import { Observable } from 'rxjs/Observable';
 export interface IDataTableColumn<T> {
     id: string;
     label?: string;
+    enabled?: boolean;
     type: 'string' | 'link' | 'date' | 'datetime' | 'time' | 'currency' | 'number' | 'action';
     template?: string;
     property?: string;
@@ -100,6 +101,4 @@ export interface IDataTableService<T> {
     }>;
 }
 export interface IDataTableCell<T> {
-    column: IDataTableColumn<T>;
-    row: T;
 }

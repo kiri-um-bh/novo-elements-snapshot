@@ -1,7 +1,7 @@
 import { ElementRef, Renderer2, OnInit, OnDestroy } from '@angular/core';
 import { CdkCell, CdkColumnDef } from '@angular/cdk/table';
 import { NovoDataTableSelection } from '../selection/data-table-selection.directive';
-export declare class NovoDataTableCheckboxCell extends CdkCell implements OnDestroy, OnInit {
+export declare class NovoDataTableCheckboxCell extends CdkCell implements OnInit, OnDestroy {
     columnDef: CdkColumnDef;
     _selection: NovoDataTableSelection;
     role: string;
