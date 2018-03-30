@@ -6570,7 +6570,7 @@ class NovoDropdownElement extends OutsideClick {
         }
         else if (event.keyCode === KeyCodes.ENTER) {
             // enter -- perform the "click"
-            this._items.toArray()[this.activeIndex].onClick(event);
+            this._items.toArray()[this.activeIndex].onClick();
         }
         else if (event.keyCode === KeyCodes.DOWN) {
             // down - navigate through the list ignoring disabled ones
@@ -6701,10 +6701,9 @@ class NovoItemElement {
         this.active = false;
     }
     /**
-     * @param {?} event
      * @return {?}
      */
-    onClick(event) {
+    onClick() {
         // Poor man's disable
         if (!this.disabled) {
             // Close if keepOpen is false

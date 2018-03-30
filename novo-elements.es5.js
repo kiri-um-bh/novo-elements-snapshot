@@ -6243,7 +6243,7 @@ var NovoDropdownElement = /** @class */ (function (_super) {
         }
         else if (event.keyCode === KeyCodes.ENTER) {
             // enter -- perform the "click"
-            this._items.toArray()[this.activeIndex].onClick(event);
+            this._items.toArray()[this.activeIndex].onClick();
         }
         else if (event.keyCode === KeyCodes.DOWN) {
             // down - navigate through the list ignoring disabled ones
@@ -6370,10 +6370,9 @@ var NovoItemElement = /** @class */ (function () {
         this.active = false;
     }
     /**
-     * @param {?} event
      * @return {?}
      */
-    NovoItemElement.prototype.onClick = function (event) {
+    NovoItemElement.prototype.onClick = function () {
         // Poor man's disable
         if (!this.disabled) {
             // Close if keepOpen is false

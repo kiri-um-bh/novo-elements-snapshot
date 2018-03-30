@@ -54,7 +54,7 @@ export declare class NovoItemElement {
     action: EventEmitter<any>;
     active: boolean;
     constructor(dropdown: NovoDropdownElement, element: ElementRef);
-    onClick(event: Event): void;
+    onClick(): void;
 }
 export declare class NovoListElement implements AfterContentInit {
     private dropdown;
