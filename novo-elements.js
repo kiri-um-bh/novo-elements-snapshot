@@ -30669,11 +30669,11 @@ class NovoFileInputElement {
             return;
         }
         let /** @type {?} */ options = this.layoutOptions;
+        let /** @type {?} */ filelist = Array.from(event.dataTransfer.files);
         if (options.customActions) {
-            this.upload.emit(event);
+            this.upload.emit(this.multiple ? filelist : [filelist[0]]);
         }
         else {
-            let /** @type {?} */ filelist = Array.from(event.dataTransfer.files);
             this.process(this.multiple ? filelist : [filelist[0]]);
         }
         this.active = false;

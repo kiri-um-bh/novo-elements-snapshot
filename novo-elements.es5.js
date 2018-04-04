@@ -29951,11 +29951,11 @@ var NovoFileInputElement = /** @class */ (function () {
             return;
         }
         var /** @type {?} */ options = this.layoutOptions;
+        var /** @type {?} */ filelist = Array.from(event.dataTransfer.files);
         if (options.customActions) {
-            this.upload.emit(event);
+            this.upload.emit(this.multiple ? filelist : [filelist[0]]);
         }
         else {
-            var /** @type {?} */ filelist = Array.from(event.dataTransfer.files);
             this.process(this.multiple ? filelist : [filelist[0]]);
         }
         this.active = false;
