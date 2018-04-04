@@ -13565,6 +13565,7 @@ class NovoCKEditorElement {
     constructor(zone) {
         this.zone = zone;
         this.startupFocus = false;
+        this.fileBrowserImageUploadUrl = '';
         this.change = new EventEmitter();
         this.ready = new EventEmitter();
         this.blur = new EventEmitter();
@@ -13693,7 +13694,7 @@ class NovoCKEditorElement {
         const /** @type {?} */ extendedConfig = {
             toolbar: [
                 { name: 'clipboard', items: ['Paste', 'PasteText', 'PasteFromWord', 'Undo', 'Redo'] },
-                { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl'] },
                 { name: 'links', items: ['Link'] },
                 { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] },
                 { name: 'tools', items: ['Maximize', 'Source'] },
@@ -13701,7 +13702,8 @@ class NovoCKEditorElement {
                 { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'] },
                 { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
                 { name: 'colors', items: ['TextColor', 'BGColor'] }
-            ]
+            ],
+            filebrowserImageUploadUrl: this.fileBrowserImageUploadUrl,
         };
         return Object.assign(baseConfig, this.minimal ? minimalConfig : extendedConfig);
     }
@@ -13769,6 +13771,7 @@ NovoCKEditorElement.propDecorators = {
     'name': [{ type: Input },],
     'minimal': [{ type: Input },],
     'startupFocus': [{ type: Input },],
+    'fileBrowserImageUploadUrl': [{ type: Input },],
     'change': [{ type: Output },],
     'ready': [{ type: Output },],
     'blur': [{ type: Output },],

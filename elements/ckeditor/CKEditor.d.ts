@@ -11,6 +11,7 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit {
     name: any;
     minimal: any;
     startupFocus: boolean;
+    fileBrowserImageUploadUrl: string;
     change: EventEmitter<{}>;
     ready: EventEmitter<{}>;
     blur: EventEmitter<{}>;
@@ -27,7 +28,17 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit {
     ngAfterViewInit(): void;
     updateValue(value: any): void;
     ckeditorInit(config: any): void;
-    getBaseConfig(): {
+    getBaseConfig(): ({
+        enterMode: any;
+        shiftEnterMode: any;
+        disableNativeSpellChecker: boolean;
+        removePlugins: string;
+    } & {
+        toolbar: {
+            name: string;
+            items: string[];
+        }[];
+    }) | ({
         enterMode: any;
         shiftEnterMode: any;
         disableNativeSpellChecker: boolean;
@@ -37,7 +48,8 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit {
             name: string;
             items: string[];
         })[];
-    };
+        filebrowserImageUploadUrl: string;
+    });
     writeValue(value: any): void;
     onChange(value?: any): void;
     onTouched(event?: any): void;

@@ -12838,6 +12838,7 @@ var NovoCKEditorElement = /** @class */ (function () {
     function NovoCKEditorElement(zone) {
         this.zone = zone;
         this.startupFocus = false;
+        this.fileBrowserImageUploadUrl = '';
         this.change = new core.EventEmitter();
         this.ready = new core.EventEmitter();
         this.blur = new core.EventEmitter();
@@ -12973,7 +12974,7 @@ var NovoCKEditorElement = /** @class */ (function () {
         var /** @type {?} */ extendedConfig = {
             toolbar: [
                 { name: 'clipboard', items: ['Paste', 'PasteText', 'PasteFromWord', 'Undo', 'Redo'] },
-                { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl'] },
                 { name: 'links', items: ['Link'] },
                 { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] },
                 { name: 'tools', items: ['Maximize', 'Source'] },
@@ -12981,7 +12982,8 @@ var NovoCKEditorElement = /** @class */ (function () {
                 { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'] },
                 { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
                 { name: 'colors', items: ['TextColor', 'BGColor'] }
-            ]
+            ],
+            filebrowserImageUploadUrl: this.fileBrowserImageUploadUrl,
         };
         return Object.assign(baseConfig, this.minimal ? minimalConfig : extendedConfig);
     };
@@ -13050,6 +13052,7 @@ NovoCKEditorElement.propDecorators = {
     'name': [{ type: core.Input },],
     'minimal': [{ type: core.Input },],
     'startupFocus': [{ type: core.Input },],
+    'fileBrowserImageUploadUrl': [{ type: core.Input },],
     'change': [{ type: core.Output },],
     'ready': [{ type: core.Output },],
     'blur': [{ type: core.Output },],
