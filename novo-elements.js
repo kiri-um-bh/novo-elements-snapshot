@@ -1498,6 +1498,14 @@ class NovoLabelService {
         return `${selected} records are selected.`;
     }
     /**
+     * @param {?} shown
+     * @param {?} total
+     * @return {?}
+     */
+    showingXofXResults(shown, total) {
+        return `Showing ${shown} of ${total} Results.`;
+    }
+    /**
      * @param {?} total
      * @param {?} select
      * @return {?}
@@ -10361,12 +10369,36 @@ class SkillsSpecialtyPickerResults extends BasePickerResults {
         this.element = element;
         this.labels = labels;
         this.active = true;
+        this.limitedTo = false;
+        this.limit = 200;
     }
     /**
      * @return {?}
      */
     getListElement() {
         return this.element.nativeElement.querySelector('novo-list');
+    }
+    /**
+     * \@name structureArray
+     * \@description This function structures an array of nodes into an array of objects with a
+     * 'name' field by default.
+     * @param {?} collection - the data once getData resolves it
+     *
+     * @return {?}
+     */
+    structureArray(collection) {
+        let /** @type {?} */ data = collection;
+        if (collection.hasOwnProperty('data')) {
+            this.limitedTo = collection.limitedTo200;
+            this.total = collection.total;
+            data = collection.data;
+        }
+        else if (data.length > this.limit) {
+            this.limitedTo = true;
+            this.total = data.length;
+            data = data.slice(0, this.limit);
+        }
+        return super.structureArray(data);
     }
 }
 SkillsSpecialtyPickerResults.decorators = [
@@ -10390,6 +10422,7 @@ SkillsSpecialtyPickerResults.decorators = [
                     </div>
                 </item-content>
             </novo-list-item>
+            <novo-list-item *ngIf="limitedTo"><div>{{labels.showingXofXResults(limit, total)}}</div></novo-list-item>
             <novo-loading theme="line" *ngIf="isLoading && matches.length > 0"></novo-loading>
         </novo-list>
         <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>

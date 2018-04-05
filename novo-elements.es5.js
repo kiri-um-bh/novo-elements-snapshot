@@ -1463,6 +1463,14 @@ var NovoLabelService = /** @class */ (function () {
         return selected + " records are selected.";
     };
     /**
+     * @param {?} shown
+     * @param {?} total
+     * @return {?}
+     */
+    NovoLabelService.prototype.showingXofXResults = function (shown, total) {
+        return "Showing " + shown + " of " + total + " Results.";
+    };
+    /**
      * @param {?} total
      * @param {?} select
      * @return {?}
@@ -9819,6 +9827,8 @@ var SkillsSpecialtyPickerResults = /** @class */ (function (_super) {
         _this.element = element;
         _this.labels = labels;
         _this.active = true;
+        _this.limitedTo = false;
+        _this.limit = 200;
         return _this;
     }
     /**
@@ -9827,12 +9837,34 @@ var SkillsSpecialtyPickerResults = /** @class */ (function (_super) {
     SkillsSpecialtyPickerResults.prototype.getListElement = function () {
         return this.element.nativeElement.querySelector('novo-list');
     };
+    /**
+     * \@name structureArray
+     * \@description This function structures an array of nodes into an array of objects with a
+     * 'name' field by default.
+     * @param {?} collection - the data once getData resolves it
+     *
+     * @return {?}
+     */
+    SkillsSpecialtyPickerResults.prototype.structureArray = function (collection) {
+        var /** @type {?} */ data = collection;
+        if (collection.hasOwnProperty('data')) {
+            this.limitedTo = collection.limitedTo200;
+            this.total = collection.total;
+            data = collection.data;
+        }
+        else if (data.length > this.limit) {
+            this.limitedTo = true;
+            this.total = data.length;
+            data = data.slice(0, this.limit);
+        }
+        return _super.prototype.structureArray.call(this, data);
+    };
     return SkillsSpecialtyPickerResults;
 }(BasePickerResults));
 SkillsSpecialtyPickerResults.decorators = [
     { type: Component, args: [{
                 selector: 'skill-specialty-picker-results',
-                template: "\n        <section class=\"picker-loading\" *ngIf=\"isLoading && !matches?.length\">\n            <novo-loading theme=\"line\"></novo-loading>\n        </section>\n        <novo-list *ngIf=\"matches.length > 0\" direction=\"vertical\">\n            <novo-list-item\n                *ngFor=\"let match of matches\"\n                (click)=\"selectMatch($event)\"\n                [class.active]=\"match === activeMatch\"\n                (mouseenter)=\"selectActive(match)\"\n                [class.disabled]=\"preselected(match)\">\n                <item-content>\n                    <h6><span [innerHtml]=\"highlight(match.label, term)\"></span></h6>\n                    <div class=\"category\">\n                        <i class=\"bhi-category-tags\"></i><span [innerHtml]=\"highlight(match.data.categories || match.data.parentCategory.name, term)\"></span>\n                    </div>\n                </item-content>\n            </novo-list-item>\n            <novo-loading theme=\"line\" *ngIf=\"isLoading && matches.length > 0\"></novo-loading>\n        </novo-list>\n        <p class=\"picker-error\" *ngIf=\"hasError\">{{ labels.pickerError }}</p>\n        <p class=\"picker-null\" *ngIf=\"!isLoading && !matches.length && !hasError\">{{ labels.pickerEmpty }}</p>\n    ",
+                template: "\n        <section class=\"picker-loading\" *ngIf=\"isLoading && !matches?.length\">\n            <novo-loading theme=\"line\"></novo-loading>\n        </section>\n        <novo-list *ngIf=\"matches.length > 0\" direction=\"vertical\">\n            <novo-list-item\n                *ngFor=\"let match of matches\"\n                (click)=\"selectMatch($event)\"\n                [class.active]=\"match === activeMatch\"\n                (mouseenter)=\"selectActive(match)\"\n                [class.disabled]=\"preselected(match)\">\n                <item-content>\n                    <h6><span [innerHtml]=\"highlight(match.label, term)\"></span></h6>\n                    <div class=\"category\">\n                        <i class=\"bhi-category-tags\"></i><span [innerHtml]=\"highlight(match.data.categories || match.data.parentCategory.name, term)\"></span>\n                    </div>\n                </item-content>\n            </novo-list-item>\n            <novo-list-item *ngIf=\"limitedTo\"><div>{{labels.showingXofXResults(limit, total)}}</div></novo-list-item>\n            <novo-loading theme=\"line\" *ngIf=\"isLoading && matches.length > 0\"></novo-loading>\n        </novo-list>\n        <p class=\"picker-error\" *ngIf=\"hasError\">{{ labels.pickerError }}</p>\n        <p class=\"picker-null\" *ngIf=\"!isLoading && !matches.length && !hasError\">{{ labels.pickerEmpty }}</p>\n    ",
             },] },
 ];
 /**

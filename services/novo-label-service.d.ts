@@ -84,6 +84,7 @@ export declare class NovoLabelService {
         quantity: number;
     }): string;
     selectedRecords(selected: number): string;
+    showingXofXResults(shown: number, total: number): string;
     totalRecords(total: number, select: boolean): string;
     formatDateWithFormat(value: any, format: Intl.DateTimeFormatOptions): any;
     getWeekdays(): string[];
