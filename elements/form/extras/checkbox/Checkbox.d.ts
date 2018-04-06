@@ -16,7 +16,7 @@ export declare class NovoCheckboxElement implements ControlValueAccessor, OnInit
     onModelTouched: Function;
     constructor(ref: ChangeDetectorRef);
     ngOnInit(): void;
-    select(event: any): void;
+    select(event: Event): void;
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;

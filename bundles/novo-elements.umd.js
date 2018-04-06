@@ -29562,11 +29562,12 @@ NovoAddressElement.ctorParameters = function () { return [
     { type: NovoLabelService, },
 ]; };
 // NG2
+// APP
 // Value accessor for the component (supports ngModel)
 var CHECKBOX_VALUE_ACCESSOR = {
     provide: forms.NG_VALUE_ACCESSOR,
     useExisting: core.forwardRef(function () { return NovoCheckboxElement; }),
-    multi: true
+    multi: true,
 };
 var LAYOUT_DEFAULTS = { iconStyle: 'box' };
 var NovoCheckboxElement = /** @class */ (function () {
@@ -29578,10 +29579,8 @@ var NovoCheckboxElement = /** @class */ (function () {
         this.indeterminate = false;
         this.onSelect = new core.EventEmitter();
         this.boxIcon = true;
-        this.onModelChange = function () {
-        };
-        this.onModelTouched = function () {
-        };
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
     }
     /**
      * @return {?}
@@ -29595,6 +29594,7 @@ var NovoCheckboxElement = /** @class */ (function () {
      * @return {?}
      */
     NovoCheckboxElement.prototype.select = function (event) {
+        Helpers.swallowEvent(event);
         this.model = !this.model;
         this.onModelChange(this.model);
         this.onSelect.emit({ originalEvent: event, value: this.model });
@@ -29627,8 +29627,7 @@ NovoCheckboxElement.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-checkbox',
                 providers: [CHECKBOX_VALUE_ACCESSOR],
-                template: "\n        <div class=\"check-box-group\" [class.checked]=\"model\" [class.disabled]=\"disabled\">\n            <input [name]=\"name\" type=\"checkbox\" [(ngModel)]=\"model\" [attr.id]=\"name\">\n            <label [attr.for]=\"name\" (click)=\"select($event)\">\n              <i [class.bhi-checkbox-empty]=\"!model && !indeterminate && boxIcon\"\n                 [class.bhi-checkbox-filled]=\"model && !indeterminate && boxIcon\"\n                 [class.bhi-checkbox-indeterminate]=\"indeterminate && boxIcon\"\n                 [class.bhi-circle-o]=\"!model && !indeterminate && !boxIcon\"\n                 [class.bhi-check]=\"model && !indeterminate && !boxIcon\"\n                 [class.bhi-circle]=\"indeterminate && !boxIcon\"></i>\n              <span *ngIf=\"label\">{{ label }}</span>\n            </label>\n        </div>\n    ",
-                changeDetection: core.ChangeDetectionStrategy.OnPush
+                template: "\n    <div class=\"check-box-group\" [class.checked]=\"model\" [class.disabled]=\"disabled\">\n        <input [name]=\"name\" type=\"checkbox\" [(ngModel)]=\"model\" [attr.id]=\"name\">\n        <label [attr.for]=\"name\" (click)=\"select($event)\">\n          <i [class.bhi-checkbox-empty]=\"!model && !indeterminate && boxIcon\"\n              [class.bhi-checkbox-filled]=\"model && !indeterminate && boxIcon\"\n              [class.bhi-checkbox-indeterminate]=\"indeterminate && boxIcon\"\n              [class.bhi-circle-o]=\"!model && !indeterminate && !boxIcon\"\n              [class.bhi-check]=\"model && !indeterminate && !boxIcon\"\n              [class.bhi-circle]=\"indeterminate && !boxIcon\"></i>\n          <span *ngIf=\"label\">{{ label }}</span>\n        </label>\n    </div>\n  ",
             },] },
 ];
 /**
