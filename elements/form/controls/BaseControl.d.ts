@@ -64,6 +64,7 @@ export interface NovoControlConfig {
     };
     width?: number;
     startupFocus?: boolean;
+    fileBrowserImageUploadUrl?: string;
 }
 export declare class BaseControl {
     __type: string;
@@ -121,5 +122,6 @@ export declare class BaseControl {
     };
     width: number;
     startupFocus?: boolean;
+    fileBrowserImageUploadUrl?: string;
     constructor(type?: string, config?: NovoControlConfig);
 }
