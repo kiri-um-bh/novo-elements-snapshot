@@ -13,6 +13,7 @@ export declare class DataTableSource<T> extends DataSource<T> {
     loading: boolean;
     pristine: boolean;
     data: T[];
+    private totalSet;
     readonly totallyEmpty: boolean;
     readonly currentlyEmpty: boolean;
     constructor(tableService: IDataTableService<T>, state: DataTableState<T>, ref: ChangeDetectorRef);

@@ -43198,6 +43198,7 @@ class DataTableSource extends DataSource {
         this.current = 0;
         this.loading = false;
         this.pristine = true;
+        this.totalSet = false;
     }
     /**
      * @return {?}
@@ -43222,7 +43223,9 @@ class DataTableSource extends DataSource {
             return this.tableService.getTableResults(this.state.sort, this.state.filter, this.state.page, this.state.pageSize, this.state.globalSearch, this.state.outsideFilter);
         }), map$1((data) => {
             this.loading = false;
-            this.total = data.total;
+            if (!this.totalSet) {
+                this.total = data.total;
+            }
             this.current = data.results.length;
             this.data = data.results;
             setTimeout(() => {
@@ -43712,6 +43715,11 @@ NovoDataTable.decorators = [
               let-row
               let-col="col">
               <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col }}</span>
+        </ng-template>
+        <ng-template novoTemplate="percentCellTemplate"
+            let-row
+            let-col="col">
+            <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col }}%</span>
         </ng-template>
         <ng-template novoTemplate="linkCellTemplate"
               let-row
