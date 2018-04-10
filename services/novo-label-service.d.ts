@@ -51,9 +51,12 @@ export declare class NovoLabelService {
     backToPresetFilters: string;
     okGotIt: string;
     address: string;
+    address1: string;
     apt: string;
+    address2: string;
     city: string;
     state: string;
+    zip: string;
     zipCode: string;
     country: string;
     or: string;

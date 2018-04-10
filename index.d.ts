@@ -125,3 +125,4 @@ export { NovoElementsModule } from './novo-elements.module';
 export { NovoListElement } from './elements/list/List';
 export { NOVO_VALUE_TYPE } from './elements/value/Value';
 export { NOVO_VALUE_THEME } from './elements/value/Value';
+export { NovoAddressConfig, NovoAddressSubfieldConfig } from './elements/form/extras/address/Address';
