@@ -4,13 +4,8 @@ export declare class Helpers {
      * @param event
      */
     static swallowEvent(event: any): void;
-    /**
-     * Interpolates a string with vars passed to it
-     * @param  {String} str   The string to interpolate
-     * @param  {Object} props The params to replace in string.
-     * @return {String}
-     */
-    static interpolate(str: any, props: any): any;
+    static interpolate(str: string, props: any): string;
+    static interpolateWithFallback(formatString: string | string[], data: any): string;
     /**
      * Verifies that an object has every property expected by a string to interpolate
      * @param  {String} str   The string to interpolate

@@ -29,7 +29,6 @@ var Helpers = /** @class */ (function () {
         }
     };
     /**
-     * Interpolates a string with vars passed to it
      * @param {?} str
      * @param {?} props
      * @return {?}
@@ -44,6 +43,49 @@ var Helpers = /** @class */ (function () {
             }
             return value !== undefined ? value : '';
         });
+    };
+    /**
+     * @param {?} formatString
+     * @param {?} data
+     * @return {?}
+     */
+    Helpers.interpolateWithFallback = function (formatString, data) {
+        // Format string can be an array, it will attempt to interpolate each item
+        // in the array, if there is a failure to replace it will mark it as such
+        // It will either return the first successful replacement of ALL variables,
+        // or an empty string
+        if (Array.isArray(formatString)) {
+            var /** @type {?} */ successes_1 = [];
+            var /** @type {?} */ failures_1 = [];
+            formatString.forEach(function (format) {
+                var /** @type {?} */ isSuccess = true;
+                var /** @type {?} */ attempt = format.replace(/\$([\w\.]+)/g, function (original, key) {
+                    var /** @type {?} */ keys = key.split('.');
+                    var /** @type {?} */ value = data[keys.shift()];
+                    while (keys.length && value !== undefined) {
+                        var /** @type {?} */ k = keys.shift();
+                        value = k ? value[k] : value + ".";
+                    }
+                    if (isSuccess && Helpers.isEmpty(value)) {
+                        isSuccess = false;
+                    }
+                    return Helpers.isEmpty(value) ? '' : value;
+                });
+                if (isSuccess) {
+                    successes_1.push(attempt);
+                }
+                else {
+                    failures_1.push(attempt);
+                }
+            });
+            if (successes_1.length !== 0) {
+                return successes_1[0];
+            }
+            return '';
+        }
+        else {
+            return Helpers.interpolate(formatString, data);
+        }
     };
     /**
      * Verifies that an object has every property expected by a string to interpolate
@@ -42148,6 +42190,7 @@ var DataTableSource = /** @class */ (function (_super) {
             _this.loading = false;
             if (!_this.totalSet) {
                 _this.total = data.total;
+                _this.totalSet = true;
             }
             _this.current = data.results.length;
             _this.data = data.results;
@@ -42589,7 +42632,12 @@ var NovoDataTable = /** @class */ (function () {
                         }
                     }
                     else {
-                        templateName = column.type + "CellTemplate";
+                        if (column.type === 'link:tel' || column.type === 'link:mailto') {
+                            templateName = column.type.split(':')[1] + "CellTemplate";
+                        }
+                        else {
+                            templateName = column.type + "CellTemplate";
+                        }
                     }
                 }
                 _this.columnToTemplate[column.id] = _this.templates[templateName];
@@ -42602,7 +42650,7 @@ var NovoDataTable = /** @class */ (function () {
 NovoDataTable.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-data-table',
-                template: "\n        <header *ngIf=\"(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader\">\n          <ng-container *ngTemplateOutlet=\"templates['customHeader']\"></ng-container>\n            <novo-search\n                alwaysOpen=\"true\"\n                (searchChanged)=\"onSearchChange($event)\"\n                [(ngModel)]=\"state.globalSearch\"\n                *ngIf=\"!hideGlobalSearch\"\n                [placeholder]=\"searchOptions?.placeholder\"\n                [hint]=\"searchOptions?.tooltip\">\n            </novo-search>\n            <novo-data-table-pagination\n                *ngIf=\"paginationOptions\"\n                [theme]=\"paginationOptions.theme\"\n                [totalLength]=\"dataSource?.total\"\n                [currentLength]=\"dataSource?.current\"\n                [userFiltered]=\"state?.userFiltered\"\n                [page]=\"paginationOptions.page\"\n                [pageSize]=\"paginationOptions.pageSize\"\n                [pageSizeOptions]=\"paginationOptions.pageSizeOptions\">\n            </novo-data-table-pagination>\n            <div class=\"novo-data-table-actions\" *ngIf=\"templates['customActions']\">\n              <ng-container *ngTemplateOutlet=\"templates['customActions']\"></ng-container>\n            </div>\n        </header>\n        <div class=\"novo-data-table-loading-mask\" *ngIf=\"dataSource?.loading || loading\" data-automation-id=\"novo-data-table-loading\">\n            <novo-loading></novo-loading>\n        </div>\n        <div class=\"novo-data-table-outside-container\">\n            <div class=\"novo-data-table-custom-filter\" *ngIf=\"customFilter\">\n              <ng-container *ngTemplateOutlet=\"templates['customFilter']\"></ng-container>\n            </div>\n            <div class=\"novo-data-table-container\" [class.empty-user-filtered]=\"dataSource?.currentlyEmpty && state.userFiltered\" [class.empty]=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n                <cdk-table *ngIf=\"(columns?.length > 0) && columnsLoaded && dataSource\" [dataSource]=\"dataSource\" [trackBy]=\"trackByFn\" novoDataTableSortFilter [class.empty]=\"dataSource?.currentlyEmpty && state.userFiltered\" [hidden]=\"dataSource?.totallyEmpty && !userFiltered\">\n                    <ng-container novoDataTableColumnDef=\"selection\">\n                        <novo-data-table-checkbox-header-cell *novoDataTableHeaderCellDef></novo-data-table-checkbox-header-cell>\n                        <novo-data-table-checkbox-cell *novoDataTableCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-checkbox-cell>\n                    </ng-container>\n                    <ng-container *ngFor=\"let column of columns;trackBy: trackColumnsBy\" [novoDataTableColumnDef]=\"column.id\">\n                      <novo-data-table-header-cell *novoDataTableHeaderCellDef [column]=\"column\" [novo-data-table-cell-config]=\"column\" [defaultSort]=\"defaultSort\" [class.empty]=\"column?.type === 'action' && !column?.label\" [class.button-header-cell]=\"column?.type === 'action' && !column?.action?.options\" [class.dropdown-header-cell]=\"column?.type === 'action' && column?.action?.options\"></novo-data-table-header-cell>\n                      <novo-data-table-cell *novoDataTableCellDef=\"let row\" [column]=\"column\" [row]=\"row\" [template]=\"columnToTemplate[column.id]\" [class.empty]=\"column?.type === 'action' && !column?.label\" [class.button-cell]=\"column?.type === 'action' && !column?.action?.options\" [class.dropdown-cell]=\"column?.type === 'action' && column?.action?.options\"></novo-data-table-cell>\n                    </ng-container>\n                    <novo-data-table-header-row *novoDataTableHeaderRowDef=\"displayedColumns\" data-automation-id=\"novo-data-table-header-row\"></novo-data-table-header-row>\n                    <novo-data-table-row *novoDataTableRowDef=\"let row; columns: displayedColumns;\" [id]=\"name + '-' + row[rowIdentifier]\" [dataAutomationId]=\"'data-automation-id-' + row[rowIdentifier]\"></novo-data-table-row>\n                </cdk-table>\n                <div class=\"novo-data-table-no-results-container\" *ngIf=\"dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine\">\n                  <div class=\"novo-data-table-empty-message\" >\n                    <ng-container *ngTemplateOutlet=\"templates['noResultsMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n                  </div>\n                </div>\n            </div>\n            <div class=\"novo-data-table-empty-container\" *ngIf=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n              <div class=\"novo-data-table-empty-message\">\n                <ng-container *ngTemplateOutlet=\"templates['emptyMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n              </div>\n            </div>\n        </div>\n\n         <!-- DEFAULT CELL TEMPLATE -->\n        <ng-template novoTemplate=\"stringCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <span>{{ row[col.id] | dataTableInterpolate:col }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"dateCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateRenderer:col }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"datetimeCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateTimeRenderer:col }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"timeCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableTimeRenderer:col }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"currencyCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableCurrencyRenderer:col }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"numberCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"percentCellTemplate\"\n            let-row\n            let-col=\"col\">\n            <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col }}%</span>\n        </ng-template>\n        <ng-template novoTemplate=\"linkCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <a (click)=\"col.handlers?.click({originalEvent: $event, row: row})\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n        </ng-template>\n        <ng-template novoTemplate=\"buttonCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <i class=\"bhi-{{ col?.action?.icon }} data-table-icon\" (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\" [class.disabled]=\"isDisabled(col, row)\"></i>\n        </ng-template>\n        <ng-template novoTemplate=\"dropdownCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <novo-dropdown appendToBody=\"true\" parentScrollSelector=\".novo-data-table\" containerClass=\"novo-data-table-dropdown\">\n                <button type=\"button\" theme=\"dialogue\" icon=\"collapse\" inverse>{{ col.label }}</button>\n                <list>\n                    <item *ngFor=\"let option of col?.action?.options\" (action)=\"option.handlers.click({ originalEvent: $event?.originalEvent, row: row })\" [disabled]=\"isDisabled(option, row)\">\n                        <span [attr.data-automation-id]=\"option.label\">{{ option.label }}</span>\n                    </item>\n                </list>\n            </novo-dropdown>\n        </ng-template>\n        <ng-template novoTemplate=\"defaultNoResultsMessage\">\n            <h4><i class=\"bhi-search-question\"></i> {{ labels.noMatchingRecordsMessage }}</h4>\n        </ng-template>\n        <ng-template novoTemplate=\"defaultEmptyMessage\">\n          <h4><i class=\"bhi-search-question\"></i> {{ labels.emptyTableMessage }}</h4>\n        </ng-template>\n        <!-- CUSTOM CELLS PASSED IN -->\n        <ng-content></ng-content>\n    ",
+                template: "\n        <header *ngIf=\"(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader\">\n          <ng-container *ngTemplateOutlet=\"templates['customHeader']\"></ng-container>\n            <novo-search\n                alwaysOpen=\"true\"\n                (searchChanged)=\"onSearchChange($event)\"\n                [(ngModel)]=\"state.globalSearch\"\n                *ngIf=\"!hideGlobalSearch\"\n                [placeholder]=\"searchOptions?.placeholder\"\n                [hint]=\"searchOptions?.tooltip\">\n            </novo-search>\n            <novo-data-table-pagination\n                *ngIf=\"paginationOptions\"\n                [theme]=\"paginationOptions.theme\"\n                [totalLength]=\"dataSource?.total\"\n                [currentLength]=\"dataSource?.current\"\n                [userFiltered]=\"state?.userFiltered\"\n                [page]=\"paginationOptions.page\"\n                [pageSize]=\"paginationOptions.pageSize\"\n                [pageSizeOptions]=\"paginationOptions.pageSizeOptions\">\n            </novo-data-table-pagination>\n            <div class=\"novo-data-table-actions\" *ngIf=\"templates['customActions']\">\n              <ng-container *ngTemplateOutlet=\"templates['customActions']\"></ng-container>\n            </div>\n        </header>\n        <div class=\"novo-data-table-loading-mask\" *ngIf=\"dataSource?.loading || loading\" data-automation-id=\"novo-data-table-loading\">\n            <novo-loading></novo-loading>\n        </div>\n        <div class=\"novo-data-table-outside-container\">\n            <div class=\"novo-data-table-custom-filter\" *ngIf=\"customFilter\">\n              <ng-container *ngTemplateOutlet=\"templates['customFilter']\"></ng-container>\n            </div>\n            <div class=\"novo-data-table-container\" [class.empty-user-filtered]=\"dataSource?.currentlyEmpty && state.userFiltered\" [class.empty]=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n                <cdk-table *ngIf=\"(columns?.length > 0) && columnsLoaded && dataSource\" [dataSource]=\"dataSource\" [trackBy]=\"trackByFn\" novoDataTableSortFilter [class.empty]=\"dataSource?.currentlyEmpty && state.userFiltered\" [hidden]=\"dataSource?.totallyEmpty && !userFiltered\">\n                    <ng-container novoDataTableColumnDef=\"selection\">\n                        <novo-data-table-checkbox-header-cell *novoDataTableHeaderCellDef></novo-data-table-checkbox-header-cell>\n                        <novo-data-table-checkbox-cell *novoDataTableCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-checkbox-cell>\n                    </ng-container>\n                    <ng-container *ngFor=\"let column of columns;trackBy: trackColumnsBy\" [novoDataTableColumnDef]=\"column.id\">\n                      <novo-data-table-header-cell *novoDataTableHeaderCellDef [column]=\"column\" [novo-data-table-cell-config]=\"column\" [defaultSort]=\"defaultSort\" [class.empty]=\"column?.type === 'action' && !column?.label\" [class.button-header-cell]=\"column?.type === 'action' && !column?.action?.options\" [class.dropdown-header-cell]=\"column?.type === 'action' && column?.action?.options\"></novo-data-table-header-cell>\n                      <novo-data-table-cell *novoDataTableCellDef=\"let row\" [column]=\"column\" [row]=\"row\" [template]=\"columnToTemplate[column.id]\" [class.empty]=\"column?.type === 'action' && !column?.label\" [class.button-cell]=\"column?.type === 'action' && !column?.action?.options\" [class.dropdown-cell]=\"column?.type === 'action' && column?.action?.options\"></novo-data-table-cell>\n                    </ng-container>\n                    <novo-data-table-header-row *novoDataTableHeaderRowDef=\"displayedColumns\" data-automation-id=\"novo-data-table-header-row\"></novo-data-table-header-row>\n                    <novo-data-table-row *novoDataTableRowDef=\"let row; columns: displayedColumns;\" [id]=\"name + '-' + row[rowIdentifier]\" [dataAutomationId]=\"'data-automation-id-' + row[rowIdentifier]\"></novo-data-table-row>\n                </cdk-table>\n                <div class=\"novo-data-table-no-results-container\" *ngIf=\"dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine\">\n                  <div class=\"novo-data-table-empty-message\" >\n                    <ng-container *ngTemplateOutlet=\"templates['noResultsMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n                  </div>\n                </div>\n            </div>\n            <div class=\"novo-data-table-empty-container\" *ngIf=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n              <div class=\"novo-data-table-empty-message\">\n                <ng-container *ngTemplateOutlet=\"templates['emptyMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n              </div>\n            </div>\n        </div>\n\n         <!-- DEFAULT CELL TEMPLATE -->\n        <ng-template novoTemplate=\"textCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <span>{{ row[col.id] | dataTableInterpolate:col }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"dateCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateRenderer:col }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"datetimeCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateTimeRenderer:col }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"timeCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableTimeRenderer:col }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"currencyCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableCurrencyRenderer:col }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"numberCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"percentCellTemplate\"\n            let-row\n            let-col=\"col\">\n            <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col:true }}</span>\n        </ng-template>\n        <ng-template novoTemplate=\"linkCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <a (click)=\"col.handlers?.click({originalEvent: $event, row: row})\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n        </ng-template>\n        <ng-template novoTemplate=\"telCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <a href=\"tel:{{ row[col.id] | dataTableInterpolate:col }}\" [target]=\"col?.attributes?.target\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n        </ng-template>\n        <ng-template novoTemplate=\"mailtoCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <a href=\"mailto:{{ row[col.id] | dataTableInterpolate:col }}\" [target]=\"col?.attributes?.target\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n        </ng-template>\n        <ng-template novoTemplate=\"buttonCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <i class=\"bhi-{{ col?.action?.icon }} data-table-icon\" (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\" [class.disabled]=\"isDisabled(col, row)\"></i>\n        </ng-template>\n        <ng-template novoTemplate=\"dropdownCellTemplate\"\n              let-row\n              let-col=\"col\">\n              <novo-dropdown appendToBody=\"true\" parentScrollSelector=\".novo-data-table-container\" containerClass=\"novo-data-table-dropdown\">\n                <button type=\"button\" theme=\"dialogue\" icon=\"collapse\" inverse>{{ col.label }}</button>\n                <list>\n                    <item *ngFor=\"let option of col?.action?.options\" (action)=\"option.handlers.click({ originalEvent: $event?.originalEvent, row: row })\" [disabled]=\"isDisabled(option, row)\">\n                        <span [attr.data-automation-id]=\"option.label\">{{ option.label }}</span>\n                    </item>\n                </list>\n            </novo-dropdown>\n        </ng-template>\n        <ng-template novoTemplate=\"defaultNoResultsMessage\">\n            <h4><i class=\"bhi-search-question\"></i> {{ labels.noMatchingRecordsMessage }}</h4>\n        </ng-template>\n        <ng-template novoTemplate=\"defaultEmptyMessage\">\n          <h4><i class=\"bhi-search-question\"></i> {{ labels.emptyTableMessage }}</h4>\n        </ng-template>\n        <!-- CUSTOM CELLS PASSED IN -->\n        <ng-content></ng-content>\n    ",
                 changeDetection: core.ChangeDetectionStrategy.OnPush,
                 providers: [DataTableState],
             },] },
@@ -42913,7 +42961,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
          * @return {?}
          */
         set: function (column) {
-            this.label = column.label;
+            this.label = column.type === 'action' ? '' : column.label;
             this.config = {
                 sortable: !!column.sortable,
                 filterable: !!column.filterable,
@@ -43071,7 +43119,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
 NovoDataTableCellHeader.decorators = [
     { type: core.Component, args: [{
                 selector: '[novo-data-table-cell-config]',
-                template: "\n        <label data-automation-id=\"novo-data-table-label\">{{ label }}</label>\n        <div>\n            <button *ngIf=\"config.sortable\" theme=\"icon\" [icon]=\"icon\" (click)=\"sort()\" [class.active]=\"sortActive\" data-automation-id=\"novo-data-table-sort\"></button>\n            <novo-dropdown *ngIf=\"config.filterable\" side=\"right\" appendToBody=\"true\" parentScrollSelector=\".novo-data-table\" containerClass=\"data-table-dropdown\" data-automation-id=\"novo-data-table-filter\">\n                <button type=\"button\" theme=\"icon\" icon=\"filter\" [class.active]=\"filterActive\" (click)=\"focusInput()\"></button>\n                <div class=\"header\">\n                    <span>{{ labels.filters }}</span>\n                    <button theme=\"dialogue\" color=\"negative\" icon=\"times\" (click)=\"clearFilter()\" *ngIf=\"filter !== null && filter !== undefined && filter !== ''\" data-automation-id=\"novo-data-table-filter-clear\">{{ labels.clear }}</button>\n                </div>\n                <ng-container [ngSwitch]=\"config.filterConfig.type\">\n                    <list *ngSwitchCase=\"'date'\">\n                        <ng-container *ngIf=\"!showCustomRange\">\n                            <item [class.active]=\"activeDateFilter === option.label\" *ngFor=\"let option of config.filterConfig.options\" (click)=\"filterData(option)\" [attr.data-automation-id]=\"'novo-data-table-filter-' + option.label\">\n                                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n                            </item>\n                        </ng-container>\n                        <item [class.active]=\"labels.customDateRange === activeDateFilter\" (click)=\"showCustomRange = true\" *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\" [keepOpen]=\"true\">\n                            {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n                        </item>\n                        <div class=\"calender-container\" *ngIf=\"showCustomRange\">\n                            <div (click)=\"showCustomRange = false\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n                            <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n                        </div>\n                    </list>\n                    <list *ngSwitchCase=\"'select'\">\n                        <item [class.active]=\"filter === option\" *ngFor=\"let option of config.filterConfig.options\" (click)=\"filterData(option)\" [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\">\n                            <span>{{ option?.label || option }}</span> <i class=\"bhi-check\" *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n                        </item>\n                    </list>\n                    <list *ngSwitchDefault>\n                        <item class=\"filter-search\" keepOpen=\"true\">\n                            <input type=\"text\" [(ngModel)]=\"filter\" (ngModelChange)=\"filterData()\" #filterInput data-automation-id=\"novo-data-table-filter-input\"/>\n                        </item>\n                    </list>\n                </ng-container>\n            </novo-dropdown>\n        </div>\n    ",
+                template: "\n        <label data-automation-id=\"novo-data-table-label\">{{ label }}</label>\n        <div>\n            <button *ngIf=\"config.sortable\" theme=\"icon\" [icon]=\"icon\" (click)=\"sort()\" [class.active]=\"sortActive\" data-automation-id=\"novo-data-table-sort\"></button>\n            <novo-dropdown *ngIf=\"config.filterable\" side=\"right\" appendToBody=\"true\" parentScrollSelector=\".novo-data-table-container\" containerClass=\"data-table-dropdown\" data-automation-id=\"novo-data-table-filter\">\n                <button type=\"button\" theme=\"icon\" icon=\"filter\" [class.active]=\"filterActive\" (click)=\"focusInput()\"></button>\n                <div class=\"header\">\n                    <span>{{ labels.filters }}</span>\n                    <button theme=\"dialogue\" color=\"negative\" icon=\"times\" (click)=\"clearFilter()\" *ngIf=\"filter !== null && filter !== undefined && filter !== ''\" data-automation-id=\"novo-data-table-filter-clear\">{{ labels.clear }}</button>\n                </div>\n                <ng-container [ngSwitch]=\"config.filterConfig.type\">\n                    <list *ngSwitchCase=\"'date'\">\n                        <ng-container *ngIf=\"!showCustomRange\">\n                            <item [class.active]=\"activeDateFilter === option.label\" *ngFor=\"let option of config.filterConfig.options\" (click)=\"filterData(option)\" [attr.data-automation-id]=\"'novo-data-table-filter-' + option.label\">\n                                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n                            </item>\n                        </ng-container>\n                        <item [class.active]=\"labels.customDateRange === activeDateFilter\" (click)=\"showCustomRange = true\" *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\" [keepOpen]=\"true\">\n                            {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n                        </item>\n                        <div class=\"calender-container\" *ngIf=\"showCustomRange\">\n                            <div (click)=\"showCustomRange = false\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n                            <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n                        </div>\n                    </list>\n                    <list *ngSwitchCase=\"'select'\">\n                        <item [class.active]=\"filter === option\" *ngFor=\"let option of config.filterConfig.options\" (click)=\"filterData(option)\" [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\">\n                            <span>{{ option?.label || option }}</span> <i class=\"bhi-check\" *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n                        </item>\n                    </list>\n                    <list *ngSwitchDefault>\n                        <item class=\"filter-search\" keepOpen=\"true\">\n                            <input type=\"text\" [(ngModel)]=\"filter\" (ngModelChange)=\"filterData()\" #filterInput data-automation-id=\"novo-data-table-filter-input\"/>\n                        </item>\n                    </list>\n                </ng-container>\n            </novo-dropdown>\n        </div>\n    ",
                 changeDetection: core.ChangeDetectionStrategy.OnPush,
             },] },
 ];
@@ -43506,14 +43554,8 @@ NovoDataTablePagination.propDecorators = {
  * @return {?}
  */
 function interpolateCell(value, col) {
-    if (col.property) {
-        var /** @type {?} */ keys = col.property.split('.');
-        var /** @type {?} */ currValue = value[keys.shift()];
-        while (keys.length && value !== undefined) {
-            var /** @type {?} */ k = keys.shift();
-            value = k ? value[k] : value + ".";
-        }
-        return currValue !== undefined ? currValue : col.property;
+    if (col.format) {
+        return Helpers.interpolateWithFallback(col.format, value);
     }
     return value;
 }
@@ -43526,7 +43568,10 @@ var DataTableInterpolatePipe = /** @class */ (function () {
      * @return {?}
      */
     DataTableInterpolatePipe.prototype.transform = function (value, column) {
-        return interpolateCell(value, column);
+        if (!Helpers.isBlank(value)) {
+            return interpolateCell(value, column);
+        }
+        return '';
     };
     return DataTableInterpolatePipe;
 }());
@@ -43553,8 +43598,11 @@ var DateTableDateRendererPipe = /** @class */ (function () {
      * @return {?}
      */
     DateTableDateRendererPipe.prototype.transform = function (value, column) {
-        var /** @type {?} */ val = interpolateCell(value, column);
-        return this.labels.formatDate(val);
+        if (!Helpers.isBlank(value)) {
+            var /** @type {?} */ val = interpolateCell(value, column);
+            return this.labels.formatDate(val);
+        }
+        return '';
     };
     return DateTableDateRendererPipe;
 }());
@@ -43583,8 +43631,11 @@ var DateTableDateTimeRendererPipe = /** @class */ (function () {
      * @return {?}
      */
     DateTableDateTimeRendererPipe.prototype.transform = function (value, column) {
-        var /** @type {?} */ val = interpolateCell(value, column);
-        return this.labels.formatDateShort(val);
+        if (!Helpers.isBlank(value)) {
+            var /** @type {?} */ val = interpolateCell(value, column);
+            return this.labels.formatDateShort(val);
+        }
+        return '';
     };
     return DateTableDateTimeRendererPipe;
 }());
@@ -43613,8 +43664,11 @@ var DateTableTimeRendererPipe = /** @class */ (function () {
      * @return {?}
      */
     DateTableTimeRendererPipe.prototype.transform = function (value, column) {
-        var /** @type {?} */ val = interpolateCell(value, column);
-        return this.labels.formatTime(val);
+        if (!Helpers.isBlank(value)) {
+            var /** @type {?} */ val = interpolateCell(value, column);
+            return this.labels.formatTime(val);
+        }
+        return '';
     };
     return DateTableTimeRendererPipe;
 }());
@@ -43640,11 +43694,16 @@ var DateTableNumberRendererPipe = /** @class */ (function () {
     /**
      * @param {?} value
      * @param {?} column
+     * @param {?=} isPercent
      * @return {?}
      */
-    DateTableNumberRendererPipe.prototype.transform = function (value, column) {
-        var /** @type {?} */ val = interpolateCell(value, column);
-        return this.labels.formatNumber(val);
+    DateTableNumberRendererPipe.prototype.transform = function (value, column, isPercent) {
+        if (isPercent === void 0) { isPercent = false; }
+        if (!Helpers.isBlank(value)) {
+            var /** @type {?} */ val = interpolateCell(value, column);
+            return "" + this.labels.formatNumber(val) + (isPercent ? '%' : '');
+        }
+        return '';
     };
     return DateTableNumberRendererPipe;
 }());
@@ -43673,8 +43732,11 @@ var DateTableCurrencyRendererPipe = /** @class */ (function () {
      * @return {?}
      */
     DateTableCurrencyRendererPipe.prototype.transform = function (value, column) {
-        var /** @type {?} */ val = interpolateCell(value, column);
-        return this.labels.formatCurrency(Number(val));
+        if (!Helpers.isBlank(value)) {
+            var /** @type {?} */ val = interpolateCell(value, column);
+            return this.labels.formatCurrency(Number(val));
+        }
+        return '';
     };
     return DateTableCurrencyRendererPipe;
 }());

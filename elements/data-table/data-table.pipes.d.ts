@@ -23,7 +23,7 @@ export declare class DateTableTimeRendererPipe<T> implements PipeTransform {
 export declare class DateTableNumberRendererPipe<T> implements PipeTransform {
     private labels;
     constructor(labels: NovoLabelService);
-    transform(value: any, column: IDataTableColumn<T>): string;
+    transform(value: any, column: IDataTableColumn<T>, isPercent?: boolean): string;
 }
 export declare class DateTableCurrencyRendererPipe<T> implements PipeTransform {
     private labels;

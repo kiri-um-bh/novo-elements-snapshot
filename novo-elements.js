@@ -48,7 +48,6 @@ class Helpers {
         }
     }
     /**
-     * Interpolates a string with vars passed to it
      * @param {?} str
      * @param {?} props
      * @return {?}
@@ -63,6 +62,49 @@ class Helpers {
             }
             return value !== undefined ? value : '';
         });
+    }
+    /**
+     * @param {?} formatString
+     * @param {?} data
+     * @return {?}
+     */
+    static interpolateWithFallback(formatString, data) {
+        // Format string can be an array, it will attempt to interpolate each item
+        // in the array, if there is a failure to replace it will mark it as such
+        // It will either return the first successful replacement of ALL variables,
+        // or an empty string
+        if (Array.isArray(formatString)) {
+            let /** @type {?} */ successes = [];
+            let /** @type {?} */ failures = [];
+            formatString.forEach((format) => {
+                let /** @type {?} */ isSuccess = true;
+                let /** @type {?} */ attempt = format.replace(/\$([\w\.]+)/g, (original, key) => {
+                    let /** @type {?} */ keys = key.split('.');
+                    let /** @type {?} */ value = data[keys.shift()];
+                    while (keys.length && value !== undefined) {
+                        let /** @type {?} */ k = keys.shift();
+                        value = k ? value[k] : `${value}.`;
+                    }
+                    if (isSuccess && Helpers.isEmpty(value)) {
+                        isSuccess = false;
+                    }
+                    return Helpers.isEmpty(value) ? '' : value;
+                });
+                if (isSuccess) {
+                    successes.push(attempt);
+                }
+                else {
+                    failures.push(attempt);
+                }
+            });
+            if (successes.length !== 0) {
+                return successes[0];
+            }
+            return '';
+        }
+        else {
+            return Helpers.interpolate(formatString, data);
+        }
     }
     /**
      * Verifies that an object has every property expected by a string to interpolate
@@ -43248,6 +43290,7 @@ class DataTableSource extends DataSource {
             this.loading = false;
             if (!this.totalSet) {
                 this.total = data.total;
+                this.totalSet = true;
             }
             this.current = data.results.length;
             this.data = data.results;
@@ -43638,7 +43681,12 @@ class NovoDataTable {
                         }
                     }
                     else {
-                        templateName = `${column.type}CellTemplate`;
+                        if (column.type === 'link:tel' || column.type === 'link:mailto') {
+                            templateName = `${column.type.split(':')[1]}CellTemplate`;
+                        }
+                        else {
+                            templateName = `${column.type}CellTemplate`;
+                        }
                     }
                 }
                 this.columnToTemplate[column.id] = this.templates[templateName];
@@ -43709,7 +43757,7 @@ NovoDataTable.decorators = [
         </div>
 
          <!-- DEFAULT CELL TEMPLATE -->
-        <ng-template novoTemplate="stringCellTemplate"
+        <ng-template novoTemplate="textCellTemplate"
               let-row
               let-col="col">
               <span>{{ row[col.id] | dataTableInterpolate:col }}</span>
@@ -43742,12 +43790,22 @@ NovoDataTable.decorators = [
         <ng-template novoTemplate="percentCellTemplate"
             let-row
             let-col="col">
-            <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col }}%</span>
+            <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col:true }}</span>
         </ng-template>
         <ng-template novoTemplate="linkCellTemplate"
               let-row
               let-col="col">
               <a (click)="col.handlers?.click({originalEvent: $event, row: row})">{{ row[col.id] | dataTableInterpolate:col }}</a>
+        </ng-template>
+        <ng-template novoTemplate="telCellTemplate"
+              let-row
+              let-col="col">
+              <a href="tel:{{ row[col.id] | dataTableInterpolate:col }}" [target]="col?.attributes?.target">{{ row[col.id] | dataTableInterpolate:col }}</a>
+        </ng-template>
+        <ng-template novoTemplate="mailtoCellTemplate"
+              let-row
+              let-col="col">
+              <a href="mailto:{{ row[col.id] | dataTableInterpolate:col }}" [target]="col?.attributes?.target">{{ row[col.id] | dataTableInterpolate:col }}</a>
         </ng-template>
         <ng-template novoTemplate="buttonCellTemplate"
               let-row
@@ -43757,7 +43815,7 @@ NovoDataTable.decorators = [
         <ng-template novoTemplate="dropdownCellTemplate"
               let-row
               let-col="col">
-              <novo-dropdown appendToBody="true" parentScrollSelector=".novo-data-table" containerClass="novo-data-table-dropdown">
+              <novo-dropdown appendToBody="true" parentScrollSelector=".novo-data-table-container" containerClass="novo-data-table-dropdown">
                 <button type="button" theme="dialogue" icon="collapse" inverse>{{ col.label }}</button>
                 <list>
                     <item *ngFor="let option of col?.action?.options" (action)="option.handlers.click({ originalEvent: $event?.originalEvent, row: row })" [disabled]="isDisabled(option, row)">
@@ -44086,7 +44144,7 @@ class NovoDataTableCellHeader {
      * @return {?}
      */
     set column(column) {
-        this.label = column.label;
+        this.label = column.type === 'action' ? '' : column.label;
         this.config = {
             sortable: !!column.sortable,
             filterable: !!column.filterable,
@@ -44241,7 +44299,7 @@ NovoDataTableCellHeader.decorators = [
         <label data-automation-id="novo-data-table-label">{{ label }}</label>
         <div>
             <button *ngIf="config.sortable" theme="icon" [icon]="icon" (click)="sort()" [class.active]="sortActive" data-automation-id="novo-data-table-sort"></button>
-            <novo-dropdown *ngIf="config.filterable" side="right" appendToBody="true" parentScrollSelector=".novo-data-table" containerClass="data-table-dropdown" data-automation-id="novo-data-table-filter">
+            <novo-dropdown *ngIf="config.filterable" side="right" appendToBody="true" parentScrollSelector=".novo-data-table-container" containerClass="data-table-dropdown" data-automation-id="novo-data-table-filter">
                 <button type="button" theme="icon" icon="filter" [class.active]="filterActive" (click)="focusInput()"></button>
                 <div class="header">
                     <span>{{ labels.filters }}</span>
@@ -44749,14 +44807,8 @@ NovoDataTablePagination.propDecorators = {
  * @return {?}
  */
 function interpolateCell(value, col) {
-    if (col.property) {
-        let /** @type {?} */ keys = col.property.split('.');
-        let /** @type {?} */ currValue = value[keys.shift()];
-        while (keys.length && value !== undefined) {
-            let /** @type {?} */ k = keys.shift();
-            value = k ? value[k] : `${value}.`;
-        }
-        return currValue !== undefined ? currValue : col.property;
+    if (col.format) {
+        return Helpers.interpolateWithFallback(col.format, value);
     }
     return value;
 }
@@ -44767,7 +44819,10 @@ class DataTableInterpolatePipe {
      * @return {?}
      */
     transform(value, column) {
-        return interpolateCell(value, column);
+        if (!Helpers.isBlank(value)) {
+            return interpolateCell(value, column);
+        }
+        return '';
     }
 }
 DataTableInterpolatePipe.decorators = [
@@ -44793,8 +44848,11 @@ class DateTableDateRendererPipe {
      * @return {?}
      */
     transform(value, column) {
-        let /** @type {?} */ val = interpolateCell(value, column);
-        return this.labels.formatDate(val);
+        if (!Helpers.isBlank(value)) {
+            let /** @type {?} */ val = interpolateCell(value, column);
+            return this.labels.formatDate(val);
+        }
+        return '';
     }
 }
 DateTableDateRendererPipe.decorators = [
@@ -44822,8 +44880,11 @@ class DateTableDateTimeRendererPipe {
      * @return {?}
      */
     transform(value, column) {
-        let /** @type {?} */ val = interpolateCell(value, column);
-        return this.labels.formatDateShort(val);
+        if (!Helpers.isBlank(value)) {
+            let /** @type {?} */ val = interpolateCell(value, column);
+            return this.labels.formatDateShort(val);
+        }
+        return '';
     }
 }
 DateTableDateTimeRendererPipe.decorators = [
@@ -44851,8 +44912,11 @@ class DateTableTimeRendererPipe {
      * @return {?}
      */
     transform(value, column) {
-        let /** @type {?} */ val = interpolateCell(value, column);
-        return this.labels.formatTime(val);
+        if (!Helpers.isBlank(value)) {
+            let /** @type {?} */ val = interpolateCell(value, column);
+            return this.labels.formatTime(val);
+        }
+        return '';
     }
 }
 DateTableTimeRendererPipe.decorators = [
@@ -44877,11 +44941,15 @@ class DateTableNumberRendererPipe {
     /**
      * @param {?} value
      * @param {?} column
+     * @param {?=} isPercent
      * @return {?}
      */
-    transform(value, column) {
-        let /** @type {?} */ val = interpolateCell(value, column);
-        return this.labels.formatNumber(val);
+    transform(value, column, isPercent = false) {
+        if (!Helpers.isBlank(value)) {
+            let /** @type {?} */ val = interpolateCell(value, column);
+            return `${this.labels.formatNumber(val)}${isPercent ? '%' : ''}`;
+        }
+        return '';
     }
 }
 DateTableNumberRendererPipe.decorators = [
@@ -44909,8 +44977,11 @@ class DateTableCurrencyRendererPipe {
      * @return {?}
      */
     transform(value, column) {
-        let /** @type {?} */ val = interpolateCell(value, column);
-        return this.labels.formatCurrency(Number(val));
+        if (!Helpers.isBlank(value)) {
+            let /** @type {?} */ val = interpolateCell(value, column);
+            return this.labels.formatCurrency(Number(val));
+        }
+        return '';
     }
 }
 DateTableCurrencyRendererPipe.decorators = [
