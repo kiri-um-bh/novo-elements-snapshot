@@ -15144,8 +15144,8 @@ class FormUtils {
         else if (Object.keys(numberDataTypeToTypeMap).indexOf(field.dataType) > -1) {
             type = numberDataTypeToTypeMap[field.dataType];
         } /* else {
-            throw new Error('FormUtils: This field type is unsupported.');
-        }*/
+                throw new Error('FormUtils: This field type is unsupported.');
+            }*/
         return type;
     }
     /**
@@ -15305,14 +15305,17 @@ class FormUtils {
                 control = new SelectControl(controlConfig);
                 break;
             case 'address':
+                if (Helpers.isBlank(controlConfig.config)) {
+                    controlConfig.config = {};
+                }
                 if (field.fields && field.fields.length) {
                     for (let /** @type {?} */ subfield of field.fields) {
-                        if (Helpers.isBlank(controlConfig.config)) {
-                            controlConfig.config = {};
+                        controlConfig.config[subfield.name] = {};
+                        if (!Helpers.isEmpty(subfield.label)) {
+                            controlConfig.config[subfield.name] = {
+                                label: subfield.label
+                            };
                         }
-                        controlConfig.config[subfield.name] = {
-                            label: subfield.label
-                        };
                         if (subfield.defaultValue) {
                             if (Helpers.isBlank(controlConfig.value)) {
                                 controlConfig.value = {};

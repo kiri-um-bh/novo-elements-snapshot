@@ -14505,8 +14505,8 @@ var FormUtils = /** @class */ (function () {
         else if (Object.keys(numberDataTypeToTypeMap).indexOf(field.dataType) > -1) {
             type = numberDataTypeToTypeMap[field.dataType];
         } /* else {
-            throw new Error('FormUtils: This field type is unsupported.');
-        }*/
+                throw new Error('FormUtils: This field type is unsupported.');
+            }*/
         return type;
     };
     /**
@@ -14667,15 +14667,18 @@ var FormUtils = /** @class */ (function () {
                 control = new SelectControl(controlConfig);
                 break;
             case 'address':
+                if (Helpers.isBlank(controlConfig.config)) {
+                    controlConfig.config = {};
+                }
                 if (field.fields && field.fields.length) {
                     for (var _d = 0, _e = field.fields; _d < _e.length; _d++) {
                         var subfield = _e[_d];
-                        if (Helpers.isBlank(controlConfig.config)) {
-                            controlConfig.config = {};
+                        controlConfig.config[subfield.name] = {};
+                        if (!Helpers.isEmpty(subfield.label)) {
+                            controlConfig.config[subfield.name] = {
+                                label: subfield.label
+                            };
                         }
-                        controlConfig.config[subfield.name] = {
-                            label: subfield.label
-                        };
                         if (subfield.defaultValue) {
                             if (Helpers.isBlank(controlConfig.value)) {
                                 controlConfig.value = {};
