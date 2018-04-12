@@ -2,8 +2,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { IDataTableService } from '../interfaces';
 export declare class StaticDataTableService<T> implements IDataTableService<T> {
-    private data;
-    constructor(data?: T[]);
+    private currentData;
+    originalData: T[];
+    constructor(currentData?: T[]);
     getTableResults(sort: {
         id: string;
         value: string;

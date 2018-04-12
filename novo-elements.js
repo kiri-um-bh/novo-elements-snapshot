@@ -43368,10 +43368,11 @@ class DataTableState {
         this.selectionSource.next();
     }
     /**
+     * @param {?} isPageSizeChange
      * @return {?}
      */
-    onPaginationChange() {
-        this.paginationSource.next();
+    onPaginationChange(isPageSizeChange) {
+        this.paginationSource.next(isPageSizeChange);
     }
     /**
      * @return {?}
@@ -43383,10 +43384,11 @@ class DataTableState {
 
 class StaticDataTableService {
     /**
-     * @param {?=} data
+     * @param {?=} currentData
      */
-    constructor(data = []) {
-        this.data = data;
+    constructor(currentData = []) {
+        this.currentData = currentData;
+        this.originalData = [...currentData];
     }
     /**
      * @param {?} sort
@@ -43398,23 +43400,27 @@ class StaticDataTableService {
      * @return {?}
      */
     getTableResults(sort, filter$$1, page = 0, pageSize, globalSearch, outsideFilter) {
-        let /** @type {?} */ ret = [...this.data];
-        if (ret.length !== 0) {
+        let /** @type {?} */ ret = [];
+        this.currentData = [...this.originalData];
+        if (this.currentData.length !== 0) {
             if (globalSearch) {
-                ret = ret.filter((item) => Object.keys(item).some((key) => `${item[key]}`.toLowerCase().includes(globalSearch.toLowerCase())));
+                this.currentData = this.currentData.filter((item) => Object.keys(item).some((key) => `${item[key]}`.toLowerCase().includes(globalSearch.toLowerCase())));
             }
             if (filter$$1) {
                 let /** @type {?} */ value = Helpers.isString(filter$$1.value) ? filter$$1.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter$$1.value;
-                ret = ret.filter(Helpers.filterByField(filter$$1.id, value));
+                this.currentData = this.currentData.filter(Helpers.filterByField(filter$$1.id, value));
             }
             if (sort) {
-                ret = ret.sort(Helpers.sortByField(sort.id, sort.value === 'desc'));
+                this.currentData = this.currentData.sort(Helpers.sortByField(sort.id, sort.value === 'desc'));
+            }
+            if (!sort && !filter$$1 && !globalSearch && !outsideFilter) {
+                this.currentData = [...this.originalData];
             }
             if (!Helpers.isBlank(page) && !Helpers.isBlank(pageSize)) {
-                ret = ret.slice(page * pageSize, (page + 1) * pageSize);
+                ret = this.currentData.slice(page * pageSize, (page + 1) * pageSize);
             }
         }
-        return Observable$1.of({ results: ret, total: this.data.length });
+        return Observable$1.of({ results: ret, total: this.currentData.length });
     }
 }
 
@@ -43715,9 +43721,7 @@ NovoDataTable.decorators = [
             <novo-data-table-pagination
                 *ngIf="paginationOptions"
                 [theme]="paginationOptions.theme"
-                [totalLength]="dataSource?.total"
-                [currentLength]="dataSource?.current"
-                [userFiltered]="state?.userFiltered"
+                [length]="dataSource?.total"
                 [page]="paginationOptions.page"
                 [pageSize]="paginationOptions.pageSize"
                 [pageSizeOptions]="paginationOptions.pageSizeOptions">
@@ -44155,7 +44159,6 @@ class NovoDataTableCellHeader {
         let /** @type {?} */ transforms = {};
         if (column.filterable && Helpers.isObject(column.filterable)) {
             this.config.filterConfig = /** @type {?} */ (column.filterable);
-            this.showCustomRange = !!this.config.filterConfig.allowCustomRange;
             if (!this.config.filterConfig.type) {
                 this.config.filterConfig = { type: 'text' };
             }
@@ -44196,6 +44199,16 @@ class NovoDataTableCellHeader {
         this._rerenderSubscription.unsubscribe();
     }
     /**
+     * @param {?} event
+     * @param {?} value
+     * @return {?}
+     */
+    toggleCustomRange(event, value) {
+        Helpers.swallowEvent(event);
+        this.showCustomRange = value;
+        this.changeDetectorRef.markForCheck();
+    }
+    /**
      * @return {?}
      */
     focusInput() {
@@ -44221,37 +44234,33 @@ class NovoDataTableCellHeader {
      * @return {?}
      */
     filterData(filter$$1) {
+        let /** @type {?} */ actualFilter = filter$$1;
         if (this.config.filterConfig.type === 'date' && filter$$1) {
             this.activeDateFilter = filter$$1.label || this.labels.customDateRange;
             if (filter$$1.startDate && filter$$1.endDate) {
-                filter$$1 = {
-                    min: startOfDay(filter$$1.startDate),
-                    max: endOfDay(filter$$1.endDate),
+                actualFilter = {
+                    min: startOfDay(filter$$1.startDate.date).getTime(),
+                    max: endOfDay(filter$$1.endDate.date).getTime(),
                 };
             }
             else {
-                filter$$1 = {
-                    min: startOfDay(addDays(startOfToday(), filter$$1.min)),
-                    max: endOfDay(addDays(startOfToday(), filter$$1.max)),
+                actualFilter = {
+                    min: startOfDay(addDays(startOfToday(), filter$$1.min)).getTime(),
+                    max: endOfDay(addDays(startOfToday(), filter$$1.max)).getTime(),
                 };
             }
         }
-        if (filter$$1) {
-            if (filter$$1.hasOwnProperty('value')) {
-                this.filter = filter$$1.value;
-            }
-            else {
-                this.filter = filter$$1;
-            }
+        if (actualFilter && actualFilter.hasOwnProperty('value')) {
+            actualFilter = filter$$1.value;
         }
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
         }
         this.changeTimeout = setTimeout(() => {
-            if (this.filter === '') {
-                this.filter = undefined;
+            if (actualFilter === '') {
+                actualFilter = undefined;
             }
-            this._sort.filter(this.id, this.filter, this.config.transforms.filter);
+            this._sort.filter(this.id, actualFilter, this.config.transforms.filter);
             this.changeDetectorRef.markForCheck();
         }, 300);
     }
@@ -44261,7 +44270,7 @@ class NovoDataTableCellHeader {
     clearFilter() {
         this.filter = undefined;
         this.activeDateFilter = undefined;
-        this.filterData();
+        this.filterData(undefined);
     }
     /**
      * @param {?} direction
@@ -44315,11 +44324,11 @@ NovoDataTableCellHeader.decorators = [
                                 {{ option.label }} <i class="bhi-check" *ngIf="activeDateFilter === option.label"></i>
                             </item>
                         </ng-container>
-                        <item [class.active]="labels.customDateRange === activeDateFilter" (click)="showCustomRange = true" *ngIf="config.filterConfig.allowCustomRange && !showCustomRange" [keepOpen]="true">
+                        <item [class.active]="labels.customDateRange === activeDateFilter" (click)="toggleCustomRange($event, true)" *ngIf="config.filterConfig.allowCustomRange && !showCustomRange" [keepOpen]="true">
                             {{ labels.customDateRange }} <i class="bhi-check" *ngIf="labels.customDateRange === activeDateFilter"></i>
                         </item>
                         <div class="calender-container" *ngIf="showCustomRange">
-                            <div (click)="showCustomRange = false"><i class="bhi-previous"></i>{{ labels.backToPresetFilters }}</div>
+                            <div (click)="toggleCustomRange($event, false)"><i class="bhi-previous"></i>{{ labels.backToPresetFilters }}</div>
                             <novo-date-picker (onSelect)="filterData($event)" [(ngModel)]="filter" range="true"></novo-date-picker>
                         </div>
                     </list>
@@ -44330,7 +44339,7 @@ NovoDataTableCellHeader.decorators = [
                     </list>
                     <list *ngSwitchDefault>
                         <item class="filter-search" keepOpen="true">
-                            <input type="text" [(ngModel)]="filter" (ngModelChange)="filterData()" #filterInput data-automation-id="novo-data-table-filter-input"/>
+                            <input type="text" [(ngModel)]="filter" (ngModelChange)="filterData($event)" #filterInput data-automation-id="novo-data-table-filter-input"/>
                         </item>
                     </list>
                 </ng-container>
@@ -44377,8 +44386,14 @@ class NovoDataTableCheckboxHeaderCell extends CdkHeaderCell {
             this.checked = this.dataTable.allCurrentRowsSelected();
             this.ref.markForCheck();
         });
-        this.paginationSubscription = this.dataTable.state.paginationSource.subscribe(() => {
-            this.checked = this.dataTable.allCurrentRowsSelected();
+        this.paginationSubscription = this.dataTable.state.paginationSource.subscribe((isPageSizeChange) => {
+            if (isPageSizeChange) {
+                this.checked = false;
+                this.dataTable.selectRows(false);
+            }
+            else {
+                this.checked = this.dataTable.allCurrentRowsSelected();
+            }
             this.ref.markForCheck();
         });
         this.resetSubscription = this.dataTable.state.resetSource.subscribe(() => {
@@ -44494,8 +44509,8 @@ class NovoDataTablePagination {
         this.theme = 'standard';
         this._page = 0;
         this._pageSizeOptions = [];
+        this._length = 0;
         this.pageChange = new EventEmitter();
-        this.length = 0;
         this.resetSubscription = this.state.resetSource.subscribe(() => {
             this.page = 0;
             this.changeDetectorRef.markForCheck();
@@ -44548,23 +44563,22 @@ class NovoDataTablePagination {
         this.updateDisplayedPageSizeOptions();
     }
     /**
-     * @param {?} changes
      * @return {?}
      */
-    ngOnChanges(changes) {
-        if (changes['totalLength'] || changes['currentLength'] || changes['userFiltered']) {
-            if (this.userFiltered) {
-                this.length = this.currentLength;
-            }
-            else {
-                this.length = this.totalLength;
-            }
-            this.longRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, false);
-            this.shortRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, true);
-            this.totalPages = this.calculateTotalPages();
-            this.pages = this.getPages(this.page, this.totalPages);
-            this.changeDetectorRef.markForCheck();
-        }
+    get length() {
+        return this._length;
+    }
+    /**
+     * @param {?} length
+     * @return {?}
+     */
+    set length(length) {
+        this._length = length;
+        this.changeDetectorRef.markForCheck();
+        this.longRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, false);
+        this.shortRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, true);
+        this.totalPages = this.calculateTotalPages();
+        this.pages = this.getPages(this.page, this.totalPages);
     }
     /**
      * @return {?}
@@ -44629,7 +44643,7 @@ class NovoDataTablePagination {
     changePageSize(pageSize) {
         this.page = 0;
         this.pageSize = pageSize;
-        this.emitPageEvent();
+        this.emitPageEvent(true);
     }
     /**
      * @return {?}
@@ -44659,9 +44673,10 @@ class NovoDataTablePagination {
         this.changeDetectorRef.detectChanges();
     }
     /**
+     * @param {?=} isPageSizeChange
      * @return {?}
      */
-    emitPageEvent() {
+    emitPageEvent(isPageSizeChange = false) {
         let /** @type {?} */ event = {
             page: this.page,
             pageSize: this.pageSize,
@@ -44677,7 +44692,7 @@ class NovoDataTablePagination {
         this.totalPages = this.calculateTotalPages();
         this.pages = this.getPages(this.page, this.totalPages);
         this.state.updates.next(event);
-        this.state.onPaginationChange();
+        this.state.onPaginationChange(isPageSizeChange);
     }
     /**
      * @return {?}
@@ -44797,9 +44812,7 @@ NovoDataTablePagination.propDecorators = {
     'page': [{ type: Input },],
     'pageSize': [{ type: Input },],
     'pageSizeOptions': [{ type: Input },],
-    'totalLength': [{ type: Input },],
-    'currentLength': [{ type: Input },],
-    'userFiltered': [{ type: Input },],
+    'length': [{ type: Input },],
     'pageChange': [{ type: Output },],
 };
 
@@ -44822,7 +44835,7 @@ class DataTableInterpolatePipe {
      * @return {?}
      */
     transform(value, column) {
-        if (!Helpers.isBlank(value)) {
+        if (!Helpers.isEmpty(value)) {
             return interpolateCell(value, column);
         }
         return '';
@@ -44851,7 +44864,7 @@ class DateTableDateRendererPipe {
      * @return {?}
      */
     transform(value, column) {
-        if (!Helpers.isBlank(value)) {
+        if (!Helpers.isEmpty(value)) {
             let /** @type {?} */ val = interpolateCell(value, column);
             return this.labels.formatDate(val);
         }
@@ -44883,7 +44896,7 @@ class DateTableDateTimeRendererPipe {
      * @return {?}
      */
     transform(value, column) {
-        if (!Helpers.isBlank(value)) {
+        if (!Helpers.isEmpty(value)) {
             let /** @type {?} */ val = interpolateCell(value, column);
             return this.labels.formatDateShort(val);
         }
@@ -44915,7 +44928,7 @@ class DateTableTimeRendererPipe {
      * @return {?}
      */
     transform(value, column) {
-        if (!Helpers.isBlank(value)) {
+        if (!Helpers.isEmpty(value)) {
             let /** @type {?} */ val = interpolateCell(value, column);
             return this.labels.formatTime(val);
         }
@@ -44948,7 +44961,7 @@ class DateTableNumberRendererPipe {
      * @return {?}
      */
     transform(value, column, isPercent = false) {
-        if (!Helpers.isBlank(value)) {
+        if (!Helpers.isEmpty(value)) {
             let /** @type {?} */ val = interpolateCell(value, column);
             return `${this.labels.formatNumber(val)}${isPercent ? '%' : ''}`;
         }
@@ -44980,7 +44993,7 @@ class DateTableCurrencyRendererPipe {
      * @return {?}
      */
     transform(value, column) {
-        if (!Helpers.isBlank(value)) {
+        if (!Helpers.isEmpty(value)) {
             let /** @type {?} */ val = interpolateCell(value, column);
             return this.labels.formatCurrency(Number(val));
         }

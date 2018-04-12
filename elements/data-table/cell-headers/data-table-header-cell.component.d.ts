@@ -39,6 +39,7 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
     constructor(changeDetectorRef: ChangeDetectorRef, labels: NovoLabelService, state: DataTableState<T>, _sort: NovoDataTableSortFilter<T>, _cdkColumnDef: CdkColumnDef);
     ngOnInit(): void;
     ngOnDestroy(): void;
+    toggleCustomRange(event: Event, value: boolean): void;
     focusInput(): void;
     sort(): void;
     filterData(filter?: any): void;

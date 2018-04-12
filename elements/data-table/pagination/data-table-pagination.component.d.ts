@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, EventEmitter, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { IDataTablePaginationEvent } from '../interfaces';
 import { NovoLabelService } from '../../../services/novo-label-service';
 import { DataTableState } from '../state/data-table-state.service';
-export declare class NovoDataTablePagination<T> implements OnInit, OnDestroy, OnChanges {
+export declare class NovoDataTablePagination<T> implements OnInit, OnDestroy {
     private changeDetectorRef;
     labels: NovoLabelService;
     private state;
@@ -13,9 +13,8 @@ export declare class NovoDataTablePagination<T> implements OnInit, OnDestroy, On
     private _pageSize;
     pageSizeOptions: any[];
     private _pageSizeOptions;
-    totalLength: number;
-    currentLength: number;
-    userFiltered: boolean;
+    length: number;
+    _length: number;
     pageChange: EventEmitter<IDataTablePaginationEvent>;
     displayedPageSizeOptions: {
         value: string;
@@ -28,12 +27,10 @@ export declare class NovoDataTablePagination<T> implements OnInit, OnDestroy, On
         text: string;
         active: boolean;
     }[];
-    length: number;
     private resetSubscription;
     private totalPages;
     private _initialized;
     constructor(changeDetectorRef: ChangeDetectorRef, labels: NovoLabelService, state: DataTableState<T>);
-    ngOnChanges(changes: SimpleChanges): void;
     ngOnInit(): void;
     ngOnDestroy(): void;
     selectPage(page: any): void;
@@ -43,7 +40,7 @@ export declare class NovoDataTablePagination<T> implements OnInit, OnDestroy, On
     hasNextPage(): boolean;
     changePageSize(pageSize: number): void;
     private updateDisplayedPageSizeOptions();
-    private emitPageEvent();
+    private emitPageEvent(isPageSizeChange?);
     private calculateTotalPages();
     private makePage(number, text, isActive);
     private getPages(currentPage, totalPages);
