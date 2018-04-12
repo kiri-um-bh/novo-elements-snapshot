@@ -65,4 +65,5 @@ export declare class FormUtils {
     forceShowAllControls(controls: Array<NovoControlConfig>): void;
     forceShowAllControlsInFieldsets(fieldsets: Array<NovoFieldset>): void;
     forceValidation(form: NovoFormGroup): void;
+    isAddressEmpty(control: any): boolean;
 }

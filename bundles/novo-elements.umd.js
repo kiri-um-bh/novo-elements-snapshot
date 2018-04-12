@@ -13427,7 +13427,7 @@ var NovoDynamicFormElement = /** @class */ (function () {
                     _this.form.controls[control.key].hidden = true;
                 }
                 // Hide required fields that have been successfully filled out
-                if (hideRequiredWithValue && !Helpers.isBlank(_this.form.value[control.key])) {
+                if (hideRequiredWithValue && !Helpers.isBlank(_this.form.value[control.key]) && (!control.isEmpty || control.isEmpty && control.isEmpty(_this.form.controls[control.key]))) {
                     _this.form.controls[control.key].hidden = true;
                 }
                 // Don't hide fields with errors
@@ -13849,6 +13849,9 @@ var BaseControl = /** @class */ (function () {
         if (config.fileBrowserImageUploadUrl) {
             this.fileBrowserImageUploadUrl = config.fileBrowserImageUploadUrl;
         }
+        if (config.isEmpty) {
+            this.isEmpty = config.isEmpty;
+        }
     }
     return BaseControl;
 }());
@@ -13894,18 +13897,38 @@ var FormValidators = /** @class */ (function () {
      * @return {?}
      */
     FormValidators.isValidAddress = function (control) {
-        if (control.value && control.dirty) {
-            var /** @type {?} */ valid = true;
-            // Address
-            if ((!control.value.address1 || control.value.address1.length === 0) &&
-                (!control.value.city || control.value.city.length === 0) &&
-                (!control.value.state || control.value.state.length === 0) &&
-                (!control.value.address2 || control.value.address2.length === 0) &&
-                (!control.value.zip || control.value.zip.length === 0) &&
-                (!control.value.countryName || control.value.countryName.length === 0)) {
-                valid = false;
+        var /** @type {?} */ fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'country'];
+        var /** @type {?} */ invalidAddressFields = [];
+        var /** @type {?} */ returnVal = null;
+        if (control.value && control.config) {
+            var /** @type {?} */ valid_1 = true;
+            var /** @type {?} */ formValidity_1 = true;
+            fieldList.forEach(function (subfield) {
+                if ((subfield !== 'country' && !Helpers.isEmpty(control.config[subfield]) && control.config[subfield].required &&
+                    !Helpers.isBlank(control.value[subfield]) && Helpers.isEmpty(control.value[subfield])) ||
+                    (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required &&
+                        !Helpers.isBlank(control.value.countryName) && Helpers.isEmpty(control.value.countryName))) {
+                    valid_1 = false;
+                    invalidAddressFields.push(control.config[subfield].label);
+                }
+                if ((subfield !== 'country' && !Helpers.isEmpty(control.config[subfield]) && control.config[subfield].required &&
+                    Helpers.isEmpty(control.value[subfield])) ||
+                    (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required &&
+                        Helpers.isEmpty(control.value.countryName))) {
+                    formValidity_1 = false;
+                }
+            });
+            if (!valid_1 || !formValidity_1) {
+                returnVal = {};
             }
-            return valid ? null : { 'invalidAddress': true };
+            if (!valid_1) {
+                returnVal.invalidAddress = true;
+                returnVal.invalidAddressFields = invalidAddressFields;
+            }
+            if (!formValidity_1) {
+                returnVal.invalidAddressForForm = true;
+            }
+            return returnVal;
         }
         return null;
     };
@@ -14637,18 +14660,21 @@ var FormUtils = /** @class */ (function () {
                 control = new SelectControl(controlConfig);
                 break;
             case 'address':
+                controlConfig.required = field.required || false;
                 if (Helpers.isBlank(controlConfig.config)) {
                     controlConfig.config = {};
                 }
+                controlConfig.config.required = field.required;
                 if (field.fields && field.fields.length) {
                     for (var _d = 0, _e = field.fields; _d < _e.length; _d++) {
                         var subfield = _e[_d];
-                        controlConfig.config[subfield.name] = {};
+                        controlConfig.config[subfield.name] = {
+                            required: !!subfield.required
+                        };
                         if (!Helpers.isEmpty(subfield.label)) {
-                            controlConfig.config[subfield.name] = {
-                                label: subfield.label
-                            };
+                            controlConfig.config[subfield.name].label = subfield.label;
                         }
+                        controlConfig.required = controlConfig.required || subfield.required;
                         if (subfield.defaultValue) {
                             if (Helpers.isBlank(controlConfig.value)) {
                                 controlConfig.value = {};
@@ -14663,6 +14689,7 @@ var FormUtils = /** @class */ (function () {
                         }
                     }
                 }
+                controlConfig.isEmpty = this.isAddressEmpty;
                 control = new AddressControl(controlConfig);
                 break;
             case 'file':
@@ -14928,6 +14955,24 @@ var FormUtils = /** @class */ (function () {
                 control.markAsTouched();
             }
         });
+    };
+    /**
+     * @param {?} control
+     * @return {?}
+     */
+    FormUtils.prototype.isAddressEmpty = function (control) {
+        var /** @type {?} */ fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'country'];
+        var /** @type {?} */ valid = true;
+        if (control.value && control.config) {
+            fieldList.forEach(function (subfield) {
+                if ((subfield !== 'country' && !Helpers.isEmpty(control.config[subfield]) && control.config[subfield].required &&
+                    (Helpers.isBlank(control.value[subfield]) || Helpers.isEmpty(control.value[subfield]))) ||
+                    (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required && Helpers.isEmpty(control.value.countryName))) {
+                    valid = false;
+                }
+            });
+        }
+        return valid;
     };
     return FormUtils;
 }());
@@ -16527,7 +16572,7 @@ var NovoControlElement = /** @class */ (function (_super) {
 NovoControlElement.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-control',
-                template: "\n        <div class=\"novo-control-container\" [formGroup]=\"form\" [hidden]=\"form.controls[control.key].hidden || form.controls[control.key].type === 'hidden' || form.controls[control.key].controlType === 'hidden'\">\n            <!--Encrypted Field-->\n            <span [tooltip]=\"labels.encryptedFieldTooltip\" [tooltipPosition]=\"'right'\"><i [hidden]=\"!form.controls[control.key].encrypted\"\n            class=\"bhi-lock\"></i></span>\n            <!--Label (for horizontal)-->\n            <label [attr.for]=\"control.key\" *ngIf=\"form.layout !== 'vertical' && form.controls[control.key].label && !condensed\" [ngClass]=\"{'encrypted': form.controls[control.key].encrypted }\">\n                {{ form.controls[control.key].label }}\n            </label>\n            <div class=\"novo-control-outer-container\">\n                <!--Label (for vertical)-->\n                <label\n                    *ngIf=\"form.layout === 'vertical' && form.controls[control.key].label && !condensed\"\n                    class=\"novo-control-label\"\n                    [attr.for]=\"control.key\"\n                    [class.novo-control-empty]=\"!hasValue\"\n                    [class.novo-control-focused]=\"focused\"\n                    [class.novo-control-filled]=\"hasValue\"\n                    [class.novo-control-always-active]=\"alwaysActive || form.controls[control.key].placeholder\"\n                    [class.novo-control-extra-spacing]=\"requiresExtraSpacing\">\n                    {{ form.controls[control.key].label }}\n                </label>\n                <div class=\"novo-control-inner-container\">\n                    <div class=\"novo-control-inner-input-container\">\n                        <!--Required Indicator-->\n                        <i [hidden]=\"!form.controls[control.key].required || form.controls[control.key].readOnly\"\n                            class=\"required-indicator\"\n                            [ngClass]=\"{'bhi-circle': !isValid, 'bhi-check': isValid}\" *ngIf=\"!condensed || form.controls[control.key].required\">\n                        </i>\n                        <!--Form Controls-->\n                        <div class=\"novo-control-input {{ form.controls[control.key].controlType }}\" [ngSwitch]=\"form.controls[control.key].controlType\" [attr.data-automation-id]=\"control.key\" [class.control-disabled]=\"form.controls[control.key].disabled\">\n                            <!--Text-based Inputs-->\n                            <!--TODO prefix/suffix on the control-->\n                            <div class=\"novo-control-input-container novo-control-input-with-label\" *ngSwitchCase=\"'textbox'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <input *ngIf=\"form.controls[control.key].type !== 'number'\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (input)=\"emitChange($event)\" [maxlength]=\"form.controls[control.key].maxlength\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" autocomplete>\n                                <input *ngIf=\"form.controls[control.key].type === 'number' && form.controls[control.key].subType !== 'percentage'\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (keydown)=\"restrictKeys($event)\" (input)=\"emitChange($event)\" [maxlength]=\"form.controls[control.key].maxlength\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" step=\"any\" (mousewheel)=\"numberInput.blur()\" #numberInput>\n                                <input *ngIf=\"form.controls[control.key].type === 'number' && form.controls[control.key].subType === 'percentage'\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (keydown)=\"restrictKeys($event)\" [value]=\"percentValue\" (input)=\"handlePercentChange($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" step=\"any\" (mousewheel)=\"percentInput.blur()\" #percentInput>\n                                <label class=\"input-label\" *ngIf=\"form.controls[control.key].subType === 'currency'\">{{ control.currencyFormat }}</label>\n                                <label class=\"input-label\" *ngIf=\"form.controls[control.key].subType === 'percentage'\">%</label>\n                            </div>\n                            <!--TextArea-->\n                            <textarea *ngSwitchCase=\"'text-area'\" [name]=\"control.key\" [attr.id]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [formControlName]=\"control.key\" autosize (input)=\"handleTextAreaInput($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [maxlength]=\"control.maxlength\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></textarea>\n                            <!--Editor-->\n                            <novo-editor *ngSwitchCase=\"'editor'\" [name]=\"control.key\" [formControlName]=\"control.key\" [startupFocus]=\"control.startupFocus\" [minimal]=\"control.minimal\" [fileBrowserImageUploadUrl]=\"control.fileBrowserImageUploadUrl\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\"></novo-editor>\n                            <!--AceEditor-->\n                            <novo-ace-editor *ngSwitchCase=\"'ace-editor'\" [name]=\"control.key\" [formControlName]=\"control.key\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\"></novo-ace-editor>\n                            <!--HTML5 Select-->\n                            <select [id]=\"control.key\" *ngSwitchCase=\"'native-select'\" [formControlName]=\"control.key\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <option *ngIf=\"form.controls[control.key].placeholder\" value=\"\" disabled selected hidden>{{ form.controls[control.key].placeholder }}</option>\n                                <option *ngFor=\"let opt of form.controls[control.key].options\" [value]=\"opt.key\">{{opt.value}}</option>\n                            </select>\n                            <!--File-->\n                            <novo-file-input *ngSwitchCase=\"'file'\" [formControlName]=\"control.key\" [id]=\"control.key\" [name]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [value]=\"form.controls[control.key].value\" [multiple]=\"form.controls[control.key].multiple\" [layoutOptions]=\"form.controls[control.key].layoutOptions\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (edit)=\"handleEdit($event)\" (save)=\"handleSave($event)\" (delete)=\"handleDelete($event)\" (upload)=\"handleUpload($event)\"></novo-file-input>\n                            <!--Tiles-->\n                            <novo-tiles *ngSwitchCase=\"'tiles'\" [options]=\"control.options\" [formControlName]=\"control.key\" (onChange)=\"modelChange($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-tiles>\n                            <!--Picker-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'picker'\">\n                                <novo-picker [config]=\"form.controls[control.key].config\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [parentScrollSelector]=\"form.controls[control.key].parentScrollSelector\" *ngIf=\"!form.controls[control.key].multiple\" (select)=\"modelChange($event);\" (changed)=\"modelChangeWithRaw($event)\" (typing)=\"handleTyping($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-picker>\n                                <chips [source]=\"form.controls[control.key].config\" [type]=\"form.controls[control.key].config.type\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" *ngIf=\"control.multiple\" [closeOnSelect]=\"form.controls[control.key].closeOnSelect\" (changed)=\"modelChangeWithRaw($event)\" (typing)=\"handleTyping($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></chips>\n                            </div>\n                            <!--Novo Select-->\n                            <novo-select *ngSwitchCase=\"'select'\" [options]=\"form.controls[control.key].options\" [headerConfig]=\"form.controls[control.key].headerConfig\" [placeholder]=\"form.controls[control.key].placeholder\" [formControlName]=\"control.key\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (onSelect)=\"modelChange($event)\"></novo-select>\n                            <!--Radio-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'radio'\">\n                                <novo-radio [vertical]=\"vertical\" [name]=\"control.key\" [formControlName]=\"control.key\" *ngFor=\"let option of form.controls[control.key].options\" [value]=\"option.value\" [label]=\"option.label\" [checked]=\"option.value === form.value[control.key]\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [button]=\"!!option.icon\" [icon]=\"option.icon\" [attr.data-automation-id]=\"control.key + '-' + (option?.label || option?.value)\"></novo-radio>\n                            </div>\n                            <!--Time-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'time'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [military]=\"form.controls[control.key].military\"></novo-time-picker-input>\n                            </div>\n                            <!--Date-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'date'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-date-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\"></novo-date-picker-input>\n                            </div>\n                            <!--Date and Time-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'date-time'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-date-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [military]=\"form.controls[control.key].military\"></novo-date-time-picker-input>\n                            </div>\n                            <!--Address-->\n                            <novo-address *ngSwitchCase=\"'address'\" [formControlName]=\"control.key\" [config]=\"control.config\"></novo-address>\n                            <!--Checkbox-->\n                            <novo-checkbox *ngSwitchCase=\"'checkbox'\" [formControlName]=\"control.key\" [name]=\"control.key\" [label]=\"control.checkboxLabel\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [layoutOptions]=\"layoutOptions\"></novo-checkbox>\n                            <!--Checklist-->\n                            <novo-check-list *ngSwitchCase=\"'checklist'\" [formControlName]=\"control.key\" [name]=\"control.key\" [options]=\"form.controls[control.key].options\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (onSelect)=\"modelChange($event)\"></novo-check-list>\n                            <!--QuickNote-->\n                            <novo-quick-note *ngSwitchCase=\"'quick-note'\" [formControlName]=\"control.key\" [startupFocus]=\"control.startupFocus\" [placeholder]=\"form.controls[control.key].placeholder\" [config]=\"form.controls[control.key].config\" (change)=\"modelChange($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-quick-note>\n                            <!--ReadOnly-->\n                            <!--TODO - Handle rendering of different READONLY values-->\n                            <div *ngSwitchCase=\"'read-only'\">{{ form.value[control.key] }}</div>\n                        </div>\n                    </div>\n                    <!--Error Message-->\n                    <div class=\"field-message\" *ngIf=\"!condensed\" [class.has-tip]=\"form.controls[control.key].tipWell\">\n                        <div class=\"messages\">\n                            <span class=\"error-text\" *ngIf=\"showFieldMessage\"></span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.required\">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.minlength\">{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && maxLengthMet && focused && !errors?.maxlength\">{{ labels.maxLengthMet }}({{ form.controls[control.key].maxlength }})</span>\n                            <span class=\"error-text\" *ngIf=\"errors?.maxlength\">{{ labels.invalidMaxLength }}({{ form.controls[control.key].maxlength }})</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.invalidEmail\">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidEmail }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.invalidAddress\">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidAddress }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && (errors?.integerTooLarge || errors?.doubleTooLarge)\">{{ form.controls[control.key].label | uppercase }} {{ labels.isTooLarge }}</span>\n                            <span *ngIf=\"isDirty && errors?.minYear\">{{ form.controls[control.key].label | uppercase }} {{ labels.notValidYear }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && (errors?.custom)\">{{ errors.custom }}</span>\n                            <!--Field Hint-->\n                            <span class=\"description\" *ngIf=\"form.controls[control.key].description\">\n                                {{ form.controls[control.key].description }}\n                            </span>\n                        </div>\n                        <span class=\"character-count\" [class.error]=\"errors?.maxlength\" *ngIf=\"showCount\">{{ characterCount }}/{{ form.controls[control.key].maxlength }}</span>\n                    </div>\n                    <!--Tip Wel-->\n                    <novo-tip-well *ngIf=\"form.controls[control.key].tipWell\" [name]=\"control.key\" [tip]=\"form.controls[control.key]?.tipWell?.tip\" [icon]=\"form.controls[control.key]?.tipWell?.icon\" [button]=\"form.controls[control.key]?.tipWell?.button\"></novo-tip-well>\n                </div>\n                <i *ngIf=\"form.controls[control.key].fieldInteractionloading\" class=\"loading\">\n                    <svg version=\"1.1\"\n                     xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:a=\"http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/\"\n                     x=\"0px\" y=\"0px\" width=\"18.2px\" height=\"18.5px\" viewBox=\"0 0 18.2 18.5\" style=\"enable-background:new 0 0 18.2 18.5;\"\n                     xml:space=\"preserve\">\n                    <style type=\"text/css\">\n                        .spinner { fill:#FFFFFF; }\n                    </style>\n                        <path class=\"spinner\" d=\"M9.2,18.5C4.1,18.5,0,14.4,0,9.2S4.1,0,9.2,0c0.9,0,1.9,0.1,2.7,0.4c0.8,0.2,1.2,1.1,1,1.9\n                            c-0.2,0.8-1.1,1.2-1.9,1C10.5,3.1,9.9,3,9.2,3C5.8,3,3,5.8,3,9.2s2.8,6.2,6.2,6.2c2.8,0,5.3-1.9,6-4.7c0.2-0.8,1-1.3,1.8-1.1\n                            c0.8,0.2,1.3,1,1.1,1.8C17.1,15.7,13.4,18.5,9.2,18.5z\"/>\n                    </svg>\n                </i>\n            </div>\n        </div>\n    ",
+                template: "\n        <div class=\"novo-control-container\" [formGroup]=\"form\" [hidden]=\"form.controls[control.key].hidden || form.controls[control.key].type === 'hidden' || form.controls[control.key].controlType === 'hidden'\">\n            <!--Encrypted Field-->\n            <span [tooltip]=\"labels.encryptedFieldTooltip\" [tooltipPosition]=\"'right'\"><i [hidden]=\"!form.controls[control.key].encrypted\"\n            class=\"bhi-lock\"></i></span>\n            <!--Label (for horizontal)-->\n            <label [attr.for]=\"control.key\" *ngIf=\"form.layout !== 'vertical' && form.controls[control.key].label && !condensed\" [ngClass]=\"{'encrypted': form.controls[control.key].encrypted }\">\n                {{ form.controls[control.key].label }}\n            </label>\n            <div class=\"novo-control-outer-container\">\n                <!--Label (for vertical)-->\n                <label\n                    *ngIf=\"form.layout === 'vertical' && form.controls[control.key].label && !condensed\"\n                    class=\"novo-control-label\"\n                    [attr.for]=\"control.key\"\n                    [class.novo-control-empty]=\"!hasValue\"\n                    [class.novo-control-focused]=\"focused\"\n                    [class.novo-control-filled]=\"hasValue\"\n                    [class.novo-control-always-active]=\"alwaysActive || form.controls[control.key].placeholder\"\n                    [class.novo-control-extra-spacing]=\"requiresExtraSpacing\">\n                    {{ form.controls[control.key].label }}\n                </label>\n                <div class=\"novo-control-inner-container\">\n                    <div class=\"novo-control-inner-input-container\">\n                      <!--Required Indicator-->\n                        <i [hidden]=\"!form.controls[control.key].required || form.controls[control.key].readOnly\"\n                            class=\"required-indicator {{ form.controls[control.key].controlType }}\"\n                            [ngClass]=\"{'bhi-circle': !isValid, 'bhi-check': isValid}\" *ngIf=\"!condensed || (form.controls[control.key].required && !form.controls[control.key].readOnly)\">\n                        </i>\n                        <!--Form Controls-->\n                        <div class=\"novo-control-input {{ form.controls[control.key].controlType }}\" [ngSwitch]=\"form.controls[control.key].controlType\" [attr.data-automation-id]=\"control.key\" [class.control-disabled]=\"form.controls[control.key].disabled\">\n                            <!--Text-based Inputs-->\n                            <!--TODO prefix/suffix on the control-->\n                            <div class=\"novo-control-input-container novo-control-input-with-label\" *ngSwitchCase=\"'textbox'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                              <input *ngIf=\"form.controls[control.key].type !== 'number'\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (input)=\"emitChange($event)\" [maxlength]=\"form.controls[control.key].maxlength\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" autocomplete>\n                              <input *ngIf=\"form.controls[control.key].type === 'number' && form.controls[control.key].subType !== 'percentage'\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (keydown)=\"restrictKeys($event)\" (input)=\"emitChange($event)\" [maxlength]=\"form.controls[control.key].maxlength\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" step=\"any\" (mousewheel)=\"numberInput.blur()\" #numberInput>\n                              <input *ngIf=\"form.controls[control.key].type === 'number' && form.controls[control.key].subType === 'percentage'\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (keydown)=\"restrictKeys($event)\" [value]=\"percentValue\" (input)=\"handlePercentChange($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" step=\"any\" (mousewheel)=\"percentInput.blur()\" #percentInput>\n                              <label class=\"input-label\" *ngIf=\"form.controls[control.key].subType === 'currency'\">{{ control.currencyFormat }}</label>\n                              <label class=\"input-label\" *ngIf=\"form.controls[control.key].subType === 'percentage'\">%</label>\n                            </div>\n                            <!--TextArea-->\n                            <textarea *ngSwitchCase=\"'text-area'\" [name]=\"control.key\" [attr.id]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [formControlName]=\"control.key\" autosize (input)=\"handleTextAreaInput($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [maxlength]=\"control.maxlength\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></textarea>\n                            <!--Editor-->\n                            <novo-editor *ngSwitchCase=\"'editor'\" [name]=\"control.key\" [formControlName]=\"control.key\" [startupFocus]=\"control.startupFocus\" [minimal]=\"control.minimal\" [fileBrowserImageUploadUrl]=\"control.fileBrowserImageUploadUrl\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\"></novo-editor>\n                            <!--AceEditor-->\n                            <novo-ace-editor *ngSwitchCase=\"'ace-editor'\" [name]=\"control.key\" [formControlName]=\"control.key\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\"></novo-ace-editor>\n                            <!--HTML5 Select-->\n                            <select [id]=\"control.key\" *ngSwitchCase=\"'native-select'\" [formControlName]=\"control.key\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <option *ngIf=\"form.controls[control.key].placeholder\" value=\"\" disabled selected hidden>{{ form.controls[control.key].placeholder }}</option>\n                                <option *ngFor=\"let opt of form.controls[control.key].options\" [value]=\"opt.key\">{{opt.value}}</option>\n                            </select>\n                            <!--File-->\n                            <novo-file-input *ngSwitchCase=\"'file'\" [formControlName]=\"control.key\" [id]=\"control.key\" [name]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [value]=\"form.controls[control.key].value\" [multiple]=\"form.controls[control.key].multiple\" [layoutOptions]=\"form.controls[control.key].layoutOptions\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (edit)=\"handleEdit($event)\" (save)=\"handleSave($event)\" (delete)=\"handleDelete($event)\" (upload)=\"handleUpload($event)\"></novo-file-input>\n                            <!--Tiles-->\n                            <novo-tiles *ngSwitchCase=\"'tiles'\" [options]=\"control.options\" [formControlName]=\"control.key\" (onChange)=\"modelChange($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-tiles>\n                            <!--Picker-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'picker'\">\n                                <novo-picker [config]=\"form.controls[control.key].config\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [parentScrollSelector]=\"form.controls[control.key].parentScrollSelector\" *ngIf=\"!form.controls[control.key].multiple\" (select)=\"modelChange($event);\" (changed)=\"modelChangeWithRaw($event)\" (typing)=\"handleTyping($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-picker>\n                                <chips [source]=\"form.controls[control.key].config\" [type]=\"form.controls[control.key].config.type\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" *ngIf=\"control.multiple\" [closeOnSelect]=\"form.controls[control.key].closeOnSelect\" (changed)=\"modelChangeWithRaw($event)\" (typing)=\"handleTyping($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></chips>\n                            </div>\n                            <!--Novo Select-->\n                            <novo-select *ngSwitchCase=\"'select'\" [options]=\"form.controls[control.key].options\" [headerConfig]=\"form.controls[control.key].headerConfig\" [placeholder]=\"form.controls[control.key].placeholder\" [formControlName]=\"control.key\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (onSelect)=\"modelChange($event)\"></novo-select>\n                            <!--Radio-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'radio'\">\n                                <novo-radio [vertical]=\"vertical\" [name]=\"control.key\" [formControlName]=\"control.key\" *ngFor=\"let option of form.controls[control.key].options\" [value]=\"option.value\" [label]=\"option.label\" [checked]=\"option.value === form.value[control.key]\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [button]=\"!!option.icon\" [icon]=\"option.icon\" [attr.data-automation-id]=\"control.key + '-' + (option?.label || option?.value)\"></novo-radio>\n                            </div>\n                            <!--Time-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'time'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [military]=\"form.controls[control.key].military\"></novo-time-picker-input>\n                            </div>\n                            <!--Date-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'date'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-date-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\"></novo-date-picker-input>\n                            </div>\n                            <!--Date and Time-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'date-time'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-date-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [military]=\"form.controls[control.key].military\"></novo-date-time-picker-input>\n                            </div>\n                            <!--Address-->\n                            <novo-address *ngSwitchCase=\"'address'\" [formControlName]=\"control.key\" [config]=\"control.config\"></novo-address>\n                            <!--Checkbox-->\n                            <novo-checkbox *ngSwitchCase=\"'checkbox'\" [formControlName]=\"control.key\" [name]=\"control.key\" [label]=\"control.checkboxLabel\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [layoutOptions]=\"layoutOptions\"></novo-checkbox>\n                            <!--Checklist-->\n                            <novo-check-list *ngSwitchCase=\"'checklist'\" [formControlName]=\"control.key\" [name]=\"control.key\" [options]=\"form.controls[control.key].options\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (onSelect)=\"modelChange($event)\"></novo-check-list>\n                            <!--QuickNote-->\n                            <novo-quick-note *ngSwitchCase=\"'quick-note'\" [formControlName]=\"control.key\" [startupFocus]=\"control.startupFocus\" [placeholder]=\"form.controls[control.key].placeholder\" [config]=\"form.controls[control.key].config\" (change)=\"modelChange($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-quick-note>\n                            <!--ReadOnly-->\n                            <!--TODO - Handle rendering of different READONLY values-->\n                            <div *ngSwitchCase=\"'read-only'\">{{ form.value[control.key] }}</div>\n                        </div>\n                    </div>\n                    <!--Error Message-->\n                    <div class=\"field-message\" *ngIf=\"!condensed\" [class.has-tip]=\"form.controls[control.key].tipWell\">\n                        <div class=\"messages\">\n                            <span class=\"error-text\" *ngIf=\"showFieldMessage\"></span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.required && form.controls[control.key].controlType !== 'address'\">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.minlength\">{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && maxLengthMet && focused && !errors?.maxlength\">{{ labels.maxLengthMet }}({{ form.controls[control.key].maxlength }})</span>\n                            <span class=\"error-text\" *ngIf=\"errors?.maxlength\">{{ labels.invalidMaxLength }}({{ form.controls[control.key].maxlength }})</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.invalidEmail\">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidEmail }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && (errors?.integerTooLarge || errors?.doubleTooLarge)\">{{ form.controls[control.key].label | uppercase }} {{ labels.isTooLarge }}</span>\n                            <span *ngIf=\"isDirty && errors?.minYear\">{{ form.controls[control.key].label | uppercase }} {{ labels.notValidYear }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && (errors?.custom)\">{{ errors.custom }}</span>\n                            <span *ngIf=\"isDirty && errors?.invalidAddress\">\n                                <span class=\"error-text\" *ngFor=\"let invalidAddressField of errors?.invalidAddressFields\">{{ invalidAddressField | uppercase }} {{ labels.isRequired }} </span>\n                            </span>\n                            <!--Field Hint-->\n                            <span class=\"description\" *ngIf=\"form.controls[control.key].description\">\n                                {{ form.controls[control.key].description }}\n                            </span>\n                        </div>\n                        <span class=\"character-count\" [class.error]=\"errors?.maxlength\" *ngIf=\"showCount\">{{ characterCount }}/{{ form.controls[control.key].maxlength }}</span>\n                    </div>\n                    <!--Tip Wel-->\n                    <novo-tip-well *ngIf=\"form.controls[control.key].tipWell\" [name]=\"control.key\" [tip]=\"form.controls[control.key]?.tipWell?.tip\" [icon]=\"form.controls[control.key]?.tipWell?.icon\" [button]=\"form.controls[control.key]?.tipWell?.button\"></novo-tip-well>\n                </div>\n                <i *ngIf=\"form.controls[control.key].fieldInteractionloading\" class=\"loading\">\n                    <svg version=\"1.1\"\n                     xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:a=\"http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/\"\n                     x=\"0px\" y=\"0px\" width=\"18.2px\" height=\"18.5px\" viewBox=\"0 0 18.2 18.5\" style=\"enable-background:new 0 0 18.2 18.5;\"\n                     xml:space=\"preserve\">\n                    <style type=\"text/css\">\n                        .spinner { fill:#FFFFFF; }\n                    </style>\n                        <path class=\"spinner\" d=\"M9.2,18.5C4.1,18.5,0,14.4,0,9.2S4.1,0,9.2,0c0.9,0,1.9,0.1,2.7,0.4c0.8,0.2,1.2,1.1,1,1.9\n                            c-0.2,0.8-1.1,1.2-1.9,1C10.5,3.1,9.9,3,9.2,3C5.8,3,3,5.8,3,9.2s2.8,6.2,6.2,6.2c2.8,0,5.3-1.9,6-4.7c0.2-0.8,1-1.3,1.8-1.1\n                            c0.8,0.2,1.3,1,1.1,1.8C17.1,15.7,13.4,18.5,9.2,18.5z\"/>\n                    </svg>\n                </i>\n            </div>\n        </div>\n    ",
                 host: {
                     '[class]': 'form.controls[control.key].controlType',
                     '[attr.data-control-type]': 'form.controls[control.key].controlType',
@@ -29506,6 +29551,9 @@ var NovoAddressElement = /** @class */ (function () {
         };
         this.onModelTouched = function () {
         };
+        this.focused = {};
+        this.invalid = {};
+        this.valid = {};
     }
     /**
      * @return {?}
@@ -29515,13 +29563,6 @@ var NovoAddressElement = /** @class */ (function () {
         if (!this.config) {
             this.config = {};
         }
-        this.fieldList.forEach((function (field) {
-            if (!_this.config.hasOwnProperty(field)) {
-                _this.config[field] = {
-                    label: _this.labels[field]
-                };
-            }
-        }));
         if (this.model) {
             this.writeValue(this.model);
             this.updateControl();
@@ -29529,6 +29570,63 @@ var NovoAddressElement = /** @class */ (function () {
         else if (!this.model) {
             this.model = {};
         }
+        this.fieldList.forEach((function (field) {
+            if (!_this.config.hasOwnProperty(field)) {
+                _this.config[field] = {};
+            }
+            if (!_this.config[field].hasOwnProperty('label')) {
+                _this.config[field].label = _this.labels[field];
+            }
+            if (_this.config.required) {
+                _this.config[field].required = true;
+            }
+        }));
+    };
+    /**
+     * @param {?} field
+     * @return {?}
+     */
+    NovoAddressElement.prototype.isValid = function (field) {
+        var /** @type {?} */ valid = true;
+        if (((this.config[field].required && Helpers.isEmpty(this.model[field])) || !this.config[field].required) &&
+            !(field === 'country' && this.config[field].required && !Helpers.isEmpty(this.model.countryName))) {
+            valid = false;
+        }
+        this.valid[field] = valid;
+    };
+    /**
+     * @param {?} field
+     * @return {?}
+     */
+    NovoAddressElement.prototype.isInvalid = function (field) {
+        var /** @type {?} */ invalid = false;
+        if (((this.config[field].required && Helpers.isEmpty(this.model[field]) && !Helpers.isBlank(this.model[field]))) &&
+            !(field === 'country' && this.config[field].required && !Helpers.isEmpty(this.model.countryName) && !Helpers.isBlank(this.model.countryName))) {
+            invalid = true;
+        }
+        this.invalid[field] = invalid;
+    };
+    /**
+     * @param {?} field
+     * @return {?}
+     */
+    NovoAddressElement.prototype.onInput = function (field) {
+        this.isInvalid(field);
+        this.isValid(field);
+    };
+    /**
+     * @param {?} field
+     * @return {?}
+     */
+    NovoAddressElement.prototype.isFocused = function (field) {
+        this.focused[field] = true;
+    };
+    /**
+     * @param {?} field
+     * @return {?}
+     */
+    NovoAddressElement.prototype.isBlurred = function (field) {
+        this.focused[field] = false;
     };
     /**
      * @param {?} evt
@@ -29545,6 +29643,7 @@ var NovoAddressElement = /** @class */ (function () {
         // Update state
         this.model.state = undefined;
         this.updateControl();
+        this.onInput('country');
     };
     /**
      * @param {?} evt
@@ -29553,6 +29652,7 @@ var NovoAddressElement = /** @class */ (function () {
     NovoAddressElement.prototype.onStateChange = function (evt) {
         this.model.state = evt;
         this.updateControl();
+        this.onInput('state');
     };
     /**
      * @return {?}
@@ -29576,6 +29676,7 @@ var NovoAddressElement = /** @class */ (function () {
      * @return {?}
      */
     NovoAddressElement.prototype.writeValue = function (model) {
+        var _this = this;
         if (model) {
             var /** @type {?} */ countryName = void 0;
             if (model.countryName) {
@@ -29600,6 +29701,9 @@ var NovoAddressElement = /** @class */ (function () {
                 this.model = model;
             }
         }
+        this.fieldList.forEach(function (field) {
+            _this.onInput(field);
+        });
     };
     /**
      * @param {?} fn
@@ -29621,7 +29725,7 @@ NovoAddressElement.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-address',
                 providers: [ADDRESS_VALUE_ACCESSOR],
-                template: "\n        <input type=\"text\" class=\"street-address\" id=\"address1\" name=\"address1\" [placeholder]=\"config.address1.label\" autocomplete=\"shipping street-address address-line-1\" [(ngModel)]=\"model.address1\" (ngModelChange)=\"updateControl()\"/>\n        <input type=\"text\" class=\"apt suite\" id=\"address2\" name=\"address2\" [placeholder]=\"config.address2.label\" autocomplete=\"shipping address-line-2\" [(ngModel)]=\"model.address2\" (ngModelChange)=\"updateControl()\"/>\n        <input type=\"text\" class=\"city locality\" id=\"city\" name=\"city\" [placeholder]=\"config.city.label\" autocomplete=\"shipping city locality\" [(ngModel)]=\"model.city\" (ngModelChange)=\"updateControl()\"/>\n        <novo-select class=\"state region\" id=\"state\" [options]=\"states\" [placeholder]=\"config.state.label\" autocomplete=\"shipping region\" [(ngModel)]=\"model.state\" (ngModelChange)=\"onStateChange($event)\"></novo-select>\n        <input type=\"text\" class=\"zip postal-code\" id=\"zip\" name=\"zip\" [placeholder]=\"config.zip.label\" autocomplete=\"shipping postal-code\" [(ngModel)]=\"model.zip\" (ngModelChange)=\"updateControl()\"/>\n        <novo-select class=\"country-name\" id=\"country\" [options]=\"countries\" [placeholder]=\"config.country.label\" autocomplete=\"shipping country\" [(ngModel)]=\"model.countryName\" (ngModelChange)=\"onCountryChange($event)\"></novo-select>\n    "
+                template: "\n        <span class=\"street-address\" [class.invalid]=\"invalid.address1\" [class.focus]=\"focused.address1\">\n            <i *ngIf=\"config?.address1?.required\"\n                class=\"required-indicator address1\"\n                [ngClass]=\"{'bhi-circle': !valid.address1, 'bhi-check': valid.address1}\">\n            </i>\n            <input type=\"text\" id=\"address1\" name=\"address1\" [placeholder]=\"config.address1.label\" autocomplete=\"shipping street-address address-line-1\" [(ngModel)]=\"model.address1\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused('address1')\" (blur)=\"isBlurred('address1')\" (input)=\"onInput('address1')\"/>\n        </span>\n        <span class=\"apt suite\" [class.invalid]=\"invalid.address2\" [class.focus]=\"focused.address2\">\n            <i *ngIf=\"config?.address2?.required\"\n                class=\"required-indicator address2\"\n                [ngClass]=\"{'bhi-circle': !valid.address2, 'bhi-check': valid.address2}\">\n            </i>\n            <input type=\"text\" id=\"address2\" name=\"address2\" [placeholder]=\"config.address2.label\" autocomplete=\"shipping address-line-2\" [(ngModel)]=\"model.address2\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused('address2')\" (blur)=\"isBlurred('address2')\" (input)=\"onInput('address2')\"/>\n        </span>\n        <span class=\"city locality\" [class.invalid]=\"invalid.city\" [class.focus]=\"focused.city\">\n            <i *ngIf=\"config?.city?.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.city, 'bhi-check': valid.city}\">\n            </i>\n            <input type=\"text\" id=\"city\" name=\"city\" [placeholder]=\"config.city.label\" autocomplete=\"shipping city locality\" [(ngModel)]=\"model.city\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused('city')\" (blur)=\"isBlurred('city')\" (input)=\"onInput('city')\"/>\n        </span>\n        <span class=\"state region\" [class.invalid]=\"invalid.state\" [class.focus]=\"focused.state\">\n            <i *ngIf=\"config?.state?.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.state, 'bhi-check': valid.state}\">\n            </i>\n            <novo-select id=\"state\" [options]=\"states\" [placeholder]=\"config.state.label\" autocomplete=\"shipping region\" [(ngModel)]=\"model.state\" (ngModelChange)=\"onStateChange($event)\"></novo-select>\n        </span>\n        <span class=\"zip postal-code\" [class.invalid]=\"invalid.zip\" [class.focus]=\"focused.zip\">\n            <i *ngIf=\"config?.zip?.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.zip, 'bhi-check': valid.zip}\">\n            </i>\n            <input type=\"text\" id=\"zip\" name=\"zip\" [placeholder]=\"config.zip.label\" autocomplete=\"shipping postal-code\" [(ngModel)]=\"model.zip\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused('zip')\" (blur)=\"isBlurred('zip')\" (input)=\"onInput('zip')\" />\n        </span>\n        <span class=\"country-name\" [class.invalid]=\"invalid.country\" [class.focus]=\"focused.country\">\n            <i *ngIf=\"config?.country?.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.country, 'bhi-check': valid.country}\">\n            </i>\n            <novo-select id=\"country\" [options]=\"countries\" [placeholder]=\"config.country.label\" autocomplete=\"shipping country\" [(ngModel)]=\"model.countryName\" (ngModelChange)=\"onCountryChange($event)\"></novo-select>\n        </span>\n    "
             },] },
 ];
 /**

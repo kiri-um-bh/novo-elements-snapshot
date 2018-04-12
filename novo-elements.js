@@ -14159,7 +14159,7 @@ class NovoDynamicFormElement {
                     this.form.controls[control.key].hidden = true;
                 }
                 // Hide required fields that have been successfully filled out
-                if (hideRequiredWithValue && !Helpers.isBlank(this.form.value[control.key])) {
+                if (hideRequiredWithValue && !Helpers.isBlank(this.form.value[control.key]) && (!control.isEmpty || control.isEmpty && control.isEmpty(this.form.controls[control.key]))) {
                     this.form.controls[control.key].hidden = true;
                 }
                 // Don't hide fields with errors
@@ -14566,6 +14566,9 @@ class BaseControl {
         if (config.fileBrowserImageUploadUrl) {
             this.fileBrowserImageUploadUrl = config.fileBrowserImageUploadUrl;
         }
+        if (config.isEmpty) {
+            this.isEmpty = config.isEmpty;
+        }
     }
 }
 
@@ -14609,18 +14612,38 @@ class FormValidators {
      * @return {?}
      */
     static isValidAddress(control) {
-        if (control.value && control.dirty) {
+        let /** @type {?} */ fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'country'];
+        let /** @type {?} */ invalidAddressFields = [];
+        let /** @type {?} */ returnVal = null;
+        if (control.value && control.config) {
             let /** @type {?} */ valid = true;
-            // Address
-            if ((!control.value.address1 || control.value.address1.length === 0) &&
-                (!control.value.city || control.value.city.length === 0) &&
-                (!control.value.state || control.value.state.length === 0) &&
-                (!control.value.address2 || control.value.address2.length === 0) &&
-                (!control.value.zip || control.value.zip.length === 0) &&
-                (!control.value.countryName || control.value.countryName.length === 0)) {
-                valid = false;
+            let /** @type {?} */ formValidity = true;
+            fieldList.forEach((subfield) => {
+                if ((subfield !== 'country' && !Helpers.isEmpty(control.config[subfield]) && control.config[subfield].required &&
+                    !Helpers.isBlank(control.value[subfield]) && Helpers.isEmpty(control.value[subfield])) ||
+                    (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required &&
+                        !Helpers.isBlank(control.value.countryName) && Helpers.isEmpty(control.value.countryName))) {
+                    valid = false;
+                    invalidAddressFields.push(control.config[subfield].label);
+                }
+                if ((subfield !== 'country' && !Helpers.isEmpty(control.config[subfield]) && control.config[subfield].required &&
+                    Helpers.isEmpty(control.value[subfield])) ||
+                    (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required &&
+                        Helpers.isEmpty(control.value.countryName))) {
+                    formValidity = false;
+                }
+            });
+            if (!valid || !formValidity) {
+                returnVal = {};
             }
-            return valid ? null : { 'invalidAddress': true };
+            if (!valid) {
+                returnVal.invalidAddress = true;
+                returnVal.invalidAddressFields = invalidAddressFields;
+            }
+            if (!formValidity) {
+                returnVal.invalidAddressForForm = true;
+            }
+            return returnVal;
         }
         return null;
     }
@@ -15305,17 +15328,20 @@ class FormUtils {
                 control = new SelectControl(controlConfig);
                 break;
             case 'address':
+                controlConfig.required = field.required || false;
                 if (Helpers.isBlank(controlConfig.config)) {
                     controlConfig.config = {};
                 }
+                controlConfig.config.required = field.required;
                 if (field.fields && field.fields.length) {
                     for (let /** @type {?} */ subfield of field.fields) {
-                        controlConfig.config[subfield.name] = {};
+                        controlConfig.config[subfield.name] = {
+                            required: !!subfield.required
+                        };
                         if (!Helpers.isEmpty(subfield.label)) {
-                            controlConfig.config[subfield.name] = {
-                                label: subfield.label
-                            };
+                            controlConfig.config[subfield.name].label = subfield.label;
                         }
+                        controlConfig.required = controlConfig.required || subfield.required;
                         if (subfield.defaultValue) {
                             if (Helpers.isBlank(controlConfig.value)) {
                                 controlConfig.value = {};
@@ -15330,6 +15356,7 @@ class FormUtils {
                         }
                     }
                 }
+                controlConfig.isEmpty = this.isAddressEmpty;
                 control = new AddressControl(controlConfig);
                 break;
             case 'file':
@@ -15591,6 +15618,24 @@ class FormUtils {
                 control.markAsTouched();
             }
         });
+    }
+    /**
+     * @param {?} control
+     * @return {?}
+     */
+    isAddressEmpty(control) {
+        let /** @type {?} */ fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'country'];
+        let /** @type {?} */ valid = true;
+        if (control.value && control.config) {
+            fieldList.forEach((subfield) => {
+                if ((subfield !== 'country' && !Helpers.isEmpty(control.config[subfield]) && control.config[subfield].required &&
+                    (Helpers.isBlank(control.value[subfield]) || Helpers.isEmpty(control.value[subfield]))) ||
+                    (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required && Helpers.isEmpty(control.value.countryName))) {
+                    valid = false;
+                }
+            });
+        }
+        return valid;
     }
 }
 FormUtils.decorators = [
@@ -17147,21 +17192,21 @@ NovoControlElement.decorators = [
                 </label>
                 <div class="novo-control-inner-container">
                     <div class="novo-control-inner-input-container">
-                        <!--Required Indicator-->
+                      <!--Required Indicator-->
                         <i [hidden]="!form.controls[control.key].required || form.controls[control.key].readOnly"
-                            class="required-indicator"
-                            [ngClass]="{'bhi-circle': !isValid, 'bhi-check': isValid}" *ngIf="!condensed || form.controls[control.key].required">
+                            class="required-indicator {{ form.controls[control.key].controlType }}"
+                            [ngClass]="{'bhi-circle': !isValid, 'bhi-check': isValid}" *ngIf="!condensed || (form.controls[control.key].required && !form.controls[control.key].readOnly)">
                         </i>
                         <!--Form Controls-->
                         <div class="novo-control-input {{ form.controls[control.key].controlType }}" [ngSwitch]="form.controls[control.key].controlType" [attr.data-automation-id]="control.key" [class.control-disabled]="form.controls[control.key].disabled">
                             <!--Text-based Inputs-->
                             <!--TODO prefix/suffix on the control-->
                             <div class="novo-control-input-container novo-control-input-with-label" *ngSwitchCase="'textbox'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition">
-                                <input *ngIf="form.controls[control.key].type !== 'number'" [formControlName]="control.key" [id]="control.key" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (input)="emitChange($event)" [maxlength]="form.controls[control.key].maxlength" (focus)="handleFocus($event)" (blur)="handleBlur($event)" autocomplete>
-                                <input *ngIf="form.controls[control.key].type === 'number' && form.controls[control.key].subType !== 'percentage'" [formControlName]="control.key" [id]="control.key" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (keydown)="restrictKeys($event)" (input)="emitChange($event)" [maxlength]="form.controls[control.key].maxlength" (focus)="handleFocus($event)" (blur)="handleBlur($event)" step="any" (mousewheel)="numberInput.blur()" #numberInput>
-                                <input *ngIf="form.controls[control.key].type === 'number' && form.controls[control.key].subType === 'percentage'" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (keydown)="restrictKeys($event)" [value]="percentValue" (input)="handlePercentChange($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" step="any" (mousewheel)="percentInput.blur()" #percentInput>
-                                <label class="input-label" *ngIf="form.controls[control.key].subType === 'currency'">{{ control.currencyFormat }}</label>
-                                <label class="input-label" *ngIf="form.controls[control.key].subType === 'percentage'">%</label>
+                              <input *ngIf="form.controls[control.key].type !== 'number'" [formControlName]="control.key" [id]="control.key" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (input)="emitChange($event)" [maxlength]="form.controls[control.key].maxlength" (focus)="handleFocus($event)" (blur)="handleBlur($event)" autocomplete>
+                              <input *ngIf="form.controls[control.key].type === 'number' && form.controls[control.key].subType !== 'percentage'" [formControlName]="control.key" [id]="control.key" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (keydown)="restrictKeys($event)" (input)="emitChange($event)" [maxlength]="form.controls[control.key].maxlength" (focus)="handleFocus($event)" (blur)="handleBlur($event)" step="any" (mousewheel)="numberInput.blur()" #numberInput>
+                              <input *ngIf="form.controls[control.key].type === 'number' && form.controls[control.key].subType === 'percentage'" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (keydown)="restrictKeys($event)" [value]="percentValue" (input)="handlePercentChange($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" step="any" (mousewheel)="percentInput.blur()" #percentInput>
+                              <label class="input-label" *ngIf="form.controls[control.key].subType === 'currency'">{{ control.currencyFormat }}</label>
+                              <label class="input-label" *ngIf="form.controls[control.key].subType === 'percentage'">%</label>
                             </div>
                             <!--TextArea-->
                             <textarea *ngSwitchCase="'text-area'" [name]="control.key" [attr.id]="control.key" [placeholder]="form.controls[control.key].placeholder" [formControlName]="control.key" autosize (input)="handleTextAreaInput($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" [maxlength]="control.maxlength" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></textarea>
@@ -17218,15 +17263,17 @@ NovoControlElement.decorators = [
                     <div class="field-message" *ngIf="!condensed" [class.has-tip]="form.controls[control.key].tipWell">
                         <div class="messages">
                             <span class="error-text" *ngIf="showFieldMessage"></span>
-                            <span class="error-text" *ngIf="isDirty && errors?.required">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>
+                            <span class="error-text" *ngIf="isDirty && errors?.required && form.controls[control.key].controlType !== 'address'">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>
                             <span class="error-text" *ngIf="isDirty && errors?.minlength">{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span>
                             <span class="error-text" *ngIf="isDirty && maxLengthMet && focused && !errors?.maxlength">{{ labels.maxLengthMet }}({{ form.controls[control.key].maxlength }})</span>
                             <span class="error-text" *ngIf="errors?.maxlength">{{ labels.invalidMaxLength }}({{ form.controls[control.key].maxlength }})</span>
                             <span class="error-text" *ngIf="isDirty && errors?.invalidEmail">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidEmail }}</span>
-                            <span class="error-text" *ngIf="isDirty && errors?.invalidAddress">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidAddress }}</span>
                             <span class="error-text" *ngIf="isDirty && (errors?.integerTooLarge || errors?.doubleTooLarge)">{{ form.controls[control.key].label | uppercase }} {{ labels.isTooLarge }}</span>
                             <span *ngIf="isDirty && errors?.minYear">{{ form.controls[control.key].label | uppercase }} {{ labels.notValidYear }}</span>
                             <span class="error-text" *ngIf="isDirty && (errors?.custom)">{{ errors.custom }}</span>
+                            <span *ngIf="isDirty && errors?.invalidAddress">
+                                <span class="error-text" *ngFor="let invalidAddressField of errors?.invalidAddressFields">{{ invalidAddressField | uppercase }} {{ labels.isRequired }} </span>
+                            </span>
                             <!--Field Hint-->
                             <span class="description" *ngIf="form.controls[control.key].description">
                                 {{ form.controls[control.key].description }}
@@ -30233,6 +30280,9 @@ class NovoAddressElement {
         };
         this.onModelTouched = () => {
         };
+        this.focused = {};
+        this.invalid = {};
+        this.valid = {};
     }
     /**
      * @return {?}
@@ -30241,13 +30291,6 @@ class NovoAddressElement {
         if (!this.config) {
             this.config = {};
         }
-        this.fieldList.forEach(((field) => {
-            if (!this.config.hasOwnProperty(field)) {
-                this.config[field] = {
-                    label: this.labels[field]
-                };
-            }
-        }));
         if (this.model) {
             this.writeValue(this.model);
             this.updateControl();
@@ -30255,6 +30298,63 @@ class NovoAddressElement {
         else if (!this.model) {
             this.model = {};
         }
+        this.fieldList.forEach(((field) => {
+            if (!this.config.hasOwnProperty(field)) {
+                this.config[field] = {};
+            }
+            if (!this.config[field].hasOwnProperty('label')) {
+                this.config[field].label = this.labels[field];
+            }
+            if (this.config.required) {
+                this.config[field].required = true;
+            }
+        }));
+    }
+    /**
+     * @param {?} field
+     * @return {?}
+     */
+    isValid(field) {
+        let /** @type {?} */ valid = true;
+        if (((this.config[field].required && Helpers.isEmpty(this.model[field])) || !this.config[field].required) &&
+            !(field === 'country' && this.config[field].required && !Helpers.isEmpty(this.model.countryName))) {
+            valid = false;
+        }
+        this.valid[field] = valid;
+    }
+    /**
+     * @param {?} field
+     * @return {?}
+     */
+    isInvalid(field) {
+        let /** @type {?} */ invalid = false;
+        if (((this.config[field].required && Helpers.isEmpty(this.model[field]) && !Helpers.isBlank(this.model[field]))) &&
+            !(field === 'country' && this.config[field].required && !Helpers.isEmpty(this.model.countryName) && !Helpers.isBlank(this.model.countryName))) {
+            invalid = true;
+        }
+        this.invalid[field] = invalid;
+    }
+    /**
+     * @param {?} field
+     * @return {?}
+     */
+    onInput(field) {
+        this.isInvalid(field);
+        this.isValid(field);
+    }
+    /**
+     * @param {?} field
+     * @return {?}
+     */
+    isFocused(field) {
+        this.focused[field] = true;
+    }
+    /**
+     * @param {?} field
+     * @return {?}
+     */
+    isBlurred(field) {
+        this.focused[field] = false;
     }
     /**
      * @param {?} evt
@@ -30271,6 +30371,7 @@ class NovoAddressElement {
         // Update state
         this.model.state = undefined;
         this.updateControl();
+        this.onInput('country');
     }
     /**
      * @param {?} evt
@@ -30279,6 +30380,7 @@ class NovoAddressElement {
     onStateChange(evt) {
         this.model.state = evt;
         this.updateControl();
+        this.onInput('state');
     }
     /**
      * @return {?}
@@ -30327,6 +30429,9 @@ class NovoAddressElement {
                 this.model = model;
             }
         }
+        this.fieldList.forEach((field) => {
+            this.onInput(field);
+        });
     }
     /**
      * @param {?} fn
@@ -30348,12 +30453,48 @@ NovoAddressElement.decorators = [
                 selector: 'novo-address',
                 providers: [ADDRESS_VALUE_ACCESSOR],
                 template: `
-        <input type="text" class="street-address" id="address1" name="address1" [placeholder]="config.address1.label" autocomplete="shipping street-address address-line-1" [(ngModel)]="model.address1" (ngModelChange)="updateControl()"/>
-        <input type="text" class="apt suite" id="address2" name="address2" [placeholder]="config.address2.label" autocomplete="shipping address-line-2" [(ngModel)]="model.address2" (ngModelChange)="updateControl()"/>
-        <input type="text" class="city locality" id="city" name="city" [placeholder]="config.city.label" autocomplete="shipping city locality" [(ngModel)]="model.city" (ngModelChange)="updateControl()"/>
-        <novo-select class="state region" id="state" [options]="states" [placeholder]="config.state.label" autocomplete="shipping region" [(ngModel)]="model.state" (ngModelChange)="onStateChange($event)"></novo-select>
-        <input type="text" class="zip postal-code" id="zip" name="zip" [placeholder]="config.zip.label" autocomplete="shipping postal-code" [(ngModel)]="model.zip" (ngModelChange)="updateControl()"/>
-        <novo-select class="country-name" id="country" [options]="countries" [placeholder]="config.country.label" autocomplete="shipping country" [(ngModel)]="model.countryName" (ngModelChange)="onCountryChange($event)"></novo-select>
+        <span class="street-address" [class.invalid]="invalid.address1" [class.focus]="focused.address1">
+            <i *ngIf="config?.address1?.required"
+                class="required-indicator address1"
+                [ngClass]="{'bhi-circle': !valid.address1, 'bhi-check': valid.address1}">
+            </i>
+            <input type="text" id="address1" name="address1" [placeholder]="config.address1.label" autocomplete="shipping street-address address-line-1" [(ngModel)]="model.address1" (ngModelChange)="updateControl()" (focus)="isFocused('address1')" (blur)="isBlurred('address1')" (input)="onInput('address1')"/>
+        </span>
+        <span class="apt suite" [class.invalid]="invalid.address2" [class.focus]="focused.address2">
+            <i *ngIf="config?.address2?.required"
+                class="required-indicator address2"
+                [ngClass]="{'bhi-circle': !valid.address2, 'bhi-check': valid.address2}">
+            </i>
+            <input type="text" id="address2" name="address2" [placeholder]="config.address2.label" autocomplete="shipping address-line-2" [(ngModel)]="model.address2" (ngModelChange)="updateControl()" (focus)="isFocused('address2')" (blur)="isBlurred('address2')" (input)="onInput('address2')"/>
+        </span>
+        <span class="city locality" [class.invalid]="invalid.city" [class.focus]="focused.city">
+            <i *ngIf="config?.city?.required"
+                class="required-indicator"
+                [ngClass]="{'bhi-circle': !valid.city, 'bhi-check': valid.city}">
+            </i>
+            <input type="text" id="city" name="city" [placeholder]="config.city.label" autocomplete="shipping city locality" [(ngModel)]="model.city" (ngModelChange)="updateControl()" (focus)="isFocused('city')" (blur)="isBlurred('city')" (input)="onInput('city')"/>
+        </span>
+        <span class="state region" [class.invalid]="invalid.state" [class.focus]="focused.state">
+            <i *ngIf="config?.state?.required"
+                class="required-indicator"
+                [ngClass]="{'bhi-circle': !valid.state, 'bhi-check': valid.state}">
+            </i>
+            <novo-select id="state" [options]="states" [placeholder]="config.state.label" autocomplete="shipping region" [(ngModel)]="model.state" (ngModelChange)="onStateChange($event)"></novo-select>
+        </span>
+        <span class="zip postal-code" [class.invalid]="invalid.zip" [class.focus]="focused.zip">
+            <i *ngIf="config?.zip?.required"
+                class="required-indicator"
+                [ngClass]="{'bhi-circle': !valid.zip, 'bhi-check': valid.zip}">
+            </i>
+            <input type="text" id="zip" name="zip" [placeholder]="config.zip.label" autocomplete="shipping postal-code" [(ngModel)]="model.zip" (ngModelChange)="updateControl()" (focus)="isFocused('zip')" (blur)="isBlurred('zip')" (input)="onInput('zip')" />
+        </span>
+        <span class="country-name" [class.invalid]="invalid.country" [class.focus]="focused.country">
+            <i *ngIf="config?.country?.required"
+                class="required-indicator"
+                [ngClass]="{'bhi-circle': !valid.country, 'bhi-check': valid.country}">
+            </i>
+            <novo-select id="country" [options]="countries" [placeholder]="config.country.label" autocomplete="shipping country" [(ngModel)]="model.countryName" (ngModelChange)="onCountryChange($event)"></novo-select>
+        </span>
     `
             },] },
 ];

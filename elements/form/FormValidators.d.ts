@@ -11,7 +11,5 @@ export declare class FormValidators {
     static isEmail(control: any): {
         'invalidEmail': boolean;
     };
-    static isValidAddress(control: any): {
-        'invalidAddress': boolean;
-    };
+    static isValidAddress(control: any): any;
 }
