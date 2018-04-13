@@ -2,6 +2,7 @@ import { Observable } from 'rxjs/Observable';
 export interface IDataTableColumn<T> {
     id: string;
     label?: string;
+    labelIcon?: string;
     enabled?: boolean;
     type: 'text' | 'link' | 'link:tel' | 'link:mailto' | 'date' | 'datetime' | 'time' | 'currency' | 'number' | 'percent' | 'action';
     template?: string;
@@ -40,7 +41,6 @@ export interface IDataTablePaginationOptions {
     }[];
 }
 export interface IDataTableColumnSortConfig {
-    icon?: string;
     transform?: Function;
 }
 export interface IDataTableColumnFilterConfig {

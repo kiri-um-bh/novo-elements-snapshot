@@ -20,6 +20,7 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
     private changeTimeout;
     label: string;
     icon: string;
+    labelIcon: string;
     id: string;
     filter: any;
     direction: string;

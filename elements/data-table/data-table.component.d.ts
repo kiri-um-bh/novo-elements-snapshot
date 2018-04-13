@@ -1,4 +1,4 @@
-import { EventEmitter, AfterContentInit, ChangeDetectorRef, OnDestroy, QueryList, TemplateRef } from '@angular/core';
+import { EventEmitter, AfterContentInit, ChangeDetectorRef, OnDestroy, QueryList, TemplateRef, ElementRef } from '@angular/core';
 import { IDataTableColumn, IDataTablePaginationOptions, IDataTableSearchOptions, IDataTableService } from './interfaces';
 import { DataTableSource } from './data-table.source';
 import { NovoLabelService } from '../../services/novo-label-service';
@@ -11,6 +11,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     globalSearchHiddenClassToggle: boolean;
     customTemplates: QueryList<NovoTemplate>;
     defaultTemplates: QueryList<NovoTemplate>;
+    novoDataTableContainer: ElementRef;
     displayedColumns: string[];
     paginationOptions: IDataTablePaginationOptions;
     searchOptions: IDataTableSearchOptions;
@@ -41,8 +42,10 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     };
     columnsLoaded: boolean;
     selection: Set<string>;
+    scrollLeft: number;
     private outsideFilterSubscription;
     private _columns;
+    private scrollListenerHandler;
     readonly empty: boolean;
     readonly loadingClass: boolean;
     constructor(labels: NovoLabelService, ref: ChangeDetectorRef, state: DataTableState<T>);
@@ -56,4 +59,5 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     selectRows(selected: boolean): void;
     allCurrentRowsSelected(): boolean;
     private configureColumns();
+    private scrollListener(event);
 }

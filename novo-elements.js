@@ -43438,7 +43438,6 @@ class DataTableSource extends DataSource {
             this.loading = true;
             return this.tableService.getTableResults(this.state.sort, this.state.filter, this.state.page, this.state.pageSize, this.state.globalSearch, this.state.outsideFilter);
         }), map$1((data) => {
-            this.loading = false;
             if (!this.totalSet) {
                 this.total = data.total;
                 this.totalSet = true;
@@ -43447,6 +43446,10 @@ class DataTableSource extends DataSource {
             this.data = data.results;
             setTimeout(() => {
                 this.ref.markForCheck();
+                setTimeout(() => {
+                    this.loading = false;
+                    this.ref.markForCheck();
+                });
             });
             return data.results;
         }), catchError((err, caught) => {
@@ -43592,6 +43595,8 @@ class NovoDataTable {
         this.columnToTemplate = {};
         this.columnsLoaded = false;
         this.selection = new Set();
+        this.scrollLeft = 0;
+        this.scrollListenerHandler = this.scrollListener.bind(this);
     }
     /**
      * @param {?} service
@@ -43704,6 +43709,9 @@ class NovoDataTable {
         if (this.outsideFilterSubscription) {
             this.outsideFilterSubscription.unsubscribe();
         }
+        if (this.novoDataTableContainer) {
+            ((this.novoDataTableContainer.nativeElement)).removeEventListener('scroll', this.scrollListenerHandler);
+        }
     }
     /**
      * @return {?}
@@ -43719,6 +43727,7 @@ class NovoDataTable {
         });
         // Load columns
         this.configureColumns();
+        // State
         if (this.paginationOptions && !this.paginationOptions.page) {
             this.paginationOptions.page = 0;
         }
@@ -43730,6 +43739,8 @@ class NovoDataTable {
         }
         this.state.page = this.paginationOptions ? this.paginationOptions.page : undefined;
         this.state.pageSize = this.paginationOptions ? this.paginationOptions.pageSize : undefined;
+        // Scrolling inside table
+        ((this.novoDataTableContainer.nativeElement)).addEventListener('scroll', this.scrollListenerHandler);
         this.ref.markForCheck();
     }
     /**
@@ -43768,6 +43779,9 @@ class NovoDataTable {
      * @return {?}
      */
     isSelected(row) {
+        if (!row) {
+            return false;
+        }
         return this.state.selectedRows.has(`${row[this.rowIdentifier]}`);
     }
     /**
@@ -43851,6 +43865,17 @@ class NovoDataTable {
             this.columnsLoaded = true;
         }
     }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    scrollListener(event) {
+        let /** @type {?} */ left = ((event.target)).scrollLeft;
+        if (left !== this.scrollLeft) {
+            this.scrollLeft = ((event.target)).scrollLeft;
+            this.ref.markForCheck();
+        }
+    }
 }
 NovoDataTable.decorators = [
     { type: Component, args: [{
@@ -43885,7 +43910,7 @@ NovoDataTable.decorators = [
             <div class="novo-data-table-custom-filter" *ngIf="customFilter">
               <ng-container *ngTemplateOutlet="templates['customFilter']"></ng-container>
             </div>
-            <div class="novo-data-table-container" [class.empty-user-filtered]="dataSource?.currentlyEmpty && state.userFiltered" [class.empty]="dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine">
+            <div #novoDataTableContainer class="novo-data-table-container" [class.empty-user-filtered]="dataSource?.currentlyEmpty && state.userFiltered" [class.empty]="dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine">
                 <cdk-table *ngIf="(columns?.length > 0) && columnsLoaded && dataSource" [dataSource]="dataSource" [trackBy]="trackByFn" novoDataTableSortFilter [class.empty]="dataSource?.currentlyEmpty && state.userFiltered" [hidden]="dataSource?.totallyEmpty && !userFiltered">
                     <ng-container novoDataTableColumnDef="selection">
                         <novo-data-table-checkbox-header-cell *novoDataTableHeaderCellDef></novo-data-table-checkbox-header-cell>
@@ -43898,7 +43923,7 @@ NovoDataTable.decorators = [
                     <novo-data-table-header-row *novoDataTableHeaderRowDef="displayedColumns" data-automation-id="novo-data-table-header-row"></novo-data-table-header-row>
                     <novo-data-table-row *novoDataTableRowDef="let row; columns: displayedColumns;" [id]="name + '-' + row[rowIdentifier]" [dataAutomationId]="'data-automation-id-' + row[rowIdentifier]"></novo-data-table-row>
                 </cdk-table>
-                <div class="novo-data-table-no-results-container" *ngIf="dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine">
+                <div class="novo-data-table-no-results-container" [style.left.px]="scrollLeft" *ngIf="dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine">
                   <div class="novo-data-table-empty-message" >
                     <ng-container *ngTemplateOutlet="templates['noResultsMessage'] || templates['defaultNoResultsMessage']"></ng-container>
                   </div>
@@ -44004,6 +44029,7 @@ NovoDataTable.propDecorators = {
     'globalSearchHiddenClassToggle': [{ type: HostBinding, args: ['class.global-search-hidden',] },],
     'customTemplates': [{ type: ContentChildren, args: [NovoTemplate,] },],
     'defaultTemplates': [{ type: ViewChildren, args: [NovoTemplate,] },],
+    'novoDataTableContainer': [{ type: ViewChild, args: ['novoDataTableContainer',] },],
     'displayedColumns': [{ type: Input },],
     'paginationOptions': [{ type: Input },],
     'searchOptions': [{ type: Input },],
@@ -44300,6 +44326,7 @@ class NovoDataTableCellHeader {
      */
     set column(column) {
         this.label = column.type === 'action' ? '' : column.label;
+        this.labelIcon = column.labelIcon;
         this.config = {
             sortable: !!column.sortable,
             filterable: !!column.filterable,
@@ -44456,6 +44483,7 @@ NovoDataTableCellHeader.decorators = [
     { type: Component, args: [{
                 selector: '[novo-data-table-cell-config]',
                 template: `
+        <i class="bhi-{{ labelIcon }} label-icon" *ngIf="labelIcon" data-automation-id="novo-data-table-header-icon"></i>
         <label data-automation-id="novo-data-table-label">{{ label }}</label>
         <div>
             <button *ngIf="config.sortable" theme="icon" [icon]="icon" (click)="sort()" [class.active]="sortActive" data-automation-id="novo-data-table-sort"></button>
