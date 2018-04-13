@@ -115,6 +115,13 @@ var Helpers = /** @class */ (function () {
         return typeof obj === 'string';
     };
     /**
+     * @param {?} obj
+     * @return {?}
+     */
+    Helpers.isNumber = function (obj) {
+        return obj && !isNaN(parseInt(obj, 10));
+    };
+    /**
      * Checks to see if the object is a undefined or null
      * @param {?} obj
      * @return {?}
@@ -43168,14 +43175,14 @@ var NovoDataTableCellHeader = /** @class */ (function () {
             this.activeDateFilter = filter$$1.label || this.labels.customDateRange;
             if (filter$$1.startDate && filter$$1.endDate) {
                 actualFilter = {
-                    min: dateFns.startOfDay(filter$$1.startDate.date).getTime(),
-                    max: dateFns.endOfDay(filter$$1.endDate.date).getTime(),
+                    min: dateFns.startOfDay(filter$$1.startDate.date),
+                    max: dateFns.startOfDay(dateFns.addDays(dateFns.startOfDay(filter$$1.endDate.date), 1)),
                 };
             }
             else {
                 actualFilter = {
-                    min: dateFns.startOfDay(dateFns.addDays(dateFns.startOfToday(), filter$$1.min)).getTime(),
-                    max: dateFns.endOfDay(dateFns.addDays(dateFns.startOfToday(), filter$$1.max)).getTime(),
+                    min: filter$$1.min ? dateFns.addDays(dateFns.startOfToday(), filter$$1.min) : dateFns.startOfToday(),
+                    max: filter$$1.max ? dateFns.addDays(dateFns.startOfTomorrow(), filter$$1.max) : dateFns.startOfTomorrow(),
                 };
             }
         }
@@ -43828,6 +43835,9 @@ var DateTableNumberRendererPipe = /** @class */ (function () {
         if (isPercent === void 0) { isPercent = false; }
         if (!Helpers.isEmpty(value)) {
             var /** @type {?} */ val = interpolateCell(value, column);
+            if (isPercent && Helpers.isNumber(val)) {
+                val = "" + Number(val) * 100;
+            }
             return "" + this.labels.formatNumber(val) + (isPercent ? '%' : '');
         }
         return '';

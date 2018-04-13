@@ -134,6 +134,13 @@ class Helpers {
         return typeof obj === 'string';
     }
     /**
+     * @param {?} obj
+     * @return {?}
+     */
+    static isNumber(obj) {
+        return obj && !isNaN(parseInt(obj, 10));
+    }
+    /**
      * Checks to see if the object is a undefined or null
      * @param {?} obj
      * @return {?}
@@ -44380,14 +44387,14 @@ class NovoDataTableCellHeader {
             this.activeDateFilter = filter$$1.label || this.labels.customDateRange;
             if (filter$$1.startDate && filter$$1.endDate) {
                 actualFilter = {
-                    min: startOfDay(filter$$1.startDate.date).getTime(),
-                    max: endOfDay(filter$$1.endDate.date).getTime(),
+                    min: startOfDay(filter$$1.startDate.date),
+                    max: startOfDay(addDays(startOfDay(filter$$1.endDate.date), 1)),
                 };
             }
             else {
                 actualFilter = {
-                    min: startOfDay(addDays(startOfToday(), filter$$1.min)).getTime(),
-                    max: endOfDay(addDays(startOfToday(), filter$$1.max)).getTime(),
+                    min: filter$$1.min ? addDays(startOfToday(), filter$$1.min) : startOfToday(),
+                    max: filter$$1.max ? addDays(startOfTomorrow(), filter$$1.max) : startOfTomorrow(),
                 };
             }
         }
@@ -45104,6 +45111,9 @@ class DateTableNumberRendererPipe {
     transform(value, column, isPercent = false) {
         if (!Helpers.isEmpty(value)) {
             let /** @type {?} */ val = interpolateCell(value, column);
+            if (isPercent && Helpers.isNumber(val)) {
+                val = `${Number(val) * 100}`;
+            }
             return `${this.labels.formatNumber(val)}${isPercent ? '%' : ''}`;
         }
         return '';
