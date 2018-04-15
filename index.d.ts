@@ -112,6 +112,7 @@ export { KeyCodes } from './utils/key-codes/KeyCodes';
 export { Deferred } from './utils/deferred/Deferred';
 export { COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName } from './utils/countries/Countries';
 export { Helpers } from './utils/Helpers';
+export { notify } from './utils/notifier/notifier.util';
 export { ComponentUtils } from './utils/component-utils/ComponentUtils';
 export { CalendarEventTimesChangedEvent, WeekDay, EventColor, EventAction, CalendarEvent, WeekViewEvent, WeekViewEventRow, MonthViewDay, MonthView, DayViewEvent, DayView, DayViewHourSegment, DayViewHour, IsEventInPeriodArgs, GetEventsInPeriodArgs, GetDayViewArgs } from './utils/calendar-utils/CalendarUtils';
 export * from './utils/calendar-utils/CalendarUtils';

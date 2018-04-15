@@ -42393,10 +42393,11 @@ var DataTableState = /** @class */ (function () {
     };
     /**
      * @param {?} isPageSizeChange
+     * @param {?} pageSize
      * @return {?}
      */
-    DataTableState.prototype.onPaginationChange = function (isPageSizeChange) {
-        this.paginationSource.next(isPageSizeChange);
+    DataTableState.prototype.onPaginationChange = function (isPageSizeChange, pageSize) {
+        this.paginationSource.next({ isPageSizeChange: isPageSizeChange, pageSize: pageSize });
     };
     /**
      * @return {?}
@@ -42406,6 +42407,18 @@ var DataTableState = /** @class */ (function () {
     };
     return DataTableState;
 }());
+var notifications = {};
+/**
+ * @param {?} message
+ * @return {?}
+ */
+function notify(message) {
+    if (!core.isDevMode() || message in notifications) {
+        return;
+    }
+    notifications[message] = true;
+    console.warn(message); // tslint:disable-line
+}
 var StaticDataTableService = /** @class */ (function () {
     /**
      * @param {?=} currentData
@@ -42457,6 +42470,7 @@ var NovoDataTable = /** @class */ (function () {
      * @param {?} state
      */
     function NovoDataTable(labels, ref, state$$1) {
+        var _this = this;
         this.labels = labels;
         this.ref = ref;
         this.state = state$$1;
@@ -42465,6 +42479,7 @@ var NovoDataTable = /** @class */ (function () {
         this.rowIdentifier = 'id';
         this.trackByFn = function (index$$1, item) { return item.id; };
         this._hideGlobalSearch = true;
+        this.preferencesChanged = new core.EventEmitter();
         this.loading = true;
         this.templates = {};
         this.columnToTemplate = {};
@@ -42472,7 +42487,45 @@ var NovoDataTable = /** @class */ (function () {
         this.selection = new Set();
         this.scrollLeft = 0;
         this.scrollListenerHandler = this.scrollListener.bind(this);
+        this.paginationSubscription = this.state.paginationSource.subscribe(function (event) {
+            if (_this.name !== 'novo-data-table') {
+                if (event.isPageSizeChange) {
+                    _this.preferencesChanged.emit({ name: _this.name, pageSize: event.pageSize });
+                }
+            }
+            else {
+                notify('Must have [name] set on data-table to use preferences!');
+            }
+        });
     }
+    Object.defineProperty(NovoDataTable.prototype, "displayedColumns", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._disabledColumns;
+        },
+        /**
+         * @param {?} displayedColumns
+         * @return {?}
+         */
+        set: function (displayedColumns) {
+            if (this.displayedColumns && this.displayedColumns.length !== 0) {
+                if (this.name !== 'novo-data-table') {
+                    this.preferencesChanged.emit({
+                        name: this.name,
+                        displayedColumns: displayedColumns,
+                    });
+                }
+                else {
+                    notify('Must have [name] set on data-table to use preferences!');
+                }
+            }
+            this._disabledColumns = displayedColumns;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(NovoDataTable.prototype, "dataTableService", {
         /**
          * @param {?} service
@@ -42828,6 +42881,7 @@ NovoDataTable.propDecorators = {
     'customFilter': [{ type: core.Input },],
     'forceShowHeader': [{ type: core.Input },],
     'hideGlobalSearch': [{ type: core.Input },],
+    'preferencesChanged': [{ type: core.Output },],
     'empty': [{ type: core.HostBinding, args: ['class.empty',] },],
     'loadingClass': [{ type: core.HostBinding, args: ['class.loading',] },],
 };
@@ -43313,8 +43367,8 @@ var NovoDataTableCheckboxHeaderCell = /** @class */ (function (_super) {
             _this.checked = _this.dataTable.allCurrentRowsSelected();
             _this.ref.markForCheck();
         });
-        _this.paginationSubscription = _this.dataTable.state.paginationSource.subscribe(function (isPageSizeChange) {
-            if (isPageSizeChange) {
+        _this.paginationSubscription = _this.dataTable.state.paginationSource.subscribe(function (event) {
+            if (event.isPageSizeChange) {
                 _this.checked = false;
                 _this.dataTable.selectRows(false);
             }
@@ -43633,7 +43687,7 @@ var NovoDataTablePagination = /** @class */ (function () {
         this.totalPages = this.calculateTotalPages();
         this.pages = this.getPages(this.page, this.totalPages);
         this.state.updates.next(event);
-        this.state.onPaginationChange(isPageSizeChange);
+        this.state.onPaginationChange(isPageSizeChange, this.pageSize);
     };
     /**
      * @return {?}
@@ -47977,6 +48031,7 @@ exports.findByCountryCode = findByCountryCode;
 exports.findByCountryId = findByCountryId;
 exports.findByCountryName = findByCountryName;
 exports.Helpers = Helpers;
+exports.notify = notify;
 exports.ComponentUtils = ComponentUtils;
 exports.AppBridge = AppBridge;
 exports.AppBridgeHandler = AppBridgeHandler;

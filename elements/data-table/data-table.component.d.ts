@@ -1,5 +1,5 @@
 import { EventEmitter, AfterContentInit, ChangeDetectorRef, OnDestroy, QueryList, TemplateRef, ElementRef } from '@angular/core';
-import { IDataTableColumn, IDataTablePaginationOptions, IDataTableSearchOptions, IDataTableService } from './interfaces';
+import { IDataTableColumn, IDataTablePaginationOptions, IDataTableSearchOptions, IDataTableService, IDataTablePreferences } from './interfaces';
 import { DataTableSource } from './data-table.source';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { DataTableState } from './state/data-table-state.service';
@@ -13,6 +13,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     defaultTemplates: QueryList<NovoTemplate>;
     novoDataTableContainer: ElementRef;
     displayedColumns: string[];
+    private _disabledColumns;
     paginationOptions: IDataTablePaginationOptions;
     searchOptions: IDataTableSearchOptions;
     defaultSort: {
@@ -32,6 +33,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     private _forceShowHeader;
     hideGlobalSearch: boolean;
     private _hideGlobalSearch;
+    preferencesChanged: EventEmitter<IDataTablePreferences>;
     dataSource: DataTableSource<T>;
     loading: boolean;
     templates: {
@@ -44,6 +46,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     selection: Set<string>;
     scrollLeft: number;
     private outsideFilterSubscription;
+    private paginationSubscription;
     private _columns;
     private scrollListenerHandler;
     readonly empty: boolean;
