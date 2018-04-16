@@ -45410,37 +45410,33 @@ var NovoSimpleCellHeader = /** @class */ (function () {
      */
     NovoSimpleCellHeader.prototype.filterData = function (filter$$1) {
         var _this = this;
+        var /** @type {?} */ actualFilter = filter$$1;
         if (this.config.filterConfig.type === 'date' && filter$$1) {
             this.activeDateFilter = filter$$1.label || this.labels.customDateRange;
             if (filter$$1.startDate && filter$$1.endDate) {
-                filter$$1 = {
-                    min: startOfDay(filter$$1.startDate),
-                    max: endOfDay(filter$$1.endDate),
+                actualFilter = {
+                    min: startOfDay(filter$$1.startDate.date),
+                    max: startOfDay(addDays(startOfDay(filter$$1.endDate.date), 1)),
                 };
             }
             else {
-                filter$$1 = {
-                    min: startOfDay(addDays(startOfToday(), filter$$1.min)),
-                    max: endOfDay(addDays(startOfToday(), filter$$1.max)),
+                actualFilter = {
+                    min: filter$$1.min ? addDays(startOfToday(), filter$$1.min) : startOfToday(),
+                    max: filter$$1.max ? addDays(startOfTomorrow(), filter$$1.max) : startOfTomorrow(),
                 };
             }
         }
-        if (filter$$1) {
-            if (filter$$1.hasOwnProperty('value')) {
-                this.filter = filter$$1.value;
-            }
-            else {
-                this.filter = filter$$1;
-            }
+        if (actualFilter && actualFilter.hasOwnProperty('value')) {
+            actualFilter = filter$$1.value;
         }
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
         }
         this.changeTimeout = setTimeout(function () {
-            if (_this.filter === '') {
-                _this.filter = undefined;
+            if (actualFilter === '') {
+                actualFilter = undefined;
             }
-            _this._sort.filter(_this.id, _this.filter, _this._config.transforms.filter);
+            _this._sort.filter(_this.id, actualFilter, _this.config.transforms.filter);
             _this.changeDetectorRef.markForCheck();
         }, 300);
     };
