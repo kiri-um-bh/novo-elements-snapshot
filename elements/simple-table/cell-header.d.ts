@@ -44,6 +44,7 @@ export declare class NovoSimpleCellHeader implements NovoSimpleSortFilter, OnIni
     ngOnInit(): void;
     ngOnDestroy(): void;
     sort(): void;
+    toggleCustomRange(event: Event, value: boolean): void;
     filterData(filter?: any): void;
     clearFilter(): void;
     private getNextSortDirection(direction);

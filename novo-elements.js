@@ -46589,6 +46589,16 @@ class NovoSimpleCellHeader {
         }, 300);
     }
     /**
+     * @param {?} event
+     * @param {?} value
+     * @return {?}
+     */
+    toggleCustomRange(event, value) {
+        Helpers.swallowEvent(event);
+        this.showCustomRange = value;
+        this.changeDetectorRef.markForCheck();
+    }
+    /**
      * @param {?=} filter
      * @return {?}
      */
@@ -46683,11 +46693,11 @@ NovoSimpleCellHeader.decorators = [
                                 {{ option.label }} <i class="bhi-check" *ngIf="activeDateFilter === option.label"></i>
                             </item>
                         </ng-container>
-                        <item [class.active]="labels.customDateRange === activeDateFilter" (click)="showCustomRange = true" *ngIf="config.filterConfig.allowCustomRange && !showCustomRange" [keepOpen]="true">
+                        <item [class.active]="labels.customDateRange === activeDateFilter" (click)="toggleCustomRange($event, true)" *ngIf="config.filterConfig.allowCustomRange && !showCustomRange" [keepOpen]="true">
                             {{ labels.customDateRange }} <i class="bhi-check" *ngIf="labels.customDateRange === activeDateFilter"></i>
                         </item>
                         <div class="calender-container" *ngIf="showCustomRange">
-                            <div (click)="showCustomRange = false"><i class="bhi-previous"></i>{{ labels.backToPresetFilters }}</div>
+                            <div (click)="toggleCustomRange($event, false)"><i class="bhi-previous"></i>{{ labels.backToPresetFilters }}</div>
                             <novo-date-picker (onSelect)="filterData($event)" [(ngModel)]="filter" range="true"></novo-date-picker>
                         </div>
                     </list>
@@ -46698,7 +46708,7 @@ NovoSimpleCellHeader.decorators = [
                     </list>
                     <list *ngSwitchDefault>
                         <item class="filter-search" keepOpen="true">
-                            <input type="text" [(ngModel)]="filter" (ngModelChange)="filterData()" novoSimpleFilterFocus data-automation-id="novo-activity-table-filter-input"/>
+                            <input type="text" [(ngModel)]="filter" (ngModelChange)="filterData($event)" novoSimpleFilterFocus data-automation-id="novo-activity-table-filter-input"/>
                         </item>
                     </list>
                 </ng-container>
