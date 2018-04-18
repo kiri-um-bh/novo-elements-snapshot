@@ -39,7 +39,7 @@ export { UnlessModule } from './elements/unless/Unless.module';
 export { NovoDataTableModule } from './elements/data-table/data-table.module';
 export { RemoteDataTableService } from './elements/data-table/services/remote-data-table.service';
 export { StaticDataTableService } from './elements/data-table/services/static-data-table.service';
-export { IDataTableCell, IDataTableChangeEvent, IDataTableColumn, IDataTableColumnFilterConfig, IDataTableColumnFilterOption, IDataTableColumnSortConfig, IDataTablePaginationEvent, IDataTablePaginationOptions, IDataTableSearchOptions, IDataTableSelectionChangeEvent, IDataTableService, IDataTableSortFilter } from './elements/data-table/interfaces';
+export { IDataTableCell, IDataTableChangeEvent, IDataTableColumn, IDataTableColumnFilterConfig, IDataTableColumnFilterOption, IDataTableColumnSortConfig, IDataTablePaginationEvent, IDataTablePaginationOptions, IDataTableSearchOptions, IDataTableSelectionChangeEvent, IDataTableService, IDataTableSortFilter, IDataTablePreferences } from './elements/data-table/interfaces';
 export { NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader } from './elements/simple-table/table';
 export { NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell } from './elements/simple-table/cell';
 export { NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef } from './elements/simple-table/row';
