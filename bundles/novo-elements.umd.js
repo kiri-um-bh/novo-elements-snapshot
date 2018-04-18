@@ -42302,12 +42302,17 @@ var DataTableSource = /** @class */ (function (_super) {
             _this.loading = true;
             return _this.tableService.getTableResults(_this.state.sort, _this.state.filter, _this.state.page, _this.state.pageSize, _this.state.globalSearch, _this.state.outsideFilter);
         }), map$1(function (data) {
-            if (!_this.totalSet) {
+            if (!_this.totalSet || _this.state.isForceRefresh) {
                 _this.total = data.total;
                 _this.totalSet = true;
+                _this.state.isForceRefresh = false;
             }
             _this.current = data.results.length;
             _this.data = data.results;
+            // Clear selection
+            _this.state.selectedRows.clear();
+            _this.state.onSelectionChange();
+            // Mark changes
             setTimeout(function () {
                 _this.ref.markForCheck();
                 setTimeout(function () {
@@ -42340,6 +42345,7 @@ var DataTableState = /** @class */ (function () {
         this.pageSize = undefined;
         this.globalSearch = undefined;
         this.selectedRows = new Map();
+        this.isForceRefresh = false;
         this.updates = new core.EventEmitter();
     }
     Object.defineProperty(DataTableState.prototype, "userFiltered", {
@@ -42577,6 +42583,27 @@ var NovoDataTable = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(NovoDataTable.prototype, "refreshSubject", {
+        /**
+         * @param {?} refreshSubject
+         * @return {?}
+         */
+        set: function (refreshSubject) {
+            var _this = this;
+            // Unsubscribe
+            if (this.refreshSubscription) {
+                this.refreshSubscription.unsubscribe();
+            }
+            // Re-subscribe
+            this.refreshSubscription = refreshSubject.subscribe(function (filter$$1) {
+                _this.state.isForceRefresh = true;
+                _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort });
+                _this.ref.markForCheck();
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(NovoDataTable.prototype, "columns", {
         /**
          * @return {?}
@@ -42676,6 +42703,9 @@ var NovoDataTable = /** @class */ (function () {
         }
         if (this.novoDataTableContainer) {
             ((this.novoDataTableContainer.nativeElement)).removeEventListener('scroll', this.scrollListenerHandler);
+        }
+        if (this.refreshSubscription) {
+            this.refreshSubscription.unsubscribe();
         }
     };
     /**
@@ -42877,6 +42907,7 @@ NovoDataTable.propDecorators = {
     'dataTableService': [{ type: core.Input },],
     'rows': [{ type: core.Input },],
     'outsideFilter': [{ type: core.Input },],
+    'refreshSubject': [{ type: core.Input },],
     'columns': [{ type: core.Input },],
     'customFilter': [{ type: core.Input },],
     'forceShowHeader': [{ type: core.Input },],

@@ -19,6 +19,7 @@ export declare class DataTableState<T> {
     globalSearch: string;
     selectedRows: Map<string, T>;
     outsideFilter: any;
+    isForceRefresh: boolean;
     updates: EventEmitter<IDataTableChangeEvent>;
     readonly userFiltered: boolean;
     readonly selected: T[];

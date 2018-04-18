@@ -43439,12 +43439,17 @@ class DataTableSource extends DataSource {
             this.loading = true;
             return this.tableService.getTableResults(this.state.sort, this.state.filter, this.state.page, this.state.pageSize, this.state.globalSearch, this.state.outsideFilter);
         }), map$1((data) => {
-            if (!this.totalSet) {
+            if (!this.totalSet || this.state.isForceRefresh) {
                 this.total = data.total;
                 this.totalSet = true;
+                this.state.isForceRefresh = false;
             }
             this.current = data.results.length;
             this.data = data.results;
+            // Clear selection
+            this.state.selectedRows.clear();
+            this.state.onSelectionChange();
+            // Mark changes
             setTimeout(() => {
                 this.ref.markForCheck();
                 setTimeout(() => {
@@ -43477,6 +43482,7 @@ class DataTableState {
         this.pageSize = undefined;
         this.globalSearch = undefined;
         this.selectedRows = new Map();
+        this.isForceRefresh = false;
         this.updates = new EventEmitter();
     }
     /**
@@ -43687,6 +43693,22 @@ class NovoDataTable {
         });
     }
     /**
+     * @param {?} refreshSubject
+     * @return {?}
+     */
+    set refreshSubject(refreshSubject) {
+        // Unsubscribe
+        if (this.refreshSubscription) {
+            this.refreshSubscription.unsubscribe();
+        }
+        // Re-subscribe
+        this.refreshSubscription = refreshSubject.subscribe((filter$$1) => {
+            this.state.isForceRefresh = true;
+            this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
+            this.ref.markForCheck();
+        });
+    }
+    /**
      * @param {?} columns
      * @return {?}
      */
@@ -43761,6 +43783,9 @@ class NovoDataTable {
         }
         if (this.novoDataTableContainer) {
             ((this.novoDataTableContainer.nativeElement)).removeEventListener('scroll', this.scrollListenerHandler);
+        }
+        if (this.refreshSubscription) {
+            this.refreshSubscription.unsubscribe();
         }
     }
     /**
@@ -44090,6 +44115,7 @@ NovoDataTable.propDecorators = {
     'dataTableService': [{ type: Input },],
     'rows': [{ type: Input },],
     'outsideFilter': [{ type: Input },],
+    'refreshSubject': [{ type: Input },],
     'columns': [{ type: Input },],
     'customFilter': [{ type: Input },],
     'forceShowHeader': [{ type: Input },],
