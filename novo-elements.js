@@ -43685,12 +43685,14 @@ class NovoDataTable {
         if (this.outsideFilterSubscription) {
             this.outsideFilterSubscription.unsubscribe();
         }
-        // Re-subscribe
-        this.outsideFilterSubscription = outsideFilter.subscribe((filter$$1) => {
-            this.state.outsideFilter = filter$$1;
-            this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
-            this.ref.markForCheck();
-        });
+        if (outsideFilter) {
+            // Re-subscribe
+            this.outsideFilterSubscription = outsideFilter.subscribe((filter$$1) => {
+                this.state.outsideFilter = filter$$1;
+                this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
+                this.ref.markForCheck();
+            });
+        }
     }
     /**
      * @param {?} refreshSubject
@@ -43701,12 +43703,14 @@ class NovoDataTable {
         if (this.refreshSubscription) {
             this.refreshSubscription.unsubscribe();
         }
-        // Re-subscribe
-        this.refreshSubscription = refreshSubject.subscribe((filter$$1) => {
-            this.state.isForceRefresh = true;
-            this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
-            this.ref.markForCheck();
-        });
+        if (refreshSubject) {
+            // Re-subscribe
+            this.refreshSubscription = refreshSubject.subscribe((filter$$1) => {
+                this.state.isForceRefresh = true;
+                this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
+                this.ref.markForCheck();
+            });
+        }
     }
     /**
      * @param {?} columns

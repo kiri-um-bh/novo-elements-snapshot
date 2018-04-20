@@ -42573,12 +42573,14 @@ var NovoDataTable = /** @class */ (function () {
             if (this.outsideFilterSubscription) {
                 this.outsideFilterSubscription.unsubscribe();
             }
-            // Re-subscribe
-            this.outsideFilterSubscription = outsideFilter.subscribe(function (filter$$1) {
-                _this.state.outsideFilter = filter$$1;
-                _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort });
-                _this.ref.markForCheck();
-            });
+            if (outsideFilter) {
+                // Re-subscribe
+                this.outsideFilterSubscription = outsideFilter.subscribe(function (filter$$1) {
+                    _this.state.outsideFilter = filter$$1;
+                    _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort });
+                    _this.ref.markForCheck();
+                });
+            }
         },
         enumerable: true,
         configurable: true
@@ -42594,12 +42596,14 @@ var NovoDataTable = /** @class */ (function () {
             if (this.refreshSubscription) {
                 this.refreshSubscription.unsubscribe();
             }
-            // Re-subscribe
-            this.refreshSubscription = refreshSubject.subscribe(function (filter$$1) {
-                _this.state.isForceRefresh = true;
-                _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort });
-                _this.ref.markForCheck();
-            });
+            if (refreshSubject) {
+                // Re-subscribe
+                this.refreshSubscription = refreshSubject.subscribe(function (filter$$1) {
+                    _this.state.isForceRefresh = true;
+                    _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort });
+                    _this.ref.markForCheck();
+                });
+            }
         },
         enumerable: true,
         configurable: true
