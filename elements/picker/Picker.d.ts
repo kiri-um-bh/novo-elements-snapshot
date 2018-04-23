@@ -77,6 +77,7 @@ export declare class NovoPickerElement implements OnInit {
      * @description - This method deletes the picker results from the DOM.
      */
     hideResults(err?: any): void;
+    onOverlayClosed(): void;
     value: any;
     checkTerm(event: any): void;
     onTouched(event?: Event): void;

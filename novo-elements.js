@@ -5147,17 +5147,29 @@ class BasePickerResults {
         this.selectingMatches = false;
         this.element = element;
         this.ref = ref;
+        this.scrollHandler = this.onScrollDown.bind(this);
     }
     /**
-     * @param {?} target
      * @return {?}
      */
-    onScrollDown(target) {
-        if (target) {
-            let /** @type {?} */ offset = target.offsetHeight + target.scrollTop, /** @type {?} */ bottom = target.scrollHeight;
+    cleanUp() {
+        let /** @type {?} */ element = this.getListElement();
+        if (element && element.hasAttribute('scrollListener')) {
+            element.removeAttribute('scrollListener');
+            element.removeEventListener('scroll', this.scrollHandler);
+        }
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    onScrollDown(event) {
+        let /** @type {?} */ element = event.target;
+        if (element) {
+            let /** @type {?} */ offset = element.offsetHeight + element.scrollTop, /** @type {?} */ bottom = element.scrollHeight - 300;
             if (offset >= bottom) {
                 event.stopPropagation();
-                if (!this.lastPage && !this.config.disableInfiniteScroll) {
+                if (!this.lastPage && !this.isLoading) {
                     this.processSearch();
                 }
             }
@@ -5179,6 +5191,21 @@ class BasePickerResults {
             this.page = 0;
             this.matches = [];
             this.processSearch(true);
+        }
+        else {
+            this.addScrollListener();
+        }
+    }
+    /**
+     * @return {?}
+     */
+    addScrollListener() {
+        if (this.config.enableInfiniteScroll) {
+            let /** @type {?} */ element = this.getListElement();
+            if (element && !element.hasAttribute('scrollListener')) {
+                element.setAttribute('scrollListener', 'true');
+                element.addEventListener('scroll', this.scrollHandler);
+            }
         }
     }
     /**
@@ -5205,7 +5232,10 @@ class BasePickerResults {
             }
             this.isLoading = false;
             this.ref.markForCheck();
-            setTimeout(() => this.overlay.updatePosition()); // @bkimball: This was added for Dylan Schulte, 9.18.2017 4:14PM EST, you're welcome!
+            setTimeout(() => {
+                this.overlay.updatePosition();
+                this.addScrollListener();
+            }); // @bkimball: This was added for Dylan Schulte, 9.18.2017 4:14PM EST, you're welcome!
         }, (err) => {
             this.hasError = this.term && this.term.length !== 0;
             this.isLoading = false;
@@ -5476,7 +5506,6 @@ class BasePickerResults {
 }
 BasePickerResults.propDecorators = {
     'matches': [{ type: Input },],
-    'onScrollDown': [{ type: HostListener, args: ['scroll', ['$event.target'],] },],
 };
 
 // NG2
@@ -5516,6 +5545,7 @@ PickerResults.decorators = [
                     <span [innerHtml]="highlight(match.label, term)"></span>
                 </item-content>
             </novo-list-item>
+            <novo-loading *ngIf="isLoading && matches.length > 0" theme="line"></novo-loading>
         </novo-list>
         <div class="picker-loader" *ngIf="isLoading && matches.length === 0">
             <novo-loading theme="line"></novo-loading>
@@ -9461,6 +9491,14 @@ class NovoPickerElement {
     /**
      * @return {?}
      */
+    onOverlayClosed() {
+        if (this.popup && this.popup.instance && this.popup.instance.cleanUp) {
+            this.popup.instance.cleanUp();
+        }
+    }
+    /**
+     * @return {?}
+     */
     get value() {
         return this._value;
     }
@@ -9582,7 +9620,7 @@ NovoPickerElement.decorators = [
             autocomplete="off" #input />
         <i class="bhi-search" *ngIf="!_value || clearValueOnSelect"></i>
         <i class="bhi-times" [class.entity-selected]="config?.entityIcon && _value" *ngIf="_value && !clearValueOnSelect" (click)="clearValue(true)"></i>
-        <novo-overlay-template class="picker-results-container" [parent]="element">
+        <novo-overlay-template class="picker-results-container" [parent]="element" (closing)="onOverlayClosed()">
             <span #results></span>
             <ng-content></ng-content>
         </novo-overlay-template>

@@ -4824,17 +4824,29 @@ var BasePickerResults = /** @class */ (function () {
         this.selectingMatches = false;
         this.element = element;
         this.ref = ref;
+        this.scrollHandler = this.onScrollDown.bind(this);
     }
     /**
-     * @param {?} target
      * @return {?}
      */
-    BasePickerResults.prototype.onScrollDown = function (target) {
-        if (target) {
-            var /** @type {?} */ offset = target.offsetHeight + target.scrollTop, /** @type {?} */ bottom = target.scrollHeight;
+    BasePickerResults.prototype.cleanUp = function () {
+        var /** @type {?} */ element = this.getListElement();
+        if (element && element.hasAttribute('scrollListener')) {
+            element.removeAttribute('scrollListener');
+            element.removeEventListener('scroll', this.scrollHandler);
+        }
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    BasePickerResults.prototype.onScrollDown = function (event) {
+        var /** @type {?} */ element = event.target;
+        if (element) {
+            var /** @type {?} */ offset = element.offsetHeight + element.scrollTop, /** @type {?} */ bottom = element.scrollHeight - 300;
             if (offset >= bottom) {
                 event.stopPropagation();
-                if (!this.lastPage && !this.config.disableInfiniteScroll) {
+                if (!this.lastPage && !this.isLoading) {
                     this.processSearch();
                 }
             }
@@ -4858,10 +4870,25 @@ var BasePickerResults = /** @class */ (function () {
                 this.matches = [];
                 this.processSearch(true);
             }
+            else {
+                this.addScrollListener();
+            }
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * @return {?}
+     */
+    BasePickerResults.prototype.addScrollListener = function () {
+        if (this.config.enableInfiniteScroll) {
+            var /** @type {?} */ element = this.getListElement();
+            if (element && !element.hasAttribute('scrollListener')) {
+                element.setAttribute('scrollListener', 'true');
+                element.addEventListener('scroll', this.scrollHandler);
+            }
+        }
+    };
     /**
      * @param {?=} shouldReset
      * @return {?}
@@ -4887,7 +4914,10 @@ var BasePickerResults = /** @class */ (function () {
             }
             _this.isLoading = false;
             _this.ref.markForCheck();
-            setTimeout(function () { return _this.overlay.updatePosition(); }); // @bkimball: This was added for Dylan Schulte, 9.18.2017 4:14PM EST, you're welcome!
+            setTimeout(function () {
+                _this.overlay.updatePosition();
+                _this.addScrollListener();
+            }); // @bkimball: This was added for Dylan Schulte, 9.18.2017 4:14PM EST, you're welcome!
         }, function (err) {
             _this.hasError = _this.term && _this.term.length !== 0;
             _this.isLoading = false;
@@ -5162,7 +5192,6 @@ var BasePickerResults = /** @class */ (function () {
 }());
 BasePickerResults.propDecorators = {
     'matches': [{ type: Input },],
-    'onScrollDown': [{ type: HostListener, args: ['scroll', ['$event.target'],] },],
 };
 // NG2
 // APP
@@ -5192,7 +5221,7 @@ PickerResults.decorators = [
                 host: {
                     'class': 'active'
                 },
-                template: "\n        <novo-list *ngIf=\"matches.length > 0\" direction=\"vertical\">\n            <novo-list-item\n                *ngFor=\"let match of matches\"\n                (click)=\"selectMatch($event)\"\n                [class.active]=\"match === activeMatch\"\n                (mouseenter)=\"selectActive(match)\"\n                [class.disabled]=\"preselected(match)\">\n                <item-content>\n                    <span [innerHtml]=\"highlight(match.label, term)\"></span>\n                </item-content>\n            </novo-list-item>\n        </novo-list>\n        <div class=\"picker-loader\" *ngIf=\"isLoading && matches.length === 0\">\n            <novo-loading theme=\"line\"></novo-loading>\n        </div>\n        <p class=\"picker-error\" *ngIf=\"hasError\">{{ labels.pickerError }}</p>\n        <p class=\"picker-null-results\" *ngIf=\"!isLoading && !matches.length && !hasError\">{{ labels.pickerEmpty }}</p>\n    "
+                template: "\n        <novo-list *ngIf=\"matches.length > 0\" direction=\"vertical\">\n            <novo-list-item\n                *ngFor=\"let match of matches\"\n                (click)=\"selectMatch($event)\"\n                [class.active]=\"match === activeMatch\"\n                (mouseenter)=\"selectActive(match)\"\n                [class.disabled]=\"preselected(match)\">\n                <item-content>\n                    <span [innerHtml]=\"highlight(match.label, term)\"></span>\n                </item-content>\n            </novo-list-item>\n            <novo-loading *ngIf=\"isLoading && matches.length > 0\" theme=\"line\"></novo-loading>\n        </novo-list>\n        <div class=\"picker-loader\" *ngIf=\"isLoading && matches.length === 0\">\n            <novo-loading theme=\"line\"></novo-loading>\n        </div>\n        <p class=\"picker-error\" *ngIf=\"hasError\">{{ labels.pickerError }}</p>\n        <p class=\"picker-null-results\" *ngIf=\"!isLoading && !matches.length && !hasError\">{{ labels.pickerEmpty }}</p>\n    "
             },] },
 ];
 /**
@@ -9067,6 +9096,14 @@ var NovoPickerElement = /** @class */ (function () {
         }
         this.hide();
     };
+    /**
+     * @return {?}
+     */
+    NovoPickerElement.prototype.onOverlayClosed = function () {
+        if (this.popup && this.popup.instance && this.popup.instance.cleanUp) {
+            this.popup.instance.cleanUp();
+        }
+    };
     Object.defineProperty(NovoPickerElement.prototype, "value", {
         /**
          * @return {?}
@@ -9179,7 +9216,7 @@ NovoPickerElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-picker',
                 providers: [PICKER_VALUE_ACCESSOR],
-                template: "\n        <i class=\"bhi-more\" *ngIf=\"config?.entityIcon && !_value\"></i>\n        <i class=\"bhi-{{ config?.entityIcon }} entity-icon {{ config?.entityIcon }}\" *ngIf=\"config?.entityIcon && _value\"></i>\n        <input\n            type=\"text\"\n            class=\"picker-input\"\n            [(ngModel)]=\"term\"\n            [class.entity-picker]=\"config.entityIcon\"\n            [class.entity-selected]=\"config?.entityIcon && _value\"\n            (ngModelChange)=\"checkTerm($event)\"\n            [placeholder]=\"placeholder\"\n            (keydown)=\"onKeyDown($event)\"\n            (focus)=\"onFocus($event)\"\n            (click)=\"onFocus($event)\"\n            (blur)=\"onTouched($event)\"\n            autocomplete=\"off\" #input />\n        <i class=\"bhi-search\" *ngIf=\"!_value || clearValueOnSelect\"></i>\n        <i class=\"bhi-times\" [class.entity-selected]=\"config?.entityIcon && _value\" *ngIf=\"_value && !clearValueOnSelect\" (click)=\"clearValue(true)\"></i>\n        <novo-overlay-template class=\"picker-results-container\" [parent]=\"element\">\n            <span #results></span>\n            <ng-content></ng-content>\n        </novo-overlay-template>\n    ",
+                template: "\n        <i class=\"bhi-more\" *ngIf=\"config?.entityIcon && !_value\"></i>\n        <i class=\"bhi-{{ config?.entityIcon }} entity-icon {{ config?.entityIcon }}\" *ngIf=\"config?.entityIcon && _value\"></i>\n        <input\n            type=\"text\"\n            class=\"picker-input\"\n            [(ngModel)]=\"term\"\n            [class.entity-picker]=\"config.entityIcon\"\n            [class.entity-selected]=\"config?.entityIcon && _value\"\n            (ngModelChange)=\"checkTerm($event)\"\n            [placeholder]=\"placeholder\"\n            (keydown)=\"onKeyDown($event)\"\n            (focus)=\"onFocus($event)\"\n            (click)=\"onFocus($event)\"\n            (blur)=\"onTouched($event)\"\n            autocomplete=\"off\" #input />\n        <i class=\"bhi-search\" *ngIf=\"!_value || clearValueOnSelect\"></i>\n        <i class=\"bhi-times\" [class.entity-selected]=\"config?.entityIcon && _value\" *ngIf=\"_value && !clearValueOnSelect\" (click)=\"clearValue(true)\"></i>\n        <novo-overlay-template class=\"picker-results-container\" [parent]=\"element\" (closing)=\"onOverlayClosed()\">\n            <span #results></span>\n            <ng-content></ng-content>\n        </novo-overlay-template>\n    ",
             },] },
 ];
 /**

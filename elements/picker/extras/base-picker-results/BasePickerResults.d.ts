@@ -25,9 +25,12 @@ export declare class BasePickerResults {
     autoSelectFirstOption: boolean;
     overlay: OverlayRef;
     private selectingMatches;
+    private scrollHandler;
     constructor(element: ElementRef, ref: ChangeDetectorRef);
-    onScrollDown(target: any): void;
+    cleanUp(): void;
+    onScrollDown(event: MouseWheelEvent): void;
     term: string;
+    addScrollListener(): void;
     processSearch(shouldReset?: boolean): void;
     search(term: any, mode?: any): Observable<{}>;
     /**
