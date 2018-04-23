@@ -1486,8 +1486,6 @@ class NovoLabelService {
         this.isTooLarge = 'is too large';
         this.invalidAddress = 'requires at least one field filled out';
         this.invalidEmail = 'requires a valid email (ex. abc@123.com)';
-        this.invalidMaxLength = 'Sorry, you have exceeded the maximum character count of for this field';
-        this.maxLengthMet = 'Sorry, you have reached the maximum character count of for this field';
         this.minLength = 'is required to be a minimum length of';
         this.past1Day = 'Past 1 Day';
         this.past7Days = 'Past 7 Days';
@@ -1534,6 +1532,36 @@ class NovoLabelService {
         this.groupedMultiPickerSelectCategory = 'Select a category from the right to get started';
         this.add = 'Add';
         this.encryptedFieldTooltip = 'This data has been stored at the highest level of security';
+    }
+    /**
+     * @param {?} field
+     * @param {?} maxlength
+     * @return {?}
+     */
+    maxlengthMetWithField(field, maxlength) {
+        return `Sorry, you have reached the maximum character count of ${maxlength} for ${field}.`;
+    }
+    /**
+     * @param {?} maxlength
+     * @return {?}
+     */
+    maxlengthMet(maxlength) {
+        return `Sorry, you have reached the maximum character count of ${maxlength} for this field.`;
+    }
+    /**
+     * @param {?} field
+     * @param {?} maxlength
+     * @return {?}
+     */
+    invalidMaxlengthWithField(field, maxlength) {
+        return `Sorry, you have exceeded the maximum character count of ${maxlength} for ${field}.`;
+    }
+    /**
+     * @param {?} maxlength
+     * @return {?}
+     */
+    invalidMaxlength(maxlength) {
+        return `Sorry, you have exceeded the maximum character count of ${maxlength} for this field.`;
     }
     /**
      * @param {?} toMany
@@ -14659,26 +14687,36 @@ class FormValidators {
     static isValidAddress(control) {
         let /** @type {?} */ fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'country'];
         let /** @type {?} */ invalidAddressFields = [];
+        let /** @type {?} */ maxlengthFields = [];
         let /** @type {?} */ returnVal = null;
+        let /** @type {?} */ maxlengthError = false;
         if (control.value && control.config) {
             let /** @type {?} */ valid = true;
             let /** @type {?} */ formValidity = true;
             fieldList.forEach((subfield) => {
-                if ((subfield !== 'country' && !Helpers.isEmpty(control.config[subfield]) && control.config[subfield].required &&
-                    !Helpers.isBlank(control.value[subfield]) && Helpers.isEmpty(control.value[subfield])) ||
-                    (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required &&
-                        !Helpers.isBlank(control.value.countryName) && Helpers.isEmpty(control.value.countryName))) {
-                    valid = false;
-                    invalidAddressFields.push(control.config[subfield].label);
-                }
-                if ((subfield !== 'country' && !Helpers.isEmpty(control.config[subfield]) && control.config[subfield].required &&
-                    Helpers.isEmpty(control.value[subfield])) ||
-                    (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required &&
-                        Helpers.isEmpty(control.value.countryName))) {
-                    formValidity = false;
+                if (!Helpers.isEmpty(control.config[subfield])) {
+                    if ((subfield !== 'country' && control.config[subfield].required &&
+                        !Helpers.isBlank(control.value[subfield]) && Helpers.isEmpty(control.value[subfield])) ||
+                        (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required &&
+                            !Helpers.isBlank(control.value.countryName) && Helpers.isEmpty(control.value.countryName))) {
+                        valid = false;
+                        invalidAddressFields.push(control.config[subfield].label);
+                    }
+                    if ((subfield !== 'country' && control.config[subfield].required &&
+                        Helpers.isEmpty(control.value[subfield])) ||
+                        (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required &&
+                            Helpers.isEmpty(control.value.countryName))) {
+                        formValidity = false;
+                    }
+                    if (!Helpers.isEmpty(control.config[subfield].maxlength) && !Helpers.isEmpty(control.value[subfield]) &&
+                        control.value[subfield].length > control.config[subfield].maxlength) {
+                        maxlengthError = true;
+                        maxlengthFields.push(subfield);
+                        formValidity = false;
+                    }
                 }
             });
-            if (!valid || !formValidity) {
+            if (!valid || !formValidity || maxlengthError) {
                 returnVal = {};
             }
             if (!valid) {
@@ -14687,6 +14725,10 @@ class FormValidators {
             }
             if (!formValidity) {
                 returnVal.invalidAddressForForm = true;
+            }
+            if (maxlengthError) {
+                returnVal.maxlength = true;
+                returnVal.maxlengthFields = maxlengthFields;
             }
             return returnVal;
         }
@@ -15385,6 +15427,9 @@ class FormUtils {
                         };
                         if (!Helpers.isEmpty(subfield.label)) {
                             controlConfig.config[subfield.name].label = subfield.label;
+                        }
+                        if (!Helpers.isEmpty(subfield.maxLength)) {
+                            controlConfig.config[subfield.name].maxlength = subfield.maxLength;
                         }
                         controlConfig.required = controlConfig.required || subfield.required;
                         if (subfield.defaultValue) {
@@ -16784,9 +16829,8 @@ NovoCustomControlContainerElement.decorators = [
                 <div class="novo-control-inner-container">
                     <div class="novo-control-inner-input-container">
                         <!--Required Indicator-->
-                        <i [hidden]="!form.controls[control.key].required || form.controls[control.key].readOnly"
-                            class="required-indicator"
-                            [ngClass]="{'bhi-circle': !isValid, 'bhi-check': isValid}" *ngIf="form.controls[control.key].required">
+                        <i class="required-indicator"
+                            [ngClass]="{'bhi-circle': !isValid, 'bhi-check': isValid}" *ngIf="form.controls[control.key].required && !form.controls[control.key].readOnly">
                         </i>
                         <!--Form Controls-->
                         <div class="novo-control-input {{ form.controls[control.key].controlType }}" [attr.data-automation-id]="control.key">
@@ -16846,6 +16890,8 @@ class NovoControlElement extends OutsideClick {
         this.formattedValue = '';
         this.maxLengthMet = false;
         this.characterCount = 0;
+        this._showCount = false;
+        this.maxLengthMetErrorfields = [];
     }
     /**
      * @return {?}
@@ -16862,6 +16908,28 @@ class NovoControlElement extends OutsideClick {
     /**
      * @return {?}
      */
+    get maxlengthMetField() {
+        if (this.maxLengthMetErrorfields && this.maxLengthMetErrorfields.length) {
+            return this.maxLengthMetErrorfields.find((field) => field === this.focusedField) || '';
+        }
+        else {
+            return '';
+        }
+    }
+    /**
+     * @return {?}
+     */
+    get maxlengthErrorField() {
+        if (this.errors && this.errors.maxlengthFields && this.errors.maxlengthFields.length) {
+            return this.errors.maxlengthFields.find((field) => field === this.focusedField) || '';
+        }
+        else {
+            return '';
+        }
+    }
+    /**
+     * @return {?}
+     */
     get showFieldMessage() {
         return !this.errors && !this.maxLengthMet && Helpers.isBlank(this.control.description);
     }
@@ -16869,9 +16937,17 @@ class NovoControlElement extends OutsideClick {
      * @return {?}
      */
     get showCount() {
-        return (this.form.controls[this.control.key].maxlength &&
+        let /** @type {?} */ charCount = this.form.controls[this.control.key].maxlength &&
             this.focused &&
-            (this.form.controls[this.control.key].controlType === 'text-area' || this.form.controls[this.control.key].controlType === 'textbox'));
+            (this.form.controls[this.control.key].controlType === 'text-area' || this.form.controls[this.control.key].controlType === 'textbox');
+        return this._showCount || charCount;
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set showCount(value) {
+        this._showCount = value;
     }
     /**
      * @return {?}
@@ -16897,6 +16973,7 @@ class NovoControlElement extends OutsideClick {
                 this.characterCount = this.form.controls[this.control.key].value.length;
             }
         }
+        // this.maxLenghtCount = form.controls[control.key].maxlength;
         if (this.control) {
             // Listen to clear events
             this.forceClearSubscription = this.control.forceClear.subscribe(() => {
@@ -17063,10 +17140,19 @@ class NovoControlElement extends OutsideClick {
     }
     /**
      * @param {?} event
+     * @param {?} field
      * @return {?}
      */
-    handleFocus(event) {
+    handleFocus(event, field) {
         this._focused = true;
+        this.focusedField = field;
+        if (this.characterCountField === field) {
+            this.showCount = true;
+        }
+        else if (this.form.controls[this.control.key].controlType === 'address' &&
+            field && !Helpers.isEmpty(this.form.value[this.control.key]) && !Helpers.isBlank(this.form.value[this.control.key][field])) {
+            this.handleAddressChange({ value: this.form.value[this.control.key][field], field });
+        }
         this._focusEmitter.emit(event);
     }
     /**
@@ -17075,6 +17161,8 @@ class NovoControlElement extends OutsideClick {
      */
     handleBlur(event) {
         this._focused = false;
+        this.focusedField = '';
+        this.showCount = false;
         this._blurEmitter.emit(event);
     }
     /**
@@ -17209,6 +17297,26 @@ class NovoControlElement extends OutsideClick {
     handleUpload(value) {
         this.upload.emit(value);
     }
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    handleAddressChange(data) {
+        if (data && !Helpers.isBlank(data.value) &&
+            data.field && this.control.config[data.field] &&
+            !Helpers.isEmpty(this.control.config[data.field].maxlength)) {
+            this.characterCount = data.value.length;
+            this.characterCountField = data.field;
+            this.maxLength = this.control.config[data.field].maxlength;
+            this.showCount = true;
+            if (this.maxLength === this.characterCount) {
+                this.maxLengthMetErrorfields.push(data.field);
+            }
+            else {
+                this.maxLengthMetErrorfields = this.maxLengthMetErrorfields.filter((field) => field !== data.field);
+            }
+        }
+    }
 }
 NovoControlElement.decorators = [
     { type: Component, args: [{
@@ -17235,7 +17343,7 @@ NovoControlElement.decorators = [
                     [class.novo-control-extra-spacing]="requiresExtraSpacing">
                     {{ form.controls[control.key].label }}
                 </label>
-                <div class="novo-control-inner-container">
+                <div class="novo-control-inner-container" [class.required]="form.controls[control.key].required && !form.controls[control.key].readOnly">
                     <div class="novo-control-inner-input-container">
                       <!--Required Indicator-->
                         <i [hidden]="!form.controls[control.key].required || form.controls[control.key].readOnly"
@@ -17247,14 +17355,14 @@ NovoControlElement.decorators = [
                             <!--Text-based Inputs-->
                             <!--TODO prefix/suffix on the control-->
                             <div class="novo-control-input-container novo-control-input-with-label" *ngSwitchCase="'textbox'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition">
-                              <input *ngIf="form.controls[control.key].type !== 'number'" [formControlName]="control.key" [id]="control.key" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (input)="emitChange($event)" [maxlength]="form.controls[control.key].maxlength" (focus)="handleFocus($event)" (blur)="handleBlur($event)" autocomplete>
-                              <input *ngIf="form.controls[control.key].type === 'number' && form.controls[control.key].subType !== 'percentage'" [formControlName]="control.key" [id]="control.key" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (keydown)="restrictKeys($event)" (input)="emitChange($event)" [maxlength]="form.controls[control.key].maxlength" (focus)="handleFocus($event)" (blur)="handleBlur($event)" step="any" (mousewheel)="numberInput.blur()" #numberInput>
+                              <input *ngIf="form.controls[control.key].type !== 'number'" [class.maxlength-error]="errors?.maxlength" [formControlName]="control.key" [id]="control.key" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (input)="emitChange($event)" [maxlength]="form.controls[control.key].maxlength" (focus)="handleFocus($event)" (blur)="handleBlur($event)" autocomplete>
+                              <input *ngIf="form.controls[control.key].type === 'number' && form.controls[control.key].subType !== 'percentage'" [class.maxlength-error]="errors?.maxlength" [formControlName]="control.key" [id]="control.key" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (keydown)="restrictKeys($event)" (input)="emitChange($event)" [maxlength]="form.controls[control.key].maxlength" (focus)="handleFocus($event)" (blur)="handleBlur($event)" step="any" (mousewheel)="numberInput.blur()" #numberInput>
                               <input *ngIf="form.controls[control.key].type === 'number' && form.controls[control.key].subType === 'percentage'" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (keydown)="restrictKeys($event)" [value]="percentValue" (input)="handlePercentChange($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" step="any" (mousewheel)="percentInput.blur()" #percentInput>
                               <label class="input-label" *ngIf="form.controls[control.key].subType === 'currency'">{{ control.currencyFormat }}</label>
                               <label class="input-label" *ngIf="form.controls[control.key].subType === 'percentage'">%</label>
                             </div>
                             <!--TextArea-->
-                            <textarea *ngSwitchCase="'text-area'" [name]="control.key" [attr.id]="control.key" [placeholder]="form.controls[control.key].placeholder" [formControlName]="control.key" autosize (input)="handleTextAreaInput($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" [maxlength]="control.maxlength" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></textarea>
+                            <textarea *ngSwitchCase="'text-area'" [class.maxlength-error]="errors?.maxlength" [name]="control.key" [attr.id]="control.key" [placeholder]="form.controls[control.key].placeholder" [formControlName]="control.key" autosize (input)="handleTextAreaInput($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" [maxlength]="control.maxlength" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></textarea>
                             <!--Editor-->
                             <novo-editor *ngSwitchCase="'editor'" [name]="control.key" [formControlName]="control.key" [startupFocus]="control.startupFocus" [minimal]="control.minimal" [fileBrowserImageUploadUrl]="control.fileBrowserImageUploadUrl" (focus)="handleFocus($event)" (blur)="handleBlur($event)"></novo-editor>
                             <!--AceEditor-->
@@ -17292,7 +17400,7 @@ NovoControlElement.decorators = [
                                 <novo-date-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder" [military]="form.controls[control.key].military"></novo-date-time-picker-input>
                             </div>
                             <!--Address-->
-                            <novo-address *ngSwitchCase="'address'" [formControlName]="control.key" [config]="control.config"></novo-address>
+                            <novo-address *ngSwitchCase="'address'" [formControlName]="control.key" [config]="control.config" (change)="handleAddressChange($event)" (focus)="handleFocus($event.event, $event.field)" (blur)="handleBlur($event.event, $event.field)"></novo-address>
                             <!--Checkbox-->
                             <novo-checkbox *ngSwitchCase="'checkbox'" [formControlName]="control.key" [name]="control.key" [label]="control.checkboxLabel" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [layoutOptions]="layoutOptions"></novo-checkbox>
                             <!--Checklist-->
@@ -17305,17 +17413,23 @@ NovoControlElement.decorators = [
                         </div>
                     </div>
                     <!--Error Message-->
-                    <div class="field-message" *ngIf="!condensed" [class.has-tip]="form.controls[control.key].tipWell">
+                    <div class="field-message {{ form.controls[control.key].controlType }}" *ngIf="!condensed" [class.has-tip]="form.controls[control.key].tipWell">
                         <div class="messages">
                             <span class="error-text" *ngIf="showFieldMessage"></span>
                             <span class="error-text" *ngIf="isDirty && errors?.required && form.controls[control.key].controlType !== 'address'">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>
                             <span class="error-text" *ngIf="isDirty && errors?.minlength">{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span>
-                            <span class="error-text" *ngIf="isDirty && maxLengthMet && focused && !errors?.maxlength">{{ labels.maxLengthMet }}({{ form.controls[control.key].maxlength }})</span>
-                            <span class="error-text" *ngIf="errors?.maxlength">{{ labels.invalidMaxLength }}({{ form.controls[control.key].maxlength }})</span>
+                            <span class="error-text" *ngIf="isDirty && maxLengthMet && focused && !errors?.maxlength">{{ labels.maxlengthMet(form.controls[control.key].maxlength) }}</span>
+                            <span class="error-text" *ngIf="errors?.maxlength && focused && !errors?.maxlengthFields">{{ labels.invalidMaxlength(form.controls[control.key].maxlength) }}</span>
                             <span class="error-text" *ngIf="isDirty && errors?.invalidEmail">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidEmail }}</span>
                             <span class="error-text" *ngIf="isDirty && (errors?.integerTooLarge || errors?.doubleTooLarge)">{{ form.controls[control.key].label | uppercase }} {{ labels.isTooLarge }}</span>
                             <span *ngIf="isDirty && errors?.minYear">{{ form.controls[control.key].label | uppercase }} {{ labels.notValidYear }}</span>
                             <span class="error-text" *ngIf="isDirty && (errors?.custom)">{{ errors.custom }}</span>
+                            <span class="error-text" *ngIf="errors?.maxlength && errors?.maxlengthFields && maxlengthErrorField && focused">
+                                {{ labels.invalidMaxlengthWithField(control.config[maxlengthErrorField]?.label, control.config[maxlengthErrorField]?.maxlength) }}
+                            </span>
+                            <span class="error-text" *ngIf="isDirty && maxlengthMetField && focused && !errors?.maxlengthFields?.includes(maxlengthMetField)">
+                              {{ labels.maxlengthMetWithField(control.config[maxlengthMetField]?.label, control.config[maxlengthMetField]?.maxlength) }}
+                            </span>
                             <span *ngIf="isDirty && errors?.invalidAddress">
                                 <span class="error-text" *ngFor="let invalidAddressField of errors?.invalidAddressFields">{{ invalidAddressField | uppercase }} {{ labels.isRequired }} </span>
                             </span>
@@ -17324,7 +17438,7 @@ NovoControlElement.decorators = [
                                 {{ form.controls[control.key].description }}
                             </span>
                         </div>
-                        <span class="character-count" [class.error]="errors?.maxlength" *ngIf="showCount">{{ characterCount }}/{{ form.controls[control.key].maxlength }}</span>
+                        <span class="character-count" [class.error]="((errors?.maxlength && !errors?.maxlengthFields) || (errors?.maxlength && errors?.maxlengthFields && errors.maxlengthFields.includes(focusedField)))" *ngIf="showCount">{{ characterCount }}/{{ maxLength || form.controls[control.key].maxlength }}</span>
                     </div>
                     <!--Tip Wel-->
                     <novo-tip-well *ngIf="form.controls[control.key].tipWell" [name]="control.key" [tip]="form.controls[control.key]?.tipWell?.tip" [icon]="form.controls[control.key]?.tipWell?.icon" [button]="form.controls[control.key]?.tipWell?.button"></novo-tip-well>
@@ -30327,7 +30441,11 @@ class NovoAddressElement {
         };
         this.focused = {};
         this.invalid = {};
+        this.invalidMaxlength = {};
         this.valid = {};
+        this.change = new EventEmitter();
+        this.focus = new EventEmitter();
+        this.blur = new EventEmitter();
     }
     /**
      * @return {?}
@@ -30365,6 +30483,9 @@ class NovoAddressElement {
             !(field === 'country' && this.config[field].required && !Helpers.isEmpty(this.model.countryName))) {
             valid = false;
         }
+        else if (!Helpers.isEmpty(this.model[field]) && !Helpers.isBlank(this.config[field].maxlength) && this.config[field].maxlength < this.model[field].length) {
+            valid = false;
+        }
         this.valid[field] = valid;
     }
     /**
@@ -30373,33 +30494,47 @@ class NovoAddressElement {
      */
     isInvalid(field) {
         let /** @type {?} */ invalid = false;
+        let /** @type {?} */ invalidMaxlength = false;
         if (((this.config[field].required && Helpers.isEmpty(this.model[field]) && !Helpers.isBlank(this.model[field]))) &&
             !(field === 'country' && this.config[field].required && !Helpers.isEmpty(this.model.countryName) && !Helpers.isBlank(this.model.countryName))) {
             invalid = true;
         }
+        else if (!Helpers.isEmpty(this.model[field]) && !Helpers.isBlank(this.config[field].maxlength) && this.config[field].maxlength < this.model[field].length) {
+            invalid = true;
+            invalidMaxlength = true;
+        }
         this.invalid[field] = invalid;
+        this.invalidMaxlength[field] = invalidMaxlength;
     }
     /**
+     * @param {?} event
      * @param {?} field
      * @return {?}
      */
-    onInput(field) {
+    onInput(event, field) {
         this.isInvalid(field);
         this.isValid(field);
+        if (event) {
+            this.change.emit({ value: this.model[field], field: field });
+        }
     }
     /**
+     * @param {?} event
      * @param {?} field
      * @return {?}
      */
-    isFocused(field) {
+    isFocused(event, field) {
         this.focused[field] = true;
+        this.focus.emit({ event, field });
     }
     /**
+     * @param {?} event
      * @param {?} field
      * @return {?}
      */
-    isBlurred(field) {
+    isBlurred(event, field) {
         this.focused[field] = false;
+        this.blur.emit({ event, field });
     }
     /**
      * @param {?} evt
@@ -30416,7 +30551,7 @@ class NovoAddressElement {
         // Update state
         this.model.state = undefined;
         this.updateControl();
-        this.onInput('country');
+        this.onInput(null, 'country');
     }
     /**
      * @param {?} evt
@@ -30425,7 +30560,7 @@ class NovoAddressElement {
     onStateChange(evt) {
         this.model.state = evt;
         this.updateControl();
-        this.onInput('state');
+        this.onInput(null, 'state');
     }
     /**
      * @return {?}
@@ -30475,7 +30610,7 @@ class NovoAddressElement {
             }
         }
         this.fieldList.forEach((field) => {
-            this.onInput(field);
+            this.onInput(null, field);
         });
     }
     /**
@@ -30503,21 +30638,21 @@ NovoAddressElement.decorators = [
                 class="required-indicator address1"
                 [ngClass]="{'bhi-circle': !valid.address1, 'bhi-check': valid.address1}">
             </i>
-            <input type="text" id="address1" name="address1" [placeholder]="config.address1.label" autocomplete="shipping street-address address-line-1" [(ngModel)]="model.address1" (ngModelChange)="updateControl()" (focus)="isFocused('address1')" (blur)="isBlurred('address1')" (input)="onInput('address1')"/>
+            <input [class.maxlength-error]="invalidMaxlength.address1" type="text" id="address1" name="address1" [placeholder]="config.address1.label" [maxlength]="config?.address1?.maxlength" autocomplete="shipping street-address address-line-1" [(ngModel)]="model.address1" (ngModelChange)="updateControl()" (focus)="isFocused($event, 'address1')" (blur)="isBlurred($event, 'address1')" (input)="onInput($event, 'address1')"/>
         </span>
         <span class="apt suite" [class.invalid]="invalid.address2" [class.focus]="focused.address2">
             <i *ngIf="config?.address2?.required"
                 class="required-indicator address2"
                 [ngClass]="{'bhi-circle': !valid.address2, 'bhi-check': valid.address2}">
             </i>
-            <input type="text" id="address2" name="address2" [placeholder]="config.address2.label" autocomplete="shipping address-line-2" [(ngModel)]="model.address2" (ngModelChange)="updateControl()" (focus)="isFocused('address2')" (blur)="isBlurred('address2')" (input)="onInput('address2')"/>
+            <input [class.maxlength-error]="invalidMaxlength.address2" type="text" id="address2" name="address2" [placeholder]="config.address2.label" [maxlength]="config?.address2?.maxlength" autocomplete="shipping address-line-2" [(ngModel)]="model.address2" (ngModelChange)="updateControl()" (focus)="isFocused($event, 'address2')" (blur)="isBlurred($event, 'address2')" (input)="onInput($event, 'address2')"/>
         </span>
         <span class="city locality" [class.invalid]="invalid.city" [class.focus]="focused.city">
             <i *ngIf="config?.city?.required"
                 class="required-indicator"
                 [ngClass]="{'bhi-circle': !valid.city, 'bhi-check': valid.city}">
             </i>
-            <input type="text" id="city" name="city" [placeholder]="config.city.label" autocomplete="shipping city locality" [(ngModel)]="model.city" (ngModelChange)="updateControl()" (focus)="isFocused('city')" (blur)="isBlurred('city')" (input)="onInput('city')"/>
+            <input [class.maxlength-error]="invalidMaxlength.city" type="text" id="city" name="city" [placeholder]="config.city.label" autocomplete="shipping city locality" [maxlength]="config?.city?.maxlength" [(ngModel)]="model.city" (ngModelChange)="updateControl()" (focus)="isFocused($event, 'city')" (blur)="isBlurred($event, 'city')" (input)="onInput($event, 'city')"/>
         </span>
         <span class="state region" [class.invalid]="invalid.state" [class.focus]="focused.state">
             <i *ngIf="config?.state?.required"
@@ -30531,7 +30666,7 @@ NovoAddressElement.decorators = [
                 class="required-indicator"
                 [ngClass]="{'bhi-circle': !valid.zip, 'bhi-check': valid.zip}">
             </i>
-            <input type="text" id="zip" name="zip" [placeholder]="config.zip.label" autocomplete="shipping postal-code" [(ngModel)]="model.zip" (ngModelChange)="updateControl()" (focus)="isFocused('zip')" (blur)="isBlurred('zip')" (input)="onInput('zip')" />
+            <input [class.maxlength-error]="invalidMaxlength.zip" type="text" id="zip" name="zip" [placeholder]="config.zip.label" autocomplete="shipping postal-code" [maxlength]="config?.zip?.maxlength" [(ngModel)]="model.zip" (ngModelChange)="updateControl()" (focus)="isFocused($event, 'zip')" (blur)="isBlurred($event, 'zip')" (input)="onInput($event, 'zip')" />
         </span>
         <span class="country-name" [class.invalid]="invalid.country" [class.focus]="focused.country">
             <i *ngIf="config?.country?.required"
@@ -30551,6 +30686,9 @@ NovoAddressElement.ctorParameters = () => [
 ];
 NovoAddressElement.propDecorators = {
     'config': [{ type: Input },],
+    'change': [{ type: Output },],
+    'focus': [{ type: Output },],
+    'blur': [{ type: Output },],
 };
 
 // NG2

@@ -48,10 +48,17 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     private percentChangeSubscription;
     private valueChangeSubscription;
     private dateChangeSubscription;
+    private _showCount;
+    private maxLength;
+    private focusedField;
+    private characterCountField;
+    private maxLengthMetErrorfields;
     maskOptions: IMaskOptions;
     constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, fieldInteractionApi: FieldInteractionApi);
+    readonly maxlengthMetField: string;
+    readonly maxlengthErrorField: string;
     readonly showFieldMessage: boolean;
-    readonly showCount: boolean;
+    showCount: boolean;
     ngAfterViewInit(): void;
     ngOnInit(): void;
     executeInteraction(interaction: any): void;
@@ -66,7 +73,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     readonly alwaysActive: boolean;
     readonly requiresExtraSpacing: boolean;
     handleTyping(event: any): void;
-    handleFocus(event: FocusEvent): void;
+    handleFocus(event: FocusEvent, field: any): void;
     handleBlur(event: FocusEvent): void;
     clearValue(): void;
     handleTextAreaInput(event: any): void;
@@ -81,4 +88,5 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     handleSave(value: any): void;
     handleDelete(value: any): void;
     handleUpload(value: any): void;
+    handleAddressChange(data: any): void;
 }

@@ -34,8 +34,6 @@ export declare class NovoLabelService {
     isTooLarge: string;
     invalidAddress: string;
     invalidEmail: string;
-    invalidMaxLength: string;
-    maxLengthMet: string;
     minLength: string;
     past1Day: string;
     past7Days: string;
@@ -83,6 +81,10 @@ export declare class NovoLabelService {
     add: string;
     encryptedFieldTooltip: string;
     constructor(userLocale?: string);
+    maxlengthMetWithField(field: string, maxlength: number): string;
+    maxlengthMet(maxlength: number): string;
+    invalidMaxlengthWithField(field: string, maxlength: number): string;
+    invalidMaxlength(maxlength: number): string;
     getToManyPlusMore(toMany: {
         quantity: number;
     }): string;

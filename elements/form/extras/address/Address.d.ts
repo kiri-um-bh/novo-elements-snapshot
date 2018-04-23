@@ -1,9 +1,10 @@
-import { OnInit } from '@angular/core';
+import { OnInit, EventEmitter } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../../../services/novo-label-service';
 export interface NovoAddressSubfieldConfig {
     label: string;
     required: boolean;
+    maxlength: number;
 }
 export interface NovoAddressConfig {
     required?: boolean;
@@ -25,14 +26,18 @@ export declare class NovoAddressElement implements ControlValueAccessor, OnInit 
     onModelTouched: Function;
     focused: any;
     invalid: any;
+    invalidMaxlength: any;
     valid: any;
+    change: EventEmitter<any>;
+    focus: EventEmitter<any>;
+    blur: EventEmitter<any>;
     constructor(labels: NovoLabelService);
     ngOnInit(): void;
     isValid(field: string): void;
     isInvalid(field: string): void;
-    onInput(field: string): void;
-    isFocused(field: string): void;
-    isBlurred(field: string): void;
+    onInput(event: Event, field: string): void;
+    isFocused(event: Event, field: string): void;
+    isBlurred(event: Event, field: string): void;
     onCountryChange(evt: any): void;
     onStateChange(evt: any): void;
     updateStates(): void;
