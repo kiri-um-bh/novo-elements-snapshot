@@ -57,7 +57,6 @@ export interface NovoControlConfig {
     customControl?: any;
     customControlConfig?: any;
     military?: boolean;
-    format?: string;
     tipWell?: {
         tip: string;
         icon?: string;
@@ -117,7 +116,6 @@ export declare class BaseControl {
     customControl?: any;
     customControlConfig?: any;
     military?: boolean;
-    format?: string;
     tipWell?: {
         tip: string;
         icon?: string;

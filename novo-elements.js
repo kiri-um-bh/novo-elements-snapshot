@@ -5,7 +5,7 @@ import 'brace/index';
 import 'brace/theme/chrome';
 import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
-import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, format, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isDate, isSameDay, isSameMonth, isSameSecond, isToday, isValid, parse, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
+import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isDate, isSameDay, isSameMonth, isSameSecond, isToday, parse, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
 import { DOCUMENT, DomSanitizer } from '@angular/platform-browser';
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
@@ -76,9 +76,9 @@ class Helpers {
         if (Array.isArray(formatString)) {
             let /** @type {?} */ successes = [];
             let /** @type {?} */ failures = [];
-            formatString.forEach((format$$1) => {
+            formatString.forEach((format) => {
                 let /** @type {?} */ isSuccess = true;
-                let /** @type {?} */ attempt = format$$1.replace(/\$([\w\.]+)/g, (original, key) => {
+                let /** @type {?} */ attempt = format.replace(/\$([\w\.]+)/g, (original, key) => {
                     let /** @type {?} */ keys = key.split('.');
                     let /** @type {?} */ value = data[keys.shift()];
                     while (keys.length && value !== undefined) {
@@ -1598,12 +1598,12 @@ class NovoLabelService {
      * @param {?} format
      * @return {?}
      */
-    formatDateWithFormat(value, format$$1) {
+    formatDateWithFormat(value, format) {
         let /** @type {?} */ date = value instanceof Date ? value : new Date(value);
         if (date.getTime() !== date.getTime()) {
             return value;
         }
-        return new Intl.DateTimeFormat(this.userLocale, format$$1).format(date);
+        return new Intl.DateTimeFormat(this.userLocale, format).format(date);
     }
     /**
      * @return {?}
@@ -12380,18 +12380,12 @@ class NovoDatePickerInputElement {
      * @return {?}
      */
     ngOnInit() {
-        this.userDefinedFormat = this.format ? !this.format.match(/^(DD\/MM\/YYYY|MM\/DD\/YYYY)$/g) : false;
-        if (!this.userDefinedFormat) {
-            this.maskOptions = this.maskOptions || {
-                mask: [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/],
-                pipe: createAutoCorrectedDatePipe$1(this.format || this.labels.dateFormat.toLowerCase()),
-                keepCharPositions: false,
-                guide: true,
-            };
-        }
-        else {
-            this.maskOptions = { mask: false };
-        }
+        this.maskOptions = this.maskOptions || {
+            mask: [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/],
+            pipe: createAutoCorrectedDatePipe$1(this.format || this.labels.dateFormat.toLowerCase()),
+            keepCharPositions: false,
+            guide: true,
+        };
     }
     /**
      * BEGIN: Convienient Panel Methods.
@@ -12521,9 +12515,6 @@ class NovoDatePickerInputElement {
             if (!value) {
                 return '';
             }
-            if (this.userDefinedFormat && isValid(value)) {
-                return format(value, this.format);
-            }
             if (!(value instanceof Date)) {
                 value = new Date(value);
             }
@@ -12584,7 +12575,7 @@ NovoDatePickerModule.decorators = [
     { type: NgModule, args: [{
                 imports: [CommonModule, FormsModule, NovoOverlayModule, TextMaskModule],
                 declarations: [NovoDatePickerElement, NovoDatePickerInputElement],
-                exports: [NovoDatePickerElement, NovoDatePickerInputElement],
+                exports: [NovoDatePickerElement, NovoDatePickerInputElement]
             },] },
 ];
 /**
@@ -13040,15 +13031,15 @@ class DateFormatService {
      * @param {?} format
      * @return {?}
      */
-    isValidDatePart(value, format$$1) {
+    isValidDatePart(value, format) {
         let /** @type {?} */ datePart = parseInt(value);
-        if (format$$1.includes('m') && (datePart >= 2 || value.length === 2)) {
+        if (format.includes('m') && (datePart >= 2 || value.length === 2)) {
             return true;
         }
-        else if (format$$1.includes('d') && (datePart >= 4 || value.length === 2)) {
+        else if (format.includes('d') && (datePart >= 4 || value.length === 2)) {
             return true;
         }
-        else if (format$$1.includes('y') && datePart >= 1000) {
+        else if (format.includes('y') && datePart >= 1000) {
             return true;
         }
         return false;
@@ -13241,15 +13232,15 @@ class NovoTimePickerInputElement {
         if (!value) {
             return '';
         }
-        let /** @type {?} */ format$$1 = this.labels.formatDateWithFormat(value, {
+        let /** @type {?} */ format = this.labels.formatDateWithFormat(value, {
             hour: '2-digit',
             minute: '2-digit',
             hour12: !this.military
         });
-        if (format$$1.split(':')[0].length === 1) {
-            return `0${format$$1}`;
+        if (format.split(':')[0].length === 1) {
+            return `0${format}`;
         }
-        return format$$1;
+        return format;
     }
     /**
      * @return {?}
@@ -14463,7 +14454,6 @@ class NovoFormControl extends FormControl {
         this.readOnly = control.readOnly;
         this.layoutOptions = control.layoutOptions;
         this.military = control.military;
-        this.format = control.format;
         this.maxlength = control.maxlength;
         this.minlength = control.minlength;
         this.closeOnSelect = control.closeOnSelect;
@@ -14620,7 +14610,6 @@ class BaseControl {
         this.disabled = !!config.disabled;
         this.layoutOptions = config.layoutOptions || {};
         this.military = !!config.military;
-        this.format = config.format;
         if (this.required) {
             this.validators.push(Validators.required);
         }
@@ -15376,7 +15365,6 @@ class FormUtils {
                 control = new DateTimeControl(controlConfig);
                 break;
             case 'date':
-                controlConfig.format = field.format;
                 controlConfig.military = config ? !!config.military : false;
                 control = new DateControl(controlConfig);
                 break;
@@ -17405,7 +17393,7 @@ NovoControlElement.decorators = [
                             </div>
                             <!--Date-->
                             <div class="novo-control-input-container" *ngSwitchCase="'date'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition">
-                                <novo-date-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [format]="form.controls[control.key].format" [placeholder]="form.controls[control.key].placeholder"></novo-date-picker-input>
+                                <novo-date-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder"></novo-date-picker-input>
                             </div>
                             <!--Date and Time-->
                             <div class="novo-control-input-container" *ngSwitchCase="'date-time'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition">

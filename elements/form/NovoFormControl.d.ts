@@ -41,7 +41,6 @@ export declare class NovoFormControl extends FormControl {
         iconStyle?: string;
     };
     military?: boolean;
-    format?: string;
     tipWell?: {
         tip: string;
         icon?: string;
