@@ -8,6 +8,7 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     private _changeDetectorRef;
     value: any;
     formattedValue: string;
+    private userDefinedFormat;
     /** View -> model callback called when value changes */
     _onChange: (value: any) => void;
     /** View -> model callback called when autocomplete has been touched */
