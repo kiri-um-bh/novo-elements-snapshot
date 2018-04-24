@@ -30,6 +30,8 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     columns: IDataTableColumn<T>[];
     customFilter: boolean;
     private _customFilter;
+    hasExandedRows: boolean;
+    private _hasExandedRows;
     forceShowHeader: boolean;
     private _forceShowHeader;
     hideGlobalSearch: boolean;
