@@ -57,6 +57,9 @@ export interface NovoControlConfig {
     customControl?: any;
     customControlConfig?: any;
     military?: boolean;
+    dateFormat?: string;
+    textMaskEnabled?: boolean;
+    allowInvalidDate?: boolean;
     tipWell?: {
         tip: string;
         icon?: string;
@@ -116,6 +119,9 @@ export declare class BaseControl {
     customControl?: any;
     customControlConfig?: any;
     military?: boolean;
+    dateFormat?: string;
+    textMaskEnabled?: boolean;
+    allowInvalidDate?: boolean;
     tipWell?: {
         tip: string;
         icon?: string;

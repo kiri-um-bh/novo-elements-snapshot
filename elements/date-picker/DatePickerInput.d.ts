@@ -8,6 +8,7 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     private _changeDetectorRef;
     value: any;
     formattedValue: string;
+    private userDefinedFormat;
     /** View -> model callback called when value changes */
     _onChange: (value: any) => void;
     /** View -> model callback called when autocomplete has been touched */
@@ -16,6 +17,8 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     placeholder: string;
     maskOptions: any;
     format: string;
+    textMaskEnabled: boolean;
+    allowInvalidDate: boolean;
     /** Element for the panel containing the autocomplete options. */
     overlay: NovoOverlayTemplate;
     constructor(element: ElementRef, labels: NovoLabelService, _changeDetectorRef: ChangeDetectorRef);
