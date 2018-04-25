@@ -5,6 +5,7 @@ export interface NovoAddressSubfieldConfig {
     label: string;
     required: boolean;
     maxlength: number;
+    hidden: boolean;
 }
 export interface NovoAddressConfig {
     required?: boolean;
@@ -13,7 +14,7 @@ export interface NovoAddressConfig {
     city?: NovoAddressSubfieldConfig;
     state?: NovoAddressSubfieldConfig;
     zip?: NovoAddressSubfieldConfig;
-    country?: NovoAddressSubfieldConfig;
+    countryID?: NovoAddressSubfieldConfig;
 }
 export declare class NovoAddressElement implements ControlValueAccessor, OnInit {
     labels: NovoLabelService;
