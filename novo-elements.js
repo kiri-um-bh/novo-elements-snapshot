@@ -12519,6 +12519,7 @@ class NovoDatePickerInputElement {
      * @return {?}
      */
     formatDateValue(value) {
+        let /** @type {?} */ originalValue = value;
         try {
             if (!value) {
                 return '';
@@ -12526,10 +12527,10 @@ class NovoDatePickerInputElement {
             if (this.userDefinedFormat && isValid(value)) {
                 return format(value, this.format);
             }
-            if (!this.allowInvalidDate) {
-                if (!(value instanceof Date)) {
-                    value = new Date(value);
-                }
+            if (!(value instanceof Date)) {
+                value = new Date(value);
+            }
+            if (!(value === 'Invalid Date' && this.allowInvalidDate)) {
                 return this.labels.formatDateWithFormat(value, {
                     month: '2-digit',
                     day: '2-digit',
@@ -12537,7 +12538,7 @@ class NovoDatePickerInputElement {
                 });
             }
             else {
-                return value;
+                return originalValue;
             }
         }
         catch (err) {
