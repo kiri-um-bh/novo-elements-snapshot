@@ -42695,10 +42695,10 @@ var NovoDataTable = /** @class */ (function () {
         this.name = 'novo-data-table';
         this.rowIdentifier = 'id';
         this.trackByFn = function (index$$1, item) { return item.id; };
+        this.templates = {};
         this._hideGlobalSearch = true;
         this.preferencesChanged = new core.EventEmitter();
         this.loading = true;
-        this.templates = {};
         this.columnToTemplate = {};
         this.columnsLoaded = false;
         this.selection = new Set();
@@ -42947,11 +42947,15 @@ var NovoDataTable = /** @class */ (function () {
         var _this = this;
         // Default templates defined here
         this.defaultTemplates.forEach(function (item) {
-            _this.templates[item.getType()] = item.template;
+            if (!_this.templates[item.getType()]) {
+                _this.templates[item.getType()] = item.template;
+            }
         });
         // Custom templates passed in
         this.customTemplates.forEach(function (item) {
-            _this.templates[item.getType()] = item.template;
+            if (!_this.templates[item.getType()]) {
+                _this.templates[item.getType()] = item.template;
+            }
         });
         // Load columns
         this.configureColumns();
@@ -43136,6 +43140,7 @@ NovoDataTable.propDecorators = {
     'name': [{ type: core.Input },],
     'rowIdentifier': [{ type: core.Input },],
     'trackByFn': [{ type: core.Input },],
+    'templates': [{ type: core.Input },],
     'dataTableService': [{ type: core.Input },],
     'rows': [{ type: core.Input },],
     'outsideFilter': [{ type: core.Input },],

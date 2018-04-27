@@ -43817,10 +43817,10 @@ class NovoDataTable {
         this.name = 'novo-data-table';
         this.rowIdentifier = 'id';
         this.trackByFn = (index$$1, item) => item.id;
+        this.templates = {};
         this._hideGlobalSearch = true;
         this.preferencesChanged = new EventEmitter();
         this.loading = true;
-        this.templates = {};
         this.columnToTemplate = {};
         this.columnsLoaded = false;
         this.selection = new Set();
@@ -44018,11 +44018,15 @@ class NovoDataTable {
     ngAfterContentInit() {
         // Default templates defined here
         this.defaultTemplates.forEach((item) => {
-            this.templates[item.getType()] = item.template;
+            if (!this.templates[item.getType()]) {
+                this.templates[item.getType()] = item.template;
+            }
         });
         // Custom templates passed in
         this.customTemplates.forEach((item) => {
-            this.templates[item.getType()] = item.template;
+            if (!this.templates[item.getType()]) {
+                this.templates[item.getType()] = item.template;
+            }
         });
         // Load columns
         this.configureColumns();
@@ -44352,6 +44356,7 @@ NovoDataTable.propDecorators = {
     'name': [{ type: Input },],
     'rowIdentifier': [{ type: Input },],
     'trackByFn': [{ type: Input },],
+    'templates': [{ type: Input },],
     'dataTableService': [{ type: Input },],
     'rows': [{ type: Input },],
     'outsideFilter': [{ type: Input },],

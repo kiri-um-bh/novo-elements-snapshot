@@ -23,6 +23,9 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     name: string;
     rowIdentifier: string;
     trackByFn: Function;
+    templates: {
+        [key: string]: TemplateRef<any>;
+    };
     dataTableService: IDataTableService<T>;
     rows: T[];
     outsideFilter: EventEmitter<any>;
@@ -39,9 +42,6 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     preferencesChanged: EventEmitter<IDataTablePreferences>;
     dataSource: DataTableSource<T>;
     loading: boolean;
-    templates: {
-        [key: string]: TemplateRef<any>;
-    };
     columnToTemplate: {
         [key: string]: TemplateRef<any>;
     };
