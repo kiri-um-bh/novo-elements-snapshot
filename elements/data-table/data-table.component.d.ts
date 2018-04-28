@@ -61,6 +61,10 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     onSearchChange(term: string): void;
     trackColumnsBy(index: number, item: IDataTableColumn<T>): string;
     isDisabled(check: any, row: T): boolean;
+    isExpanded(row: T): boolean;
+    expandRow(row: T): void;
+    expandRows(expand: boolean): void;
+    allCurrentRowsExpanded(): boolean;
     isSelected(row: T): boolean;
     selectRow(row: T): void;
     selectRows(selected: boolean): void;

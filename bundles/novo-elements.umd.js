@@ -42550,12 +42550,14 @@ var DataTableState = /** @class */ (function () {
         this.paginationSource = new Subject.Subject();
         this.sortFilterSource = new Subject.Subject();
         this.resetSource = new Subject.Subject();
+        this.expandSource = new Subject.Subject();
         this.sort = undefined;
         this.filter = undefined;
         this.page = 0;
         this.pageSize = undefined;
         this.globalSearch = undefined;
         this.selectedRows = new Map();
+        this.expandedRows = new Set();
         this.isForceRefresh = false;
         this.updates = new core.EventEmitter();
     }
@@ -42607,6 +42609,12 @@ var DataTableState = /** @class */ (function () {
      */
     DataTableState.prototype.onSelectionChange = function () {
         this.selectionSource.next();
+    };
+    /**
+     * @return {?}
+     */
+    DataTableState.prototype.onExpandChange = function () {
+        this.expandSource.next();
     };
     /**
      * @param {?} isPageSizeChange
@@ -43010,6 +43018,57 @@ var NovoDataTable = /** @class */ (function () {
      * @param {?} row
      * @return {?}
      */
+    NovoDataTable.prototype.isExpanded = function (row) {
+        if (!row) {
+            return false;
+        }
+        return this.state.expandedRows.has("" + row[this.rowIdentifier]);
+    };
+    /**
+     * @param {?} row
+     * @return {?}
+     */
+    NovoDataTable.prototype.expandRow = function (row) {
+        var /** @type {?} */ expanded = this.isExpanded(row);
+        if (expanded) {
+            this.state.expandedRows.delete("" + row[this.rowIdentifier]);
+        }
+        else {
+            this.state.expandedRows.add("" + row[this.rowIdentifier]);
+        }
+        this.state.onExpandChange();
+    };
+    /**
+     * @param {?} expand
+     * @return {?}
+     */
+    NovoDataTable.prototype.expandRows = function (expand) {
+        var _this = this;
+        (this.dataSource.data || []).forEach(function (row) {
+            if (!expand) {
+                _this.state.expandedRows.delete("" + row[_this.rowIdentifier]);
+            }
+            else {
+                _this.state.expandedRows.add("" + row[_this.rowIdentifier]);
+            }
+        });
+        this.state.onExpandChange();
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTable.prototype.allCurrentRowsExpanded = function () {
+        for (var /** @type {?} */ i = 0; i < (this.dataSource.data || []).length; i++) {
+            if (!this.isExpanded((this.dataSource.data || [])[i])) {
+                return false;
+            }
+        }
+        return true;
+    };
+    /**
+     * @param {?} row
+     * @return {?}
+     */
     NovoDataTable.prototype.isSelected = function (row) {
         if (!row) {
             return false;
@@ -43115,7 +43174,14 @@ var NovoDataTable = /** @class */ (function () {
 NovoDataTable.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-data-table',
-                template: "\n    <header *ngIf=\"(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader\"\n            [class.empty]=\"hideGlobalSearch && !paginationOptions && !templates['customActions']\">\n      <ng-container *ngTemplateOutlet=\"templates['customHeader']\"></ng-container>\n        <novo-search\n            alwaysOpen=\"true\"\n            (searchChanged)=\"onSearchChange($event)\"\n            [(ngModel)]=\"state.globalSearch\"\n            *ngIf=\"!hideGlobalSearch\"\n            [placeholder]=\"searchOptions?.placeholder\"\n            [hint]=\"searchOptions?.tooltip\">\n        </novo-search>\n        <novo-data-table-pagination\n            *ngIf=\"paginationOptions\"\n            [theme]=\"paginationOptions.theme\"\n            [length]=\"dataSource?.total\"\n            [page]=\"paginationOptions.page\"\n            [pageSize]=\"paginationOptions.pageSize\"\n            [pageSizeOptions]=\"paginationOptions.pageSizeOptions\">\n        </novo-data-table-pagination>\n        <div class=\"novo-data-table-actions\" *ngIf=\"templates['customActions']\">\n          <ng-container *ngTemplateOutlet=\"templates['customActions']\"></ng-container>\n        </div>\n    </header>\n    <div class=\"novo-data-table-loading-mask\" *ngIf=\"dataSource?.loading || loading\" data-automation-id=\"novo-data-table-loading\">\n        <novo-loading></novo-loading>\n    </div>\n    <div class=\"novo-data-table-outside-container\">\n        <div class=\"novo-data-table-custom-filter\" *ngIf=\"customFilter\">\n          <ng-container *ngTemplateOutlet=\"templates['customFilter']\"></ng-container>\n        </div>\n        <div #novoDataTableContainer class=\"novo-data-table-container\" [class.empty-user-filtered]=\"dataSource?.currentlyEmpty && state.userFiltered\" [class.empty]=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n            <cdk-table *ngIf=\"(columns?.length > 0) && columnsLoaded && dataSource\" [dataSource]=\"dataSource\" [trackBy]=\"trackByFn\" novoDataTableSortFilter [class.empty]=\"dataSource?.currentlyEmpty && state.userFiltered\" [hidden]=\"dataSource?.totallyEmpty && !userFiltered\">\n                <ng-container cdkColumnDef=\"selection\">\n                    <novo-data-table-checkbox-header-cell *cdkHeaderCellDef></novo-data-table-checkbox-header-cell>\n                    <novo-data-table-checkbox-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-checkbox-cell>\n                </ng-container>\n                <ng-container *ngFor=\"let column of columns;trackBy: trackColumnsBy\" [cdkColumnDef]=\"column.id\">\n                  <novo-data-table-header-cell *cdkHeaderCellDef [column]=\"column\" [novo-data-table-cell-config]=\"column\" [defaultSort]=\"defaultSort\" [class.empty]=\"column?.type === 'action' && !column?.label\" [class.button-header-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\" [class.dropdown-header-cell]=\"column?.type === 'action' && column?.action?.options\"></novo-data-table-header-cell>\n                  <novo-data-table-cell *cdkCellDef=\"let row\" [column]=\"column\" [row]=\"row\" [template]=\"columnToTemplate[column.id]\" [class.empty]=\"column?.type === 'action' && !column?.label\" [class.button-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\" [class.dropdown-cell]=\"column?.type === 'action' && column?.action?.options\"></novo-data-table-cell>\n                </ng-container>\n                <novo-data-table-header-row *cdkHeaderRowDef=\"displayedColumns\" data-automation-id=\"novo-data-table-header-row\"></novo-data-table-header-row>\n                <novo-data-table-row *cdkRowDef=\"let row; columns: displayedColumns\" [novoDataTableExpand]=\"detailRowTemplate\" [row]=\"row\" [id]=\"name + '-' + row[rowIdentifier]\" [dataAutomationId]=\"row[rowIdentifier]\"></novo-data-table-row>\n            </cdk-table>\n            <div class=\"novo-data-table-footer\" *ngIf=\"templates['footer']\">\n              <ng-container *ngTemplateOutlet=\"templates['footer']; context: {$implicit: columns, data: dataSource.data}\"></ng-container>\n            </div>\n            <div class=\"novo-data-table-no-results-container\" [style.left.px]=\"scrollLeft\" *ngIf=\"dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine\">\n              <div class=\"novo-data-table-empty-message\" >\n                <ng-container *ngTemplateOutlet=\"templates['noResultsMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n              </div>\n            </div>\n        </div>\n        <div class=\"novo-data-table-empty-container\" *ngIf=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n          <div class=\"novo-data-table-empty-message\">\n            <ng-container *ngTemplateOutlet=\"templates['emptyMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n          </div>\n        </div>\n    </div>\n\n      <!-- DEFAULT CELL TEMPLATE -->\n    <ng-template novoTemplate=\"textCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"dateCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"datetimeCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateTimeRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"timeCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableTimeRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"currencyCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableCurrencyRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"numberCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"percentCellTemplate\"\n        let-row\n        let-col=\"col\">\n        <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col:true }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"linkCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <a (click)=\"col.handlers?.click({originalEvent: $event, row: row})\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"telCellTemplate\"\n          let-row\n          let-col=\"col\">\n        <a href=\"tel:{{ row[col.id] | dataTableInterpolate:col }}\" [target]=\"col?.attributes?.target\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"mailtoCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <a href=\"mailto:{{ row[col.id] | dataTableInterpolate:col }}\" [target]=\"col?.attributes?.target\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"buttonCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <i class=\"bhi-{{ col?.action?.icon }} data-table-icon\" (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\" [class.disabled]=\"isDisabled(col, row)\"></i>\n    </ng-template>\n    <ng-template novoTemplate=\"expandCellTemplate\"\n          let-row>\n          <i class=\"bhi-next data-table-icon\" novo-data-table-expander=\"true\"></i>\n    </ng-template>\n    <ng-template novoTemplate=\"dropdownCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <novo-dropdown appendToBody=\"true\" parentScrollSelector=\".novo-data-table-container\" containerClass=\"novo-data-table-dropdown\">\n            <button type=\"button\" theme=\"dialogue\" icon=\"collapse\" inverse>{{ col.label }}</button>\n            <list>\n                <item *ngFor=\"let option of col?.action?.options\" (action)=\"option.handlers.click({ originalEvent: $event?.originalEvent, row: row })\" [disabled]=\"isDisabled(option, row)\">\n                    <span [attr.data-automation-id]=\"option.label\">{{ option.label }}</span>\n                </item>\n            </list>\n        </novo-dropdown>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultNoResultsMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.noMatchingRecordsMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultEmptyMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.emptyTableMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"expandedRow\">\n      You did not provide an \"expandedRow\" template!\n    </ng-template>\n    <ng-template #detailRowTemplate>\n      <div class=\"novo-data-table-detail-row\">\n        <ng-container *ngTemplateOutlet=\"templates['expandedRow']; context: {$implicit: row}\"></ng-container>\n      </div>\n    </ng-template>\n    <!-- CUSTOM CELLS PASSED IN -->\n    <ng-content></ng-content>\n  ",
+                animations: [
+                    animations.trigger('expand', [
+                        animations.state('void', animations.style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+                        animations.state('*', animations.style({ height: '*', visibility: 'visible' })),
+                        animations.transition('void <=> *', animations.animate('70ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+                    ]),
+                ],
+                template: "\n    <header *ngIf=\"(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader\"\n            [class.empty]=\"hideGlobalSearch && !paginationOptions && !templates['customActions']\">\n      <ng-container *ngTemplateOutlet=\"templates['customHeader']\"></ng-container>\n        <novo-search\n            alwaysOpen=\"true\"\n            (searchChanged)=\"onSearchChange($event)\"\n            [(ngModel)]=\"state.globalSearch\"\n            *ngIf=\"!hideGlobalSearch\"\n            [placeholder]=\"searchOptions?.placeholder\"\n            [hint]=\"searchOptions?.tooltip\">\n        </novo-search>\n        <novo-data-table-pagination\n            *ngIf=\"paginationOptions\"\n            [theme]=\"paginationOptions.theme\"\n            [length]=\"dataSource?.total\"\n            [page]=\"paginationOptions.page\"\n            [pageSize]=\"paginationOptions.pageSize\"\n            [pageSizeOptions]=\"paginationOptions.pageSizeOptions\">\n        </novo-data-table-pagination>\n        <div class=\"novo-data-table-actions\" *ngIf=\"templates['customActions']\">\n          <ng-container *ngTemplateOutlet=\"templates['customActions']\"></ng-container>\n        </div>\n    </header>\n    <div class=\"novo-data-table-loading-mask\" *ngIf=\"dataSource?.loading || loading\" data-automation-id=\"novo-data-table-loading\">\n        <novo-loading></novo-loading>\n    </div>\n    <div class=\"novo-data-table-outside-container\">\n        <div class=\"novo-data-table-custom-filter\" *ngIf=\"customFilter\">\n          <ng-container *ngTemplateOutlet=\"templates['customFilter']\"></ng-container>\n        </div>\n        <div #novoDataTableContainer class=\"novo-data-table-container\" [class.empty-user-filtered]=\"dataSource?.currentlyEmpty && state.userFiltered\" [class.empty]=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n            <cdk-table *ngIf=\"(columns?.length > 0) && columnsLoaded && dataSource\" [dataSource]=\"dataSource\" [trackBy]=\"trackByFn\" novoDataTableSortFilter [class.empty]=\"dataSource?.currentlyEmpty && state.userFiltered\" [hidden]=\"dataSource?.totallyEmpty && !userFiltered\">\n                <ng-container cdkColumnDef=\"selection\">\n                    <novo-data-table-checkbox-header-cell *cdkHeaderCellDef></novo-data-table-checkbox-header-cell>\n                    <novo-data-table-checkbox-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-checkbox-cell>\n                </ng-container>\n                <ng-container cdkColumnDef=\"expand\">\n                    <novo-data-table-expand-header-cell *cdkHeaderCellDef></novo-data-table-expand-header-cell>\n                    <novo-data-table-expand-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-expand-cell>\n                </ng-container>\n                <ng-container *ngFor=\"let column of columns;trackBy: trackColumnsBy\" [cdkColumnDef]=\"column.id\">\n                  <novo-data-table-header-cell *cdkHeaderCellDef [column]=\"column\" [novo-data-table-cell-config]=\"column\" [defaultSort]=\"defaultSort\" [class.empty]=\"column?.type === 'action' && !column?.label\" [class.button-header-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\" [class.dropdown-header-cell]=\"column?.type === 'action' && column?.action?.options\"></novo-data-table-header-cell>\n                  <novo-data-table-cell *cdkCellDef=\"let row\" [column]=\"column\" [row]=\"row\" [template]=\"columnToTemplate[column.id]\" [class.empty]=\"column?.type === 'action' && !column?.label\" [class.button-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\" [class.dropdown-cell]=\"column?.type === 'action' && column?.action?.options\"></novo-data-table-cell>\n                </ng-container>\n                <novo-data-table-header-row *cdkHeaderRowDef=\"displayedColumns\" data-automation-id=\"novo-data-table-header-row\"></novo-data-table-header-row>\n                <novo-data-table-row *cdkRowDef=\"let row; columns: displayedColumns\" [novoDataTableExpand]=\"detailRowTemplate\" [row]=\"row\" [id]=\"name + '-' + row[rowIdentifier]\" [dataAutomationId]=\"row[rowIdentifier]\"></novo-data-table-row>\n            </cdk-table>\n            <div class=\"novo-data-table-footer\" *ngIf=\"templates['footer']\">\n              <ng-container *ngTemplateOutlet=\"templates['footer']; context: {$implicit: columns, data: dataSource.data}\"></ng-container>\n            </div>\n            <div class=\"novo-data-table-no-results-container\" [style.left.px]=\"scrollLeft\" *ngIf=\"dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine\">\n              <div class=\"novo-data-table-empty-message\" >\n                <ng-container *ngTemplateOutlet=\"templates['noResultsMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n              </div>\n            </div>\n        </div>\n        <div class=\"novo-data-table-empty-container\" *ngIf=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n          <div class=\"novo-data-table-empty-message\">\n            <ng-container *ngTemplateOutlet=\"templates['emptyMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n          </div>\n        </div>\n    </div>\n\n      <!-- DEFAULT CELL TEMPLATE -->\n    <ng-template novoTemplate=\"textCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"dateCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"datetimeCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateTimeRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"timeCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableTimeRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"currencyCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableCurrencyRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"numberCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"percentCellTemplate\"\n        let-row\n        let-col=\"col\">\n        <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col:true }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"linkCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <a (click)=\"col.handlers?.click({originalEvent: $event, row: row})\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"telCellTemplate\"\n          let-row\n          let-col=\"col\">\n        <a href=\"tel:{{ row[col.id] | dataTableInterpolate:col }}\" [target]=\"col?.attributes?.target\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"mailtoCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <a href=\"mailto:{{ row[col.id] | dataTableInterpolate:col }}\" [target]=\"col?.attributes?.target\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"buttonCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <i class=\"bhi-{{ col?.action?.icon }} data-table-icon\" (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\" [class.disabled]=\"isDisabled(col, row)\"></i>\n    </ng-template>\n    <ng-template novoTemplate=\"dropdownCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <novo-dropdown appendToBody=\"true\" parentScrollSelector=\".novo-data-table-container\" containerClass=\"novo-data-table-dropdown\">\n            <button type=\"button\" theme=\"dialogue\" icon=\"collapse\" inverse>{{ col.label }}</button>\n            <list>\n                <item *ngFor=\"let option of col?.action?.options\" (action)=\"option.handlers.click({ originalEvent: $event?.originalEvent, row: row })\" [disabled]=\"isDisabled(option, row)\">\n                    <span [attr.data-automation-id]=\"option.label\">{{ option.label }}</span>\n                </item>\n            </list>\n        </novo-dropdown>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultNoResultsMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.noMatchingRecordsMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultEmptyMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.emptyTableMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"expandedRow\">\n      You did not provide an \"expandedRow\" template!\n    </ng-template>\n    <ng-template #detailRowTemplate>\n      <div class=\"novo-data-table-detail-row\" [@expand] style=\"overflow: hidden\">\n        <ng-container *ngTemplateOutlet=\"templates['expandedRow']; context: {$implicit: row}\"></ng-container>\n      </div>\n    </ng-template>\n    <!-- CUSTOM CELLS PASSED IN -->\n    <ng-content></ng-content>\n  ",
                 changeDetection: core.ChangeDetectionStrategy.OnPush,
                 providers: [DataTableState],
             },] },
@@ -43279,6 +43345,74 @@ NovoDataTableCheckboxCell.ctorParameters = function () { return [
     { type: core.ChangeDetectorRef, },
 ]; };
 NovoDataTableCheckboxCell.propDecorators = {
+    'role': [{ type: core.HostBinding, args: ['attr.role',] },],
+    'row': [{ type: core.Input },],
+};
+var NovoDataTableExpandCell = /** @class */ (function (_super) {
+    __extends(NovoDataTableExpandCell, _super);
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     * @param {?} dataTable
+     * @param {?} ref
+     */
+    function NovoDataTableExpandCell(columnDef, elementRef, renderer, dataTable, ref) {
+        var _this = _super.call(this, columnDef, elementRef) || this;
+        _this.columnDef = columnDef;
+        _this.dataTable = dataTable;
+        _this.ref = ref;
+        _this.role = 'gridcell';
+        _this.expanded = false;
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-expand-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, "novo-expand-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, 'novo-data-table-expand-cell');
+        _this.expandSubscription = _this.dataTable.state.expandSource.subscribe(function () {
+            _this.expanded = _this.dataTable.isExpanded(_this.row);
+            _this.ref.markForCheck();
+        });
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    NovoDataTableExpandCell.prototype.ngOnInit = function () {
+        this.expanded = this.dataTable.isExpanded(this.row);
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableExpandCell.prototype.onClick = function () {
+        this.dataTable.expandRow(this.row);
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableExpandCell.prototype.ngOnDestroy = function () {
+        if (this.expandSubscription) {
+            this.expandSubscription.unsubscribe();
+        }
+    };
+    return NovoDataTableExpandCell;
+}(table.CdkCell));
+NovoDataTableExpandCell.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-data-table-expand-cell',
+                template: "\n    <i class=\"bhi-next data-table-icon\" novo-data-table-expander=\"true\" [class.expanded]=\"expanded\"></i>\n  ",
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableExpandCell.ctorParameters = function () { return [
+    { type: table.CdkColumnDef, },
+    { type: core.ElementRef, },
+    { type: core.Renderer2, },
+    { type: NovoDataTable, },
+    { type: core.ChangeDetectorRef, },
+]; };
+NovoDataTableExpandCell.propDecorators = {
     'role': [{ type: core.HostBinding, args: ['attr.role',] },],
     'row': [{ type: core.Input },],
 };
@@ -43613,6 +43747,66 @@ NovoDataTableCellHeader.propDecorators = {
     'filterInput': [{ type: core.ViewChild, args: ['filterInput',] },],
     'defaultSort': [{ type: core.Input },],
     'column': [{ type: core.Input, args: ['novo-data-table-cell-config',] },],
+};
+var NovoDataTableExpandHeaderCell = /** @class */ (function (_super) {
+    __extends(NovoDataTableExpandHeaderCell, _super);
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     * @param {?} dataTable
+     * @param {?} ref
+     */
+    function NovoDataTableExpandHeaderCell(columnDef, elementRef, renderer, dataTable, ref) {
+        var _this = _super.call(this, columnDef, elementRef) || this;
+        _this.dataTable = dataTable;
+        _this.ref = ref;
+        _this.role = 'columnheader';
+        _this.expanded = false;
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-expand-column-header-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, "novo-expand-column-" + columnDef.cssClassFriendlyName);
+        renderer.addClass(elementRef.nativeElement, 'novo-data-table-expand-header-cell');
+        _this.expandSubscription = _this.dataTable.state.expandSource.subscribe(function () {
+            _this.expanded = _this.dataTable.allCurrentRowsExpanded();
+            _this.ref.markForCheck();
+        });
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    NovoDataTableExpandHeaderCell.prototype.ngOnDestroy = function () {
+        if (this.expandSubscription) {
+            this.expandSubscription.unsubscribe();
+        }
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableExpandHeaderCell.prototype.expandAll = function () {
+        this.dataTable.expandRows(!this.expanded);
+    };
+    return NovoDataTableExpandHeaderCell;
+}(table.CdkHeaderCell));
+NovoDataTableExpandHeaderCell.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-data-table-expand-header-cell',
+                template: "\n    <i class=\"bhi-next data-table-icon\" novo-data-table-expander=\"true\" (click)=\"expandAll()\" [class.expanded]=\"expanded\"></i>\n  ",
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableExpandHeaderCell.ctorParameters = function () { return [
+    { type: table.CdkColumnDef, },
+    { type: core.ElementRef, },
+    { type: core.Renderer2, },
+    { type: NovoDataTable, },
+    { type: core.ChangeDetectorRef, },
+]; };
+NovoDataTableExpandHeaderCell.propDecorators = {
+    'role': [{ type: core.HostBinding, args: ['attr.role',] },],
 };
 var NovoDataTableCheckboxHeaderCell = /** @class */ (function (_super) {
     __extends(NovoDataTableCheckboxHeaderCell, _super);
@@ -44243,10 +44437,29 @@ DateTableCurrencyRendererPipe.ctorParameters = function () { return [
 var NovoDataTableExpandDirective = /** @class */ (function () {
     /**
      * @param {?} vcRef
+     * @param {?} state
+     * @param {?} dataTable
      */
-    function NovoDataTableExpandDirective(vcRef) {
+    function NovoDataTableExpandDirective(vcRef, state$$1, dataTable) {
+        var _this = this;
         this.vcRef = vcRef;
+        this.state = state$$1;
+        this.dataTable = dataTable;
+        this.subscription = this.state.expandSource.subscribe(function () {
+            if (dataTable.isExpanded(_this.row)) {
+                _this.render();
+            }
+            else {
+                _this.clear();
+            }
+        });
     }
+    /**
+     * @return {?}
+     */
+    NovoDataTableExpandDirective.prototype.ngOnDestroy = function () {
+        this.subscription.unsubscribe();
+    };
     /**
      * @param {?} event
      * @return {?}
@@ -44254,20 +44467,14 @@ var NovoDataTableExpandDirective = /** @class */ (function () {
     NovoDataTableExpandDirective.prototype.onClick = function (event) {
         if (((event.target)).hasAttribute('novo-data-table-expander')) {
             Helpers.swallowEvent(event);
-            this.toggle();
+            this.dataTable.expandRow(this.row);
         }
     };
     /**
      * @return {?}
      */
-    NovoDataTableExpandDirective.prototype.toggle = function () {
-        if (this.opened) {
-            this.vcRef.clear();
-        }
-        else {
-            this.render();
-        }
-        this.opened = this.vcRef.length > 0;
+    NovoDataTableExpandDirective.prototype.clear = function () {
+        this.vcRef.clear();
     };
     /**
      * @return {?}
@@ -44290,9 +44497,10 @@ NovoDataTableExpandDirective.decorators = [
  */
 NovoDataTableExpandDirective.ctorParameters = function () { return [
     { type: core.ViewContainerRef, },
+    { type: DataTableState, },
+    { type: NovoDataTable, },
 ]; };
 NovoDataTableExpandDirective.propDecorators = {
-    'opened': [{ type: core.HostBinding, args: ['class.expanded',] },],
     'row': [{ type: core.Input },],
     'template': [{ type: core.Input, args: ['novoDataTableExpand',] },],
     'onClick': [{ type: core.HostListener, args: ['click', ['$event'],] },],
@@ -44335,6 +44543,8 @@ NovoDataTableModule.decorators = [
                     NovoDataTablePagination,
                     NovoDataTableCheckboxCell,
                     NovoDataTableCheckboxHeaderCell,
+                    NovoDataTableExpandCell,
+                    NovoDataTableExpandHeaderCell,
                     NovoDataTable,
                     NovoDataTableExpandDirective,
                 ],
@@ -48317,11 +48527,13 @@ exports.ɵcs = NovoChipElement;
 exports.ɵct = NovoChipsElement;
 exports.ɵdb = NovoCKEditorElement;
 exports.ɵet = NovoDataTableCheckboxHeaderCell;
+exports.ɵev = NovoDataTableExpandHeaderCell;
 exports.ɵek = NovoDataTableCellHeader;
 exports.ɵen = NovoDataTableHeaderCell;
 exports.ɵeo = NovoDataTableCell;
 exports.ɵes = NovoDataTableCheckboxCell;
-exports.ɵeu = NovoDataTableExpandDirective;
+exports.ɵeu = NovoDataTableExpandCell;
+exports.ɵew = NovoDataTableExpandDirective;
 exports.ɵee = DataTableInterpolatePipe;
 exports.ɵej = DateTableCurrencyRendererPipe;
 exports.ɵef = DateTableDateRendererPipe;
@@ -48381,11 +48593,11 @@ exports.ɵck = NovoOverlayTemplate;
 exports.ɵcg = NovoOverlayModule;
 exports.ɵcn = NovoPickerElement;
 exports.ɵco = NovoPickerContainer;
-exports.ɵfc = PlacesListComponent;
-exports.ɵfb = GooglePlacesModule;
-exports.ɵfa = PopOverDirective;
-exports.ɵey = NovoPopOverModule;
-exports.ɵez = PopOverContent;
+exports.ɵfe = PlacesListComponent;
+exports.ɵfd = GooglePlacesModule;
+exports.ɵfc = PopOverDirective;
+exports.ɵfa = NovoPopOverModule;
+exports.ɵfb = PopOverContent;
 exports.ɵby = QuickNoteElement;
 exports.ɵca = NovoRadioElement;
 exports.ɵbz = NovoRadioGroup;
@@ -48420,9 +48632,9 @@ exports.ɵed = Unless;
 exports.ɵdz = EntityList;
 exports.ɵk = NovoValueElement;
 exports.ɵcy = DateFormatService;
-exports.ɵew = BrowserGlobalRef;
-exports.ɵev = GlobalRef;
-exports.ɵex = LocalStorageService;
+exports.ɵey = BrowserGlobalRef;
+exports.ɵex = GlobalRef;
+exports.ɵez = LocalStorageService;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

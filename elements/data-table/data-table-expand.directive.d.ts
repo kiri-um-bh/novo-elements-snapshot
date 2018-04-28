@@ -1,11 +1,16 @@
-import { TemplateRef, ViewContainerRef } from '@angular/core';
-export declare class NovoDataTableExpandDirective<T> {
+import { TemplateRef, ViewContainerRef, OnDestroy } from '@angular/core';
+import { DataTableState } from './state/data-table-state.service';
+import { NovoDataTable } from './data-table.component';
+export declare class NovoDataTableExpandDirective<T> implements OnDestroy {
     vcRef: ViewContainerRef;
-    opened: boolean;
+    private state;
+    private dataTable;
     row: T;
     template: TemplateRef<any>;
-    constructor(vcRef: ViewContainerRef);
+    private subscription;
+    constructor(vcRef: ViewContainerRef, state: DataTableState<T>, dataTable: NovoDataTable<T>);
+    ngOnDestroy(): void;
     onClick(event: MouseEvent): void;
-    private toggle();
+    private clear();
     private render();
 }

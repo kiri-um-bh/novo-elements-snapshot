@@ -6,6 +6,7 @@ export declare class DataTableState<T> {
     paginationSource: Subject<{}>;
     sortFilterSource: Subject<{}>;
     resetSource: Subject<{}>;
+    expandSource: Subject<{}>;
     sort: {
         id: string;
         value: string;
@@ -18,6 +19,7 @@ export declare class DataTableState<T> {
     pageSize: number;
     globalSearch: string;
     selectedRows: Map<string, T>;
+    expandedRows: Set<string>;
     outsideFilter: any;
     isForceRefresh: boolean;
     updates: EventEmitter<IDataTableChangeEvent>;
@@ -25,6 +27,7 @@ export declare class DataTableState<T> {
     readonly selected: T[];
     reset(fireUpdate?: boolean, persistUserFilters?: boolean): void;
     onSelectionChange(): void;
+    onExpandChange(): void;
     onPaginationChange(isPageSizeChange: boolean, pageSize: number): void;
     onSortFilterChange(): void;
 }

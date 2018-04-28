@@ -43683,12 +43683,14 @@ class DataTableState {
         this.paginationSource = new Subject$1();
         this.sortFilterSource = new Subject$1();
         this.resetSource = new Subject$1();
+        this.expandSource = new Subject$1();
         this.sort = undefined;
         this.filter = undefined;
         this.page = 0;
         this.pageSize = undefined;
         this.globalSearch = undefined;
         this.selectedRows = new Map();
+        this.expandedRows = new Set();
         this.isForceRefresh = false;
         this.updates = new EventEmitter();
     }
@@ -43731,6 +43733,12 @@ class DataTableState {
      */
     onSelectionChange() {
         this.selectionSource.next();
+    }
+    /**
+     * @return {?}
+     */
+    onExpandChange() {
+        this.expandSource.next();
     }
     /**
      * @param {?} isPageSizeChange
@@ -44081,6 +44089,56 @@ class NovoDataTable {
      * @param {?} row
      * @return {?}
      */
+    isExpanded(row) {
+        if (!row) {
+            return false;
+        }
+        return this.state.expandedRows.has(`${row[this.rowIdentifier]}`);
+    }
+    /**
+     * @param {?} row
+     * @return {?}
+     */
+    expandRow(row) {
+        let /** @type {?} */ expanded = this.isExpanded(row);
+        if (expanded) {
+            this.state.expandedRows.delete(`${row[this.rowIdentifier]}`);
+        }
+        else {
+            this.state.expandedRows.add(`${row[this.rowIdentifier]}`);
+        }
+        this.state.onExpandChange();
+    }
+    /**
+     * @param {?} expand
+     * @return {?}
+     */
+    expandRows(expand) {
+        (this.dataSource.data || []).forEach((row) => {
+            if (!expand) {
+                this.state.expandedRows.delete(`${row[this.rowIdentifier]}`);
+            }
+            else {
+                this.state.expandedRows.add(`${row[this.rowIdentifier]}`);
+            }
+        });
+        this.state.onExpandChange();
+    }
+    /**
+     * @return {?}
+     */
+    allCurrentRowsExpanded() {
+        for (let /** @type {?} */ i = 0; i < (this.dataSource.data || []).length; i++) {
+            if (!this.isExpanded((this.dataSource.data || [])[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+    /**
+     * @param {?} row
+     * @return {?}
+     */
     isSelected(row) {
         if (!row) {
             return false;
@@ -44183,6 +44241,13 @@ class NovoDataTable {
 NovoDataTable.decorators = [
     { type: Component, args: [{
                 selector: 'novo-data-table',
+                animations: [
+                    trigger$1('expand', [
+                        state$1('void', style$1({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+                        state$1('*', style$1({ height: '*', visibility: 'visible' })),
+                        transition$1('void <=> *', animate$1('70ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+                    ]),
+                ],
                 template: `
     <header *ngIf="(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader"
             [class.empty]="hideGlobalSearch && !paginationOptions && !templates['customActions']">
@@ -44219,6 +44284,10 @@ NovoDataTable.decorators = [
                 <ng-container cdkColumnDef="selection">
                     <novo-data-table-checkbox-header-cell *cdkHeaderCellDef></novo-data-table-checkbox-header-cell>
                     <novo-data-table-checkbox-cell *cdkCellDef="let row; let i = index" [row]="row"></novo-data-table-checkbox-cell>
+                </ng-container>
+                <ng-container cdkColumnDef="expand">
+                    <novo-data-table-expand-header-cell *cdkHeaderCellDef></novo-data-table-expand-header-cell>
+                    <novo-data-table-expand-cell *cdkCellDef="let row; let i = index" [row]="row"></novo-data-table-expand-cell>
                 </ng-container>
                 <ng-container *ngFor="let column of columns;trackBy: trackColumnsBy" [cdkColumnDef]="column.id">
                   <novo-data-table-header-cell *cdkHeaderCellDef [column]="column" [novo-data-table-cell-config]="column" [defaultSort]="defaultSort" [class.empty]="column?.type === 'action' && !column?.label" [class.button-header-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)" [class.dropdown-header-cell]="column?.type === 'action' && column?.action?.options"></novo-data-table-header-cell>
@@ -44299,10 +44368,6 @@ NovoDataTable.decorators = [
           let-col="col">
           <i class="bhi-{{ col?.action?.icon }} data-table-icon" (click)="col.handlers?.click({ originalEvent: $event, row: row })" [class.disabled]="isDisabled(col, row)"></i>
     </ng-template>
-    <ng-template novoTemplate="expandCellTemplate"
-          let-row>
-          <i class="bhi-next data-table-icon" novo-data-table-expander="true"></i>
-    </ng-template>
     <ng-template novoTemplate="dropdownCellTemplate"
           let-row
           let-col="col">
@@ -44325,7 +44390,7 @@ NovoDataTable.decorators = [
       You did not provide an "expandedRow" template!
     </ng-template>
     <ng-template #detailRowTemplate>
-      <div class="novo-data-table-detail-row">
+      <div class="novo-data-table-detail-row" [@expand] style="overflow: hidden">
         <ng-container *ngTemplateOutlet="templates['expandedRow']; context: {$implicit: row}"></ng-container>
       </div>
     </ng-template>
@@ -44501,6 +44566,74 @@ NovoDataTableCheckboxCell.ctorParameters = () => [
     { type: ChangeDetectorRef, },
 ];
 NovoDataTableCheckboxCell.propDecorators = {
+    'role': [{ type: HostBinding, args: ['attr.role',] },],
+    'row': [{ type: Input },],
+};
+
+class NovoDataTableExpandCell extends CdkCell {
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     * @param {?} dataTable
+     * @param {?} ref
+     */
+    constructor(columnDef, elementRef, renderer, dataTable, ref) {
+        super(columnDef, elementRef);
+        this.columnDef = columnDef;
+        this.dataTable = dataTable;
+        this.ref = ref;
+        this.role = 'gridcell';
+        this.expanded = false;
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', `novo-expand-column-${columnDef.cssClassFriendlyName}`);
+        renderer.addClass(elementRef.nativeElement, `novo-expand-column-${columnDef.cssClassFriendlyName}`);
+        renderer.addClass(elementRef.nativeElement, 'novo-data-table-expand-cell');
+        this.expandSubscription = this.dataTable.state.expandSource.subscribe(() => {
+            this.expanded = this.dataTable.isExpanded(this.row);
+            this.ref.markForCheck();
+        });
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+        this.expanded = this.dataTable.isExpanded(this.row);
+    }
+    /**
+     * @return {?}
+     */
+    onClick() {
+        this.dataTable.expandRow(this.row);
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        if (this.expandSubscription) {
+            this.expandSubscription.unsubscribe();
+        }
+    }
+}
+NovoDataTableExpandCell.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-data-table-expand-cell',
+                template: `
+    <i class="bhi-next data-table-icon" novo-data-table-expander="true" [class.expanded]="expanded"></i>
+  `,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableExpandCell.ctorParameters = () => [
+    { type: CdkColumnDef, },
+    { type: ElementRef, },
+    { type: Renderer2, },
+    { type: NovoDataTable, },
+    { type: ChangeDetectorRef, },
+];
+NovoDataTableExpandCell.propDecorators = {
     'role': [{ type: HostBinding, args: ['attr.role',] },],
     'row': [{ type: Input },],
 };
@@ -44862,6 +44995,66 @@ NovoDataTableCellHeader.propDecorators = {
     'filterInput': [{ type: ViewChild, args: ['filterInput',] },],
     'defaultSort': [{ type: Input },],
     'column': [{ type: Input, args: ['novo-data-table-cell-config',] },],
+};
+
+class NovoDataTableExpandHeaderCell extends CdkHeaderCell {
+    /**
+     * @param {?} columnDef
+     * @param {?} elementRef
+     * @param {?} renderer
+     * @param {?} dataTable
+     * @param {?} ref
+     */
+    constructor(columnDef, elementRef, renderer, dataTable, ref) {
+        super(columnDef, elementRef);
+        this.dataTable = dataTable;
+        this.ref = ref;
+        this.role = 'columnheader';
+        this.expanded = false;
+        renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', `novo-expand-column-header-${columnDef.cssClassFriendlyName}`);
+        renderer.addClass(elementRef.nativeElement, `novo-expand-column-${columnDef.cssClassFriendlyName}`);
+        renderer.addClass(elementRef.nativeElement, 'novo-data-table-expand-header-cell');
+        this.expandSubscription = this.dataTable.state.expandSource.subscribe(() => {
+            this.expanded = this.dataTable.allCurrentRowsExpanded();
+            this.ref.markForCheck();
+        });
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        if (this.expandSubscription) {
+            this.expandSubscription.unsubscribe();
+        }
+    }
+    /**
+     * @return {?}
+     */
+    expandAll() {
+        this.dataTable.expandRows(!this.expanded);
+    }
+}
+NovoDataTableExpandHeaderCell.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-data-table-expand-header-cell',
+                template: `
+    <i class="bhi-next data-table-icon" novo-data-table-expander="true" (click)="expandAll()" [class.expanded]="expanded"></i>
+  `,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableExpandHeaderCell.ctorParameters = () => [
+    { type: CdkColumnDef, },
+    { type: ElementRef, },
+    { type: Renderer2, },
+    { type: NovoDataTable, },
+    { type: ChangeDetectorRef, },
+];
+NovoDataTableExpandHeaderCell.propDecorators = {
+    'role': [{ type: HostBinding, args: ['attr.role',] },],
 };
 
 class NovoDataTableCheckboxHeaderCell extends CdkHeaderCell {
@@ -45518,9 +45711,27 @@ DateTableCurrencyRendererPipe.ctorParameters = () => [
 class NovoDataTableExpandDirective {
     /**
      * @param {?} vcRef
+     * @param {?} state
+     * @param {?} dataTable
      */
-    constructor(vcRef) {
+    constructor(vcRef, state$$1, dataTable) {
         this.vcRef = vcRef;
+        this.state = state$$1;
+        this.dataTable = dataTable;
+        this.subscription = this.state.expandSource.subscribe(() => {
+            if (dataTable.isExpanded(this.row)) {
+                this.render();
+            }
+            else {
+                this.clear();
+            }
+        });
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
     /**
      * @param {?} event
@@ -45529,20 +45740,14 @@ class NovoDataTableExpandDirective {
     onClick(event) {
         if (((event.target)).hasAttribute('novo-data-table-expander')) {
             Helpers.swallowEvent(event);
-            this.toggle();
+            this.dataTable.expandRow(this.row);
         }
     }
     /**
      * @return {?}
      */
-    toggle() {
-        if (this.opened) {
-            this.vcRef.clear();
-        }
-        else {
-            this.render();
-        }
-        this.opened = this.vcRef.length > 0;
+    clear() {
+        this.vcRef.clear();
     }
     /**
      * @return {?}
@@ -45564,9 +45769,10 @@ NovoDataTableExpandDirective.decorators = [
  */
 NovoDataTableExpandDirective.ctorParameters = () => [
     { type: ViewContainerRef, },
+    { type: DataTableState, },
+    { type: NovoDataTable, },
 ];
 NovoDataTableExpandDirective.propDecorators = {
-    'opened': [{ type: HostBinding, args: ['class.expanded',] },],
     'row': [{ type: Input },],
     'template': [{ type: Input, args: ['novoDataTableExpand',] },],
     'onClick': [{ type: HostListener, args: ['click', ['$event'],] },],
@@ -45607,6 +45813,8 @@ NovoDataTableModule.decorators = [
                     NovoDataTablePagination,
                     NovoDataTableCheckboxCell,
                     NovoDataTableCheckboxHeaderCell,
+                    NovoDataTableExpandCell,
+                    NovoDataTableExpandHeaderCell,
                     NovoDataTable,
                     NovoDataTableExpandDirective,
                 ],
@@ -49373,5 +49581,5 @@ NovoElementsModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTable, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵt, NovoCalendarAllDayEventElement as ɵbd, NovoCalendarDayEventElement as ɵbb, NovoCalendarDayViewElement as ɵba, NovoCalendarHourSegmentElement as ɵbc, NovoCalendarMonthDayElement as ɵw, NovoCalendarMonthHeaderElement as ɵv, NovoCalendarMonthViewElement as ɵu, DayOfMonthPipe as ɵbf, EndOfWeekDisplayPipe as ɵbk, HoursPipe as ɵbj, MonthPipe as ɵbg, MonthDayPipe as ɵbh, WeekdayPipe as ɵbe, YearPipe as ɵbi, NovoCalendarWeekEventElement as ɵz, NovoCalendarWeekHeaderElement as ɵy, NovoCalendarWeekViewElement as ɵx, CardActionsElement as ɵr, CardElement as ɵs, NovoCategoryDropdownElement as ɵeb, NovoChipElement as ɵcs, NovoChipsElement as ɵct, NovoCKEditorElement as ɵdb, NovoDataTableCheckboxHeaderCell as ɵet, NovoDataTableCellHeader as ɵek, NovoDataTableHeaderCell as ɵen, NovoDataTableCell as ɵeo, NovoDataTableCheckboxCell as ɵes, NovoDataTableExpandDirective as ɵeu, DataTableInterpolatePipe as ɵee, DateTableCurrencyRendererPipe as ɵej, DateTableDateRendererPipe as ɵef, DateTableDateTimeRendererPipe as ɵeg, DateTableNumberRendererPipe as ɵei, DateTableTimeRendererPipe as ɵeh, NovoDataTablePagination as ɵer, NovoDataTableHeaderRow as ɵep, NovoDataTableRow as ɵeq, NovoDataTableSortFilter as ɵem, DataTableState as ɵel, NovoDatePickerElement as ɵcu, NovoDatePickerInputElement as ɵcv, NovoDateTimePickerElement as ɵcz, NovoDateTimePickerInputElement as ɵda, NovoDragulaElement as ɵcq, NovoDropdownContainer as ɵcb, NovoDropdownElement as ɵcc, NovoItemElement as ɵcd, NovoItemHeaderElement$1 as ɵcf, NovoListElement$1 as ɵce, NovoAutoSize as ɵdf, NovoControlElement as ɵdh, NovoCustomControlContainerElement as ɵdg, NovoControlCustom as ɵdj, NovoDynamicFormElement as ɵdl, NovoFieldsetElement as ɵdk, NovoFieldsetHeaderElement as ɵdi, ControlConfirmModal as ɵdn, ControlPromptModal as ɵdo, NovoFormElement as ɵdm, NovoAddressElement as ɵl, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbp, NovoHeaderSpacer as ɵbm, NovoUtilActionComponent as ɵbo, NovoUtilsComponent as ɵbn, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵec, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵch, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵcj, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵci, NovoOverlayTemplate as ɵck, NovoOverlayModule as ɵcg, NovoPickerElement as ɵcn, NovoPickerContainer as ɵco, PlacesListComponent as ɵfc, GooglePlacesModule as ɵfb, PopOverDirective as ɵfa, NovoPopOverModule as ɵey, PopOverContent as ɵez, QuickNoteElement as ɵby, NovoRadioElement as ɵca, NovoRadioGroup as ɵbz, NovoSearchBoxElement as ɵcp, NovoSelectElement as ɵcl, NovoSliderElement as ɵcr, NovoSwitchElement as ɵcm, NovoTableKeepFilterFocus as ɵds, Pagination as ɵdt, RowDetails as ɵdu, NovoTableActionsElement as ɵdr, TableCell as ɵdv, TableFilter as ɵdw, NovoTableFooterElement as ɵdq, NovoTableHeaderElement as ɵdp, ThOrderable as ɵdx, ThSortable as ɵdy, NovoNavContentElement as ɵbv, NovoNavElement as ɵbq, NovoNavHeaderElement as ɵbw, NovoNavOutletElement as ɵbu, NovoTabButtonElement as ɵbs, NovoTabElement as ɵbr, NovoTabLinkElement as ɵbt, NovoTilesElement as ɵbx, NovoTimePickerElement as ɵcw, NovoTimePickerInputElement as ɵcx, NovoTipWellElement as ɵdc, NovoToastElement as ɵbl, TooltipDirective as ɵq, Unless as ɵed, EntityList as ɵdz, NovoValueElement as ɵk, DateFormatService as ɵcy, BrowserGlobalRef as ɵew, GlobalRef as ɵev, LocalStorageService as ɵex };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTable, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵt, NovoCalendarAllDayEventElement as ɵbd, NovoCalendarDayEventElement as ɵbb, NovoCalendarDayViewElement as ɵba, NovoCalendarHourSegmentElement as ɵbc, NovoCalendarMonthDayElement as ɵw, NovoCalendarMonthHeaderElement as ɵv, NovoCalendarMonthViewElement as ɵu, DayOfMonthPipe as ɵbf, EndOfWeekDisplayPipe as ɵbk, HoursPipe as ɵbj, MonthPipe as ɵbg, MonthDayPipe as ɵbh, WeekdayPipe as ɵbe, YearPipe as ɵbi, NovoCalendarWeekEventElement as ɵz, NovoCalendarWeekHeaderElement as ɵy, NovoCalendarWeekViewElement as ɵx, CardActionsElement as ɵr, CardElement as ɵs, NovoCategoryDropdownElement as ɵeb, NovoChipElement as ɵcs, NovoChipsElement as ɵct, NovoCKEditorElement as ɵdb, NovoDataTableCheckboxHeaderCell as ɵet, NovoDataTableExpandHeaderCell as ɵev, NovoDataTableCellHeader as ɵek, NovoDataTableHeaderCell as ɵen, NovoDataTableCell as ɵeo, NovoDataTableCheckboxCell as ɵes, NovoDataTableExpandCell as ɵeu, NovoDataTableExpandDirective as ɵew, DataTableInterpolatePipe as ɵee, DateTableCurrencyRendererPipe as ɵej, DateTableDateRendererPipe as ɵef, DateTableDateTimeRendererPipe as ɵeg, DateTableNumberRendererPipe as ɵei, DateTableTimeRendererPipe as ɵeh, NovoDataTablePagination as ɵer, NovoDataTableHeaderRow as ɵep, NovoDataTableRow as ɵeq, NovoDataTableSortFilter as ɵem, DataTableState as ɵel, NovoDatePickerElement as ɵcu, NovoDatePickerInputElement as ɵcv, NovoDateTimePickerElement as ɵcz, NovoDateTimePickerInputElement as ɵda, NovoDragulaElement as ɵcq, NovoDropdownContainer as ɵcb, NovoDropdownElement as ɵcc, NovoItemElement as ɵcd, NovoItemHeaderElement$1 as ɵcf, NovoListElement$1 as ɵce, NovoAutoSize as ɵdf, NovoControlElement as ɵdh, NovoCustomControlContainerElement as ɵdg, NovoControlCustom as ɵdj, NovoDynamicFormElement as ɵdl, NovoFieldsetElement as ɵdk, NovoFieldsetHeaderElement as ɵdi, ControlConfirmModal as ɵdn, ControlPromptModal as ɵdo, NovoFormElement as ɵdm, NovoAddressElement as ɵl, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbp, NovoHeaderSpacer as ɵbm, NovoUtilActionComponent as ɵbo, NovoUtilsComponent as ɵbn, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵec, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵch, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵcj, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵci, NovoOverlayTemplate as ɵck, NovoOverlayModule as ɵcg, NovoPickerElement as ɵcn, NovoPickerContainer as ɵco, PlacesListComponent as ɵfe, GooglePlacesModule as ɵfd, PopOverDirective as ɵfc, NovoPopOverModule as ɵfa, PopOverContent as ɵfb, QuickNoteElement as ɵby, NovoRadioElement as ɵca, NovoRadioGroup as ɵbz, NovoSearchBoxElement as ɵcp, NovoSelectElement as ɵcl, NovoSliderElement as ɵcr, NovoSwitchElement as ɵcm, NovoTableKeepFilterFocus as ɵds, Pagination as ɵdt, RowDetails as ɵdu, NovoTableActionsElement as ɵdr, TableCell as ɵdv, TableFilter as ɵdw, NovoTableFooterElement as ɵdq, NovoTableHeaderElement as ɵdp, ThOrderable as ɵdx, ThSortable as ɵdy, NovoNavContentElement as ɵbv, NovoNavElement as ɵbq, NovoNavHeaderElement as ɵbw, NovoNavOutletElement as ɵbu, NovoTabButtonElement as ɵbs, NovoTabElement as ɵbr, NovoTabLinkElement as ɵbt, NovoTilesElement as ɵbx, NovoTimePickerElement as ɵcw, NovoTimePickerInputElement as ɵcx, NovoTipWellElement as ɵdc, NovoToastElement as ɵbl, TooltipDirective as ɵq, Unless as ɵed, EntityList as ɵdz, NovoValueElement as ɵk, DateFormatService as ɵcy, BrowserGlobalRef as ɵey, GlobalRef as ɵex, LocalStorageService as ɵez };
 //# sourceMappingURL=novo-elements.js.map
