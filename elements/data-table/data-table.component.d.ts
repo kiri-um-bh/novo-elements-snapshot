@@ -48,6 +48,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     columnsLoaded: boolean;
     selection: Set<string>;
     scrollLeft: number;
+    expandable: boolean;
     private outsideFilterSubscription;
     private refreshSubscription;
     private paginationSubscription;
