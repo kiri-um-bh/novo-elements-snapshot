@@ -42954,7 +42954,9 @@ var NovoDataTable = /** @class */ (function () {
      */
     NovoDataTable.prototype.ngAfterContentInit = function () {
         var _this = this;
-        this.expandable = this.displayedColumns.includes('expand');
+        if (this.displayedColumns && this.displayedColumns.length) {
+            this.expandable = this.displayedColumns.includes('expand');
+        }
         // Default templates defined here
         this.defaultTemplates.forEach(function (item) {
             if (!_this.templates[item.getType()]) {
