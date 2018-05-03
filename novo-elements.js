@@ -17175,7 +17175,7 @@ class NovoControlElement extends OutsideClick {
     handleFocus(event, field) {
         this._focused = true;
         this.focusedField = field;
-        if (this.characterCountField === field) {
+        if (!Helpers.isBlank(this.characterCountField) && this.characterCountField === field) {
             this.showCount = true;
         }
         else if (this.form.controls[this.control.key].controlType === 'address' &&
