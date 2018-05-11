@@ -16425,6 +16425,17 @@ class FieldInteractionApi {
     }
     /**
      * @param {?} key
+     * @param {?} tooltip
+     * @return {?}
+     */
+    setTooltip(key, tooltip) {
+        let /** @type {?} */ control = this.getControl(key);
+        if (control) {
+            control.tooltip = tooltip;
+        }
+    }
+    /**
+     * @param {?} key
      * @param {?=} message
      * @return {?}
      */

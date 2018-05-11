@@ -15827,6 +15827,17 @@ var FieldInteractionApi = /** @class */ (function () {
     };
     /**
      * @param {?} key
+     * @param {?} tooltip
+     * @return {?}
+     */
+    FieldInteractionApi.prototype.setTooltip = function (key, tooltip) {
+        var /** @type {?} */ control = this.getControl(key);
+        if (control) {
+            control.tooltip = tooltip;
+        }
+    };
+    /**
+     * @param {?} key
      * @param {?=} message
      * @return {?}
      */
