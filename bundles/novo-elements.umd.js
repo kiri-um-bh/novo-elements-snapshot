@@ -33381,6 +33381,7 @@ var NovoValueElement = /** @class */ (function () {
                 case 'ClientCorporation':
                 case 'ClientContact':
                 case 'Candidate':
+                case 'Opportunity':
                 case 'JobOrder':
                 case 'Placement':
                     this.type = NOVO_VALUE_TYPE.INTERNAL_LINK;
