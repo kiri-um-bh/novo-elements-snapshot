@@ -12,3 +12,8 @@ export interface NovoFieldset {
     icon?: string;
     controls: any[];
 }
+export interface IFieldInteractionEvent {
+    controlKey: string;
+    prop: string;
+    value: any;
+}

@@ -13854,7 +13854,9 @@ var NovoFormControl = /** @class */ (function (_super) {
 var NovoFormGroup = /** @class */ (function (_super) {
     __extends(NovoFormGroup, _super);
     function NovoFormGroup() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super.apply(this, arguments) || this;
+        _this.fieldInteractionEvents = new core.EventEmitter();
+        return _this;
     }
     Object.defineProperty(NovoFormGroup.prototype, "value", {
         /**
@@ -15608,6 +15610,7 @@ var FieldInteractionApi = /** @class */ (function () {
         var /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.setValue(value, options);
+            this.triggerEvent({ controlKey: key, prop: 'value', value: value });
         }
     };
     /**
@@ -15620,6 +15623,7 @@ var FieldInteractionApi = /** @class */ (function () {
         var /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.setValue(value, options);
+            this.triggerEvent({ controlKey: key, prop: 'value', value: value });
         }
     };
     /**
@@ -15631,6 +15635,7 @@ var FieldInteractionApi = /** @class */ (function () {
         var /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.setReadOnly(isReadOnly);
+            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: isReadOnly });
         }
     };
     /**
@@ -15642,6 +15647,7 @@ var FieldInteractionApi = /** @class */ (function () {
         var /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.setRequired(required);
+            this.triggerEvent({ controlKey: key, prop: 'required', value: required });
         }
     };
     /**
@@ -15655,6 +15661,7 @@ var FieldInteractionApi = /** @class */ (function () {
         if (control) {
             control.hide(clearValue);
             this.disable(key, { emitEvent: false });
+            this.triggerEvent({ controlKey: key, prop: 'hidden', value: true });
         }
     };
     /**
@@ -15666,6 +15673,7 @@ var FieldInteractionApi = /** @class */ (function () {
         if (control) {
             control.show();
             this.enable(key, { emitEvent: false });
+            this.triggerEvent({ controlKey: key, prop: 'hidden', value: false });
         }
     };
     /**
@@ -15677,6 +15685,7 @@ var FieldInteractionApi = /** @class */ (function () {
         var /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.disable(options);
+            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: false });
         }
     };
     /**
@@ -15688,6 +15697,7 @@ var FieldInteractionApi = /** @class */ (function () {
         var /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.enable(options);
+            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: true });
         }
     };
     /**
@@ -15793,6 +15803,7 @@ var FieldInteractionApi = /** @class */ (function () {
                 icon: icon,
                 button: allowDismiss
             };
+            this.triggerEvent({ controlKey: key, prop: 'tipWell', value: tip });
         }
     };
     /**
@@ -15804,6 +15815,7 @@ var FieldInteractionApi = /** @class */ (function () {
         var /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.tooltip = tooltip;
+            this.triggerEvent({ controlKey: key, prop: 'tooltip', value: tooltip });
         }
     };
     /**
@@ -15843,6 +15855,7 @@ var FieldInteractionApi = /** @class */ (function () {
         var /** @type {?} */ control = this.getControl(key);
         if (control) {
             control[prop] = value;
+            this.triggerEvent({ controlKey: key, prop: prop, value: value });
         }
     };
     /**
@@ -15909,6 +15922,7 @@ var FieldInteractionApi = /** @class */ (function () {
                 }
                 this.setProperty(key, 'options', currentOptions.concat([optionToAdd]));
             }
+            this.triggerEvent({ controlKey: key, prop: 'options', value: currentOptions.concat([optionToAdd]) });
         }
     };
     /**
@@ -15965,6 +15979,7 @@ var FieldInteractionApi = /** @class */ (function () {
                 }
                 this.setProperty(key, 'options', currentOptions.slice());
             }
+            this.triggerEvent({ controlKey: key, prop: 'options', value: control.options });
         }
     };
     /**
@@ -16015,6 +16030,7 @@ var FieldInteractionApi = /** @class */ (function () {
                 newConfig.options = config.options.slice();
             }
             this.setProperty(key, 'config', newConfig);
+            this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: config });
         }
     };
     /**
@@ -16046,6 +16062,7 @@ var FieldInteractionApi = /** @class */ (function () {
                     this.setProperty(key, 'tipWell', null);
                 }
             }
+            this.triggerEvent({ controlKey: key, prop: 'loading', value: loading });
         }
     };
     /**
@@ -16111,6 +16128,7 @@ var FieldInteractionApi = /** @class */ (function () {
                 var /** @type {?} */ formControl = new NovoFormControl(initialValue, novoControl);
                 this.form.addControl(novoControl.key, formControl);
                 this.form.fieldsets[fieldsetIndex].controls.splice(controlIndex, 0, novoControl);
+                this.triggerEvent({ controlKey: key, prop: 'addControl', value: formControl });
             }
         }
     };
@@ -16138,6 +16156,7 @@ var FieldInteractionApi = /** @class */ (function () {
             if (fieldsetIndex_1 !== -1 && controlIndex_1 !== -1) {
                 this.form.removeControl(key);
                 this.form.fieldsets[fieldsetIndex_1].controls.splice(controlIndex_1, 1);
+                this.triggerEvent({ controlKey: key, prop: 'removeControl', value: key });
             }
         }
     };
@@ -16151,6 +16170,15 @@ var FieldInteractionApi = /** @class */ (function () {
         var /** @type {?} */ h;
         clearTimeout(h);
         h = setTimeout(function () { return func(); }, wait);
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    FieldInteractionApi.prototype.triggerEvent = function (event) {
+        if (this.form && this.form.fieldInteractionEvents) {
+            this.form.fieldInteractionEvents.emit(event);
+        }
     };
     return FieldInteractionApi;
 }());

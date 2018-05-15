@@ -1,6 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
 import { NovoControlConfig } from './FormControls';
+import { IFieldInteractionEvent } from './FormInterfaces';
 export declare class NovoFormControl extends FormControl {
     displayValueChanges: EventEmitter<any>;
     hidden: boolean;
@@ -94,6 +95,7 @@ export declare class NovoFormControl extends FormControl {
     markAsInvalid(message: string): void;
 }
 export declare class NovoFormGroup extends FormGroup {
+    fieldInteractionEvents: EventEmitter<IFieldInteractionEvent>;
     layout: string;
     edit: boolean;
     currentEntity: string;

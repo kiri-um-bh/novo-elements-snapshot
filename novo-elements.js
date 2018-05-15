@@ -14580,6 +14580,10 @@ class NovoFormControl extends FormControl {
     }
 }
 class NovoFormGroup extends FormGroup {
+    constructor() {
+        super(...arguments);
+        this.fieldInteractionEvents = new EventEmitter();
+    }
     /**
      * @return {?}
      */
@@ -16237,6 +16241,7 @@ class FieldInteractionApi {
         let /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.setValue(value, options);
+            this.triggerEvent({ controlKey: key, prop: 'value', value: value });
         }
     }
     /**
@@ -16249,6 +16254,7 @@ class FieldInteractionApi {
         let /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.setValue(value, options);
+            this.triggerEvent({ controlKey: key, prop: 'value', value: value });
         }
     }
     /**
@@ -16260,6 +16266,7 @@ class FieldInteractionApi {
         let /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.setReadOnly(isReadOnly);
+            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: isReadOnly });
         }
     }
     /**
@@ -16271,6 +16278,7 @@ class FieldInteractionApi {
         let /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.setRequired(required);
+            this.triggerEvent({ controlKey: key, prop: 'required', value: required });
         }
     }
     /**
@@ -16283,6 +16291,7 @@ class FieldInteractionApi {
         if (control) {
             control.hide(clearValue);
             this.disable(key, { emitEvent: false });
+            this.triggerEvent({ controlKey: key, prop: 'hidden', value: true });
         }
     }
     /**
@@ -16294,6 +16303,7 @@ class FieldInteractionApi {
         if (control) {
             control.show();
             this.enable(key, { emitEvent: false });
+            this.triggerEvent({ controlKey: key, prop: 'hidden', value: false });
         }
     }
     /**
@@ -16305,6 +16315,7 @@ class FieldInteractionApi {
         let /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.disable(options);
+            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: false });
         }
     }
     /**
@@ -16316,6 +16327,7 @@ class FieldInteractionApi {
         let /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.enable(options);
+            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: true });
         }
     }
     /**
@@ -16421,6 +16433,7 @@ class FieldInteractionApi {
                 icon: icon,
                 button: allowDismiss
             };
+            this.triggerEvent({ controlKey: key, prop: 'tipWell', value: tip });
         }
     }
     /**
@@ -16432,6 +16445,7 @@ class FieldInteractionApi {
         let /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.tooltip = tooltip;
+            this.triggerEvent({ controlKey: key, prop: 'tooltip', value: tooltip });
         }
     }
     /**
@@ -16470,6 +16484,7 @@ class FieldInteractionApi {
         let /** @type {?} */ control = this.getControl(key);
         if (control) {
             control[prop] = value;
+            this.triggerEvent({ controlKey: key, prop: prop, value: value });
         }
     }
     /**
@@ -16536,6 +16551,7 @@ class FieldInteractionApi {
                 }
                 this.setProperty(key, 'options', [...currentOptions, optionToAdd]);
             }
+            this.triggerEvent({ controlKey: key, prop: 'options', value: [...currentOptions, optionToAdd] });
         }
     }
     /**
@@ -16592,6 +16608,7 @@ class FieldInteractionApi {
                 }
                 this.setProperty(key, 'options', [...currentOptions]);
             }
+            this.triggerEvent({ controlKey: key, prop: 'options', value: control.options });
         }
     }
     /**
@@ -16641,6 +16658,7 @@ class FieldInteractionApi {
                 newConfig.options = [...config.options];
             }
             this.setProperty(key, 'config', newConfig);
+            this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: config });
         }
     }
     /**
@@ -16671,6 +16689,7 @@ class FieldInteractionApi {
                     this.setProperty(key, 'tipWell', null);
                 }
             }
+            this.triggerEvent({ controlKey: key, prop: 'loading', value: loading });
         }
     }
     /**
@@ -16735,6 +16754,7 @@ class FieldInteractionApi {
                 let /** @type {?} */ formControl = new NovoFormControl(initialValue, novoControl);
                 this.form.addControl(novoControl.key, formControl);
                 this.form.fieldsets[fieldsetIndex].controls.splice(controlIndex, 0, novoControl);
+                this.triggerEvent({ controlKey: key, prop: 'addControl', value: formControl });
             }
         }
     }
@@ -16762,6 +16782,7 @@ class FieldInteractionApi {
             if (fieldsetIndex !== -1 && controlIndex !== -1) {
                 this.form.removeControl(key);
                 this.form.fieldsets[fieldsetIndex].controls.splice(controlIndex, 1);
+                this.triggerEvent({ controlKey: key, prop: 'removeControl', value: key });
             }
         }
     }
@@ -16774,6 +16795,15 @@ class FieldInteractionApi {
         let /** @type {?} */ h;
         clearTimeout(h);
         h = setTimeout(() => func(), wait);
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    triggerEvent(event) {
+        if (this.form && this.form.fieldInteractionEvents) {
+            this.form.fieldInteractionEvents.emit(event);
+        }
     }
 }
 FieldInteractionApi.FIELD_POSITIONS = {

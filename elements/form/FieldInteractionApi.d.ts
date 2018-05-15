@@ -118,4 +118,5 @@ export declare class FieldInteractionApi {
     addControl(key: string, metaForNewField: any, position?: string, initialValue?: any): void;
     removeControl(key: string): void;
     debounce(func: () => void, wait?: number): void;
+    private triggerEvent(event);
 }
