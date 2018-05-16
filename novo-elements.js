@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Inject, Injectable, InjectionToken, Input, LOCALE_ID, NgModule, NgZone, Optional, Output, PLATFORM_ID, Pipe, ReflectiveInjector, Renderer2, TemplateRef, ViewChild, ViewChildren, ViewContainerRef, ViewEncapsulation, animate, forwardRef, isDevMode, state, style, transition, trigger } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Inject, Injectable, InjectionToken, Input, LOCALE_ID, NgModule, NgZone, Optional, Output, PLATFORM_ID, Pipe, ReflectiveInjector, Renderer2, TemplateRef, ViewChild, ViewChildren, ViewContainerRef, ViewEncapsulation, animate, forwardRef, isDevMode, state, style, transition, trigger } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import 'brace/index';
@@ -10,12 +10,12 @@ import { DOCUMENT, DomSanitizer } from '@angular/platform-browser';
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
+import { PortalModule, TemplatePortal } from '@angular/cdk/portal';
 import { merge as merge$1 } from 'rxjs/observable/merge';
 import { fromEvent as fromEvent$1 } from 'rxjs/observable/fromEvent';
 import { of as of$1 } from 'rxjs/observable/of';
 import { filter as filter$1 } from 'rxjs/operators/filter';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -26,6 +26,9 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { animate as animate$1, state as state$1, style as style$1, transition as transition$1, trigger as trigger$1 } from '@angular/animations';
 import { Http, HttpModule } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { A11yModule, FocusMonitor } from '@angular/cdk/a11y';
+import { CdkStep, CdkStepLabel, CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
+import { Directionality } from '@angular/cdk/bidi';
 import { CDK_ROW_TEMPLATE, CDK_TABLE_TEMPLATE, CdkCell, CdkCellDef, CdkColumnDef, CdkHeaderCell, CdkHeaderCellDef, CdkHeaderRow, CdkHeaderRowDef, CdkRow, CdkRowDef, CdkTable, CdkTableModule, DataSource } from '@angular/cdk/table';
 import 'rxjs/add/observable/of';
 import { Subject as Subject$1 } from 'rxjs/Subject';
@@ -8480,7 +8483,7 @@ const DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER = {
     deps: [Overlay],
     useFactory: DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY,
 };
-class NovoOverlayTemplate {
+class NovoOverlayTemplateComponent {
     /**
      * @param {?} _overlay
      * @param {?} _viewContainerRef
@@ -8711,7 +8714,7 @@ class NovoOverlayTemplate {
         return this._getConnectedElement().nativeElement.getBoundingClientRect().width;
     }
 }
-NovoOverlayTemplate.decorators = [
+NovoOverlayTemplateComponent.decorators = [
     { type: Component, args: [{
                 selector: 'novo-overlay-template',
                 changeDetection: ChangeDetectionStrategy.OnPush,
@@ -8727,7 +8730,7 @@ NovoOverlayTemplate.decorators = [
 /**
  * @nocollapse
  */
-NovoOverlayTemplate.ctorParameters = () => [
+NovoOverlayTemplateComponent.ctorParameters = () => [
     { type: Overlay, },
     { type: ViewContainerRef, },
     { type: NgZone, },
@@ -8735,7 +8738,7 @@ NovoOverlayTemplate.ctorParameters = () => [
     { type: undefined, decorators: [{ type: Inject, args: [DEFAULT_OVERLAY_SCROLL_STRATEGY,] },] },
     { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] },] },
 ];
-NovoOverlayTemplate.propDecorators = {
+NovoOverlayTemplateComponent.propDecorators = {
     'template': [{ type: ViewChild, args: [TemplateRef,] },],
     'panel': [{ type: ViewChild, args: ['panel',] },],
     'position': [{ type: Input },],
@@ -8753,8 +8756,8 @@ class NovoOverlayModule {
 NovoOverlayModule.decorators = [
     { type: NgModule, args: [{
                 imports: [CommonModule, FormsModule, OverlayModule],
-                declarations: [NovoOverlayTemplate],
-                exports: [NovoOverlayTemplate],
+                declarations: [NovoOverlayTemplateComponent],
+                exports: [NovoOverlayTemplateComponent],
                 providers: [DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER]
             },] },
 ];
@@ -9126,7 +9129,7 @@ NovoSelectElement.propDecorators = {
     'readonly': [{ type: Input },],
     'headerConfig': [{ type: Input },],
     'onSelect': [{ type: Output },],
-    'overlay': [{ type: ViewChild, args: [NovoOverlayTemplate,] },],
+    'overlay': [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] },],
     'onKeyDown': [{ type: HostListener, args: ['keydown', ['$event'],] },],
 };
 
@@ -9683,7 +9686,7 @@ NovoPickerElement.propDecorators = {
     'focus': [{ type: Output },],
     'blur': [{ type: Output },],
     'typing': [{ type: Output },],
-    'container': [{ type: ViewChild, args: [NovoOverlayTemplate,] },],
+    'container': [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] },],
     'input': [{ type: ViewChild, args: ['input',] },],
 };
 
@@ -10903,7 +10906,7 @@ NovoSearchBoxElement.propDecorators = {
     'hint': [{ type: Input },],
     'searchChanged': [{ type: Output },],
     'focused': [{ type: HostBinding, args: ['class.focused',] },],
-    'overlay': [{ type: ViewChild, args: [NovoOverlayTemplate,] },],
+    'overlay': [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] },],
     'input': [{ type: ViewChild, args: ['input',] },],
     'active': [{ type: HostBinding, args: ['class.active',] },],
 };
@@ -12582,7 +12585,7 @@ NovoDatePickerInputElement.propDecorators = {
     'format': [{ type: Input },],
     'textMaskEnabled': [{ type: Input },],
     'allowInvalidDate': [{ type: Input },],
-    'overlay': [{ type: ViewChild, args: [NovoOverlayTemplate,] },],
+    'overlay': [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] },],
 };
 
 // NG2
@@ -13310,7 +13313,7 @@ NovoTimePickerInputElement.propDecorators = {
     'placeholder': [{ type: Input },],
     'military': [{ type: Input },],
     'maskOptions': [{ type: Input },],
-    'overlay': [{ type: ViewChild, args: [NovoOverlayTemplate,] },],
+    'overlay': [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] },],
 };
 
 // NG2
@@ -35039,6 +35042,1231 @@ NovoIconModule.decorators = [
  */
 NovoIconModule.ctorParameters = () => [];
 
+class NovoStepLabel extends CdkStepLabel {
+    /**
+     * @param {?} template
+     */
+    constructor(template) {
+        super(template);
+    }
+}
+NovoStepLabel.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoStepLabel]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepLabel.ctorParameters = () => [
+    { type: TemplateRef, },
+];
+
+class NovoStepHeader {
+    /**
+     * @param {?} _focusMonitor
+     * @param {?} _element
+     */
+    constructor(_focusMonitor, _element) {
+        this._focusMonitor = _focusMonitor;
+        this._element = _element;
+        _focusMonitor.monitor(_element.nativeElement, true);
+    }
+    /**
+     * Index of the given step.
+     * @return {?}
+     */
+    get index() { return this._index; }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set index(value) { this._index = coerceNumberProperty(value); }
+    /**
+     * Whether the given step is selected.
+     * @return {?}
+     */
+    get selected() { return this._selected; }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set selected(value) { this._selected = coerceBooleanProperty(value); }
+    /**
+     * Whether the given step label is active.
+     * @return {?}
+     */
+    get active() { return this._active; }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set active(value) { this._active = coerceBooleanProperty(value); }
+    /**
+     * Whether the given step label is active.
+     * @return {?}
+     */
+    get touched() { return this.selected || this.state === 'edit' || this.state === 'done'; }
+    /**
+     * Whether the given step is optional.
+     * @return {?}
+     */
+    get optional() { return this._optional; }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set optional(value) { this._optional = coerceBooleanProperty(value); }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        this._focusMonitor.stopMonitoring(this._element.nativeElement);
+    }
+    /**
+     * Returns string label of given step if it is a text label.
+     * @return {?}
+     */
+    _stringLabel() {
+        return this.label instanceof NovoStepLabel ? null : this.label;
+    }
+    /**
+     * Returns NovoStepLabel if the label of given step is a template label.
+     * @return {?}
+     */
+    _templateLabel() {
+        return this.label instanceof NovoStepLabel ? this.label : null;
+    }
+    /**
+     * Returns the host HTML element.
+     * @return {?}
+     */
+    _getHostElement() {
+        return this._element.nativeElement;
+    }
+}
+NovoStepHeader.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-step-header',
+                template: `
+    <div [class.novo-step-icon]="touched"
+         [class.novo-step-icon-not-touched]="!touched">
+      <ng-container *ngIf="icon">
+        <novo-icon size="small" raised="true" [theme]="theme">{{icon}}</novo-icon>
+      </ng-container>
+      <ng-container *ngIf="!icon">
+        <span class="novo-step-number">{{index + 1}}</span>
+      </ng-container>
+    </div>
+    <div class="novo-step-label"
+         [class.novo-step-label-active]="active"
+         [class.novo-step-label-selected]="selected">
+      <!-- If there is a label template, use it. -->
+      <ng-container *ngIf="_templateLabel()" [ngTemplateOutlet]="_templateLabel()!.template">
+      </ng-container>
+      <!-- It there is no label template, fall back to the text label. -->
+      <div class="novo-step-text-label" *ngIf="_stringLabel()">{{label}}</div>
+    </div>
+    <novo-step-status [state]="state"></novo-step-status>
+  `,
+                styles: [`
+    @-webkit-keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @-webkit-keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @-webkit-keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @-webkit-keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    @keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    .novo-step-header {
+      overflow: visible;
+      outline: none;
+      cursor: pointer;
+      position: relative; }
+
+    .novo-step-optional {
+      font-size: 12px; }
+
+    .novo-step-icon,
+    .novo-step-icon-not-touched {
+      border-radius: 50%;
+      height: 24px;
+      width: 24px;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex; }
+      .novo-step-icon .novo-step-number,
+      .novo-step-icon-not-touched .novo-step-number {
+        font-size: 1em;
+        min-width: 1.6em;
+        height: 1.6em;
+        -webkit-box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+                box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        border-radius: 4px; }
+
+    .novo-step-icon .novo-step-number {
+      background: #4a89dc;
+      color: #ffffff; }
+
+    .novo-step-icon-not-touched .novo-step-number {
+      background: #a9adbb;
+      color: #ffffff; }
+
+    .novo-step-label {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 50px;
+      vertical-align: middle;
+      text-align: center;
+      padding: 4px 0px; }
+
+    .novo-step-text-label {
+      text-align: center;
+      text-overflow: ellipsis;
+      overflow: hidden; }
+  `],
+                host: {
+                    'class': 'novo-step-header',
+                    'role': 'tab',
+                },
+                preserveWhitespaces: false,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepHeader.ctorParameters = () => [
+    { type: FocusMonitor, },
+    { type: ElementRef, },
+];
+NovoStepHeader.propDecorators = {
+    'theme': [{ type: Input },],
+    'color': [{ type: Input },],
+    'icon': [{ type: Input },],
+    'state': [{ type: Input },],
+    'label': [{ type: Input },],
+    'iconOverrides': [{ type: Input },],
+    'index': [{ type: Input },],
+    'selected': [{ type: Input },],
+    'active': [{ type: Input },],
+    'optional': [{ type: Input },],
+};
+
+var __extends$7 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+
+/**
+ * Emits the values emitted by the source Observable until a `notifier`
+ * Observable emits a value.
+ *
+ * <span class="informal">Lets values pass until a second Observable,
+ * `notifier`, emits something. Then, it completes.</span>
+ *
+ * <img src="./img/takeUntil.png" width="100%">
+ *
+ * `takeUntil` subscribes and begins mirroring the source Observable. It also
+ * monitors a second Observable, `notifier` that you provide. If the `notifier`
+ * emits a value or a complete notification, the output Observable stops
+ * mirroring the source Observable and completes.
+ *
+ * @example <caption>Tick every second until the first click happens</caption>
+ * var interval = Rx.Observable.interval(1000);
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var result = interval.takeUntil(clicks);
+ * result.subscribe(x => console.log(x));
+ *
+ * @see {@link take}
+ * @see {@link takeLast}
+ * @see {@link takeWhile}
+ * @see {@link skip}
+ *
+ * @param {Observable} notifier The Observable whose first emitted value will
+ * cause the output Observable of `takeUntil` to stop emitting values from the
+ * source Observable.
+ * @return {Observable<T>} An Observable that emits the values from the source
+ * Observable until such time as `notifier` emits its first value.
+ * @method takeUntil
+ * @owner Observable
+ */
+function takeUntil(notifier) {
+    return function (source) { return source.lift(new TakeUntilOperator(notifier)); };
+}
+var takeUntil_2 = takeUntil;
+var TakeUntilOperator = (function () {
+    function TakeUntilOperator(notifier) {
+        this.notifier = notifier;
+    }
+    TakeUntilOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new TakeUntilSubscriber(subscriber, this.notifier));
+    };
+    return TakeUntilOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TakeUntilSubscriber = (function (_super) {
+    __extends$7(TakeUntilSubscriber, _super);
+    function TakeUntilSubscriber(destination, notifier) {
+        _super.call(this, destination);
+        this.notifier = notifier;
+        this.add(subscribeToResult_1.subscribeToResult(this, notifier));
+    }
+    TakeUntilSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.complete();
+    };
+    TakeUntilSubscriber.prototype.notifyComplete = function () {
+        // noop
+    };
+    return TakeUntilSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+
+/**
+ * Animations used by the Novo steppers.
+ */
+const novoStepperAnimations = {
+    /** Animation that transitions the step along the X axis in a horizontal stepper. */
+    horizontalStepTransition: trigger$1('stepTransition', [
+        state$1('previous', style$1({ transform: 'translate3d(-100%, 0, 0)', visibility: 'hidden' })),
+        state$1('current', style$1({ transform: 'none', visibility: 'visible' })),
+        state$1('next', style$1({ transform: 'translate3d(100%, 0, 0)', visibility: 'hidden' })),
+        transition$1('* => *', animate$1('500ms cubic-bezier(0.35, 0, 0.25, 1)'))
+    ]),
+    /** Animation that transitions the step along the Y axis in a vertical stepper. */
+    verticalStepTransition: trigger$1('stepTransition', [
+        state$1('previous', style$1({ height: '0px', visibility: 'hidden' })),
+        state$1('next', style$1({ height: '0px', visibility: 'hidden' })),
+        state$1('current', style$1({ height: '*', visibility: 'visible' })),
+        transition$1('* <=> current', animate$1('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ])
+};
+
+class NovoStep extends CdkStep {
+    /**
+     * @param {?} stepper
+     */
+    constructor(stepper$$1) {
+        super(stepper$$1);
+    }
+}
+NovoStep.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-step',
+                template: `
+    <ng-template><ng-content></ng-content></ng-template>
+  `,
+                preserveWhitespaces: false,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStep.ctorParameters = () => [
+    { type: NovoStepper, decorators: [{ type: Inject, args: [forwardRef(() => NovoStepper),] },] },
+];
+NovoStep.propDecorators = {
+    'stepLabel': [{ type: ContentChild, args: [NovoStepLabel,] },],
+    'theme': [{ type: Input },],
+    'color': [{ type: Input },],
+    'icon': [{ type: Input },],
+};
+class NovoStepper extends CdkStepper {
+    constructor() {
+        super(...arguments);
+        /**
+         * Consumer-specified template-refs to be used to override the header icons.
+         */
+        this._iconOverrides = {};
+    }
+    /**
+     * @return {?}
+     */
+    get completed() {
+        try {
+            let /** @type {?} */ steps = this._steps.toArray();
+            let /** @type {?} */ length = steps.length - 1;
+            return steps[length].completed && length === this.selectedIndex;
+        }
+        catch (err) {
+            return false;
+        }
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterContentInit() {
+        // Mark the component for change detection whenever the content children query changes
+        this._steps.changes.pipe(takeUntil_2(this._destroyed)).subscribe(() => this._stateChanged());
+    }
+    /**
+     * @return {?}
+     */
+    complete() {
+        try {
+            let /** @type {?} */ steps = this._steps.toArray();
+            steps[this.selectedIndex].completed = true;
+            this.next();
+            this._stateChanged();
+        }
+        catch (err) {
+            // do nothing
+        }
+    }
+    /**
+     * @param {?} index
+     * @return {?}
+     */
+    getIndicatorType(index$$1) {
+        let /** @type {?} */ steps = this._steps.toArray();
+        if (index$$1 === this.selectedIndex) {
+            if (steps[index$$1] && index$$1 === steps.length - 1 && steps[index$$1].completed) {
+                return 'done';
+            }
+            return 'edit';
+        }
+        if (index$$1 < this.selectedIndex) {
+            return 'done';
+        }
+        return 'none';
+    }
+}
+NovoStepper.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoStepper]'
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepper.ctorParameters = () => [];
+NovoStepper.propDecorators = {
+    '_stepHeader': [{ type: ViewChildren, args: [NovoStepHeader, { read: ElementRef },] },],
+    '_steps': [{ type: ContentChildren, args: [NovoStep,] },],
+    '_icons': [{ type: ContentChildren, args: [NovoIconComponent,] },],
+};
+class NovoHorizontalStepper extends NovoStepper {
+}
+NovoHorizontalStepper.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-horizontal-stepper',
+                template: `
+    <div class="novo-horizontal-stepper-header-container">
+        <div class="novo-stepper-horizontal-line complete"></div>
+      <ng-container *ngFor="let step of _steps; let i = index; let isLast = last">
+        <novo-step-header  class="novo-horizontal-stepper-header"
+                         (click)="step.select()"
+                         (keydown)="_onKeydown($event)"
+                         [tabIndex]="_focusIndex === i ? 0 : -1"
+                         [id]="_getStepLabelId(i)"
+                         [attr.aria-controls]="_getStepContentId(i)"
+                         [attr.aria-selected]="selectedIndex == i"
+                         [index]="i"
+                         [theme]="step.theme"
+                         [color]="step.color"
+                         [icon]="step.icon"
+                         [state]="getIndicatorType(i)"
+                         [label]="step.stepLabel || step.label"
+                         [selected]="selectedIndex === i"
+                         [active]="step.completed || selectedIndex === i || !linear"
+                         [optional]="step.optional"
+                         [iconOverrides]="_iconOverrides">
+        </novo-step-header>
+      </ng-container>
+      <div class="novo-stepper-horizontal-line" [class.complete]="completed"></div>
+    </div>
+
+    <div class="novo-horizontal-content-container">
+      <div *ngFor="let step of _steps; let i = index"
+           class="novo-horizontal-stepper-content" role="tabpanel"
+           [@stepTransition]="_getAnimationDirection(i)"
+           [id]="_getStepContentId(i)"
+           [attr.aria-labelledby]="_getStepLabelId(i)"
+           [attr.aria-expanded]="selectedIndex === i">
+        <ng-container [ngTemplateOutlet]="step.content"></ng-container>
+      </div>
+    </div>
+  `,
+                styles: [`
+    @-webkit-keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @-webkit-keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @-webkit-keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @-webkit-keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    @keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    .novo-stepper-vertical,
+    .novo-stepper-horizontal {
+      display: block; }
+
+    .novo-horizontal-stepper-header-container {
+      white-space: nowrap;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      margin-bottom: 1em;
+      background: #f4f4f4; }
+
+    .novo-stepper-horizontal-line {
+      border-bottom: 1px solid #d9dadc;
+      -webkit-box-flex: 1;
+          -ms-flex: auto;
+              flex: auto;
+      min-width: 0px;
+      height: 80px; }
+      .novo-stepper-horizontal-line.complete {
+        border-bottom: 1px solid #4a89dc; }
+
+    .novo-horizontal-stepper-header {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      height: 80px;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-flow: column;
+              flex-flow: column;
+      overflow: visible;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      padding: 0 24px; }
+      .novo-horizontal-stepper-header .novo-step-status {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        position: absolute;
+        height: 1px;
+        bottom: 0px; }
+        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line {
+          width: 100%;
+          position: absolute; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before {
+            content: "";
+            display: block;
+            width: calc(50% - 8px);
+            margin-right: 8px;
+            border-bottom: 1px solid #d9dadc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after {
+            content: "";
+            display: block;
+            width: calc(50% - 8px);
+            margin-left: calc(50% + 8px);
+            margin-top: -1px;
+            border-top: 1px solid #d9dadc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before {
+            border-bottom: 1px solid #4a89dc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before {
+            border-bottom: 1px solid #4a89dc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after {
+            border-top: 1px solid #4a89dc; }
+        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon {
+          position: relative; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before {
+            content: "";
+            display: block;
+            background: #ffffff;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 0;
+            top: 1px;
+            left: 1px;
+            bottom: 1px;
+            right: 1px; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon > * {
+            position: relative;
+            z-index: 1; }
+
+    .novo-vertical-stepper-header {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      padding: 24px;
+      max-height: 24px; }
+      .novo-vertical-stepper-header .novo-step-icon,
+      .novo-vertical-stepper-header .novo-step-icon-not-touched {
+        margin-right: 12px; }
+        [dir='rtl'] .novo-vertical-stepper-header .novo-step-icon, [dir='rtl']
+        .novo-vertical-stepper-header .novo-step-icon-not-touched {
+          margin-right: 0;
+          margin-left: 12px; }
+
+    .novo-horizontal-stepper-content {
+      overflow: hidden; }
+      .novo-horizontal-stepper-content[aria-expanded='false'] {
+        height: 0; }
+
+    .novo-horizontal-content-container {
+      overflow: hidden;
+      padding: 0 24px 24px 24px; }
+
+    .novo-vertical-content-container {
+      margin-left: 36px;
+      border: 0;
+      position: relative; }
+      [dir='rtl'] .novo-vertical-content-container {
+        margin-left: 0;
+        margin-right: 36px; }
+
+    .novo-stepper-vertical-line:before {
+      content: '';
+      position: absolute;
+      top: -16px;
+      bottom: -16px;
+      left: 0;
+      z-index: -1;
+      border-left-width: 1px;
+      border-left-style: solid;
+      border-left-color: #d9dadc; }
+      [dir='rtl'] .novo-stepper-vertical-line:before {
+        left: auto;
+        right: 0; }
+
+    .novo-stepper-vertical-line.edit:before {
+      border-left-color: 1px solid #4a89dc; }
+
+    .novo-stepper-vertical-line.done:before {
+      border-left-color: 1px solid #4a89dc; }
+
+    .novo-stepper-vertical-line.done:after {
+      border-left-color: 1px solid #4a89dc; }
+
+    .novo-stepper-vertical novo-step-status {
+      position: absolute;
+      left: 35px;
+      top: 25px;
+      -webkit-transform: scale(0.8);
+              transform: scale(0.8); }
+
+    .novo-vertical-stepper-content {
+      overflow: hidden; }
+
+    .novo-vertical-content {
+      padding: 0 24px 24px 24px; }
+
+    .novo-step:last-child .novo-vertical-content-container {
+      border: none; }
+  `],
+                host: {
+                    'class': 'novo-stepper-horizontal',
+                    'aria-orientation': 'horizontal',
+                    'role': 'tablist',
+                },
+                animations: [novoStepperAnimations.horizontalStepTransition],
+                providers: [{ provide: NovoStepper, useExisting: NovoHorizontalStepper }],
+                // encapsulation: ViewEncapsulation.None,
+                preserveWhitespaces: false,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoHorizontalStepper.ctorParameters = () => [];
+NovoHorizontalStepper.propDecorators = {
+    'selectedIndex': [{ type: Input },],
+};
+class NovoVerticalStepper extends NovoStepper {
+    /**
+     * @param {?} dir
+     * @param {?} changeDetectorRef
+     */
+    constructor(dir, changeDetectorRef) {
+        super(dir, changeDetectorRef);
+        this._orientation = 'vertical';
+    }
+}
+NovoVerticalStepper.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-vertical-stepper',
+                template: `
+    <div class="novo-step" *ngFor="let step of _steps; let i = index; let isLast = last">
+        <novo-step-header  class="novo-vertical-stepper-header"
+                         (click)="step.select()"
+                         (keydown)="_onKeydown($event)"
+                         [tabIndex]="_focusIndex == i ? 0 : -1"
+                         [id]="_getStepLabelId(i)"
+                         [attr.aria-controls]="_getStepContentId(i)"
+                         [attr.aria-selected]="selectedIndex === i"
+                         [index]="i"
+                         [theme]="step.theme"
+                         [color]="step.color"
+                         [icon]="step.icon"
+                         [state]="getIndicatorType(i)"
+                         [label]="step.stepLabel || step.label"
+                         [selected]="selectedIndex === i"
+                         [active]="step.completed || selectedIndex === i || !linear"
+                         [optional]="step.optional"
+                         [iconOverrides]="_iconOverrides">
+        </novo-step-header>
+  
+        <div class="novo-vertical-content-container" [class.novo-stepper-vertical-line]="!isLast" [ngClass]="getIndicatorType(i)">
+          <div class="novo-vertical-stepper-content" role="tabpanel"
+               [@stepTransition]="_getAnimationDirection(i)"
+               [id]="_getStepContentId(i)"
+               [attr.aria-labelledby]="_getStepLabelId(i)"
+               [attr.aria-expanded]="selectedIndex === i">
+            <div class="novo-vertical-content">
+              <ng-container [ngTemplateOutlet]="step.content"></ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+  `,
+                styles: [`
+    @-webkit-keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @-webkit-keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @-webkit-keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @-webkit-keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    @keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    .novo-stepper-vertical,
+    .novo-stepper-horizontal {
+      display: block; }
+
+    .novo-horizontal-stepper-header-container {
+      white-space: nowrap;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      margin-bottom: 1em;
+      background: #f4f4f4; }
+
+    .novo-stepper-horizontal-line {
+      border-bottom: 1px solid #d9dadc;
+      -webkit-box-flex: 1;
+          -ms-flex: auto;
+              flex: auto;
+      min-width: 0px;
+      height: 80px; }
+      .novo-stepper-horizontal-line.complete {
+        border-bottom: 1px solid #4a89dc; }
+
+    .novo-horizontal-stepper-header {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      height: 80px;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-flow: column;
+              flex-flow: column;
+      overflow: visible;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      padding: 0 24px; }
+      .novo-horizontal-stepper-header .novo-step-status {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        position: absolute;
+        height: 1px;
+        bottom: 0px; }
+        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line {
+          width: 100%;
+          position: absolute; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before {
+            content: "";
+            display: block;
+            width: calc(50% - 8px);
+            margin-right: 8px;
+            border-bottom: 1px solid #d9dadc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after {
+            content: "";
+            display: block;
+            width: calc(50% - 8px);
+            margin-left: calc(50% + 8px);
+            margin-top: -1px;
+            border-top: 1px solid #d9dadc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before {
+            border-bottom: 1px solid #4a89dc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before {
+            border-bottom: 1px solid #4a89dc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after {
+            border-top: 1px solid #4a89dc; }
+        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon {
+          position: relative; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before {
+            content: "";
+            display: block;
+            background: #ffffff;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 0;
+            top: 1px;
+            left: 1px;
+            bottom: 1px;
+            right: 1px; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon > * {
+            position: relative;
+            z-index: 1; }
+
+    .novo-vertical-stepper-header {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      padding: 24px;
+      max-height: 24px; }
+      .novo-vertical-stepper-header .novo-step-icon,
+      .novo-vertical-stepper-header .novo-step-icon-not-touched {
+        margin-right: 12px; }
+        [dir='rtl'] .novo-vertical-stepper-header .novo-step-icon, [dir='rtl']
+        .novo-vertical-stepper-header .novo-step-icon-not-touched {
+          margin-right: 0;
+          margin-left: 12px; }
+
+    .novo-horizontal-stepper-content {
+      overflow: hidden; }
+      .novo-horizontal-stepper-content[aria-expanded='false'] {
+        height: 0; }
+
+    .novo-horizontal-content-container {
+      overflow: hidden;
+      padding: 0 24px 24px 24px; }
+
+    .novo-vertical-content-container {
+      margin-left: 36px;
+      border: 0;
+      position: relative; }
+      [dir='rtl'] .novo-vertical-content-container {
+        margin-left: 0;
+        margin-right: 36px; }
+
+    .novo-stepper-vertical-line:before {
+      content: '';
+      position: absolute;
+      top: -16px;
+      bottom: -16px;
+      left: 0;
+      z-index: -1;
+      border-left-width: 1px;
+      border-left-style: solid;
+      border-left-color: #d9dadc; }
+      [dir='rtl'] .novo-stepper-vertical-line:before {
+        left: auto;
+        right: 0; }
+
+    .novo-stepper-vertical-line.edit:before {
+      border-left-color: 1px solid #4a89dc; }
+
+    .novo-stepper-vertical-line.done:before {
+      border-left-color: 1px solid #4a89dc; }
+
+    .novo-stepper-vertical-line.done:after {
+      border-left-color: 1px solid #4a89dc; }
+
+    .novo-stepper-vertical novo-step-status {
+      position: absolute;
+      left: 35px;
+      top: 25px;
+      -webkit-transform: scale(0.8);
+              transform: scale(0.8); }
+
+    .novo-vertical-stepper-content {
+      overflow: hidden; }
+
+    .novo-vertical-content {
+      padding: 0 24px 24px 24px; }
+
+    .novo-step:last-child .novo-vertical-content-container {
+      border: none; }
+  `],
+                host: {
+                    'class': 'novo-stepper-vertical',
+                    'aria-orientation': 'vertical',
+                    'role': 'tablist',
+                },
+                animations: [novoStepperAnimations.verticalStepTransition],
+                providers: [{ provide: NovoStepper, useExisting: NovoVerticalStepper }],
+                preserveWhitespaces: false,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoVerticalStepper.ctorParameters = () => [
+    { type: Directionality, decorators: [{ type: Optional },] },
+    { type: ChangeDetectorRef, },
+];
+NovoVerticalStepper.propDecorators = {
+    'selectedIndex': [{ type: Input },],
+};
+
+class NovoStepStatus {
+    /**
+     * @param {?} stepper
+     * @param {?} step
+     */
+    constructor(stepper$$1, step) {
+    }
+}
+NovoStepStatus.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-step-status',
+                template: `
+    <div class="novo-stepper-status-line" [ngClass]="state"></div>
+    <div [ngSwitch]="state" class="novo-stepper-status-icon">
+      <novo-icon size="small" color="positive" *ngSwitchCase="'edit'">check-circle</novo-icon>
+      <novo-icon size="small" color="positive" *ngSwitchCase="'done'">check-circle-filled</novo-icon>
+      <novo-icon size="small" color="positive" *ngSwitchDefault>circle-o</novo-icon>
+    </div>
+  `,
+                // encapsulation: ViewEncapsulation.None,
+                preserveWhitespaces: false,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                host: {
+                    'class': 'novo-step-status'
+                },
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepStatus.ctorParameters = () => [
+    { type: NovoStepper, decorators: [{ type: Inject, args: [forwardRef(() => NovoStepper),] },] },
+    { type: NovoStepHeader, decorators: [{ type: Inject, args: [forwardRef(() => NovoStepHeader),] },] },
+];
+NovoStepStatus.propDecorators = {
+    'state': [{ type: Input },],
+};
+
+class NovoStepperModule {
+}
+NovoStepperModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [
+                    CommonModule,
+                    PortalModule,
+                    NovoButtonModule,
+                    CdkStepperModule,
+                    NovoIconModule,
+                    A11yModule,
+                ],
+                exports: [
+                    NovoHorizontalStepper,
+                    NovoVerticalStepper,
+                    NovoStep,
+                    NovoStepLabel,
+                    NovoStepper,
+                    NovoStepHeader,
+                    NovoStepStatus,
+                ],
+                declarations: [
+                    NovoHorizontalStepper,
+                    NovoVerticalStepper,
+                    NovoStep,
+                    NovoStepLabel,
+                    NovoStepper,
+                    NovoStepHeader,
+                    NovoStepStatus,
+                ]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepperModule.ctorParameters = () => [];
+
 // NG2
 // APP
 class NovoCategoryDropdownElement extends OutsideClick {
@@ -36282,7 +37510,7 @@ NovoCommonModule.decorators = [
  */
 NovoCommonModule.ctorParameters = () => [];
 
-var __extends$7 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$8 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -36297,7 +37525,7 @@ var __extends$7 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b
  * @extends {Ignored}
  */
 var AuditSubscriber = (function (_super) {
-    __extends$7(AuditSubscriber, _super);
+    __extends$8(AuditSubscriber, _super);
     function AuditSubscriber(destination, durationSelector) {
         _super.call(this, destination);
         this.durationSelector = durationSelector;
@@ -36344,7 +37572,7 @@ var AuditSubscriber = (function (_super) {
     return AuditSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$9 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$10 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -36365,7 +37593,7 @@ var __extends$9 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b
  * @class Action<T>
  */
 var Action = (function (_super) {
-    __extends$9(Action, _super);
+    __extends$10(Action, _super);
     function Action(scheduler, work) {
         _super.call(this);
     }
@@ -36392,7 +37620,7 @@ var Action_1 = {
 	Action: Action_2
 };
 
-var __extends$8 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$9 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -36405,7 +37633,7 @@ var __extends$8 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b
  * @extends {Ignored}
  */
 var AsyncAction = (function (_super) {
-    __extends$8(AsyncAction, _super);
+    __extends$9(AsyncAction, _super);
     function AsyncAction(scheduler, work) {
         _super.call(this, scheduler, work);
         this.scheduler = scheduler;
@@ -36591,14 +37819,14 @@ var Scheduler_1 = {
 	Scheduler: Scheduler_2
 };
 
-var __extends$10 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$11 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 
 var AsyncScheduler = (function (_super) {
-    __extends$10(AsyncScheduler, _super);
+    __extends$11(AsyncScheduler, _super);
     function AsyncScheduler() {
         _super.apply(this, arguments);
         this.actions = [];
@@ -36730,7 +37958,7 @@ var isDate_1 = {
 	isDate: isDate_2
 };
 
-var __extends$11 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$12 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -36746,7 +37974,7 @@ var __extends$11 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var TimerObservable = (function (_super) {
-    __extends$11(TimerObservable, _super);
+    __extends$12(TimerObservable, _super);
     function TimerObservable(dueTime, period, scheduler) {
         if (dueTime === void 0) { dueTime = 0; }
         _super.call(this);
@@ -36835,7 +38063,7 @@ var TimerObservable = (function (_super) {
     return TimerObservable;
 }(Observable_1.Observable));
 
-var __extends$12 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$13 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -36848,7 +38076,7 @@ var __extends$12 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var BufferSubscriber = (function (_super) {
-    __extends$12(BufferSubscriber, _super);
+    __extends$13(BufferSubscriber, _super);
     function BufferSubscriber(destination, closingNotifier) {
         _super.call(this, destination);
         this.buffer = [];
@@ -36865,7 +38093,7 @@ var BufferSubscriber = (function (_super) {
     return BufferSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$13 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$14 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -36877,7 +38105,7 @@ var __extends$13 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var BufferCountSubscriber = (function (_super) {
-    __extends$13(BufferCountSubscriber, _super);
+    __extends$14(BufferCountSubscriber, _super);
     function BufferCountSubscriber(destination, bufferSize) {
         _super.call(this, destination);
         this.bufferSize = bufferSize;
@@ -36906,7 +38134,7 @@ var BufferCountSubscriber = (function (_super) {
  * @extends {Ignored}
  */
 var BufferSkipCountSubscriber = (function (_super) {
-    __extends$13(BufferSkipCountSubscriber, _super);
+    __extends$14(BufferSkipCountSubscriber, _super);
     function BufferSkipCountSubscriber(destination, bufferSize, startBufferEvery) {
         _super.call(this, destination);
         this.bufferSize = bufferSize;
@@ -36942,7 +38170,7 @@ var BufferSkipCountSubscriber = (function (_super) {
     return BufferSkipCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$14 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$15 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -36962,7 +38190,7 @@ var Context = (function () {
  * @extends {Ignored}
  */
 var BufferTimeSubscriber = (function (_super) {
-    __extends$14(BufferTimeSubscriber, _super);
+    __extends$15(BufferTimeSubscriber, _super);
     function BufferTimeSubscriber(destination, bufferTimeSpan, bufferCreationInterval, maxBufferSize, scheduler) {
         _super.call(this, destination);
         this.bufferTimeSpan = bufferTimeSpan;
@@ -37066,7 +38294,7 @@ function dispatchBufferClose(arg) {
     subscriber.closeContext(context);
 }
 
-var __extends$15 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$16 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37080,7 +38308,7 @@ var __extends$15 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var BufferToggleSubscriber = (function (_super) {
-    __extends$15(BufferToggleSubscriber, _super);
+    __extends$16(BufferToggleSubscriber, _super);
     function BufferToggleSubscriber(destination, openings, closingSelector) {
         _super.call(this, destination);
         this.openings = openings;
@@ -37165,7 +38393,7 @@ var BufferToggleSubscriber = (function (_super) {
     return BufferToggleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$16 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$17 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37181,7 +38409,7 @@ var __extends$16 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var BufferWhenSubscriber = (function (_super) {
-    __extends$16(BufferWhenSubscriber, _super);
+    __extends$17(BufferWhenSubscriber, _super);
     function BufferWhenSubscriber(destination, closingSelector) {
         _super.call(this, destination);
         this.closingSelector = closingSelector;
@@ -37240,7 +38468,7 @@ var BufferWhenSubscriber = (function (_super) {
     return BufferWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$17 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$18 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37327,7 +38555,7 @@ var CatchOperator = (function () {
  * @extends {Ignored}
  */
 var CatchSubscriber = (function (_super) {
-    __extends$17(CatchSubscriber, _super);
+    __extends$18(CatchSubscriber, _super);
     function CatchSubscriber(destination, selector, caught) {
         _super.call(this, destination);
         this.selector = selector;
@@ -37360,7 +38588,7 @@ var catchError_1 = {
 	catchError: catchError_2
 };
 
-var __extends$20 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$21 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37372,7 +38600,7 @@ var __extends$20 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var ScalarObservable = (function (_super) {
-    __extends$20(ScalarObservable, _super);
+    __extends$21(ScalarObservable, _super);
     function ScalarObservable(value, scheduler) {
         _super.call(this);
         this.value = value;
@@ -37422,7 +38650,7 @@ var ScalarObservable_1 = {
 	ScalarObservable: ScalarObservable_2
 };
 
-var __extends$21 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$22 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37434,7 +38662,7 @@ var __extends$21 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var EmptyObservable = (function (_super) {
-    __extends$21(EmptyObservable, _super);
+    __extends$22(EmptyObservable, _super);
     function EmptyObservable(scheduler) {
         _super.call(this);
         this.scheduler = scheduler;
@@ -37507,7 +38735,7 @@ var EmptyObservable_1 = {
 	EmptyObservable: EmptyObservable_2
 };
 
-var __extends$19 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$20 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37522,7 +38750,7 @@ var __extends$19 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var ArrayObservable = (function (_super) {
-    __extends$19(ArrayObservable, _super);
+    __extends$20(ArrayObservable, _super);
     function ArrayObservable(array, scheduler) {
         _super.call(this);
         this.array = array;
@@ -37633,7 +38861,7 @@ var ArrayObservable_1 = {
 	ArrayObservable: ArrayObservable_2
 };
 
-var __extends$18 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$19 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37649,7 +38877,7 @@ var none = {};
  * @extends {Ignored}
  */
 var CombineLatestSubscriber = (function (_super) {
-    __extends$18(CombineLatestSubscriber, _super);
+    __extends$19(CombineLatestSubscriber, _super);
     function CombineLatestSubscriber(destination, project) {
         _super.call(this, destination);
         this.project = project;
@@ -37718,7 +38946,7 @@ var of$3 = {
 	of: of_1
 };
 
-var __extends$23 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$24 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37731,7 +38959,7 @@ var __extends$23 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var PromiseObservable = (function (_super) {
-    __extends$23(PromiseObservable, _super);
+    __extends$24(PromiseObservable, _super);
     function PromiseObservable(promise, scheduler) {
         _super.call(this);
         this.promise = promise;
@@ -37843,7 +39071,7 @@ var PromiseObservable_1 = {
 	PromiseObservable: PromiseObservable_2
 };
 
-var __extends$24 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$25 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37857,7 +39085,7 @@ var __extends$24 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var IteratorObservable = (function (_super) {
-    __extends$24(IteratorObservable, _super);
+    __extends$25(IteratorObservable, _super);
     function IteratorObservable(iterator$$2, scheduler) {
         _super.call(this);
         this.scheduler = scheduler;
@@ -38010,7 +39238,7 @@ var IteratorObservable_1 = {
 	IteratorObservable: IteratorObservable_2
 };
 
-var __extends$25 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$26 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38024,7 +39252,7 @@ var __extends$25 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var ArrayLikeObservable = (function (_super) {
-    __extends$25(ArrayLikeObservable, _super);
+    __extends$26(ArrayLikeObservable, _super);
     function ArrayLikeObservable(arrayLike, scheduler) {
         _super.call(this);
         this.arrayLike = arrayLike;
@@ -38214,7 +39442,7 @@ var Notification_1 = {
 	Notification: Notification_2
 };
 
-var __extends$26 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$27 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38292,7 +39520,7 @@ var ObserveOnOperator_1 = ObserveOnOperator;
  * @extends {Ignored}
  */
 var ObserveOnSubscriber = (function (_super) {
-    __extends$26(ObserveOnSubscriber, _super);
+    __extends$27(ObserveOnSubscriber, _super);
     function ObserveOnSubscriber(destination, scheduler, delay) {
         if (delay === void 0) { delay = 0; }
         _super.call(this, destination);
@@ -38336,7 +39564,7 @@ var observeOn_1 = {
 	ObserveOnMessage: ObserveOnMessage_1
 };
 
-var __extends$22 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$23 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38358,7 +39586,7 @@ var __extends$22 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var FromObservable = (function (_super) {
-    __extends$22(FromObservable, _super);
+    __extends$23(FromObservable, _super);
     function FromObservable(ish, scheduler) {
         _super.call(this, null);
         this.ish = ish;
@@ -38469,7 +39697,7 @@ var from = {
 	from: from_1
 };
 
-var __extends$27 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$28 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38565,7 +39793,7 @@ var MergeMapOperator_1 = MergeMapOperator;
  * @extends {Ignored}
  */
 var MergeMapSubscriber = (function (_super) {
-    __extends$27(MergeMapSubscriber, _super);
+    __extends$28(MergeMapSubscriber, _super);
     function MergeMapSubscriber(destination, project, resultSelector, concurrent) {
         if (concurrent === void 0) { concurrent = Number.POSITIVE_INFINITY; }
         _super.call(this, destination);
@@ -38882,7 +40110,7 @@ var concat_1 = {
 	concat: concat_2$1
 };
 
-var __extends$28 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$29 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38894,7 +40122,7 @@ var __extends$28 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var CountSubscriber = (function (_super) {
-    __extends$28(CountSubscriber, _super);
+    __extends$29(CountSubscriber, _super);
     function CountSubscriber(destination, predicate, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -38930,7 +40158,7 @@ var CountSubscriber = (function (_super) {
     return CountSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$29 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$30 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38943,7 +40171,7 @@ var __extends$29 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DebounceSubscriber = (function (_super) {
-    __extends$29(DebounceSubscriber, _super);
+    __extends$30(DebounceSubscriber, _super);
     function DebounceSubscriber(destination, durationSelector) {
         _super.call(this, destination);
         this.durationSelector = durationSelector;
@@ -39001,7 +40229,7 @@ var DebounceSubscriber = (function (_super) {
     return DebounceSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$30 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$31 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39014,7 +40242,7 @@ var __extends$30 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DebounceTimeSubscriber = (function (_super) {
-    __extends$30(DebounceTimeSubscriber, _super);
+    __extends$31(DebounceTimeSubscriber, _super);
     function DebounceTimeSubscriber(destination, dueTime, scheduler) {
         _super.call(this, destination);
         this.dueTime = dueTime;
@@ -39055,7 +40283,7 @@ function dispatchNext$1(subscriber) {
     subscriber.debouncedNext();
 }
 
-var __extends$31 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$32 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39067,7 +40295,7 @@ var __extends$31 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DefaultIfEmptySubscriber = (function (_super) {
-    __extends$31(DefaultIfEmptySubscriber, _super);
+    __extends$32(DefaultIfEmptySubscriber, _super);
     function DefaultIfEmptySubscriber(destination, defaultValue) {
         _super.call(this, destination);
         this.defaultValue = defaultValue;
@@ -39086,7 +40314,7 @@ var DefaultIfEmptySubscriber = (function (_super) {
     return DefaultIfEmptySubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$32 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$33 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39101,7 +40329,7 @@ var __extends$32 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DelaySubscriber = (function (_super) {
-    __extends$32(DelaySubscriber, _super);
+    __extends$33(DelaySubscriber, _super);
     function DelaySubscriber(destination, delay, scheduler) {
         _super.call(this, destination);
         this.delay = delay;
@@ -39164,7 +40392,7 @@ var DelayMessage = (function () {
     return DelayMessage;
 }());
 
-var __extends$33 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$34 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39179,7 +40407,7 @@ var __extends$33 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DelayWhenSubscriber = (function (_super) {
-    __extends$33(DelayWhenSubscriber, _super);
+    __extends$34(DelayWhenSubscriber, _super);
     function DelayWhenSubscriber(destination, delayDurationSelector) {
         _super.call(this, destination);
         this.delayDurationSelector = delayDurationSelector;
@@ -39249,7 +40477,7 @@ var DelayWhenSubscriber = (function (_super) {
  * @extends {Ignored}
  */
 var SubscriptionDelayObservable = (function (_super) {
-    __extends$33(SubscriptionDelayObservable, _super);
+    __extends$34(SubscriptionDelayObservable, _super);
     function SubscriptionDelayObservable(/** @deprecated internal use only */ source, subscriptionDelay) {
         _super.call(this);
         this.source = source;
@@ -39266,7 +40494,7 @@ var SubscriptionDelayObservable = (function (_super) {
  * @extends {Ignored}
  */
 var SubscriptionDelaySubscriber = (function (_super) {
-    __extends$33(SubscriptionDelaySubscriber, _super);
+    __extends$34(SubscriptionDelaySubscriber, _super);
     function SubscriptionDelaySubscriber(parent, source) {
         _super.call(this);
         this.parent = parent;
@@ -39293,7 +40521,7 @@ var SubscriptionDelaySubscriber = (function (_super) {
     return SubscriptionDelaySubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$34 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$35 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39305,7 +40533,7 @@ var __extends$34 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DeMaterializeSubscriber = (function (_super) {
-    __extends$34(DeMaterializeSubscriber, _super);
+    __extends$35(DeMaterializeSubscriber, _super);
     function DeMaterializeSubscriber(destination) {
         _super.call(this, destination);
     }
@@ -39352,7 +40580,7 @@ var _Set = {
 	Set: Set$1
 };
 
-var __extends$35 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$36 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39366,7 +40594,7 @@ var __extends$35 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DistinctSubscriber = (function (_super) {
-    __extends$35(DistinctSubscriber, _super);
+    __extends$36(DistinctSubscriber, _super);
     function DistinctSubscriber(destination, keySelector, flushes) {
         _super.call(this, destination);
         this.keySelector = keySelector;
@@ -39411,7 +40639,7 @@ var DistinctSubscriber = (function (_super) {
     return DistinctSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$36 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$37 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39425,7 +40653,7 @@ var __extends$36 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DistinctUntilChangedSubscriber = (function (_super) {
-    __extends$36(DistinctUntilChangedSubscriber, _super);
+    __extends$37(DistinctUntilChangedSubscriber, _super);
     function DistinctUntilChangedSubscriber(destination, compare, keySelector) {
         _super.call(this, destination);
         this.keySelector = keySelector;
@@ -39464,7 +40692,7 @@ var DistinctUntilChangedSubscriber = (function (_super) {
     return DistinctUntilChangedSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$38 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$39 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39480,7 +40708,7 @@ var __extends$38 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class ArgumentOutOfRangeError
  */
 var ArgumentOutOfRangeError = (function (_super) {
-    __extends$38(ArgumentOutOfRangeError, _super);
+    __extends$39(ArgumentOutOfRangeError, _super);
     function ArgumentOutOfRangeError() {
         var err = _super.call(this, 'argument out of range');
         this.name = err.name = 'ArgumentOutOfRangeError';
@@ -39496,7 +40724,7 @@ var ArgumentOutOfRangeError_1 = {
 	ArgumentOutOfRangeError: ArgumentOutOfRangeError_2
 };
 
-var __extends$37 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$38 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39509,7 +40737,7 @@ var __extends$37 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var ElementAtSubscriber = (function (_super) {
-    __extends$37(ElementAtSubscriber, _super);
+    __extends$38(ElementAtSubscriber, _super);
     function ElementAtSubscriber(destination, index$$1, defaultValue) {
         _super.call(this, destination);
         this.index = index$$1;
@@ -39536,7 +40764,7 @@ var ElementAtSubscriber = (function (_super) {
     return ElementAtSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$39 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$40 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39548,7 +40776,7 @@ var __extends$39 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var EverySubscriber = (function (_super) {
-    __extends$39(EverySubscriber, _super);
+    __extends$40(EverySubscriber, _super);
     function EverySubscriber(destination, predicate, thisArg, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -39580,7 +40808,7 @@ var EverySubscriber = (function (_super) {
     return EverySubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$40 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$41 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39593,7 +40821,7 @@ var __extends$40 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SwitchFirstSubscriber = (function (_super) {
-    __extends$40(SwitchFirstSubscriber, _super);
+    __extends$41(SwitchFirstSubscriber, _super);
     function SwitchFirstSubscriber(destination) {
         _super.call(this, destination);
         this.hasCompleted = false;
@@ -39621,7 +40849,7 @@ var SwitchFirstSubscriber = (function (_super) {
     return SwitchFirstSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$41 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$42 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39634,7 +40862,7 @@ var __extends$41 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SwitchFirstMapSubscriber = (function (_super) {
-    __extends$41(SwitchFirstMapSubscriber, _super);
+    __extends$42(SwitchFirstMapSubscriber, _super);
     function SwitchFirstMapSubscriber(destination, project, resultSelector) {
         _super.call(this, destination);
         this.project = project;
@@ -39698,7 +40926,7 @@ var SwitchFirstMapSubscriber = (function (_super) {
     return SwitchFirstMapSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$42 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$43 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39713,7 +40941,7 @@ var __extends$42 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var ExpandSubscriber = (function (_super) {
-    __extends$42(ExpandSubscriber, _super);
+    __extends$43(ExpandSubscriber, _super);
     function ExpandSubscriber(destination, project, concurrent, scheduler) {
         _super.call(this, destination);
         this.project = project;
@@ -39782,7 +41010,7 @@ var ExpandSubscriber = (function (_super) {
     return ExpandSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$43 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$44 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39794,7 +41022,7 @@ var __extends$43 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var FilterSubscriber = (function (_super) {
-    __extends$43(FilterSubscriber, _super);
+    __extends$44(FilterSubscriber, _super);
     function FilterSubscriber(destination, predicate, thisArg) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -39819,7 +41047,7 @@ var FilterSubscriber = (function (_super) {
     return FilterSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$44 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$45 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39832,7 +41060,7 @@ var __extends$44 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var FinallySubscriber = (function (_super) {
-    __extends$44(FinallySubscriber, _super);
+    __extends$45(FinallySubscriber, _super);
     function FinallySubscriber(destination, callback) {
         _super.call(this, destination);
         this.add(new Subscription_1.Subscription(callback));
@@ -39840,7 +41068,7 @@ var FinallySubscriber = (function (_super) {
     return FinallySubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$45 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$46 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39852,7 +41080,7 @@ var __extends$45 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var FindValueSubscriber = (function (_super) {
-    __extends$45(FindValueSubscriber, _super);
+    __extends$46(FindValueSubscriber, _super);
     function FindValueSubscriber(destination, predicate, source, yieldIndex, thisArg) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -39885,7 +41113,7 @@ var FindValueSubscriber = (function (_super) {
     return FindValueSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$48 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$49 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39900,7 +41128,7 @@ var __extends$48 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class ObjectUnsubscribedError
  */
 var ObjectUnsubscribedError = (function (_super) {
-    __extends$48(ObjectUnsubscribedError, _super);
+    __extends$49(ObjectUnsubscribedError, _super);
     function ObjectUnsubscribedError() {
         var err = _super.call(this, 'object unsubscribed');
         this.name = err.name = 'ObjectUnsubscribedError';
@@ -39916,7 +41144,7 @@ var ObjectUnsubscribedError_1 = {
 	ObjectUnsubscribedError: ObjectUnsubscribedError_2
 };
 
-var __extends$49 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$50 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39928,7 +41156,7 @@ var __extends$49 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SubjectSubscription = (function (_super) {
-    __extends$49(SubjectSubscription, _super);
+    __extends$50(SubjectSubscription, _super);
     function SubjectSubscription(subject, subscriber) {
         _super.call(this);
         this.subject = subject;
@@ -39960,7 +41188,7 @@ var SubjectSubscription_1 = {
 	SubjectSubscription: SubjectSubscription_2
 };
 
-var __extends$47 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$48 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39975,7 +41203,7 @@ var __extends$47 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class SubjectSubscriber<T>
  */
 var SubjectSubscriber = (function (_super) {
-    __extends$47(SubjectSubscriber, _super);
+    __extends$48(SubjectSubscriber, _super);
     function SubjectSubscriber(destination) {
         _super.call(this, destination);
         this.destination = destination;
@@ -39987,7 +41215,7 @@ var SubjectSubscriber_1 = SubjectSubscriber;
  * @class Subject<T>
  */
 var Subject$2 = (function (_super) {
-    __extends$47(Subject$$1, _super);
+    __extends$48(Subject$$1, _super);
     function Subject$$1() {
         _super.call(this);
         this.observers = [];
@@ -40090,7 +41318,7 @@ var Subject_2 = Subject$2;
  * @class AnonymousSubject<T>
  */
 var AnonymousSubject = (function (_super) {
-    __extends$47(AnonymousSubject, _super);
+    __extends$48(AnonymousSubject, _super);
     function AnonymousSubject(destination, source) {
         _super.call(this);
         this.destination = destination;
@@ -40227,7 +41455,7 @@ var FastMap_1 = {
 	FastMap: FastMap_2
 };
 
-var __extends$46 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$47 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40244,7 +41472,7 @@ var __extends$46 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var GroupBySubscriber = (function (_super) {
-    __extends$46(GroupBySubscriber, _super);
+    __extends$47(GroupBySubscriber, _super);
     function GroupBySubscriber(destination, keySelector, elementSelector, durationSelector, subjectSelector) {
         _super.call(this, destination);
         this.keySelector = keySelector;
@@ -40344,7 +41572,7 @@ var GroupBySubscriber = (function (_super) {
  * @extends {Ignored}
  */
 var GroupDurationSubscriber = (function (_super) {
-    __extends$46(GroupDurationSubscriber, _super);
+    __extends$47(GroupDurationSubscriber, _super);
     function GroupDurationSubscriber(key, group, parent) {
         _super.call(this, group);
         this.key = key;
@@ -40372,7 +41600,7 @@ var GroupDurationSubscriber = (function (_super) {
  * @class GroupedObservable<K, T>
  */
 var GroupedObservable = (function (_super) {
-    __extends$46(GroupedObservable, _super);
+    __extends$47(GroupedObservable, _super);
     function GroupedObservable(key, groupSubject, refCountSubscription) {
         _super.call(this);
         this.key = key;
@@ -40396,7 +41624,7 @@ var GroupedObservable = (function (_super) {
  * @extends {Ignored}
  */
 var InnerRefCountSubscription = (function (_super) {
-    __extends$46(InnerRefCountSubscription, _super);
+    __extends$47(InnerRefCountSubscription, _super);
     function InnerRefCountSubscription(parent) {
         _super.call(this);
         this.parent = parent;
@@ -40415,7 +41643,7 @@ var InnerRefCountSubscription = (function (_super) {
     return InnerRefCountSubscription;
 }(Subscription_1.Subscription));
 
-var __extends$50 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$51 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40428,7 +41656,7 @@ var __extends$50 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var IgnoreElementsSubscriber = (function (_super) {
-    __extends$50(IgnoreElementsSubscriber, _super);
+    __extends$51(IgnoreElementsSubscriber, _super);
     function IgnoreElementsSubscriber() {
         _super.apply(this, arguments);
     }
@@ -40438,7 +41666,7 @@ var IgnoreElementsSubscriber = (function (_super) {
     return IgnoreElementsSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$51 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$52 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40450,7 +41678,7 @@ var __extends$51 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var IsEmptySubscriber = (function (_super) {
-    __extends$51(IsEmptySubscriber, _super);
+    __extends$52(IsEmptySubscriber, _super);
     function IsEmptySubscriber(destination) {
         _super.call(this, destination);
     }
@@ -40468,7 +41696,7 @@ var IsEmptySubscriber = (function (_super) {
     return IsEmptySubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$52 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$53 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40481,7 +41709,7 @@ var __extends$52 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var LastSubscriber = (function (_super) {
-    __extends$52(LastSubscriber, _super);
+    __extends$53(LastSubscriber, _super);
     function LastSubscriber(destination, predicate, resultSelector, defaultValue, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -40552,7 +41780,7 @@ var LastSubscriber = (function (_super) {
     return LastSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$53 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$54 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40617,7 +41845,7 @@ var MapOperator_1 = MapOperator;
  * @extends {Ignored}
  */
 var MapSubscriber = (function (_super) {
-    __extends$53(MapSubscriber, _super);
+    __extends$54(MapSubscriber, _super);
     function MapSubscriber(destination, project, thisArg) {
         _super.call(this, destination);
         this.project = project;
@@ -40646,7 +41874,7 @@ var map_1 = {
 	MapOperator: MapOperator_1
 };
 
-var __extends$54 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$55 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40658,7 +41886,7 @@ var __extends$54 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var MapToSubscriber = (function (_super) {
-    __extends$54(MapToSubscriber, _super);
+    __extends$55(MapToSubscriber, _super);
     function MapToSubscriber(destination, value) {
         _super.call(this, destination);
         this.value = value;
@@ -40669,7 +41897,7 @@ var MapToSubscriber = (function (_super) {
     return MapToSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$55 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$56 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40682,7 +41910,7 @@ var __extends$55 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var MaterializeSubscriber = (function (_super) {
-    __extends$55(MaterializeSubscriber, _super);
+    __extends$56(MaterializeSubscriber, _super);
     function MaterializeSubscriber(destination) {
         _super.call(this, destination);
     }
@@ -40702,7 +41930,7 @@ var MaterializeSubscriber = (function (_super) {
     return MaterializeSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$56 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$57 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40714,7 +41942,7 @@ var __extends$56 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var ScanSubscriber = (function (_super) {
-    __extends$56(ScanSubscriber, _super);
+    __extends$57(ScanSubscriber, _super);
     function ScanSubscriber(destination, accumulator, _seed, hasSeed) {
         _super.call(this, destination);
         this.accumulator = accumulator;
@@ -40757,7 +41985,7 @@ var ScanSubscriber = (function (_super) {
     return ScanSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$57 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$58 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40771,7 +41999,7 @@ var __extends$57 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var TakeLastSubscriber = (function (_super) {
-    __extends$57(TakeLastSubscriber, _super);
+    __extends$58(TakeLastSubscriber, _super);
     function TakeLastSubscriber(destination, total) {
         _super.call(this, destination);
         this.total = total;
@@ -40806,7 +42034,7 @@ var TakeLastSubscriber = (function (_super) {
     return TakeLastSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$58 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$59 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40819,7 +42047,7 @@ var __extends$58 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var MergeMapToSubscriber = (function (_super) {
-    __extends$58(MergeMapToSubscriber, _super);
+    __extends$59(MergeMapToSubscriber, _super);
     function MergeMapToSubscriber(destination, ish, resultSelector, concurrent) {
         if (concurrent === void 0) { concurrent = Number.POSITIVE_INFINITY; }
         _super.call(this, destination);
@@ -40891,7 +42119,7 @@ var MergeMapToSubscriber = (function (_super) {
     return MergeMapToSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$59 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$60 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40906,7 +42134,7 @@ var __extends$59 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var MergeScanSubscriber = (function (_super) {
-    __extends$59(MergeScanSubscriber, _super);
+    __extends$60(MergeScanSubscriber, _super);
     function MergeScanSubscriber(destination, accumulator, acc, concurrent) {
         _super.call(this, destination);
         this.accumulator = accumulator;
@@ -40970,7 +42198,7 @@ var MergeScanSubscriber = (function (_super) {
     return MergeScanSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$61 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$62 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40999,7 +42227,7 @@ var RefCountOperator$1 = (function () {
     return RefCountOperator;
 }());
 var RefCountSubscriber$1 = (function (_super) {
-    __extends$61(RefCountSubscriber, _super);
+    __extends$62(RefCountSubscriber, _super);
     function RefCountSubscriber(destination, connectable) {
         _super.call(this, destination);
         this.connectable = connectable;
@@ -41059,7 +42287,7 @@ var refCount_1 = {
 	refCount: refCount_2
 };
 
-var __extends$60 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$61 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41073,7 +42301,7 @@ var __extends$60 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class ConnectableObservable<T>
  */
 var ConnectableObservable = (function (_super) {
-    __extends$60(ConnectableObservable, _super);
+    __extends$61(ConnectableObservable, _super);
     function ConnectableObservable(/** @deprecated internal use only */ source, 
         /** @deprecated internal use only */ subjectFactory) {
         _super.call(this);
@@ -41115,7 +42343,7 @@ var ConnectableObservable = (function (_super) {
     return ConnectableObservable;
 }(Observable_1.Observable));
 var ConnectableSubscriber = (function (_super) {
-    __extends$60(ConnectableSubscriber, _super);
+    __extends$61(ConnectableSubscriber, _super);
     function ConnectableSubscriber(destination, connectable) {
         _super.call(this, destination);
         this.connectable = connectable;
@@ -41145,7 +42373,7 @@ var ConnectableSubscriber = (function (_super) {
     return ConnectableSubscriber;
 }(Subject_1.SubjectSubscriber));
 var RefCountSubscriber = (function (_super) {
-    __extends$60(RefCountSubscriber, _super);
+    __extends$61(RefCountSubscriber, _super);
     function RefCountSubscriber(destination, connectable) {
         _super.call(this, destination);
         this.connectable = connectable;
@@ -41200,7 +42428,7 @@ var RefCountSubscriber = (function (_super) {
     return RefCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$62 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$63 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41210,7 +42438,7 @@ var __extends$62 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
 
 
 var OnErrorResumeNextSubscriber = (function (_super) {
-    __extends$62(OnErrorResumeNextSubscriber, _super);
+    __extends$63(OnErrorResumeNextSubscriber, _super);
     function OnErrorResumeNextSubscriber(destination, nextSources) {
         _super.call(this, destination);
         this.destination = destination;
@@ -41240,7 +42468,7 @@ var OnErrorResumeNextSubscriber = (function (_super) {
     return OnErrorResumeNextSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$63 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$64 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41252,7 +42480,7 @@ var __extends$63 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var PairwiseSubscriber = (function (_super) {
-    __extends$63(PairwiseSubscriber, _super);
+    __extends$64(PairwiseSubscriber, _super);
     function PairwiseSubscriber(destination) {
         _super.call(this, destination);
         this.hasPrev = false;
@@ -41269,7 +42497,7 @@ var PairwiseSubscriber = (function (_super) {
     return PairwiseSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$64 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$65 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41280,7 +42508,7 @@ var __extends$64 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class BehaviorSubject<T>
  */
 var BehaviorSubject = (function (_super) {
-    __extends$64(BehaviorSubject, _super);
+    __extends$65(BehaviorSubject, _super);
     function BehaviorSubject(_value) {
         _super.call(this);
         this._value = _value;
@@ -41316,7 +42544,7 @@ var BehaviorSubject = (function (_super) {
     return BehaviorSubject;
 }(Subject_1.Subject));
 
-var __extends$65 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$66 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41327,7 +42555,7 @@ var __extends$65 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class AsyncSubject<T>
  */
 var AsyncSubject = (function (_super) {
-    __extends$65(AsyncSubject, _super);
+    __extends$66(AsyncSubject, _super);
     function AsyncSubject() {
         _super.apply(this, arguments);
         this.value = null;
@@ -41367,7 +42595,7 @@ var AsyncSubject = (function (_super) {
     return AsyncSubject;
 }(Subject_1.Subject));
 
-var __extends$67 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$68 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41379,7 +42607,7 @@ var __extends$67 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var QueueAction = (function (_super) {
-    __extends$67(QueueAction, _super);
+    __extends$68(QueueAction, _super);
     function QueueAction(scheduler, work) {
         _super.call(this, scheduler, work);
         this.scheduler = scheduler;
@@ -41420,14 +42648,14 @@ var QueueAction_1 = {
 	QueueAction: QueueAction_2
 };
 
-var __extends$68 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$69 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 
 var QueueScheduler = (function (_super) {
-    __extends$68(QueueScheduler, _super);
+    __extends$69(QueueScheduler, _super);
     function QueueScheduler() {
         _super.apply(this, arguments);
     }
@@ -41508,7 +42736,7 @@ var queue = {
 	queue: queue_1
 };
 
-var __extends$66 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$67 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41523,7 +42751,7 @@ var __extends$66 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class ReplaySubject<T>
  */
 var ReplaySubject$2 = (function (_super) {
-    __extends$66(ReplaySubject$$1, _super);
+    __extends$67(ReplaySubject$$1, _super);
     function ReplaySubject$$1(bufferSize, windowTime, scheduler) {
         if (bufferSize === void 0) { bufferSize = Number.POSITIVE_INFINITY; }
         if (windowTime === void 0) { windowTime = Number.POSITIVE_INFINITY; }
@@ -41608,7 +42836,7 @@ var ReplayEvent = (function () {
     return ReplayEvent;
 }());
 
-var __extends$69 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$70 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41623,7 +42851,7 @@ var __extends$69 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RaceSubscriber = (function (_super) {
-    __extends$69(RaceSubscriber, _super);
+    __extends$70(RaceSubscriber, _super);
     function RaceSubscriber(destination) {
         _super.call(this, destination);
         this.hasFirst = false;
@@ -41668,7 +42896,7 @@ var RaceSubscriber = (function (_super) {
     return RaceSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$70 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$71 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41681,7 +42909,7 @@ var __extends$70 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RepeatSubscriber = (function (_super) {
-    __extends$70(RepeatSubscriber, _super);
+    __extends$71(RepeatSubscriber, _super);
     function RepeatSubscriber(destination, count, source) {
         _super.call(this, destination);
         this.count = count;
@@ -41702,7 +42930,7 @@ var RepeatSubscriber = (function (_super) {
     return RepeatSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$71 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$72 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41718,7 +42946,7 @@ var __extends$71 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RepeatWhenSubscriber = (function (_super) {
-    __extends$71(RepeatWhenSubscriber, _super);
+    __extends$72(RepeatWhenSubscriber, _super);
     function RepeatWhenSubscriber(destination, notifier, source) {
         _super.call(this, destination);
         this.notifier = notifier;
@@ -41782,7 +43010,7 @@ var RepeatWhenSubscriber = (function (_super) {
     return RepeatWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$72 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$73 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41794,7 +43022,7 @@ var __extends$72 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RetrySubscriber = (function (_super) {
-    __extends$72(RetrySubscriber, _super);
+    __extends$73(RetrySubscriber, _super);
     function RetrySubscriber(destination, count, source) {
         _super.call(this, destination);
         this.count = count;
@@ -41815,7 +43043,7 @@ var RetrySubscriber = (function (_super) {
     return RetrySubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$73 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$74 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41831,7 +43059,7 @@ var __extends$73 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RetryWhenSubscriber = (function (_super) {
-    __extends$73(RetryWhenSubscriber, _super);
+    __extends$74(RetryWhenSubscriber, _super);
     function RetryWhenSubscriber(destination, notifier, source) {
         _super.call(this, destination);
         this.notifier = notifier;
@@ -41887,7 +43115,7 @@ var RetryWhenSubscriber = (function (_super) {
     return RetryWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$74 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$75 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41900,7 +43128,7 @@ var __extends$74 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SampleSubscriber = (function (_super) {
-    __extends$74(SampleSubscriber, _super);
+    __extends$75(SampleSubscriber, _super);
     function SampleSubscriber() {
         _super.apply(this, arguments);
         this.hasValue = false;
@@ -41924,7 +43152,7 @@ var SampleSubscriber = (function (_super) {
     return SampleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$75 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$76 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41937,7 +43165,7 @@ var __extends$75 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SampleTimeSubscriber = (function (_super) {
-    __extends$75(SampleTimeSubscriber, _super);
+    __extends$76(SampleTimeSubscriber, _super);
     function SampleTimeSubscriber(destination, period, scheduler) {
         _super.call(this, destination);
         this.period = period;
@@ -41963,7 +43191,7 @@ function dispatchNotification(state$$1) {
     this.schedule(state$$1, period);
 }
 
-var __extends$76 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$77 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41977,7 +43205,7 @@ var __extends$76 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SequenceEqualSubscriber = (function (_super) {
-    __extends$76(SequenceEqualSubscriber, _super);
+    __extends$77(SequenceEqualSubscriber, _super);
     function SequenceEqualSubscriber(destination, compareTo, comparor) {
         _super.call(this, destination);
         this.compareTo = compareTo;
@@ -42041,7 +43269,7 @@ var SequenceEqualSubscriber = (function (_super) {
     return SequenceEqualSubscriber;
 }(Subscriber_1.Subscriber));
 var SequenceEqualCompareToSubscriber = (function (_super) {
-    __extends$76(SequenceEqualCompareToSubscriber, _super);
+    __extends$77(SequenceEqualCompareToSubscriber, _super);
     function SequenceEqualCompareToSubscriber(destination, parent) {
         _super.call(this, destination);
         this.parent = parent;
@@ -42058,7 +43286,7 @@ var SequenceEqualCompareToSubscriber = (function (_super) {
     return SequenceEqualCompareToSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$77 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$78 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42071,7 +43299,7 @@ var __extends$77 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SingleSubscriber = (function (_super) {
-    __extends$77(SingleSubscriber, _super);
+    __extends$78(SingleSubscriber, _super);
     function SingleSubscriber(destination, predicate, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -42120,7 +43348,7 @@ var SingleSubscriber = (function (_super) {
     return SingleSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$78 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$79 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42132,7 +43360,7 @@ var __extends$78 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SkipSubscriber = (function (_super) {
-    __extends$78(SkipSubscriber, _super);
+    __extends$79(SkipSubscriber, _super);
     function SkipSubscriber(destination, total) {
         _super.call(this, destination);
         this.total = total;
@@ -42146,7 +43374,7 @@ var SkipSubscriber = (function (_super) {
     return SkipSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$79 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$80 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42159,7 +43387,7 @@ var __extends$79 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SkipLastSubscriber = (function (_super) {
-    __extends$79(SkipLastSubscriber, _super);
+    __extends$80(SkipLastSubscriber, _super);
     function SkipLastSubscriber(destination, _skipCount) {
         _super.call(this, destination);
         this._skipCount = _skipCount;
@@ -42183,7 +43411,7 @@ var SkipLastSubscriber = (function (_super) {
     return SkipLastSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$80 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$81 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42196,7 +43424,7 @@ var __extends$80 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SkipUntilSubscriber = (function (_super) {
-    __extends$80(SkipUntilSubscriber, _super);
+    __extends$81(SkipUntilSubscriber, _super);
     function SkipUntilSubscriber(destination, notifier) {
         _super.call(this, destination);
         this.hasValue = false;
@@ -42228,7 +43456,7 @@ var SkipUntilSubscriber = (function (_super) {
     return SkipUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$81 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$82 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42240,7 +43468,7 @@ var __extends$81 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SkipWhileSubscriber = (function (_super) {
-    __extends$81(SkipWhileSubscriber, _super);
+    __extends$82(SkipWhileSubscriber, _super);
     function SkipWhileSubscriber(destination, predicate) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -42315,7 +43543,7 @@ var startWith_1 = {
 	startWith: startWith_2
 };
 
-var __extends$82 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$83 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42328,7 +43556,7 @@ var __extends$82 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SwitchMapToSubscriber = (function (_super) {
-    __extends$82(SwitchMapToSubscriber, _super);
+    __extends$83(SwitchMapToSubscriber, _super);
     function SwitchMapToSubscriber(destination, inner, resultSelector) {
         _super.call(this, destination);
         this.inner = inner;
@@ -42382,7 +43610,7 @@ var SwitchMapToSubscriber = (function (_super) {
     return SwitchMapToSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$83 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$84 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42396,7 +43624,7 @@ var __extends$83 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var TakeSubscriber = (function (_super) {
-    __extends$83(TakeSubscriber, _super);
+    __extends$84(TakeSubscriber, _super);
     function TakeSubscriber(destination, total) {
         _super.call(this, destination);
         this.total = total;
@@ -42415,34 +43643,6 @@ var TakeSubscriber = (function (_super) {
     };
     return TakeSubscriber;
 }(Subscriber_1.Subscriber));
-
-var __extends$84 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-var TakeUntilSubscriber = (function (_super) {
-    __extends$84(TakeUntilSubscriber, _super);
-    function TakeUntilSubscriber(destination, notifier) {
-        _super.call(this, destination);
-        this.notifier = notifier;
-        this.add(subscribeToResult_1.subscribeToResult(this, notifier));
-    }
-    TakeUntilSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
-        this.complete();
-    };
-    TakeUntilSubscriber.prototype.notifyComplete = function () {
-        // noop
-    };
-    return TakeUntilSubscriber;
-}(OuterSubscriber_1.OuterSubscriber));
 
 var __extends$85 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -49602,6 +50802,7 @@ NovoElementsModule.decorators = [
                     NovoIconModule,
                     UnlessModule,
                     NovoCommonModule,
+                    NovoStepperModule,
                 ],
                 providers: [
                     { provide: ComponentUtils, useClass: ComponentUtils },
@@ -49627,5 +50828,5 @@ NovoElementsModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTable, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵt, NovoCalendarAllDayEventElement as ɵbd, NovoCalendarDayEventElement as ɵbb, NovoCalendarDayViewElement as ɵba, NovoCalendarHourSegmentElement as ɵbc, NovoCalendarMonthDayElement as ɵw, NovoCalendarMonthHeaderElement as ɵv, NovoCalendarMonthViewElement as ɵu, DayOfMonthPipe as ɵbf, EndOfWeekDisplayPipe as ɵbk, HoursPipe as ɵbj, MonthPipe as ɵbg, MonthDayPipe as ɵbh, WeekdayPipe as ɵbe, YearPipe as ɵbi, NovoCalendarWeekEventElement as ɵz, NovoCalendarWeekHeaderElement as ɵy, NovoCalendarWeekViewElement as ɵx, CardActionsElement as ɵr, CardElement as ɵs, NovoCategoryDropdownElement as ɵeb, NovoChipElement as ɵcs, NovoChipsElement as ɵct, NovoCKEditorElement as ɵdb, NovoDataTableCheckboxHeaderCell as ɵet, NovoDataTableExpandHeaderCell as ɵev, NovoDataTableCellHeader as ɵek, NovoDataTableHeaderCell as ɵen, NovoDataTableCell as ɵeo, NovoDataTableCheckboxCell as ɵes, NovoDataTableExpandCell as ɵeu, NovoDataTableExpandDirective as ɵew, DataTableInterpolatePipe as ɵee, DateTableCurrencyRendererPipe as ɵej, DateTableDateRendererPipe as ɵef, DateTableDateTimeRendererPipe as ɵeg, DateTableNumberRendererPipe as ɵei, DateTableTimeRendererPipe as ɵeh, NovoDataTablePagination as ɵer, NovoDataTableHeaderRow as ɵep, NovoDataTableRow as ɵeq, NovoDataTableSortFilter as ɵem, DataTableState as ɵel, NovoDatePickerElement as ɵcu, NovoDatePickerInputElement as ɵcv, NovoDateTimePickerElement as ɵcz, NovoDateTimePickerInputElement as ɵda, NovoDragulaElement as ɵcq, NovoDropdownContainer as ɵcb, NovoDropdownElement as ɵcc, NovoItemElement as ɵcd, NovoItemHeaderElement$1 as ɵcf, NovoListElement$1 as ɵce, NovoAutoSize as ɵdf, NovoControlElement as ɵdh, NovoCustomControlContainerElement as ɵdg, NovoControlCustom as ɵdj, NovoDynamicFormElement as ɵdl, NovoFieldsetElement as ɵdk, NovoFieldsetHeaderElement as ɵdi, ControlConfirmModal as ɵdn, ControlPromptModal as ɵdo, NovoFormElement as ɵdm, NovoAddressElement as ɵl, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbp, NovoHeaderSpacer as ɵbm, NovoUtilActionComponent as ɵbo, NovoUtilsComponent as ɵbn, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵec, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵch, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵcj, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵci, NovoOverlayTemplate as ɵck, NovoOverlayModule as ɵcg, NovoPickerElement as ɵcn, NovoPickerContainer as ɵco, PlacesListComponent as ɵfe, GooglePlacesModule as ɵfd, PopOverDirective as ɵfc, NovoPopOverModule as ɵfa, PopOverContent as ɵfb, QuickNoteElement as ɵby, NovoRadioElement as ɵca, NovoRadioGroup as ɵbz, NovoSearchBoxElement as ɵcp, NovoSelectElement as ɵcl, NovoSliderElement as ɵcr, NovoSwitchElement as ɵcm, NovoTableKeepFilterFocus as ɵds, Pagination as ɵdt, RowDetails as ɵdu, NovoTableActionsElement as ɵdr, TableCell as ɵdv, TableFilter as ɵdw, NovoTableFooterElement as ɵdq, NovoTableHeaderElement as ɵdp, ThOrderable as ɵdx, ThSortable as ɵdy, NovoNavContentElement as ɵbv, NovoNavElement as ɵbq, NovoNavHeaderElement as ɵbw, NovoNavOutletElement as ɵbu, NovoTabButtonElement as ɵbs, NovoTabElement as ɵbr, NovoTabLinkElement as ɵbt, NovoTilesElement as ɵbx, NovoTimePickerElement as ɵcw, NovoTimePickerInputElement as ɵcx, NovoTipWellElement as ɵdc, NovoToastElement as ɵbl, TooltipDirective as ɵq, Unless as ɵed, EntityList as ɵdz, NovoValueElement as ɵk, DateFormatService as ɵcy, BrowserGlobalRef as ɵey, GlobalRef as ɵex, LocalStorageService as ɵez };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoStepperModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTable, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵt, NovoCalendarAllDayEventElement as ɵbd, NovoCalendarDayEventElement as ɵbb, NovoCalendarDayViewElement as ɵba, NovoCalendarHourSegmentElement as ɵbc, NovoCalendarMonthDayElement as ɵw, NovoCalendarMonthHeaderElement as ɵv, NovoCalendarMonthViewElement as ɵu, DayOfMonthPipe as ɵbf, EndOfWeekDisplayPipe as ɵbk, HoursPipe as ɵbj, MonthPipe as ɵbg, MonthDayPipe as ɵbh, WeekdayPipe as ɵbe, YearPipe as ɵbi, NovoCalendarWeekEventElement as ɵz, NovoCalendarWeekHeaderElement as ɵy, NovoCalendarWeekViewElement as ɵx, CardActionsElement as ɵr, CardElement as ɵs, NovoCategoryDropdownElement as ɵej, NovoChipElement as ɵcs, NovoChipsElement as ɵct, NovoCKEditorElement as ɵdb, NovoDataTableCheckboxHeaderCell as ɵfb, NovoDataTableExpandHeaderCell as ɵfd, NovoDataTableCellHeader as ɵes, NovoDataTableHeaderCell as ɵev, NovoDataTableCell as ɵew, NovoDataTableCheckboxCell as ɵfa, NovoDataTableExpandCell as ɵfc, NovoDataTableExpandDirective as ɵfe, DataTableInterpolatePipe as ɵem, DateTableCurrencyRendererPipe as ɵer, DateTableDateRendererPipe as ɵen, DateTableDateTimeRendererPipe as ɵeo, DateTableNumberRendererPipe as ɵeq, DateTableTimeRendererPipe as ɵep, NovoDataTablePagination as ɵez, NovoDataTableHeaderRow as ɵex, NovoDataTableRow as ɵey, NovoDataTableSortFilter as ɵeu, DataTableState as ɵet, NovoDatePickerElement as ɵcu, NovoDatePickerInputElement as ɵcv, NovoDateTimePickerElement as ɵcz, NovoDateTimePickerInputElement as ɵda, NovoDragulaElement as ɵcq, NovoDropdownContainer as ɵcb, NovoDropdownElement as ɵcc, NovoItemElement as ɵcd, NovoItemHeaderElement$1 as ɵcf, NovoListElement$1 as ɵce, NovoAutoSize as ɵdf, NovoControlElement as ɵdh, NovoCustomControlContainerElement as ɵdg, NovoControlCustom as ɵdj, NovoDynamicFormElement as ɵdl, NovoFieldsetElement as ɵdk, NovoFieldsetHeaderElement as ɵdi, ControlConfirmModal as ɵdn, ControlPromptModal as ɵdo, NovoFormElement as ɵdm, NovoAddressElement as ɵl, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbp, NovoHeaderSpacer as ɵbm, NovoUtilActionComponent as ɵbo, NovoUtilsComponent as ɵbn, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵek, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵch, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵcj, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵci, NovoOverlayTemplateComponent as ɵck, NovoOverlayModule as ɵcg, NovoPickerElement as ɵcn, NovoPickerContainer as ɵco, PlacesListComponent as ɵfm, GooglePlacesModule as ɵfl, PopOverDirective as ɵfk, NovoPopOverModule as ɵfi, PopOverContent as ɵfj, QuickNoteElement as ɵby, NovoRadioElement as ɵca, NovoRadioGroup as ɵbz, NovoSearchBoxElement as ɵcp, NovoSelectElement as ɵcl, NovoSliderElement as ɵcr, NovoStepHeader as ɵef, NovoStepLabel as ɵeg, NovoStepStatus as ɵei, novoStepperAnimations as ɵeh, NovoHorizontalStepper as ɵed, NovoStep as ɵeb, NovoStepper as ɵec, NovoVerticalStepper as ɵee, NovoSwitchElement as ɵcm, NovoTableKeepFilterFocus as ɵds, Pagination as ɵdt, RowDetails as ɵdu, NovoTableActionsElement as ɵdr, TableCell as ɵdv, TableFilter as ɵdw, NovoTableFooterElement as ɵdq, NovoTableHeaderElement as ɵdp, ThOrderable as ɵdx, ThSortable as ɵdy, NovoNavContentElement as ɵbv, NovoNavElement as ɵbq, NovoNavHeaderElement as ɵbw, NovoNavOutletElement as ɵbu, NovoTabButtonElement as ɵbs, NovoTabElement as ɵbr, NovoTabLinkElement as ɵbt, NovoTilesElement as ɵbx, NovoTimePickerElement as ɵcw, NovoTimePickerInputElement as ɵcx, NovoTipWellElement as ɵdc, NovoToastElement as ɵbl, TooltipDirective as ɵq, Unless as ɵel, EntityList as ɵdz, NovoValueElement as ɵk, DateFormatService as ɵcy, BrowserGlobalRef as ɵfg, GlobalRef as ɵff, LocalStorageService as ɵfh };
 //# sourceMappingURL=novo-elements.js.map

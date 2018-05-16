@@ -8,7 +8,7 @@ export declare const DEFAULT_OVERLAY_SCROLL_STRATEGY: InjectionToken<ScrollStrat
 export declare function DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY(overlay: Overlay): () => RepositionScrollStrategy;
 /** @docs-private */
 export declare const DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER: any;
-export declare class NovoOverlayTemplate implements OnDestroy {
+export declare class NovoOverlayTemplateComponent implements OnDestroy {
     protected _overlay: Overlay;
     protected _viewContainerRef: ViewContainerRef;
     protected _zone: NgZone;

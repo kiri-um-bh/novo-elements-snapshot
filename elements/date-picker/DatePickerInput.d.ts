@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, ElementRef, OnInit } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { NovoOverlayTemplate } from '../overlay/Overlay';
+import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 import { NovoLabelService } from '../../services/novo-label-service';
 export declare class NovoDatePickerInputElement implements OnInit, ControlValueAccessor {
     element: ElementRef;
@@ -20,7 +20,7 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     textMaskEnabled: boolean;
     allowInvalidDate: boolean;
     /** Element for the panel containing the autocomplete options. */
-    overlay: NovoOverlayTemplate;
+    overlay: NovoOverlayTemplateComponent;
     constructor(element: ElementRef, labels: NovoLabelService, _changeDetectorRef: ChangeDetectorRef);
     ngOnInit(): void;
     /** BEGIN: Convienient Panel Methods. */

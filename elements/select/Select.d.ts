@@ -1,5 +1,5 @@
 import { EventEmitter, ElementRef, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
-import { NovoOverlayTemplate } from '../overlay/Overlay';
+import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 import { NovoLabelService } from '../../services/novo-label-service';
 export declare class NovoSelectElement implements OnInit, OnChanges {
     element: ElementRef;
@@ -23,7 +23,7 @@ export declare class NovoSelectElement implements OnInit, OnChanges {
     filterTermTimeout: any;
     filteredOptions: any;
     /** Element for the panel containing the autocomplete options. */
-    overlay: NovoOverlayTemplate;
+    overlay: NovoOverlayTemplateComponent;
     constructor(element: ElementRef, labels: NovoLabelService, ref: ChangeDetectorRef);
     ngOnInit(): void;
     ngOnChanges(changes?: SimpleChanges): void;

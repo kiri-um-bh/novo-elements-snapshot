@@ -3,7 +3,7 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
-import { NovoOverlayTemplate } from '../overlay/Overlay';
+import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 /**
  * @name Picker
  *
@@ -36,7 +36,7 @@ export declare class NovoPickerElement implements OnInit {
     focus: EventEmitter<any>;
     blur: EventEmitter<any>;
     typing: EventEmitter<any>;
-    container: NovoOverlayTemplate;
+    container: NovoOverlayTemplateComponent;
     private input;
     closeHandler: any;
     isStatic: boolean;
