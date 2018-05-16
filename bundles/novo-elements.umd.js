@@ -15691,7 +15691,7 @@ var FieldInteractionApi = /** @class */ (function () {
         var /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.disable(options);
-            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: false });
+            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: true });
         }
     };
     /**
@@ -15703,7 +15703,7 @@ var FieldInteractionApi = /** @class */ (function () {
         var /** @type {?} */ control = this.getControl(key);
         if (control) {
             control.enable(options);
-            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: true });
+            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: false });
         }
     };
     /**
