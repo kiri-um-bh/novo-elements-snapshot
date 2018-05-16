@@ -4021,6 +4021,7 @@ var NovoTilesElement = /** @class */ (function () {
     function NovoTilesElement(element, ref) {
         this.element = element;
         this.ref = ref;
+        this.name = new Date().getTime().toString();
         this.onChange = new EventEmitter();
         this.onDisabledOptionClick = new EventEmitter();
         this._options = [];
@@ -6356,16 +6357,18 @@ var NovoDropdownElement = /** @class */ (function (_super) {
      */
     NovoDropdownElement.prototype.onKeyDown = function (event) {
         var _this = this;
-        Helpers.swallowEvent(event);
         if (this.active && event.keyCode === KeyCodes.ESC) {
+            Helpers.swallowEvent(event);
             // active & esc hit -- close
             this.toggleActive();
         }
         else if (event.keyCode === KeyCodes.ENTER) {
+            Helpers.swallowEvent(event);
             // enter -- perform the "click"
             this._items.toArray()[this.activeIndex].onClick(event);
         }
         else if (event.keyCode === KeyCodes.DOWN) {
+            Helpers.swallowEvent(event);
             // down - navigate through the list ignoring disabled ones
             if (this.activeIndex !== -1) {
                 this._items.toArray()[this.activeIndex].active = false;
@@ -6384,6 +6387,7 @@ var NovoDropdownElement = /** @class */ (function (_super) {
             this.scrollToActive();
         }
         else if (event.keyCode === KeyCodes.UP) {
+            Helpers.swallowEvent(event);
             // up -- navigate through the list ignoring disabled ones
             if (this.activeIndex !== -1) {
                 this._items.toArray()[this.activeIndex].active = false;
@@ -6405,6 +6409,7 @@ var NovoDropdownElement = /** @class */ (function (_super) {
             (event.keyCode >= 96 && event.keyCode <= 105) ||
             (event.keyCode >= 48 && event.keyCode <= 57) ||
             event.keyCode === KeyCodes.SPACE) {
+            Helpers.swallowEvent(event);
             // A-Z, 0-9, space -- filter the list and scroll to active filter
             // filter has hard reset after 2s
             clearTimeout(this.filterTermTimeout);
@@ -6426,6 +6431,7 @@ var NovoDropdownElement = /** @class */ (function (_super) {
             }
         }
         else if ([KeyCodes.BACKSPACE, KeyCodes.DELETE].includes(event.keyCode)) {
+            Helpers.swallowEvent(event);
             // backspace, delete -- remove partial filters
             clearTimeout(this.filterTermTimeout);
             this.filterTermTimeout = setTimeout(function () {
