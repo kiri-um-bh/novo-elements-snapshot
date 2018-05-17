@@ -7,6 +7,7 @@ import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
 import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, format, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isDate, isSameDay, isSameMonth, isSameSecond, isToday, isValid, parse, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
 import { DOCUMENT, DomSanitizer } from '@angular/platform-browser';
+import { animate as animate$1, state as state$1, style as style$1, transition as transition$1, trigger as trigger$1 } from '@angular/animations';
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
@@ -23,7 +24,6 @@ import { ENTER, ESCAPE, TAB } from '@angular/cdk/keycodes';
 import * as dragulaImported from '@bullhorn/dragula';
 import { ReplaySubject as ReplaySubject$1 } from 'rxjs/ReplaySubject';
 import { TextMaskModule } from 'angular2-text-mask';
-import { animate as animate$1, state as state$1, style as style$1, transition as transition$1, trigger as trigger$1 } from '@angular/animations';
 import { Http, HttpModule } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { A11yModule, FocusMonitor } from '@angular/cdk/a11y';
@@ -4329,6 +4329,7 @@ class NovoTilesElement {
         this.element = element;
         this.ref = ref;
         this.name = new Date().getTime().toString();
+        this.disabled = false;
         this.onChange = new EventEmitter();
         this.onDisabledOptionClick = new EventEmitter();
         this._options = [];
@@ -4436,18 +4437,11 @@ class NovoTilesElement {
             let /** @type {?} */ el = this.element.nativeElement.querySelector('.tile.active');
             if (ind && el) {
                 let /** @type {?} */ w = el.clientWidth;
-                let /** @type {?} */ left = el.offsetLeft;
-                // These style adjustments need to occur in this order.
-                setTimeout(() => {
-                    ind.style.width = `${w + 4}px`;
-                    setTimeout(() => {
-                        ind.style.transform = `translateX(${left}px)`;
-                        setTimeout(() => {
-                            this.state = 'active';
-                            this.ref.markForCheck();
-                        });
-                    });
-                });
+                let /** @type {?} */ left = el.offsetLeft - el.offsetTop; // Removes the border width that Firefox adds without affecting other browsers
+                ind.style.width = `calc(${w}px + 0.32em)`;
+                ind.style.left = `${left}px`;
+                this.state = 'active';
+                this.ref.markForCheck();
             }
         });
     }
@@ -4481,7 +4475,7 @@ NovoTilesElement.decorators = [
                 selector: 'novo-tiles',
                 providers: [TILES_VALUE_ACCESSOR],
                 template: `
-        <div class="tile-container" [class.active]="focused">
+        <div class="tile-container" [class.active]="focused" [class.disabled]="disabled">
             <div class="tile" *ngFor="let option of _options; let i = index" [ngClass]="{active: option.checked, disabled: option.disabled}" (click)="select($event, option, i)" [attr.data-automation-id]="option.label || option">
                 <input class="tiles-input" [name]="name" type="radio" [value]="option.checked || option" [attr.id]="name + i" (change)="select($event, option, i)" (focus)="setFocus(true)" (blur)="setFocus(false)">
                 <label [attr.for]="name + i" [attr.data-automation-id]="option.label || option">
@@ -4492,15 +4486,15 @@ NovoTilesElement.decorators = [
         </div>
     `,
                 animations: [
-                    trigger('tileState', [
-                        state('inactive', style({
+                    trigger$1('tileState', [
+                        state$1('inactive', style$1({
                             opacity: '0'
                         })),
-                        state('active', style({
+                        state$1('active', style$1({
                             opacity: '1'
                         })),
-                        transition('inactive => active', animate('200ms ease-in')),
-                        transition('active => inactive', animate('200ms ease-out'))
+                        transition$1('inactive => active', animate$1('200ms ease-in')),
+                        transition$1('active => inactive', animate$1('200ms ease-out'))
                     ])
                 ],
                 changeDetection: ChangeDetectionStrategy.OnPush,
@@ -4517,6 +4511,7 @@ NovoTilesElement.propDecorators = {
     'name': [{ type: Input },],
     'options': [{ type: Input },],
     'required': [{ type: Input },],
+    'disabled': [{ type: Input },],
     'onChange': [{ type: Output },],
     'onDisabledOptionClick': [{ type: Output },],
 };
@@ -17454,7 +17449,7 @@ NovoControlElement.decorators = [
                             <!--File-->
                             <novo-file-input *ngSwitchCase="'file'" [formControlName]="control.key" [id]="control.key" [name]="control.key" [placeholder]="form.controls[control.key].placeholder" [value]="form.controls[control.key].value" [multiple]="form.controls[control.key].multiple" [layoutOptions]="form.controls[control.key].layoutOptions" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" (edit)="handleEdit($event)" (save)="handleSave($event)" (delete)="handleDelete($event)" (upload)="handleUpload($event)"></novo-file-input>
                             <!--Tiles-->
-                            <novo-tiles *ngSwitchCase="'tiles'" [options]="control.options" [formControlName]="control.key" (onChange)="modelChange($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></novo-tiles>
+                            <novo-tiles *ngSwitchCase="'tiles'" [options]="control.options" [formControlName]="control.key" (onChange)="modelChange($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [disabled]="form.controls[control.key].disabled"></novo-tiles>
                             <!--Picker-->
                             <div class="novo-control-input-container" *ngSwitchCase="'picker'">
                                 <novo-picker [config]="form.controls[control.key].config" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder" [parentScrollSelector]="form.controls[control.key].parentScrollSelector" *ngIf="!form.controls[control.key].multiple" (select)="modelChange($event);" (changed)="modelChangeWithRaw($event)" (typing)="handleTyping($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></novo-picker>

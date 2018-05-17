@@ -6,6 +6,7 @@ export declare class NovoTilesElement implements ControlValueAccessor, AfterCont
     name: string;
     options: any;
     required: boolean;
+    disabled: boolean;
     onChange: EventEmitter<any>;
     onDisabledOptionClick: EventEmitter<any>;
     _options: Array<any>;
