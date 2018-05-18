@@ -33717,7 +33717,10 @@ var RenderPipe = /** @class */ (function () {
             case 'Address1':
             case 'AddressWithoutCountry':
                 var /** @type {?} */ country = findByCountryId(Number(value.countryName));
-                text = ("\n                    " + (value.address1 || '') + "\n                    " + (value.address2 || '') + "<br />\n                ").trim();
+                text = '';
+                if (value.address1 || value.address2) {
+                    text += ("\n                        " + (value.address1 || '') + "\n                        " + (value.address2 || '') + "<br />\n                    ").trim();
+                }
                 text += "\n                    " + (value.city || '') + " " + (value.state || '') + " " + (value.zip || '') + (value.city || value.state || value.zip ? '<br />' : '') + "\n                    " + (country ? country.name : (value.countryName || '')) + (country || value.countryName ? '<br />' : '') + "\n                ";
                 text = this.sanitizationService.bypassSecurityTrustHtml(text.trim());
                 break;
@@ -34012,7 +34015,7 @@ EntityList.decorators = [
     { type: Component, args: [{
                 selector: 'novo-entity-list',
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                template: "\n        <div *ngFor=\"let entity of data.data\" class=\"entity\">\n            <a *ngIf=\"entity.isLinkable\" (click)=\"openLink(entity)\">\n                <i class=\"bhi-circle {{ entity.class }}\"></i>{{ entity | render : meta }}\n            </a>\n            <span *ngIf=\"!entity.isLinkable\">\n                {{ entity | render : meta }}\n            </span>\n        </div>\n    "
+                template: "\n        <div *ngFor=\"let entity of data.data\" class=\"entity\">\n            <a *ngIf=\"entity.isLinkable\" (click)=\"openLink(entity)\">\n                <i class=\"bhi-circle {{ entity.class }}\"></i>{{ entity | render : meta }}\n            </a>\n            <span *ngIf=\"!entity.isLinkable && entity.personSubtype\">\n                <i class=\"bhi-circle {{ entity.class }}\"></i>{{ entity | render : meta }}\n            </span>\n            <span *ngIf=\"!entity.isLinkable && !entity.personSubtype\">\n                {{ entity | render : meta }}\n            </span>\n        </div>\n    "
             },] },
 ];
 /**

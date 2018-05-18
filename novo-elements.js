@@ -34624,10 +34624,13 @@ class RenderPipe {
             case 'Address1':
             case 'AddressWithoutCountry':
                 let /** @type {?} */ country = findByCountryId(Number(value.countryName));
-                text = `
-                    ${value.address1 || ''}
-                    ${value.address2 || ''}<br />
-                `.trim();
+                text = '';
+                if (value.address1 || value.address2) {
+                    text += `
+                        ${value.address1 || ''}
+                        ${value.address2 || ''}<br />
+                    `.trim();
+                }
                 text += `
                     ${value.city || ''} ${value.state || ''} ${value.zip || ''}${value.city || value.state || value.zip ? '<br />' : ''}
                     ${country ? country.name : (value.countryName || '')}${country || value.countryName ? '<br />' : ''}
@@ -34921,7 +34924,10 @@ EntityList.decorators = [
             <a *ngIf="entity.isLinkable" (click)="openLink(entity)">
                 <i class="bhi-circle {{ entity.class }}"></i>{{ entity | render : meta }}
             </a>
-            <span *ngIf="!entity.isLinkable">
+            <span *ngIf="!entity.isLinkable && entity.personSubtype">
+                <i class="bhi-circle {{ entity.class }}"></i>{{ entity | render : meta }}
+            </span>
+            <span *ngIf="!entity.isLinkable && !entity.personSubtype">
                 {{ entity | render : meta }}
             </span>
         </div>
