@@ -49,7 +49,7 @@ export interface IDataTableColumnSortConfig {
     transform?: Function;
 }
 export interface IDataTableColumnFilterConfig {
-    type: 'text' | 'date' | 'select';
+    type: 'text' | 'number' | 'date' | 'select';
     options?: string[] | IDataTableColumnFilterOption[];
     allowCustomRange?: boolean;
     transform?: Function;
