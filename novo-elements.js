@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Inject, Injectable, InjectionToken, Input, LOCALE_ID, NgModule, NgZone, Optional, Output, PLATFORM_ID, Pipe, ReflectiveInjector, Renderer2, TemplateRef, ViewChild, ViewChildren, ViewContainerRef, ViewEncapsulation, animate, forwardRef, isDevMode, state, style, transition, trigger } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, Host, HostBinding, HostListener, Inject, Injectable, InjectionToken, Input, LOCALE_ID, NgModule, NgZone, Optional, Output, PLATFORM_ID, Pipe, ReflectiveInjector, Renderer2, TemplateRef, ViewChild, ViewChildren, ViewContainerRef, ViewEncapsulation, animate, forwardRef, isDevMode, state, style, transition, trigger } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import 'brace/index';
@@ -7,7 +7,7 @@ import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
 import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, format, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isDate, isSameDay, isSameMonth, isSameSecond, isToday, isValid, parse, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
 import { DOCUMENT, DomSanitizer } from '@angular/platform-browser';
-import { animate as animate$1, state as state$1, style as style$1, transition as transition$1, trigger as trigger$1 } from '@angular/animations';
+import { animate as animate$1, animateChild, group, query, state as state$1, style as style$1, transition as transition$1, trigger as trigger$1 } from '@angular/animations';
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
@@ -20,18 +20,21 @@ import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coerci
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { ENTER, ESCAPE, TAB } from '@angular/cdk/keycodes';
+import { ENTER, ESCAPE, SPACE, TAB } from '@angular/cdk/keycodes';
 import * as dragulaImported from '@bullhorn/dragula';
 import { ReplaySubject as ReplaySubject$1 } from 'rxjs/ReplaySubject';
 import { TextMaskModule } from 'angular2-text-mask';
 import { Http, HttpModule } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { UNIQUE_SELECTION_DISPATCHER_PROVIDER, UniqueSelectionDispatcher } from '@angular/cdk/collections';
+import { Subject as Subject$1 } from 'rxjs/Subject';
+import { Subscription as Subscription$1 } from 'rxjs/Subscription';
+import 'rxjs/add/operator/filter';
 import { A11yModule, FocusMonitor } from '@angular/cdk/a11y';
 import { CdkStep, CdkStepLabel, CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
 import { Directionality } from '@angular/cdk/bidi';
 import { CDK_ROW_TEMPLATE, CDK_TABLE_TEMPLATE, CdkCell, CdkCellDef, CdkColumnDef, CdkHeaderCell, CdkHeaderCellDef, CdkHeaderRow, CdkHeaderRowDef, CdkRow, CdkRowDef, CdkTable, CdkTableModule, DataSource } from '@angular/cdk/table';
 import 'rxjs/add/observable/of';
-import { Subject as Subject$1 } from 'rxjs/Subject';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
@@ -5508,9 +5511,9 @@ class BasePickerResults {
      *
      * @return {?}
      */
-    highlight(match, query) {
+    highlight(match, query$$1) {
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query ? match.replace(new RegExp(this.escapeRegexp(query), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
     }
     /**
      * @param {?} match
@@ -7028,12 +7031,12 @@ var UnsubscriptionError_1 = {
  *
  * @class Subscription
  */
-var Subscription = (function () {
+var Subscription$2 = (function () {
     /**
      * @param {function(): void} [unsubscribe] A function describing how to
      * perform the disposal of resources when the `unsubscribe` method is called.
      */
-    function Subscription(unsubscribe) {
+    function Subscription$$1(unsubscribe) {
         /**
          * A flag to indicate whether this Subscription has already been unsubscribed.
          * @type {boolean}
@@ -7052,7 +7055,7 @@ var Subscription = (function () {
      * started when the Subscription was created.
      * @return {void}
      */
-    Subscription.prototype.unsubscribe = function () {
+    Subscription$$1.prototype.unsubscribe = function () {
         var hasErrors = false;
         var errors;
         if (this.closed) {
@@ -7126,9 +7129,9 @@ var Subscription = (function () {
      * `remove()` to remove the passed teardown logic from the inner subscriptions
      * list.
      */
-    Subscription.prototype.add = function (teardown) {
-        if (!teardown || (teardown === Subscription.EMPTY)) {
-            return Subscription.EMPTY;
+    Subscription$$1.prototype.add = function (teardown) {
+        if (!teardown || (teardown === Subscription$$1.EMPTY)) {
+            return Subscription$$1.EMPTY;
         }
         if (teardown === this) {
             return this;
@@ -7136,7 +7139,7 @@ var Subscription = (function () {
         var subscription = teardown;
         switch (typeof teardown) {
             case 'function':
-                subscription = new Subscription(teardown);
+                subscription = new Subscription$$1(teardown);
             case 'object':
                 if (subscription.closed || typeof subscription.unsubscribe !== 'function') {
                     return subscription;
@@ -7147,7 +7150,7 @@ var Subscription = (function () {
                 }
                 else if (typeof subscription._addParent !== 'function' /* quack quack */) {
                     var tmp = subscription;
-                    subscription = new Subscription();
+                    subscription = new Subscription$$1();
                     subscription._subscriptions = [tmp];
                 }
                 break;
@@ -7165,7 +7168,7 @@ var Subscription = (function () {
      * @param {Subscription} subscription The subscription to remove.
      * @return {void}
      */
-    Subscription.prototype.remove = function (subscription) {
+    Subscription$$1.prototype.remove = function (subscription) {
         var subscriptions = this._subscriptions;
         if (subscriptions) {
             var subscriptionIndex = subscriptions.indexOf(subscription);
@@ -7174,7 +7177,7 @@ var Subscription = (function () {
             }
         }
     };
-    Subscription.prototype._addParent = function (parent) {
+    Subscription$$1.prototype._addParent = function (parent) {
         var _a = this, _parent = _a._parent, _parents = _a._parents;
         if (!_parent || _parent === parent) {
             // If we don't have a parent, or the new parent is the same as the
@@ -7191,13 +7194,13 @@ var Subscription = (function () {
             _parents.push(parent);
         }
     };
-    Subscription.EMPTY = (function (empty) {
+    Subscription$$1.EMPTY = (function (empty) {
         empty.closed = true;
         return empty;
-    }(new Subscription()));
-    return Subscription;
+    }(new Subscription$$1()));
+    return Subscription$$1;
 }());
-var Subscription_2 = Subscription;
+var Subscription_2 = Subscription$2;
 function flattenUnsubscriptionErrors(errors) {
     return errors.reduce(function (errs, err) { return errs.concat((err instanceof UnsubscriptionError_1.UnsubscriptionError) ? err.errors : err); }, []);
 }
@@ -9017,9 +9020,9 @@ class NovoSelectElement {
      * @param {?} query
      * @return {?}
      */
-    highlight(match, query) {
+    highlight(match, query$$1) {
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query ? match.replace(new RegExp(this.escapeRegexp(query), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
     }
     /**
      * @param {?} queryToEscape
@@ -9816,9 +9819,9 @@ class EntityPickerResult {
      *
      * @return {?}
      */
-    highlight(match, query) {
+    highlight(match, query$$1) {
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query && match ? match.replace(new RegExp(this.escapeRegexp(query), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 && match ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
     }
     /**
      * @param {?=} result
@@ -15124,10 +15127,10 @@ class OptionsService {
         return {
             field: 'value',
             format: '$label',
-            options: (query) => {
+            options: (query$$1) => {
                 return new Promise((resolve, reject) => {
-                    if (query && query.length) {
-                        http$$1.get(`${field.optionsUrl}?filter=${query || ''}`)
+                    if (query$$1 && query$$1.length) {
+                        http$$1.get(`${field.optionsUrl}?filter=${query$$1 || ''}`)
                             .subscribe(resolve, reject);
                     }
                     else {
@@ -15165,12 +15168,12 @@ class FormUtils {
      * @return {?}
      */
     toFormGroup(controls) {
-        let /** @type {?} */ group = {};
+        let /** @type {?} */ group$$1 = {};
         controls.forEach(control => {
             let /** @type {?} */ value = Helpers.isBlank(control.value) ? '' : control.value;
-            group[control.key] = new NovoFormControl(value, control);
+            group$$1[control.key] = new NovoFormControl(value, control);
         });
-        return new NovoFormGroup(group);
+        return new NovoFormGroup(group$$1);
     }
     /**
      * @return {?}
@@ -16628,13 +16631,13 @@ class FieldInteractionApi {
             if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
                 newConfig = {
                     format: config.format,
-                    options: (query) => {
+                    options: (query$$1) => {
                         if (config.optionsPromise) {
-                            return config.optionsPromise(query, this.http);
+                            return config.optionsPromise(query$$1, this.http);
                         }
                         return new Promise((resolve, reject) => {
-                            let /** @type {?} */ url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query) : `${config.optionsUrl}?filter=${query || ''}`;
-                            if (query && query.length) {
+                            let /** @type {?} */ url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query$$1) : `${config.optionsUrl}?filter=${query$$1 || ''}`;
+                            if (query$$1 && query$$1.length) {
                                 this.http
                                     .get(url)
                                     .map(res => {
@@ -33440,15 +33443,15 @@ class NovoTableElement {
             // Array of filters
             const /** @type {?} */ filters = this.columns.filter((col) => !Helpers.isEmpty(col.filter));
             if (filters.length) {
-                let /** @type {?} */ query = {};
+                let /** @type {?} */ query$$1 = {};
                 for (const /** @type {?} */ column of filters) {
                     if (Helpers.isFunction(column.match)) {
-                        query[column.name] = (value, record) => {
+                        query$$1[column.name] = (value, record) => {
                             return column.match(record, column.filter);
                         };
                     }
                     else if (column.preFilter && Helpers.isFunction(column.preFilter)) {
-                        query = Object.assign({}, query, column.preFilter(this.escapeCharacters(column.filter)));
+                        query$$1 = Object.assign({}, query$$1, column.preFilter(this.escapeCharacters(column.filter)));
                     }
                     else if (Array.isArray(column.filter)) {
                         // The filters are an array (multi-select), check value
@@ -33457,31 +33460,31 @@ class NovoTableElement {
                         if (options[0].value || options[0].label) {
                             options = column.filter.map((opt) => opt.value);
                         }
-                        query[column.name] = { any: options };
+                        query$$1[column.name] = { any: options };
                     }
                     else if (column.type && column.type === 'date') {
                         if (column.filter.startDate && column.filter.endDate) {
-                            query[column.name] = {
+                            query$$1[column.name] = {
                                 min: startOfDay(column.filter.startDate),
                                 max: startOfDay(addDays(startOfDay(column.filter.endDate), 1)),
                             };
                         }
                         else {
-                            query[column.name] = {
+                            query$$1[column.name] = {
                                 min: column.filter.min ? addDays(startOfToday(), column.filter.min) : startOfToday(),
                                 max: column.filter.max ? addDays(startOfTomorrow(), column.filter.max) : startOfTomorrow(),
                             };
                         }
                     }
                     else {
-                        query[column.name] = column.filter;
+                        query$$1[column.name] = column.filter;
                     }
                 }
                 if (Helpers.isFunction(this.config.filtering)) {
-                    this.config.filtering(query);
+                    this.config.filtering(query$$1);
                 }
                 else {
-                    this._dataProvider.filter = query;
+                    this._dataProvider.filter = query$$1;
                 }
             }
             else {
@@ -34969,7 +34972,6 @@ class NovoIconComponent {
     constructor(element, cdr) {
         this.element = element;
         this.cdr = cdr;
-        this.raised = false;
         this.size = 'medium';
         this.role = 'img';
     }
@@ -35051,2475 +35053,311 @@ NovoIconModule.decorators = [
  */
 NovoIconModule.ctorParameters = () => [];
 
-class NovoStepLabel extends CdkStepLabel {
-    /**
-     * @param {?} template
-     */
-    constructor(template) {
-        super(template);
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+/**
+ * Used to generate unique ID for each accordion.
+ */
+var nextId$1 = 0;
+/**
+ * Directive whose purpose is to manage the expanded state of CdkAccordionItem children.
+ */
+var CdkAccordion = /** @class */ (function () {
+    function CdkAccordion() {
+        /**
+         * A readonly id value to use for unique selection coordination.
+         */
+        this.id = "cdk-accordion-" + nextId$1++;
+        this._multi = false;
     }
+    Object.defineProperty(CdkAccordion.prototype, "multi", {
+        get: /**
+         * Whether the accordion should allow multiple expanded accordion items simultaneously.
+         * @return {?}
+         */
+        function () { return this._multi; },
+        set: /**
+         * @param {?} multi
+         * @return {?}
+         */
+        function (multi) { this._multi = coerceBooleanProperty(multi); },
+        enumerable: true,
+        configurable: true
+    });
+    CdkAccordion.decorators = [
+        { type: Directive, args: [{
+                    selector: 'cdk-accordion, [cdkAccordion]',
+                    exportAs: 'cdkAccordion',
+                },] },
+    ];
+    /** @nocollapse */
+    CdkAccordion.ctorParameters = function () { return []; };
+    CdkAccordion.propDecorators = {
+        "multi": [{ type: Input },],
+    };
+    return CdkAccordion;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+/**
+ * Used to generate unique ID for each accordion item.
+ */
+var nextId = 0;
+/**
+ * An basic directive expected to be extended and decorated as a component.  Sets up all
+ * events and attributes needed to be managed by a CdkAccordion parent.
+ */
+var CdkAccordionItem = /** @class */ (function () {
+    function CdkAccordionItem(accordion, _changeDetectorRef, _expansionDispatcher) {
+        var _this = this;
+        this.accordion = accordion;
+        this._changeDetectorRef = _changeDetectorRef;
+        this._expansionDispatcher = _expansionDispatcher;
+        /**
+         * Event emitted every time the AccordionItem is closed.
+         */
+        this.closed = new EventEmitter();
+        /**
+         * Event emitted every time the AccordionItem is opened.
+         */
+        this.opened = new EventEmitter();
+        /**
+         * Event emitted when the AccordionItem is destroyed.
+         */
+        this.destroyed = new EventEmitter();
+        /**
+         * Emits whenever the expanded state of the accordion changes.
+         * Primarily used to facilitate two-way binding.
+         * \@docs-private
+         */
+        this.expandedChange = new EventEmitter();
+        /**
+         * The unique AccordionItem id.
+         */
+        this.id = "cdk-accordion-child-" + nextId++;
+        this._expanded = false;
+        this._disabled = false;
+        /**
+         * Unregister function for _expansionDispatcher.
+         */
+        this._removeUniqueSelectionListener = function () { };
+        this._removeUniqueSelectionListener =
+            _expansionDispatcher.listen(function (id, accordionId) {
+                if (_this.accordion && !_this.accordion.multi &&
+                    _this.accordion.id === accordionId && _this.id !== id) {
+                    _this.expanded = false;
+                }
+            });
+    }
+    Object.defineProperty(CdkAccordionItem.prototype, "expanded", {
+        get: /**
+         * Whether the AccordionItem is expanded.
+         * @return {?}
+         */
+        function () { return this._expanded; },
+        set: /**
+         * @param {?} expanded
+         * @return {?}
+         */
+        function (expanded) {
+            expanded = coerceBooleanProperty(expanded);
+            // Only emit events and update the internal value if the value changes.
+            if (this._expanded !== expanded) {
+                this._expanded = expanded;
+                this.expandedChange.emit(expanded);
+                if (expanded) {
+                    this.opened.emit();
+                    /**
+                     * In the unique selection dispatcher, the id parameter is the id of the CdkAccordionItem,
+                     * the name value is the id of the accordion.
+                     */
+                    var /** @type {?} */ accordionId = this.accordion ? this.accordion.id : this.id;
+                    this._expansionDispatcher.notify(this.id, accordionId);
+                }
+                else {
+                    this.closed.emit();
+                }
+                // Ensures that the animation will run when the value is set outside of an `@Input`.
+                // This includes cases like the open, close and toggle methods.
+                this._changeDetectorRef.markForCheck();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CdkAccordionItem.prototype, "disabled", {
+        get: /**
+         * Whether the AccordionItem is disabled.
+         * @return {?}
+         */
+        function () { return this._disabled; },
+        set: /**
+         * @param {?} disabled
+         * @return {?}
+         */
+        function (disabled) { this._disabled = coerceBooleanProperty(disabled); },
+        enumerable: true,
+        configurable: true
+    });
+    /** Emits an event for the accordion item being destroyed. */
+    /**
+     * Emits an event for the accordion item being destroyed.
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.ngOnDestroy = /**
+     * Emits an event for the accordion item being destroyed.
+     * @return {?}
+     */
+    function () {
+        this.destroyed.emit();
+        this._removeUniqueSelectionListener();
+    };
+    /** Toggles the expanded state of the accordion item. */
+    /**
+     * Toggles the expanded state of the accordion item.
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.toggle = /**
+     * Toggles the expanded state of the accordion item.
+     * @return {?}
+     */
+    function () {
+        if (!this.disabled) {
+            this.expanded = !this.expanded;
+        }
+    };
+    /** Sets the expanded state of the accordion item to false. */
+    /**
+     * Sets the expanded state of the accordion item to false.
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.close = /**
+     * Sets the expanded state of the accordion item to false.
+     * @return {?}
+     */
+    function () {
+        if (!this.disabled) {
+            this.expanded = false;
+        }
+    };
+    /** Sets the expanded state of the accordion item to true. */
+    /**
+     * Sets the expanded state of the accordion item to true.
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.open = /**
+     * Sets the expanded state of the accordion item to true.
+     * @return {?}
+     */
+    function () {
+        if (!this.disabled) {
+            this.expanded = true;
+        }
+    };
+    CdkAccordionItem.decorators = [
+        { type: Directive, args: [{
+                    selector: 'cdk-accordion-item',
+                    exportAs: 'cdkAccordionItem',
+                },] },
+    ];
+    /** @nocollapse */
+    CdkAccordionItem.ctorParameters = function () { return [
+        { type: CdkAccordion, decorators: [{ type: Optional },] },
+        { type: ChangeDetectorRef, },
+        { type: UniqueSelectionDispatcher, },
+    ]; };
+    CdkAccordionItem.propDecorators = {
+        "closed": [{ type: Output },],
+        "opened": [{ type: Output },],
+        "destroyed": [{ type: Output },],
+        "expandedChange": [{ type: Output },],
+        "expanded": [{ type: Input },],
+        "disabled": [{ type: Input },],
+    };
+    return CdkAccordionItem;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+var CdkAccordionModule = /** @class */ (function () {
+    function CdkAccordionModule() {
+    }
+    CdkAccordionModule.decorators = [
+        { type: NgModule, args: [{
+                    exports: [CdkAccordion, CdkAccordionItem],
+                    declarations: [CdkAccordion, CdkAccordionItem],
+                    providers: [UNIQUE_SELECTION_DISPATCHER_PROVIDER],
+                },] },
+    ];
+    /** @nocollapse */
+    CdkAccordionModule.ctorParameters = function () { return []; };
+    return CdkAccordionModule;
+}());
+
+/**
+ * Directive for a Material Design Accordion.
+ */
+class NovoAccordion extends CdkAccordion {
+    constructor() {
+        super(...arguments);
+        this._hideToggle = false;
+        /**
+         * The display mode used for all expansion panels in the accordion. Currently two display
+         * modes exist:
+         *  default - a gutter-like spacing is placed around any expanded panel, placing the expanded
+         *     panel at a different elevation from the reset of the accordion.
+         *  flat - no spacing is placed around expanded panels, showing all panels at the same
+         *     elevation.
+         */
+        this.displayMode = 'default';
+    }
+    /**
+     * Whether the expansion indicator should be hidden.
+     * @return {?}
+     */
+    get hideToggle() { return this._hideToggle; }
+    /**
+     * @param {?} show
+     * @return {?}
+     */
+    set hideToggle(show) { this._hideToggle = coerceBooleanProperty(show); }
 }
-NovoStepLabel.decorators = [
+NovoAccordion.decorators = [
     { type: Directive, args: [{
-                selector: '[novoStepLabel]',
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoStepLabel.ctorParameters = () => [
-    { type: TemplateRef, },
-];
-
-class NovoStepHeader {
-    /**
-     * @param {?} _focusMonitor
-     * @param {?} _element
-     */
-    constructor(_focusMonitor, _element) {
-        this._focusMonitor = _focusMonitor;
-        this._element = _element;
-        _focusMonitor.monitor(_element.nativeElement, true);
-    }
-    /**
-     * Index of the given step.
-     * @return {?}
-     */
-    get index() { return this._index; }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    set index(value) { this._index = coerceNumberProperty(value); }
-    /**
-     * Whether the given step is selected.
-     * @return {?}
-     */
-    get selected() { return this._selected; }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    set selected(value) { this._selected = coerceBooleanProperty(value); }
-    /**
-     * Whether the given step label is active.
-     * @return {?}
-     */
-    get active() { return this._active; }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    set active(value) { this._active = coerceBooleanProperty(value); }
-    /**
-     * Whether the given step label is active.
-     * @return {?}
-     */
-    get touched() { return this.selected || this.state === 'edit' || this.state === 'done'; }
-    /**
-     * Whether the given step is optional.
-     * @return {?}
-     */
-    get optional() { return this._optional; }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    set optional(value) { this._optional = coerceBooleanProperty(value); }
-    /**
-     * @return {?}
-     */
-    ngOnDestroy() {
-        this._focusMonitor.stopMonitoring(this._element.nativeElement);
-    }
-    /**
-     * Returns string label of given step if it is a text label.
-     * @return {?}
-     */
-    _stringLabel() {
-        return this.label instanceof NovoStepLabel ? null : this.label;
-    }
-    /**
-     * Returns NovoStepLabel if the label of given step is a template label.
-     * @return {?}
-     */
-    _templateLabel() {
-        return this.label instanceof NovoStepLabel ? this.label : null;
-    }
-    /**
-     * Returns the host HTML element.
-     * @return {?}
-     */
-    _getHostElement() {
-        return this._element.nativeElement;
-    }
-}
-NovoStepHeader.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-step-header',
-                template: `
-    <div [class.novo-step-icon]="touched"
-         [class.novo-step-icon-not-touched]="!touched">
-      <ng-container *ngIf="icon">
-        <novo-icon size="small" raised="true" [theme]="theme">{{icon}}</novo-icon>
-      </ng-container>
-      <ng-container *ngIf="!icon">
-        <span class="novo-step-number">{{index + 1}}</span>
-      </ng-container>
-    </div>
-    <div class="novo-step-label"
-         [class.novo-step-label-active]="active"
-         [class.novo-step-label-selected]="selected">
-      <!-- If there is a label template, use it. -->
-      <ng-container *ngIf="_templateLabel()" [ngTemplateOutlet]="_templateLabel()!.template">
-      </ng-container>
-      <!-- It there is no label template, fall back to the text label. -->
-      <div class="novo-step-text-label" *ngIf="_stringLabel()">{{label}}</div>
-    </div>
-    <novo-step-status [state]="state"></novo-step-status>
-  `,
-                styles: [`
-    @-webkit-keyframes rotate {
-      0% {
-        -webkit-transform: rotateZ(0deg);
-                transform: rotateZ(0deg); }
-      75% {
-        -webkit-transform: rotateZ(200deg);
-                transform: rotateZ(200deg); }
-      100% {
-        -webkit-transform: rotateZ(180deg);
-                transform: rotateZ(180deg); } }
-
-    @keyframes rotate {
-      0% {
-        -webkit-transform: rotateZ(0deg);
-                transform: rotateZ(0deg); }
-      75% {
-        -webkit-transform: rotateZ(200deg);
-                transform: rotateZ(200deg); }
-      100% {
-        -webkit-transform: rotateZ(180deg);
-                transform: rotateZ(180deg); } }
-
-    @-webkit-keyframes half-rotate {
-      0% {
-        -webkit-transform: rotateZ(45deg);
-                transform: rotateZ(45deg); }
-      75% {
-        -webkit-transform: rotateZ(100deg);
-                transform: rotateZ(100deg); }
-      100% {
-        -webkit-transform: rotateZ(90deg);
-                transform: rotateZ(90deg); } }
-
-    @keyframes half-rotate {
-      0% {
-        -webkit-transform: rotateZ(45deg);
-                transform: rotateZ(45deg); }
-      75% {
-        -webkit-transform: rotateZ(100deg);
-                transform: rotateZ(100deg); }
-      100% {
-        -webkit-transform: rotateZ(90deg);
-                transform: rotateZ(90deg); } }
-
-    @-webkit-keyframes rotateBack {
-      0% {
-        -webkit-transform: rotateZ(90deg);
-                transform: rotateZ(90deg); }
-      100% {
-        -webkit-transform: rotateZ(0deg);
-                transform: rotateZ(0deg); } }
-
-    @keyframes rotateBack {
-      0% {
-        -webkit-transform: rotateZ(90deg);
-                transform: rotateZ(90deg); }
-      100% {
-        -webkit-transform: rotateZ(0deg);
-                transform: rotateZ(0deg); } }
-
-    @-webkit-keyframes show {
-      0% {
-        opacity: 0;
-        -webkit-transform: translateX(-100%);
-                transform: translateX(-100%); }
-      75% {
-        -webkit-transform: translateX(0px);
-                transform: translateX(0px); }
-      100% {
-        opacity: 1;
-        -webkit-transform: translateX(0);
-                transform: translateX(0); } }
-
-    @keyframes show {
-      0% {
-        opacity: 0;
-        -webkit-transform: translateX(-100%);
-                transform: translateX(-100%); }
-      75% {
-        -webkit-transform: translateX(0px);
-                transform: translateX(0px); }
-      100% {
-        opacity: 1;
-        -webkit-transform: translateX(0);
-                transform: translateX(0); } }
-
-    .novo-step-header {
-      overflow: visible;
-      outline: none;
-      cursor: pointer;
-      position: relative; }
-
-    .novo-step-optional {
-      font-size: 12px; }
-
-    .novo-step-icon,
-    .novo-step-icon-not-touched {
-      border-radius: 50%;
-      height: 24px;
-      width: 24px;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      -webkit-box-pack: center;
-          -ms-flex-pack: center;
-              justify-content: center;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex; }
-      .novo-step-icon .novo-step-number,
-      .novo-step-icon-not-touched .novo-step-number {
-        font-size: 1em;
-        min-width: 1.6em;
-        height: 1.6em;
-        -webkit-box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
-                box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
-            -ms-flex-align: center;
-                align-items: center;
-        -webkit-box-pack: center;
-            -ms-flex-pack: center;
-                justify-content: center;
-        border-radius: 4px; }
-
-    .novo-step-icon .novo-step-number {
-      background: #4a89dc;
-      color: #ffffff; }
-
-    .novo-step-icon-not-touched .novo-step-number {
-      background: #a9adbb;
-      color: #ffffff; }
-
-    .novo-step-label {
-      display: inline-block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 50px;
-      vertical-align: middle;
-      text-align: center;
-      padding: 4px 0px; }
-
-    .novo-step-text-label {
-      text-align: center;
-      text-overflow: ellipsis;
-      overflow: hidden; }
-  `],
+                selector: 'novo-accordion',
+                exportAs: 'novoAccordion',
                 host: {
-                    'class': 'novo-step-header',
-                    'role': 'tab',
-                },
-                preserveWhitespaces: false,
-                changeDetection: ChangeDetectionStrategy.OnPush,
+                    class: 'novo-accordion'
+                }
             },] },
 ];
 /**
  * @nocollapse
  */
-NovoStepHeader.ctorParameters = () => [
-    { type: FocusMonitor, },
-    { type: ElementRef, },
-];
-NovoStepHeader.propDecorators = {
-    'theme': [{ type: Input },],
-    'color': [{ type: Input },],
-    'icon': [{ type: Input },],
-    'state': [{ type: Input },],
-    'label': [{ type: Input },],
-    'iconOverrides': [{ type: Input },],
-    'index': [{ type: Input },],
-    'selected': [{ type: Input },],
-    'active': [{ type: Input },],
-    'optional': [{ type: Input },],
+NovoAccordion.ctorParameters = () => [];
+NovoAccordion.propDecorators = {
+    'hideToggle': [{ type: Input },],
+    'displayMode': [{ type: Input },],
 };
 
 var __extends$7 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-
-
-/**
- * Emits the values emitted by the source Observable until a `notifier`
- * Observable emits a value.
- *
- * <span class="informal">Lets values pass until a second Observable,
- * `notifier`, emits something. Then, it completes.</span>
- *
- * <img src="./img/takeUntil.png" width="100%">
- *
- * `takeUntil` subscribes and begins mirroring the source Observable. It also
- * monitors a second Observable, `notifier` that you provide. If the `notifier`
- * emits a value or a complete notification, the output Observable stops
- * mirroring the source Observable and completes.
- *
- * @example <caption>Tick every second until the first click happens</caption>
- * var interval = Rx.Observable.interval(1000);
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = interval.takeUntil(clicks);
- * result.subscribe(x => console.log(x));
- *
- * @see {@link take}
- * @see {@link takeLast}
- * @see {@link takeWhile}
- * @see {@link skip}
- *
- * @param {Observable} notifier The Observable whose first emitted value will
- * cause the output Observable of `takeUntil` to stop emitting values from the
- * source Observable.
- * @return {Observable<T>} An Observable that emits the values from the source
- * Observable until such time as `notifier` emits its first value.
- * @method takeUntil
- * @owner Observable
- */
-function takeUntil(notifier) {
-    return function (source) { return source.lift(new TakeUntilOperator(notifier)); };
-}
-var takeUntil_2 = takeUntil;
-var TakeUntilOperator = (function () {
-    function TakeUntilOperator(notifier) {
-        this.notifier = notifier;
-    }
-    TakeUntilOperator.prototype.call = function (subscriber, source) {
-        return source.subscribe(new TakeUntilSubscriber(subscriber, this.notifier));
-    };
-    return TakeUntilOperator;
-}());
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-var TakeUntilSubscriber = (function (_super) {
-    __extends$7(TakeUntilSubscriber, _super);
-    function TakeUntilSubscriber(destination, notifier) {
-        _super.call(this, destination);
-        this.notifier = notifier;
-        this.add(subscribeToResult_1.subscribeToResult(this, notifier));
-    }
-    TakeUntilSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
-        this.complete();
-    };
-    TakeUntilSubscriber.prototype.notifyComplete = function () {
-        // noop
-    };
-    return TakeUntilSubscriber;
-}(OuterSubscriber_1.OuterSubscriber));
-
-/**
- * Animations used by the Novo steppers.
- */
-const novoStepperAnimations = {
-    /** Animation that transitions the step along the X axis in a horizontal stepper. */
-    horizontalStepTransition: trigger$1('stepTransition', [
-        state$1('previous', style$1({ transform: 'translate3d(-100%, 0, 0)', visibility: 'hidden' })),
-        state$1('current', style$1({ transform: 'none', visibility: 'visible' })),
-        state$1('next', style$1({ transform: 'translate3d(100%, 0, 0)', visibility: 'hidden' })),
-        transition$1('* => *', animate$1('500ms cubic-bezier(0.35, 0, 0.25, 1)'))
-    ]),
-    /** Animation that transitions the step along the Y axis in a vertical stepper. */
-    verticalStepTransition: trigger$1('stepTransition', [
-        state$1('previous', style$1({ height: '0px', visibility: 'hidden' })),
-        state$1('next', style$1({ height: '0px', visibility: 'hidden' })),
-        state$1('current', style$1({ height: '*', visibility: 'visible' })),
-        transition$1('* <=> current', animate$1('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
-    ])
-};
-
-class NovoStep extends CdkStep {
-    /**
-     * @param {?} stepper
-     */
-    constructor(stepper$$1) {
-        super(stepper$$1);
-    }
-}
-NovoStep.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-step',
-                template: `
-    <ng-template><ng-content></ng-content></ng-template>
-  `,
-                preserveWhitespaces: false,
-                changeDetection: ChangeDetectionStrategy.OnPush,
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoStep.ctorParameters = () => [
-    { type: NovoStepper, decorators: [{ type: Inject, args: [forwardRef(() => NovoStepper),] },] },
-];
-NovoStep.propDecorators = {
-    'stepLabel': [{ type: ContentChild, args: [NovoStepLabel,] },],
-    'theme': [{ type: Input },],
-    'color': [{ type: Input },],
-    'icon': [{ type: Input },],
-};
-class NovoStepper extends CdkStepper {
-    constructor() {
-        super(...arguments);
-        /**
-         * Consumer-specified template-refs to be used to override the header icons.
-         */
-        this._iconOverrides = {};
-    }
-    /**
-     * @return {?}
-     */
-    get completed() {
-        try {
-            let /** @type {?} */ steps = this._steps.toArray();
-            let /** @type {?} */ length = steps.length - 1;
-            return steps[length].completed && length === this.selectedIndex;
-        }
-        catch (err) {
-            return false;
-        }
-    }
-    /**
-     * @return {?}
-     */
-    ngAfterContentInit() {
-        // Mark the component for change detection whenever the content children query changes
-        this._steps.changes.pipe(takeUntil_2(this._destroyed)).subscribe(() => this._stateChanged());
-    }
-    /**
-     * @return {?}
-     */
-    complete() {
-        try {
-            let /** @type {?} */ steps = this._steps.toArray();
-            steps[this.selectedIndex].completed = true;
-            this.next();
-            this._stateChanged();
-        }
-        catch (err) {
-            // do nothing
-        }
-    }
-    /**
-     * @param {?} index
-     * @return {?}
-     */
-    getIndicatorType(index$$1) {
-        let /** @type {?} */ steps = this._steps.toArray();
-        if (index$$1 === this.selectedIndex) {
-            if (steps[index$$1] && index$$1 === steps.length - 1 && steps[index$$1].completed) {
-                return 'done';
-            }
-            return 'edit';
-        }
-        if (index$$1 < this.selectedIndex) {
-            return 'done';
-        }
-        return 'none';
-    }
-}
-NovoStepper.decorators = [
-    { type: Directive, args: [{
-                selector: '[novoStepper]'
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoStepper.ctorParameters = () => [];
-NovoStepper.propDecorators = {
-    '_stepHeader': [{ type: ViewChildren, args: [NovoStepHeader, { read: ElementRef },] },],
-    '_steps': [{ type: ContentChildren, args: [NovoStep,] },],
-    '_icons': [{ type: ContentChildren, args: [NovoIconComponent,] },],
-};
-class NovoHorizontalStepper extends NovoStepper {
-}
-NovoHorizontalStepper.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-horizontal-stepper',
-                template: `
-    <div class="novo-horizontal-stepper-header-container">
-        <div class="novo-stepper-horizontal-line complete"></div>
-      <ng-container *ngFor="let step of _steps; let i = index; let isLast = last">
-        <novo-step-header  class="novo-horizontal-stepper-header"
-                         (click)="step.select()"
-                         (keydown)="_onKeydown($event)"
-                         [tabIndex]="_focusIndex === i ? 0 : -1"
-                         [id]="_getStepLabelId(i)"
-                         [attr.aria-controls]="_getStepContentId(i)"
-                         [attr.aria-selected]="selectedIndex == i"
-                         [index]="i"
-                         [theme]="step.theme"
-                         [color]="step.color"
-                         [icon]="step.icon"
-                         [state]="getIndicatorType(i)"
-                         [label]="step.stepLabel || step.label"
-                         [selected]="selectedIndex === i"
-                         [active]="step.completed || selectedIndex === i || !linear"
-                         [optional]="step.optional"
-                         [iconOverrides]="_iconOverrides">
-        </novo-step-header>
-      </ng-container>
-      <div class="novo-stepper-horizontal-line" [class.complete]="completed"></div>
-    </div>
-
-    <div class="novo-horizontal-content-container">
-      <div *ngFor="let step of _steps; let i = index"
-           class="novo-horizontal-stepper-content" role="tabpanel"
-           [@stepTransition]="_getAnimationDirection(i)"
-           [id]="_getStepContentId(i)"
-           [attr.aria-labelledby]="_getStepLabelId(i)"
-           [attr.aria-expanded]="selectedIndex === i">
-        <ng-container [ngTemplateOutlet]="step.content"></ng-container>
-      </div>
-    </div>
-  `,
-                styles: [`
-    @-webkit-keyframes rotate {
-      0% {
-        -webkit-transform: rotateZ(0deg);
-                transform: rotateZ(0deg); }
-      75% {
-        -webkit-transform: rotateZ(200deg);
-                transform: rotateZ(200deg); }
-      100% {
-        -webkit-transform: rotateZ(180deg);
-                transform: rotateZ(180deg); } }
-
-    @keyframes rotate {
-      0% {
-        -webkit-transform: rotateZ(0deg);
-                transform: rotateZ(0deg); }
-      75% {
-        -webkit-transform: rotateZ(200deg);
-                transform: rotateZ(200deg); }
-      100% {
-        -webkit-transform: rotateZ(180deg);
-                transform: rotateZ(180deg); } }
-
-    @-webkit-keyframes half-rotate {
-      0% {
-        -webkit-transform: rotateZ(45deg);
-                transform: rotateZ(45deg); }
-      75% {
-        -webkit-transform: rotateZ(100deg);
-                transform: rotateZ(100deg); }
-      100% {
-        -webkit-transform: rotateZ(90deg);
-                transform: rotateZ(90deg); } }
-
-    @keyframes half-rotate {
-      0% {
-        -webkit-transform: rotateZ(45deg);
-                transform: rotateZ(45deg); }
-      75% {
-        -webkit-transform: rotateZ(100deg);
-                transform: rotateZ(100deg); }
-      100% {
-        -webkit-transform: rotateZ(90deg);
-                transform: rotateZ(90deg); } }
-
-    @-webkit-keyframes rotateBack {
-      0% {
-        -webkit-transform: rotateZ(90deg);
-                transform: rotateZ(90deg); }
-      100% {
-        -webkit-transform: rotateZ(0deg);
-                transform: rotateZ(0deg); } }
-
-    @keyframes rotateBack {
-      0% {
-        -webkit-transform: rotateZ(90deg);
-                transform: rotateZ(90deg); }
-      100% {
-        -webkit-transform: rotateZ(0deg);
-                transform: rotateZ(0deg); } }
-
-    @-webkit-keyframes show {
-      0% {
-        opacity: 0;
-        -webkit-transform: translateX(-100%);
-                transform: translateX(-100%); }
-      75% {
-        -webkit-transform: translateX(0px);
-                transform: translateX(0px); }
-      100% {
-        opacity: 1;
-        -webkit-transform: translateX(0);
-                transform: translateX(0); } }
-
-    @keyframes show {
-      0% {
-        opacity: 0;
-        -webkit-transform: translateX(-100%);
-                transform: translateX(-100%); }
-      75% {
-        -webkit-transform: translateX(0px);
-                transform: translateX(0px); }
-      100% {
-        opacity: 1;
-        -webkit-transform: translateX(0);
-                transform: translateX(0); } }
-
-    .novo-stepper-vertical,
-    .novo-stepper-horizontal {
-      display: block; }
-
-    .novo-horizontal-stepper-header-container {
-      white-space: nowrap;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      -webkit-box-pack: center;
-          -ms-flex-pack: center;
-              justify-content: center;
-      margin-bottom: 1em;
-      background: #f4f4f4; }
-
-    .novo-stepper-horizontal-line {
-      border-bottom: 1px solid #d9dadc;
-      -webkit-box-flex: 1;
-          -ms-flex: auto;
-              flex: auto;
-      min-width: 0px;
-      height: 80px; }
-      .novo-stepper-horizontal-line.complete {
-        border-bottom: 1px solid #4a89dc; }
-
-    .novo-horizontal-stepper-header {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      height: 80px;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-          -ms-flex-flow: column;
-              flex-flow: column;
-      overflow: visible;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      -webkit-box-pack: center;
-          -ms-flex-pack: center;
-              justify-content: center;
-      padding: 0 24px; }
-      .novo-horizontal-stepper-header .novo-step-status {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        width: 100%;
-        -webkit-box-pack: center;
-            -ms-flex-pack: center;
-                justify-content: center;
-        -webkit-box-align: center;
-            -ms-flex-align: center;
-                align-items: center;
-        position: absolute;
-        height: 1px;
-        bottom: 0px; }
-        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line {
-          width: 100%;
-          position: absolute; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before {
-            content: "";
-            display: block;
-            width: calc(50% - 8px);
-            margin-right: 8px;
-            border-bottom: 1px solid #d9dadc; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after {
-            content: "";
-            display: block;
-            width: calc(50% - 8px);
-            margin-left: calc(50% + 8px);
-            margin-top: -1px;
-            border-top: 1px solid #d9dadc; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before {
-            border-bottom: 1px solid #4a89dc; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before {
-            border-bottom: 1px solid #4a89dc; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after {
-            border-top: 1px solid #4a89dc; }
-        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon {
-          position: relative; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before {
-            content: "";
-            display: block;
-            background: #ffffff;
-            border-radius: 50%;
-            position: absolute;
-            z-index: 0;
-            top: 1px;
-            left: 1px;
-            bottom: 1px;
-            right: 1px; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon > * {
-            position: relative;
-            z-index: 1; }
-
-    .novo-vertical-stepper-header {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      padding: 24px;
-      max-height: 24px; }
-      .novo-vertical-stepper-header .novo-step-icon,
-      .novo-vertical-stepper-header .novo-step-icon-not-touched {
-        margin-right: 12px; }
-        [dir='rtl'] .novo-vertical-stepper-header .novo-step-icon, [dir='rtl']
-        .novo-vertical-stepper-header .novo-step-icon-not-touched {
-          margin-right: 0;
-          margin-left: 12px; }
-
-    .novo-horizontal-stepper-content {
-      overflow: hidden; }
-      .novo-horizontal-stepper-content[aria-expanded='false'] {
-        height: 0; }
-
-    .novo-horizontal-content-container {
-      overflow: hidden;
-      padding: 0 24px 24px 24px; }
-
-    .novo-vertical-content-container {
-      margin-left: 36px;
-      border: 0;
-      position: relative; }
-      [dir='rtl'] .novo-vertical-content-container {
-        margin-left: 0;
-        margin-right: 36px; }
-
-    .novo-stepper-vertical-line:before {
-      content: '';
-      position: absolute;
-      top: -16px;
-      bottom: -16px;
-      left: 0;
-      z-index: -1;
-      border-left-width: 1px;
-      border-left-style: solid;
-      border-left-color: #d9dadc; }
-      [dir='rtl'] .novo-stepper-vertical-line:before {
-        left: auto;
-        right: 0; }
-
-    .novo-stepper-vertical-line.edit:before {
-      border-left-color: 1px solid #4a89dc; }
-
-    .novo-stepper-vertical-line.done:before {
-      border-left-color: 1px solid #4a89dc; }
-
-    .novo-stepper-vertical-line.done:after {
-      border-left-color: 1px solid #4a89dc; }
-
-    .novo-stepper-vertical novo-step-status {
-      position: absolute;
-      left: 35px;
-      top: 25px;
-      -webkit-transform: scale(0.8);
-              transform: scale(0.8); }
-
-    .novo-vertical-stepper-content {
-      overflow: hidden; }
-
-    .novo-vertical-content {
-      padding: 0 24px 24px 24px; }
-
-    .novo-step:last-child .novo-vertical-content-container {
-      border: none; }
-  `],
-                host: {
-                    'class': 'novo-stepper-horizontal',
-                    'aria-orientation': 'horizontal',
-                    'role': 'tablist',
-                },
-                animations: [novoStepperAnimations.horizontalStepTransition],
-                providers: [{ provide: NovoStepper, useExisting: NovoHorizontalStepper }],
-                // encapsulation: ViewEncapsulation.None,
-                preserveWhitespaces: false,
-                changeDetection: ChangeDetectionStrategy.OnPush,
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoHorizontalStepper.ctorParameters = () => [];
-NovoHorizontalStepper.propDecorators = {
-    'selectedIndex': [{ type: Input },],
-};
-class NovoVerticalStepper extends NovoStepper {
-    /**
-     * @param {?} dir
-     * @param {?} changeDetectorRef
-     */
-    constructor(dir, changeDetectorRef) {
-        super(dir, changeDetectorRef);
-        this._orientation = 'vertical';
-    }
-}
-NovoVerticalStepper.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-vertical-stepper',
-                template: `
-    <div class="novo-step" *ngFor="let step of _steps; let i = index; let isLast = last">
-        <novo-step-header  class="novo-vertical-stepper-header"
-                         (click)="step.select()"
-                         (keydown)="_onKeydown($event)"
-                         [tabIndex]="_focusIndex == i ? 0 : -1"
-                         [id]="_getStepLabelId(i)"
-                         [attr.aria-controls]="_getStepContentId(i)"
-                         [attr.aria-selected]="selectedIndex === i"
-                         [index]="i"
-                         [theme]="step.theme"
-                         [color]="step.color"
-                         [icon]="step.icon"
-                         [state]="getIndicatorType(i)"
-                         [label]="step.stepLabel || step.label"
-                         [selected]="selectedIndex === i"
-                         [active]="step.completed || selectedIndex === i || !linear"
-                         [optional]="step.optional"
-                         [iconOverrides]="_iconOverrides">
-        </novo-step-header>
-  
-        <div class="novo-vertical-content-container" [class.novo-stepper-vertical-line]="!isLast" [ngClass]="getIndicatorType(i)">
-          <div class="novo-vertical-stepper-content" role="tabpanel"
-               [@stepTransition]="_getAnimationDirection(i)"
-               [id]="_getStepContentId(i)"
-               [attr.aria-labelledby]="_getStepLabelId(i)"
-               [attr.aria-expanded]="selectedIndex === i">
-            <div class="novo-vertical-content">
-              <ng-container [ngTemplateOutlet]="step.content"></ng-container>
-            </div>
-          </div>
-        </div>
-      </div>
-  `,
-                styles: [`
-    @-webkit-keyframes rotate {
-      0% {
-        -webkit-transform: rotateZ(0deg);
-                transform: rotateZ(0deg); }
-      75% {
-        -webkit-transform: rotateZ(200deg);
-                transform: rotateZ(200deg); }
-      100% {
-        -webkit-transform: rotateZ(180deg);
-                transform: rotateZ(180deg); } }
-
-    @keyframes rotate {
-      0% {
-        -webkit-transform: rotateZ(0deg);
-                transform: rotateZ(0deg); }
-      75% {
-        -webkit-transform: rotateZ(200deg);
-                transform: rotateZ(200deg); }
-      100% {
-        -webkit-transform: rotateZ(180deg);
-                transform: rotateZ(180deg); } }
-
-    @-webkit-keyframes half-rotate {
-      0% {
-        -webkit-transform: rotateZ(45deg);
-                transform: rotateZ(45deg); }
-      75% {
-        -webkit-transform: rotateZ(100deg);
-                transform: rotateZ(100deg); }
-      100% {
-        -webkit-transform: rotateZ(90deg);
-                transform: rotateZ(90deg); } }
-
-    @keyframes half-rotate {
-      0% {
-        -webkit-transform: rotateZ(45deg);
-                transform: rotateZ(45deg); }
-      75% {
-        -webkit-transform: rotateZ(100deg);
-                transform: rotateZ(100deg); }
-      100% {
-        -webkit-transform: rotateZ(90deg);
-                transform: rotateZ(90deg); } }
-
-    @-webkit-keyframes rotateBack {
-      0% {
-        -webkit-transform: rotateZ(90deg);
-                transform: rotateZ(90deg); }
-      100% {
-        -webkit-transform: rotateZ(0deg);
-                transform: rotateZ(0deg); } }
-
-    @keyframes rotateBack {
-      0% {
-        -webkit-transform: rotateZ(90deg);
-                transform: rotateZ(90deg); }
-      100% {
-        -webkit-transform: rotateZ(0deg);
-                transform: rotateZ(0deg); } }
-
-    @-webkit-keyframes show {
-      0% {
-        opacity: 0;
-        -webkit-transform: translateX(-100%);
-                transform: translateX(-100%); }
-      75% {
-        -webkit-transform: translateX(0px);
-                transform: translateX(0px); }
-      100% {
-        opacity: 1;
-        -webkit-transform: translateX(0);
-                transform: translateX(0); } }
-
-    @keyframes show {
-      0% {
-        opacity: 0;
-        -webkit-transform: translateX(-100%);
-                transform: translateX(-100%); }
-      75% {
-        -webkit-transform: translateX(0px);
-                transform: translateX(0px); }
-      100% {
-        opacity: 1;
-        -webkit-transform: translateX(0);
-                transform: translateX(0); } }
-
-    .novo-stepper-vertical,
-    .novo-stepper-horizontal {
-      display: block; }
-
-    .novo-horizontal-stepper-header-container {
-      white-space: nowrap;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      -webkit-box-pack: center;
-          -ms-flex-pack: center;
-              justify-content: center;
-      margin-bottom: 1em;
-      background: #f4f4f4; }
-
-    .novo-stepper-horizontal-line {
-      border-bottom: 1px solid #d9dadc;
-      -webkit-box-flex: 1;
-          -ms-flex: auto;
-              flex: auto;
-      min-width: 0px;
-      height: 80px; }
-      .novo-stepper-horizontal-line.complete {
-        border-bottom: 1px solid #4a89dc; }
-
-    .novo-horizontal-stepper-header {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      height: 80px;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-          -ms-flex-flow: column;
-              flex-flow: column;
-      overflow: visible;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      -webkit-box-pack: center;
-          -ms-flex-pack: center;
-              justify-content: center;
-      padding: 0 24px; }
-      .novo-horizontal-stepper-header .novo-step-status {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        width: 100%;
-        -webkit-box-pack: center;
-            -ms-flex-pack: center;
-                justify-content: center;
-        -webkit-box-align: center;
-            -ms-flex-align: center;
-                align-items: center;
-        position: absolute;
-        height: 1px;
-        bottom: 0px; }
-        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line {
-          width: 100%;
-          position: absolute; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before {
-            content: "";
-            display: block;
-            width: calc(50% - 8px);
-            margin-right: 8px;
-            border-bottom: 1px solid #d9dadc; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after {
-            content: "";
-            display: block;
-            width: calc(50% - 8px);
-            margin-left: calc(50% + 8px);
-            margin-top: -1px;
-            border-top: 1px solid #d9dadc; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before {
-            border-bottom: 1px solid #4a89dc; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before {
-            border-bottom: 1px solid #4a89dc; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after {
-            border-top: 1px solid #4a89dc; }
-        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon {
-          position: relative; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before {
-            content: "";
-            display: block;
-            background: #ffffff;
-            border-radius: 50%;
-            position: absolute;
-            z-index: 0;
-            top: 1px;
-            left: 1px;
-            bottom: 1px;
-            right: 1px; }
-          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon > * {
-            position: relative;
-            z-index: 1; }
-
-    .novo-vertical-stepper-header {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      padding: 24px;
-      max-height: 24px; }
-      .novo-vertical-stepper-header .novo-step-icon,
-      .novo-vertical-stepper-header .novo-step-icon-not-touched {
-        margin-right: 12px; }
-        [dir='rtl'] .novo-vertical-stepper-header .novo-step-icon, [dir='rtl']
-        .novo-vertical-stepper-header .novo-step-icon-not-touched {
-          margin-right: 0;
-          margin-left: 12px; }
-
-    .novo-horizontal-stepper-content {
-      overflow: hidden; }
-      .novo-horizontal-stepper-content[aria-expanded='false'] {
-        height: 0; }
-
-    .novo-horizontal-content-container {
-      overflow: hidden;
-      padding: 0 24px 24px 24px; }
-
-    .novo-vertical-content-container {
-      margin-left: 36px;
-      border: 0;
-      position: relative; }
-      [dir='rtl'] .novo-vertical-content-container {
-        margin-left: 0;
-        margin-right: 36px; }
-
-    .novo-stepper-vertical-line:before {
-      content: '';
-      position: absolute;
-      top: -16px;
-      bottom: -16px;
-      left: 0;
-      z-index: -1;
-      border-left-width: 1px;
-      border-left-style: solid;
-      border-left-color: #d9dadc; }
-      [dir='rtl'] .novo-stepper-vertical-line:before {
-        left: auto;
-        right: 0; }
-
-    .novo-stepper-vertical-line.edit:before {
-      border-left-color: 1px solid #4a89dc; }
-
-    .novo-stepper-vertical-line.done:before {
-      border-left-color: 1px solid #4a89dc; }
-
-    .novo-stepper-vertical-line.done:after {
-      border-left-color: 1px solid #4a89dc; }
-
-    .novo-stepper-vertical novo-step-status {
-      position: absolute;
-      left: 35px;
-      top: 25px;
-      -webkit-transform: scale(0.8);
-              transform: scale(0.8); }
-
-    .novo-vertical-stepper-content {
-      overflow: hidden; }
-
-    .novo-vertical-content {
-      padding: 0 24px 24px 24px; }
-
-    .novo-step:last-child .novo-vertical-content-container {
-      border: none; }
-  `],
-                host: {
-                    'class': 'novo-stepper-vertical',
-                    'aria-orientation': 'vertical',
-                    'role': 'tablist',
-                },
-                animations: [novoStepperAnimations.verticalStepTransition],
-                providers: [{ provide: NovoStepper, useExisting: NovoVerticalStepper }],
-                preserveWhitespaces: false,
-                changeDetection: ChangeDetectionStrategy.OnPush,
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoVerticalStepper.ctorParameters = () => [
-    { type: Directionality, decorators: [{ type: Optional },] },
-    { type: ChangeDetectorRef, },
-];
-NovoVerticalStepper.propDecorators = {
-    'selectedIndex': [{ type: Input },],
-};
-
-class NovoStepStatus {
-    /**
-     * @param {?} stepper
-     * @param {?} step
-     */
-    constructor(stepper$$1, step) {
-    }
-}
-NovoStepStatus.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-step-status',
-                template: `
-    <div class="novo-stepper-status-line" [ngClass]="state"></div>
-    <div [ngSwitch]="state" class="novo-stepper-status-icon">
-      <novo-icon size="small" color="positive" *ngSwitchCase="'edit'">check-circle</novo-icon>
-      <novo-icon size="small" color="positive" *ngSwitchCase="'done'">check-circle-filled</novo-icon>
-      <novo-icon size="small" color="positive" *ngSwitchDefault>circle-o</novo-icon>
-    </div>
-  `,
-                // encapsulation: ViewEncapsulation.None,
-                preserveWhitespaces: false,
-                changeDetection: ChangeDetectionStrategy.OnPush,
-                host: {
-                    'class': 'novo-step-status'
-                },
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoStepStatus.ctorParameters = () => [
-    { type: NovoStepper, decorators: [{ type: Inject, args: [forwardRef(() => NovoStepper),] },] },
-    { type: NovoStepHeader, decorators: [{ type: Inject, args: [forwardRef(() => NovoStepHeader),] },] },
-];
-NovoStepStatus.propDecorators = {
-    'state': [{ type: Input },],
-};
-
-class NovoStepperModule {
-}
-NovoStepperModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [
-                    CommonModule,
-                    PortalModule,
-                    NovoButtonModule,
-                    CdkStepperModule,
-                    NovoIconModule,
-                    A11yModule,
-                ],
-                exports: [
-                    NovoHorizontalStepper,
-                    NovoVerticalStepper,
-                    NovoStep,
-                    NovoStepLabel,
-                    NovoStepper,
-                    NovoStepHeader,
-                    NovoStepStatus,
-                ],
-                declarations: [
-                    NovoHorizontalStepper,
-                    NovoVerticalStepper,
-                    NovoStep,
-                    NovoStepLabel,
-                    NovoStepper,
-                    NovoStepHeader,
-                    NovoStepStatus,
-                ]
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoStepperModule.ctorParameters = () => [];
-
-// NG2
-// APP
-class NovoCategoryDropdownElement extends OutsideClick {
-    /**
-     * @param {?} element
-     * @param {?} labels
-     */
-    constructor(element, labels) {
-        super(element);
-        this.labels = labels;
-        this._query = '';
-        this._categoryMap = {};
-        this._categories = [];
-        // Boolean to keep the selection persist when closing the dropdown
-        this.persistSelection = false;
-        // Boolean to close the dropdown on selection
-        this.closeOnSelect = false;
-        // Event that is emitted whenever an item is selected
-        this._select = new EventEmitter();
-        // Event that is emitted whenever a category is selected
-        this.categorySelected = new EventEmitter();
-        this.clickHandler = this.toggleActive.bind(this);
-    }
-    /**
-     * @param {?} categories
-     * @return {?}
-     */
-    set categories(categories) {
-        this._masterCategoryMap = Object.assign({}, categories);
-        this._categoryMap = Object.assign({}, categories);
-        this._categories = Object.keys(categories);
-    }
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-        let /** @type {?} */ button = this.element.nativeElement.querySelector('button');
-        button.addEventListener('click', this.clickHandler);
-    }
-    /**
-     * @return {?}
-     */
-    ngOnDestroy() {
-        let /** @type {?} */ button = this.element.nativeElement.querySelector('button');
-        if (button) {
-            button.removeEventListener('click', this.clickHandler);
-        }
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    onKeyDown(event) {
-        if (this.active && (event.keyCode === KeyCodes.ESC || event.keyCode === KeyCodes.ENTER)) {
-            this.toggleActive();
-        }
-    }
-    /**
-     * @return {?}
-     */
-    clearSelection() {
-        this._categories.forEach(category => {
-            this._categoryMap[category].forEach(item => {
-                item.selected = false;
-            });
-        });
-    }
-    /**
-     * @param {?} event
-     * @param {?} item
-     * @return {?}
-     */
-    select(event, item) {
-        Helpers.swallowEvent(event);
-        // If we persist the selection, clear and show a check
-        if (this.persistSelection) {
-            this.clearSelection();
-            item.selected = true;
-        }
-        // Emit the item
-        this._select.emit(item);
-        // Close, if input is set
-        if (this.closeOnSelect) {
-            this.toggleActive();
-        }
-    }
-    /**
-     * @param {?} category
-     * @return {?}
-     */
-    onCategorySelected(category) {
-        this.categorySelected.emit(category);
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    clearQuery(event) {
-        Helpers.swallowEvent(event);
-        this._query = '';
-        // Reset the categories
-        this._categories.forEach(category => {
-            this._categoryMap[category] = this._masterCategoryMap[category];
-        });
-    }
-    /**
-     * @param {?} query
-     * @return {?}
-     */
-    queryCategories(query) {
-        // Save the query
-        this._query = query;
-        // Check timeout
-        if (this._queryTimeout) {
-            clearTimeout(this._queryTimeout);
-        }
-        // Store a timeout, to debounce user input
-        this._queryTimeout = setTimeout(() => {
-            this._categories.forEach(category => {
-                if (this.search.compare) {
-                    this._categoryMap[category] = this._masterCategoryMap[category].filter(item => this.search.compare(query, item));
-                }
-                else {
-                    this._categoryMap[category] = this._masterCategoryMap[category].filter(item => ~item.label.toLowerCase().indexOf(query.toLowerCase()));
-                }
-            });
-        }, this.search.debounce || 300);
-    }
-    /**
-     * @param {?} event
-     * @param {?} link
-     * @return {?}
-     */
-    executeClickCallback(event, link) {
-        link.callback(event);
-        // Close, if input is set
-        if (this.closeOnSelect) {
-            this.toggleActive();
-        }
-    }
-}
-NovoCategoryDropdownElement.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-category-dropdown',
-                template: `
-        <ng-content select="button"></ng-content>
-        <div class="dropdown-container" *ngIf="active">
-            <div class="novo-category-dropdown-search" *ngIf="search" data-automation-id="novo-category-dropdown-search">
-                <input type="text" [placeholder]="search.placeholder || labels.search" [value]="_query" (input)="queryCategories($event.target.value)"/>
-                <i class="bhi-search" *ngIf="!_query"></i>
-                <i class="bhi-times" *ngIf="_query" (click)="clearQuery($event)"></i>
-            </div>
-            <novo-nav theme="white" [outlet]="novoCategoryDropdownOutlet" direction="vertical">
-                <novo-tab *ngFor="let category of _categories" [attr.data-automation-id]="category" (activeChange)="onCategorySelected(category)">
-                    <span>{{ category }} ({{ _categoryMap[category].length }})</span>
-                </novo-tab>
-            </novo-nav>
-            <novo-nav-outlet #novoCategoryDropdownOutlet>
-                <novo-nav-content *ngFor="let category of _categories">
-                    <novo-list direction="vertical">
-                        <novo-list-item *ngFor="let item of _categoryMap[category]" (click)="select($event, item)" [attr.data-automation-id]="item.label">
-                            <item-content>{{ item.label }}</item-content>
-                            <item-end class="novo-category-dropdown-hover" *ngIf="item.hoverText && !item.selected">{{ item.hoverText }}</item-end>
-                            <item-end class="novo-category-dropdown-hover" *ngIf="item.hoverIcon && !item.selected"><i class="bhi-{{ item.hoverIcon }}"></i></item-end>
-                            <item-end *ngIf="item.selected"><i class="bhi-check"></i></item-end>
-                        </novo-list-item>
-                        <novo-list-item *ngIf="_categoryMap[category].length === 0 && search" class="novo-category-dropdown-empty-item">
-                            <item-content>{{ search.emptyMessage || labels.noItems }}</item-content>
-                        </novo-list-item>
-                    </novo-list>
-                </novo-nav-content>
-            </novo-nav-outlet>
-            <footer *ngIf="footer" class="novo-category-dropdown-footer-align-{{ footer.align || 'right' }}">
-                <a *ngFor="let link of footer.links" (click)="executeClickCallback($event, link)">{{ link.label }}</a>
-            </footer>
-        </div>
-    `,
-                host: {
-                    '(keydown)': 'onKeyDown($event)',
-                    '[class.active]': 'active'
-                }
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoCategoryDropdownElement.ctorParameters = () => [
-    { type: ElementRef, },
-    { type: NovoLabelService, },
-];
-NovoCategoryDropdownElement.propDecorators = {
-    'persistSelection': [{ type: Input },],
-    'closeOnSelect': [{ type: Input },],
-    'search': [{ type: Input },],
-    'footer': [{ type: Input },],
-    '_select': [{ type: Output, args: ['itemSelected',] },],
-    'categorySelected': [{ type: Output },],
-    'categories': [{ type: Input },],
-};
-
-// NG2
-// APP
-class NovoCategoryDropdownModule {
-}
-NovoCategoryDropdownModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [CommonModule, NovoTabModule, NovoListModule],
-                declarations: [NovoCategoryDropdownElement],
-                exports: [NovoCategoryDropdownElement]
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoCategoryDropdownModule.ctorParameters = () => [];
-
-// NG2
-// Vendor
-// Value accessor for the component (supports ngModel)
-const CHIPS_VALUE_ACCESSOR$1 = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NovoMultiPickerElement),
-    multi: true
-};
-class NovoMultiPickerElement {
-    /**
-     * @param {?} element
-     * @param {?} labels
-     */
-    constructor(element, labels) {
-        this.element = element;
-        this.labels = labels;
-        this.placeholder = '';
-        this.changed = new EventEmitter();
-        this.focus = new EventEmitter();
-        this.blur = new EventEmitter();
-        this.items = [];
-        this._items = new ReplaySubject$1(1);
-        this.selected = null;
-        this.config = {};
-        // private data model
-        this._value = {};
-        this.notShown = {};
-        this.onModelChange = () => {
-        };
-        this.onModelTouched = () => {
-        };
-        this.chipsCount = 4;
-    }
-    /**
-     * @return {?}
-     */
-    get value() {
-        return this._value;
-    }
-    /**
-     * @param {?} selectedItems
-     * @return {?}
-     */
-    set value(selectedItems) {
-        if (selectedItems) {
-            this.types.forEach(x => this._value[x.value] = selectedItems[x.value]);
-        }
-        else {
-            this._value = {};
-            this.types.forEach(x => this._value[x.value] = []);
-        }
-        this.changed.emit(selectedItems);
-        this.onModelChange(selectedItems);
-    }
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-        this.selectAllOption = this.source.selectAllOption || false;
-        this.chipsCount = this.source.chipsCount || 4;
-        this.strictRelationship = this.source.strictRelationship || false;
-        this.setupOptions();
-    }
-    /**
-     * @return {?}
-     */
-    clearValue() {
-        this.types.forEach(type => this.modifyAllOfType(type.value, 'unselect'));
-        this.items = [];
-        this._items.next(this.items);
-        this.value = this.setInitialValue(null);
-        this.onModelChange(this.value);
-    }
-    /**
-     * @param {?} event
-     * @param {?} item
-     * @return {?}
-     */
-    removeFromDisplay(event, item) {
-        this.remove(true, item);
-        this.modifyAffectedParentsOrChildren(false, item);
-    }
-    /**
-     * @return {?}
-     */
-    setupOptions() {
-        this.options = this.source.options || [];
-        this._options = [];
-        if (this.options) {
-            this.options.forEach(option => {
-                let /** @type {?} */ formattedOption = this.setupOptionsByType(option);
-                this._options.push(formattedOption);
-            });
-        }
-        this.source.options = this._options;
-    }
-    /**
-     * @param {?} section
-     * @return {?}
-     */
-    setupOptionsByType(section) {
-        let /** @type {?} */ formattedSection = {
-            type: section.type,
-            label: section.label || section.type
-        };
-        formattedSection.data = section.data.map(item => {
-            return this.formatOption(section, item);
-        });
-        if (this.selectAllOption) {
-            let /** @type {?} */ selectAll = this.createSelectAllOption(section);
-            formattedSection.data.splice(0, 0, selectAll);
-        }
-        formattedSection.originalData = formattedSection.data.slice();
-        return formattedSection;
-    }
-    /**
-     * @param {?} section
-     * @param {?} item
-     * @return {?}
-     */
-    formatOption(section, item) {
-        let /** @type {?} */ obj = {
-            value: section.field ? item[section.field] : (item.value || item),
-            label: section.format ? Helpers.interpolate(section.format, item) : item.label || String(item.value || item),
-            type: section.type,
-            checked: undefined,
-            isParentOf: section.isParentOf,
-            isChildOf: section.isChildOf
-        };
-        if (obj.isChildOf) {
-            obj[section.isChildOf] = item[section.isChildOf];
-        }
-        return obj;
-    }
-    /**
-     * @param {?} section
-     * @return {?}
-     */
-    createSelectAllOption(section) {
-        let /** @type {?} */ selectAll = {
-            value: 'ALL',
-            label: `All ${section.type}`,
-            type: section.type,
-            checked: (this.model && this.model.length && (this.model.indexOf('ALL') !== -1)),
-            isParentOf: section.isParentOf,
-            isChildOf: section.isChildOf
-        };
-        if (section.isChildOf) {
-            let /** @type {?} */ allParents = section.data.reduce((accum, next) => {
-                return accum.concat(next[section.isChildOf]);
-            }, []);
-            selectAll[section.isChildOf] = allParents;
-        }
-        return selectAll;
-    }
-    /**
-     * @return {?}
-     */
-    deselectAll() {
-        this.selected = null;
-    }
-    /**
-     * @param {?} event
-     * @param {?} item
-     * @return {?}
-     */
-    select(event, item) {
-        this.blur.emit(event);
-        this.deselectAll();
-        this.selected = item;
-    }
-    /**
-     * @param {?} e
-     * @return {?}
-     */
-    onFocus(e) {
-        this.element.nativeElement.classList.add('selected');
-        this.focus.emit(e);
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    clickOption(event) {
-        if (event && !(event instanceof Event)) {
-            if (event.checked === false) {
-                this.remove(null, event);
-            }
-            else {
-                this.add(event);
-            }
-            this.modifyAffectedParentsOrChildren(event.checked, event);
-            // Set focus on the picker
-            let /** @type {?} */ input = this.element.nativeElement.querySelector('novo-picker > input');
-            if (input) {
-                input.focus();
-            }
-        }
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    add(event) {
-        if (event.value === 'ALL') {
-            this.modifyAllOfType(event.type, 'select');
-        }
-        else {
-            this.updateDisplayItems(event, 'add');
-            this.value[event.type].push(event.value);
-            this.updateAllItemState(event.type);
-            this.triggerValueUpdate();
-        }
-        this.updateParentOrChildren(event, 'select');
-        this.select(null, event);
-    }
-    /**
-     * @param {?} type
-     * @return {?}
-     */
-    updateAllItemState(type) {
-        let /** @type {?} */ allOfType = this.getAllOfType(type);
-        let /** @type {?} */ allOfTypeSelected = this.allItemsSelected(allOfType, type);
-        if (allOfTypeSelected) {
-            this.selectAll(allOfType, type);
-        }
-        return { allOfType, allOfTypeSelected };
-    }
-    /**
-     * @param {?} allOfType
-     * @param {?} status
-     * @return {?}
-     */
-    setIndeterminateState(allOfType, status) {
-        if (!this.selectAllOption) {
-            return;
-        }
-        let /** @type {?} */ allItem = allOfType[0];
-        allItem.indeterminate = status;
-    }
-    /**
-     * @param {?} item
-     * @param {?} action
-     * @return {?}
-     */
-    updateDisplayItems(item, action) {
-        let /** @type {?} */ adding = action === 'add';
-        if (adding) {
-            this.items.push(item);
-        }
-        else {
-            if (this.items.indexOf(item) > -1) {
-                this.items.splice(this.items.indexOf(item), 1);
-            }
-        }
-        this.updateDisplayText(this.items);
-        this._items.next(this.items);
-    }
-    /**
-     * @param {?} items
-     * @return {?}
-     */
-    updateDisplayText(items) {
-        this.notShown = [];
-        let /** @type {?} */ notShown = items.slice(this.chipsCount);
-        if (notShown.length > 0) {
-            this.types.forEach(type => {
-                let /** @type {?} */ count;
-                let /** @type {?} */ selectedOfType = notShown.filter(x => x.type === type.value);
-                if (selectedOfType.length === 1 && selectedOfType[0].value === 'ALL') {
-                    count = this.getAllOfType(type.value).length - 1;
-                }
-                else {
-                    count = selectedOfType.length;
-                }
-                let /** @type {?} */ displayType = count === 1 ? type.singular : type.plural || type.value;
-                if (count > 0) {
-                    this.notShown.push({ type: displayType, count: count });
-                }
-            });
-        }
-    }
-    /**
-     * @param {?} event
-     * @param {?} item
-     * @return {?}
-     */
-    remove(event, item) {
-        let /** @type {?} */ triggeredByEvent;
-        if (event) {
-            triggeredByEvent = true;
-        }
-        let /** @type {?} */ itemToRemove = item;
-        if (itemToRemove.value === 'ALL') {
-            triggeredByEvent = false;
-            this.modifyAllOfType(itemToRemove.type, 'unselect');
-        }
-        else if (this.allOfTypeSelected(itemToRemove.type)) {
-            this.handleRemoveItemIfAllSelected(itemToRemove);
-        }
-        this.removeItem(item, triggeredByEvent);
-    }
-    /**
-     * @param {?} item
-     * @param {?=} triggeredByEvent
-     * @return {?}
-     */
-    removeItem(item, triggeredByEvent) {
-        item.checked = false;
-        this.deselectAll();
-        this.removeValue(item);
-        if (item.value !== 'ALL') {
-            this.updateParentOrChildren(item, 'unselect');
-        }
-        if (triggeredByEvent) {
-            this.modifyAffectedParentsOrChildren(false, item);
-        }
-    }
-    /**
-     * @param {?} item
-     * @return {?}
-     */
-    removeValue(item) {
-        let /** @type {?} */ updatedValues = this.value[item.type].filter(x => x !== item.value);
-        this.value[item.type] = updatedValues;
-        this.triggerValueUpdate();
-        this.updateDisplayItems(item, 'remove');
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    onKeyDown(event) {
-        if (event.keyCode === KeyCodes.BACKSPACE) {
-            if (event.target && event.target.value.length === 0 && this.items.length) {
-                if (event) {
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-                if (this.selected) {
-                    this.remove(null, this.selected);
-                }
-                else {
-                    this.select(event, this.items[this.items.length - 1]);
-                }
-            }
-        }
-    }
-    /**
-     * @param {?} type
-     * @return {?}
-     */
-    allOfTypeSelected(type) {
-        return this.items.filter(x => x.type === type && x.value === 'ALL').length > 0;
-    }
-    /**
-     * @param {?} type
-     * @param {?} action
-     * @return {?}
-     */
-    modifyAllOfType(type, action) {
-        let /** @type {?} */ selecting = action === 'select';
-        let /** @type {?} */ allOfType = this.getAllOfType(type);
-        allOfType.forEach(item => {
-            item.checked = selecting;
-            item.indeterminate = false;
-        });
-        if (selecting) {
-            this.selectAll(allOfType, type);
-        }
-        else {
-            this.items = [...this.items.filter(x => x.type !== type)];
-            this._items.next(this.items);
-            this.value[type] = [];
-        }
-        if (this.selectAllOption) {
-            this.updateAllParentsOrChildren(allOfType[0], action);
-        }
-        this.triggerValueUpdate();
-    }
-    /**
-     * @return {?}
-     */
-    triggerValueUpdate() {
-        let /** @type {?} */ updatedObject = {};
-        this.types.forEach(x => updatedObject[x.value] = this.value[x.value]);
-        this.value = updatedObject;
-    }
-    /**
-     * @param {?} allOfType
-     * @param {?} type
-     * @return {?}
-     */
-    selectAll(allOfType, type) {
-        if (!this.selectAllOption) {
-            return;
-        }
-        allOfType[0].checked = true;
-        let /** @type {?} */ values = allOfType.map(i => {
-            return i.value;
-        });
-        //remove 'ALL' value
-        values.splice(0, 1);
-        this.value[type] = values;
-        let /** @type {?} */ updatedItems = this.items.filter(x => x.type !== type);
-        this.items = updatedItems;
-        this.updateDisplayItems(allOfType[0], 'add');
-    }
-    /**
-     * @param {?} item
-     * @return {?}
-     */
-    handleRemoveItemIfAllSelected(item) {
-        if (!this.selectAllOption) {
-            return;
-        }
-        let /** @type {?} */ type = item.type;
-        let /** @type {?} */ allOfType = this.getAllOfType(type);
-        let /** @type {?} */ allItem = allOfType[0];
-        this.removeItem(allItem);
-        allItem.indeterminate = true;
-        let /** @type {?} */ selectedItems = allOfType.filter(i => i.checked === true);
-        this.items = [...this.items, ...selectedItems];
-        let /** @type {?} */ values = selectedItems.map(i => {
-            return i.value;
-        });
-        this.value[type] = [...values];
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    handleOutsideClick(event) {
-        // If the elements doesn't contain the target element, it is an outside click
-        if (!this.element.nativeElement.contains(event.target)) {
-            this.blur.emit(event);
-            this.deselectAll();
-        }
-    }
-    /**
-     * @param {?} type
-     * @return {?}
-     */
-    getAllOfType(type) {
-        return this._options.filter(x => x.type === type)[0].originalData;
-    }
-    /**
-     * @param {?} item
-     * @param {?} action
-     * @return {?}
-     */
-    updateParentOrChildren(item, action) {
-        if (this.strictRelationship && item.isParentOf) {
-            this.updateChildrenValue(item, action);
-        }
-        else if (item.isChildOf && this.selectAllOption) {
-            this.updateParentValue(item, action);
-        }
-    }
-    /**
-     * @param {?} selecting
-     * @param {?} itemChanged
-     * @return {?}
-     */
-    modifyAffectedParentsOrChildren(selecting, itemChanged) {
-        if (!itemChanged.isChildOf && !itemChanged.isParentOf) {
-            return;
-        }
-        let /** @type {?} */ parent = this.types.filter(x => !!x.isParentOf)[0];
-        let /** @type {?} */ parentType = parent.value;
-        let /** @type {?} */ allParentType = this.getAllOfType(parentType);
-        let /** @type {?} */ childType = allParentType[0].isParentOf;
-        let /** @type {?} */ allChildren = this.getAllOfType(childType);
-        let /** @type {?} */ allCheckedChildren = allChildren.filter(x => !!x.checked);
-        allParentType.forEach(obj => {
-            if (obj.value === 'ALL') {
-                return;
-            }
-            let /** @type {?} */ selectedChildrenOfParent = allCheckedChildren.filter(x => {
-                return x[parentType].filter(y => y === obj.value).length > 0;
-            });
-            if (selecting) {
-                if (obj.checked) {
-                    return;
-                }
-                obj.indeterminate = selectedChildrenOfParent.length > 0;
-            }
-            else {
-                let /** @type {?} */ allChildrenOfParent = allChildren.filter(x => {
-                    return x.value !== 'ALL' && x[parentType].filter(y => y === obj.value).length > 0;
-                });
-                if (selectedChildrenOfParent.length > 0) {
-                    if (obj.checked) {
-                        if (this.strictRelationship && (allChildrenOfParent.length !== selectedChildrenOfParent.length)) {
-                            obj.indeterminate = true;
-                            obj.checked = false;
-                            this.removeValue(obj);
-                            this.addIndividualChildren(selectedChildrenOfParent);
-                        }
-                    }
-                    else {
-                        obj.indeterminate = true;
-                    }
-                    if (this.strictRelationship && itemChanged.type !== parentType) {
-                        if (obj.checked) {
-                            obj.checked = false;
-                            this.removeValue(obj);
-                            this.addIndividualChildren(selectedChildrenOfParent);
-                        }
-                    }
-                }
-                else {
-                    obj.indeterminate = false;
-                    if (allChildrenOfParent.length === 0) {
-                        //if it has no children and is checked, it should stay checked
-                        return;
-                    }
-                    else if (this.strictRelationship && itemChanged.type !== parentType) {
-                        this.remove(null, obj);
-                    }
-                }
-            }
-        });
-        if (this.selectAllOption) {
-            this.updateIndeterminateStates(allParentType, allChildren, allCheckedChildren);
-        }
-    }
-    /**
-     * @param {?} allItem
-     * @param {?} action
-     * @return {?}
-     */
-    updateAllParentsOrChildren(allItem, action) {
-        if (allItem.isParentOf) {
-            this.updateAllChildrenValue(allItem, action);
-        }
-        else if (allItem.isChildOf) {
-            this.updateAllParentValue(allItem, action);
-        }
-    }
-    /**
-     * @param {?} item
-     * @param {?} action
-     * @return {?}
-     */
-    updateAllChildrenValue(item, action) {
-        let /** @type {?} */ selecting = action === 'select';
-        let /** @type {?} */ childType = item.isParentOf;
-        let /** @type {?} */ potentialChildren = this.getAllOfType(childType);
-        if (this.selectAllOption && this.allOfTypeSelected(childType) && !selecting) {
-            this.remove(null, potentialChildren[0]);
-            return;
-        }
-        potentialChildren.forEach(x => {
-            if (x.value === 'ALL' && !x.checked) {
-                if (selecting) {
-                    x.checked = true;
-                }
-                x.indeterminate = selecting;
-            }
-            else {
-                if (x.checked && !selecting) {
-                    this.remove(null, x);
-                }
-                x.checked = selecting;
-            }
-        });
-    }
-    /**
-     * @param {?} item
-     * @param {?} action
-     * @return {?}
-     */
-    updateAllParentValue(item, action) {
-        let /** @type {?} */ selecting = action === 'select';
-        let /** @type {?} */ parentType = item.isChildOf;
-        let /** @type {?} */ potentialParents = this.getAllOfType(parentType);
-        potentialParents.forEach(x => {
-            if (!x.checked) {
-                x.indeterminate = selecting;
-            }
-        });
-    }
-    /**
-     * @param {?} allParentType
-     * @param {?} allChildren
-     * @param {?} allCheckedChildren
-     * @return {?}
-     */
-    updateIndeterminateStates(allParentType, allChildren, allCheckedChildren) {
-        let /** @type {?} */ allCheckedOrIndeterminateParents = allParentType.filter(x => (!!x.checked || !!x.indeterminate) && x.value !== 'ALL');
-        let /** @type {?} */ isParentIndeterminate = !!allParentType[0].checked ? false : allCheckedOrIndeterminateParents.length > 0;
-        let /** @type {?} */ isChildIndeterminate = !!allChildren[0].checked ? false : allCheckedChildren.length > 0;
-        this.setIndeterminateState(allParentType, isParentIndeterminate);
-        this.setIndeterminateState(allChildren, isChildIndeterminate);
-    }
-    /**
-     * @param {?} parent
-     * @param {?} action
-     * @return {?}
-     */
-    updateChildrenValue(parent, action) {
-        let /** @type {?} */ selecting = action === 'select';
-        let /** @type {?} */ childType = parent.isParentOf;
-        let /** @type {?} */ potentialChildren = this.getAllOfType(childType);
-        potentialChildren.forEach(x => {
-            if (x.value === 'ALL') {
-                return;
-            }
-            if (x[parent.type].filter(y => y === parent.value).length > 0) {
-                if (x.checked && !selecting) {
-                    x.checked = false;
-                    if (this.allOfTypeSelected(childType)) {
-                        this.handleRemoveItemIfAllSelected(x);
-                    }
-                    else {
-                        this.removeValue(x);
-                    }
-                }
-                x.checked = selecting;
-            }
-        });
-    }
-    /**
-     * @param {?} child
-     * @param {?} action
-     * @return {?}
-     */
-    updateParentValue(child, action) {
-        let /** @type {?} */ allParentType = this.getAllOfType(child.isChildOf);
-        if (allParentType[0].checked && action !== 'select') {
-            this.handleRemoveItemIfAllSelected(allParentType[0]);
-        }
-    }
-    /**
-     * @param {?} children
-     * @return {?}
-     */
-    addIndividualChildren(children) {
-        let /** @type {?} */ parentAlreadySelected = false;
-        children.forEach(x => {
-            if (x.isChildOf) {
-                x[x.isChildOf].forEach(parent => {
-                    if (this.value[x.isChildOf].filter(p => p === parent).length > 0) {
-                        parentAlreadySelected = true;
-                    }
-                });
-            }
-            if (this.value[x.type].filter(item => item === x.value).length === 0 && !parentAlreadySelected) {
-                this.add(x);
-            }
-        });
-    }
-    /**
-     * @param {?} model
-     * @return {?}
-     */
-    setInitialValue(model) {
-        this.items = [];
-        this.value = model || {};
-        if (!this.types) {
-            return;
-        }
-        this.types.forEach(typeObj => {
-            let /** @type {?} */ type = typeObj.value;
-            if (this.value[type]) {
-                let /** @type {?} */ indeterminateIsSet = false;
-                let /** @type {?} */ options = this.updateAllItemState(type);
-                let /** @type {?} */ optionsByType = options.allOfType;
-                let /** @type {?} */ allSelected = options.allOfTypeSelected;
-                this.value[type].forEach(item => {
-                    if (!allSelected && !indeterminateIsSet) {
-                        indeterminateIsSet = true;
-                        this.setIndeterminateState(optionsByType, true);
-                    }
-                    let /** @type {?} */ value = optionsByType.filter(x => x.value === item)[0];
-                    value.checked = true;
-                    if (!allSelected) {
-                        this.updateDisplayItems(value, 'add');
-                    }
-                    if (this.strictRelationship && value.isParentOf) {
-                        this.updateChildrenValue(value, 'select');
-                    }
-                });
-                if (typeObj.isChildOf) {
-                    this.modifyAffectedParentsOrChildren(true, { value: type, isChildOf: true });
-                }
-            }
-            else {
-                this.value[type] = [];
-            }
-        });
-    }
-    /**
-     * @param {?} optionsByType
-     * @param {?} type
-     * @return {?}
-     */
-    allItemsSelected(optionsByType, type) {
-        return this.value[type].length === optionsByType.length - 1;
-    }
-    /**
-     * @param {?} e
-     * @return {?}
-     */
-    onTouched(e) {
-        this.element.nativeElement.classList.remove('selected');
-        this.onModelTouched();
-        this.blur.emit(e);
-    }
-    /**
-     * @param {?} model
-     * @return {?}
-     */
-    writeValue(model) {
-        this.model = model;
-        this.setInitialValue(model);
-    }
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    registerOnChange(fn) {
-        this.onModelChange = fn;
-    }
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    registerOnTouched(fn) {
-        this.onModelTouched = fn;
-    }
-}
-NovoMultiPickerElement.decorators = [
-    { type: Component, args: [{
-                selector: 'multi-picker',
-                providers: [CHIPS_VALUE_ACCESSOR$1],
-                template: `
-        <chip
-            *ngFor="let item of _items | async | slice:0:chipsCount"
-            [type]="type"
-            [class.selected]="item == selected"
-            (remove)="removeFromDisplay($event, item)"
-            (select)="select($event, item)">
-            {{ item.label }}
-        </chip>
-        <div *ngIf="items.length > chipsCount">
-            <ul class="summary">
-                <li *ngFor="let type of notShown">+ {{type.count}} {{ labels.more }} {{type.type}}</li>
-            </ul>
-        </div>
-        <div class="chip-input-container">
-            <novo-picker
-                clearValueOnSelect="true"
-                [config]="source"
-                [placeholder]="placeholder"
-                (select)="clickOption($event)"
-                (keydown)="onKeyDown($event)"
-                (focus)="onFocus($event)"
-                (blur)="onTouched($event)"
-                [overrideElement]="element">
-            </novo-picker>
-        </div>
-        <i class="bhi-search" [class.has-value]="items.length"></i>
-        <label class="clear-all" *ngIf="items.length" (click)="clearValue()">{{ labels.clearAll }} <i class="bhi-times"></i></label>
-   `,
-                host: {
-                    '[class.with-value]': 'items.length > 0'
-                }
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoMultiPickerElement.ctorParameters = () => [
-    { type: ElementRef, },
-    { type: NovoLabelService, },
-];
-NovoMultiPickerElement.propDecorators = {
-    'source': [{ type: Input },],
-    'placeholder': [{ type: Input },],
-    'types': [{ type: Input },],
-    'changed': [{ type: Output },],
-    'focus': [{ type: Output },],
-    'blur': [{ type: Output },],
-    'value': [{ type: Input },],
-};
-
-// NG2
-// APP
-class NovoMultiPickerModule {
-}
-NovoMultiPickerModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [CommonModule, FormsModule, NovoPickerModule, NovoChipsModule],
-                declarations: [NovoMultiPickerElement],
-                exports: [NovoMultiPickerElement]
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoMultiPickerModule.ctorParameters = () => [];
-
-// NG2
-class Security {
-    constructor() {
-        this.credentials = [];
-        this.change = new EventEmitter();
-    }
-    /**
-     * @param {?} data
-     * @return {?}
-     */
-    grant(data) {
-        let /** @type {?} */ parsed = [];
-        if (data instanceof Array) {
-            for (let /** @type {?} */ permission of data) {
-                parsed.push(permission.replace(/\s/gi, ''));
-            }
-        }
-        else if (typeof data === 'object') {
-            for (let /** @type {?} */ key in data) {
-                if (data[key] instanceof Array) {
-                    for (let /** @type {?} */ permission of data[key]) {
-                        parsed.push(`${key}.${permission}`);
-                    }
-                }
-            }
-        }
-        this.credentials = [].concat(this.credentials, parsed);
-        this.change.emit(this.credentials);
-    }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    has(value) {
-        return this.credentials.indexOf(value) > -1;
-    }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    revoke(value) {
-        let /** @type {?} */ i = this.credentials.indexOf(value);
-        this.credentials.splice(i, 1);
-        this.change.emit(this.credentials);
-    }
-    /**
-     * @return {?}
-     */
-    clear() {
-        this.credentials = [];
-        this.change.emit(this.credentials);
-    }
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    subscribe(fn) {
-        this.change.subscribe(fn);
-    }
-    /**
-     * @param {?} routes
-     * @param {?} options
-     * @return {?}
-     */
-    checkRoutes(routes, options) {
-        let /** @type {?} */ filtered = [];
-        for (let /** @type {?} */ route of routes) {
-            if (route.entities && ~route.entities.indexOf(options.entityType)) {
-                if (route.permissions instanceof Function) {
-                    if (route.permissions(options, this)) {
-                        filtered.push(route);
-                    }
-                }
-                else if (route.permissions && route.permissions.length) {
-                    if (route.permissions.every((perm) => this.has(perm))) {
-                        filtered.push(route);
-                    }
-                }
-                else {
-                    filtered.push(route);
-                }
-            }
-        }
-        return filtered;
-    }
-}
-Security.decorators = [
-    { type: Injectable },
-];
-/**
- * @nocollapse
- */
-Security.ctorParameters = () => [];
-
-// NG2
-// App
-class Unless {
-    /**
-     * @param {?} templateRef
-     * @param {?} viewContainer
-     * @param {?} security
-     */
-    constructor(templateRef, viewContainer, security) {
-        this.templateRef = templateRef;
-        this.viewContainer = viewContainer;
-        this.security = security;
-        this.permissions = '';
-        this.isDisplayed = false;
-        this.security.subscribe(this.check.bind(this));
-    }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    set bhUnless(value) {
-        this.permissions = value || '';
-        this.check();
-    }
-    /**
-     * @return {?}
-     */
-    check() {
-        let /** @type {?} */ display = false;
-        if (~this.permissions.indexOf('||')) {
-            let /** @type {?} */ ps = this.permissions.split('||');
-            for (let /** @type {?} */ p of ps) {
-                if (this.security.has(p.trim())) {
-                    display = true;
-                }
-            }
-        }
-        else {
-            display = this.permissions.split('&&').every((p) => this.security.has(p.trim()));
-        }
-        if (display) {
-            if (!this.isDisplayed) {
-                this.isDisplayed = true;
-                this.viewContainer.createEmbeddedView(this.templateRef);
-            }
-        }
-        else {
-            this.isDisplayed = false;
-            this.viewContainer.clear();
-        }
-    }
-}
-Unless.decorators = [
-    { type: Directive, args: [{
-                selector: '[bhUnless]',
-            },] },
-];
-/**
- * @nocollapse
- */
-Unless.ctorParameters = () => [
-    { type: TemplateRef, },
-    { type: ViewContainerRef, },
-    { type: Security, },
-];
-Unless.propDecorators = {
-    'bhUnless': [{ type: Input },],
-};
-
-// NG2
-// APP
-class UnlessModule {
-}
-UnlessModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [CommonModule],
-                declarations: [Unless],
-                exports: [Unless]
-            },] },
-];
-/**
- * @nocollapse
- */
-UnlessModule.ctorParameters = () => [];
-
-class NovoTemplate {
-    /**
-     * @param {?} template
-     */
-    constructor(template) {
-        this.template = template;
-    }
-    /**
-     * @return {?}
-     */
-    getType() {
-        return this.name;
-    }
-}
-NovoTemplate.decorators = [
-    { type: Directive, args: [{
-                selector: '[novoTemplate]',
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoTemplate.ctorParameters = () => [
-    { type: TemplateRef, },
-];
-NovoTemplate.propDecorators = {
-    'type': [{ type: Input },],
-    'name': [{ type: Input, args: ['novoTemplate',] },],
-};
-
-class NovoCommonModule {
-}
-NovoCommonModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [CommonModule],
-                exports: [NovoTemplate],
-                declarations: [NovoTemplate],
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoCommonModule.ctorParameters = () => [];
-
-var __extends$8 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37534,7 +35372,7 @@ var __extends$8 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b
  * @extends {Ignored}
  */
 var AuditSubscriber = (function (_super) {
-    __extends$8(AuditSubscriber, _super);
+    __extends$7(AuditSubscriber, _super);
     function AuditSubscriber(destination, durationSelector) {
         _super.call(this, destination);
         this.durationSelector = durationSelector;
@@ -37581,7 +35419,7 @@ var AuditSubscriber = (function (_super) {
     return AuditSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$10 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$9 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37602,7 +35440,7 @@ var __extends$10 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class Action<T>
  */
 var Action = (function (_super) {
-    __extends$10(Action, _super);
+    __extends$9(Action, _super);
     function Action(scheduler, work) {
         _super.call(this);
     }
@@ -37629,7 +35467,7 @@ var Action_1 = {
 	Action: Action_2
 };
 
-var __extends$9 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$8 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37642,7 +35480,7 @@ var __extends$9 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b
  * @extends {Ignored}
  */
 var AsyncAction = (function (_super) {
-    __extends$9(AsyncAction, _super);
+    __extends$8(AsyncAction, _super);
     function AsyncAction(scheduler, work) {
         _super.call(this, scheduler, work);
         this.scheduler = scheduler;
@@ -37828,14 +35666,14 @@ var Scheduler_1 = {
 	Scheduler: Scheduler_2
 };
 
-var __extends$11 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$10 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 
 var AsyncScheduler = (function (_super) {
-    __extends$11(AsyncScheduler, _super);
+    __extends$10(AsyncScheduler, _super);
     function AsyncScheduler() {
         _super.apply(this, arguments);
         this.actions = [];
@@ -37967,7 +35805,7 @@ var isDate_1 = {
 	isDate: isDate_2
 };
 
-var __extends$12 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$11 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -37983,7 +35821,7 @@ var __extends$12 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var TimerObservable = (function (_super) {
-    __extends$12(TimerObservable, _super);
+    __extends$11(TimerObservable, _super);
     function TimerObservable(dueTime, period, scheduler) {
         if (dueTime === void 0) { dueTime = 0; }
         _super.call(this);
@@ -38072,7 +35910,7 @@ var TimerObservable = (function (_super) {
     return TimerObservable;
 }(Observable_1.Observable));
 
-var __extends$13 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$12 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38085,7 +35923,7 @@ var __extends$13 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var BufferSubscriber = (function (_super) {
-    __extends$13(BufferSubscriber, _super);
+    __extends$12(BufferSubscriber, _super);
     function BufferSubscriber(destination, closingNotifier) {
         _super.call(this, destination);
         this.buffer = [];
@@ -38102,7 +35940,7 @@ var BufferSubscriber = (function (_super) {
     return BufferSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$14 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$13 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38114,7 +35952,7 @@ var __extends$14 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var BufferCountSubscriber = (function (_super) {
-    __extends$14(BufferCountSubscriber, _super);
+    __extends$13(BufferCountSubscriber, _super);
     function BufferCountSubscriber(destination, bufferSize) {
         _super.call(this, destination);
         this.bufferSize = bufferSize;
@@ -38143,7 +35981,7 @@ var BufferCountSubscriber = (function (_super) {
  * @extends {Ignored}
  */
 var BufferSkipCountSubscriber = (function (_super) {
-    __extends$14(BufferSkipCountSubscriber, _super);
+    __extends$13(BufferSkipCountSubscriber, _super);
     function BufferSkipCountSubscriber(destination, bufferSize, startBufferEvery) {
         _super.call(this, destination);
         this.bufferSize = bufferSize;
@@ -38179,7 +36017,7 @@ var BufferSkipCountSubscriber = (function (_super) {
     return BufferSkipCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$15 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$14 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38199,7 +36037,7 @@ var Context = (function () {
  * @extends {Ignored}
  */
 var BufferTimeSubscriber = (function (_super) {
-    __extends$15(BufferTimeSubscriber, _super);
+    __extends$14(BufferTimeSubscriber, _super);
     function BufferTimeSubscriber(destination, bufferTimeSpan, bufferCreationInterval, maxBufferSize, scheduler) {
         _super.call(this, destination);
         this.bufferTimeSpan = bufferTimeSpan;
@@ -38303,7 +36141,7 @@ function dispatchBufferClose(arg) {
     subscriber.closeContext(context);
 }
 
-var __extends$16 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$15 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38317,7 +36155,7 @@ var __extends$16 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var BufferToggleSubscriber = (function (_super) {
-    __extends$16(BufferToggleSubscriber, _super);
+    __extends$15(BufferToggleSubscriber, _super);
     function BufferToggleSubscriber(destination, openings, closingSelector) {
         _super.call(this, destination);
         this.openings = openings;
@@ -38402,7 +36240,7 @@ var BufferToggleSubscriber = (function (_super) {
     return BufferToggleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$17 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$16 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38418,7 +36256,7 @@ var __extends$17 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var BufferWhenSubscriber = (function (_super) {
-    __extends$17(BufferWhenSubscriber, _super);
+    __extends$16(BufferWhenSubscriber, _super);
     function BufferWhenSubscriber(destination, closingSelector) {
         _super.call(this, destination);
         this.closingSelector = closingSelector;
@@ -38477,7 +36315,7 @@ var BufferWhenSubscriber = (function (_super) {
     return BufferWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$18 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$17 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38564,7 +36402,7 @@ var CatchOperator = (function () {
  * @extends {Ignored}
  */
 var CatchSubscriber = (function (_super) {
-    __extends$18(CatchSubscriber, _super);
+    __extends$17(CatchSubscriber, _super);
     function CatchSubscriber(destination, selector, caught) {
         _super.call(this, destination);
         this.selector = selector;
@@ -38597,7 +36435,7 @@ var catchError_1 = {
 	catchError: catchError_2
 };
 
-var __extends$21 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$20 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38609,7 +36447,7 @@ var __extends$21 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var ScalarObservable = (function (_super) {
-    __extends$21(ScalarObservable, _super);
+    __extends$20(ScalarObservable, _super);
     function ScalarObservable(value, scheduler) {
         _super.call(this);
         this.value = value;
@@ -38659,7 +36497,7 @@ var ScalarObservable_1 = {
 	ScalarObservable: ScalarObservable_2
 };
 
-var __extends$22 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$21 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38671,7 +36509,7 @@ var __extends$22 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var EmptyObservable = (function (_super) {
-    __extends$22(EmptyObservable, _super);
+    __extends$21(EmptyObservable, _super);
     function EmptyObservable(scheduler) {
         _super.call(this);
         this.scheduler = scheduler;
@@ -38744,7 +36582,7 @@ var EmptyObservable_1 = {
 	EmptyObservable: EmptyObservable_2
 };
 
-var __extends$20 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$19 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38759,7 +36597,7 @@ var __extends$20 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var ArrayObservable = (function (_super) {
-    __extends$20(ArrayObservable, _super);
+    __extends$19(ArrayObservable, _super);
     function ArrayObservable(array, scheduler) {
         _super.call(this);
         this.array = array;
@@ -38870,7 +36708,7 @@ var ArrayObservable_1 = {
 	ArrayObservable: ArrayObservable_2
 };
 
-var __extends$19 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$18 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38886,7 +36724,7 @@ var none = {};
  * @extends {Ignored}
  */
 var CombineLatestSubscriber = (function (_super) {
-    __extends$19(CombineLatestSubscriber, _super);
+    __extends$18(CombineLatestSubscriber, _super);
     function CombineLatestSubscriber(destination, project) {
         _super.call(this, destination);
         this.project = project;
@@ -38955,7 +36793,7 @@ var of$3 = {
 	of: of_1
 };
 
-var __extends$24 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$23 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -38968,7 +36806,7 @@ var __extends$24 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var PromiseObservable = (function (_super) {
-    __extends$24(PromiseObservable, _super);
+    __extends$23(PromiseObservable, _super);
     function PromiseObservable(promise, scheduler) {
         _super.call(this);
         this.promise = promise;
@@ -39080,7 +36918,7 @@ var PromiseObservable_1 = {
 	PromiseObservable: PromiseObservable_2
 };
 
-var __extends$25 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$24 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39094,7 +36932,7 @@ var __extends$25 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var IteratorObservable = (function (_super) {
-    __extends$25(IteratorObservable, _super);
+    __extends$24(IteratorObservable, _super);
     function IteratorObservable(iterator$$2, scheduler) {
         _super.call(this);
         this.scheduler = scheduler;
@@ -39247,7 +37085,7 @@ var IteratorObservable_1 = {
 	IteratorObservable: IteratorObservable_2
 };
 
-var __extends$26 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$25 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39261,7 +37099,7 @@ var __extends$26 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var ArrayLikeObservable = (function (_super) {
-    __extends$26(ArrayLikeObservable, _super);
+    __extends$25(ArrayLikeObservable, _super);
     function ArrayLikeObservable(arrayLike, scheduler) {
         _super.call(this);
         this.arrayLike = arrayLike;
@@ -39451,7 +37289,7 @@ var Notification_1 = {
 	Notification: Notification_2
 };
 
-var __extends$27 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$26 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39529,7 +37367,7 @@ var ObserveOnOperator_1 = ObserveOnOperator;
  * @extends {Ignored}
  */
 var ObserveOnSubscriber = (function (_super) {
-    __extends$27(ObserveOnSubscriber, _super);
+    __extends$26(ObserveOnSubscriber, _super);
     function ObserveOnSubscriber(destination, scheduler, delay) {
         if (delay === void 0) { delay = 0; }
         _super.call(this, destination);
@@ -39573,7 +37411,7 @@ var observeOn_1 = {
 	ObserveOnMessage: ObserveOnMessage_1
 };
 
-var __extends$23 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$22 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39595,7 +37433,7 @@ var __extends$23 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var FromObservable = (function (_super) {
-    __extends$23(FromObservable, _super);
+    __extends$22(FromObservable, _super);
     function FromObservable(ish, scheduler) {
         _super.call(this, null);
         this.ish = ish;
@@ -39706,7 +37544,7 @@ var from = {
 	from: from_1
 };
 
-var __extends$28 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$27 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39802,7 +37640,7 @@ var MergeMapOperator_1 = MergeMapOperator;
  * @extends {Ignored}
  */
 var MergeMapSubscriber = (function (_super) {
-    __extends$28(MergeMapSubscriber, _super);
+    __extends$27(MergeMapSubscriber, _super);
     function MergeMapSubscriber(destination, project, resultSelector, concurrent) {
         if (concurrent === void 0) { concurrent = Number.POSITIVE_INFINITY; }
         _super.call(this, destination);
@@ -40119,7 +37957,7 @@ var concat_1 = {
 	concat: concat_2$1
 };
 
-var __extends$29 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$28 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40131,7 +37969,7 @@ var __extends$29 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var CountSubscriber = (function (_super) {
-    __extends$29(CountSubscriber, _super);
+    __extends$28(CountSubscriber, _super);
     function CountSubscriber(destination, predicate, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -40167,7 +38005,7 @@ var CountSubscriber = (function (_super) {
     return CountSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$30 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$29 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40180,7 +38018,7 @@ var __extends$30 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DebounceSubscriber = (function (_super) {
-    __extends$30(DebounceSubscriber, _super);
+    __extends$29(DebounceSubscriber, _super);
     function DebounceSubscriber(destination, durationSelector) {
         _super.call(this, destination);
         this.durationSelector = durationSelector;
@@ -40238,7 +38076,7 @@ var DebounceSubscriber = (function (_super) {
     return DebounceSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$31 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$30 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40251,7 +38089,7 @@ var __extends$31 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DebounceTimeSubscriber = (function (_super) {
-    __extends$31(DebounceTimeSubscriber, _super);
+    __extends$30(DebounceTimeSubscriber, _super);
     function DebounceTimeSubscriber(destination, dueTime, scheduler) {
         _super.call(this, destination);
         this.dueTime = dueTime;
@@ -40292,7 +38130,7 @@ function dispatchNext$1(subscriber) {
     subscriber.debouncedNext();
 }
 
-var __extends$32 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$31 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40304,7 +38142,7 @@ var __extends$32 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DefaultIfEmptySubscriber = (function (_super) {
-    __extends$32(DefaultIfEmptySubscriber, _super);
+    __extends$31(DefaultIfEmptySubscriber, _super);
     function DefaultIfEmptySubscriber(destination, defaultValue) {
         _super.call(this, destination);
         this.defaultValue = defaultValue;
@@ -40323,7 +38161,7 @@ var DefaultIfEmptySubscriber = (function (_super) {
     return DefaultIfEmptySubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$33 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$32 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40338,7 +38176,7 @@ var __extends$33 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DelaySubscriber = (function (_super) {
-    __extends$33(DelaySubscriber, _super);
+    __extends$32(DelaySubscriber, _super);
     function DelaySubscriber(destination, delay, scheduler) {
         _super.call(this, destination);
         this.delay = delay;
@@ -40401,7 +38239,7 @@ var DelayMessage = (function () {
     return DelayMessage;
 }());
 
-var __extends$34 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$33 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40416,7 +38254,7 @@ var __extends$34 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DelayWhenSubscriber = (function (_super) {
-    __extends$34(DelayWhenSubscriber, _super);
+    __extends$33(DelayWhenSubscriber, _super);
     function DelayWhenSubscriber(destination, delayDurationSelector) {
         _super.call(this, destination);
         this.delayDurationSelector = delayDurationSelector;
@@ -40486,7 +38324,7 @@ var DelayWhenSubscriber = (function (_super) {
  * @extends {Ignored}
  */
 var SubscriptionDelayObservable = (function (_super) {
-    __extends$34(SubscriptionDelayObservable, _super);
+    __extends$33(SubscriptionDelayObservable, _super);
     function SubscriptionDelayObservable(/** @deprecated internal use only */ source, subscriptionDelay) {
         _super.call(this);
         this.source = source;
@@ -40503,7 +38341,7 @@ var SubscriptionDelayObservable = (function (_super) {
  * @extends {Ignored}
  */
 var SubscriptionDelaySubscriber = (function (_super) {
-    __extends$34(SubscriptionDelaySubscriber, _super);
+    __extends$33(SubscriptionDelaySubscriber, _super);
     function SubscriptionDelaySubscriber(parent, source) {
         _super.call(this);
         this.parent = parent;
@@ -40530,7 +38368,7 @@ var SubscriptionDelaySubscriber = (function (_super) {
     return SubscriptionDelaySubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$35 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$34 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40542,7 +38380,7 @@ var __extends$35 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DeMaterializeSubscriber = (function (_super) {
-    __extends$35(DeMaterializeSubscriber, _super);
+    __extends$34(DeMaterializeSubscriber, _super);
     function DeMaterializeSubscriber(destination) {
         _super.call(this, destination);
     }
@@ -40589,7 +38427,7 @@ var _Set = {
 	Set: Set$1
 };
 
-var __extends$36 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$35 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40603,7 +38441,7 @@ var __extends$36 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DistinctSubscriber = (function (_super) {
-    __extends$36(DistinctSubscriber, _super);
+    __extends$35(DistinctSubscriber, _super);
     function DistinctSubscriber(destination, keySelector, flushes) {
         _super.call(this, destination);
         this.keySelector = keySelector;
@@ -40648,7 +38486,7 @@ var DistinctSubscriber = (function (_super) {
     return DistinctSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$37 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$36 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40662,7 +38500,7 @@ var __extends$37 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DistinctUntilChangedSubscriber = (function (_super) {
-    __extends$37(DistinctUntilChangedSubscriber, _super);
+    __extends$36(DistinctUntilChangedSubscriber, _super);
     function DistinctUntilChangedSubscriber(destination, compare, keySelector) {
         _super.call(this, destination);
         this.keySelector = keySelector;
@@ -40701,7 +38539,7 @@ var DistinctUntilChangedSubscriber = (function (_super) {
     return DistinctUntilChangedSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$39 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$38 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40717,7 +38555,7 @@ var __extends$39 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class ArgumentOutOfRangeError
  */
 var ArgumentOutOfRangeError = (function (_super) {
-    __extends$39(ArgumentOutOfRangeError, _super);
+    __extends$38(ArgumentOutOfRangeError, _super);
     function ArgumentOutOfRangeError() {
         var err = _super.call(this, 'argument out of range');
         this.name = err.name = 'ArgumentOutOfRangeError';
@@ -40733,7 +38571,7 @@ var ArgumentOutOfRangeError_1 = {
 	ArgumentOutOfRangeError: ArgumentOutOfRangeError_2
 };
 
-var __extends$38 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$37 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40746,7 +38584,7 @@ var __extends$38 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var ElementAtSubscriber = (function (_super) {
-    __extends$38(ElementAtSubscriber, _super);
+    __extends$37(ElementAtSubscriber, _super);
     function ElementAtSubscriber(destination, index$$1, defaultValue) {
         _super.call(this, destination);
         this.index = index$$1;
@@ -40773,7 +38611,7 @@ var ElementAtSubscriber = (function (_super) {
     return ElementAtSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$40 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$39 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40785,7 +38623,7 @@ var __extends$40 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var EverySubscriber = (function (_super) {
-    __extends$40(EverySubscriber, _super);
+    __extends$39(EverySubscriber, _super);
     function EverySubscriber(destination, predicate, thisArg, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -40817,7 +38655,7 @@ var EverySubscriber = (function (_super) {
     return EverySubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$41 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$40 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40830,7 +38668,7 @@ var __extends$41 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SwitchFirstSubscriber = (function (_super) {
-    __extends$41(SwitchFirstSubscriber, _super);
+    __extends$40(SwitchFirstSubscriber, _super);
     function SwitchFirstSubscriber(destination) {
         _super.call(this, destination);
         this.hasCompleted = false;
@@ -40858,7 +38696,7 @@ var SwitchFirstSubscriber = (function (_super) {
     return SwitchFirstSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$42 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$41 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40871,7 +38709,7 @@ var __extends$42 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SwitchFirstMapSubscriber = (function (_super) {
-    __extends$42(SwitchFirstMapSubscriber, _super);
+    __extends$41(SwitchFirstMapSubscriber, _super);
     function SwitchFirstMapSubscriber(destination, project, resultSelector) {
         _super.call(this, destination);
         this.project = project;
@@ -40935,7 +38773,7 @@ var SwitchFirstMapSubscriber = (function (_super) {
     return SwitchFirstMapSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$43 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$42 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40950,7 +38788,7 @@ var __extends$43 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var ExpandSubscriber = (function (_super) {
-    __extends$43(ExpandSubscriber, _super);
+    __extends$42(ExpandSubscriber, _super);
     function ExpandSubscriber(destination, project, concurrent, scheduler) {
         _super.call(this, destination);
         this.project = project;
@@ -41019,19 +38857,75 @@ var ExpandSubscriber = (function (_super) {
     return ExpandSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$44 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$43 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 
+/* tslint:enable:max-line-length */
+/**
+ * Filter items emitted by the source Observable by only emitting those that
+ * satisfy a specified predicate.
+ *
+ * <span class="informal">Like
+ * [Array.prototype.filter()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter),
+ * it only emits a value from the source if it passes a criterion function.</span>
+ *
+ * <img src="./img/filter.png" width="100%">
+ *
+ * Similar to the well-known `Array.prototype.filter` method, this operator
+ * takes values from the source Observable, passes them through a `predicate`
+ * function and only emits those values that yielded `true`.
+ *
+ * @example <caption>Emit only click events whose target was a DIV element</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var clicksOnDivs = clicks.filter(ev => ev.target.tagName === 'DIV');
+ * clicksOnDivs.subscribe(x => console.log(x));
+ *
+ * @see {@link distinct}
+ * @see {@link distinctUntilChanged}
+ * @see {@link distinctUntilKeyChanged}
+ * @see {@link ignoreElements}
+ * @see {@link partition}
+ * @see {@link skip}
+ *
+ * @param {function(value: T, index: number): boolean} predicate A function that
+ * evaluates each value emitted by the source Observable. If it returns `true`,
+ * the value is emitted, if `false` the value is not passed to the output
+ * Observable. The `index` parameter is the number `i` for the i-th source
+ * emission that has happened since the subscription, starting from the number
+ * `0`.
+ * @param {any} [thisArg] An optional argument to determine the value of `this`
+ * in the `predicate` function.
+ * @return {Observable} An Observable of values from the source that were
+ * allowed by the `predicate` function.
+ * @method filter
+ * @owner Observable
+ */
+function filter$4(predicate, thisArg) {
+    return function filterOperatorFunction(source) {
+        return source.lift(new FilterOperator(predicate, thisArg));
+    };
+}
+var filter_2 = filter$4;
+var FilterOperator = (function () {
+    function FilterOperator(predicate, thisArg) {
+        this.predicate = predicate;
+        this.thisArg = thisArg;
+    }
+    FilterOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new FilterSubscriber(subscriber, this.predicate, this.thisArg));
+    };
+    return FilterOperator;
+}());
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @ignore
  * @extends {Ignored}
  */
 var FilterSubscriber = (function (_super) {
-    __extends$44(FilterSubscriber, _super);
+    __extends$43(FilterSubscriber, _super);
     function FilterSubscriber(destination, predicate, thisArg) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -41056,7 +38950,12 @@ var FilterSubscriber = (function (_super) {
     return FilterSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$45 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+
+var filter_1 = {
+	filter: filter_2
+};
+
+var __extends$44 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41069,7 +38968,7 @@ var __extends$45 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var FinallySubscriber = (function (_super) {
-    __extends$45(FinallySubscriber, _super);
+    __extends$44(FinallySubscriber, _super);
     function FinallySubscriber(destination, callback) {
         _super.call(this, destination);
         this.add(new Subscription_1.Subscription(callback));
@@ -41077,7 +38976,7 @@ var FinallySubscriber = (function (_super) {
     return FinallySubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$46 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$45 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41089,7 +38988,7 @@ var __extends$46 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var FindValueSubscriber = (function (_super) {
-    __extends$46(FindValueSubscriber, _super);
+    __extends$45(FindValueSubscriber, _super);
     function FindValueSubscriber(destination, predicate, source, yieldIndex, thisArg) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -41122,7 +39021,7 @@ var FindValueSubscriber = (function (_super) {
     return FindValueSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$49 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$48 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41137,7 +39036,7 @@ var __extends$49 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class ObjectUnsubscribedError
  */
 var ObjectUnsubscribedError = (function (_super) {
-    __extends$49(ObjectUnsubscribedError, _super);
+    __extends$48(ObjectUnsubscribedError, _super);
     function ObjectUnsubscribedError() {
         var err = _super.call(this, 'object unsubscribed');
         this.name = err.name = 'ObjectUnsubscribedError';
@@ -41153,7 +39052,7 @@ var ObjectUnsubscribedError_1 = {
 	ObjectUnsubscribedError: ObjectUnsubscribedError_2
 };
 
-var __extends$50 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$49 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41165,7 +39064,7 @@ var __extends$50 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SubjectSubscription = (function (_super) {
-    __extends$50(SubjectSubscription, _super);
+    __extends$49(SubjectSubscription, _super);
     function SubjectSubscription(subject, subscriber) {
         _super.call(this);
         this.subject = subject;
@@ -41197,7 +39096,7 @@ var SubjectSubscription_1 = {
 	SubjectSubscription: SubjectSubscription_2
 };
 
-var __extends$48 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$47 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41212,7 +39111,7 @@ var __extends$48 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class SubjectSubscriber<T>
  */
 var SubjectSubscriber = (function (_super) {
-    __extends$48(SubjectSubscriber, _super);
+    __extends$47(SubjectSubscriber, _super);
     function SubjectSubscriber(destination) {
         _super.call(this, destination);
         this.destination = destination;
@@ -41224,7 +39123,7 @@ var SubjectSubscriber_1 = SubjectSubscriber;
  * @class Subject<T>
  */
 var Subject$2 = (function (_super) {
-    __extends$48(Subject$$1, _super);
+    __extends$47(Subject$$1, _super);
     function Subject$$1() {
         _super.call(this);
         this.observers = [];
@@ -41327,7 +39226,7 @@ var Subject_2 = Subject$2;
  * @class AnonymousSubject<T>
  */
 var AnonymousSubject = (function (_super) {
-    __extends$48(AnonymousSubject, _super);
+    __extends$47(AnonymousSubject, _super);
     function AnonymousSubject(destination, source) {
         _super.call(this);
         this.destination = destination;
@@ -41464,7 +39363,7 @@ var FastMap_1 = {
 	FastMap: FastMap_2
 };
 
-var __extends$47 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$46 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41481,7 +39380,7 @@ var __extends$47 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var GroupBySubscriber = (function (_super) {
-    __extends$47(GroupBySubscriber, _super);
+    __extends$46(GroupBySubscriber, _super);
     function GroupBySubscriber(destination, keySelector, elementSelector, durationSelector, subjectSelector) {
         _super.call(this, destination);
         this.keySelector = keySelector;
@@ -41508,7 +39407,7 @@ var GroupBySubscriber = (function (_super) {
         if (!groups) {
             groups = this.groups = typeof key === 'string' ? new FastMap_1.FastMap() : new _Map.Map();
         }
-        var group = groups.get(key);
+        var group$$1 = groups.get(key);
         var element;
         if (this.elementSelector) {
             try {
@@ -41521,32 +39420,32 @@ var GroupBySubscriber = (function (_super) {
         else {
             element = value;
         }
-        if (!group) {
-            group = this.subjectSelector ? this.subjectSelector() : new Subject_1.Subject();
-            groups.set(key, group);
-            var groupedObservable = new GroupedObservable(key, group, this);
+        if (!group$$1) {
+            group$$1 = this.subjectSelector ? this.subjectSelector() : new Subject_1.Subject();
+            groups.set(key, group$$1);
+            var groupedObservable = new GroupedObservable(key, group$$1, this);
             this.destination.next(groupedObservable);
             if (this.durationSelector) {
                 var duration = void 0;
                 try {
-                    duration = this.durationSelector(new GroupedObservable(key, group));
+                    duration = this.durationSelector(new GroupedObservable(key, group$$1));
                 }
                 catch (err) {
                     this.error(err);
                     return;
                 }
-                this.add(duration.subscribe(new GroupDurationSubscriber(key, group, this)));
+                this.add(duration.subscribe(new GroupDurationSubscriber(key, group$$1, this)));
             }
         }
-        if (!group.closed) {
-            group.next(element);
+        if (!group$$1.closed) {
+            group$$1.next(element);
         }
     };
     GroupBySubscriber.prototype._error = function (err) {
         var groups = this.groups;
         if (groups) {
-            groups.forEach(function (group, key) {
-                group.error(err);
+            groups.forEach(function (group$$1, key) {
+                group$$1.error(err);
             });
             groups.clear();
         }
@@ -41555,8 +39454,8 @@ var GroupBySubscriber = (function (_super) {
     GroupBySubscriber.prototype._complete = function () {
         var groups = this.groups;
         if (groups) {
-            groups.forEach(function (group, key) {
-                group.complete();
+            groups.forEach(function (group$$1, key) {
+                group$$1.complete();
             });
             groups.clear();
         }
@@ -41581,11 +39480,11 @@ var GroupBySubscriber = (function (_super) {
  * @extends {Ignored}
  */
 var GroupDurationSubscriber = (function (_super) {
-    __extends$47(GroupDurationSubscriber, _super);
-    function GroupDurationSubscriber(key, group, parent) {
-        _super.call(this, group);
+    __extends$46(GroupDurationSubscriber, _super);
+    function GroupDurationSubscriber(key, group$$1, parent) {
+        _super.call(this, group$$1);
         this.key = key;
-        this.group = group;
+        this.group = group$$1;
         this.parent = parent;
     }
     GroupDurationSubscriber.prototype._next = function (value) {
@@ -41609,7 +39508,7 @@ var GroupDurationSubscriber = (function (_super) {
  * @class GroupedObservable<K, T>
  */
 var GroupedObservable = (function (_super) {
-    __extends$47(GroupedObservable, _super);
+    __extends$46(GroupedObservable, _super);
     function GroupedObservable(key, groupSubject, refCountSubscription) {
         _super.call(this);
         this.key = key;
@@ -41633,7 +39532,7 @@ var GroupedObservable = (function (_super) {
  * @extends {Ignored}
  */
 var InnerRefCountSubscription = (function (_super) {
-    __extends$47(InnerRefCountSubscription, _super);
+    __extends$46(InnerRefCountSubscription, _super);
     function InnerRefCountSubscription(parent) {
         _super.call(this);
         this.parent = parent;
@@ -41652,7 +39551,7 @@ var InnerRefCountSubscription = (function (_super) {
     return InnerRefCountSubscription;
 }(Subscription_1.Subscription));
 
-var __extends$51 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$50 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41665,7 +39564,7 @@ var __extends$51 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var IgnoreElementsSubscriber = (function (_super) {
-    __extends$51(IgnoreElementsSubscriber, _super);
+    __extends$50(IgnoreElementsSubscriber, _super);
     function IgnoreElementsSubscriber() {
         _super.apply(this, arguments);
     }
@@ -41675,7 +39574,7 @@ var IgnoreElementsSubscriber = (function (_super) {
     return IgnoreElementsSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$52 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$51 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41687,7 +39586,7 @@ var __extends$52 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var IsEmptySubscriber = (function (_super) {
-    __extends$52(IsEmptySubscriber, _super);
+    __extends$51(IsEmptySubscriber, _super);
     function IsEmptySubscriber(destination) {
         _super.call(this, destination);
     }
@@ -41705,7 +39604,7 @@ var IsEmptySubscriber = (function (_super) {
     return IsEmptySubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$53 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$52 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41718,7 +39617,7 @@ var __extends$53 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var LastSubscriber = (function (_super) {
-    __extends$53(LastSubscriber, _super);
+    __extends$52(LastSubscriber, _super);
     function LastSubscriber(destination, predicate, resultSelector, defaultValue, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -41789,7 +39688,7 @@ var LastSubscriber = (function (_super) {
     return LastSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$54 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$53 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41854,7 +39753,7 @@ var MapOperator_1 = MapOperator;
  * @extends {Ignored}
  */
 var MapSubscriber = (function (_super) {
-    __extends$54(MapSubscriber, _super);
+    __extends$53(MapSubscriber, _super);
     function MapSubscriber(destination, project, thisArg) {
         _super.call(this, destination);
         this.project = project;
@@ -41883,7 +39782,7 @@ var map_1 = {
 	MapOperator: MapOperator_1
 };
 
-var __extends$55 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$54 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41895,7 +39794,7 @@ var __extends$55 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var MapToSubscriber = (function (_super) {
-    __extends$55(MapToSubscriber, _super);
+    __extends$54(MapToSubscriber, _super);
     function MapToSubscriber(destination, value) {
         _super.call(this, destination);
         this.value = value;
@@ -41906,7 +39805,7 @@ var MapToSubscriber = (function (_super) {
     return MapToSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$56 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$55 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41919,7 +39818,7 @@ var __extends$56 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var MaterializeSubscriber = (function (_super) {
-    __extends$56(MaterializeSubscriber, _super);
+    __extends$55(MaterializeSubscriber, _super);
     function MaterializeSubscriber(destination) {
         _super.call(this, destination);
     }
@@ -41939,7 +39838,7 @@ var MaterializeSubscriber = (function (_super) {
     return MaterializeSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$57 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$56 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -41951,7 +39850,7 @@ var __extends$57 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var ScanSubscriber = (function (_super) {
-    __extends$57(ScanSubscriber, _super);
+    __extends$56(ScanSubscriber, _super);
     function ScanSubscriber(destination, accumulator, _seed, hasSeed) {
         _super.call(this, destination);
         this.accumulator = accumulator;
@@ -41994,7 +39893,7 @@ var ScanSubscriber = (function (_super) {
     return ScanSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$58 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$57 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42008,7 +39907,7 @@ var __extends$58 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var TakeLastSubscriber = (function (_super) {
-    __extends$58(TakeLastSubscriber, _super);
+    __extends$57(TakeLastSubscriber, _super);
     function TakeLastSubscriber(destination, total) {
         _super.call(this, destination);
         this.total = total;
@@ -42043,7 +39942,7 @@ var TakeLastSubscriber = (function (_super) {
     return TakeLastSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$59 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$58 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42056,7 +39955,7 @@ var __extends$59 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var MergeMapToSubscriber = (function (_super) {
-    __extends$59(MergeMapToSubscriber, _super);
+    __extends$58(MergeMapToSubscriber, _super);
     function MergeMapToSubscriber(destination, ish, resultSelector, concurrent) {
         if (concurrent === void 0) { concurrent = Number.POSITIVE_INFINITY; }
         _super.call(this, destination);
@@ -42128,7 +40027,7 @@ var MergeMapToSubscriber = (function (_super) {
     return MergeMapToSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$60 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$59 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42143,7 +40042,7 @@ var __extends$60 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var MergeScanSubscriber = (function (_super) {
-    __extends$60(MergeScanSubscriber, _super);
+    __extends$59(MergeScanSubscriber, _super);
     function MergeScanSubscriber(destination, accumulator, acc, concurrent) {
         _super.call(this, destination);
         this.accumulator = accumulator;
@@ -42207,7 +40106,7 @@ var MergeScanSubscriber = (function (_super) {
     return MergeScanSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$62 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$61 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42236,7 +40135,7 @@ var RefCountOperator$1 = (function () {
     return RefCountOperator;
 }());
 var RefCountSubscriber$1 = (function (_super) {
-    __extends$62(RefCountSubscriber, _super);
+    __extends$61(RefCountSubscriber, _super);
     function RefCountSubscriber(destination, connectable) {
         _super.call(this, destination);
         this.connectable = connectable;
@@ -42296,7 +40195,7 @@ var refCount_1 = {
 	refCount: refCount_2
 };
 
-var __extends$61 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$60 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42310,7 +40209,7 @@ var __extends$61 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class ConnectableObservable<T>
  */
 var ConnectableObservable = (function (_super) {
-    __extends$61(ConnectableObservable, _super);
+    __extends$60(ConnectableObservable, _super);
     function ConnectableObservable(/** @deprecated internal use only */ source, 
         /** @deprecated internal use only */ subjectFactory) {
         _super.call(this);
@@ -42352,7 +40251,7 @@ var ConnectableObservable = (function (_super) {
     return ConnectableObservable;
 }(Observable_1.Observable));
 var ConnectableSubscriber = (function (_super) {
-    __extends$61(ConnectableSubscriber, _super);
+    __extends$60(ConnectableSubscriber, _super);
     function ConnectableSubscriber(destination, connectable) {
         _super.call(this, destination);
         this.connectable = connectable;
@@ -42382,7 +40281,7 @@ var ConnectableSubscriber = (function (_super) {
     return ConnectableSubscriber;
 }(Subject_1.SubjectSubscriber));
 var RefCountSubscriber = (function (_super) {
-    __extends$61(RefCountSubscriber, _super);
+    __extends$60(RefCountSubscriber, _super);
     function RefCountSubscriber(destination, connectable) {
         _super.call(this, destination);
         this.connectable = connectable;
@@ -42437,7 +40336,7 @@ var RefCountSubscriber = (function (_super) {
     return RefCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$63 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$62 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42447,7 +40346,7 @@ var __extends$63 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
 
 
 var OnErrorResumeNextSubscriber = (function (_super) {
-    __extends$63(OnErrorResumeNextSubscriber, _super);
+    __extends$62(OnErrorResumeNextSubscriber, _super);
     function OnErrorResumeNextSubscriber(destination, nextSources) {
         _super.call(this, destination);
         this.destination = destination;
@@ -42477,7 +40376,7 @@ var OnErrorResumeNextSubscriber = (function (_super) {
     return OnErrorResumeNextSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$64 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$63 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42489,7 +40388,7 @@ var __extends$64 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var PairwiseSubscriber = (function (_super) {
-    __extends$64(PairwiseSubscriber, _super);
+    __extends$63(PairwiseSubscriber, _super);
     function PairwiseSubscriber(destination) {
         _super.call(this, destination);
         this.hasPrev = false;
@@ -42506,7 +40405,7 @@ var PairwiseSubscriber = (function (_super) {
     return PairwiseSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$65 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$64 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42517,7 +40416,7 @@ var __extends$65 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class BehaviorSubject<T>
  */
 var BehaviorSubject = (function (_super) {
-    __extends$65(BehaviorSubject, _super);
+    __extends$64(BehaviorSubject, _super);
     function BehaviorSubject(_value) {
         _super.call(this);
         this._value = _value;
@@ -42553,7 +40452,7 @@ var BehaviorSubject = (function (_super) {
     return BehaviorSubject;
 }(Subject_1.Subject));
 
-var __extends$66 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$65 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42564,7 +40463,7 @@ var __extends$66 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class AsyncSubject<T>
  */
 var AsyncSubject = (function (_super) {
-    __extends$66(AsyncSubject, _super);
+    __extends$65(AsyncSubject, _super);
     function AsyncSubject() {
         _super.apply(this, arguments);
         this.value = null;
@@ -42604,7 +40503,7 @@ var AsyncSubject = (function (_super) {
     return AsyncSubject;
 }(Subject_1.Subject));
 
-var __extends$68 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$67 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42616,7 +40515,7 @@ var __extends$68 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var QueueAction = (function (_super) {
-    __extends$68(QueueAction, _super);
+    __extends$67(QueueAction, _super);
     function QueueAction(scheduler, work) {
         _super.call(this, scheduler, work);
         this.scheduler = scheduler;
@@ -42657,14 +40556,14 @@ var QueueAction_1 = {
 	QueueAction: QueueAction_2
 };
 
-var __extends$69 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$68 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 
 var QueueScheduler = (function (_super) {
-    __extends$69(QueueScheduler, _super);
+    __extends$68(QueueScheduler, _super);
     function QueueScheduler() {
         _super.apply(this, arguments);
     }
@@ -42745,7 +40644,7 @@ var queue = {
 	queue: queue_1
 };
 
-var __extends$67 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$66 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42760,7 +40659,7 @@ var __extends$67 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class ReplaySubject<T>
  */
 var ReplaySubject$2 = (function (_super) {
-    __extends$67(ReplaySubject$$1, _super);
+    __extends$66(ReplaySubject$$1, _super);
     function ReplaySubject$$1(bufferSize, windowTime, scheduler) {
         if (bufferSize === void 0) { bufferSize = Number.POSITIVE_INFINITY; }
         if (windowTime === void 0) { windowTime = Number.POSITIVE_INFINITY; }
@@ -42845,7 +40744,7 @@ var ReplayEvent = (function () {
     return ReplayEvent;
 }());
 
-var __extends$70 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$69 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42860,7 +40759,7 @@ var __extends$70 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RaceSubscriber = (function (_super) {
-    __extends$70(RaceSubscriber, _super);
+    __extends$69(RaceSubscriber, _super);
     function RaceSubscriber(destination) {
         _super.call(this, destination);
         this.hasFirst = false;
@@ -42905,7 +40804,7 @@ var RaceSubscriber = (function (_super) {
     return RaceSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$71 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$70 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42918,7 +40817,7 @@ var __extends$71 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RepeatSubscriber = (function (_super) {
-    __extends$71(RepeatSubscriber, _super);
+    __extends$70(RepeatSubscriber, _super);
     function RepeatSubscriber(destination, count, source) {
         _super.call(this, destination);
         this.count = count;
@@ -42939,7 +40838,7 @@ var RepeatSubscriber = (function (_super) {
     return RepeatSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$72 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$71 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -42955,7 +40854,7 @@ var __extends$72 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RepeatWhenSubscriber = (function (_super) {
-    __extends$72(RepeatWhenSubscriber, _super);
+    __extends$71(RepeatWhenSubscriber, _super);
     function RepeatWhenSubscriber(destination, notifier, source) {
         _super.call(this, destination);
         this.notifier = notifier;
@@ -43019,7 +40918,7 @@ var RepeatWhenSubscriber = (function (_super) {
     return RepeatWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$73 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$72 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43031,7 +40930,7 @@ var __extends$73 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RetrySubscriber = (function (_super) {
-    __extends$73(RetrySubscriber, _super);
+    __extends$72(RetrySubscriber, _super);
     function RetrySubscriber(destination, count, source) {
         _super.call(this, destination);
         this.count = count;
@@ -43052,7 +40951,7 @@ var RetrySubscriber = (function (_super) {
     return RetrySubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$74 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$73 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43068,7 +40967,7 @@ var __extends$74 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RetryWhenSubscriber = (function (_super) {
-    __extends$74(RetryWhenSubscriber, _super);
+    __extends$73(RetryWhenSubscriber, _super);
     function RetryWhenSubscriber(destination, notifier, source) {
         _super.call(this, destination);
         this.notifier = notifier;
@@ -43124,7 +41023,7 @@ var RetryWhenSubscriber = (function (_super) {
     return RetryWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$75 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$74 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43137,7 +41036,7 @@ var __extends$75 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SampleSubscriber = (function (_super) {
-    __extends$75(SampleSubscriber, _super);
+    __extends$74(SampleSubscriber, _super);
     function SampleSubscriber() {
         _super.apply(this, arguments);
         this.hasValue = false;
@@ -43161,7 +41060,7 @@ var SampleSubscriber = (function (_super) {
     return SampleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$76 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$75 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43174,7 +41073,7 @@ var __extends$76 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SampleTimeSubscriber = (function (_super) {
-    __extends$76(SampleTimeSubscriber, _super);
+    __extends$75(SampleTimeSubscriber, _super);
     function SampleTimeSubscriber(destination, period, scheduler) {
         _super.call(this, destination);
         this.period = period;
@@ -43200,7 +41099,7 @@ function dispatchNotification(state$$1) {
     this.schedule(state$$1, period);
 }
 
-var __extends$77 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$76 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43214,7 +41113,7 @@ var __extends$77 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SequenceEqualSubscriber = (function (_super) {
-    __extends$77(SequenceEqualSubscriber, _super);
+    __extends$76(SequenceEqualSubscriber, _super);
     function SequenceEqualSubscriber(destination, compareTo, comparor) {
         _super.call(this, destination);
         this.compareTo = compareTo;
@@ -43278,7 +41177,7 @@ var SequenceEqualSubscriber = (function (_super) {
     return SequenceEqualSubscriber;
 }(Subscriber_1.Subscriber));
 var SequenceEqualCompareToSubscriber = (function (_super) {
-    __extends$77(SequenceEqualCompareToSubscriber, _super);
+    __extends$76(SequenceEqualCompareToSubscriber, _super);
     function SequenceEqualCompareToSubscriber(destination, parent) {
         _super.call(this, destination);
         this.parent = parent;
@@ -43295,7 +41194,7 @@ var SequenceEqualCompareToSubscriber = (function (_super) {
     return SequenceEqualCompareToSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$78 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$77 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43308,7 +41207,7 @@ var __extends$78 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SingleSubscriber = (function (_super) {
-    __extends$78(SingleSubscriber, _super);
+    __extends$77(SingleSubscriber, _super);
     function SingleSubscriber(destination, predicate, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -43357,7 +41256,7 @@ var SingleSubscriber = (function (_super) {
     return SingleSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$79 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$78 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43369,7 +41268,7 @@ var __extends$79 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SkipSubscriber = (function (_super) {
-    __extends$79(SkipSubscriber, _super);
+    __extends$78(SkipSubscriber, _super);
     function SkipSubscriber(destination, total) {
         _super.call(this, destination);
         this.total = total;
@@ -43383,7 +41282,7 @@ var SkipSubscriber = (function (_super) {
     return SkipSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$80 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$79 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43396,7 +41295,7 @@ var __extends$80 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SkipLastSubscriber = (function (_super) {
-    __extends$80(SkipLastSubscriber, _super);
+    __extends$79(SkipLastSubscriber, _super);
     function SkipLastSubscriber(destination, _skipCount) {
         _super.call(this, destination);
         this._skipCount = _skipCount;
@@ -43420,7 +41319,7 @@ var SkipLastSubscriber = (function (_super) {
     return SkipLastSubscriber;
 }(Subscriber_1.Subscriber));
 
-var __extends$81 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$80 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43433,7 +41332,7 @@ var __extends$81 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SkipUntilSubscriber = (function (_super) {
-    __extends$81(SkipUntilSubscriber, _super);
+    __extends$80(SkipUntilSubscriber, _super);
     function SkipUntilSubscriber(destination, notifier) {
         _super.call(this, destination);
         this.hasValue = false;
@@ -43465,7 +41364,7 @@ var SkipUntilSubscriber = (function (_super) {
     return SkipUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$82 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$81 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43477,7 +41376,7 @@ var __extends$82 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SkipWhileSubscriber = (function (_super) {
-    __extends$82(SkipWhileSubscriber, _super);
+    __extends$81(SkipWhileSubscriber, _super);
     function SkipWhileSubscriber(destination, predicate) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -43552,7 +41451,7 @@ var startWith_1 = {
 	startWith: startWith_2
 };
 
-var __extends$83 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$82 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43565,7 +41464,7 @@ var __extends$83 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SwitchMapToSubscriber = (function (_super) {
-    __extends$83(SwitchMapToSubscriber, _super);
+    __extends$82(SwitchMapToSubscriber, _super);
     function SwitchMapToSubscriber(destination, inner, resultSelector) {
         _super.call(this, destination);
         this.inner = inner;
@@ -43619,7 +41518,7 @@ var SwitchMapToSubscriber = (function (_super) {
     return SwitchMapToSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-var __extends$84 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$83 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43628,12 +41527,68 @@ var __extends$84 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
 
 
 /**
+ * Emits only the first `count` values emitted by the source Observable.
+ *
+ * <span class="informal">Takes the first `count` values from the source, then
+ * completes.</span>
+ *
+ * <img src="./img/take.png" width="100%">
+ *
+ * `take` returns an Observable that emits only the first `count` values emitted
+ * by the source Observable. If the source emits fewer than `count` values then
+ * all of its values are emitted. After that, it completes, regardless if the
+ * source completes.
+ *
+ * @example <caption>Take the first 5 seconds of an infinite 1-second interval Observable</caption>
+ * var interval = Rx.Observable.interval(1000);
+ * var five = interval.take(5);
+ * five.subscribe(x => console.log(x));
+ *
+ * @see {@link takeLast}
+ * @see {@link takeUntil}
+ * @see {@link takeWhile}
+ * @see {@link skip}
+ *
+ * @throws {ArgumentOutOfRangeError} When using `take(i)`, it delivers an
+ * ArgumentOutOrRangeError to the Observer's `error` callback if `i < 0`.
+ *
+ * @param {number} count The maximum number of `next` values to emit.
+ * @return {Observable<T>} An Observable that emits only the first `count`
+ * values emitted by the source Observable, or all of the values from the source
+ * if the source emits fewer than `count` values.
+ * @method take
+ * @owner Observable
+ */
+function take$1(count) {
+    return function (source) {
+        if (count === 0) {
+            return new EmptyObservable_1.EmptyObservable();
+        }
+        else {
+            return source.lift(new TakeOperator(count));
+        }
+    };
+}
+var take_2 = take$1;
+var TakeOperator = (function () {
+    function TakeOperator(total) {
+        this.total = total;
+        if (this.total < 0) {
+            throw new ArgumentOutOfRangeError_1.ArgumentOutOfRangeError;
+        }
+    }
+    TakeOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new TakeSubscriber(subscriber, this.total));
+    };
+    return TakeOperator;
+}());
+/**
  * We need this JSDoc comment for affecting ESDoc.
  * @ignore
  * @extends {Ignored}
  */
 var TakeSubscriber = (function (_super) {
-    __extends$84(TakeSubscriber, _super);
+    __extends$83(TakeSubscriber, _super);
     function TakeSubscriber(destination, total) {
         _super.call(this, destination);
         this.total = total;
@@ -43652,6 +41607,85 @@ var TakeSubscriber = (function (_super) {
     };
     return TakeSubscriber;
 }(Subscriber_1.Subscriber));
+
+
+var take_1 = {
+	take: take_2
+};
+
+var __extends$84 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+
+/**
+ * Emits the values emitted by the source Observable until a `notifier`
+ * Observable emits a value.
+ *
+ * <span class="informal">Lets values pass until a second Observable,
+ * `notifier`, emits something. Then, it completes.</span>
+ *
+ * <img src="./img/takeUntil.png" width="100%">
+ *
+ * `takeUntil` subscribes and begins mirroring the source Observable. It also
+ * monitors a second Observable, `notifier` that you provide. If the `notifier`
+ * emits a value or a complete notification, the output Observable stops
+ * mirroring the source Observable and completes.
+ *
+ * @example <caption>Tick every second until the first click happens</caption>
+ * var interval = Rx.Observable.interval(1000);
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var result = interval.takeUntil(clicks);
+ * result.subscribe(x => console.log(x));
+ *
+ * @see {@link take}
+ * @see {@link takeLast}
+ * @see {@link takeWhile}
+ * @see {@link skip}
+ *
+ * @param {Observable} notifier The Observable whose first emitted value will
+ * cause the output Observable of `takeUntil` to stop emitting values from the
+ * source Observable.
+ * @return {Observable<T>} An Observable that emits the values from the source
+ * Observable until such time as `notifier` emits its first value.
+ * @method takeUntil
+ * @owner Observable
+ */
+function takeUntil$1(notifier) {
+    return function (source) { return source.lift(new TakeUntilOperator(notifier)); };
+}
+var takeUntil_2 = takeUntil$1;
+var TakeUntilOperator = (function () {
+    function TakeUntilOperator(notifier) {
+        this.notifier = notifier;
+    }
+    TakeUntilOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new TakeUntilSubscriber(subscriber, this.notifier));
+    };
+    return TakeUntilOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TakeUntilSubscriber = (function (_super) {
+    __extends$84(TakeUntilSubscriber, _super);
+    function TakeUntilSubscriber(destination, notifier) {
+        _super.call(this, destination);
+        this.notifier = notifier;
+        this.add(subscribeToResult_1.subscribeToResult(this, notifier));
+    }
+    TakeUntilSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.complete();
+    };
+    TakeUntilSubscriber.prototype.notifyComplete = function () {
+        // noop
+    };
+    return TakeUntilSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
 
 var __extends$85 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -44851,12 +42885,3277 @@ var ZipBufferIterator = (function (_super) {
 
 var catchError = catchError_1.catchError;
 
+var filter$3 = filter_1.filter;
+
 var map$1 = map_1.map;
 
 var startWith$1 = startWith_1.startWith;
 var switchMap$2 = switchMap_1.switchMap;
 
+var take = take_1.take;
+
 var throttle = throttle_1.throttle;
+
+/**
+ * Time and timing curve for expansion panel animations.
+ */
+const EXPANSION_PANEL_ANIMATION_TIMING = '225ms cubic-bezier(0.4,0.0,0.2,1)';
+/**
+ * Animations used by the Material expansion panel.
+ */
+const novoExpansionAnimations = {
+    /** Animation that rotates the indicator arrow. */
+    indicatorRotate: trigger$1('indicatorRotate', [
+        state$1('collapsed', style$1({ transform: 'rotate(0deg)' })),
+        state$1('expanded', style$1({ transform: 'rotate(180deg)' })),
+        transition$1('expanded <=> collapsed', animate$1(EXPANSION_PANEL_ANIMATION_TIMING)),
+    ]),
+    /** Animation that expands and collapses the panel header height. */
+    expansionHeaderHeight: trigger$1('expansionHeight', [
+        state$1('collapsed', style$1({
+            height: '{{collapsedHeight}}',
+        }), {
+            params: { collapsedHeight: '48px' },
+        }),
+        state$1('expanded', style$1({
+            height: '{{expandedHeight}}'
+        }), {
+            params: { expandedHeight: '56px' }
+        }),
+        transition$1('expanded <=> collapsed', group([
+            query('@indicatorRotate', animateChild(), { optional: true }),
+            animate$1(EXPANSION_PANEL_ANIMATION_TIMING),
+        ])),
+    ]),
+    /** Animation that expands and collapses the panel content. */
+    bodyExpansion: trigger$1('bodyExpansion', [
+        state$1('collapsed', style$1({ height: '0px', visibility: 'hidden' })),
+        state$1('expanded', style$1({ height: '*', visibility: 'visible' })),
+        transition$1('expanded <=> collapsed', animate$1(EXPANSION_PANEL_ANIMATION_TIMING)),
+    ])
+};
+
+/**
+ * Expansion panel content that will be rendered lazily
+ * after the panel is opened for the first time.
+ */
+class NovoExpansionPanelContent {
+    /**
+     * @param {?} _template
+     */
+    constructor(_template) {
+        this._template = _template;
+    }
+}
+NovoExpansionPanelContent.decorators = [
+    { type: Directive, args: [{
+                selector: 'ng-template[matExpansionPanelContent]'
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionPanelContent.ctorParameters = () => [
+    { type: TemplateRef, },
+];
+
+/**
+ * Counter for generating unique element ids.
+ */
+let uniqueId = 0;
+/**
+ * `<novo-expansion-panel>`
+ *
+ * This component can be used as a single element to show expandable content, or as one of
+ * multiple children of an element with the NovoAccordion directive attached.
+ */
+class NovoExpansionPanel extends CdkAccordionItem {
+    /**
+     * @param {?} accordion
+     * @param {?} _changeDetectorRef
+     * @param {?} _uniqueSelectionDispatcher
+     * @param {?} _viewContainerRef
+     */
+    constructor(accordion, _changeDetectorRef, _uniqueSelectionDispatcher, _viewContainerRef) {
+        super(accordion, _changeDetectorRef, _uniqueSelectionDispatcher);
+        this._viewContainerRef = _viewContainerRef;
+        this._hideToggle = false;
+        this._padding = true;
+        this.opened = new EventEmitter();
+        this.closed = new EventEmitter();
+        this.expandedChange = new EventEmitter();
+        /**
+         * Stream that emits for changes in `\@Input` properties.
+         */
+        this._inputChanges = new Subject$1();
+        /**
+         * ID for the associated header element. Used for a11y labelling.
+         */
+        this._headerId = `novo-expansion-panel-header-${uniqueId++}`;
+        this.accordion = accordion;
+    }
+    /**
+     * Whether the toggle indicator should be hidden.
+     * @return {?}
+     */
+    get hideToggle() {
+        return this._hideToggle;
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set hideToggle(value) {
+        this._hideToggle = coerceBooleanProperty(value);
+    }
+    /**
+     * @return {?}
+     */
+    get padding() {
+        return this._padding;
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set padding(value) {
+        this._padding = coerceBooleanProperty(value);
+    }
+    /**
+     * Whether the expansion indicator should be hidden.
+     * @return {?}
+     */
+    _getHideToggle() {
+        if (this.accordion) {
+            return this.accordion.hideToggle;
+        }
+        return this.hideToggle;
+    }
+    /**
+     * Determines whether the expansion panel should have spacing between it and its siblings.
+     * @return {?}
+     */
+    _hasSpacing() {
+        if (this.accordion) {
+            return (this.expanded ? this.accordion.displayMode : this._getExpandedState()) === 'default';
+        }
+        return false;
+    }
+    /**
+     * Gets the expanded state string.
+     * @return {?}
+     */
+    _getExpandedState() {
+        return this.expanded ? 'expanded' : 'collapsed';
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterContentInit() {
+        if (this._lazyContent) {
+            // Render the content as soon as the panel becomes open.
+            this.opened.pipe(startWith$1(/** @type {?} */ ((null))), filter$3(() => this.expanded && !this._portal), take(1)).subscribe(() => {
+                this._portal = new TemplatePortal(this._lazyContent._template, this._viewContainerRef);
+            });
+        }
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        this._inputChanges.next(changes);
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        super.ngOnDestroy();
+        this._inputChanges.complete();
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    _bodyAnimation(event) {
+        const /** @type {?} */ classList = event.element.classList;
+        const /** @type {?} */ cssClass = 'novo-expanded';
+        const { phaseName, toState } = event;
+        // Toggle the body's `overflow: hidden` class when closing starts or when expansion ends in
+        // order to prevent the cases where switching too early would cause the animation to jump.
+        // Note that we do it directly on the DOM element to avoid the slight delay that comes
+        // with doing it via change detection.
+        if (phaseName === 'done' && toState === 'expanded') {
+            classList.add(cssClass);
+        }
+        else if (phaseName === 'start' && toState === 'collapsed') {
+            classList.remove(cssClass);
+        }
+    }
+}
+NovoExpansionPanel.decorators = [
+    { type: Component, args: [{
+                moduleId: module.id,
+                styles: [`
+    @-webkit-keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @-webkit-keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @-webkit-keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @-webkit-keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    @keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    @keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    .novo-expansion-panel {
+      background: #ffffff;
+      color: #3d464d; }
+
+    .novo-action-row {
+      border-top-color: #3d464d; }
+
+    .novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled='true']).cdk-keyboard-focused, .novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled='true']).cdk-program-focused, .novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled='true']):hover {
+      background: rgba(0, 0, 0, 0.04); }
+
+    .novo-expansion-panel-header-title {
+      color: #3d464d; }
+
+    .novo-expansion-panel-header-description,
+    .novo-expansion-indicator::after {
+      color: #999999; }
+
+    .novo-expansion-panel-header[aria-disabled='true'] {
+      color: #999999;
+      pointer-events: none; }
+      .novo-expansion-panel-header[aria-disabled='true'] .novo-expansion-panel-header-title,
+      .novo-expansion-panel-header[aria-disabled='true'] .novo-expansion-panel-header-description {
+        color: inherit; }
+
+    .novo-expansion-panel.novo-expanded[theme='company'] {
+      border-top: 3px solid #3399dd; }
+
+    .novo-expansion-panel.novo-expanded[theme='candidate'] {
+      border-top: 3px solid #44bb77; }
+
+    .novo-expansion-panel.novo-expanded[theme='navigation'] {
+      border-top: 3px solid #2f384f; }
+
+    .novo-expansion-panel.novo-expanded[theme='lead'] {
+      border-top: 3px solid #aa6699; }
+
+    .novo-expansion-panel.novo-expanded[theme='contact'] {
+      border-top: 3px solid #ffaa44; }
+
+    .novo-expansion-panel.novo-expanded[theme='opportunity'] {
+      border-top: 3px solid #662255; }
+
+    .novo-expansion-panel.novo-expanded[theme='job'] {
+      border-top: 3px solid #bb5566; }
+
+    .novo-expansion-panel.novo-expanded[theme='jobCode'] {
+      border-top: 3px solid #696d79; }
+
+    .novo-expansion-panel.novo-expanded[theme='sendout'] {
+      border-top: 3px solid #747884; }
+
+    .novo-expansion-panel.novo-expanded[theme='placement'] {
+      border-top: 3px solid #0b344f; }
+
+    .novo-expansion-panel.novo-expanded[theme='task'] {
+      border-top: 3px solid #4f5361; }
+
+    .novo-expansion-panel.novo-expanded[theme='distributionList'] {
+      border-top: 3px solid #4f5361; }
+
+    .novo-expansion-panel.novo-expanded[theme='credential'] {
+      border-top: 3px solid #4f5361; }
+
+    .novo-expansion-panel.novo-expanded[theme='user'] {
+      border-top: 3px solid #4f5361; }
+
+    .novo-expansion-panel.novo-expanded[theme='corporateuser'] {
+      border-top: 3px solid #4f5361; }
+
+    .novo-expansion-panel.novo-expanded[theme='aqua'] {
+      border-top: 3px solid #3bafda; }
+
+    .novo-expansion-panel.novo-expanded[theme='ocean'] {
+      border-top: 3px solid #4a89dc; }
+
+    .novo-expansion-panel.novo-expanded[theme='mint'] {
+      border-top: 3px solid #37bc9b; }
+
+    .novo-expansion-panel.novo-expanded[theme='grass'] {
+      border-top: 3px solid #8cc152; }
+
+    .novo-expansion-panel.novo-expanded[theme='sunflower'] {
+      border-top: 3px solid #f6b042; }
+
+    .novo-expansion-panel.novo-expanded[theme='bittersweet'] {
+      border-top: 3px solid #eb6845; }
+
+    .novo-expansion-panel.novo-expanded[theme='grapefruit'] {
+      border-top: 3px solid #da4453; }
+
+    .novo-expansion-panel.novo-expanded[theme='carnation'] {
+      border-top: 3px solid #d770ad; }
+
+    .novo-expansion-panel.novo-expanded[theme='lavender'] {
+      border-top: 3px solid #967adc; }
+
+    .novo-expansion-panel.novo-expanded[theme='positive'] {
+      border-top: 3px solid #4a89dc; }
+
+    .novo-expansion-panel.novo-expanded[theme='success'] {
+      border-top: 3px solid #8cc152; }
+
+    .novo-expansion-panel.novo-expanded[theme='negative'] {
+      border-top: 3px solid #da4453; }
+
+    .novo-expansion-panel.novo-expanded[theme='warning'] {
+      border-top: 3px solid #f6b042; }
+
+    .novo-expansion-panel.novo-expanded[theme='black'] {
+      border-top: 3px solid #000000; }
+
+    .novo-expansion-panel.novo-expanded[theme='dark'] {
+      border-top: 3px solid #3d464d; }
+
+    .novo-expansion-panel.novo-expanded[theme='pulse'] {
+      border-top: 3px solid #3bafda; }
+
+    .novo-expansion-panel.novo-expanded[theme='neutral'] {
+      border-top: 3px solid #4f5361; }
+
+    .novo-expansion-panel.novo-expanded[theme='navy'] {
+      border-top: 3px solid #0d2d42; }
+
+    .novo-expansion-panel.novo-expanded[theme='contract'] {
+      border-top: 3px solid #ffaa44; }
+
+    .novo-expansion-panel.novo-expanded[theme='mountain'] {
+      border-top: 3px solid #9678b6; }
+
+    .novo-expansion-panel.novo-expanded[theme='submission'] {
+      border-top: 3px solid #a9adbb; }
+
+    .novo-expansion-panel.novo-expanded[theme='note'] {
+      border-top: 3px solid #747884; }
+
+    .novo-expansion-panel.novo-expanded[theme='background'] {
+      border-top: 3px solid #f4f4f4; }
+
+    .novo-expansion-panel.novo-expanded[theme='white'] {
+      border-top: 3px solid #ffffff; }
+
+    .novo-expansion-panel.novo-expanded[theme='grey'] {
+      border-top: 3px solid #999999; }
+
+    .novo-expansion-panel.novo-expanded[theme='off-white'] {
+      border-top: 3px solid #f4f4f4; }
+
+    .novo-expansion-panel.novo-expanded[theme='light'] {
+      border-top: 3px solid #d9dadc; }
+
+    .novo-expansion-panel {
+      -webkit-box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+              box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+      -webkit-box-sizing: content-box;
+              box-sizing: content-box;
+      display: block;
+      margin: 0;
+      -webkit-transition: margin 225ms ease-in-out;
+      transition: margin 225ms ease-in-out;
+      margin: 0px 16px; }
+      .novo-expansion-panel.novo-expanded {
+        margin: 16px 4px; }
+        .novo-expansion-panel.novo-expanded:first-child {
+          margin-top: 0; }
+        .novo-expansion-panel.novo-expanded:last-child {
+          margin-bottom: 0; }
+
+    .novo-expansion-panel-content {
+      overflow: hidden; }
+      .novo-expansion-panel-content.novo-expanded {
+        overflow: visible; }
+
+    .novo-expansion-panel-padding .novo-expansion-panel-body {
+      padding: 0 24px 16px; }
+
+    .novo-accordion .novo-expansion-panel-spacing:first-child {
+      margin-top: 0; }
+
+    .novo-accordion .novo-expansion-panel-spacing:last-child {
+      margin-bottom: 0; }
+
+    .novo-action-row {
+      border-top-style: solid;
+      border-top-width: 1px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -webkit-box-pack: end;
+          -ms-flex-pack: end;
+              justify-content: flex-end;
+      padding: 16px 8px 16px 24px; }
+      .novo-action-row button.novo-button {
+        margin-left: 8px; }
+        [dir='rtl'] .novo-action-row button.novo-button {
+          margin-left: 0;
+          margin-right: 8px; }
+  `],
+                selector: 'novo-expansion-panel',
+                exportAs: 'novoExpansionPanel',
+                template: `
+    <ng-content select="novo-expansion-panel-header"></ng-content>
+    <div class="novo-expansion-panel-content"
+         role="region"
+         [@bodyExpansion]="_getExpandedState()"
+         (@bodyExpansion.done)="_bodyAnimation($event)"
+         (@bodyExpansion.start)="_bodyAnimation($event)"
+         [attr.aria-labelledby]="_headerId"
+         [id]="id"
+         #body>
+      <div class="novo-expansion-panel-body">
+        <ng-content></ng-content>
+        <ng-template [cdkPortalOutlet]="_portal"></ng-template>
+      </div>
+      <ng-content select="novo-action-row"></ng-content>
+    </div>
+  `,
+                encapsulation: ViewEncapsulation.None,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                animations: [novoExpansionAnimations.bodyExpansion],
+                host: {
+                    class: 'novo-expansion-panel',
+                    '[class.novo-expanded]': 'expanded',
+                    '[class.novo-expansion-panel-spacing]': '_hasSpacing()',
+                    '[class.novo-expansion-panel-padding]': 'padding',
+                },
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionPanel.ctorParameters = () => [
+    { type: NovoAccordion, decorators: [{ type: Optional }, { type: Host },] },
+    { type: ChangeDetectorRef, },
+    { type: UniqueSelectionDispatcher, },
+    { type: ViewContainerRef, },
+];
+NovoExpansionPanel.propDecorators = {
+    'disabled': [{ type: Input },],
+    'expanded': [{ type: Input },],
+    'hideToggle': [{ type: Input },],
+    'padding': [{ type: Input },],
+    'opened': [{ type: Output },],
+    'closed': [{ type: Output },],
+    'expandedChange': [{ type: Output },],
+    '_lazyContent': [{ type: ContentChild, args: [NovoExpansionPanelContent,] },],
+};
+class NovoExpansionPanelActionRow {
+}
+NovoExpansionPanelActionRow.decorators = [
+    { type: Directive, args: [{
+                selector: 'novo-action-row',
+                host: {
+                    class: 'novo-action-row',
+                },
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionPanelActionRow.ctorParameters = () => [];
+
+/**
+ * `<novo-expansion-panel-header>`
+ *
+ * This component corresponds to the header element of an `<novo-expansion-panel>`.
+ */
+class NovoExpansionPanelHeader {
+    /**
+     * @param {?} panel
+     * @param {?} _element
+     * @param {?} _changeDetectorRef
+     */
+    constructor(panel, _element, _changeDetectorRef) {
+        this.panel = panel;
+        this._element = _element;
+        this._changeDetectorRef = _changeDetectorRef;
+        this._parentChangeSubscription = Subscription$1.EMPTY;
+        // Since the toggle state depends on an @Input on the panel, we
+        // need to  subscribe and trigger change detection manually.
+        this._parentChangeSubscription = merge$1(panel.opened, panel.closed, panel._inputChanges.filter(changes => !!(changes.hideToggle || changes.disabled)))
+            .subscribe(() => this._changeDetectorRef.markForCheck());
+        // _focusMonitor.monitor(_element.nativeElement);
+    }
+    /**
+     * Toggles the expanded state of the panel.
+     * @return {?}
+     */
+    _toggle() {
+        this.panel.toggle();
+    }
+    /**
+     * Gets whether the panel is expanded.
+     * @return {?}
+     */
+    _isExpanded() {
+        return this.panel.expanded;
+    }
+    /**
+     * Gets the expanded state string of the panel.
+     * @return {?}
+     */
+    _getExpandedState() {
+        return this.panel._getExpandedState();
+    }
+    /**
+     * Gets the panel id.
+     * @return {?}
+     */
+    _getPanelId() {
+        return this.panel.id;
+    }
+    /**
+     * Gets whether the expand indicator should be shown.
+     * @return {?}
+     */
+    _showToggle() {
+        return !this.panel.hideToggle && !this.panel.disabled;
+    }
+    /**
+     * Handle keydown event calling to toggle() if appropriate.
+     * @param {?} event
+     * @return {?}
+     */
+    _keydown(event) {
+        switch (event.keyCode) {
+            // Toggle for space and enter keys.
+            case SPACE:
+            case ENTER:
+                event.preventDefault();
+                this._toggle();
+                break;
+            default:
+                return;
+        }
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        this._parentChangeSubscription.unsubscribe();
+        // this._focusMonitor.stopMonitoring(this._element.nativeElement);
+    }
+}
+NovoExpansionPanelHeader.decorators = [
+    { type: Component, args: [{
+                moduleId: module.id,
+                selector: 'novo-expansion-panel-header',
+                styles: [`
+    .novo-expansion-panel-header {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      padding: 0 24px; }
+      .novo-expansion-panel-header:focus, .novo-expansion-panel-header:hover {
+        outline: none; }
+      .novo-expansion-panel-header.novo-expanded:focus, .novo-expansion-panel-header.novo-expanded:hover {
+        background: inherit; }
+      .novo-expansion-panel-header:not([aria-disabled='true']) {
+        cursor: pointer; }
+
+    .novo-content {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-flex: 1;
+          -ms-flex: 1;
+              flex: 1;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      overflow: hidden; }
+
+    .novo-expansion-panel-header-title,
+    .novo-expansion-panel-header-description {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-flex: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1;
+      margin-right: 16px;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center; }
+      [dir='rtl'] .novo-expansion-panel-header-title, [dir='rtl']
+      .novo-expansion-panel-header-description {
+        margin-right: 0;
+        margin-left: 16px; }
+
+    .novo-expansion-panel-header-description {
+      -webkit-box-flex: 2;
+          -ms-flex-positive: 2;
+              flex-grow: 2; }
+
+    /**
+     * Creates the expansion indicator arrow. Done using ::after rather than having
+     * additional nodes in the template.
+     */
+    .novo-expansion-indicator::after {
+      border-style: solid;
+      border-width: 0 2px 2px 0;
+      content: '';
+      display: inline-block;
+      padding: 3px;
+      -webkit-transform: rotate(45deg);
+              transform: rotate(45deg);
+      vertical-align: middle; }
+  `],
+                template: `
+    <span class="novo-content">
+      <ng-content select="novo-panel-title"></ng-content>
+      <ng-content select="novo-panel-description"></ng-content>
+      <ng-content></ng-content>
+    </span>
+    <span [@indicatorRotate]="_getExpandedState()" *ngIf="_showToggle()"
+          class="novo-expansion-indicator"></span>
+  `,
+                encapsulation: ViewEncapsulation.None,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                animations: [
+                    novoExpansionAnimations.indicatorRotate,
+                    novoExpansionAnimations.expansionHeaderHeight
+                ],
+                host: {
+                    'class': 'novo-expansion-panel-header',
+                    'role': 'button',
+                    '[attr.id]': 'panel._headerId',
+                    '[attr.tabindex]': 'panel.disabled ? -1 : 0',
+                    '[attr.aria-controls]': '_getPanelId()',
+                    '[attr.aria-expanded]': '_isExpanded()',
+                    '[attr.aria-disabled]': 'panel.disabled',
+                    '[class.novo-expanded]': '_isExpanded()',
+                    '(click)': '_toggle()',
+                    '(keydown)': '_keydown($event)',
+                    '[@expansionHeight]': `{
+        value: _getExpandedState(),
+        params: {
+          collapsedHeight: collapsedHeight,
+          expandedHeight: expandedHeight
+        }
+    }`,
+                },
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionPanelHeader.ctorParameters = () => [
+    { type: NovoExpansionPanel, decorators: [{ type: Host },] },
+    { type: ElementRef, },
+    { type: ChangeDetectorRef, },
+];
+NovoExpansionPanelHeader.propDecorators = {
+    'expandedHeight': [{ type: Input },],
+    'collapsedHeight': [{ type: Input },],
+};
+/**
+ * `<novo-panel-description>`
+ *
+ * This direction is to be used inside of the NovoExpansionPanelHeader component.
+ */
+class NovoExpansionPanelDescription {
+}
+NovoExpansionPanelDescription.decorators = [
+    { type: Directive, args: [{
+                selector: 'novo-panel-description',
+                host: {
+                    class: 'novo-expansion-panel-header-description'
+                }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionPanelDescription.ctorParameters = () => [];
+/**
+ * `<novo-panel-title>`
+ *
+ * This direction is to be used inside of the NovoExpansionPanelHeader component.
+ */
+class NovoExpansionPanelTitle {
+}
+NovoExpansionPanelTitle.decorators = [
+    { type: Directive, args: [{
+                selector: 'novo-panel-title',
+                host: {
+                    class: 'novo-expansion-panel-header-title'
+                }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionPanelTitle.ctorParameters = () => [];
+
+class NovoExpansionModule {
+}
+NovoExpansionModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule, CdkAccordionModule, PortalModule],
+                exports: [
+                    NovoAccordion,
+                    NovoExpansionPanel,
+                    NovoExpansionPanelActionRow,
+                    NovoExpansionPanelHeader,
+                    NovoExpansionPanelTitle,
+                    NovoExpansionPanelDescription,
+                    NovoExpansionPanelContent,
+                ],
+                declarations: [
+                    NovoAccordion,
+                    NovoExpansionPanel,
+                    NovoExpansionPanelActionRow,
+                    NovoExpansionPanelHeader,
+                    NovoExpansionPanelTitle,
+                    NovoExpansionPanelDescription,
+                    NovoExpansionPanelContent,
+                ],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionModule.ctorParameters = () => [];
+
+class NovoStepLabel extends CdkStepLabel {
+    /**
+     * @param {?} template
+     */
+    constructor(template) {
+        super(template);
+    }
+}
+NovoStepLabel.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoStepLabel]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepLabel.ctorParameters = () => [
+    { type: TemplateRef, },
+];
+
+class NovoStepHeader {
+    /**
+     * @param {?} _focusMonitor
+     * @param {?} _element
+     */
+    constructor(_focusMonitor, _element) {
+        this._focusMonitor = _focusMonitor;
+        this._element = _element;
+        _focusMonitor.monitor(_element.nativeElement, true);
+    }
+    /**
+     * Index of the given step.
+     * @return {?}
+     */
+    get index() { return this._index; }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set index(value) { this._index = coerceNumberProperty(value); }
+    /**
+     * Whether the given step is selected.
+     * @return {?}
+     */
+    get selected() { return this._selected; }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set selected(value) { this._selected = coerceBooleanProperty(value); }
+    /**
+     * Whether the given step label is active.
+     * @return {?}
+     */
+    get active() { return this._active; }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set active(value) { this._active = coerceBooleanProperty(value); }
+    /**
+     * Whether the given step label is active.
+     * @return {?}
+     */
+    get touched() { return this.selected || this.state === 'edit' || this.state === 'done'; }
+    /**
+     * Whether the given step is optional.
+     * @return {?}
+     */
+    get optional() { return this._optional; }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set optional(value) { this._optional = coerceBooleanProperty(value); }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        this._focusMonitor.stopMonitoring(this._element.nativeElement);
+    }
+    /**
+     * Returns string label of given step if it is a text label.
+     * @return {?}
+     */
+    _stringLabel() {
+        return this.label instanceof NovoStepLabel ? null : this.label;
+    }
+    /**
+     * Returns NovoStepLabel if the label of given step is a template label.
+     * @return {?}
+     */
+    _templateLabel() {
+        return this.label instanceof NovoStepLabel ? this.label : null;
+    }
+    /**
+     * Returns the host HTML element.
+     * @return {?}
+     */
+    _getHostElement() {
+        return this._element.nativeElement;
+    }
+}
+NovoStepHeader.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-step-header',
+                template: `
+    <div [class.novo-step-icon]="touched"
+         [class.novo-step-icon-not-touched]="!touched">
+      <ng-container *ngIf="icon">
+        <novo-icon size="small" raised="true" [theme]="theme">{{icon}}</novo-icon>
+      </ng-container>
+      <ng-container *ngIf="!icon">
+        <span class="novo-step-number">{{index + 1}}</span>
+      </ng-container>
+    </div>
+    <div class="novo-step-label"
+         [class.novo-step-label-active]="active"
+         [class.novo-step-label-selected]="selected">
+      <!-- If there is a label template, use it. -->
+      <ng-container *ngIf="_templateLabel()" [ngTemplateOutlet]="_templateLabel()!.template">
+      </ng-container>
+      <!-- It there is no label template, fall back to the text label. -->
+      <div class="novo-step-text-label" *ngIf="_stringLabel()">{{label}}</div>
+    </div>
+    <novo-step-status [state]="state"></novo-step-status>
+  `,
+                styles: [`
+    @-webkit-keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @-webkit-keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @-webkit-keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @-webkit-keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    @keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    .novo-step-header {
+      overflow: visible;
+      outline: none;
+      cursor: pointer;
+      position: relative; }
+
+    .novo-step-optional {
+      font-size: 12px; }
+
+    .novo-step-icon,
+    .novo-step-icon-not-touched {
+      border-radius: 50%;
+      height: 24px;
+      width: 24px;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex; }
+      .novo-step-icon .novo-step-number,
+      .novo-step-icon-not-touched .novo-step-number {
+        font-size: 1em;
+        min-width: 1.6em;
+        height: 1.6em;
+        -webkit-box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+                box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        border-radius: 4px; }
+
+    .novo-step-icon .novo-step-number {
+      background: #4a89dc;
+      color: #ffffff; }
+
+    .novo-step-icon-not-touched .novo-step-number {
+      background: #a9adbb;
+      color: #ffffff; }
+
+    .novo-step-label {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 50px;
+      vertical-align: middle;
+      text-align: center;
+      padding: 4px 0px; }
+
+    .novo-step-text-label {
+      text-align: center;
+      text-overflow: ellipsis;
+      overflow: hidden; }
+  `],
+                host: {
+                    'class': 'novo-step-header',
+                    'role': 'tab',
+                },
+                preserveWhitespaces: false,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepHeader.ctorParameters = () => [
+    { type: FocusMonitor, },
+    { type: ElementRef, },
+];
+NovoStepHeader.propDecorators = {
+    'theme': [{ type: Input },],
+    'color': [{ type: Input },],
+    'icon': [{ type: Input },],
+    'state': [{ type: Input },],
+    'label': [{ type: Input },],
+    'iconOverrides': [{ type: Input },],
+    'index': [{ type: Input },],
+    'selected': [{ type: Input },],
+    'active': [{ type: Input },],
+    'optional': [{ type: Input },],
+};
+
+/**
+ * Animations used by the Novo steppers.
+ */
+const novoStepperAnimations = {
+    /** Animation that transitions the step along the X axis in a horizontal stepper. */
+    horizontalStepTransition: trigger$1('stepTransition', [
+        state$1('previous', style$1({ transform: 'translate3d(-100%, 0, 0)', visibility: 'hidden' })),
+        state$1('current', style$1({ transform: 'none', visibility: 'visible' })),
+        state$1('next', style$1({ transform: 'translate3d(100%, 0, 0)', visibility: 'hidden' })),
+        transition$1('* => *', animate$1('500ms cubic-bezier(0.35, 0, 0.25, 1)'))
+    ]),
+    /** Animation that transitions the step along the Y axis in a vertical stepper. */
+    verticalStepTransition: trigger$1('stepTransition', [
+        state$1('previous', style$1({ height: '0px', visibility: 'hidden' })),
+        state$1('next', style$1({ height: '0px', visibility: 'hidden' })),
+        state$1('current', style$1({ height: '*', visibility: 'visible' })),
+        transition$1('* <=> current', animate$1('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ])
+};
+
+class NovoStep extends CdkStep {
+    /**
+     * @param {?} stepper
+     */
+    constructor(stepper$$1) {
+        super(stepper$$1);
+    }
+}
+NovoStep.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-step',
+                template: `
+    <ng-template><ng-content></ng-content></ng-template>
+  `,
+                preserveWhitespaces: false,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStep.ctorParameters = () => [
+    { type: NovoStepper, decorators: [{ type: Inject, args: [forwardRef(() => NovoStepper),] },] },
+];
+NovoStep.propDecorators = {
+    'stepLabel': [{ type: ContentChild, args: [NovoStepLabel,] },],
+    'theme': [{ type: Input },],
+    'color': [{ type: Input },],
+    'icon': [{ type: Input },],
+};
+class NovoStepper extends CdkStepper {
+    constructor() {
+        super(...arguments);
+        /**
+         * Consumer-specified template-refs to be used to override the header icons.
+         */
+        this._iconOverrides = {};
+    }
+    /**
+     * @return {?}
+     */
+    get completed() {
+        try {
+            let /** @type {?} */ steps = this._steps.toArray();
+            let /** @type {?} */ length = steps.length - 1;
+            return steps[length].completed && length === this.selectedIndex;
+        }
+        catch (err) {
+            return false;
+        }
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterContentInit() {
+        // Mark the component for change detection whenever the content children query changes
+        this._steps.changes.pipe(takeUntil_2(this._destroyed)).subscribe(() => this._stateChanged());
+    }
+    /**
+     * @return {?}
+     */
+    complete() {
+        try {
+            let /** @type {?} */ steps = this._steps.toArray();
+            steps[this.selectedIndex].completed = true;
+            this.next();
+            this._stateChanged();
+        }
+        catch (err) {
+            // do nothing
+        }
+    }
+    /**
+     * @param {?} index
+     * @return {?}
+     */
+    getIndicatorType(index$$1) {
+        let /** @type {?} */ steps = this._steps.toArray();
+        if (index$$1 === this.selectedIndex) {
+            if (steps[index$$1] && index$$1 === steps.length - 1 && steps[index$$1].completed) {
+                return 'done';
+            }
+            return 'edit';
+        }
+        if (index$$1 < this.selectedIndex) {
+            return 'done';
+        }
+        return 'none';
+    }
+}
+NovoStepper.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoStepper]'
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepper.ctorParameters = () => [];
+NovoStepper.propDecorators = {
+    '_stepHeader': [{ type: ViewChildren, args: [NovoStepHeader, { read: ElementRef },] },],
+    '_steps': [{ type: ContentChildren, args: [NovoStep,] },],
+    '_icons': [{ type: ContentChildren, args: [NovoIconComponent,] },],
+};
+class NovoHorizontalStepper extends NovoStepper {
+}
+NovoHorizontalStepper.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-horizontal-stepper',
+                template: `
+    <div class="novo-horizontal-stepper-header-container">
+        <div class="novo-stepper-horizontal-line complete"></div>
+      <ng-container *ngFor="let step of _steps; let i = index; let isLast = last">
+        <novo-step-header  class="novo-horizontal-stepper-header"
+                         (click)="step.select()"
+                         (keydown)="_onKeydown($event)"
+                         [tabIndex]="_focusIndex === i ? 0 : -1"
+                         [id]="_getStepLabelId(i)"
+                         [attr.aria-controls]="_getStepContentId(i)"
+                         [attr.aria-selected]="selectedIndex == i"
+                         [index]="i"
+                         [theme]="step.theme"
+                         [color]="step.color"
+                         [icon]="step.icon"
+                         [state]="getIndicatorType(i)"
+                         [label]="step.stepLabel || step.label"
+                         [selected]="selectedIndex === i"
+                         [active]="step.completed || selectedIndex === i || !linear"
+                         [optional]="step.optional"
+                         [iconOverrides]="_iconOverrides">
+        </novo-step-header>
+      </ng-container>
+      <div class="novo-stepper-horizontal-line" [class.complete]="completed"></div>
+    </div>
+
+    <div class="novo-horizontal-content-container">
+      <div *ngFor="let step of _steps; let i = index"
+           class="novo-horizontal-stepper-content" role="tabpanel"
+           [@stepTransition]="_getAnimationDirection(i)"
+           [id]="_getStepContentId(i)"
+           [attr.aria-labelledby]="_getStepLabelId(i)"
+           [attr.aria-expanded]="selectedIndex === i">
+        <ng-container [ngTemplateOutlet]="step.content"></ng-container>
+      </div>
+    </div>
+  `,
+                styles: [`
+    @-webkit-keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @-webkit-keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @-webkit-keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @-webkit-keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    @keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    .novo-stepper-vertical,
+    .novo-stepper-horizontal {
+      display: block; }
+
+    .novo-horizontal-stepper-header-container {
+      white-space: nowrap;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      margin-bottom: 1em;
+      background: #f4f4f4; }
+
+    .novo-stepper-horizontal-line {
+      border-bottom: 1px solid #d9dadc;
+      -webkit-box-flex: 1;
+          -ms-flex: auto;
+              flex: auto;
+      min-width: 0px;
+      height: 80px; }
+      .novo-stepper-horizontal-line.complete {
+        border-bottom: 1px solid #4a89dc; }
+
+    .novo-horizontal-stepper-header {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      height: 80px;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-flow: column;
+              flex-flow: column;
+      overflow: visible;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      padding: 0 24px; }
+      .novo-horizontal-stepper-header .novo-step-status {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        position: absolute;
+        height: 1px;
+        bottom: 0px; }
+        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line {
+          width: 100%;
+          position: absolute; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before {
+            content: "";
+            display: block;
+            width: calc(50% - 8px);
+            margin-right: 8px;
+            border-bottom: 1px solid #d9dadc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after {
+            content: "";
+            display: block;
+            width: calc(50% - 8px);
+            margin-left: calc(50% + 8px);
+            margin-top: -1px;
+            border-top: 1px solid #d9dadc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before {
+            border-bottom: 1px solid #4a89dc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before {
+            border-bottom: 1px solid #4a89dc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after {
+            border-top: 1px solid #4a89dc; }
+        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon {
+          position: relative; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before {
+            content: "";
+            display: block;
+            background: #ffffff;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 0;
+            top: 1px;
+            left: 1px;
+            bottom: 1px;
+            right: 1px; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon > * {
+            position: relative;
+            z-index: 1; }
+
+    .novo-vertical-stepper-header {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      padding: 24px;
+      max-height: 24px; }
+      .novo-vertical-stepper-header .novo-step-icon,
+      .novo-vertical-stepper-header .novo-step-icon-not-touched {
+        margin-right: 12px; }
+        [dir='rtl'] .novo-vertical-stepper-header .novo-step-icon, [dir='rtl']
+        .novo-vertical-stepper-header .novo-step-icon-not-touched {
+          margin-right: 0;
+          margin-left: 12px; }
+
+    .novo-horizontal-stepper-content {
+      overflow: hidden; }
+      .novo-horizontal-stepper-content[aria-expanded='false'] {
+        height: 0; }
+
+    .novo-horizontal-content-container {
+      overflow: hidden;
+      padding: 0 24px 24px 24px; }
+
+    .novo-vertical-content-container {
+      margin-left: 36px;
+      border: 0;
+      position: relative; }
+      [dir='rtl'] .novo-vertical-content-container {
+        margin-left: 0;
+        margin-right: 36px; }
+
+    .novo-stepper-vertical-line:before {
+      content: '';
+      position: absolute;
+      top: -16px;
+      bottom: -16px;
+      left: 0;
+      z-index: -1;
+      border-left-width: 1px;
+      border-left-style: solid;
+      border-left-color: #d9dadc; }
+      [dir='rtl'] .novo-stepper-vertical-line:before {
+        left: auto;
+        right: 0; }
+
+    .novo-stepper-vertical-line.edit:before {
+      border-left-color: 1px solid #4a89dc; }
+
+    .novo-stepper-vertical-line.done:before {
+      border-left-color: 1px solid #4a89dc; }
+
+    .novo-stepper-vertical-line.done:after {
+      border-left-color: 1px solid #4a89dc; }
+
+    .novo-stepper-vertical novo-step-status {
+      position: absolute;
+      left: 35px;
+      top: 25px;
+      -webkit-transform: scale(0.8);
+              transform: scale(0.8); }
+
+    .novo-vertical-stepper-content {
+      overflow: hidden; }
+
+    .novo-vertical-content {
+      padding: 0 24px 24px 24px; }
+
+    .novo-step:last-child .novo-vertical-content-container {
+      border: none; }
+  `],
+                host: {
+                    'class': 'novo-stepper-horizontal',
+                    'aria-orientation': 'horizontal',
+                    'role': 'tablist',
+                },
+                animations: [novoStepperAnimations.horizontalStepTransition],
+                providers: [{ provide: NovoStepper, useExisting: NovoHorizontalStepper }],
+                // encapsulation: ViewEncapsulation.None,
+                preserveWhitespaces: false,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoHorizontalStepper.ctorParameters = () => [];
+NovoHorizontalStepper.propDecorators = {
+    'selectedIndex': [{ type: Input },],
+};
+class NovoVerticalStepper extends NovoStepper {
+    /**
+     * @param {?} dir
+     * @param {?} changeDetectorRef
+     */
+    constructor(dir, changeDetectorRef) {
+        super(dir, changeDetectorRef);
+        this._orientation = 'vertical';
+    }
+}
+NovoVerticalStepper.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-vertical-stepper',
+                template: `
+    <div class="novo-step" *ngFor="let step of _steps; let i = index; let isLast = last">
+        <novo-step-header  class="novo-vertical-stepper-header"
+                         (click)="step.select()"
+                         (keydown)="_onKeydown($event)"
+                         [tabIndex]="_focusIndex == i ? 0 : -1"
+                         [id]="_getStepLabelId(i)"
+                         [attr.aria-controls]="_getStepContentId(i)"
+                         [attr.aria-selected]="selectedIndex === i"
+                         [index]="i"
+                         [theme]="step.theme"
+                         [color]="step.color"
+                         [icon]="step.icon"
+                         [state]="getIndicatorType(i)"
+                         [label]="step.stepLabel || step.label"
+                         [selected]="selectedIndex === i"
+                         [active]="step.completed || selectedIndex === i || !linear"
+                         [optional]="step.optional"
+                         [iconOverrides]="_iconOverrides">
+        </novo-step-header>
+  
+        <div class="novo-vertical-content-container" [class.novo-stepper-vertical-line]="!isLast" [ngClass]="getIndicatorType(i)">
+          <div class="novo-vertical-stepper-content" role="tabpanel"
+               [@stepTransition]="_getAnimationDirection(i)"
+               [id]="_getStepContentId(i)"
+               [attr.aria-labelledby]="_getStepLabelId(i)"
+               [attr.aria-expanded]="selectedIndex === i">
+            <div class="novo-vertical-content">
+              <ng-container [ngTemplateOutlet]="step.content"></ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+  `,
+                styles: [`
+    @-webkit-keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @keyframes rotate {
+      0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); }
+      75% {
+        -webkit-transform: rotateZ(200deg);
+                transform: rotateZ(200deg); }
+      100% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg); } }
+
+    @-webkit-keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @keyframes half-rotate {
+      0% {
+        -webkit-transform: rotateZ(45deg);
+                transform: rotateZ(45deg); }
+      75% {
+        -webkit-transform: rotateZ(100deg);
+                transform: rotateZ(100deg); }
+      100% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); } }
+
+    @-webkit-keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @keyframes rotateBack {
+      0% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg); }
+      100% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg); } }
+
+    @-webkit-keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    @keyframes show {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%);
+                transform: translateX(-100%); }
+      75% {
+        -webkit-transform: translateX(0px);
+                transform: translateX(0px); }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+                transform: translateX(0); } }
+
+    .novo-stepper-vertical,
+    .novo-stepper-horizontal {
+      display: block; }
+
+    .novo-horizontal-stepper-header-container {
+      white-space: nowrap;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      margin-bottom: 1em;
+      background: #f4f4f4; }
+
+    .novo-stepper-horizontal-line {
+      border-bottom: 1px solid #d9dadc;
+      -webkit-box-flex: 1;
+          -ms-flex: auto;
+              flex: auto;
+      min-width: 0px;
+      height: 80px; }
+      .novo-stepper-horizontal-line.complete {
+        border-bottom: 1px solid #4a89dc; }
+
+    .novo-horizontal-stepper-header {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      height: 80px;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-flow: column;
+              flex-flow: column;
+      overflow: visible;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      padding: 0 24px; }
+      .novo-horizontal-stepper-header .novo-step-status {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        position: absolute;
+        height: 1px;
+        bottom: 0px; }
+        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line {
+          width: 100%;
+          position: absolute; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before {
+            content: "";
+            display: block;
+            width: calc(50% - 8px);
+            margin-right: 8px;
+            border-bottom: 1px solid #d9dadc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after {
+            content: "";
+            display: block;
+            width: calc(50% - 8px);
+            margin-left: calc(50% + 8px);
+            margin-top: -1px;
+            border-top: 1px solid #d9dadc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before {
+            border-bottom: 1px solid #4a89dc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before {
+            border-bottom: 1px solid #4a89dc; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after {
+            border-top: 1px solid #4a89dc; }
+        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon {
+          position: relative; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before {
+            content: "";
+            display: block;
+            background: #ffffff;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 0;
+            top: 1px;
+            left: 1px;
+            bottom: 1px;
+            right: 1px; }
+          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon > * {
+            position: relative;
+            z-index: 1; }
+
+    .novo-vertical-stepper-header {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      padding: 24px;
+      max-height: 24px; }
+      .novo-vertical-stepper-header .novo-step-icon,
+      .novo-vertical-stepper-header .novo-step-icon-not-touched {
+        margin-right: 12px; }
+        [dir='rtl'] .novo-vertical-stepper-header .novo-step-icon, [dir='rtl']
+        .novo-vertical-stepper-header .novo-step-icon-not-touched {
+          margin-right: 0;
+          margin-left: 12px; }
+
+    .novo-horizontal-stepper-content {
+      overflow: hidden; }
+      .novo-horizontal-stepper-content[aria-expanded='false'] {
+        height: 0; }
+
+    .novo-horizontal-content-container {
+      overflow: hidden;
+      padding: 0 24px 24px 24px; }
+
+    .novo-vertical-content-container {
+      margin-left: 36px;
+      border: 0;
+      position: relative; }
+      [dir='rtl'] .novo-vertical-content-container {
+        margin-left: 0;
+        margin-right: 36px; }
+
+    .novo-stepper-vertical-line:before {
+      content: '';
+      position: absolute;
+      top: -16px;
+      bottom: -16px;
+      left: 0;
+      z-index: -1;
+      border-left-width: 1px;
+      border-left-style: solid;
+      border-left-color: #d9dadc; }
+      [dir='rtl'] .novo-stepper-vertical-line:before {
+        left: auto;
+        right: 0; }
+
+    .novo-stepper-vertical-line.edit:before {
+      border-left-color: 1px solid #4a89dc; }
+
+    .novo-stepper-vertical-line.done:before {
+      border-left-color: 1px solid #4a89dc; }
+
+    .novo-stepper-vertical-line.done:after {
+      border-left-color: 1px solid #4a89dc; }
+
+    .novo-stepper-vertical novo-step-status {
+      position: absolute;
+      left: 35px;
+      top: 25px;
+      -webkit-transform: scale(0.8);
+              transform: scale(0.8); }
+
+    .novo-vertical-stepper-content {
+      overflow: hidden; }
+
+    .novo-vertical-content {
+      padding: 0 24px 24px 24px; }
+
+    .novo-step:last-child .novo-vertical-content-container {
+      border: none; }
+  `],
+                host: {
+                    'class': 'novo-stepper-vertical',
+                    'aria-orientation': 'vertical',
+                    'role': 'tablist',
+                },
+                animations: [novoStepperAnimations.verticalStepTransition],
+                providers: [{ provide: NovoStepper, useExisting: NovoVerticalStepper }],
+                preserveWhitespaces: false,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoVerticalStepper.ctorParameters = () => [
+    { type: Directionality, decorators: [{ type: Optional },] },
+    { type: ChangeDetectorRef, },
+];
+NovoVerticalStepper.propDecorators = {
+    'selectedIndex': [{ type: Input },],
+};
+
+class NovoStepStatus {
+    /**
+     * @param {?} stepper
+     * @param {?} step
+     */
+    constructor(stepper$$1, step) {
+    }
+}
+NovoStepStatus.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-step-status',
+                template: `
+    <div class="novo-stepper-status-line" [ngClass]="state"></div>
+    <div [ngSwitch]="state" class="novo-stepper-status-icon">
+      <novo-icon size="small" color="positive" *ngSwitchCase="'edit'">check-circle</novo-icon>
+      <novo-icon size="small" color="positive" *ngSwitchCase="'done'">check-circle-filled</novo-icon>
+      <novo-icon size="small" color="positive" *ngSwitchDefault>circle-o</novo-icon>
+    </div>
+  `,
+                // encapsulation: ViewEncapsulation.None,
+                preserveWhitespaces: false,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                host: {
+                    'class': 'novo-step-status'
+                },
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepStatus.ctorParameters = () => [
+    { type: NovoStepper, decorators: [{ type: Inject, args: [forwardRef(() => NovoStepper),] },] },
+    { type: NovoStepHeader, decorators: [{ type: Inject, args: [forwardRef(() => NovoStepHeader),] },] },
+];
+NovoStepStatus.propDecorators = {
+    'state': [{ type: Input },],
+};
+
+class NovoStepperModule {
+}
+NovoStepperModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [
+                    CommonModule,
+                    PortalModule,
+                    NovoButtonModule,
+                    CdkStepperModule,
+                    NovoIconModule,
+                    A11yModule,
+                ],
+                exports: [
+                    NovoHorizontalStepper,
+                    NovoVerticalStepper,
+                    NovoStep,
+                    NovoStepLabel,
+                    NovoStepper,
+                    NovoStepHeader,
+                    NovoStepStatus,
+                ],
+                declarations: [
+                    NovoHorizontalStepper,
+                    NovoVerticalStepper,
+                    NovoStep,
+                    NovoStepLabel,
+                    NovoStepper,
+                    NovoStepHeader,
+                    NovoStepStatus,
+                ]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepperModule.ctorParameters = () => [];
+
+// NG2
+// APP
+class NovoCategoryDropdownElement extends OutsideClick {
+    /**
+     * @param {?} element
+     * @param {?} labels
+     */
+    constructor(element, labels) {
+        super(element);
+        this.labels = labels;
+        this._query = '';
+        this._categoryMap = {};
+        this._categories = [];
+        // Boolean to keep the selection persist when closing the dropdown
+        this.persistSelection = false;
+        // Boolean to close the dropdown on selection
+        this.closeOnSelect = false;
+        // Event that is emitted whenever an item is selected
+        this._select = new EventEmitter();
+        // Event that is emitted whenever a category is selected
+        this.categorySelected = new EventEmitter();
+        this.clickHandler = this.toggleActive.bind(this);
+    }
+    /**
+     * @param {?} categories
+     * @return {?}
+     */
+    set categories(categories) {
+        this._masterCategoryMap = Object.assign({}, categories);
+        this._categoryMap = Object.assign({}, categories);
+        this._categories = Object.keys(categories);
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+        let /** @type {?} */ button = this.element.nativeElement.querySelector('button');
+        button.addEventListener('click', this.clickHandler);
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        let /** @type {?} */ button = this.element.nativeElement.querySelector('button');
+        if (button) {
+            button.removeEventListener('click', this.clickHandler);
+        }
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    onKeyDown(event) {
+        if (this.active && (event.keyCode === KeyCodes.ESC || event.keyCode === KeyCodes.ENTER)) {
+            this.toggleActive();
+        }
+    }
+    /**
+     * @return {?}
+     */
+    clearSelection() {
+        this._categories.forEach(category => {
+            this._categoryMap[category].forEach(item => {
+                item.selected = false;
+            });
+        });
+    }
+    /**
+     * @param {?} event
+     * @param {?} item
+     * @return {?}
+     */
+    select(event, item) {
+        Helpers.swallowEvent(event);
+        // If we persist the selection, clear and show a check
+        if (this.persistSelection) {
+            this.clearSelection();
+            item.selected = true;
+        }
+        // Emit the item
+        this._select.emit(item);
+        // Close, if input is set
+        if (this.closeOnSelect) {
+            this.toggleActive();
+        }
+    }
+    /**
+     * @param {?} category
+     * @return {?}
+     */
+    onCategorySelected(category) {
+        this.categorySelected.emit(category);
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    clearQuery(event) {
+        Helpers.swallowEvent(event);
+        this._query = '';
+        // Reset the categories
+        this._categories.forEach(category => {
+            this._categoryMap[category] = this._masterCategoryMap[category];
+        });
+    }
+    /**
+     * @param {?} query
+     * @return {?}
+     */
+    queryCategories(query$$1) {
+        // Save the query
+        this._query = query$$1;
+        // Check timeout
+        if (this._queryTimeout) {
+            clearTimeout(this._queryTimeout);
+        }
+        // Store a timeout, to debounce user input
+        this._queryTimeout = setTimeout(() => {
+            this._categories.forEach(category => {
+                if (this.search.compare) {
+                    this._categoryMap[category] = this._masterCategoryMap[category].filter(item => this.search.compare(query$$1, item));
+                }
+                else {
+                    this._categoryMap[category] = this._masterCategoryMap[category].filter(item => ~item.label.toLowerCase().indexOf(query$$1.toLowerCase()));
+                }
+            });
+        }, this.search.debounce || 300);
+    }
+    /**
+     * @param {?} event
+     * @param {?} link
+     * @return {?}
+     */
+    executeClickCallback(event, link) {
+        link.callback(event);
+        // Close, if input is set
+        if (this.closeOnSelect) {
+            this.toggleActive();
+        }
+    }
+}
+NovoCategoryDropdownElement.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-category-dropdown',
+                template: `
+        <ng-content select="button"></ng-content>
+        <div class="dropdown-container" *ngIf="active">
+            <div class="novo-category-dropdown-search" *ngIf="search" data-automation-id="novo-category-dropdown-search">
+                <input type="text" [placeholder]="search.placeholder || labels.search" [value]="_query" (input)="queryCategories($event.target.value)"/>
+                <i class="bhi-search" *ngIf="!_query"></i>
+                <i class="bhi-times" *ngIf="_query" (click)="clearQuery($event)"></i>
+            </div>
+            <novo-nav theme="white" [outlet]="novoCategoryDropdownOutlet" direction="vertical">
+                <novo-tab *ngFor="let category of _categories" [attr.data-automation-id]="category" (activeChange)="onCategorySelected(category)">
+                    <span>{{ category }} ({{ _categoryMap[category].length }})</span>
+                </novo-tab>
+            </novo-nav>
+            <novo-nav-outlet #novoCategoryDropdownOutlet>
+                <novo-nav-content *ngFor="let category of _categories">
+                    <novo-list direction="vertical">
+                        <novo-list-item *ngFor="let item of _categoryMap[category]" (click)="select($event, item)" [attr.data-automation-id]="item.label">
+                            <item-content>{{ item.label }}</item-content>
+                            <item-end class="novo-category-dropdown-hover" *ngIf="item.hoverText && !item.selected">{{ item.hoverText }}</item-end>
+                            <item-end class="novo-category-dropdown-hover" *ngIf="item.hoverIcon && !item.selected"><i class="bhi-{{ item.hoverIcon }}"></i></item-end>
+                            <item-end *ngIf="item.selected"><i class="bhi-check"></i></item-end>
+                        </novo-list-item>
+                        <novo-list-item *ngIf="_categoryMap[category].length === 0 && search" class="novo-category-dropdown-empty-item">
+                            <item-content>{{ search.emptyMessage || labels.noItems }}</item-content>
+                        </novo-list-item>
+                    </novo-list>
+                </novo-nav-content>
+            </novo-nav-outlet>
+            <footer *ngIf="footer" class="novo-category-dropdown-footer-align-{{ footer.align || 'right' }}">
+                <a *ngFor="let link of footer.links" (click)="executeClickCallback($event, link)">{{ link.label }}</a>
+            </footer>
+        </div>
+    `,
+                host: {
+                    '(keydown)': 'onKeyDown($event)',
+                    '[class.active]': 'active'
+                }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoCategoryDropdownElement.ctorParameters = () => [
+    { type: ElementRef, },
+    { type: NovoLabelService, },
+];
+NovoCategoryDropdownElement.propDecorators = {
+    'persistSelection': [{ type: Input },],
+    'closeOnSelect': [{ type: Input },],
+    'search': [{ type: Input },],
+    'footer': [{ type: Input },],
+    '_select': [{ type: Output, args: ['itemSelected',] },],
+    'categorySelected': [{ type: Output },],
+    'categories': [{ type: Input },],
+};
+
+// NG2
+// APP
+class NovoCategoryDropdownModule {
+}
+NovoCategoryDropdownModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule, NovoTabModule, NovoListModule],
+                declarations: [NovoCategoryDropdownElement],
+                exports: [NovoCategoryDropdownElement]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoCategoryDropdownModule.ctorParameters = () => [];
+
+// NG2
+// Vendor
+// Value accessor for the component (supports ngModel)
+const CHIPS_VALUE_ACCESSOR$1 = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => NovoMultiPickerElement),
+    multi: true
+};
+class NovoMultiPickerElement {
+    /**
+     * @param {?} element
+     * @param {?} labels
+     */
+    constructor(element, labels) {
+        this.element = element;
+        this.labels = labels;
+        this.placeholder = '';
+        this.changed = new EventEmitter();
+        this.focus = new EventEmitter();
+        this.blur = new EventEmitter();
+        this.items = [];
+        this._items = new ReplaySubject$1(1);
+        this.selected = null;
+        this.config = {};
+        // private data model
+        this._value = {};
+        this.notShown = {};
+        this.onModelChange = () => {
+        };
+        this.onModelTouched = () => {
+        };
+        this.chipsCount = 4;
+    }
+    /**
+     * @return {?}
+     */
+    get value() {
+        return this._value;
+    }
+    /**
+     * @param {?} selectedItems
+     * @return {?}
+     */
+    set value(selectedItems) {
+        if (selectedItems) {
+            this.types.forEach(x => this._value[x.value] = selectedItems[x.value]);
+        }
+        else {
+            this._value = {};
+            this.types.forEach(x => this._value[x.value] = []);
+        }
+        this.changed.emit(selectedItems);
+        this.onModelChange(selectedItems);
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+        this.selectAllOption = this.source.selectAllOption || false;
+        this.chipsCount = this.source.chipsCount || 4;
+        this.strictRelationship = this.source.strictRelationship || false;
+        this.setupOptions();
+    }
+    /**
+     * @return {?}
+     */
+    clearValue() {
+        this.types.forEach(type => this.modifyAllOfType(type.value, 'unselect'));
+        this.items = [];
+        this._items.next(this.items);
+        this.value = this.setInitialValue(null);
+        this.onModelChange(this.value);
+    }
+    /**
+     * @param {?} event
+     * @param {?} item
+     * @return {?}
+     */
+    removeFromDisplay(event, item) {
+        this.remove(true, item);
+        this.modifyAffectedParentsOrChildren(false, item);
+    }
+    /**
+     * @return {?}
+     */
+    setupOptions() {
+        this.options = this.source.options || [];
+        this._options = [];
+        if (this.options) {
+            this.options.forEach(option => {
+                let /** @type {?} */ formattedOption = this.setupOptionsByType(option);
+                this._options.push(formattedOption);
+            });
+        }
+        this.source.options = this._options;
+    }
+    /**
+     * @param {?} section
+     * @return {?}
+     */
+    setupOptionsByType(section) {
+        let /** @type {?} */ formattedSection = {
+            type: section.type,
+            label: section.label || section.type
+        };
+        formattedSection.data = section.data.map(item => {
+            return this.formatOption(section, item);
+        });
+        if (this.selectAllOption) {
+            let /** @type {?} */ selectAll = this.createSelectAllOption(section);
+            formattedSection.data.splice(0, 0, selectAll);
+        }
+        formattedSection.originalData = formattedSection.data.slice();
+        return formattedSection;
+    }
+    /**
+     * @param {?} section
+     * @param {?} item
+     * @return {?}
+     */
+    formatOption(section, item) {
+        let /** @type {?} */ obj = {
+            value: section.field ? item[section.field] : (item.value || item),
+            label: section.format ? Helpers.interpolate(section.format, item) : item.label || String(item.value || item),
+            type: section.type,
+            checked: undefined,
+            isParentOf: section.isParentOf,
+            isChildOf: section.isChildOf
+        };
+        if (obj.isChildOf) {
+            obj[section.isChildOf] = item[section.isChildOf];
+        }
+        return obj;
+    }
+    /**
+     * @param {?} section
+     * @return {?}
+     */
+    createSelectAllOption(section) {
+        let /** @type {?} */ selectAll = {
+            value: 'ALL',
+            label: `All ${section.type}`,
+            type: section.type,
+            checked: (this.model && this.model.length && (this.model.indexOf('ALL') !== -1)),
+            isParentOf: section.isParentOf,
+            isChildOf: section.isChildOf
+        };
+        if (section.isChildOf) {
+            let /** @type {?} */ allParents = section.data.reduce((accum, next) => {
+                return accum.concat(next[section.isChildOf]);
+            }, []);
+            selectAll[section.isChildOf] = allParents;
+        }
+        return selectAll;
+    }
+    /**
+     * @return {?}
+     */
+    deselectAll() {
+        this.selected = null;
+    }
+    /**
+     * @param {?} event
+     * @param {?} item
+     * @return {?}
+     */
+    select(event, item) {
+        this.blur.emit(event);
+        this.deselectAll();
+        this.selected = item;
+    }
+    /**
+     * @param {?} e
+     * @return {?}
+     */
+    onFocus(e) {
+        this.element.nativeElement.classList.add('selected');
+        this.focus.emit(e);
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    clickOption(event) {
+        if (event && !(event instanceof Event)) {
+            if (event.checked === false) {
+                this.remove(null, event);
+            }
+            else {
+                this.add(event);
+            }
+            this.modifyAffectedParentsOrChildren(event.checked, event);
+            // Set focus on the picker
+            let /** @type {?} */ input = this.element.nativeElement.querySelector('novo-picker > input');
+            if (input) {
+                input.focus();
+            }
+        }
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    add(event) {
+        if (event.value === 'ALL') {
+            this.modifyAllOfType(event.type, 'select');
+        }
+        else {
+            this.updateDisplayItems(event, 'add');
+            this.value[event.type].push(event.value);
+            this.updateAllItemState(event.type);
+            this.triggerValueUpdate();
+        }
+        this.updateParentOrChildren(event, 'select');
+        this.select(null, event);
+    }
+    /**
+     * @param {?} type
+     * @return {?}
+     */
+    updateAllItemState(type) {
+        let /** @type {?} */ allOfType = this.getAllOfType(type);
+        let /** @type {?} */ allOfTypeSelected = this.allItemsSelected(allOfType, type);
+        if (allOfTypeSelected) {
+            this.selectAll(allOfType, type);
+        }
+        return { allOfType, allOfTypeSelected };
+    }
+    /**
+     * @param {?} allOfType
+     * @param {?} status
+     * @return {?}
+     */
+    setIndeterminateState(allOfType, status) {
+        if (!this.selectAllOption) {
+            return;
+        }
+        let /** @type {?} */ allItem = allOfType[0];
+        allItem.indeterminate = status;
+    }
+    /**
+     * @param {?} item
+     * @param {?} action
+     * @return {?}
+     */
+    updateDisplayItems(item, action) {
+        let /** @type {?} */ adding = action === 'add';
+        if (adding) {
+            this.items.push(item);
+        }
+        else {
+            if (this.items.indexOf(item) > -1) {
+                this.items.splice(this.items.indexOf(item), 1);
+            }
+        }
+        this.updateDisplayText(this.items);
+        this._items.next(this.items);
+    }
+    /**
+     * @param {?} items
+     * @return {?}
+     */
+    updateDisplayText(items) {
+        this.notShown = [];
+        let /** @type {?} */ notShown = items.slice(this.chipsCount);
+        if (notShown.length > 0) {
+            this.types.forEach(type => {
+                let /** @type {?} */ count;
+                let /** @type {?} */ selectedOfType = notShown.filter(x => x.type === type.value);
+                if (selectedOfType.length === 1 && selectedOfType[0].value === 'ALL') {
+                    count = this.getAllOfType(type.value).length - 1;
+                }
+                else {
+                    count = selectedOfType.length;
+                }
+                let /** @type {?} */ displayType = count === 1 ? type.singular : type.plural || type.value;
+                if (count > 0) {
+                    this.notShown.push({ type: displayType, count: count });
+                }
+            });
+        }
+    }
+    /**
+     * @param {?} event
+     * @param {?} item
+     * @return {?}
+     */
+    remove(event, item) {
+        let /** @type {?} */ triggeredByEvent;
+        if (event) {
+            triggeredByEvent = true;
+        }
+        let /** @type {?} */ itemToRemove = item;
+        if (itemToRemove.value === 'ALL') {
+            triggeredByEvent = false;
+            this.modifyAllOfType(itemToRemove.type, 'unselect');
+        }
+        else if (this.allOfTypeSelected(itemToRemove.type)) {
+            this.handleRemoveItemIfAllSelected(itemToRemove);
+        }
+        this.removeItem(item, triggeredByEvent);
+    }
+    /**
+     * @param {?} item
+     * @param {?=} triggeredByEvent
+     * @return {?}
+     */
+    removeItem(item, triggeredByEvent) {
+        item.checked = false;
+        this.deselectAll();
+        this.removeValue(item);
+        if (item.value !== 'ALL') {
+            this.updateParentOrChildren(item, 'unselect');
+        }
+        if (triggeredByEvent) {
+            this.modifyAffectedParentsOrChildren(false, item);
+        }
+    }
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    removeValue(item) {
+        let /** @type {?} */ updatedValues = this.value[item.type].filter(x => x !== item.value);
+        this.value[item.type] = updatedValues;
+        this.triggerValueUpdate();
+        this.updateDisplayItems(item, 'remove');
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    onKeyDown(event) {
+        if (event.keyCode === KeyCodes.BACKSPACE) {
+            if (event.target && event.target.value.length === 0 && this.items.length) {
+                if (event) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+                if (this.selected) {
+                    this.remove(null, this.selected);
+                }
+                else {
+                    this.select(event, this.items[this.items.length - 1]);
+                }
+            }
+        }
+    }
+    /**
+     * @param {?} type
+     * @return {?}
+     */
+    allOfTypeSelected(type) {
+        return this.items.filter(x => x.type === type && x.value === 'ALL').length > 0;
+    }
+    /**
+     * @param {?} type
+     * @param {?} action
+     * @return {?}
+     */
+    modifyAllOfType(type, action) {
+        let /** @type {?} */ selecting = action === 'select';
+        let /** @type {?} */ allOfType = this.getAllOfType(type);
+        allOfType.forEach(item => {
+            item.checked = selecting;
+            item.indeterminate = false;
+        });
+        if (selecting) {
+            this.selectAll(allOfType, type);
+        }
+        else {
+            this.items = [...this.items.filter(x => x.type !== type)];
+            this._items.next(this.items);
+            this.value[type] = [];
+        }
+        if (this.selectAllOption) {
+            this.updateAllParentsOrChildren(allOfType[0], action);
+        }
+        this.triggerValueUpdate();
+    }
+    /**
+     * @return {?}
+     */
+    triggerValueUpdate() {
+        let /** @type {?} */ updatedObject = {};
+        this.types.forEach(x => updatedObject[x.value] = this.value[x.value]);
+        this.value = updatedObject;
+    }
+    /**
+     * @param {?} allOfType
+     * @param {?} type
+     * @return {?}
+     */
+    selectAll(allOfType, type) {
+        if (!this.selectAllOption) {
+            return;
+        }
+        allOfType[0].checked = true;
+        let /** @type {?} */ values = allOfType.map(i => {
+            return i.value;
+        });
+        //remove 'ALL' value
+        values.splice(0, 1);
+        this.value[type] = values;
+        let /** @type {?} */ updatedItems = this.items.filter(x => x.type !== type);
+        this.items = updatedItems;
+        this.updateDisplayItems(allOfType[0], 'add');
+    }
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    handleRemoveItemIfAllSelected(item) {
+        if (!this.selectAllOption) {
+            return;
+        }
+        let /** @type {?} */ type = item.type;
+        let /** @type {?} */ allOfType = this.getAllOfType(type);
+        let /** @type {?} */ allItem = allOfType[0];
+        this.removeItem(allItem);
+        allItem.indeterminate = true;
+        let /** @type {?} */ selectedItems = allOfType.filter(i => i.checked === true);
+        this.items = [...this.items, ...selectedItems];
+        let /** @type {?} */ values = selectedItems.map(i => {
+            return i.value;
+        });
+        this.value[type] = [...values];
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    handleOutsideClick(event) {
+        // If the elements doesn't contain the target element, it is an outside click
+        if (!this.element.nativeElement.contains(event.target)) {
+            this.blur.emit(event);
+            this.deselectAll();
+        }
+    }
+    /**
+     * @param {?} type
+     * @return {?}
+     */
+    getAllOfType(type) {
+        return this._options.filter(x => x.type === type)[0].originalData;
+    }
+    /**
+     * @param {?} item
+     * @param {?} action
+     * @return {?}
+     */
+    updateParentOrChildren(item, action) {
+        if (this.strictRelationship && item.isParentOf) {
+            this.updateChildrenValue(item, action);
+        }
+        else if (item.isChildOf && this.selectAllOption) {
+            this.updateParentValue(item, action);
+        }
+    }
+    /**
+     * @param {?} selecting
+     * @param {?} itemChanged
+     * @return {?}
+     */
+    modifyAffectedParentsOrChildren(selecting, itemChanged) {
+        if (!itemChanged.isChildOf && !itemChanged.isParentOf) {
+            return;
+        }
+        let /** @type {?} */ parent = this.types.filter(x => !!x.isParentOf)[0];
+        let /** @type {?} */ parentType = parent.value;
+        let /** @type {?} */ allParentType = this.getAllOfType(parentType);
+        let /** @type {?} */ childType = allParentType[0].isParentOf;
+        let /** @type {?} */ allChildren = this.getAllOfType(childType);
+        let /** @type {?} */ allCheckedChildren = allChildren.filter(x => !!x.checked);
+        allParentType.forEach(obj => {
+            if (obj.value === 'ALL') {
+                return;
+            }
+            let /** @type {?} */ selectedChildrenOfParent = allCheckedChildren.filter(x => {
+                return x[parentType].filter(y => y === obj.value).length > 0;
+            });
+            if (selecting) {
+                if (obj.checked) {
+                    return;
+                }
+                obj.indeterminate = selectedChildrenOfParent.length > 0;
+            }
+            else {
+                let /** @type {?} */ allChildrenOfParent = allChildren.filter(x => {
+                    return x.value !== 'ALL' && x[parentType].filter(y => y === obj.value).length > 0;
+                });
+                if (selectedChildrenOfParent.length > 0) {
+                    if (obj.checked) {
+                        if (this.strictRelationship && (allChildrenOfParent.length !== selectedChildrenOfParent.length)) {
+                            obj.indeterminate = true;
+                            obj.checked = false;
+                            this.removeValue(obj);
+                            this.addIndividualChildren(selectedChildrenOfParent);
+                        }
+                    }
+                    else {
+                        obj.indeterminate = true;
+                    }
+                    if (this.strictRelationship && itemChanged.type !== parentType) {
+                        if (obj.checked) {
+                            obj.checked = false;
+                            this.removeValue(obj);
+                            this.addIndividualChildren(selectedChildrenOfParent);
+                        }
+                    }
+                }
+                else {
+                    obj.indeterminate = false;
+                    if (allChildrenOfParent.length === 0) {
+                        //if it has no children and is checked, it should stay checked
+                        return;
+                    }
+                    else if (this.strictRelationship && itemChanged.type !== parentType) {
+                        this.remove(null, obj);
+                    }
+                }
+            }
+        });
+        if (this.selectAllOption) {
+            this.updateIndeterminateStates(allParentType, allChildren, allCheckedChildren);
+        }
+    }
+    /**
+     * @param {?} allItem
+     * @param {?} action
+     * @return {?}
+     */
+    updateAllParentsOrChildren(allItem, action) {
+        if (allItem.isParentOf) {
+            this.updateAllChildrenValue(allItem, action);
+        }
+        else if (allItem.isChildOf) {
+            this.updateAllParentValue(allItem, action);
+        }
+    }
+    /**
+     * @param {?} item
+     * @param {?} action
+     * @return {?}
+     */
+    updateAllChildrenValue(item, action) {
+        let /** @type {?} */ selecting = action === 'select';
+        let /** @type {?} */ childType = item.isParentOf;
+        let /** @type {?} */ potentialChildren = this.getAllOfType(childType);
+        if (this.selectAllOption && this.allOfTypeSelected(childType) && !selecting) {
+            this.remove(null, potentialChildren[0]);
+            return;
+        }
+        potentialChildren.forEach(x => {
+            if (x.value === 'ALL' && !x.checked) {
+                if (selecting) {
+                    x.checked = true;
+                }
+                x.indeterminate = selecting;
+            }
+            else {
+                if (x.checked && !selecting) {
+                    this.remove(null, x);
+                }
+                x.checked = selecting;
+            }
+        });
+    }
+    /**
+     * @param {?} item
+     * @param {?} action
+     * @return {?}
+     */
+    updateAllParentValue(item, action) {
+        let /** @type {?} */ selecting = action === 'select';
+        let /** @type {?} */ parentType = item.isChildOf;
+        let /** @type {?} */ potentialParents = this.getAllOfType(parentType);
+        potentialParents.forEach(x => {
+            if (!x.checked) {
+                x.indeterminate = selecting;
+            }
+        });
+    }
+    /**
+     * @param {?} allParentType
+     * @param {?} allChildren
+     * @param {?} allCheckedChildren
+     * @return {?}
+     */
+    updateIndeterminateStates(allParentType, allChildren, allCheckedChildren) {
+        let /** @type {?} */ allCheckedOrIndeterminateParents = allParentType.filter(x => (!!x.checked || !!x.indeterminate) && x.value !== 'ALL');
+        let /** @type {?} */ isParentIndeterminate = !!allParentType[0].checked ? false : allCheckedOrIndeterminateParents.length > 0;
+        let /** @type {?} */ isChildIndeterminate = !!allChildren[0].checked ? false : allCheckedChildren.length > 0;
+        this.setIndeterminateState(allParentType, isParentIndeterminate);
+        this.setIndeterminateState(allChildren, isChildIndeterminate);
+    }
+    /**
+     * @param {?} parent
+     * @param {?} action
+     * @return {?}
+     */
+    updateChildrenValue(parent, action) {
+        let /** @type {?} */ selecting = action === 'select';
+        let /** @type {?} */ childType = parent.isParentOf;
+        let /** @type {?} */ potentialChildren = this.getAllOfType(childType);
+        potentialChildren.forEach(x => {
+            if (x.value === 'ALL') {
+                return;
+            }
+            if (x[parent.type].filter(y => y === parent.value).length > 0) {
+                if (x.checked && !selecting) {
+                    x.checked = false;
+                    if (this.allOfTypeSelected(childType)) {
+                        this.handleRemoveItemIfAllSelected(x);
+                    }
+                    else {
+                        this.removeValue(x);
+                    }
+                }
+                x.checked = selecting;
+            }
+        });
+    }
+    /**
+     * @param {?} child
+     * @param {?} action
+     * @return {?}
+     */
+    updateParentValue(child, action) {
+        let /** @type {?} */ allParentType = this.getAllOfType(child.isChildOf);
+        if (allParentType[0].checked && action !== 'select') {
+            this.handleRemoveItemIfAllSelected(allParentType[0]);
+        }
+    }
+    /**
+     * @param {?} children
+     * @return {?}
+     */
+    addIndividualChildren(children) {
+        let /** @type {?} */ parentAlreadySelected = false;
+        children.forEach(x => {
+            if (x.isChildOf) {
+                x[x.isChildOf].forEach(parent => {
+                    if (this.value[x.isChildOf].filter(p => p === parent).length > 0) {
+                        parentAlreadySelected = true;
+                    }
+                });
+            }
+            if (this.value[x.type].filter(item => item === x.value).length === 0 && !parentAlreadySelected) {
+                this.add(x);
+            }
+        });
+    }
+    /**
+     * @param {?} model
+     * @return {?}
+     */
+    setInitialValue(model) {
+        this.items = [];
+        this.value = model || {};
+        if (!this.types) {
+            return;
+        }
+        this.types.forEach(typeObj => {
+            let /** @type {?} */ type = typeObj.value;
+            if (this.value[type]) {
+                let /** @type {?} */ indeterminateIsSet = false;
+                let /** @type {?} */ options = this.updateAllItemState(type);
+                let /** @type {?} */ optionsByType = options.allOfType;
+                let /** @type {?} */ allSelected = options.allOfTypeSelected;
+                this.value[type].forEach(item => {
+                    if (!allSelected && !indeterminateIsSet) {
+                        indeterminateIsSet = true;
+                        this.setIndeterminateState(optionsByType, true);
+                    }
+                    let /** @type {?} */ value = optionsByType.filter(x => x.value === item)[0];
+                    value.checked = true;
+                    if (!allSelected) {
+                        this.updateDisplayItems(value, 'add');
+                    }
+                    if (this.strictRelationship && value.isParentOf) {
+                        this.updateChildrenValue(value, 'select');
+                    }
+                });
+                if (typeObj.isChildOf) {
+                    this.modifyAffectedParentsOrChildren(true, { value: type, isChildOf: true });
+                }
+            }
+            else {
+                this.value[type] = [];
+            }
+        });
+    }
+    /**
+     * @param {?} optionsByType
+     * @param {?} type
+     * @return {?}
+     */
+    allItemsSelected(optionsByType, type) {
+        return this.value[type].length === optionsByType.length - 1;
+    }
+    /**
+     * @param {?} e
+     * @return {?}
+     */
+    onTouched(e) {
+        this.element.nativeElement.classList.remove('selected');
+        this.onModelTouched();
+        this.blur.emit(e);
+    }
+    /**
+     * @param {?} model
+     * @return {?}
+     */
+    writeValue(model) {
+        this.model = model;
+        this.setInitialValue(model);
+    }
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    registerOnChange(fn) {
+        this.onModelChange = fn;
+    }
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    registerOnTouched(fn) {
+        this.onModelTouched = fn;
+    }
+}
+NovoMultiPickerElement.decorators = [
+    { type: Component, args: [{
+                selector: 'multi-picker',
+                providers: [CHIPS_VALUE_ACCESSOR$1],
+                template: `
+        <chip
+            *ngFor="let item of _items | async | slice:0:chipsCount"
+            [type]="type"
+            [class.selected]="item == selected"
+            (remove)="removeFromDisplay($event, item)"
+            (select)="select($event, item)">
+            {{ item.label }}
+        </chip>
+        <div *ngIf="items.length > chipsCount">
+            <ul class="summary">
+                <li *ngFor="let type of notShown">+ {{type.count}} {{ labels.more }} {{type.type}}</li>
+            </ul>
+        </div>
+        <div class="chip-input-container">
+            <novo-picker
+                clearValueOnSelect="true"
+                [config]="source"
+                [placeholder]="placeholder"
+                (select)="clickOption($event)"
+                (keydown)="onKeyDown($event)"
+                (focus)="onFocus($event)"
+                (blur)="onTouched($event)"
+                [overrideElement]="element">
+            </novo-picker>
+        </div>
+        <i class="bhi-search" [class.has-value]="items.length"></i>
+        <label class="clear-all" *ngIf="items.length" (click)="clearValue()">{{ labels.clearAll }} <i class="bhi-times"></i></label>
+   `,
+                host: {
+                    '[class.with-value]': 'items.length > 0'
+                }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoMultiPickerElement.ctorParameters = () => [
+    { type: ElementRef, },
+    { type: NovoLabelService, },
+];
+NovoMultiPickerElement.propDecorators = {
+    'source': [{ type: Input },],
+    'placeholder': [{ type: Input },],
+    'types': [{ type: Input },],
+    'changed': [{ type: Output },],
+    'focus': [{ type: Output },],
+    'blur': [{ type: Output },],
+    'value': [{ type: Input },],
+};
+
+// NG2
+// APP
+class NovoMultiPickerModule {
+}
+NovoMultiPickerModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule, FormsModule, NovoPickerModule, NovoChipsModule],
+                declarations: [NovoMultiPickerElement],
+                exports: [NovoMultiPickerElement]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoMultiPickerModule.ctorParameters = () => [];
+
+// NG2
+class Security {
+    constructor() {
+        this.credentials = [];
+        this.change = new EventEmitter();
+    }
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    grant(data) {
+        let /** @type {?} */ parsed = [];
+        if (data instanceof Array) {
+            for (let /** @type {?} */ permission of data) {
+                parsed.push(permission.replace(/\s/gi, ''));
+            }
+        }
+        else if (typeof data === 'object') {
+            for (let /** @type {?} */ key in data) {
+                if (data[key] instanceof Array) {
+                    for (let /** @type {?} */ permission of data[key]) {
+                        parsed.push(`${key}.${permission}`);
+                    }
+                }
+            }
+        }
+        this.credentials = [].concat(this.credentials, parsed);
+        this.change.emit(this.credentials);
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    has(value) {
+        return this.credentials.indexOf(value) > -1;
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    revoke(value) {
+        let /** @type {?} */ i = this.credentials.indexOf(value);
+        this.credentials.splice(i, 1);
+        this.change.emit(this.credentials);
+    }
+    /**
+     * @return {?}
+     */
+    clear() {
+        this.credentials = [];
+        this.change.emit(this.credentials);
+    }
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    subscribe(fn) {
+        this.change.subscribe(fn);
+    }
+    /**
+     * @param {?} routes
+     * @param {?} options
+     * @return {?}
+     */
+    checkRoutes(routes, options) {
+        let /** @type {?} */ filtered = [];
+        for (let /** @type {?} */ route of routes) {
+            if (route.entities && ~route.entities.indexOf(options.entityType)) {
+                if (route.permissions instanceof Function) {
+                    if (route.permissions(options, this)) {
+                        filtered.push(route);
+                    }
+                }
+                else if (route.permissions && route.permissions.length) {
+                    if (route.permissions.every((perm) => this.has(perm))) {
+                        filtered.push(route);
+                    }
+                }
+                else {
+                    filtered.push(route);
+                }
+            }
+        }
+        return filtered;
+    }
+}
+Security.decorators = [
+    { type: Injectable },
+];
+/**
+ * @nocollapse
+ */
+Security.ctorParameters = () => [];
+
+// NG2
+// App
+class Unless {
+    /**
+     * @param {?} templateRef
+     * @param {?} viewContainer
+     * @param {?} security
+     */
+    constructor(templateRef, viewContainer, security) {
+        this.templateRef = templateRef;
+        this.viewContainer = viewContainer;
+        this.security = security;
+        this.permissions = '';
+        this.isDisplayed = false;
+        this.security.subscribe(this.check.bind(this));
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set bhUnless(value) {
+        this.permissions = value || '';
+        this.check();
+    }
+    /**
+     * @return {?}
+     */
+    check() {
+        let /** @type {?} */ display = false;
+        if (~this.permissions.indexOf('||')) {
+            let /** @type {?} */ ps = this.permissions.split('||');
+            for (let /** @type {?} */ p of ps) {
+                if (this.security.has(p.trim())) {
+                    display = true;
+                }
+            }
+        }
+        else {
+            display = this.permissions.split('&&').every((p) => this.security.has(p.trim()));
+        }
+        if (display) {
+            if (!this.isDisplayed) {
+                this.isDisplayed = true;
+                this.viewContainer.createEmbeddedView(this.templateRef);
+            }
+        }
+        else {
+            this.isDisplayed = false;
+            this.viewContainer.clear();
+        }
+    }
+}
+Unless.decorators = [
+    { type: Directive, args: [{
+                selector: '[bhUnless]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+Unless.ctorParameters = () => [
+    { type: TemplateRef, },
+    { type: ViewContainerRef, },
+    { type: Security, },
+];
+Unless.propDecorators = {
+    'bhUnless': [{ type: Input },],
+};
+
+// NG2
+// APP
+class UnlessModule {
+}
+UnlessModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule],
+                declarations: [Unless],
+                exports: [Unless]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+UnlessModule.ctorParameters = () => [];
+
+class NovoTemplate {
+    /**
+     * @param {?} template
+     */
+    constructor(template) {
+        this.template = template;
+    }
+    /**
+     * @return {?}
+     */
+    getType() {
+        return this.name;
+    }
+}
+NovoTemplate.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoTemplate]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoTemplate.ctorParameters = () => [
+    { type: TemplateRef, },
+];
+NovoTemplate.propDecorators = {
+    'type': [{ type: Input },],
+    'name': [{ type: Input, args: ['novoTemplate',] },],
+};
+
+class NovoCommonModule {
+}
+NovoCommonModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule],
+                exports: [NovoTemplate],
+                declarations: [NovoTemplate],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoCommonModule.ctorParameters = () => [];
 
 class DataTableSource extends DataSource {
     /**
@@ -48802,9 +50101,9 @@ class GooglePlacesService {
      * @param {?} query
      * @return {?}
      */
-    getPredictions(url, query) {
+    getPredictions(url, query$$1) {
         return new Promise(resolve => {
-            this._http.get(url + '?query=' + query).map(res => res.json())
+            this._http.get(url + '?query=' + query$$1).map(res => res.json())
                 .subscribe((data) => {
                 if (data) {
                     resolve(data);
@@ -50809,6 +52108,7 @@ NovoElementsModule.decorators = [
                     NovoValueModule,
                     NovoAceEditorModule,
                     NovoIconModule,
+                    NovoExpansionModule,
                     UnlessModule,
                     NovoCommonModule,
                     NovoStepperModule,
@@ -50837,5 +52137,5 @@ NovoElementsModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoStepperModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTable, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵt, NovoCalendarAllDayEventElement as ɵbd, NovoCalendarDayEventElement as ɵbb, NovoCalendarDayViewElement as ɵba, NovoCalendarHourSegmentElement as ɵbc, NovoCalendarMonthDayElement as ɵw, NovoCalendarMonthHeaderElement as ɵv, NovoCalendarMonthViewElement as ɵu, DayOfMonthPipe as ɵbf, EndOfWeekDisplayPipe as ɵbk, HoursPipe as ɵbj, MonthPipe as ɵbg, MonthDayPipe as ɵbh, WeekdayPipe as ɵbe, YearPipe as ɵbi, NovoCalendarWeekEventElement as ɵz, NovoCalendarWeekHeaderElement as ɵy, NovoCalendarWeekViewElement as ɵx, CardActionsElement as ɵr, CardElement as ɵs, NovoCategoryDropdownElement as ɵej, NovoChipElement as ɵcs, NovoChipsElement as ɵct, NovoCKEditorElement as ɵdb, NovoDataTableCheckboxHeaderCell as ɵfb, NovoDataTableExpandHeaderCell as ɵfd, NovoDataTableCellHeader as ɵes, NovoDataTableHeaderCell as ɵev, NovoDataTableCell as ɵew, NovoDataTableCheckboxCell as ɵfa, NovoDataTableExpandCell as ɵfc, NovoDataTableExpandDirective as ɵfe, DataTableInterpolatePipe as ɵem, DateTableCurrencyRendererPipe as ɵer, DateTableDateRendererPipe as ɵen, DateTableDateTimeRendererPipe as ɵeo, DateTableNumberRendererPipe as ɵeq, DateTableTimeRendererPipe as ɵep, NovoDataTablePagination as ɵez, NovoDataTableHeaderRow as ɵex, NovoDataTableRow as ɵey, NovoDataTableSortFilter as ɵeu, DataTableState as ɵet, NovoDatePickerElement as ɵcu, NovoDatePickerInputElement as ɵcv, NovoDateTimePickerElement as ɵcz, NovoDateTimePickerInputElement as ɵda, NovoDragulaElement as ɵcq, NovoDropdownContainer as ɵcb, NovoDropdownElement as ɵcc, NovoItemElement as ɵcd, NovoItemHeaderElement$1 as ɵcf, NovoListElement$1 as ɵce, NovoAutoSize as ɵdf, NovoControlElement as ɵdh, NovoCustomControlContainerElement as ɵdg, NovoControlCustom as ɵdj, NovoDynamicFormElement as ɵdl, NovoFieldsetElement as ɵdk, NovoFieldsetHeaderElement as ɵdi, ControlConfirmModal as ɵdn, ControlPromptModal as ɵdo, NovoFormElement as ɵdm, NovoAddressElement as ɵl, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbp, NovoHeaderSpacer as ɵbm, NovoUtilActionComponent as ɵbo, NovoUtilsComponent as ɵbn, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵek, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵch, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵcj, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵci, NovoOverlayTemplateComponent as ɵck, NovoOverlayModule as ɵcg, NovoPickerElement as ɵcn, NovoPickerContainer as ɵco, PlacesListComponent as ɵfm, GooglePlacesModule as ɵfl, PopOverDirective as ɵfk, NovoPopOverModule as ɵfi, PopOverContent as ɵfj, QuickNoteElement as ɵby, NovoRadioElement as ɵca, NovoRadioGroup as ɵbz, NovoSearchBoxElement as ɵcp, NovoSelectElement as ɵcl, NovoSliderElement as ɵcr, NovoStepHeader as ɵef, NovoStepLabel as ɵeg, NovoStepStatus as ɵei, novoStepperAnimations as ɵeh, NovoHorizontalStepper as ɵed, NovoStep as ɵeb, NovoStepper as ɵec, NovoVerticalStepper as ɵee, NovoSwitchElement as ɵcm, NovoTableKeepFilterFocus as ɵds, Pagination as ɵdt, RowDetails as ɵdu, NovoTableActionsElement as ɵdr, TableCell as ɵdv, TableFilter as ɵdw, NovoTableFooterElement as ɵdq, NovoTableHeaderElement as ɵdp, ThOrderable as ɵdx, ThSortable as ɵdy, NovoNavContentElement as ɵbv, NovoNavElement as ɵbq, NovoNavHeaderElement as ɵbw, NovoNavOutletElement as ɵbu, NovoTabButtonElement as ɵbs, NovoTabElement as ɵbr, NovoTabLinkElement as ɵbt, NovoTilesElement as ɵbx, NovoTimePickerElement as ɵcw, NovoTimePickerInputElement as ɵcx, NovoTipWellElement as ɵdc, NovoToastElement as ɵbl, TooltipDirective as ɵq, Unless as ɵel, EntityList as ɵdz, NovoValueElement as ɵk, DateFormatService as ɵcy, BrowserGlobalRef as ɵfg, GlobalRef as ɵff, LocalStorageService as ɵfh };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTable, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, AppendToBodyPickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵt, NovoCalendarAllDayEventElement as ɵbd, NovoCalendarDayEventElement as ɵbb, NovoCalendarDayViewElement as ɵba, NovoCalendarHourSegmentElement as ɵbc, NovoCalendarMonthDayElement as ɵw, NovoCalendarMonthHeaderElement as ɵv, NovoCalendarMonthViewElement as ɵu, DayOfMonthPipe as ɵbf, EndOfWeekDisplayPipe as ɵbk, HoursPipe as ɵbj, MonthPipe as ɵbg, MonthDayPipe as ɵbh, WeekdayPipe as ɵbe, YearPipe as ɵbi, NovoCalendarWeekEventElement as ɵz, NovoCalendarWeekHeaderElement as ɵy, NovoCalendarWeekViewElement as ɵx, CardActionsElement as ɵr, CardElement as ɵs, NovoCategoryDropdownElement as ɵer, NovoChipElement as ɵcs, NovoChipsElement as ɵct, NovoCKEditorElement as ɵdb, NovoDataTableCheckboxHeaderCell as ɵfj, NovoDataTableExpandHeaderCell as ɵfl, NovoDataTableCellHeader as ɵfa, NovoDataTableHeaderCell as ɵfd, NovoDataTableCell as ɵfe, NovoDataTableCheckboxCell as ɵfi, NovoDataTableExpandCell as ɵfk, NovoDataTableExpandDirective as ɵfm, DataTableInterpolatePipe as ɵeu, DateTableCurrencyRendererPipe as ɵez, DateTableDateRendererPipe as ɵev, DateTableDateTimeRendererPipe as ɵew, DateTableNumberRendererPipe as ɵey, DateTableTimeRendererPipe as ɵex, NovoDataTablePagination as ɵfh, NovoDataTableHeaderRow as ɵff, NovoDataTableRow as ɵfg, NovoDataTableSortFilter as ɵfc, DataTableState as ɵfb, NovoDatePickerElement as ɵcu, NovoDatePickerInputElement as ɵcv, NovoDateTimePickerElement as ɵcz, NovoDateTimePickerInputElement as ɵda, NovoDragulaElement as ɵcq, NovoDropdownContainer as ɵcb, NovoDropdownElement as ɵcc, NovoItemElement as ɵcd, NovoItemHeaderElement$1 as ɵcf, NovoListElement$1 as ɵce, NovoAccordion as ɵeb, novoExpansionAnimations as ɵee, NovoExpansionPanel as ɵec, NovoExpansionPanelActionRow as ɵed, NovoExpansionPanelContent as ɵef, NovoExpansionPanelDescription as ɵeh, NovoExpansionPanelHeader as ɵeg, NovoExpansionPanelTitle as ɵei, NovoAutoSize as ɵdf, NovoControlElement as ɵdh, NovoCustomControlContainerElement as ɵdg, NovoControlCustom as ɵdj, NovoDynamicFormElement as ɵdl, NovoFieldsetElement as ɵdk, NovoFieldsetHeaderElement as ɵdi, ControlConfirmModal as ɵdn, ControlPromptModal as ɵdo, NovoFormElement as ɵdm, NovoAddressElement as ɵl, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbp, NovoHeaderSpacer as ɵbm, NovoUtilActionComponent as ɵbo, NovoUtilsComponent as ɵbn, NovoIconComponent as ɵea, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵes, DEFAULT_OVERLAY_SCROLL_STRATEGY as ɵch, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER as ɵcj, DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY as ɵci, NovoOverlayTemplateComponent as ɵck, NovoOverlayModule as ɵcg, NovoPickerElement as ɵcn, NovoPickerContainer as ɵco, PlacesListComponent as ɵfu, GooglePlacesModule as ɵft, PopOverDirective as ɵfs, NovoPopOverModule as ɵfq, PopOverContent as ɵfr, QuickNoteElement as ɵby, NovoRadioElement as ɵca, NovoRadioGroup as ɵbz, NovoSearchBoxElement as ɵcp, NovoSelectElement as ɵcl, NovoSliderElement as ɵcr, NovoStepHeader as ɵen, NovoStepLabel as ɵeo, NovoStepStatus as ɵeq, novoStepperAnimations as ɵep, NovoHorizontalStepper as ɵel, NovoStep as ɵej, NovoStepper as ɵek, NovoVerticalStepper as ɵem, NovoSwitchElement as ɵcm, NovoTableKeepFilterFocus as ɵds, Pagination as ɵdt, RowDetails as ɵdu, NovoTableActionsElement as ɵdr, TableCell as ɵdv, TableFilter as ɵdw, NovoTableFooterElement as ɵdq, NovoTableHeaderElement as ɵdp, ThOrderable as ɵdx, ThSortable as ɵdy, NovoNavContentElement as ɵbv, NovoNavElement as ɵbq, NovoNavHeaderElement as ɵbw, NovoNavOutletElement as ɵbu, NovoTabButtonElement as ɵbs, NovoTabElement as ɵbr, NovoTabLinkElement as ɵbt, NovoTilesElement as ɵbx, NovoTimePickerElement as ɵcw, NovoTimePickerInputElement as ɵcx, NovoTipWellElement as ɵdc, NovoToastElement as ɵbl, TooltipDirective as ɵq, Unless as ɵet, EntityList as ɵdz, NovoValueElement as ɵk, DateFormatService as ɵcy, BrowserGlobalRef as ɵfo, GlobalRef as ɵfn, LocalStorageService as ɵfp };
 //# sourceMappingURL=novo-elements.js.map

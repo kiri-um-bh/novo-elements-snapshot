@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('@angular/platform-browser'), require('@angular/animations'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('rxjs/operators/filter'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('@bullhorn/dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/cdk/a11y'), require('@angular/cdk/stepper'), require('@angular/cdk/bidi'), require('@angular/cdk/table'), require('rxjs/add/observable/of'), require('rxjs/Subject'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', '@angular/platform-browser', '@angular/animations', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/observable/fromEvent', 'rxjs/observable/of', 'rxjs/operators/filter', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', '@bullhorn/dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/http', 'rxjs/add/operator/map', '@angular/cdk/a11y', '@angular/cdk/stepper', '@angular/cdk/bidi', '@angular/cdk/table', 'rxjs/add/observable/of', 'rxjs/Subject', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
-	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.ng.platformBrowser,global.ng.animations,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.http,global.Rx.Observable.prototype,global.ng.cdk.a11y,global.ng.cdk.stepper,global.ng.cdk.bidi,global.ng.cdk.table,global.Rx.Observable,global.Rx));
-}(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,platformBrowser,animations,Observable,fromPromise,overlay,portal,merge,fromEvent,of,filter,coercion,fromEvent$2,debounceTime,distinctUntilChanged,keycodes,dragulaImported,ReplaySubject,angular2TextMask,http,map,a11y,stepper,bidi,table,of$2,Subject) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('@angular/platform-browser'), require('@angular/animations'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('rxjs/operators/filter'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('@bullhorn/dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/cdk/collections'), require('rxjs/Subject'), require('rxjs/Subscription'), require('rxjs/add/operator/filter'), require('@angular/cdk/a11y'), require('@angular/cdk/stepper'), require('@angular/cdk/bidi'), require('@angular/cdk/table'), require('rxjs/add/observable/of'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', '@angular/platform-browser', '@angular/animations', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/observable/fromEvent', 'rxjs/observable/of', 'rxjs/operators/filter', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', '@bullhorn/dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/http', 'rxjs/add/operator/map', '@angular/cdk/collections', 'rxjs/Subject', 'rxjs/Subscription', 'rxjs/add/operator/filter', '@angular/cdk/a11y', '@angular/cdk/stepper', '@angular/cdk/bidi', '@angular/cdk/table', 'rxjs/add/observable/of', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
+	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.ng.platformBrowser,global.ng.animations,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.http,global.Rx.Observable.prototype,global.ng.cdk.collections,global.Rx,global.Rx,global.Rx.Observable.prototype,global.ng.cdk.a11y,global.ng.cdk.stepper,global.ng.cdk.bidi,global.ng.cdk.table));
+}(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,platformBrowser,animations,Observable,fromPromise,overlay,portal,merge,fromEvent,of,filter,coercion,fromEvent$2,debounceTime,distinctUntilChanged,keycodes,dragulaImported,ReplaySubject,angular2TextMask,http,map,collections,Subject,Subscription,filter$2,a11y,stepper,bidi,table) { 'use strict';
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -5160,9 +5160,9 @@ var BasePickerResults = /** @class */ (function () {
      *
      * @return {?}
      */
-    BasePickerResults.prototype.highlight = function (match, query) {
+    BasePickerResults.prototype.highlight = function (match, query$$1) {
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query ? match.replace(new RegExp(this.escapeRegexp(query), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
     };
     /**
      * @param {?} match
@@ -6647,12 +6647,12 @@ var UnsubscriptionError_1 = {
  *
  * @class Subscription
  */
-var Subscription = (function () {
+var Subscription$2 = (function () {
     /**
      * @param {function(): void} [unsubscribe] A function describing how to
      * perform the disposal of resources when the `unsubscribe` method is called.
      */
-    function Subscription(unsubscribe) {
+    function Subscription$$1(unsubscribe) {
         /**
          * A flag to indicate whether this Subscription has already been unsubscribed.
          * @type {boolean}
@@ -6671,7 +6671,7 @@ var Subscription = (function () {
      * started when the Subscription was created.
      * @return {void}
      */
-    Subscription.prototype.unsubscribe = function () {
+    Subscription$$1.prototype.unsubscribe = function () {
         var hasErrors = false;
         var errors;
         if (this.closed) {
@@ -6745,9 +6745,9 @@ var Subscription = (function () {
      * `remove()` to remove the passed teardown logic from the inner subscriptions
      * list.
      */
-    Subscription.prototype.add = function (teardown) {
-        if (!teardown || (teardown === Subscription.EMPTY)) {
-            return Subscription.EMPTY;
+    Subscription$$1.prototype.add = function (teardown) {
+        if (!teardown || (teardown === Subscription$$1.EMPTY)) {
+            return Subscription$$1.EMPTY;
         }
         if (teardown === this) {
             return this;
@@ -6755,7 +6755,7 @@ var Subscription = (function () {
         var subscription = teardown;
         switch (typeof teardown) {
             case 'function':
-                subscription = new Subscription(teardown);
+                subscription = new Subscription$$1(teardown);
             case 'object':
                 if (subscription.closed || typeof subscription.unsubscribe !== 'function') {
                     return subscription;
@@ -6766,7 +6766,7 @@ var Subscription = (function () {
                 }
                 else if (typeof subscription._addParent !== 'function' /* quack quack */) {
                     var tmp = subscription;
-                    subscription = new Subscription();
+                    subscription = new Subscription$$1();
                     subscription._subscriptions = [tmp];
                 }
                 break;
@@ -6784,7 +6784,7 @@ var Subscription = (function () {
      * @param {Subscription} subscription The subscription to remove.
      * @return {void}
      */
-    Subscription.prototype.remove = function (subscription) {
+    Subscription$$1.prototype.remove = function (subscription) {
         var subscriptions = this._subscriptions;
         if (subscriptions) {
             var subscriptionIndex = subscriptions.indexOf(subscription);
@@ -6793,7 +6793,7 @@ var Subscription = (function () {
             }
         }
     };
-    Subscription.prototype._addParent = function (parent) {
+    Subscription$$1.prototype._addParent = function (parent) {
         var _a = this, _parent = _a._parent, _parents = _a._parents;
         if (!_parent || _parent === parent) {
             // If we don't have a parent, or the new parent is the same as the
@@ -6810,13 +6810,13 @@ var Subscription = (function () {
             _parents.push(parent);
         }
     };
-    Subscription.EMPTY = (function (empty) {
+    Subscription$$1.EMPTY = (function (empty) {
         empty.closed = true;
         return empty;
-    }(new Subscription()));
-    return Subscription;
+    }(new Subscription$$1()));
+    return Subscription$$1;
 }());
-var Subscription_2 = Subscription;
+var Subscription_2 = Subscription$2;
 function flattenUnsubscriptionErrors(errors) {
     return errors.reduce(function (errs, err) { return errs.concat((err instanceof UnsubscriptionError_1.UnsubscriptionError) ? err.errors : err); }, []);
 }
@@ -8606,9 +8606,9 @@ var NovoSelectElement = /** @class */ (function () {
      * @param {?} query
      * @return {?}
      */
-    NovoSelectElement.prototype.highlight = function (match, query) {
+    NovoSelectElement.prototype.highlight = function (match, query$$1) {
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query ? match.replace(new RegExp(this.escapeRegexp(query), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
     };
     /**
      * @param {?} queryToEscape
@@ -9374,9 +9374,9 @@ var EntityPickerResult = /** @class */ (function () {
      *
      * @return {?}
      */
-    EntityPickerResult.prototype.highlight = function (match, query) {
+    EntityPickerResult.prototype.highlight = function (match, query$$1) {
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query && match ? match.replace(new RegExp(this.escapeRegexp(query), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 && match ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
     };
     /**
      * @param {?=} result
@@ -14449,10 +14449,10 @@ var OptionsService = /** @class */ (function () {
         return {
             field: 'value',
             format: '$label',
-            options: function (query) {
+            options: function (query$$1) {
                 return new Promise(function (resolve, reject) {
-                    if (query && query.length) {
-                        http$$1.get(field.optionsUrl + "?filter=" + (query || ''))
+                    if (query$$1 && query$$1.length) {
+                        http$$1.get(field.optionsUrl + "?filter=" + (query$$1 || ''))
                             .subscribe(resolve, reject);
                     }
                     else {
@@ -14490,12 +14490,12 @@ var FormUtils = /** @class */ (function () {
      * @return {?}
      */
     FormUtils.prototype.toFormGroup = function (controls) {
-        var /** @type {?} */ group = {};
+        var /** @type {?} */ group$$1 = {};
         controls.forEach(function (control) {
             var /** @type {?} */ value = Helpers.isBlank(control.value) ? '' : control.value;
-            group[control.key] = new NovoFormControl(value, control);
+            group$$1[control.key] = new NovoFormControl(value, control);
         });
-        return new NovoFormGroup(group);
+        return new NovoFormGroup(group$$1);
     };
     /**
      * @return {?}
@@ -15997,13 +15997,13 @@ var FieldInteractionApi = /** @class */ (function () {
             if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
                 newConfig = {
                     format: config.format,
-                    options: function (query) {
+                    options: function (query$$1) {
                         if (config.optionsPromise) {
-                            return config.optionsPromise(query, _this.http);
+                            return config.optionsPromise(query$$1, _this.http);
                         }
                         return new Promise(function (resolve, reject) {
-                            var /** @type {?} */ url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query) : config.optionsUrl + "?filter=" + (query || '');
-                            if (query && query.length) {
+                            var /** @type {?} */ url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query$$1) : config.optionsUrl + "?filter=" + (query$$1 || '');
+                            if (query$$1 && query$$1.length) {
                                 _this.http
                                     .get(url)
                                     .map(function (res) {
@@ -32652,15 +32652,15 @@ var NovoTableElement = /** @class */ (function () {
             // Array of filters
             var /** @type {?} */ filters = this.columns.filter(function (col) { return !Helpers.isEmpty(col.filter); });
             if (filters.length) {
-                var /** @type {?} */ query = {};
+                var /** @type {?} */ query$$1 = {};
                 var _loop_6 = function (column) {
                     if (Helpers.isFunction(column.match)) {
-                        query[column.name] = function (value, record) {
+                        query$$1[column.name] = function (value, record) {
                             return column.match(record, column.filter);
                         };
                     }
                     else if (column.preFilter && Helpers.isFunction(column.preFilter)) {
-                        query = Object.assign({}, query, column.preFilter(this_2.escapeCharacters(column.filter)));
+                        query$$1 = Object.assign({}, query$$1, column.preFilter(this_2.escapeCharacters(column.filter)));
                     }
                     else if (Array.isArray(column.filter)) {
                         // The filters are an array (multi-select), check value
@@ -32669,24 +32669,24 @@ var NovoTableElement = /** @class */ (function () {
                         if (options[0].value || options[0].label) {
                             options = column.filter.map(function (opt) { return opt.value; });
                         }
-                        query[column.name] = { any: options };
+                        query$$1[column.name] = { any: options };
                     }
                     else if (column.type && column.type === 'date') {
                         if (column.filter.startDate && column.filter.endDate) {
-                            query[column.name] = {
+                            query$$1[column.name] = {
                                 min: dateFns.startOfDay(column.filter.startDate),
                                 max: dateFns.startOfDay(dateFns.addDays(dateFns.startOfDay(column.filter.endDate), 1)),
                             };
                         }
                         else {
-                            query[column.name] = {
+                            query$$1[column.name] = {
                                 min: column.filter.min ? dateFns.addDays(dateFns.startOfToday(), column.filter.min) : dateFns.startOfToday(),
                                 max: column.filter.max ? dateFns.addDays(dateFns.startOfTomorrow(), column.filter.max) : dateFns.startOfTomorrow(),
                             };
                         }
                     }
                     else {
-                        query[column.name] = column.filter;
+                        query$$1[column.name] = column.filter;
                     }
                 };
                 var this_2 = this;
@@ -32695,10 +32695,10 @@ var NovoTableElement = /** @class */ (function () {
                     _loop_6(/** @type {?} */ column);
                 }
                 if (Helpers.isFunction(this.config.filtering)) {
-                    this.config.filtering(query);
+                    this.config.filtering(query$$1);
                 }
                 else {
-                    this._dataProvider.filter = query;
+                    this._dataProvider.filter = query$$1;
                 }
             }
             else {
@@ -34021,7 +34021,6 @@ var NovoIconComponent = /** @class */ (function () {
     function NovoIconComponent(element, cdr) {
         this.element = element;
         this.cdr = cdr;
-        this.raised = false;
         this.size = 'medium';
         this.role = 'img';
     }
@@ -34112,1733 +34111,307 @@ NovoIconModule.decorators = [
  * @nocollapse
  */
 NovoIconModule.ctorParameters = function () { return []; };
-var NovoStepLabel = /** @class */ (function (_super) {
-    __extends(NovoStepLabel, _super);
-    /**
-     * @param {?} template
-     */
-    function NovoStepLabel(template) {
-        return _super.call(this, template) || this;
-    }
-    return NovoStepLabel;
-}(stepper.CdkStepLabel));
-NovoStepLabel.decorators = [
-    { type: core.Directive, args: [{
-                selector: '[novoStepLabel]',
-            },] },
-];
 /**
- * @nocollapse
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
  */
-NovoStepLabel.ctorParameters = function () { return [
-    { type: core.TemplateRef, },
-]; };
-var NovoStepHeader = /** @class */ (function () {
-    /**
-     * @param {?} _focusMonitor
-     * @param {?} _element
-     */
-    function NovoStepHeader(_focusMonitor, _element) {
-        this._focusMonitor = _focusMonitor;
-        this._element = _element;
-        _focusMonitor.monitor(_element.nativeElement, true);
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * Used to generate unique ID for each accordion.
+ */
+var nextId$1 = 0;
+/**
+ * Directive whose purpose is to manage the expanded state of CdkAccordionItem children.
+ */
+var CdkAccordion = (function () {
+    function CdkAccordion() {
+        /**
+         * A readonly id value to use for unique selection coordination.
+         */
+        this.id = "cdk-accordion-" + nextId$1++;
+        this._multi = false;
     }
-    Object.defineProperty(NovoStepHeader.prototype, "index", {
-        /**
-         * Index of the given step.
+    Object.defineProperty(CdkAccordion.prototype, "multi", {
+        get: /**
+         * Whether the accordion should allow multiple expanded accordion items simultaneously.
          * @return {?}
-         */
-        get: function () { return this._index; },
-        /**
-         * @param {?} value
+         */ function () { return this._multi; },
+        set: /**
+         * @param {?} multi
          * @return {?}
-         */
-        set: function (value) { this._index = coercion.coerceNumberProperty(value); },
+         */ function (multi) { this._multi = coercion.coerceBooleanProperty(multi); },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(NovoStepHeader.prototype, "selected", {
-        /**
-         * Whether the given step is selected.
-         * @return {?}
-         */
-        get: function () { return this._selected; },
-        /**
-         * @param {?} value
-         * @return {?}
-         */
-        set: function (value) { this._selected = coercion.coerceBooleanProperty(value); },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NovoStepHeader.prototype, "active", {
-        /**
-         * Whether the given step label is active.
-         * @return {?}
-         */
-        get: function () { return this._active; },
-        /**
-         * @param {?} value
-         * @return {?}
-         */
-        set: function (value) { this._active = coercion.coerceBooleanProperty(value); },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NovoStepHeader.prototype, "touched", {
-        /**
-         * Whether the given step label is active.
-         * @return {?}
-         */
-        get: function () { return this.selected || this.state === 'edit' || this.state === 'done'; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NovoStepHeader.prototype, "optional", {
-        /**
-         * Whether the given step is optional.
-         * @return {?}
-         */
-        get: function () { return this._optional; },
-        /**
-         * @param {?} value
-         * @return {?}
-         */
-        set: function (value) { this._optional = coercion.coerceBooleanProperty(value); },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * @return {?}
-     */
-    NovoStepHeader.prototype.ngOnDestroy = function () {
-        this._focusMonitor.stopMonitoring(this._element.nativeElement);
+    CdkAccordion.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'cdk-accordion, [cdkAccordion]',
+                    exportAs: 'cdkAccordion',
+                },] },
+    ];
+    /** @nocollapse */
+    CdkAccordion.ctorParameters = function () { return []; };
+    CdkAccordion.propDecorators = {
+        "multi": [{ type: core.Input },],
     };
-    /**
-     * Returns string label of given step if it is a text label.
-     * @return {?}
-     */
-    NovoStepHeader.prototype._stringLabel = function () {
-        return this.label instanceof NovoStepLabel ? null : this.label;
-    };
-    /**
-     * Returns NovoStepLabel if the label of given step is a template label.
-     * @return {?}
-     */
-    NovoStepHeader.prototype._templateLabel = function () {
-        return this.label instanceof NovoStepLabel ? this.label : null;
-    };
-    /**
-     * Returns the host HTML element.
-     * @return {?}
-     */
-    NovoStepHeader.prototype._getHostElement = function () {
-        return this._element.nativeElement;
-    };
-    return NovoStepHeader;
+    return CdkAccordion;
 }());
-NovoStepHeader.decorators = [
-    { type: core.Component, args: [{
-                selector: 'novo-step-header',
-                template: "\n    <div [class.novo-step-icon]=\"touched\"\n         [class.novo-step-icon-not-touched]=\"!touched\">\n      <ng-container *ngIf=\"icon\">\n        <novo-icon size=\"small\" raised=\"true\" [theme]=\"theme\">{{icon}}</novo-icon>\n      </ng-container>\n      <ng-container *ngIf=\"!icon\">\n        <span class=\"novo-step-number\">{{index + 1}}</span>\n      </ng-container>\n    </div>\n    <div class=\"novo-step-label\"\n         [class.novo-step-label-active]=\"active\"\n         [class.novo-step-label-selected]=\"selected\">\n      <!-- If there is a label template, use it. -->\n      <ng-container *ngIf=\"_templateLabel()\" [ngTemplateOutlet]=\"_templateLabel()!.template\">\n      </ng-container>\n      <!-- It there is no label template, fall back to the text label. -->\n      <div class=\"novo-step-text-label\" *ngIf=\"_stringLabel()\">{{label}}</div>\n    </div>\n    <novo-step-status [state]=\"state\"></novo-step-status>\n  ",
-                styles: ["\n    @-webkit-keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @-webkit-keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @-webkit-keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @-webkit-keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    @keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    .novo-step-header {\n      overflow: visible;\n      outline: none;\n      cursor: pointer;\n      position: relative; }\n\n    .novo-step-optional {\n      font-size: 12px; }\n\n    .novo-step-icon,\n    .novo-step-icon-not-touched {\n      border-radius: 50%;\n      height: 24px;\n      width: 24px;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex; }\n      .novo-step-icon .novo-step-number,\n      .novo-step-icon-not-touched .novo-step-number {\n        font-size: 1em;\n        min-width: 1.6em;\n        height: 1.6em;\n        -webkit-box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);\n                box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-align: center;\n            -ms-flex-align: center;\n                align-items: center;\n        -webkit-box-pack: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        border-radius: 4px; }\n\n    .novo-step-icon .novo-step-number {\n      background: #4a89dc;\n      color: #ffffff; }\n\n    .novo-step-icon-not-touched .novo-step-number {\n      background: #a9adbb;\n      color: #ffffff; }\n\n    .novo-step-label {\n      display: inline-block;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n      min-width: 50px;\n      vertical-align: middle;\n      text-align: center;\n      padding: 4px 0px; }\n\n    .novo-step-text-label {\n      text-align: center;\n      text-overflow: ellipsis;\n      overflow: hidden; }\n  "],
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * Used to generate unique ID for each accordion item.
+ */
+var nextId = 0;
+/**
+ * An basic directive expected to be extended and decorated as a component.  Sets up all
+ * events and attributes needed to be managed by a CdkAccordion parent.
+ */
+var CdkAccordionItem = (function () {
+    function CdkAccordionItem(accordion, _changeDetectorRef, _expansionDispatcher) {
+        var _this = this;
+        this.accordion = accordion;
+        this._changeDetectorRef = _changeDetectorRef;
+        this._expansionDispatcher = _expansionDispatcher;
+        /**
+         * Event emitted every time the AccordionItem is closed.
+         */
+        this.closed = new core.EventEmitter();
+        /**
+         * Event emitted every time the AccordionItem is opened.
+         */
+        this.opened = new core.EventEmitter();
+        /**
+         * Event emitted when the AccordionItem is destroyed.
+         */
+        this.destroyed = new core.EventEmitter();
+        /**
+         * Emits whenever the expanded state of the accordion changes.
+         * Primarily used to facilitate two-way binding.
+         * \@docs-private
+         */
+        this.expandedChange = new core.EventEmitter();
+        /**
+         * The unique AccordionItem id.
+         */
+        this.id = "cdk-accordion-child-" + nextId++;
+        this._expanded = false;
+        this._disabled = false;
+        /**
+         * Unregister function for _expansionDispatcher.
+         */
+        this._removeUniqueSelectionListener = function () { };
+        this._removeUniqueSelectionListener =
+            _expansionDispatcher.listen(function (id, accordionId) {
+                if (_this.accordion && !_this.accordion.multi &&
+                    _this.accordion.id === accordionId && _this.id !== id) {
+                    _this.expanded = false;
+                }
+            });
+    }
+    Object.defineProperty(CdkAccordionItem.prototype, "expanded", {
+        get: /**
+         * Whether the AccordionItem is expanded.
+         * @return {?}
+         */ function () { return this._expanded; },
+        set: /**
+         * @param {?} expanded
+         * @return {?}
+         */ function (expanded) {
+            expanded = coercion.coerceBooleanProperty(expanded);
+            // Only emit events and update the internal value if the value changes.
+            if (this._expanded !== expanded) {
+                this._expanded = expanded;
+                this.expandedChange.emit(expanded);
+                if (expanded) {
+                    this.opened.emit();
+                    /**
+                     * In the unique selection dispatcher, the id parameter is the id of the CdkAccordionItem,
+                     * the name value is the id of the accordion.
+                     */
+                    var /** @type {?} */ accordionId = this.accordion ? this.accordion.id : this.id;
+                    this._expansionDispatcher.notify(this.id, accordionId);
+                }
+                else {
+                    this.closed.emit();
+                }
+                // Ensures that the animation will run when the value is set outside of an `@Input`.
+                // This includes cases like the open, close and toggle methods.
+                this._changeDetectorRef.markForCheck();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CdkAccordionItem.prototype, "disabled", {
+        get: /**
+         * Whether the AccordionItem is disabled.
+         * @return {?}
+         */ function () { return this._disabled; },
+        set: /**
+         * @param {?} disabled
+         * @return {?}
+         */ function (disabled) { this._disabled = coercion.coerceBooleanProperty(disabled); },
+        enumerable: true,
+        configurable: true
+    });
+    /** Emits an event for the accordion item being destroyed. */
+    /**
+     * Emits an event for the accordion item being destroyed.
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.ngOnDestroy = /**
+     * Emits an event for the accordion item being destroyed.
+     * @return {?}
+     */
+        function () {
+            this.destroyed.emit();
+            this._removeUniqueSelectionListener();
+        };
+    /** Toggles the expanded state of the accordion item. */
+    /**
+     * Toggles the expanded state of the accordion item.
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.toggle = /**
+     * Toggles the expanded state of the accordion item.
+     * @return {?}
+     */
+        function () {
+            if (!this.disabled) {
+                this.expanded = !this.expanded;
+            }
+        };
+    /** Sets the expanded state of the accordion item to false. */
+    /**
+     * Sets the expanded state of the accordion item to false.
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.close = /**
+     * Sets the expanded state of the accordion item to false.
+     * @return {?}
+     */
+        function () {
+            if (!this.disabled) {
+                this.expanded = false;
+            }
+        };
+    /** Sets the expanded state of the accordion item to true. */
+    /**
+     * Sets the expanded state of the accordion item to true.
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.open = /**
+     * Sets the expanded state of the accordion item to true.
+     * @return {?}
+     */
+        function () {
+            if (!this.disabled) {
+                this.expanded = true;
+            }
+        };
+    CdkAccordionItem.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'cdk-accordion-item',
+                    exportAs: 'cdkAccordionItem',
+                },] },
+    ];
+    /** @nocollapse */
+    CdkAccordionItem.ctorParameters = function () {
+        return [
+            { type: CdkAccordion, decorators: [{ type: core.Optional },] },
+            { type: core.ChangeDetectorRef, },
+            { type: collections.UniqueSelectionDispatcher, },
+        ];
+    };
+    CdkAccordionItem.propDecorators = {
+        "closed": [{ type: core.Output },],
+        "opened": [{ type: core.Output },],
+        "destroyed": [{ type: core.Output },],
+        "expandedChange": [{ type: core.Output },],
+        "expanded": [{ type: core.Input },],
+        "disabled": [{ type: core.Input },],
+    };
+    return CdkAccordionItem;
+}());
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+var CdkAccordionModule = (function () {
+    function CdkAccordionModule() {
+    }
+    CdkAccordionModule.decorators = [
+        { type: core.NgModule, args: [{
+                    exports: [CdkAccordion, CdkAccordionItem],
+                    declarations: [CdkAccordion, CdkAccordionItem],
+                    providers: [collections.UNIQUE_SELECTION_DISPATCHER_PROVIDER],
+                },] },
+    ];
+    /** @nocollapse */
+    CdkAccordionModule.ctorParameters = function () { return []; };
+    return CdkAccordionModule;
+}());
+/**
+ * Directive for a Material Design Accordion.
+ */
+var NovoAccordion = /** @class */ (function (_super) {
+    __extends(NovoAccordion, _super);
+    function NovoAccordion() {
+        var _this = _super.apply(this, arguments) || this;
+        _this._hideToggle = false;
+        /**
+         * The display mode used for all expansion panels in the accordion. Currently two display
+         * modes exist:
+         *  default - a gutter-like spacing is placed around any expanded panel, placing the expanded
+         *     panel at a different elevation from the reset of the accordion.
+         *  flat - no spacing is placed around expanded panels, showing all panels at the same
+         *     elevation.
+         */
+        _this.displayMode = 'default';
+        return _this;
+    }
+    Object.defineProperty(NovoAccordion.prototype, "hideToggle", {
+        /**
+         * Whether the expansion indicator should be hidden.
+         * @return {?}
+         */
+        get: function () { return this._hideToggle; },
+        /**
+         * @param {?} show
+         * @return {?}
+         */
+        set: function (show) { this._hideToggle = coercion.coerceBooleanProperty(show); },
+        enumerable: true,
+        configurable: true
+    });
+    return NovoAccordion;
+}(CdkAccordion));
+NovoAccordion.decorators = [
+    { type: core.Directive, args: [{
+                selector: 'novo-accordion',
+                exportAs: 'novoAccordion',
                 host: {
-                    'class': 'novo-step-header',
-                    'role': 'tab',
-                },
-                preserveWhitespaces: false,
-                changeDetection: core.ChangeDetectionStrategy.OnPush,
+                    class: 'novo-accordion'
+                }
             },] },
 ];
 /**
  * @nocollapse
  */
-NovoStepHeader.ctorParameters = function () { return [
-    { type: a11y.FocusMonitor, },
-    { type: core.ElementRef, },
-]; };
-NovoStepHeader.propDecorators = {
-    'theme': [{ type: core.Input },],
-    'color': [{ type: core.Input },],
-    'icon': [{ type: core.Input },],
-    'state': [{ type: core.Input },],
-    'label': [{ type: core.Input },],
-    'iconOverrides': [{ type: core.Input },],
-    'index': [{ type: core.Input },],
-    'selected': [{ type: core.Input },],
-    'active': [{ type: core.Input },],
-    'optional': [{ type: core.Input },],
+NovoAccordion.ctorParameters = function () { return []; };
+NovoAccordion.propDecorators = {
+    'hideToggle': [{ type: core.Input },],
+    'displayMode': [{ type: core.Input },],
 };
 var __extends$7 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
-    for (var p in b)
-        if (b.hasOwnProperty(p))
-            d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-/**
- * Emits the values emitted by the source Observable until a `notifier`
- * Observable emits a value.
- *
- * <span class="informal">Lets values pass until a second Observable,
- * `notifier`, emits something. Then, it completes.</span>
- *
- * <img src="./img/takeUntil.png" width="100%">
- *
- * `takeUntil` subscribes and begins mirroring the source Observable. It also
- * monitors a second Observable, `notifier` that you provide. If the `notifier`
- * emits a value or a complete notification, the output Observable stops
- * mirroring the source Observable and completes.
- *
- * @example <caption>Tick every second until the first click happens</caption>
- * var interval = Rx.Observable.interval(1000);
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = interval.takeUntil(clicks);
- * result.subscribe(x => console.log(x));
- *
- * @see {@link take}
- * @see {@link takeLast}
- * @see {@link takeWhile}
- * @see {@link skip}
- *
- * @param {Observable} notifier The Observable whose first emitted value will
- * cause the output Observable of `takeUntil` to stop emitting values from the
- * source Observable.
- * @return {Observable<T>} An Observable that emits the values from the source
- * Observable until such time as `notifier` emits its first value.
- * @method takeUntil
- * @owner Observable
- */
-function takeUntil(notifier) {
-    return function (source) { return source.lift(new TakeUntilOperator(notifier)); };
-}
-var takeUntil_2 = takeUntil;
-var TakeUntilOperator = (function () {
-    function TakeUntilOperator(notifier) {
-        this.notifier = notifier;
-    }
-    TakeUntilOperator.prototype.call = function (subscriber, source) {
-        return source.subscribe(new TakeUntilSubscriber(subscriber, this.notifier));
-    };
-    return TakeUntilOperator;
-}());
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-var TakeUntilSubscriber = (function (_super) {
-    __extends$7(TakeUntilSubscriber, _super);
-    function TakeUntilSubscriber(destination, notifier) {
-        _super.call(this, destination);
-        this.notifier = notifier;
-        this.add(subscribeToResult_1.subscribeToResult(this, notifier));
-    }
-    TakeUntilSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
-        this.complete();
-    };
-    TakeUntilSubscriber.prototype.notifyComplete = function () {
-        // noop
-    };
-    return TakeUntilSubscriber;
-}(OuterSubscriber_1.OuterSubscriber));
-/**
- * Animations used by the Novo steppers.
- */
-var novoStepperAnimations = {
-    /** Animation that transitions the step along the X axis in a horizontal stepper. */
-    horizontalStepTransition: animations.trigger('stepTransition', [
-        animations.state('previous', animations.style({ transform: 'translate3d(-100%, 0, 0)', visibility: 'hidden' })),
-        animations.state('current', animations.style({ transform: 'none', visibility: 'visible' })),
-        animations.state('next', animations.style({ transform: 'translate3d(100%, 0, 0)', visibility: 'hidden' })),
-        animations.transition('* => *', animations.animate('500ms cubic-bezier(0.35, 0, 0.25, 1)'))
-    ]),
-    /** Animation that transitions the step along the Y axis in a vertical stepper. */
-    verticalStepTransition: animations.trigger('stepTransition', [
-        animations.state('previous', animations.style({ height: '0px', visibility: 'hidden' })),
-        animations.state('next', animations.style({ height: '0px', visibility: 'hidden' })),
-        animations.state('current', animations.style({ height: '*', visibility: 'visible' })),
-        animations.transition('* <=> current', animations.animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
-    ])
-};
-var NovoStep = /** @class */ (function (_super) {
-    __extends(NovoStep, _super);
-    /**
-     * @param {?} stepper
-     */
-    function NovoStep(stepper$$1) {
-        return _super.call(this, stepper$$1) || this;
-    }
-    return NovoStep;
-}(stepper.CdkStep));
-NovoStep.decorators = [
-    { type: core.Component, args: [{
-                selector: 'novo-step',
-                template: "\n    <ng-template><ng-content></ng-content></ng-template>\n  ",
-                preserveWhitespaces: false,
-                changeDetection: core.ChangeDetectionStrategy.OnPush,
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoStep.ctorParameters = function () { return [
-    { type: NovoStepper, decorators: [{ type: core.Inject, args: [core.forwardRef(function () { return NovoStepper; }),] },] },
-]; };
-NovoStep.propDecorators = {
-    'stepLabel': [{ type: core.ContentChild, args: [NovoStepLabel,] },],
-    'theme': [{ type: core.Input },],
-    'color': [{ type: core.Input },],
-    'icon': [{ type: core.Input },],
-};
-var NovoStepper = /** @class */ (function (_super) {
-    __extends(NovoStepper, _super);
-    function NovoStepper() {
-        var _this = _super.apply(this, arguments) || this;
-        /**
-         * Consumer-specified template-refs to be used to override the header icons.
-         */
-        _this._iconOverrides = {};
-        return _this;
-    }
-    Object.defineProperty(NovoStepper.prototype, "completed", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            try {
-                var /** @type {?} */ steps = this._steps.toArray();
-                var /** @type {?} */ length = steps.length - 1;
-                return steps[length].completed && length === this.selectedIndex;
-            }
-            catch (err) {
-                return false;
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * @return {?}
-     */
-    NovoStepper.prototype.ngAfterContentInit = function () {
-        var _this = this;
-        // Mark the component for change detection whenever the content children query changes
-        this._steps.changes.pipe(takeUntil_2(this._destroyed)).subscribe(function () { return _this._stateChanged(); });
-    };
-    /**
-     * @return {?}
-     */
-    NovoStepper.prototype.complete = function () {
-        try {
-            var /** @type {?} */ steps = this._steps.toArray();
-            steps[this.selectedIndex].completed = true;
-            this.next();
-            this._stateChanged();
-        }
-        catch (err) {
-            // do nothing
-        }
-    };
-    /**
-     * @param {?} index
-     * @return {?}
-     */
-    NovoStepper.prototype.getIndicatorType = function (index$$1) {
-        var /** @type {?} */ steps = this._steps.toArray();
-        if (index$$1 === this.selectedIndex) {
-            if (steps[index$$1] && index$$1 === steps.length - 1 && steps[index$$1].completed) {
-                return 'done';
-            }
-            return 'edit';
-        }
-        if (index$$1 < this.selectedIndex) {
-            return 'done';
-        }
-        return 'none';
-    };
-    return NovoStepper;
-}(stepper.CdkStepper));
-NovoStepper.decorators = [
-    { type: core.Directive, args: [{
-                selector: '[novoStepper]'
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoStepper.ctorParameters = function () { return []; };
-NovoStepper.propDecorators = {
-    '_stepHeader': [{ type: core.ViewChildren, args: [NovoStepHeader, { read: core.ElementRef },] },],
-    '_steps': [{ type: core.ContentChildren, args: [NovoStep,] },],
-    '_icons': [{ type: core.ContentChildren, args: [NovoIconComponent,] },],
-};
-var NovoHorizontalStepper = /** @class */ (function (_super) {
-    __extends(NovoHorizontalStepper, _super);
-    function NovoHorizontalStepper() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return NovoHorizontalStepper;
-}(NovoStepper));
-NovoHorizontalStepper.decorators = [
-    { type: core.Component, args: [{
-                selector: 'novo-horizontal-stepper',
-                template: "\n    <div class=\"novo-horizontal-stepper-header-container\">\n        <div class=\"novo-stepper-horizontal-line complete\"></div>\n      <ng-container *ngFor=\"let step of _steps; let i = index; let isLast = last\">\n        <novo-step-header  class=\"novo-horizontal-stepper-header\"\n                         (click)=\"step.select()\"\n                         (keydown)=\"_onKeydown($event)\"\n                         [tabIndex]=\"_focusIndex === i ? 0 : -1\"\n                         [id]=\"_getStepLabelId(i)\"\n                         [attr.aria-controls]=\"_getStepContentId(i)\"\n                         [attr.aria-selected]=\"selectedIndex == i\"\n                         [index]=\"i\"\n                         [theme]=\"step.theme\"\n                         [color]=\"step.color\"\n                         [icon]=\"step.icon\"\n                         [state]=\"getIndicatorType(i)\"\n                         [label]=\"step.stepLabel || step.label\"\n                         [selected]=\"selectedIndex === i\"\n                         [active]=\"step.completed || selectedIndex === i || !linear\"\n                         [optional]=\"step.optional\"\n                         [iconOverrides]=\"_iconOverrides\">\n        </novo-step-header>\n      </ng-container>\n      <div class=\"novo-stepper-horizontal-line\" [class.complete]=\"completed\"></div>\n    </div>\n\n    <div class=\"novo-horizontal-content-container\">\n      <div *ngFor=\"let step of _steps; let i = index\"\n           class=\"novo-horizontal-stepper-content\" role=\"tabpanel\"\n           [@stepTransition]=\"_getAnimationDirection(i)\"\n           [id]=\"_getStepContentId(i)\"\n           [attr.aria-labelledby]=\"_getStepLabelId(i)\"\n           [attr.aria-expanded]=\"selectedIndex === i\">\n        <ng-container [ngTemplateOutlet]=\"step.content\"></ng-container>\n      </div>\n    </div>\n  ",
-                styles: ["\n    @-webkit-keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @-webkit-keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @-webkit-keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @-webkit-keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    @keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    .novo-stepper-vertical,\n    .novo-stepper-horizontal {\n      display: block; }\n\n    .novo-horizontal-stepper-header-container {\n      white-space: nowrap;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      margin-bottom: 1em;\n      background: #f4f4f4; }\n\n    .novo-stepper-horizontal-line {\n      border-bottom: 1px solid #d9dadc;\n      -webkit-box-flex: 1;\n          -ms-flex: auto;\n              flex: auto;\n      min-width: 0px;\n      height: 80px; }\n      .novo-stepper-horizontal-line.complete {\n        border-bottom: 1px solid #4a89dc; }\n\n    .novo-horizontal-stepper-header {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      height: 80px;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n          -ms-flex-flow: column;\n              flex-flow: column;\n      overflow: visible;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      padding: 0 24px; }\n      .novo-horizontal-stepper-header .novo-step-status {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        width: 100%;\n        -webkit-box-pack: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        -webkit-box-align: center;\n            -ms-flex-align: center;\n                align-items: center;\n        position: absolute;\n        height: 1px;\n        bottom: 0px; }\n        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line {\n          width: 100%;\n          position: absolute; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before {\n            content: \"\";\n            display: block;\n            width: calc(50% - 8px);\n            margin-right: 8px;\n            border-bottom: 1px solid #d9dadc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after {\n            content: \"\";\n            display: block;\n            width: calc(50% - 8px);\n            margin-left: calc(50% + 8px);\n            margin-top: -1px;\n            border-top: 1px solid #d9dadc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before {\n            border-bottom: 1px solid #4a89dc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before {\n            border-bottom: 1px solid #4a89dc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after {\n            border-top: 1px solid #4a89dc; }\n        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon {\n          position: relative; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before {\n            content: \"\";\n            display: block;\n            background: #ffffff;\n            border-radius: 50%;\n            position: absolute;\n            z-index: 0;\n            top: 1px;\n            left: 1px;\n            bottom: 1px;\n            right: 1px; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon > * {\n            position: relative;\n            z-index: 1; }\n\n    .novo-vertical-stepper-header {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      padding: 24px;\n      max-height: 24px; }\n      .novo-vertical-stepper-header .novo-step-icon,\n      .novo-vertical-stepper-header .novo-step-icon-not-touched {\n        margin-right: 12px; }\n        [dir='rtl'] .novo-vertical-stepper-header .novo-step-icon, [dir='rtl']\n        .novo-vertical-stepper-header .novo-step-icon-not-touched {\n          margin-right: 0;\n          margin-left: 12px; }\n\n    .novo-horizontal-stepper-content {\n      overflow: hidden; }\n      .novo-horizontal-stepper-content[aria-expanded='false'] {\n        height: 0; }\n\n    .novo-horizontal-content-container {\n      overflow: hidden;\n      padding: 0 24px 24px 24px; }\n\n    .novo-vertical-content-container {\n      margin-left: 36px;\n      border: 0;\n      position: relative; }\n      [dir='rtl'] .novo-vertical-content-container {\n        margin-left: 0;\n        margin-right: 36px; }\n\n    .novo-stepper-vertical-line:before {\n      content: '';\n      position: absolute;\n      top: -16px;\n      bottom: -16px;\n      left: 0;\n      z-index: -1;\n      border-left-width: 1px;\n      border-left-style: solid;\n      border-left-color: #d9dadc; }\n      [dir='rtl'] .novo-stepper-vertical-line:before {\n        left: auto;\n        right: 0; }\n\n    .novo-stepper-vertical-line.edit:before {\n      border-left-color: 1px solid #4a89dc; }\n\n    .novo-stepper-vertical-line.done:before {\n      border-left-color: 1px solid #4a89dc; }\n\n    .novo-stepper-vertical-line.done:after {\n      border-left-color: 1px solid #4a89dc; }\n\n    .novo-stepper-vertical novo-step-status {\n      position: absolute;\n      left: 35px;\n      top: 25px;\n      -webkit-transform: scale(0.8);\n              transform: scale(0.8); }\n\n    .novo-vertical-stepper-content {\n      overflow: hidden; }\n\n    .novo-vertical-content {\n      padding: 0 24px 24px 24px; }\n\n    .novo-step:last-child .novo-vertical-content-container {\n      border: none; }\n  "],
-                host: {
-                    'class': 'novo-stepper-horizontal',
-                    'aria-orientation': 'horizontal',
-                    'role': 'tablist',
-                },
-                animations: [novoStepperAnimations.horizontalStepTransition],
-                providers: [{ provide: NovoStepper, useExisting: NovoHorizontalStepper }],
-                // encapsulation: ViewEncapsulation.None,
-                preserveWhitespaces: false,
-                changeDetection: core.ChangeDetectionStrategy.OnPush,
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoHorizontalStepper.ctorParameters = function () { return []; };
-NovoHorizontalStepper.propDecorators = {
-    'selectedIndex': [{ type: core.Input },],
-};
-var NovoVerticalStepper = /** @class */ (function (_super) {
-    __extends(NovoVerticalStepper, _super);
-    /**
-     * @param {?} dir
-     * @param {?} changeDetectorRef
-     */
-    function NovoVerticalStepper(dir, changeDetectorRef) {
-        var _this = _super.call(this, dir, changeDetectorRef) || this;
-        _this._orientation = 'vertical';
-        return _this;
-    }
-    return NovoVerticalStepper;
-}(NovoStepper));
-NovoVerticalStepper.decorators = [
-    { type: core.Component, args: [{
-                selector: 'novo-vertical-stepper',
-                template: "\n    <div class=\"novo-step\" *ngFor=\"let step of _steps; let i = index; let isLast = last\">\n        <novo-step-header  class=\"novo-vertical-stepper-header\"\n                         (click)=\"step.select()\"\n                         (keydown)=\"_onKeydown($event)\"\n                         [tabIndex]=\"_focusIndex == i ? 0 : -1\"\n                         [id]=\"_getStepLabelId(i)\"\n                         [attr.aria-controls]=\"_getStepContentId(i)\"\n                         [attr.aria-selected]=\"selectedIndex === i\"\n                         [index]=\"i\"\n                         [theme]=\"step.theme\"\n                         [color]=\"step.color\"\n                         [icon]=\"step.icon\"\n                         [state]=\"getIndicatorType(i)\"\n                         [label]=\"step.stepLabel || step.label\"\n                         [selected]=\"selectedIndex === i\"\n                         [active]=\"step.completed || selectedIndex === i || !linear\"\n                         [optional]=\"step.optional\"\n                         [iconOverrides]=\"_iconOverrides\">\n        </novo-step-header>\n  \n        <div class=\"novo-vertical-content-container\" [class.novo-stepper-vertical-line]=\"!isLast\" [ngClass]=\"getIndicatorType(i)\">\n          <div class=\"novo-vertical-stepper-content\" role=\"tabpanel\"\n               [@stepTransition]=\"_getAnimationDirection(i)\"\n               [id]=\"_getStepContentId(i)\"\n               [attr.aria-labelledby]=\"_getStepLabelId(i)\"\n               [attr.aria-expanded]=\"selectedIndex === i\">\n            <div class=\"novo-vertical-content\">\n              <ng-container [ngTemplateOutlet]=\"step.content\"></ng-container>\n            </div>\n          </div>\n        </div>\n      </div>\n  ",
-                styles: ["\n    @-webkit-keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @-webkit-keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @-webkit-keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @-webkit-keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    @keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    .novo-stepper-vertical,\n    .novo-stepper-horizontal {\n      display: block; }\n\n    .novo-horizontal-stepper-header-container {\n      white-space: nowrap;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      margin-bottom: 1em;\n      background: #f4f4f4; }\n\n    .novo-stepper-horizontal-line {\n      border-bottom: 1px solid #d9dadc;\n      -webkit-box-flex: 1;\n          -ms-flex: auto;\n              flex: auto;\n      min-width: 0px;\n      height: 80px; }\n      .novo-stepper-horizontal-line.complete {\n        border-bottom: 1px solid #4a89dc; }\n\n    .novo-horizontal-stepper-header {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      height: 80px;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n          -ms-flex-flow: column;\n              flex-flow: column;\n      overflow: visible;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      padding: 0 24px; }\n      .novo-horizontal-stepper-header .novo-step-status {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        width: 100%;\n        -webkit-box-pack: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        -webkit-box-align: center;\n            -ms-flex-align: center;\n                align-items: center;\n        position: absolute;\n        height: 1px;\n        bottom: 0px; }\n        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line {\n          width: 100%;\n          position: absolute; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before {\n            content: \"\";\n            display: block;\n            width: calc(50% - 8px);\n            margin-right: 8px;\n            border-bottom: 1px solid #d9dadc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after {\n            content: \"\";\n            display: block;\n            width: calc(50% - 8px);\n            margin-left: calc(50% + 8px);\n            margin-top: -1px;\n            border-top: 1px solid #d9dadc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before {\n            border-bottom: 1px solid #4a89dc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before {\n            border-bottom: 1px solid #4a89dc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after {\n            border-top: 1px solid #4a89dc; }\n        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon {\n          position: relative; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before {\n            content: \"\";\n            display: block;\n            background: #ffffff;\n            border-radius: 50%;\n            position: absolute;\n            z-index: 0;\n            top: 1px;\n            left: 1px;\n            bottom: 1px;\n            right: 1px; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon > * {\n            position: relative;\n            z-index: 1; }\n\n    .novo-vertical-stepper-header {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      padding: 24px;\n      max-height: 24px; }\n      .novo-vertical-stepper-header .novo-step-icon,\n      .novo-vertical-stepper-header .novo-step-icon-not-touched {\n        margin-right: 12px; }\n        [dir='rtl'] .novo-vertical-stepper-header .novo-step-icon, [dir='rtl']\n        .novo-vertical-stepper-header .novo-step-icon-not-touched {\n          margin-right: 0;\n          margin-left: 12px; }\n\n    .novo-horizontal-stepper-content {\n      overflow: hidden; }\n      .novo-horizontal-stepper-content[aria-expanded='false'] {\n        height: 0; }\n\n    .novo-horizontal-content-container {\n      overflow: hidden;\n      padding: 0 24px 24px 24px; }\n\n    .novo-vertical-content-container {\n      margin-left: 36px;\n      border: 0;\n      position: relative; }\n      [dir='rtl'] .novo-vertical-content-container {\n        margin-left: 0;\n        margin-right: 36px; }\n\n    .novo-stepper-vertical-line:before {\n      content: '';\n      position: absolute;\n      top: -16px;\n      bottom: -16px;\n      left: 0;\n      z-index: -1;\n      border-left-width: 1px;\n      border-left-style: solid;\n      border-left-color: #d9dadc; }\n      [dir='rtl'] .novo-stepper-vertical-line:before {\n        left: auto;\n        right: 0; }\n\n    .novo-stepper-vertical-line.edit:before {\n      border-left-color: 1px solid #4a89dc; }\n\n    .novo-stepper-vertical-line.done:before {\n      border-left-color: 1px solid #4a89dc; }\n\n    .novo-stepper-vertical-line.done:after {\n      border-left-color: 1px solid #4a89dc; }\n\n    .novo-stepper-vertical novo-step-status {\n      position: absolute;\n      left: 35px;\n      top: 25px;\n      -webkit-transform: scale(0.8);\n              transform: scale(0.8); }\n\n    .novo-vertical-stepper-content {\n      overflow: hidden; }\n\n    .novo-vertical-content {\n      padding: 0 24px 24px 24px; }\n\n    .novo-step:last-child .novo-vertical-content-container {\n      border: none; }\n  "],
-                host: {
-                    'class': 'novo-stepper-vertical',
-                    'aria-orientation': 'vertical',
-                    'role': 'tablist',
-                },
-                animations: [novoStepperAnimations.verticalStepTransition],
-                providers: [{ provide: NovoStepper, useExisting: NovoVerticalStepper }],
-                preserveWhitespaces: false,
-                changeDetection: core.ChangeDetectionStrategy.OnPush,
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoVerticalStepper.ctorParameters = function () { return [
-    { type: bidi.Directionality, decorators: [{ type: core.Optional },] },
-    { type: core.ChangeDetectorRef, },
-]; };
-NovoVerticalStepper.propDecorators = {
-    'selectedIndex': [{ type: core.Input },],
-};
-var NovoStepStatus = /** @class */ (function () {
-    /**
-     * @param {?} stepper
-     * @param {?} step
-     */
-    function NovoStepStatus(stepper$$1, step) {
-    }
-    return NovoStepStatus;
-}());
-NovoStepStatus.decorators = [
-    { type: core.Component, args: [{
-                selector: 'novo-step-status',
-                template: "\n    <div class=\"novo-stepper-status-line\" [ngClass]=\"state\"></div>\n    <div [ngSwitch]=\"state\" class=\"novo-stepper-status-icon\">\n      <novo-icon size=\"small\" color=\"positive\" *ngSwitchCase=\"'edit'\">check-circle</novo-icon>\n      <novo-icon size=\"small\" color=\"positive\" *ngSwitchCase=\"'done'\">check-circle-filled</novo-icon>\n      <novo-icon size=\"small\" color=\"positive\" *ngSwitchDefault>circle-o</novo-icon>\n    </div>\n  ",
-                // encapsulation: ViewEncapsulation.None,
-                preserveWhitespaces: false,
-                changeDetection: core.ChangeDetectionStrategy.OnPush,
-                host: {
-                    'class': 'novo-step-status'
-                },
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoStepStatus.ctorParameters = function () { return [
-    { type: NovoStepper, decorators: [{ type: core.Inject, args: [core.forwardRef(function () { return NovoStepper; }),] },] },
-    { type: NovoStepHeader, decorators: [{ type: core.Inject, args: [core.forwardRef(function () { return NovoStepHeader; }),] },] },
-]; };
-NovoStepStatus.propDecorators = {
-    'state': [{ type: core.Input },],
-};
-var NovoStepperModule = /** @class */ (function () {
-    function NovoStepperModule() {
-    }
-    return NovoStepperModule;
-}());
-NovoStepperModule.decorators = [
-    { type: core.NgModule, args: [{
-                imports: [
-                    common.CommonModule,
-                    portal.PortalModule,
-                    NovoButtonModule,
-                    stepper.CdkStepperModule,
-                    NovoIconModule,
-                    a11y.A11yModule,
-                ],
-                exports: [
-                    NovoHorizontalStepper,
-                    NovoVerticalStepper,
-                    NovoStep,
-                    NovoStepLabel,
-                    NovoStepper,
-                    NovoStepHeader,
-                    NovoStepStatus,
-                ],
-                declarations: [
-                    NovoHorizontalStepper,
-                    NovoVerticalStepper,
-                    NovoStep,
-                    NovoStepLabel,
-                    NovoStepper,
-                    NovoStepHeader,
-                    NovoStepStatus,
-                ]
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoStepperModule.ctorParameters = function () { return []; };
-// NG2
-// APP
-var NovoCategoryDropdownElement = /** @class */ (function (_super) {
-    __extends(NovoCategoryDropdownElement, _super);
-    /**
-     * @param {?} element
-     * @param {?} labels
-     */
-    function NovoCategoryDropdownElement(element, labels) {
-        var _this = _super.call(this, element) || this;
-        _this.labels = labels;
-        _this._query = '';
-        _this._categoryMap = {};
-        _this._categories = [];
-        // Boolean to keep the selection persist when closing the dropdown
-        _this.persistSelection = false;
-        // Boolean to close the dropdown on selection
-        _this.closeOnSelect = false;
-        // Event that is emitted whenever an item is selected
-        _this._select = new core.EventEmitter();
-        // Event that is emitted whenever a category is selected
-        _this.categorySelected = new core.EventEmitter();
-        _this.clickHandler = _this.toggleActive.bind(_this);
-        return _this;
-    }
-    Object.defineProperty(NovoCategoryDropdownElement.prototype, "categories", {
-        /**
-         * @param {?} categories
-         * @return {?}
-         */
-        set: function (categories) {
-            this._masterCategoryMap = Object.assign({}, categories);
-            this._categoryMap = Object.assign({}, categories);
-            this._categories = Object.keys(categories);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * @return {?}
-     */
-    NovoCategoryDropdownElement.prototype.ngOnInit = function () {
-        var /** @type {?} */ button = this.element.nativeElement.querySelector('button');
-        button.addEventListener('click', this.clickHandler);
-    };
-    /**
-     * @return {?}
-     */
-    NovoCategoryDropdownElement.prototype.ngOnDestroy = function () {
-        var /** @type {?} */ button = this.element.nativeElement.querySelector('button');
-        if (button) {
-            button.removeEventListener('click', this.clickHandler);
-        }
-    };
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    NovoCategoryDropdownElement.prototype.onKeyDown = function (event) {
-        if (this.active && (event.keyCode === KeyCodes.ESC || event.keyCode === KeyCodes.ENTER)) {
-            this.toggleActive();
-        }
-    };
-    /**
-     * @return {?}
-     */
-    NovoCategoryDropdownElement.prototype.clearSelection = function () {
-        var _this = this;
-        this._categories.forEach(function (category) {
-            _this._categoryMap[category].forEach(function (item) {
-                item.selected = false;
-            });
-        });
-    };
-    /**
-     * @param {?} event
-     * @param {?} item
-     * @return {?}
-     */
-    NovoCategoryDropdownElement.prototype.select = function (event, item) {
-        Helpers.swallowEvent(event);
-        // If we persist the selection, clear and show a check
-        if (this.persistSelection) {
-            this.clearSelection();
-            item.selected = true;
-        }
-        // Emit the item
-        this._select.emit(item);
-        // Close, if input is set
-        if (this.closeOnSelect) {
-            this.toggleActive();
-        }
-    };
-    /**
-     * @param {?} category
-     * @return {?}
-     */
-    NovoCategoryDropdownElement.prototype.onCategorySelected = function (category) {
-        this.categorySelected.emit(category);
-    };
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    NovoCategoryDropdownElement.prototype.clearQuery = function (event) {
-        var _this = this;
-        Helpers.swallowEvent(event);
-        this._query = '';
-        // Reset the categories
-        this._categories.forEach(function (category) {
-            _this._categoryMap[category] = _this._masterCategoryMap[category];
-        });
-    };
-    /**
-     * @param {?} query
-     * @return {?}
-     */
-    NovoCategoryDropdownElement.prototype.queryCategories = function (query) {
-        var _this = this;
-        // Save the query
-        this._query = query;
-        // Check timeout
-        if (this._queryTimeout) {
-            clearTimeout(this._queryTimeout);
-        }
-        // Store a timeout, to debounce user input
-        this._queryTimeout = setTimeout(function () {
-            _this._categories.forEach(function (category) {
-                if (_this.search.compare) {
-                    _this._categoryMap[category] = _this._masterCategoryMap[category].filter(function (item) { return _this.search.compare(query, item); });
-                }
-                else {
-                    _this._categoryMap[category] = _this._masterCategoryMap[category].filter(function (item) { return ~item.label.toLowerCase().indexOf(query.toLowerCase()); });
-                }
-            });
-        }, this.search.debounce || 300);
-    };
-    /**
-     * @param {?} event
-     * @param {?} link
-     * @return {?}
-     */
-    NovoCategoryDropdownElement.prototype.executeClickCallback = function (event, link) {
-        link.callback(event);
-        // Close, if input is set
-        if (this.closeOnSelect) {
-            this.toggleActive();
-        }
-    };
-    return NovoCategoryDropdownElement;
-}(OutsideClick));
-NovoCategoryDropdownElement.decorators = [
-    { type: core.Component, args: [{
-                selector: 'novo-category-dropdown',
-                template: "\n        <ng-content select=\"button\"></ng-content>\n        <div class=\"dropdown-container\" *ngIf=\"active\">\n            <div class=\"novo-category-dropdown-search\" *ngIf=\"search\" data-automation-id=\"novo-category-dropdown-search\">\n                <input type=\"text\" [placeholder]=\"search.placeholder || labels.search\" [value]=\"_query\" (input)=\"queryCategories($event.target.value)\"/>\n                <i class=\"bhi-search\" *ngIf=\"!_query\"></i>\n                <i class=\"bhi-times\" *ngIf=\"_query\" (click)=\"clearQuery($event)\"></i>\n            </div>\n            <novo-nav theme=\"white\" [outlet]=\"novoCategoryDropdownOutlet\" direction=\"vertical\">\n                <novo-tab *ngFor=\"let category of _categories\" [attr.data-automation-id]=\"category\" (activeChange)=\"onCategorySelected(category)\">\n                    <span>{{ category }} ({{ _categoryMap[category].length }})</span>\n                </novo-tab>\n            </novo-nav>\n            <novo-nav-outlet #novoCategoryDropdownOutlet>\n                <novo-nav-content *ngFor=\"let category of _categories\">\n                    <novo-list direction=\"vertical\">\n                        <novo-list-item *ngFor=\"let item of _categoryMap[category]\" (click)=\"select($event, item)\" [attr.data-automation-id]=\"item.label\">\n                            <item-content>{{ item.label }}</item-content>\n                            <item-end class=\"novo-category-dropdown-hover\" *ngIf=\"item.hoverText && !item.selected\">{{ item.hoverText }}</item-end>\n                            <item-end class=\"novo-category-dropdown-hover\" *ngIf=\"item.hoverIcon && !item.selected\"><i class=\"bhi-{{ item.hoverIcon }}\"></i></item-end>\n                            <item-end *ngIf=\"item.selected\"><i class=\"bhi-check\"></i></item-end>\n                        </novo-list-item>\n                        <novo-list-item *ngIf=\"_categoryMap[category].length === 0 && search\" class=\"novo-category-dropdown-empty-item\">\n                            <item-content>{{ search.emptyMessage || labels.noItems }}</item-content>\n                        </novo-list-item>\n                    </novo-list>\n                </novo-nav-content>\n            </novo-nav-outlet>\n            <footer *ngIf=\"footer\" class=\"novo-category-dropdown-footer-align-{{ footer.align || 'right' }}\">\n                <a *ngFor=\"let link of footer.links\" (click)=\"executeClickCallback($event, link)\">{{ link.label }}</a>\n            </footer>\n        </div>\n    ",
-                host: {
-                    '(keydown)': 'onKeyDown($event)',
-                    '[class.active]': 'active'
-                }
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoCategoryDropdownElement.ctorParameters = function () { return [
-    { type: core.ElementRef, },
-    { type: NovoLabelService, },
-]; };
-NovoCategoryDropdownElement.propDecorators = {
-    'persistSelection': [{ type: core.Input },],
-    'closeOnSelect': [{ type: core.Input },],
-    'search': [{ type: core.Input },],
-    'footer': [{ type: core.Input },],
-    '_select': [{ type: core.Output, args: ['itemSelected',] },],
-    'categorySelected': [{ type: core.Output },],
-    'categories': [{ type: core.Input },],
-};
-// NG2
-// APP
-var NovoCategoryDropdownModule = /** @class */ (function () {
-    function NovoCategoryDropdownModule() {
-    }
-    return NovoCategoryDropdownModule;
-}());
-NovoCategoryDropdownModule.decorators = [
-    { type: core.NgModule, args: [{
-                imports: [common.CommonModule, NovoTabModule, NovoListModule],
-                declarations: [NovoCategoryDropdownElement],
-                exports: [NovoCategoryDropdownElement]
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoCategoryDropdownModule.ctorParameters = function () { return []; };
-// NG2
-// Vendor
-// Value accessor for the component (supports ngModel)
-var CHIPS_VALUE_ACCESSOR$1 = {
-    provide: forms.NG_VALUE_ACCESSOR,
-    useExisting: core.forwardRef(function () { return NovoMultiPickerElement; }),
-    multi: true
-};
-var NovoMultiPickerElement = /** @class */ (function () {
-    /**
-     * @param {?} element
-     * @param {?} labels
-     */
-    function NovoMultiPickerElement(element, labels) {
-        this.element = element;
-        this.labels = labels;
-        this.placeholder = '';
-        this.changed = new core.EventEmitter();
-        this.focus = new core.EventEmitter();
-        this.blur = new core.EventEmitter();
-        this.items = [];
-        this._items = new ReplaySubject.ReplaySubject(1);
-        this.selected = null;
-        this.config = {};
-        // private data model
-        this._value = {};
-        this.notShown = {};
-        this.onModelChange = function () {
-        };
-        this.onModelTouched = function () {
-        };
-        this.chipsCount = 4;
-    }
-    Object.defineProperty(NovoMultiPickerElement.prototype, "value", {
-        /**
-         * @return {?}
-         */
-        get: function () {
-            return this._value;
-        },
-        /**
-         * @param {?} selectedItems
-         * @return {?}
-         */
-        set: function (selectedItems) {
-            var _this = this;
-            if (selectedItems) {
-                this.types.forEach(function (x) { return _this._value[x.value] = selectedItems[x.value]; });
-            }
-            else {
-                this._value = {};
-                this.types.forEach(function (x) { return _this._value[x.value] = []; });
-            }
-            this.changed.emit(selectedItems);
-            this.onModelChange(selectedItems);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.ngOnInit = function () {
-        this.selectAllOption = this.source.selectAllOption || false;
-        this.chipsCount = this.source.chipsCount || 4;
-        this.strictRelationship = this.source.strictRelationship || false;
-        this.setupOptions();
-    };
-    /**
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.clearValue = function () {
-        var _this = this;
-        this.types.forEach(function (type) { return _this.modifyAllOfType(type.value, 'unselect'); });
-        this.items = [];
-        this._items.next(this.items);
-        this.value = this.setInitialValue(null);
-        this.onModelChange(this.value);
-    };
-    /**
-     * @param {?} event
-     * @param {?} item
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.removeFromDisplay = function (event, item) {
-        this.remove(true, item);
-        this.modifyAffectedParentsOrChildren(false, item);
-    };
-    /**
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.setupOptions = function () {
-        var _this = this;
-        this.options = this.source.options || [];
-        this._options = [];
-        if (this.options) {
-            this.options.forEach(function (option) {
-                var /** @type {?} */ formattedOption = _this.setupOptionsByType(option);
-                _this._options.push(formattedOption);
-            });
-        }
-        this.source.options = this._options;
-    };
-    /**
-     * @param {?} section
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.setupOptionsByType = function (section) {
-        var _this = this;
-        var /** @type {?} */ formattedSection = {
-            type: section.type,
-            label: section.label || section.type
-        };
-        formattedSection.data = section.data.map(function (item) {
-            return _this.formatOption(section, item);
-        });
-        if (this.selectAllOption) {
-            var /** @type {?} */ selectAll = this.createSelectAllOption(section);
-            formattedSection.data.splice(0, 0, selectAll);
-        }
-        formattedSection.originalData = formattedSection.data.slice();
-        return formattedSection;
-    };
-    /**
-     * @param {?} section
-     * @param {?} item
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.formatOption = function (section, item) {
-        var /** @type {?} */ obj = {
-            value: section.field ? item[section.field] : (item.value || item),
-            label: section.format ? Helpers.interpolate(section.format, item) : item.label || String(item.value || item),
-            type: section.type,
-            checked: undefined,
-            isParentOf: section.isParentOf,
-            isChildOf: section.isChildOf
-        };
-        if (obj.isChildOf) {
-            obj[section.isChildOf] = item[section.isChildOf];
-        }
-        return obj;
-    };
-    /**
-     * @param {?} section
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.createSelectAllOption = function (section) {
-        var /** @type {?} */ selectAll = {
-            value: 'ALL',
-            label: "All " + section.type,
-            type: section.type,
-            checked: (this.model && this.model.length && (this.model.indexOf('ALL') !== -1)),
-            isParentOf: section.isParentOf,
-            isChildOf: section.isChildOf
-        };
-        if (section.isChildOf) {
-            var /** @type {?} */ allParents = section.data.reduce(function (accum, next) {
-                return accum.concat(next[section.isChildOf]);
-            }, []);
-            selectAll[section.isChildOf] = allParents;
-        }
-        return selectAll;
-    };
-    /**
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.deselectAll = function () {
-        this.selected = null;
-    };
-    /**
-     * @param {?} event
-     * @param {?} item
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.select = function (event, item) {
-        this.blur.emit(event);
-        this.deselectAll();
-        this.selected = item;
-    };
-    /**
-     * @param {?} e
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.onFocus = function (e) {
-        this.element.nativeElement.classList.add('selected');
-        this.focus.emit(e);
-    };
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.clickOption = function (event) {
-        if (event && !(event instanceof Event)) {
-            if (event.checked === false) {
-                this.remove(null, event);
-            }
-            else {
-                this.add(event);
-            }
-            this.modifyAffectedParentsOrChildren(event.checked, event);
-            // Set focus on the picker
-            var /** @type {?} */ input = this.element.nativeElement.querySelector('novo-picker > input');
-            if (input) {
-                input.focus();
-            }
-        }
-    };
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.add = function (event) {
-        if (event.value === 'ALL') {
-            this.modifyAllOfType(event.type, 'select');
-        }
-        else {
-            this.updateDisplayItems(event, 'add');
-            this.value[event.type].push(event.value);
-            this.updateAllItemState(event.type);
-            this.triggerValueUpdate();
-        }
-        this.updateParentOrChildren(event, 'select');
-        this.select(null, event);
-    };
-    /**
-     * @param {?} type
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.updateAllItemState = function (type) {
-        var /** @type {?} */ allOfType = this.getAllOfType(type);
-        var /** @type {?} */ allOfTypeSelected = this.allItemsSelected(allOfType, type);
-        if (allOfTypeSelected) {
-            this.selectAll(allOfType, type);
-        }
-        return { allOfType: allOfType, allOfTypeSelected: allOfTypeSelected };
-    };
-    /**
-     * @param {?} allOfType
-     * @param {?} status
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.setIndeterminateState = function (allOfType, status) {
-        if (!this.selectAllOption) {
-            return;
-        }
-        var /** @type {?} */ allItem = allOfType[0];
-        allItem.indeterminate = status;
-    };
-    /**
-     * @param {?} item
-     * @param {?} action
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.updateDisplayItems = function (item, action) {
-        var /** @type {?} */ adding = action === 'add';
-        if (adding) {
-            this.items.push(item);
-        }
-        else {
-            if (this.items.indexOf(item) > -1) {
-                this.items.splice(this.items.indexOf(item), 1);
-            }
-        }
-        this.updateDisplayText(this.items);
-        this._items.next(this.items);
-    };
-    /**
-     * @param {?} items
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.updateDisplayText = function (items) {
-        var _this = this;
-        this.notShown = [];
-        var /** @type {?} */ notShown = items.slice(this.chipsCount);
-        if (notShown.length > 0) {
-            this.types.forEach(function (type) {
-                var /** @type {?} */ count;
-                var /** @type {?} */ selectedOfType = notShown.filter(function (x) { return x.type === type.value; });
-                if (selectedOfType.length === 1 && selectedOfType[0].value === 'ALL') {
-                    count = _this.getAllOfType(type.value).length - 1;
-                }
-                else {
-                    count = selectedOfType.length;
-                }
-                var /** @type {?} */ displayType = count === 1 ? type.singular : type.plural || type.value;
-                if (count > 0) {
-                    _this.notShown.push({ type: displayType, count: count });
-                }
-            });
-        }
-    };
-    /**
-     * @param {?} event
-     * @param {?} item
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.remove = function (event, item) {
-        var /** @type {?} */ triggeredByEvent;
-        if (event) {
-            triggeredByEvent = true;
-        }
-        var /** @type {?} */ itemToRemove = item;
-        if (itemToRemove.value === 'ALL') {
-            triggeredByEvent = false;
-            this.modifyAllOfType(itemToRemove.type, 'unselect');
-        }
-        else if (this.allOfTypeSelected(itemToRemove.type)) {
-            this.handleRemoveItemIfAllSelected(itemToRemove);
-        }
-        this.removeItem(item, triggeredByEvent);
-    };
-    /**
-     * @param {?} item
-     * @param {?=} triggeredByEvent
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.removeItem = function (item, triggeredByEvent) {
-        item.checked = false;
-        this.deselectAll();
-        this.removeValue(item);
-        if (item.value !== 'ALL') {
-            this.updateParentOrChildren(item, 'unselect');
-        }
-        if (triggeredByEvent) {
-            this.modifyAffectedParentsOrChildren(false, item);
-        }
-    };
-    /**
-     * @param {?} item
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.removeValue = function (item) {
-        var /** @type {?} */ updatedValues = this.value[item.type].filter(function (x) { return x !== item.value; });
-        this.value[item.type] = updatedValues;
-        this.triggerValueUpdate();
-        this.updateDisplayItems(item, 'remove');
-    };
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.onKeyDown = function (event) {
-        if (event.keyCode === KeyCodes.BACKSPACE) {
-            if (event.target && event.target.value.length === 0 && this.items.length) {
-                if (event) {
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-                if (this.selected) {
-                    this.remove(null, this.selected);
-                }
-                else {
-                    this.select(event, this.items[this.items.length - 1]);
-                }
-            }
-        }
-    };
-    /**
-     * @param {?} type
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.allOfTypeSelected = function (type) {
-        return this.items.filter(function (x) { return x.type === type && x.value === 'ALL'; }).length > 0;
-    };
-    /**
-     * @param {?} type
-     * @param {?} action
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.modifyAllOfType = function (type, action) {
-        var /** @type {?} */ selecting = action === 'select';
-        var /** @type {?} */ allOfType = this.getAllOfType(type);
-        allOfType.forEach(function (item) {
-            item.checked = selecting;
-            item.indeterminate = false;
-        });
-        if (selecting) {
-            this.selectAll(allOfType, type);
-        }
-        else {
-            this.items = this.items.filter(function (x) { return x.type !== type; }).slice();
-            this._items.next(this.items);
-            this.value[type] = [];
-        }
-        if (this.selectAllOption) {
-            this.updateAllParentsOrChildren(allOfType[0], action);
-        }
-        this.triggerValueUpdate();
-    };
-    /**
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.triggerValueUpdate = function () {
-        var _this = this;
-        var /** @type {?} */ updatedObject = {};
-        this.types.forEach(function (x) { return updatedObject[x.value] = _this.value[x.value]; });
-        this.value = updatedObject;
-    };
-    /**
-     * @param {?} allOfType
-     * @param {?} type
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.selectAll = function (allOfType, type) {
-        if (!this.selectAllOption) {
-            return;
-        }
-        allOfType[0].checked = true;
-        var /** @type {?} */ values = allOfType.map(function (i) {
-            return i.value;
-        });
-        //remove 'ALL' value
-        values.splice(0, 1);
-        this.value[type] = values;
-        var /** @type {?} */ updatedItems = this.items.filter(function (x) { return x.type !== type; });
-        this.items = updatedItems;
-        this.updateDisplayItems(allOfType[0], 'add');
-    };
-    /**
-     * @param {?} item
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.handleRemoveItemIfAllSelected = function (item) {
-        if (!this.selectAllOption) {
-            return;
-        }
-        var /** @type {?} */ type = item.type;
-        var /** @type {?} */ allOfType = this.getAllOfType(type);
-        var /** @type {?} */ allItem = allOfType[0];
-        this.removeItem(allItem);
-        allItem.indeterminate = true;
-        var /** @type {?} */ selectedItems = allOfType.filter(function (i) { return i.checked === true; });
-        this.items = this.items.concat(selectedItems);
-        var /** @type {?} */ values = selectedItems.map(function (i) {
-            return i.value;
-        });
-        this.value[type] = values.slice();
-    };
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.handleOutsideClick = function (event) {
-        // If the elements doesn't contain the target element, it is an outside click
-        if (!this.element.nativeElement.contains(event.target)) {
-            this.blur.emit(event);
-            this.deselectAll();
-        }
-    };
-    /**
-     * @param {?} type
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.getAllOfType = function (type) {
-        return this._options.filter(function (x) { return x.type === type; })[0].originalData;
-    };
-    /**
-     * @param {?} item
-     * @param {?} action
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.updateParentOrChildren = function (item, action) {
-        if (this.strictRelationship && item.isParentOf) {
-            this.updateChildrenValue(item, action);
-        }
-        else if (item.isChildOf && this.selectAllOption) {
-            this.updateParentValue(item, action);
-        }
-    };
-    /**
-     * @param {?} selecting
-     * @param {?} itemChanged
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.modifyAffectedParentsOrChildren = function (selecting, itemChanged) {
-        var _this = this;
-        if (!itemChanged.isChildOf && !itemChanged.isParentOf) {
-            return;
-        }
-        var /** @type {?} */ parent = this.types.filter(function (x) { return !!x.isParentOf; })[0];
-        var /** @type {?} */ parentType = parent.value;
-        var /** @type {?} */ allParentType = this.getAllOfType(parentType);
-        var /** @type {?} */ childType = allParentType[0].isParentOf;
-        var /** @type {?} */ allChildren = this.getAllOfType(childType);
-        var /** @type {?} */ allCheckedChildren = allChildren.filter(function (x) { return !!x.checked; });
-        allParentType.forEach(function (obj) {
-            if (obj.value === 'ALL') {
-                return;
-            }
-            var /** @type {?} */ selectedChildrenOfParent = allCheckedChildren.filter(function (x) {
-                return x[parentType].filter(function (y) { return y === obj.value; }).length > 0;
-            });
-            if (selecting) {
-                if (obj.checked) {
-                    return;
-                }
-                obj.indeterminate = selectedChildrenOfParent.length > 0;
-            }
-            else {
-                var /** @type {?} */ allChildrenOfParent = allChildren.filter(function (x) {
-                    return x.value !== 'ALL' && x[parentType].filter(function (y) { return y === obj.value; }).length > 0;
-                });
-                if (selectedChildrenOfParent.length > 0) {
-                    if (obj.checked) {
-                        if (_this.strictRelationship && (allChildrenOfParent.length !== selectedChildrenOfParent.length)) {
-                            obj.indeterminate = true;
-                            obj.checked = false;
-                            _this.removeValue(obj);
-                            _this.addIndividualChildren(selectedChildrenOfParent);
-                        }
-                    }
-                    else {
-                        obj.indeterminate = true;
-                    }
-                    if (_this.strictRelationship && itemChanged.type !== parentType) {
-                        if (obj.checked) {
-                            obj.checked = false;
-                            _this.removeValue(obj);
-                            _this.addIndividualChildren(selectedChildrenOfParent);
-                        }
-                    }
-                }
-                else {
-                    obj.indeterminate = false;
-                    if (allChildrenOfParent.length === 0) {
-                        //if it has no children and is checked, it should stay checked
-                        return;
-                    }
-                    else if (_this.strictRelationship && itemChanged.type !== parentType) {
-                        _this.remove(null, obj);
-                    }
-                }
-            }
-        });
-        if (this.selectAllOption) {
-            this.updateIndeterminateStates(allParentType, allChildren, allCheckedChildren);
-        }
-    };
-    /**
-     * @param {?} allItem
-     * @param {?} action
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.updateAllParentsOrChildren = function (allItem, action) {
-        if (allItem.isParentOf) {
-            this.updateAllChildrenValue(allItem, action);
-        }
-        else if (allItem.isChildOf) {
-            this.updateAllParentValue(allItem, action);
-        }
-    };
-    /**
-     * @param {?} item
-     * @param {?} action
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.updateAllChildrenValue = function (item, action) {
-        var _this = this;
-        var /** @type {?} */ selecting = action === 'select';
-        var /** @type {?} */ childType = item.isParentOf;
-        var /** @type {?} */ potentialChildren = this.getAllOfType(childType);
-        if (this.selectAllOption && this.allOfTypeSelected(childType) && !selecting) {
-            this.remove(null, potentialChildren[0]);
-            return;
-        }
-        potentialChildren.forEach(function (x) {
-            if (x.value === 'ALL' && !x.checked) {
-                if (selecting) {
-                    x.checked = true;
-                }
-                x.indeterminate = selecting;
-            }
-            else {
-                if (x.checked && !selecting) {
-                    _this.remove(null, x);
-                }
-                x.checked = selecting;
-            }
-        });
-    };
-    /**
-     * @param {?} item
-     * @param {?} action
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.updateAllParentValue = function (item, action) {
-        var /** @type {?} */ selecting = action === 'select';
-        var /** @type {?} */ parentType = item.isChildOf;
-        var /** @type {?} */ potentialParents = this.getAllOfType(parentType);
-        potentialParents.forEach(function (x) {
-            if (!x.checked) {
-                x.indeterminate = selecting;
-            }
-        });
-    };
-    /**
-     * @param {?} allParentType
-     * @param {?} allChildren
-     * @param {?} allCheckedChildren
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.updateIndeterminateStates = function (allParentType, allChildren, allCheckedChildren) {
-        var /** @type {?} */ allCheckedOrIndeterminateParents = allParentType.filter(function (x) { return (!!x.checked || !!x.indeterminate) && x.value !== 'ALL'; });
-        var /** @type {?} */ isParentIndeterminate = !!allParentType[0].checked ? false : allCheckedOrIndeterminateParents.length > 0;
-        var /** @type {?} */ isChildIndeterminate = !!allChildren[0].checked ? false : allCheckedChildren.length > 0;
-        this.setIndeterminateState(allParentType, isParentIndeterminate);
-        this.setIndeterminateState(allChildren, isChildIndeterminate);
-    };
-    /**
-     * @param {?} parent
-     * @param {?} action
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.updateChildrenValue = function (parent, action) {
-        var _this = this;
-        var /** @type {?} */ selecting = action === 'select';
-        var /** @type {?} */ childType = parent.isParentOf;
-        var /** @type {?} */ potentialChildren = this.getAllOfType(childType);
-        potentialChildren.forEach(function (x) {
-            if (x.value === 'ALL') {
-                return;
-            }
-            if (x[parent.type].filter(function (y) { return y === parent.value; }).length > 0) {
-                if (x.checked && !selecting) {
-                    x.checked = false;
-                    if (_this.allOfTypeSelected(childType)) {
-                        _this.handleRemoveItemIfAllSelected(x);
-                    }
-                    else {
-                        _this.removeValue(x);
-                    }
-                }
-                x.checked = selecting;
-            }
-        });
-    };
-    /**
-     * @param {?} child
-     * @param {?} action
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.updateParentValue = function (child, action) {
-        var /** @type {?} */ allParentType = this.getAllOfType(child.isChildOf);
-        if (allParentType[0].checked && action !== 'select') {
-            this.handleRemoveItemIfAllSelected(allParentType[0]);
-        }
-    };
-    /**
-     * @param {?} children
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.addIndividualChildren = function (children) {
-        var _this = this;
-        var /** @type {?} */ parentAlreadySelected = false;
-        children.forEach(function (x) {
-            if (x.isChildOf) {
-                x[x.isChildOf].forEach(function (parent) {
-                    if (_this.value[x.isChildOf].filter(function (p) { return p === parent; }).length > 0) {
-                        parentAlreadySelected = true;
-                    }
-                });
-            }
-            if (_this.value[x.type].filter(function (item) { return item === x.value; }).length === 0 && !parentAlreadySelected) {
-                _this.add(x);
-            }
-        });
-    };
-    /**
-     * @param {?} model
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.setInitialValue = function (model) {
-        var _this = this;
-        this.items = [];
-        this.value = model || {};
-        if (!this.types) {
-            return;
-        }
-        this.types.forEach(function (typeObj) {
-            var /** @type {?} */ type = typeObj.value;
-            if (_this.value[type]) {
-                var /** @type {?} */ indeterminateIsSet_1 = false;
-                var /** @type {?} */ options = _this.updateAllItemState(type);
-                var /** @type {?} */ optionsByType_1 = options.allOfType;
-                var /** @type {?} */ allSelected_1 = options.allOfTypeSelected;
-                _this.value[type].forEach(function (item) {
-                    if (!allSelected_1 && !indeterminateIsSet_1) {
-                        indeterminateIsSet_1 = true;
-                        _this.setIndeterminateState(optionsByType_1, true);
-                    }
-                    var /** @type {?} */ value = optionsByType_1.filter(function (x) { return x.value === item; })[0];
-                    value.checked = true;
-                    if (!allSelected_1) {
-                        _this.updateDisplayItems(value, 'add');
-                    }
-                    if (_this.strictRelationship && value.isParentOf) {
-                        _this.updateChildrenValue(value, 'select');
-                    }
-                });
-                if (typeObj.isChildOf) {
-                    _this.modifyAffectedParentsOrChildren(true, { value: type, isChildOf: true });
-                }
-            }
-            else {
-                _this.value[type] = [];
-            }
-        });
-    };
-    /**
-     * @param {?} optionsByType
-     * @param {?} type
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.allItemsSelected = function (optionsByType, type) {
-        return this.value[type].length === optionsByType.length - 1;
-    };
-    /**
-     * @param {?} e
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.onTouched = function (e) {
-        this.element.nativeElement.classList.remove('selected');
-        this.onModelTouched();
-        this.blur.emit(e);
-    };
-    /**
-     * @param {?} model
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.writeValue = function (model) {
-        this.model = model;
-        this.setInitialValue(model);
-    };
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.registerOnChange = function (fn) {
-        this.onModelChange = fn;
-    };
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    NovoMultiPickerElement.prototype.registerOnTouched = function (fn) {
-        this.onModelTouched = fn;
-    };
-    return NovoMultiPickerElement;
-}());
-NovoMultiPickerElement.decorators = [
-    { type: core.Component, args: [{
-                selector: 'multi-picker',
-                providers: [CHIPS_VALUE_ACCESSOR$1],
-                template: "\n        <chip\n            *ngFor=\"let item of _items | async | slice:0:chipsCount\"\n            [type]=\"type\"\n            [class.selected]=\"item == selected\"\n            (remove)=\"removeFromDisplay($event, item)\"\n            (select)=\"select($event, item)\">\n            {{ item.label }}\n        </chip>\n        <div *ngIf=\"items.length > chipsCount\">\n            <ul class=\"summary\">\n                <li *ngFor=\"let type of notShown\">+ {{type.count}} {{ labels.more }} {{type.type}}</li>\n            </ul>\n        </div>\n        <div class=\"chip-input-container\">\n            <novo-picker\n                clearValueOnSelect=\"true\"\n                [config]=\"source\"\n                [placeholder]=\"placeholder\"\n                (select)=\"clickOption($event)\"\n                (keydown)=\"onKeyDown($event)\"\n                (focus)=\"onFocus($event)\"\n                (blur)=\"onTouched($event)\"\n                [overrideElement]=\"element\">\n            </novo-picker>\n        </div>\n        <i class=\"bhi-search\" [class.has-value]=\"items.length\"></i>\n        <label class=\"clear-all\" *ngIf=\"items.length\" (click)=\"clearValue()\">{{ labels.clearAll }} <i class=\"bhi-times\"></i></label>\n   ",
-                host: {
-                    '[class.with-value]': 'items.length > 0'
-                }
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoMultiPickerElement.ctorParameters = function () { return [
-    { type: core.ElementRef, },
-    { type: NovoLabelService, },
-]; };
-NovoMultiPickerElement.propDecorators = {
-    'source': [{ type: core.Input },],
-    'placeholder': [{ type: core.Input },],
-    'types': [{ type: core.Input },],
-    'changed': [{ type: core.Output },],
-    'focus': [{ type: core.Output },],
-    'blur': [{ type: core.Output },],
-    'value': [{ type: core.Input },],
-};
-// NG2
-// APP
-var NovoMultiPickerModule = /** @class */ (function () {
-    function NovoMultiPickerModule() {
-    }
-    return NovoMultiPickerModule;
-}());
-NovoMultiPickerModule.decorators = [
-    { type: core.NgModule, args: [{
-                imports: [common.CommonModule, forms.FormsModule, NovoPickerModule, NovoChipsModule],
-                declarations: [NovoMultiPickerElement],
-                exports: [NovoMultiPickerElement]
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoMultiPickerModule.ctorParameters = function () { return []; };
-// NG2
-var Security = /** @class */ (function () {
-    function Security() {
-        this.credentials = [];
-        this.change = new core.EventEmitter();
-    }
-    /**
-     * @param {?} data
-     * @return {?}
-     */
-    Security.prototype.grant = function (data) {
-        var /** @type {?} */ parsed = [];
-        if (data instanceof Array) {
-            for (var _d = 0, data_1 = data; _d < data_1.length; _d++) {
-                var permission = data_1[_d];
-                parsed.push(permission.replace(/\s/gi, ''));
-            }
-        }
-        else if (typeof data === 'object') {
-            for (var /** @type {?} */ key in data) {
-                if (data[key] instanceof Array) {
-                    for (var _e = 0, _f = data[key]; _e < _f.length; _e++) {
-                        var permission = _f[_e];
-                        parsed.push(key + "." + permission);
-                    }
-                }
-            }
-        }
-        this.credentials = [].concat(this.credentials, parsed);
-        this.change.emit(this.credentials);
-    };
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    Security.prototype.has = function (value) {
-        return this.credentials.indexOf(value) > -1;
-    };
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    Security.prototype.revoke = function (value) {
-        var /** @type {?} */ i = this.credentials.indexOf(value);
-        this.credentials.splice(i, 1);
-        this.change.emit(this.credentials);
-    };
-    /**
-     * @return {?}
-     */
-    Security.prototype.clear = function () {
-        this.credentials = [];
-        this.change.emit(this.credentials);
-    };
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
-    Security.prototype.subscribe = function (fn) {
-        this.change.subscribe(fn);
-    };
-    /**
-     * @param {?} routes
-     * @param {?} options
-     * @return {?}
-     */
-    Security.prototype.checkRoutes = function (routes, options) {
-        var _this = this;
-        var /** @type {?} */ filtered = [];
-        for (var _d = 0, routes_1 = routes; _d < routes_1.length; _d++) {
-            var route = routes_1[_d];
-            if (route.entities && ~route.entities.indexOf(options.entityType)) {
-                if (route.permissions instanceof Function) {
-                    if (route.permissions(options, this)) {
-                        filtered.push(route);
-                    }
-                }
-                else if (route.permissions && route.permissions.length) {
-                    if (route.permissions.every(function (perm) { return _this.has(perm); })) {
-                        filtered.push(route);
-                    }
-                }
-                else {
-                    filtered.push(route);
-                }
-            }
-        }
-        return filtered;
-    };
-    return Security;
-}());
-Security.decorators = [
-    { type: core.Injectable },
-];
-/**
- * @nocollapse
- */
-Security.ctorParameters = function () { return []; };
-// NG2
-// App
-var Unless = /** @class */ (function () {
-    /**
-     * @param {?} templateRef
-     * @param {?} viewContainer
-     * @param {?} security
-     */
-    function Unless(templateRef, viewContainer, security) {
-        this.templateRef = templateRef;
-        this.viewContainer = viewContainer;
-        this.security = security;
-        this.permissions = '';
-        this.isDisplayed = false;
-        this.security.subscribe(this.check.bind(this));
-    }
-    Object.defineProperty(Unless.prototype, "bhUnless", {
-        /**
-         * @param {?} value
-         * @return {?}
-         */
-        set: function (value) {
-            this.permissions = value || '';
-            this.check();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * @return {?}
-     */
-    Unless.prototype.check = function () {
-        var _this = this;
-        var /** @type {?} */ display = false;
-        if (~this.permissions.indexOf('||')) {
-            var /** @type {?} */ ps = this.permissions.split('||');
-            for (var _d = 0, ps_1 = ps; _d < ps_1.length; _d++) {
-                var p = ps_1[_d];
-                if (this.security.has(p.trim())) {
-                    display = true;
-                }
-            }
-        }
-        else {
-            display = this.permissions.split('&&').every(function (p) { return _this.security.has(p.trim()); });
-        }
-        if (display) {
-            if (!this.isDisplayed) {
-                this.isDisplayed = true;
-                this.viewContainer.createEmbeddedView(this.templateRef);
-            }
-        }
-        else {
-            this.isDisplayed = false;
-            this.viewContainer.clear();
-        }
-    };
-    return Unless;
-}());
-Unless.decorators = [
-    { type: core.Directive, args: [{
-                selector: '[bhUnless]',
-            },] },
-];
-/**
- * @nocollapse
- */
-Unless.ctorParameters = function () { return [
-    { type: core.TemplateRef, },
-    { type: core.ViewContainerRef, },
-    { type: Security, },
-]; };
-Unless.propDecorators = {
-    'bhUnless': [{ type: core.Input },],
-};
-// NG2
-// APP
-var UnlessModule = /** @class */ (function () {
-    function UnlessModule() {
-    }
-    return UnlessModule;
-}());
-UnlessModule.decorators = [
-    { type: core.NgModule, args: [{
-                imports: [common.CommonModule],
-                declarations: [Unless],
-                exports: [Unless]
-            },] },
-];
-/**
- * @nocollapse
- */
-UnlessModule.ctorParameters = function () { return []; };
-var NovoTemplate = /** @class */ (function () {
-    /**
-     * @param {?} template
-     */
-    function NovoTemplate(template) {
-        this.template = template;
-    }
-    /**
-     * @return {?}
-     */
-    NovoTemplate.prototype.getType = function () {
-        return this.name;
-    };
-    return NovoTemplate;
-}());
-NovoTemplate.decorators = [
-    { type: core.Directive, args: [{
-                selector: '[novoTemplate]',
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoTemplate.ctorParameters = function () { return [
-    { type: core.TemplateRef, },
-]; };
-NovoTemplate.propDecorators = {
-    'type': [{ type: core.Input },],
-    'name': [{ type: core.Input, args: ['novoTemplate',] },],
-};
-var NovoCommonModule = /** @class */ (function () {
-    function NovoCommonModule() {
-    }
-    return NovoCommonModule;
-}());
-NovoCommonModule.decorators = [
-    { type: core.NgModule, args: [{
-                imports: [common.CommonModule],
-                exports: [NovoTemplate],
-                declarations: [NovoTemplate],
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoCommonModule.ctorParameters = function () { return []; };
-var __extends$8 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -35851,7 +34424,7 @@ var __extends$8 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b
  * @extends {Ignored}
  */
 var AuditSubscriber = (function (_super) {
-    __extends$8(AuditSubscriber, _super);
+    __extends$7(AuditSubscriber, _super);
     function AuditSubscriber(destination, durationSelector) {
         _super.call(this, destination);
         this.durationSelector = durationSelector;
@@ -35897,7 +34470,7 @@ var AuditSubscriber = (function (_super) {
     };
     return AuditSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$10 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$9 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -35919,7 +34492,7 @@ var __extends$10 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class Action<T>
  */
 var Action = (function (_super) {
-    __extends$10(Action, _super);
+    __extends$9(Action, _super);
     function Action(scheduler, work) {
         _super.call(this);
     }
@@ -35945,7 +34518,7 @@ var Action_2 = Action;
 var Action_1 = {
     Action: Action_2
 };
-var __extends$9 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$8 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -35958,7 +34531,7 @@ var __extends$9 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b
  * @extends {Ignored}
  */
 var AsyncAction = (function (_super) {
-    __extends$9(AsyncAction, _super);
+    __extends$8(AsyncAction, _super);
     function AsyncAction(scheduler, work) {
         _super.call(this, scheduler, work);
         this.scheduler = scheduler;
@@ -36148,7 +34721,7 @@ var Scheduler_2 = Scheduler;
 var Scheduler_1 = {
     Scheduler: Scheduler_2
 };
-var __extends$11 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$10 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -36156,7 +34729,7 @@ var __extends$11 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var AsyncScheduler = (function (_super) {
-    __extends$11(AsyncScheduler, _super);
+    __extends$10(AsyncScheduler, _super);
     function AsyncScheduler() {
         _super.apply(this, arguments);
         this.actions = [];
@@ -36272,7 +34845,7 @@ var isDate_2 = isDate$1;
 var isDate_1 = {
     isDate: isDate_2
 };
-var __extends$12 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$11 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -36285,7 +34858,7 @@ var __extends$12 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var TimerObservable = (function (_super) {
-    __extends$12(TimerObservable, _super);
+    __extends$11(TimerObservable, _super);
     function TimerObservable(dueTime, period, scheduler) {
         if (dueTime === void 0) {
             dueTime = 0;
@@ -36377,7 +34950,7 @@ var TimerObservable = (function (_super) {
     };
     return TimerObservable;
 }(Observable_1.Observable));
-var __extends$13 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$12 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -36390,7 +34963,7 @@ var __extends$13 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var BufferSubscriber = (function (_super) {
-    __extends$13(BufferSubscriber, _super);
+    __extends$12(BufferSubscriber, _super);
     function BufferSubscriber(destination, closingNotifier) {
         _super.call(this, destination);
         this.buffer = [];
@@ -36406,7 +34979,7 @@ var BufferSubscriber = (function (_super) {
     };
     return BufferSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$14 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$13 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -36419,7 +34992,7 @@ var __extends$14 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var BufferCountSubscriber = (function (_super) {
-    __extends$14(BufferCountSubscriber, _super);
+    __extends$13(BufferCountSubscriber, _super);
     function BufferCountSubscriber(destination, bufferSize) {
         _super.call(this, destination);
         this.bufferSize = bufferSize;
@@ -36448,7 +35021,7 @@ var BufferCountSubscriber = (function (_super) {
  * @extends {Ignored}
  */
 var BufferSkipCountSubscriber = (function (_super) {
-    __extends$14(BufferSkipCountSubscriber, _super);
+    __extends$13(BufferSkipCountSubscriber, _super);
     function BufferSkipCountSubscriber(destination, bufferSize, startBufferEvery) {
         _super.call(this, destination);
         this.bufferSize = bufferSize;
@@ -36483,7 +35056,7 @@ var BufferSkipCountSubscriber = (function (_super) {
     };
     return BufferSkipCountSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$15 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$14 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -36502,7 +35075,7 @@ var Context = (function () {
  * @extends {Ignored}
  */
 var BufferTimeSubscriber = (function (_super) {
-    __extends$15(BufferTimeSubscriber, _super);
+    __extends$14(BufferTimeSubscriber, _super);
     function BufferTimeSubscriber(destination, bufferTimeSpan, bufferCreationInterval, maxBufferSize, scheduler) {
         _super.call(this, destination);
         this.bufferTimeSpan = bufferTimeSpan;
@@ -36605,7 +35178,7 @@ function dispatchBufferClose(arg) {
     var subscriber = arg.subscriber, context = arg.context;
     subscriber.closeContext(context);
 }
-var __extends$16 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$15 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -36618,7 +35191,7 @@ var __extends$16 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var BufferToggleSubscriber = (function (_super) {
-    __extends$16(BufferToggleSubscriber, _super);
+    __extends$15(BufferToggleSubscriber, _super);
     function BufferToggleSubscriber(destination, openings, closingSelector) {
         _super.call(this, destination);
         this.openings = openings;
@@ -36702,7 +35275,7 @@ var BufferToggleSubscriber = (function (_super) {
     };
     return BufferToggleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$17 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$16 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -36715,7 +35288,7 @@ var __extends$17 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var BufferWhenSubscriber = (function (_super) {
-    __extends$17(BufferWhenSubscriber, _super);
+    __extends$16(BufferWhenSubscriber, _super);
     function BufferWhenSubscriber(destination, closingSelector) {
         _super.call(this, destination);
         this.closingSelector = closingSelector;
@@ -36773,7 +35346,7 @@ var BufferWhenSubscriber = (function (_super) {
     };
     return BufferWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$18 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$17 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -36860,7 +35433,7 @@ var CatchOperator = (function () {
  * @extends {Ignored}
  */
 var CatchSubscriber = (function (_super) {
-    __extends$18(CatchSubscriber, _super);
+    __extends$17(CatchSubscriber, _super);
     function CatchSubscriber(destination, selector, caught) {
         _super.call(this, destination);
         this.selector = selector;
@@ -36890,7 +35463,7 @@ var CatchSubscriber = (function (_super) {
 var catchError_1 = {
     catchError: catchError_2
 };
-var __extends$21 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$20 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -36903,7 +35476,7 @@ var __extends$21 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var ScalarObservable = (function (_super) {
-    __extends$21(ScalarObservable, _super);
+    __extends$20(ScalarObservable, _super);
     function ScalarObservable(value, scheduler) {
         _super.call(this);
         this.value = value;
@@ -36950,7 +35523,7 @@ var ScalarObservable_2 = ScalarObservable;
 var ScalarObservable_1 = {
     ScalarObservable: ScalarObservable_2
 };
-var __extends$22 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$21 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -36963,7 +35536,7 @@ var __extends$22 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var EmptyObservable = (function (_super) {
-    __extends$22(EmptyObservable, _super);
+    __extends$21(EmptyObservable, _super);
     function EmptyObservable(scheduler) {
         _super.call(this);
         this.scheduler = scheduler;
@@ -37033,7 +35606,7 @@ var EmptyObservable_2 = EmptyObservable;
 var EmptyObservable_1 = {
     EmptyObservable: EmptyObservable_2
 };
-var __extends$20 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$19 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -37046,7 +35619,7 @@ var __extends$20 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var ArrayObservable = (function (_super) {
-    __extends$20(ArrayObservable, _super);
+    __extends$19(ArrayObservable, _super);
     function ArrayObservable(array, scheduler) {
         _super.call(this);
         this.array = array;
@@ -37154,7 +35727,7 @@ var ArrayObservable_2 = ArrayObservable;
 var ArrayObservable_1 = {
     ArrayObservable: ArrayObservable_2
 };
-var __extends$19 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$18 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -37168,7 +35741,7 @@ var none = {};
  * @extends {Ignored}
  */
 var CombineLatestSubscriber = (function (_super) {
-    __extends$19(CombineLatestSubscriber, _super);
+    __extends$18(CombineLatestSubscriber, _super);
     function CombineLatestSubscriber(destination, project) {
         _super.call(this, destination);
         this.project = project;
@@ -37233,7 +35806,7 @@ var of_1 = ArrayObservable_1.ArrayObservable.of;
 var of$3 = {
     of: of_1
 };
-var __extends$24 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$23 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -37246,7 +35819,7 @@ var __extends$24 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var PromiseObservable = (function (_super) {
-    __extends$24(PromiseObservable, _super);
+    __extends$23(PromiseObservable, _super);
     function PromiseObservable(promise, scheduler) {
         _super.call(this);
         this.promise = promise;
@@ -37355,7 +35928,7 @@ function dispatchError(arg) {
 var PromiseObservable_1 = {
     PromiseObservable: PromiseObservable_2
 };
-var __extends$25 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$24 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -37368,7 +35941,7 @@ var __extends$25 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var IteratorObservable = (function (_super) {
-    __extends$25(IteratorObservable, _super);
+    __extends$24(IteratorObservable, _super);
     function IteratorObservable(iterator$$2, scheduler) {
         _super.call(this);
         this.scheduler = scheduler;
@@ -37526,7 +36099,7 @@ function sign(value) {
 var IteratorObservable_1 = {
     IteratorObservable: IteratorObservable_2
 };
-var __extends$26 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$25 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -37539,7 +36112,7 @@ var __extends$26 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var ArrayLikeObservable = (function (_super) {
-    __extends$26(ArrayLikeObservable, _super);
+    __extends$25(ArrayLikeObservable, _super);
     function ArrayLikeObservable(arrayLike, scheduler) {
         _super.call(this);
         this.arrayLike = arrayLike;
@@ -37723,7 +36296,7 @@ var Notification_2 = Notification;
 var Notification_1 = {
     Notification: Notification_2
 };
-var __extends$27 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$26 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -37805,7 +36378,7 @@ var ObserveOnOperator_1 = ObserveOnOperator;
  * @extends {Ignored}
  */
 var ObserveOnSubscriber = (function (_super) {
-    __extends$27(ObserveOnSubscriber, _super);
+    __extends$26(ObserveOnSubscriber, _super);
     function ObserveOnSubscriber(destination, scheduler, delay) {
         if (delay === void 0) {
             delay = 0;
@@ -37848,7 +36421,7 @@ var observeOn_1 = {
     ObserveOnSubscriber: ObserveOnSubscriber_1,
     ObserveOnMessage: ObserveOnMessage_1
 };
-var __extends$23 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$22 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -37861,7 +36434,7 @@ var __extends$23 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @hide true
  */
 var FromObservable = (function (_super) {
-    __extends$23(FromObservable, _super);
+    __extends$22(FromObservable, _super);
     function FromObservable(ish, scheduler) {
         _super.call(this, null);
         this.ish = ish;
@@ -37966,7 +36539,7 @@ var from_1 = FromObservable_1.FromObservable.create;
 var from = {
     from: from_1
 };
-var __extends$28 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$27 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -38066,7 +36639,7 @@ var MergeMapOperator_1 = MergeMapOperator;
  * @extends {Ignored}
  */
 var MergeMapSubscriber = (function (_super) {
-    __extends$28(MergeMapSubscriber, _super);
+    __extends$27(MergeMapSubscriber, _super);
     function MergeMapSubscriber(destination, project, resultSelector, concurrent) {
         if (concurrent === void 0) {
             concurrent = Number.POSITIVE_INFINITY;
@@ -38372,7 +36945,7 @@ var concat_2$1 = concat$2;
 var concat_1 = {
     concat: concat_2$1
 };
-var __extends$29 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$28 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -38385,7 +36958,7 @@ var __extends$29 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var CountSubscriber = (function (_super) {
-    __extends$29(CountSubscriber, _super);
+    __extends$28(CountSubscriber, _super);
     function CountSubscriber(destination, predicate, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -38420,7 +36993,7 @@ var CountSubscriber = (function (_super) {
     };
     return CountSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$30 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$29 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -38433,7 +37006,7 @@ var __extends$30 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DebounceSubscriber = (function (_super) {
-    __extends$30(DebounceSubscriber, _super);
+    __extends$29(DebounceSubscriber, _super);
     function DebounceSubscriber(destination, durationSelector) {
         _super.call(this, destination);
         this.durationSelector = durationSelector;
@@ -38490,7 +37063,7 @@ var DebounceSubscriber = (function (_super) {
     };
     return DebounceSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$31 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$30 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -38503,7 +37076,7 @@ var __extends$31 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DebounceTimeSubscriber = (function (_super) {
-    __extends$31(DebounceTimeSubscriber, _super);
+    __extends$30(DebounceTimeSubscriber, _super);
     function DebounceTimeSubscriber(destination, dueTime, scheduler) {
         _super.call(this, destination);
         this.dueTime = dueTime;
@@ -38543,7 +37116,7 @@ var DebounceTimeSubscriber = (function (_super) {
 function dispatchNext$1(subscriber) {
     subscriber.debouncedNext();
 }
-var __extends$32 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$31 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -38556,7 +37129,7 @@ var __extends$32 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DefaultIfEmptySubscriber = (function (_super) {
-    __extends$32(DefaultIfEmptySubscriber, _super);
+    __extends$31(DefaultIfEmptySubscriber, _super);
     function DefaultIfEmptySubscriber(destination, defaultValue) {
         _super.call(this, destination);
         this.defaultValue = defaultValue;
@@ -38574,7 +37147,7 @@ var DefaultIfEmptySubscriber = (function (_super) {
     };
     return DefaultIfEmptySubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$33 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$32 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -38587,7 +37160,7 @@ var __extends$33 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DelaySubscriber = (function (_super) {
-    __extends$33(DelaySubscriber, _super);
+    __extends$32(DelaySubscriber, _super);
     function DelaySubscriber(destination, delay, scheduler) {
         _super.call(this, destination);
         this.delay = delay;
@@ -38649,7 +37222,7 @@ var DelayMessage = (function () {
     }
     return DelayMessage;
 }());
-var __extends$34 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$33 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -38662,7 +37235,7 @@ var __extends$34 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DelayWhenSubscriber = (function (_super) {
-    __extends$34(DelayWhenSubscriber, _super);
+    __extends$33(DelayWhenSubscriber, _super);
     function DelayWhenSubscriber(destination, delayDurationSelector) {
         _super.call(this, destination);
         this.delayDurationSelector = delayDurationSelector;
@@ -38732,7 +37305,7 @@ var DelayWhenSubscriber = (function (_super) {
  * @extends {Ignored}
  */
 var SubscriptionDelayObservable = (function (_super) {
-    __extends$34(SubscriptionDelayObservable, _super);
+    __extends$33(SubscriptionDelayObservable, _super);
     function SubscriptionDelayObservable(/** @deprecated internal use only */ source, subscriptionDelay) {
         _super.call(this);
         this.source = source;
@@ -38749,7 +37322,7 @@ var SubscriptionDelayObservable = (function (_super) {
  * @extends {Ignored}
  */
 var SubscriptionDelaySubscriber = (function (_super) {
-    __extends$34(SubscriptionDelaySubscriber, _super);
+    __extends$33(SubscriptionDelaySubscriber, _super);
     function SubscriptionDelaySubscriber(parent, source) {
         _super.call(this);
         this.parent = parent;
@@ -38775,7 +37348,7 @@ var SubscriptionDelaySubscriber = (function (_super) {
     };
     return SubscriptionDelaySubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$35 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$34 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -38788,7 +37361,7 @@ var __extends$35 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DeMaterializeSubscriber = (function (_super) {
-    __extends$35(DeMaterializeSubscriber, _super);
+    __extends$34(DeMaterializeSubscriber, _super);
     function DeMaterializeSubscriber(destination) {
         _super.call(this, destination);
     }
@@ -38831,7 +37404,7 @@ var _Set = {
     minimalSetImpl: minimalSetImpl_1,
     Set: Set$1
 };
-var __extends$36 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$35 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -38844,7 +37417,7 @@ var __extends$36 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DistinctSubscriber = (function (_super) {
-    __extends$36(DistinctSubscriber, _super);
+    __extends$35(DistinctSubscriber, _super);
     function DistinctSubscriber(destination, keySelector, flushes) {
         _super.call(this, destination);
         this.keySelector = keySelector;
@@ -38888,7 +37461,7 @@ var DistinctSubscriber = (function (_super) {
     };
     return DistinctSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$37 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$36 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -38901,7 +37474,7 @@ var __extends$37 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var DistinctUntilChangedSubscriber = (function (_super) {
-    __extends$37(DistinctUntilChangedSubscriber, _super);
+    __extends$36(DistinctUntilChangedSubscriber, _super);
     function DistinctUntilChangedSubscriber(destination, compare, keySelector) {
         _super.call(this, destination);
         this.keySelector = keySelector;
@@ -38939,7 +37512,7 @@ var DistinctUntilChangedSubscriber = (function (_super) {
     };
     return DistinctUntilChangedSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$39 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$38 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -38957,7 +37530,7 @@ var __extends$39 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class ArgumentOutOfRangeError
  */
 var ArgumentOutOfRangeError = (function (_super) {
-    __extends$39(ArgumentOutOfRangeError, _super);
+    __extends$38(ArgumentOutOfRangeError, _super);
     function ArgumentOutOfRangeError() {
         var err = _super.call(this, 'argument out of range');
         this.name = err.name = 'ArgumentOutOfRangeError';
@@ -38970,7 +37543,7 @@ var ArgumentOutOfRangeError_2 = ArgumentOutOfRangeError;
 var ArgumentOutOfRangeError_1 = {
     ArgumentOutOfRangeError: ArgumentOutOfRangeError_2
 };
-var __extends$38 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$37 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -38983,7 +37556,7 @@ var __extends$38 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var ElementAtSubscriber = (function (_super) {
-    __extends$38(ElementAtSubscriber, _super);
+    __extends$37(ElementAtSubscriber, _super);
     function ElementAtSubscriber(destination, index$$1, defaultValue) {
         _super.call(this, destination);
         this.index = index$$1;
@@ -39009,7 +37582,7 @@ var ElementAtSubscriber = (function (_super) {
     };
     return ElementAtSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$40 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$39 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39022,7 +37595,7 @@ var __extends$40 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var EverySubscriber = (function (_super) {
-    __extends$40(EverySubscriber, _super);
+    __extends$39(EverySubscriber, _super);
     function EverySubscriber(destination, predicate, thisArg, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -39053,7 +37626,7 @@ var EverySubscriber = (function (_super) {
     };
     return EverySubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$41 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$40 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39066,7 +37639,7 @@ var __extends$41 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SwitchFirstSubscriber = (function (_super) {
-    __extends$41(SwitchFirstSubscriber, _super);
+    __extends$40(SwitchFirstSubscriber, _super);
     function SwitchFirstSubscriber(destination) {
         _super.call(this, destination);
         this.hasCompleted = false;
@@ -39093,7 +37666,7 @@ var SwitchFirstSubscriber = (function (_super) {
     };
     return SwitchFirstSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$42 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$41 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39106,7 +37679,7 @@ var __extends$42 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SwitchFirstMapSubscriber = (function (_super) {
-    __extends$42(SwitchFirstMapSubscriber, _super);
+    __extends$41(SwitchFirstMapSubscriber, _super);
     function SwitchFirstMapSubscriber(destination, project, resultSelector) {
         _super.call(this, destination);
         this.project = project;
@@ -39169,7 +37742,7 @@ var SwitchFirstMapSubscriber = (function (_super) {
     };
     return SwitchFirstMapSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$43 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$42 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39182,7 +37755,7 @@ var __extends$43 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var ExpandSubscriber = (function (_super) {
-    __extends$43(ExpandSubscriber, _super);
+    __extends$42(ExpandSubscriber, _super);
     function ExpandSubscriber(destination, project, concurrent, scheduler) {
         _super.call(this, destination);
         this.project = project;
@@ -39250,20 +37823,76 @@ var ExpandSubscriber = (function (_super) {
     };
     return ExpandSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$44 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$43 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+/* tslint:enable:max-line-length */
+/**
+ * Filter items emitted by the source Observable by only emitting those that
+ * satisfy a specified predicate.
+ *
+ * <span class="informal">Like
+ * [Array.prototype.filter()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter),
+ * it only emits a value from the source if it passes a criterion function.</span>
+ *
+ * <img src="./img/filter.png" width="100%">
+ *
+ * Similar to the well-known `Array.prototype.filter` method, this operator
+ * takes values from the source Observable, passes them through a `predicate`
+ * function and only emits those values that yielded `true`.
+ *
+ * @example <caption>Emit only click events whose target was a DIV element</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var clicksOnDivs = clicks.filter(ev => ev.target.tagName === 'DIV');
+ * clicksOnDivs.subscribe(x => console.log(x));
+ *
+ * @see {@link distinct}
+ * @see {@link distinctUntilChanged}
+ * @see {@link distinctUntilKeyChanged}
+ * @see {@link ignoreElements}
+ * @see {@link partition}
+ * @see {@link skip}
+ *
+ * @param {function(value: T, index: number): boolean} predicate A function that
+ * evaluates each value emitted by the source Observable. If it returns `true`,
+ * the value is emitted, if `false` the value is not passed to the output
+ * Observable. The `index` parameter is the number `i` for the i-th source
+ * emission that has happened since the subscription, starting from the number
+ * `0`.
+ * @param {any} [thisArg] An optional argument to determine the value of `this`
+ * in the `predicate` function.
+ * @return {Observable} An Observable of values from the source that were
+ * allowed by the `predicate` function.
+ * @method filter
+ * @owner Observable
+ */
+function filter$4(predicate, thisArg) {
+    return function filterOperatorFunction(source) {
+        return source.lift(new FilterOperator(predicate, thisArg));
+    };
+}
+var filter_2 = filter$4;
+var FilterOperator = (function () {
+    function FilterOperator(predicate, thisArg) {
+        this.predicate = predicate;
+        this.thisArg = thisArg;
+    }
+    FilterOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new FilterSubscriber(subscriber, this.predicate, this.thisArg));
+    };
+    return FilterOperator;
+}());
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @ignore
  * @extends {Ignored}
  */
 var FilterSubscriber = (function (_super) {
-    __extends$44(FilterSubscriber, _super);
+    __extends$43(FilterSubscriber, _super);
     function FilterSubscriber(destination, predicate, thisArg) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -39287,7 +37916,10 @@ var FilterSubscriber = (function (_super) {
     };
     return FilterSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$45 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var filter_1 = {
+    filter: filter_2
+};
+var __extends$44 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39300,14 +37932,14 @@ var __extends$45 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var FinallySubscriber = (function (_super) {
-    __extends$45(FinallySubscriber, _super);
+    __extends$44(FinallySubscriber, _super);
     function FinallySubscriber(destination, callback) {
         _super.call(this, destination);
         this.add(new Subscription_1.Subscription(callback));
     }
     return FinallySubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$46 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$45 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39320,7 +37952,7 @@ var __extends$46 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var FindValueSubscriber = (function (_super) {
-    __extends$46(FindValueSubscriber, _super);
+    __extends$45(FindValueSubscriber, _super);
     function FindValueSubscriber(destination, predicate, source, yieldIndex, thisArg) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -39352,7 +37984,7 @@ var FindValueSubscriber = (function (_super) {
     };
     return FindValueSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$49 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$48 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39369,7 +38001,7 @@ var __extends$49 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class ObjectUnsubscribedError
  */
 var ObjectUnsubscribedError = (function (_super) {
-    __extends$49(ObjectUnsubscribedError, _super);
+    __extends$48(ObjectUnsubscribedError, _super);
     function ObjectUnsubscribedError() {
         var err = _super.call(this, 'object unsubscribed');
         this.name = err.name = 'ObjectUnsubscribedError';
@@ -39382,7 +38014,7 @@ var ObjectUnsubscribedError_2 = ObjectUnsubscribedError;
 var ObjectUnsubscribedError_1 = {
     ObjectUnsubscribedError: ObjectUnsubscribedError_2
 };
-var __extends$50 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$49 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39395,7 +38027,7 @@ var __extends$50 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SubjectSubscription = (function (_super) {
-    __extends$50(SubjectSubscription, _super);
+    __extends$49(SubjectSubscription, _super);
     function SubjectSubscription(subject, subscriber) {
         _super.call(this);
         this.subject = subject;
@@ -39424,7 +38056,7 @@ var SubjectSubscription_2 = SubjectSubscription;
 var SubjectSubscription_1 = {
     SubjectSubscription: SubjectSubscription_2
 };
-var __extends$48 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$47 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39435,7 +38067,7 @@ var __extends$48 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class SubjectSubscriber<T>
  */
 var SubjectSubscriber = (function (_super) {
-    __extends$48(SubjectSubscriber, _super);
+    __extends$47(SubjectSubscriber, _super);
     function SubjectSubscriber(destination) {
         _super.call(this, destination);
         this.destination = destination;
@@ -39447,7 +38079,7 @@ var SubjectSubscriber_1 = SubjectSubscriber;
  * @class Subject<T>
  */
 var Subject$2 = (function (_super) {
-    __extends$48(Subject$$1, _super);
+    __extends$47(Subject$$1, _super);
     function Subject$$1() {
         _super.call(this);
         this.observers = [];
@@ -39550,7 +38182,7 @@ var Subject_2 = Subject$2;
  * @class AnonymousSubject<T>
  */
 var AnonymousSubject = (function (_super) {
-    __extends$48(AnonymousSubject, _super);
+    __extends$47(AnonymousSubject, _super);
     function AnonymousSubject(destination, source) {
         _super.call(this);
         this.destination = destination;
@@ -39675,7 +38307,7 @@ var FastMap_2 = FastMap;
 var FastMap_1 = {
     FastMap: FastMap_2
 };
-var __extends$47 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$46 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39688,7 +38320,7 @@ var __extends$47 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var GroupBySubscriber = (function (_super) {
-    __extends$47(GroupBySubscriber, _super);
+    __extends$46(GroupBySubscriber, _super);
     function GroupBySubscriber(destination, keySelector, elementSelector, durationSelector, subjectSelector) {
         _super.call(this, destination);
         this.keySelector = keySelector;
@@ -39715,7 +38347,7 @@ var GroupBySubscriber = (function (_super) {
         if (!groups) {
             groups = this.groups = typeof key === 'string' ? new FastMap_1.FastMap() : new _Map.Map();
         }
-        var group = groups.get(key);
+        var group$$1 = groups.get(key);
         var element;
         if (this.elementSelector) {
             try {
@@ -39728,32 +38360,32 @@ var GroupBySubscriber = (function (_super) {
         else {
             element = value;
         }
-        if (!group) {
-            group = this.subjectSelector ? this.subjectSelector() : new Subject_1.Subject();
-            groups.set(key, group);
-            var groupedObservable = new GroupedObservable(key, group, this);
+        if (!group$$1) {
+            group$$1 = this.subjectSelector ? this.subjectSelector() : new Subject_1.Subject();
+            groups.set(key, group$$1);
+            var groupedObservable = new GroupedObservable(key, group$$1, this);
             this.destination.next(groupedObservable);
             if (this.durationSelector) {
                 var duration = void 0;
                 try {
-                    duration = this.durationSelector(new GroupedObservable(key, group));
+                    duration = this.durationSelector(new GroupedObservable(key, group$$1));
                 }
                 catch (err) {
                     this.error(err);
                     return;
                 }
-                this.add(duration.subscribe(new GroupDurationSubscriber(key, group, this)));
+                this.add(duration.subscribe(new GroupDurationSubscriber(key, group$$1, this)));
             }
         }
-        if (!group.closed) {
-            group.next(element);
+        if (!group$$1.closed) {
+            group$$1.next(element);
         }
     };
     GroupBySubscriber.prototype._error = function (err) {
         var groups = this.groups;
         if (groups) {
-            groups.forEach(function (group, key) {
-                group.error(err);
+            groups.forEach(function (group$$1, key) {
+                group$$1.error(err);
             });
             groups.clear();
         }
@@ -39762,8 +38394,8 @@ var GroupBySubscriber = (function (_super) {
     GroupBySubscriber.prototype._complete = function () {
         var groups = this.groups;
         if (groups) {
-            groups.forEach(function (group, key) {
-                group.complete();
+            groups.forEach(function (group$$1, key) {
+                group$$1.complete();
             });
             groups.clear();
         }
@@ -39788,11 +38420,11 @@ var GroupBySubscriber = (function (_super) {
  * @extends {Ignored}
  */
 var GroupDurationSubscriber = (function (_super) {
-    __extends$47(GroupDurationSubscriber, _super);
-    function GroupDurationSubscriber(key, group, parent) {
-        _super.call(this, group);
+    __extends$46(GroupDurationSubscriber, _super);
+    function GroupDurationSubscriber(key, group$$1, parent) {
+        _super.call(this, group$$1);
         this.key = key;
-        this.group = group;
+        this.group = group$$1;
         this.parent = parent;
     }
     GroupDurationSubscriber.prototype._next = function (value) {
@@ -39816,7 +38448,7 @@ var GroupDurationSubscriber = (function (_super) {
  * @class GroupedObservable<K, T>
  */
 var GroupedObservable = (function (_super) {
-    __extends$47(GroupedObservable, _super);
+    __extends$46(GroupedObservable, _super);
     function GroupedObservable(key, groupSubject, refCountSubscription) {
         _super.call(this);
         this.key = key;
@@ -39840,7 +38472,7 @@ var GroupedObservable = (function (_super) {
  * @extends {Ignored}
  */
 var InnerRefCountSubscription = (function (_super) {
-    __extends$47(InnerRefCountSubscription, _super);
+    __extends$46(InnerRefCountSubscription, _super);
     function InnerRefCountSubscription(parent) {
         _super.call(this);
         this.parent = parent;
@@ -39858,7 +38490,7 @@ var InnerRefCountSubscription = (function (_super) {
     };
     return InnerRefCountSubscription;
 }(Subscription_1.Subscription));
-var __extends$51 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$50 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39871,7 +38503,7 @@ var __extends$51 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var IgnoreElementsSubscriber = (function (_super) {
-    __extends$51(IgnoreElementsSubscriber, _super);
+    __extends$50(IgnoreElementsSubscriber, _super);
     function IgnoreElementsSubscriber() {
         _super.apply(this, arguments);
     }
@@ -39880,7 +38512,7 @@ var IgnoreElementsSubscriber = (function (_super) {
     };
     return IgnoreElementsSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$52 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$51 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39893,7 +38525,7 @@ var __extends$52 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var IsEmptySubscriber = (function (_super) {
-    __extends$52(IsEmptySubscriber, _super);
+    __extends$51(IsEmptySubscriber, _super);
     function IsEmptySubscriber(destination) {
         _super.call(this, destination);
     }
@@ -39910,7 +38542,7 @@ var IsEmptySubscriber = (function (_super) {
     };
     return IsEmptySubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$53 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$52 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -39923,7 +38555,7 @@ var __extends$53 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var LastSubscriber = (function (_super) {
-    __extends$53(LastSubscriber, _super);
+    __extends$52(LastSubscriber, _super);
     function LastSubscriber(destination, predicate, resultSelector, defaultValue, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -39993,7 +38625,7 @@ var LastSubscriber = (function (_super) {
     };
     return LastSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$54 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$53 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40059,7 +38691,7 @@ var MapOperator_1 = MapOperator;
  * @extends {Ignored}
  */
 var MapSubscriber = (function (_super) {
-    __extends$54(MapSubscriber, _super);
+    __extends$53(MapSubscriber, _super);
     function MapSubscriber(destination, project, thisArg) {
         _super.call(this, destination);
         this.project = project;
@@ -40085,7 +38717,7 @@ var map_1 = {
     map: map_2,
     MapOperator: MapOperator_1
 };
-var __extends$55 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$54 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40098,7 +38730,7 @@ var __extends$55 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var MapToSubscriber = (function (_super) {
-    __extends$55(MapToSubscriber, _super);
+    __extends$54(MapToSubscriber, _super);
     function MapToSubscriber(destination, value) {
         _super.call(this, destination);
         this.value = value;
@@ -40108,7 +38740,7 @@ var MapToSubscriber = (function (_super) {
     };
     return MapToSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$56 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$55 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40121,7 +38753,7 @@ var __extends$56 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var MaterializeSubscriber = (function (_super) {
-    __extends$56(MaterializeSubscriber, _super);
+    __extends$55(MaterializeSubscriber, _super);
     function MaterializeSubscriber(destination) {
         _super.call(this, destination);
     }
@@ -40140,7 +38772,7 @@ var MaterializeSubscriber = (function (_super) {
     };
     return MaterializeSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$57 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$56 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40153,7 +38785,7 @@ var __extends$57 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var ScanSubscriber = (function (_super) {
-    __extends$57(ScanSubscriber, _super);
+    __extends$56(ScanSubscriber, _super);
     function ScanSubscriber(destination, accumulator, _seed, hasSeed) {
         _super.call(this, destination);
         this.accumulator = accumulator;
@@ -40195,7 +38827,7 @@ var ScanSubscriber = (function (_super) {
     };
     return ScanSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$58 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$57 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40208,7 +38840,7 @@ var __extends$58 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var TakeLastSubscriber = (function (_super) {
-    __extends$58(TakeLastSubscriber, _super);
+    __extends$57(TakeLastSubscriber, _super);
     function TakeLastSubscriber(destination, total) {
         _super.call(this, destination);
         this.total = total;
@@ -40242,7 +38874,7 @@ var TakeLastSubscriber = (function (_super) {
     };
     return TakeLastSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$59 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$58 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40255,7 +38887,7 @@ var __extends$59 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var MergeMapToSubscriber = (function (_super) {
-    __extends$59(MergeMapToSubscriber, _super);
+    __extends$58(MergeMapToSubscriber, _super);
     function MergeMapToSubscriber(destination, ish, resultSelector, concurrent) {
         if (concurrent === void 0) {
             concurrent = Number.POSITIVE_INFINITY;
@@ -40328,7 +38960,7 @@ var MergeMapToSubscriber = (function (_super) {
     };
     return MergeMapToSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$60 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$59 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40341,7 +38973,7 @@ var __extends$60 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var MergeScanSubscriber = (function (_super) {
-    __extends$60(MergeScanSubscriber, _super);
+    __extends$59(MergeScanSubscriber, _super);
     function MergeScanSubscriber(destination, accumulator, acc, concurrent) {
         _super.call(this, destination);
         this.accumulator = accumulator;
@@ -40404,7 +39036,7 @@ var MergeScanSubscriber = (function (_super) {
     };
     return MergeScanSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$62 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$61 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40434,7 +39066,7 @@ var RefCountOperator$1 = (function () {
     return RefCountOperator;
 }());
 var RefCountSubscriber$1 = (function (_super) {
-    __extends$62(RefCountSubscriber, _super);
+    __extends$61(RefCountSubscriber, _super);
     function RefCountSubscriber(destination, connectable) {
         _super.call(this, destination);
         this.connectable = connectable;
@@ -40491,7 +39123,7 @@ var RefCountSubscriber$1 = (function (_super) {
 var refCount_1 = {
     refCount: refCount_2
 };
-var __extends$61 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$60 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40502,7 +39134,7 @@ var __extends$61 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class ConnectableObservable<T>
  */
 var ConnectableObservable = (function (_super) {
-    __extends$61(ConnectableObservable, _super);
+    __extends$60(ConnectableObservable, _super);
     function ConnectableObservable(/** @deprecated internal use only */ source, 
         /** @deprecated internal use only */ subjectFactory) {
         _super.call(this);
@@ -40544,7 +39176,7 @@ var ConnectableObservable = (function (_super) {
     return ConnectableObservable;
 }(Observable_1.Observable));
 var ConnectableSubscriber = (function (_super) {
-    __extends$61(ConnectableSubscriber, _super);
+    __extends$60(ConnectableSubscriber, _super);
     function ConnectableSubscriber(destination, connectable) {
         _super.call(this, destination);
         this.connectable = connectable;
@@ -40574,7 +39206,7 @@ var ConnectableSubscriber = (function (_super) {
     return ConnectableSubscriber;
 }(Subject_1.SubjectSubscriber));
 var RefCountSubscriber = (function (_super) {
-    __extends$61(RefCountSubscriber, _super);
+    __extends$60(RefCountSubscriber, _super);
     function RefCountSubscriber(destination, connectable) {
         _super.call(this, destination);
         this.connectable = connectable;
@@ -40628,7 +39260,7 @@ var RefCountSubscriber = (function (_super) {
     };
     return RefCountSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$63 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$62 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40636,7 +39268,7 @@ var __extends$63 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var OnErrorResumeNextSubscriber = (function (_super) {
-    __extends$63(OnErrorResumeNextSubscriber, _super);
+    __extends$62(OnErrorResumeNextSubscriber, _super);
     function OnErrorResumeNextSubscriber(destination, nextSources) {
         _super.call(this, destination);
         this.destination = destination;
@@ -40665,7 +39297,7 @@ var OnErrorResumeNextSubscriber = (function (_super) {
     };
     return OnErrorResumeNextSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$64 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$63 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40678,7 +39310,7 @@ var __extends$64 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var PairwiseSubscriber = (function (_super) {
-    __extends$64(PairwiseSubscriber, _super);
+    __extends$63(PairwiseSubscriber, _super);
     function PairwiseSubscriber(destination) {
         _super.call(this, destination);
         this.hasPrev = false;
@@ -40694,7 +39326,7 @@ var PairwiseSubscriber = (function (_super) {
     };
     return PairwiseSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$65 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$64 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40705,7 +39337,7 @@ var __extends$65 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class BehaviorSubject<T>
  */
 var BehaviorSubject = (function (_super) {
-    __extends$65(BehaviorSubject, _super);
+    __extends$64(BehaviorSubject, _super);
     function BehaviorSubject(_value) {
         _super.call(this);
         this._value = _value;
@@ -40740,7 +39372,7 @@ var BehaviorSubject = (function (_super) {
     };
     return BehaviorSubject;
 }(Subject_1.Subject));
-var __extends$66 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$65 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40751,7 +39383,7 @@ var __extends$66 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class AsyncSubject<T>
  */
 var AsyncSubject = (function (_super) {
-    __extends$66(AsyncSubject, _super);
+    __extends$65(AsyncSubject, _super);
     function AsyncSubject() {
         _super.apply(this, arguments);
         this.value = null;
@@ -40790,7 +39422,7 @@ var AsyncSubject = (function (_super) {
     };
     return AsyncSubject;
 }(Subject_1.Subject));
-var __extends$68 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$67 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40803,7 +39435,7 @@ var __extends$68 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var QueueAction = (function (_super) {
-    __extends$68(QueueAction, _super);
+    __extends$67(QueueAction, _super);
     function QueueAction(scheduler, work) {
         _super.call(this, scheduler, work);
         this.scheduler = scheduler;
@@ -40845,7 +39477,7 @@ var QueueAction_2 = QueueAction;
 var QueueAction_1 = {
     QueueAction: QueueAction_2
 };
-var __extends$69 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$68 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40853,7 +39485,7 @@ var __extends$69 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var QueueScheduler = (function (_super) {
-    __extends$69(QueueScheduler, _super);
+    __extends$68(QueueScheduler, _super);
     function QueueScheduler() {
         _super.apply(this, arguments);
     }
@@ -40928,7 +39560,7 @@ var queue_1 = new QueueScheduler_1.QueueScheduler(QueueAction_1.QueueAction);
 var queue = {
     queue: queue_1
 };
-var __extends$67 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$66 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -40939,7 +39571,7 @@ var __extends$67 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @class ReplaySubject<T>
  */
 var ReplaySubject$2 = (function (_super) {
-    __extends$67(ReplaySubject$$1, _super);
+    __extends$66(ReplaySubject$$1, _super);
     function ReplaySubject$$1(bufferSize, windowTime, scheduler) {
         if (bufferSize === void 0) {
             bufferSize = Number.POSITIVE_INFINITY;
@@ -41027,7 +39659,7 @@ var ReplayEvent = (function () {
     }
     return ReplayEvent;
 }());
-var __extends$70 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$69 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41040,7 +39672,7 @@ var __extends$70 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RaceSubscriber = (function (_super) {
-    __extends$70(RaceSubscriber, _super);
+    __extends$69(RaceSubscriber, _super);
     function RaceSubscriber(destination) {
         _super.call(this, destination);
         this.hasFirst = false;
@@ -41084,7 +39716,7 @@ var RaceSubscriber = (function (_super) {
     };
     return RaceSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$71 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$70 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41097,7 +39729,7 @@ var __extends$71 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RepeatSubscriber = (function (_super) {
-    __extends$71(RepeatSubscriber, _super);
+    __extends$70(RepeatSubscriber, _super);
     function RepeatSubscriber(destination, count, source) {
         _super.call(this, destination);
         this.count = count;
@@ -41117,7 +39749,7 @@ var RepeatSubscriber = (function (_super) {
     };
     return RepeatSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$72 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$71 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41130,7 +39762,7 @@ var __extends$72 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RepeatWhenSubscriber = (function (_super) {
-    __extends$72(RepeatWhenSubscriber, _super);
+    __extends$71(RepeatWhenSubscriber, _super);
     function RepeatWhenSubscriber(destination, notifier, source) {
         _super.call(this, destination);
         this.notifier = notifier;
@@ -41193,7 +39825,7 @@ var RepeatWhenSubscriber = (function (_super) {
     };
     return RepeatWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$73 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$72 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41206,7 +39838,7 @@ var __extends$73 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RetrySubscriber = (function (_super) {
-    __extends$73(RetrySubscriber, _super);
+    __extends$72(RetrySubscriber, _super);
     function RetrySubscriber(destination, count, source) {
         _super.call(this, destination);
         this.count = count;
@@ -41226,7 +39858,7 @@ var RetrySubscriber = (function (_super) {
     };
     return RetrySubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$74 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$73 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41239,7 +39871,7 @@ var __extends$74 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var RetryWhenSubscriber = (function (_super) {
-    __extends$74(RetryWhenSubscriber, _super);
+    __extends$73(RetryWhenSubscriber, _super);
     function RetryWhenSubscriber(destination, notifier, source) {
         _super.call(this, destination);
         this.notifier = notifier;
@@ -41294,7 +39926,7 @@ var RetryWhenSubscriber = (function (_super) {
     };
     return RetryWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$75 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$74 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41307,7 +39939,7 @@ var __extends$75 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SampleSubscriber = (function (_super) {
-    __extends$75(SampleSubscriber, _super);
+    __extends$74(SampleSubscriber, _super);
     function SampleSubscriber() {
         _super.apply(this, arguments);
         this.hasValue = false;
@@ -41330,7 +39962,7 @@ var SampleSubscriber = (function (_super) {
     };
     return SampleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$76 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$75 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41343,7 +39975,7 @@ var __extends$76 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SampleTimeSubscriber = (function (_super) {
-    __extends$76(SampleTimeSubscriber, _super);
+    __extends$75(SampleTimeSubscriber, _super);
     function SampleTimeSubscriber(destination, period, scheduler) {
         _super.call(this, destination);
         this.period = period;
@@ -41368,7 +40000,7 @@ function dispatchNotification(state$$1) {
     subscriber.notifyNext();
     this.schedule(state$$1, period);
 }
-var __extends$77 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$76 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41381,7 +40013,7 @@ var __extends$77 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SequenceEqualSubscriber = (function (_super) {
-    __extends$77(SequenceEqualSubscriber, _super);
+    __extends$76(SequenceEqualSubscriber, _super);
     function SequenceEqualSubscriber(destination, compareTo, comparor) {
         _super.call(this, destination);
         this.compareTo = compareTo;
@@ -41445,7 +40077,7 @@ var SequenceEqualSubscriber = (function (_super) {
     return SequenceEqualSubscriber;
 }(Subscriber_1.Subscriber));
 var SequenceEqualCompareToSubscriber = (function (_super) {
-    __extends$77(SequenceEqualCompareToSubscriber, _super);
+    __extends$76(SequenceEqualCompareToSubscriber, _super);
     function SequenceEqualCompareToSubscriber(destination, parent) {
         _super.call(this, destination);
         this.parent = parent;
@@ -41461,7 +40093,7 @@ var SequenceEqualCompareToSubscriber = (function (_super) {
     };
     return SequenceEqualCompareToSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$78 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$77 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41474,7 +40106,7 @@ var __extends$78 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SingleSubscriber = (function (_super) {
-    __extends$78(SingleSubscriber, _super);
+    __extends$77(SingleSubscriber, _super);
     function SingleSubscriber(destination, predicate, source) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -41522,7 +40154,7 @@ var SingleSubscriber = (function (_super) {
     };
     return SingleSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$79 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$78 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41535,7 +40167,7 @@ var __extends$79 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SkipSubscriber = (function (_super) {
-    __extends$79(SkipSubscriber, _super);
+    __extends$78(SkipSubscriber, _super);
     function SkipSubscriber(destination, total) {
         _super.call(this, destination);
         this.total = total;
@@ -41548,7 +40180,7 @@ var SkipSubscriber = (function (_super) {
     };
     return SkipSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$80 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$79 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41561,7 +40193,7 @@ var __extends$80 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SkipLastSubscriber = (function (_super) {
-    __extends$80(SkipLastSubscriber, _super);
+    __extends$79(SkipLastSubscriber, _super);
     function SkipLastSubscriber(destination, _skipCount) {
         _super.call(this, destination);
         this._skipCount = _skipCount;
@@ -41584,7 +40216,7 @@ var SkipLastSubscriber = (function (_super) {
     };
     return SkipLastSubscriber;
 }(Subscriber_1.Subscriber));
-var __extends$81 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$80 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41597,7 +40229,7 @@ var __extends$81 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SkipUntilSubscriber = (function (_super) {
-    __extends$81(SkipUntilSubscriber, _super);
+    __extends$80(SkipUntilSubscriber, _super);
     function SkipUntilSubscriber(destination, notifier) {
         _super.call(this, destination);
         this.hasValue = false;
@@ -41628,7 +40260,7 @@ var SkipUntilSubscriber = (function (_super) {
     };
     return SkipUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$82 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$81 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41641,7 +40273,7 @@ var __extends$82 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SkipWhileSubscriber = (function (_super) {
-    __extends$82(SkipWhileSubscriber, _super);
+    __extends$81(SkipWhileSubscriber, _super);
     function SkipWhileSubscriber(destination, predicate) {
         _super.call(this, destination);
         this.predicate = predicate;
@@ -41712,7 +40344,7 @@ var startWith_2 = startWith$2;
 var startWith_1 = {
     startWith: startWith_2
 };
-var __extends$83 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$82 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41725,7 +40357,7 @@ var __extends$83 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
  * @extends {Ignored}
  */
 var SwitchMapToSubscriber = (function (_super) {
-    __extends$83(SwitchMapToSubscriber, _super);
+    __extends$82(SwitchMapToSubscriber, _super);
     function SwitchMapToSubscriber(destination, inner, resultSelector) {
         _super.call(this, destination);
         this.inner = inner;
@@ -41778,7 +40410,7 @@ var SwitchMapToSubscriber = (function (_super) {
     };
     return SwitchMapToSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
-var __extends$84 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+var __extends$83 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
             d[p] = b[p];
@@ -41786,12 +40418,68 @@ var __extends$84 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, 
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /**
+ * Emits only the first `count` values emitted by the source Observable.
+ *
+ * <span class="informal">Takes the first `count` values from the source, then
+ * completes.</span>
+ *
+ * <img src="./img/take.png" width="100%">
+ *
+ * `take` returns an Observable that emits only the first `count` values emitted
+ * by the source Observable. If the source emits fewer than `count` values then
+ * all of its values are emitted. After that, it completes, regardless if the
+ * source completes.
+ *
+ * @example <caption>Take the first 5 seconds of an infinite 1-second interval Observable</caption>
+ * var interval = Rx.Observable.interval(1000);
+ * var five = interval.take(5);
+ * five.subscribe(x => console.log(x));
+ *
+ * @see {@link takeLast}
+ * @see {@link takeUntil}
+ * @see {@link takeWhile}
+ * @see {@link skip}
+ *
+ * @throws {ArgumentOutOfRangeError} When using `take(i)`, it delivers an
+ * ArgumentOutOrRangeError to the Observer's `error` callback if `i < 0`.
+ *
+ * @param {number} count The maximum number of `next` values to emit.
+ * @return {Observable<T>} An Observable that emits only the first `count`
+ * values emitted by the source Observable, or all of the values from the source
+ * if the source emits fewer than `count` values.
+ * @method take
+ * @owner Observable
+ */
+function take$1(count) {
+    return function (source) {
+        if (count === 0) {
+            return new EmptyObservable_1.EmptyObservable();
+        }
+        else {
+            return source.lift(new TakeOperator(count));
+        }
+    };
+}
+var take_2 = take$1;
+var TakeOperator = (function () {
+    function TakeOperator(total) {
+        this.total = total;
+        if (this.total < 0) {
+            throw new ArgumentOutOfRangeError_1.ArgumentOutOfRangeError;
+        }
+    }
+    TakeOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new TakeSubscriber(subscriber, this.total));
+    };
+    return TakeOperator;
+}());
+/**
  * We need this JSDoc comment for affecting ESDoc.
  * @ignore
  * @extends {Ignored}
  */
 var TakeSubscriber = (function (_super) {
-    __extends$84(TakeSubscriber, _super);
+    __extends$83(TakeSubscriber, _super);
     function TakeSubscriber(destination, total) {
         _super.call(this, destination);
         this.total = total;
@@ -41810,6 +40498,82 @@ var TakeSubscriber = (function (_super) {
     };
     return TakeSubscriber;
 }(Subscriber_1.Subscriber));
+var take_1 = {
+    take: take_2
+};
+var __extends$84 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b)
+        if (b.hasOwnProperty(p))
+            d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * Emits the values emitted by the source Observable until a `notifier`
+ * Observable emits a value.
+ *
+ * <span class="informal">Lets values pass until a second Observable,
+ * `notifier`, emits something. Then, it completes.</span>
+ *
+ * <img src="./img/takeUntil.png" width="100%">
+ *
+ * `takeUntil` subscribes and begins mirroring the source Observable. It also
+ * monitors a second Observable, `notifier` that you provide. If the `notifier`
+ * emits a value or a complete notification, the output Observable stops
+ * mirroring the source Observable and completes.
+ *
+ * @example <caption>Tick every second until the first click happens</caption>
+ * var interval = Rx.Observable.interval(1000);
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var result = interval.takeUntil(clicks);
+ * result.subscribe(x => console.log(x));
+ *
+ * @see {@link take}
+ * @see {@link takeLast}
+ * @see {@link takeWhile}
+ * @see {@link skip}
+ *
+ * @param {Observable} notifier The Observable whose first emitted value will
+ * cause the output Observable of `takeUntil` to stop emitting values from the
+ * source Observable.
+ * @return {Observable<T>} An Observable that emits the values from the source
+ * Observable until such time as `notifier` emits its first value.
+ * @method takeUntil
+ * @owner Observable
+ */
+function takeUntil$1(notifier) {
+    return function (source) { return source.lift(new TakeUntilOperator(notifier)); };
+}
+var takeUntil_2 = takeUntil$1;
+var TakeUntilOperator = (function () {
+    function TakeUntilOperator(notifier) {
+        this.notifier = notifier;
+    }
+    TakeUntilOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new TakeUntilSubscriber(subscriber, this.notifier));
+    };
+    return TakeUntilOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TakeUntilSubscriber = (function (_super) {
+    __extends$84(TakeUntilSubscriber, _super);
+    function TakeUntilSubscriber(destination, notifier) {
+        _super.call(this, destination);
+        this.notifier = notifier;
+        this.add(subscribeToResult_1.subscribeToResult(this, notifier));
+    }
+    TakeUntilSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.complete();
+    };
+    TakeUntilSubscriber.prototype.notifyComplete = function () {
+        // noop
+    };
+    return TakeUntilSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
 var __extends$85 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
     for (var p in b)
         if (b.hasOwnProperty(p))
@@ -42979,10 +41743,2126 @@ var ZipBufferIterator = (function (_super) {
     return ZipBufferIterator;
 }(OuterSubscriber_1.OuterSubscriber));
 var catchError = catchError_1.catchError;
+var filter$3 = filter_1.filter;
 var map$1 = map_1.map;
 var startWith$1 = startWith_1.startWith;
 var switchMap$2 = switchMap_1.switchMap;
+var take = take_1.take;
 var throttle = throttle_1.throttle;
+/**
+ * Time and timing curve for expansion panel animations.
+ */
+var EXPANSION_PANEL_ANIMATION_TIMING = '225ms cubic-bezier(0.4,0.0,0.2,1)';
+/**
+ * Animations used by the Material expansion panel.
+ */
+var novoExpansionAnimations = {
+    /** Animation that rotates the indicator arrow. */
+    indicatorRotate: animations.trigger('indicatorRotate', [
+        animations.state('collapsed', animations.style({ transform: 'rotate(0deg)' })),
+        animations.state('expanded', animations.style({ transform: 'rotate(180deg)' })),
+        animations.transition('expanded <=> collapsed', animations.animate(EXPANSION_PANEL_ANIMATION_TIMING)),
+    ]),
+    /** Animation that expands and collapses the panel header height. */
+    expansionHeaderHeight: animations.trigger('expansionHeight', [
+        animations.state('collapsed', animations.style({
+            height: '{{collapsedHeight}}',
+        }), {
+            params: { collapsedHeight: '48px' },
+        }),
+        animations.state('expanded', animations.style({
+            height: '{{expandedHeight}}'
+        }), {
+            params: { expandedHeight: '56px' }
+        }),
+        animations.transition('expanded <=> collapsed', animations.group([
+            animations.query('@indicatorRotate', animations.animateChild(), { optional: true }),
+            animations.animate(EXPANSION_PANEL_ANIMATION_TIMING),
+        ])),
+    ]),
+    /** Animation that expands and collapses the panel content. */
+    bodyExpansion: animations.trigger('bodyExpansion', [
+        animations.state('collapsed', animations.style({ height: '0px', visibility: 'hidden' })),
+        animations.state('expanded', animations.style({ height: '*', visibility: 'visible' })),
+        animations.transition('expanded <=> collapsed', animations.animate(EXPANSION_PANEL_ANIMATION_TIMING)),
+    ])
+};
+/**
+ * Expansion panel content that will be rendered lazily
+ * after the panel is opened for the first time.
+ */
+var NovoExpansionPanelContent = /** @class */ (function () {
+    /**
+     * @param {?} _template
+     */
+    function NovoExpansionPanelContent(_template) {
+        this._template = _template;
+    }
+    return NovoExpansionPanelContent;
+}());
+NovoExpansionPanelContent.decorators = [
+    { type: core.Directive, args: [{
+                selector: 'ng-template[matExpansionPanelContent]'
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionPanelContent.ctorParameters = function () { return [
+    { type: core.TemplateRef, },
+]; };
+/**
+ * Counter for generating unique element ids.
+ */
+var uniqueId = 0;
+/**
+ * `<novo-expansion-panel>`
+ *
+ * This component can be used as a single element to show expandable content, or as one of
+ * multiple children of an element with the NovoAccordion directive attached.
+ */
+var NovoExpansionPanel = /** @class */ (function (_super) {
+    __extends(NovoExpansionPanel, _super);
+    /**
+     * @param {?} accordion
+     * @param {?} _changeDetectorRef
+     * @param {?} _uniqueSelectionDispatcher
+     * @param {?} _viewContainerRef
+     */
+    function NovoExpansionPanel(accordion, _changeDetectorRef, _uniqueSelectionDispatcher, _viewContainerRef) {
+        var _this = _super.call(this, accordion, _changeDetectorRef, _uniqueSelectionDispatcher) || this;
+        _this._viewContainerRef = _viewContainerRef;
+        _this._hideToggle = false;
+        _this._padding = true;
+        _this.opened = new core.EventEmitter();
+        _this.closed = new core.EventEmitter();
+        _this.expandedChange = new core.EventEmitter();
+        /**
+         * Stream that emits for changes in `\@Input` properties.
+         */
+        _this._inputChanges = new Subject.Subject();
+        /**
+         * ID for the associated header element. Used for a11y labelling.
+         */
+        _this._headerId = "novo-expansion-panel-header-" + uniqueId++;
+        _this.accordion = accordion;
+        return _this;
+    }
+    Object.defineProperty(NovoExpansionPanel.prototype, "hideToggle", {
+        /**
+         * Whether the toggle indicator should be hidden.
+         * @return {?}
+         */
+        get: function () {
+            return this._hideToggle;
+        },
+        /**
+         * @param {?} value
+         * @return {?}
+         */
+        set: function (value) {
+            this._hideToggle = coercion.coerceBooleanProperty(value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoExpansionPanel.prototype, "padding", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._padding;
+        },
+        /**
+         * @param {?} value
+         * @return {?}
+         */
+        set: function (value) {
+            this._padding = coercion.coerceBooleanProperty(value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Whether the expansion indicator should be hidden.
+     * @return {?}
+     */
+    NovoExpansionPanel.prototype._getHideToggle = function () {
+        if (this.accordion) {
+            return this.accordion.hideToggle;
+        }
+        return this.hideToggle;
+    };
+    /**
+     * Determines whether the expansion panel should have spacing between it and its siblings.
+     * @return {?}
+     */
+    NovoExpansionPanel.prototype._hasSpacing = function () {
+        if (this.accordion) {
+            return (this.expanded ? this.accordion.displayMode : this._getExpandedState()) === 'default';
+        }
+        return false;
+    };
+    /**
+     * Gets the expanded state string.
+     * @return {?}
+     */
+    NovoExpansionPanel.prototype._getExpandedState = function () {
+        return this.expanded ? 'expanded' : 'collapsed';
+    };
+    /**
+     * @return {?}
+     */
+    NovoExpansionPanel.prototype.ngAfterContentInit = function () {
+        var _this = this;
+        if (this._lazyContent) {
+            // Render the content as soon as the panel becomes open.
+            this.opened.pipe(startWith$1(/** @type {?} */ ((null))), filter$3(function () { return _this.expanded && !_this._portal; }), take(1)).subscribe(function () {
+                _this._portal = new portal.TemplatePortal(_this._lazyContent._template, _this._viewContainerRef);
+            });
+        }
+    };
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    NovoExpansionPanel.prototype.ngOnChanges = function (changes) {
+        this._inputChanges.next(changes);
+    };
+    /**
+     * @return {?}
+     */
+    NovoExpansionPanel.prototype.ngOnDestroy = function () {
+        _super.prototype.ngOnDestroy.call(this);
+        this._inputChanges.complete();
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoExpansionPanel.prototype._bodyAnimation = function (event) {
+        var /** @type {?} */ classList = event.element.classList;
+        var /** @type {?} */ cssClass = 'novo-expanded';
+        var phaseName = event.phaseName, toState = event.toState;
+        // Toggle the body's `overflow: hidden` class when closing starts or when expansion ends in
+        // order to prevent the cases where switching too early would cause the animation to jump.
+        // Note that we do it directly on the DOM element to avoid the slight delay that comes
+        // with doing it via change detection.
+        if (phaseName === 'done' && toState === 'expanded') {
+            classList.add(cssClass);
+        }
+        else if (phaseName === 'start' && toState === 'collapsed') {
+            classList.remove(cssClass);
+        }
+    };
+    return NovoExpansionPanel;
+}(CdkAccordionItem));
+NovoExpansionPanel.decorators = [
+    { type: core.Component, args: [{
+                moduleId: module.id,
+                styles: ["\n    @-webkit-keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @-webkit-keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @-webkit-keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @-webkit-keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    @keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    @keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    .novo-expansion-panel {\n      background: #ffffff;\n      color: #3d464d; }\n\n    .novo-action-row {\n      border-top-color: #3d464d; }\n\n    .novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled='true']).cdk-keyboard-focused, .novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled='true']).cdk-program-focused, .novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled='true']):hover {\n      background: rgba(0, 0, 0, 0.04); }\n\n    .novo-expansion-panel-header-title {\n      color: #3d464d; }\n\n    .novo-expansion-panel-header-description,\n    .novo-expansion-indicator::after {\n      color: #999999; }\n\n    .novo-expansion-panel-header[aria-disabled='true'] {\n      color: #999999;\n      pointer-events: none; }\n      .novo-expansion-panel-header[aria-disabled='true'] .novo-expansion-panel-header-title,\n      .novo-expansion-panel-header[aria-disabled='true'] .novo-expansion-panel-header-description {\n        color: inherit; }\n\n    .novo-expansion-panel.novo-expanded[theme='company'] {\n      border-top: 3px solid #3399dd; }\n\n    .novo-expansion-panel.novo-expanded[theme='candidate'] {\n      border-top: 3px solid #44bb77; }\n\n    .novo-expansion-panel.novo-expanded[theme='navigation'] {\n      border-top: 3px solid #2f384f; }\n\n    .novo-expansion-panel.novo-expanded[theme='lead'] {\n      border-top: 3px solid #aa6699; }\n\n    .novo-expansion-panel.novo-expanded[theme='contact'] {\n      border-top: 3px solid #ffaa44; }\n\n    .novo-expansion-panel.novo-expanded[theme='opportunity'] {\n      border-top: 3px solid #662255; }\n\n    .novo-expansion-panel.novo-expanded[theme='job'] {\n      border-top: 3px solid #bb5566; }\n\n    .novo-expansion-panel.novo-expanded[theme='jobCode'] {\n      border-top: 3px solid #696d79; }\n\n    .novo-expansion-panel.novo-expanded[theme='sendout'] {\n      border-top: 3px solid #747884; }\n\n    .novo-expansion-panel.novo-expanded[theme='placement'] {\n      border-top: 3px solid #0b344f; }\n\n    .novo-expansion-panel.novo-expanded[theme='task'] {\n      border-top: 3px solid #4f5361; }\n\n    .novo-expansion-panel.novo-expanded[theme='distributionList'] {\n      border-top: 3px solid #4f5361; }\n\n    .novo-expansion-panel.novo-expanded[theme='credential'] {\n      border-top: 3px solid #4f5361; }\n\n    .novo-expansion-panel.novo-expanded[theme='user'] {\n      border-top: 3px solid #4f5361; }\n\n    .novo-expansion-panel.novo-expanded[theme='corporateuser'] {\n      border-top: 3px solid #4f5361; }\n\n    .novo-expansion-panel.novo-expanded[theme='aqua'] {\n      border-top: 3px solid #3bafda; }\n\n    .novo-expansion-panel.novo-expanded[theme='ocean'] {\n      border-top: 3px solid #4a89dc; }\n\n    .novo-expansion-panel.novo-expanded[theme='mint'] {\n      border-top: 3px solid #37bc9b; }\n\n    .novo-expansion-panel.novo-expanded[theme='grass'] {\n      border-top: 3px solid #8cc152; }\n\n    .novo-expansion-panel.novo-expanded[theme='sunflower'] {\n      border-top: 3px solid #f6b042; }\n\n    .novo-expansion-panel.novo-expanded[theme='bittersweet'] {\n      border-top: 3px solid #eb6845; }\n\n    .novo-expansion-panel.novo-expanded[theme='grapefruit'] {\n      border-top: 3px solid #da4453; }\n\n    .novo-expansion-panel.novo-expanded[theme='carnation'] {\n      border-top: 3px solid #d770ad; }\n\n    .novo-expansion-panel.novo-expanded[theme='lavender'] {\n      border-top: 3px solid #967adc; }\n\n    .novo-expansion-panel.novo-expanded[theme='positive'] {\n      border-top: 3px solid #4a89dc; }\n\n    .novo-expansion-panel.novo-expanded[theme='success'] {\n      border-top: 3px solid #8cc152; }\n\n    .novo-expansion-panel.novo-expanded[theme='negative'] {\n      border-top: 3px solid #da4453; }\n\n    .novo-expansion-panel.novo-expanded[theme='warning'] {\n      border-top: 3px solid #f6b042; }\n\n    .novo-expansion-panel.novo-expanded[theme='black'] {\n      border-top: 3px solid #000000; }\n\n    .novo-expansion-panel.novo-expanded[theme='dark'] {\n      border-top: 3px solid #3d464d; }\n\n    .novo-expansion-panel.novo-expanded[theme='pulse'] {\n      border-top: 3px solid #3bafda; }\n\n    .novo-expansion-panel.novo-expanded[theme='neutral'] {\n      border-top: 3px solid #4f5361; }\n\n    .novo-expansion-panel.novo-expanded[theme='navy'] {\n      border-top: 3px solid #0d2d42; }\n\n    .novo-expansion-panel.novo-expanded[theme='contract'] {\n      border-top: 3px solid #ffaa44; }\n\n    .novo-expansion-panel.novo-expanded[theme='mountain'] {\n      border-top: 3px solid #9678b6; }\n\n    .novo-expansion-panel.novo-expanded[theme='submission'] {\n      border-top: 3px solid #a9adbb; }\n\n    .novo-expansion-panel.novo-expanded[theme='note'] {\n      border-top: 3px solid #747884; }\n\n    .novo-expansion-panel.novo-expanded[theme='background'] {\n      border-top: 3px solid #f4f4f4; }\n\n    .novo-expansion-panel.novo-expanded[theme='white'] {\n      border-top: 3px solid #ffffff; }\n\n    .novo-expansion-panel.novo-expanded[theme='grey'] {\n      border-top: 3px solid #999999; }\n\n    .novo-expansion-panel.novo-expanded[theme='off-white'] {\n      border-top: 3px solid #f4f4f4; }\n\n    .novo-expansion-panel.novo-expanded[theme='light'] {\n      border-top: 3px solid #d9dadc; }\n\n    .novo-expansion-panel {\n      -webkit-box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n              box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n      -webkit-box-sizing: content-box;\n              box-sizing: content-box;\n      display: block;\n      margin: 0;\n      -webkit-transition: margin 225ms ease-in-out;\n      transition: margin 225ms ease-in-out;\n      margin: 0px 16px; }\n      .novo-expansion-panel.novo-expanded {\n        margin: 16px 4px; }\n        .novo-expansion-panel.novo-expanded:first-child {\n          margin-top: 0; }\n        .novo-expansion-panel.novo-expanded:last-child {\n          margin-bottom: 0; }\n\n    .novo-expansion-panel-content {\n      overflow: hidden; }\n      .novo-expansion-panel-content.novo-expanded {\n        overflow: visible; }\n\n    .novo-expansion-panel-padding .novo-expansion-panel-body {\n      padding: 0 24px 16px; }\n\n    .novo-accordion .novo-expansion-panel-spacing:first-child {\n      margin-top: 0; }\n\n    .novo-accordion .novo-expansion-panel-spacing:last-child {\n      margin-bottom: 0; }\n\n    .novo-action-row {\n      border-top-style: solid;\n      border-top-width: 1px;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: row;\n              flex-direction: row;\n      -webkit-box-pack: end;\n          -ms-flex-pack: end;\n              justify-content: flex-end;\n      padding: 16px 8px 16px 24px; }\n      .novo-action-row button.novo-button {\n        margin-left: 8px; }\n        [dir='rtl'] .novo-action-row button.novo-button {\n          margin-left: 0;\n          margin-right: 8px; }\n  "],
+                selector: 'novo-expansion-panel',
+                exportAs: 'novoExpansionPanel',
+                template: "\n    <ng-content select=\"novo-expansion-panel-header\"></ng-content>\n    <div class=\"novo-expansion-panel-content\"\n         role=\"region\"\n         [@bodyExpansion]=\"_getExpandedState()\"\n         (@bodyExpansion.done)=\"_bodyAnimation($event)\"\n         (@bodyExpansion.start)=\"_bodyAnimation($event)\"\n         [attr.aria-labelledby]=\"_headerId\"\n         [id]=\"id\"\n         #body>\n      <div class=\"novo-expansion-panel-body\">\n        <ng-content></ng-content>\n        <ng-template [cdkPortalOutlet]=\"_portal\"></ng-template>\n      </div>\n      <ng-content select=\"novo-action-row\"></ng-content>\n    </div>\n  ",
+                encapsulation: core.ViewEncapsulation.None,
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+                animations: [novoExpansionAnimations.bodyExpansion],
+                host: {
+                    class: 'novo-expansion-panel',
+                    '[class.novo-expanded]': 'expanded',
+                    '[class.novo-expansion-panel-spacing]': '_hasSpacing()',
+                    '[class.novo-expansion-panel-padding]': 'padding',
+                },
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionPanel.ctorParameters = function () { return [
+    { type: NovoAccordion, decorators: [{ type: core.Optional }, { type: core.Host },] },
+    { type: core.ChangeDetectorRef, },
+    { type: collections.UniqueSelectionDispatcher, },
+    { type: core.ViewContainerRef, },
+]; };
+NovoExpansionPanel.propDecorators = {
+    'disabled': [{ type: core.Input },],
+    'expanded': [{ type: core.Input },],
+    'hideToggle': [{ type: core.Input },],
+    'padding': [{ type: core.Input },],
+    'opened': [{ type: core.Output },],
+    'closed': [{ type: core.Output },],
+    'expandedChange': [{ type: core.Output },],
+    '_lazyContent': [{ type: core.ContentChild, args: [NovoExpansionPanelContent,] },],
+};
+var NovoExpansionPanelActionRow = /** @class */ (function () {
+    function NovoExpansionPanelActionRow() {
+    }
+    return NovoExpansionPanelActionRow;
+}());
+NovoExpansionPanelActionRow.decorators = [
+    { type: core.Directive, args: [{
+                selector: 'novo-action-row',
+                host: {
+                    class: 'novo-action-row',
+                },
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionPanelActionRow.ctorParameters = function () { return []; };
+/**
+ * `<novo-expansion-panel-header>`
+ *
+ * This component corresponds to the header element of an `<novo-expansion-panel>`.
+ */
+var NovoExpansionPanelHeader = /** @class */ (function () {
+    /**
+     * @param {?} panel
+     * @param {?} _element
+     * @param {?} _changeDetectorRef
+     */
+    function NovoExpansionPanelHeader(panel, _element, _changeDetectorRef) {
+        var _this = this;
+        this.panel = panel;
+        this._element = _element;
+        this._changeDetectorRef = _changeDetectorRef;
+        this._parentChangeSubscription = Subscription.Subscription.EMPTY;
+        // Since the toggle state depends on an @Input on the panel, we
+        // need to  subscribe and trigger change detection manually.
+        this._parentChangeSubscription = merge.merge(panel.opened, panel.closed, panel._inputChanges.filter(function (changes) { return !!(changes.hideToggle || changes.disabled); }))
+            .subscribe(function () { return _this._changeDetectorRef.markForCheck(); });
+        // _focusMonitor.monitor(_element.nativeElement);
+    }
+    /**
+     * Toggles the expanded state of the panel.
+     * @return {?}
+     */
+    NovoExpansionPanelHeader.prototype._toggle = function () {
+        this.panel.toggle();
+    };
+    /**
+     * Gets whether the panel is expanded.
+     * @return {?}
+     */
+    NovoExpansionPanelHeader.prototype._isExpanded = function () {
+        return this.panel.expanded;
+    };
+    /**
+     * Gets the expanded state string of the panel.
+     * @return {?}
+     */
+    NovoExpansionPanelHeader.prototype._getExpandedState = function () {
+        return this.panel._getExpandedState();
+    };
+    /**
+     * Gets the panel id.
+     * @return {?}
+     */
+    NovoExpansionPanelHeader.prototype._getPanelId = function () {
+        return this.panel.id;
+    };
+    /**
+     * Gets whether the expand indicator should be shown.
+     * @return {?}
+     */
+    NovoExpansionPanelHeader.prototype._showToggle = function () {
+        return !this.panel.hideToggle && !this.panel.disabled;
+    };
+    /**
+     * Handle keydown event calling to toggle() if appropriate.
+     * @param {?} event
+     * @return {?}
+     */
+    NovoExpansionPanelHeader.prototype._keydown = function (event) {
+        switch (event.keyCode) {
+            // Toggle for space and enter keys.
+            case keycodes.SPACE:
+            case keycodes.ENTER:
+                event.preventDefault();
+                this._toggle();
+                break;
+            default:
+                return;
+        }
+    };
+    /**
+     * @return {?}
+     */
+    NovoExpansionPanelHeader.prototype.ngOnDestroy = function () {
+        this._parentChangeSubscription.unsubscribe();
+        // this._focusMonitor.stopMonitoring(this._element.nativeElement);
+    };
+    return NovoExpansionPanelHeader;
+}());
+NovoExpansionPanelHeader.decorators = [
+    { type: core.Component, args: [{
+                moduleId: module.id,
+                selector: 'novo-expansion-panel-header',
+                styles: ["\n    .novo-expansion-panel-header {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: row;\n              flex-direction: row;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      padding: 0 24px; }\n      .novo-expansion-panel-header:focus, .novo-expansion-panel-header:hover {\n        outline: none; }\n      .novo-expansion-panel-header.novo-expanded:focus, .novo-expansion-panel-header.novo-expanded:hover {\n        background: inherit; }\n      .novo-expansion-panel-header:not([aria-disabled='true']) {\n        cursor: pointer; }\n\n    .novo-content {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: row;\n              flex-direction: row;\n      overflow: hidden; }\n\n    .novo-expansion-panel-header-title,\n    .novo-expansion-panel-header-description {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-flex: 1;\n          -ms-flex-positive: 1;\n              flex-grow: 1;\n      margin-right: 16px;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center; }\n      [dir='rtl'] .novo-expansion-panel-header-title, [dir='rtl']\n      .novo-expansion-panel-header-description {\n        margin-right: 0;\n        margin-left: 16px; }\n\n    .novo-expansion-panel-header-description {\n      -webkit-box-flex: 2;\n          -ms-flex-positive: 2;\n              flex-grow: 2; }\n\n    /**\n     * Creates the expansion indicator arrow. Done using ::after rather than having\n     * additional nodes in the template.\n     */\n    .novo-expansion-indicator::after {\n      border-style: solid;\n      border-width: 0 2px 2px 0;\n      content: '';\n      display: inline-block;\n      padding: 3px;\n      -webkit-transform: rotate(45deg);\n              transform: rotate(45deg);\n      vertical-align: middle; }\n  "],
+                template: "\n    <span class=\"novo-content\">\n      <ng-content select=\"novo-panel-title\"></ng-content>\n      <ng-content select=\"novo-panel-description\"></ng-content>\n      <ng-content></ng-content>\n    </span>\n    <span [@indicatorRotate]=\"_getExpandedState()\" *ngIf=\"_showToggle()\"\n          class=\"novo-expansion-indicator\"></span>\n  ",
+                encapsulation: core.ViewEncapsulation.None,
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+                animations: [
+                    novoExpansionAnimations.indicatorRotate,
+                    novoExpansionAnimations.expansionHeaderHeight
+                ],
+                host: {
+                    'class': 'novo-expansion-panel-header',
+                    'role': 'button',
+                    '[attr.id]': 'panel._headerId',
+                    '[attr.tabindex]': 'panel.disabled ? -1 : 0',
+                    '[attr.aria-controls]': '_getPanelId()',
+                    '[attr.aria-expanded]': '_isExpanded()',
+                    '[attr.aria-disabled]': 'panel.disabled',
+                    '[class.novo-expanded]': '_isExpanded()',
+                    '(click)': '_toggle()',
+                    '(keydown)': '_keydown($event)',
+                    '[@expansionHeight]': "{\n        value: _getExpandedState(),\n        params: {\n          collapsedHeight: collapsedHeight,\n          expandedHeight: expandedHeight\n        }\n    }",
+                },
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionPanelHeader.ctorParameters = function () { return [
+    { type: NovoExpansionPanel, decorators: [{ type: core.Host },] },
+    { type: core.ElementRef, },
+    { type: core.ChangeDetectorRef, },
+]; };
+NovoExpansionPanelHeader.propDecorators = {
+    'expandedHeight': [{ type: core.Input },],
+    'collapsedHeight': [{ type: core.Input },],
+};
+/**
+ * `<novo-panel-description>`
+ *
+ * This direction is to be used inside of the NovoExpansionPanelHeader component.
+ */
+var NovoExpansionPanelDescription = /** @class */ (function () {
+    function NovoExpansionPanelDescription() {
+    }
+    return NovoExpansionPanelDescription;
+}());
+NovoExpansionPanelDescription.decorators = [
+    { type: core.Directive, args: [{
+                selector: 'novo-panel-description',
+                host: {
+                    class: 'novo-expansion-panel-header-description'
+                }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionPanelDescription.ctorParameters = function () { return []; };
+/**
+ * `<novo-panel-title>`
+ *
+ * This direction is to be used inside of the NovoExpansionPanelHeader component.
+ */
+var NovoExpansionPanelTitle = /** @class */ (function () {
+    function NovoExpansionPanelTitle() {
+    }
+    return NovoExpansionPanelTitle;
+}());
+NovoExpansionPanelTitle.decorators = [
+    { type: core.Directive, args: [{
+                selector: 'novo-panel-title',
+                host: {
+                    class: 'novo-expansion-panel-header-title'
+                }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionPanelTitle.ctorParameters = function () { return []; };
+var NovoExpansionModule = /** @class */ (function () {
+    function NovoExpansionModule() {
+    }
+    return NovoExpansionModule;
+}());
+NovoExpansionModule.decorators = [
+    { type: core.NgModule, args: [{
+                imports: [common.CommonModule, CdkAccordionModule, portal.PortalModule],
+                exports: [
+                    NovoAccordion,
+                    NovoExpansionPanel,
+                    NovoExpansionPanelActionRow,
+                    NovoExpansionPanelHeader,
+                    NovoExpansionPanelTitle,
+                    NovoExpansionPanelDescription,
+                    NovoExpansionPanelContent,
+                ],
+                declarations: [
+                    NovoAccordion,
+                    NovoExpansionPanel,
+                    NovoExpansionPanelActionRow,
+                    NovoExpansionPanelHeader,
+                    NovoExpansionPanelTitle,
+                    NovoExpansionPanelDescription,
+                    NovoExpansionPanelContent,
+                ],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoExpansionModule.ctorParameters = function () { return []; };
+var NovoStepLabel = /** @class */ (function (_super) {
+    __extends(NovoStepLabel, _super);
+    /**
+     * @param {?} template
+     */
+    function NovoStepLabel(template) {
+        return _super.call(this, template) || this;
+    }
+    return NovoStepLabel;
+}(stepper.CdkStepLabel));
+NovoStepLabel.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[novoStepLabel]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepLabel.ctorParameters = function () { return [
+    { type: core.TemplateRef, },
+]; };
+var NovoStepHeader = /** @class */ (function () {
+    /**
+     * @param {?} _focusMonitor
+     * @param {?} _element
+     */
+    function NovoStepHeader(_focusMonitor, _element) {
+        this._focusMonitor = _focusMonitor;
+        this._element = _element;
+        _focusMonitor.monitor(_element.nativeElement, true);
+    }
+    Object.defineProperty(NovoStepHeader.prototype, "index", {
+        /**
+         * Index of the given step.
+         * @return {?}
+         */
+        get: function () { return this._index; },
+        /**
+         * @param {?} value
+         * @return {?}
+         */
+        set: function (value) { this._index = coercion.coerceNumberProperty(value); },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoStepHeader.prototype, "selected", {
+        /**
+         * Whether the given step is selected.
+         * @return {?}
+         */
+        get: function () { return this._selected; },
+        /**
+         * @param {?} value
+         * @return {?}
+         */
+        set: function (value) { this._selected = coercion.coerceBooleanProperty(value); },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoStepHeader.prototype, "active", {
+        /**
+         * Whether the given step label is active.
+         * @return {?}
+         */
+        get: function () { return this._active; },
+        /**
+         * @param {?} value
+         * @return {?}
+         */
+        set: function (value) { this._active = coercion.coerceBooleanProperty(value); },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoStepHeader.prototype, "touched", {
+        /**
+         * Whether the given step label is active.
+         * @return {?}
+         */
+        get: function () { return this.selected || this.state === 'edit' || this.state === 'done'; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoStepHeader.prototype, "optional", {
+        /**
+         * Whether the given step is optional.
+         * @return {?}
+         */
+        get: function () { return this._optional; },
+        /**
+         * @param {?} value
+         * @return {?}
+         */
+        set: function (value) { this._optional = coercion.coerceBooleanProperty(value); },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    NovoStepHeader.prototype.ngOnDestroy = function () {
+        this._focusMonitor.stopMonitoring(this._element.nativeElement);
+    };
+    /**
+     * Returns string label of given step if it is a text label.
+     * @return {?}
+     */
+    NovoStepHeader.prototype._stringLabel = function () {
+        return this.label instanceof NovoStepLabel ? null : this.label;
+    };
+    /**
+     * Returns NovoStepLabel if the label of given step is a template label.
+     * @return {?}
+     */
+    NovoStepHeader.prototype._templateLabel = function () {
+        return this.label instanceof NovoStepLabel ? this.label : null;
+    };
+    /**
+     * Returns the host HTML element.
+     * @return {?}
+     */
+    NovoStepHeader.prototype._getHostElement = function () {
+        return this._element.nativeElement;
+    };
+    return NovoStepHeader;
+}());
+NovoStepHeader.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-step-header',
+                template: "\n    <div [class.novo-step-icon]=\"touched\"\n         [class.novo-step-icon-not-touched]=\"!touched\">\n      <ng-container *ngIf=\"icon\">\n        <novo-icon size=\"small\" raised=\"true\" [theme]=\"theme\">{{icon}}</novo-icon>\n      </ng-container>\n      <ng-container *ngIf=\"!icon\">\n        <span class=\"novo-step-number\">{{index + 1}}</span>\n      </ng-container>\n    </div>\n    <div class=\"novo-step-label\"\n         [class.novo-step-label-active]=\"active\"\n         [class.novo-step-label-selected]=\"selected\">\n      <!-- If there is a label template, use it. -->\n      <ng-container *ngIf=\"_templateLabel()\" [ngTemplateOutlet]=\"_templateLabel()!.template\">\n      </ng-container>\n      <!-- It there is no label template, fall back to the text label. -->\n      <div class=\"novo-step-text-label\" *ngIf=\"_stringLabel()\">{{label}}</div>\n    </div>\n    <novo-step-status [state]=\"state\"></novo-step-status>\n  ",
+                styles: ["\n    @-webkit-keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @-webkit-keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @-webkit-keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @-webkit-keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    @keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    .novo-step-header {\n      overflow: visible;\n      outline: none;\n      cursor: pointer;\n      position: relative; }\n\n    .novo-step-optional {\n      font-size: 12px; }\n\n    .novo-step-icon,\n    .novo-step-icon-not-touched {\n      border-radius: 50%;\n      height: 24px;\n      width: 24px;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex; }\n      .novo-step-icon .novo-step-number,\n      .novo-step-icon-not-touched .novo-step-number {\n        font-size: 1em;\n        min-width: 1.6em;\n        height: 1.6em;\n        -webkit-box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);\n                box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-align: center;\n            -ms-flex-align: center;\n                align-items: center;\n        -webkit-box-pack: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        border-radius: 4px; }\n\n    .novo-step-icon .novo-step-number {\n      background: #4a89dc;\n      color: #ffffff; }\n\n    .novo-step-icon-not-touched .novo-step-number {\n      background: #a9adbb;\n      color: #ffffff; }\n\n    .novo-step-label {\n      display: inline-block;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n      min-width: 50px;\n      vertical-align: middle;\n      text-align: center;\n      padding: 4px 0px; }\n\n    .novo-step-text-label {\n      text-align: center;\n      text-overflow: ellipsis;\n      overflow: hidden; }\n  "],
+                host: {
+                    'class': 'novo-step-header',
+                    'role': 'tab',
+                },
+                preserveWhitespaces: false,
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepHeader.ctorParameters = function () { return [
+    { type: a11y.FocusMonitor, },
+    { type: core.ElementRef, },
+]; };
+NovoStepHeader.propDecorators = {
+    'theme': [{ type: core.Input },],
+    'color': [{ type: core.Input },],
+    'icon': [{ type: core.Input },],
+    'state': [{ type: core.Input },],
+    'label': [{ type: core.Input },],
+    'iconOverrides': [{ type: core.Input },],
+    'index': [{ type: core.Input },],
+    'selected': [{ type: core.Input },],
+    'active': [{ type: core.Input },],
+    'optional': [{ type: core.Input },],
+};
+/**
+ * Animations used by the Novo steppers.
+ */
+var novoStepperAnimations = {
+    /** Animation that transitions the step along the X axis in a horizontal stepper. */
+    horizontalStepTransition: animations.trigger('stepTransition', [
+        animations.state('previous', animations.style({ transform: 'translate3d(-100%, 0, 0)', visibility: 'hidden' })),
+        animations.state('current', animations.style({ transform: 'none', visibility: 'visible' })),
+        animations.state('next', animations.style({ transform: 'translate3d(100%, 0, 0)', visibility: 'hidden' })),
+        animations.transition('* => *', animations.animate('500ms cubic-bezier(0.35, 0, 0.25, 1)'))
+    ]),
+    /** Animation that transitions the step along the Y axis in a vertical stepper. */
+    verticalStepTransition: animations.trigger('stepTransition', [
+        animations.state('previous', animations.style({ height: '0px', visibility: 'hidden' })),
+        animations.state('next', animations.style({ height: '0px', visibility: 'hidden' })),
+        animations.state('current', animations.style({ height: '*', visibility: 'visible' })),
+        animations.transition('* <=> current', animations.animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ])
+};
+var NovoStep = /** @class */ (function (_super) {
+    __extends(NovoStep, _super);
+    /**
+     * @param {?} stepper
+     */
+    function NovoStep(stepper$$1) {
+        return _super.call(this, stepper$$1) || this;
+    }
+    return NovoStep;
+}(stepper.CdkStep));
+NovoStep.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-step',
+                template: "\n    <ng-template><ng-content></ng-content></ng-template>\n  ",
+                preserveWhitespaces: false,
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStep.ctorParameters = function () { return [
+    { type: NovoStepper, decorators: [{ type: core.Inject, args: [core.forwardRef(function () { return NovoStepper; }),] },] },
+]; };
+NovoStep.propDecorators = {
+    'stepLabel': [{ type: core.ContentChild, args: [NovoStepLabel,] },],
+    'theme': [{ type: core.Input },],
+    'color': [{ type: core.Input },],
+    'icon': [{ type: core.Input },],
+};
+var NovoStepper = /** @class */ (function (_super) {
+    __extends(NovoStepper, _super);
+    function NovoStepper() {
+        var _this = _super.apply(this, arguments) || this;
+        /**
+         * Consumer-specified template-refs to be used to override the header icons.
+         */
+        _this._iconOverrides = {};
+        return _this;
+    }
+    Object.defineProperty(NovoStepper.prototype, "completed", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            try {
+                var /** @type {?} */ steps = this._steps.toArray();
+                var /** @type {?} */ length = steps.length - 1;
+                return steps[length].completed && length === this.selectedIndex;
+            }
+            catch (err) {
+                return false;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    NovoStepper.prototype.ngAfterContentInit = function () {
+        var _this = this;
+        // Mark the component for change detection whenever the content children query changes
+        this._steps.changes.pipe(takeUntil_2(this._destroyed)).subscribe(function () { return _this._stateChanged(); });
+    };
+    /**
+     * @return {?}
+     */
+    NovoStepper.prototype.complete = function () {
+        try {
+            var /** @type {?} */ steps = this._steps.toArray();
+            steps[this.selectedIndex].completed = true;
+            this.next();
+            this._stateChanged();
+        }
+        catch (err) {
+            // do nothing
+        }
+    };
+    /**
+     * @param {?} index
+     * @return {?}
+     */
+    NovoStepper.prototype.getIndicatorType = function (index$$1) {
+        var /** @type {?} */ steps = this._steps.toArray();
+        if (index$$1 === this.selectedIndex) {
+            if (steps[index$$1] && index$$1 === steps.length - 1 && steps[index$$1].completed) {
+                return 'done';
+            }
+            return 'edit';
+        }
+        if (index$$1 < this.selectedIndex) {
+            return 'done';
+        }
+        return 'none';
+    };
+    return NovoStepper;
+}(stepper.CdkStepper));
+NovoStepper.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[novoStepper]'
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepper.ctorParameters = function () { return []; };
+NovoStepper.propDecorators = {
+    '_stepHeader': [{ type: core.ViewChildren, args: [NovoStepHeader, { read: core.ElementRef },] },],
+    '_steps': [{ type: core.ContentChildren, args: [NovoStep,] },],
+    '_icons': [{ type: core.ContentChildren, args: [NovoIconComponent,] },],
+};
+var NovoHorizontalStepper = /** @class */ (function (_super) {
+    __extends(NovoHorizontalStepper, _super);
+    function NovoHorizontalStepper() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return NovoHorizontalStepper;
+}(NovoStepper));
+NovoHorizontalStepper.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-horizontal-stepper',
+                template: "\n    <div class=\"novo-horizontal-stepper-header-container\">\n        <div class=\"novo-stepper-horizontal-line complete\"></div>\n      <ng-container *ngFor=\"let step of _steps; let i = index; let isLast = last\">\n        <novo-step-header  class=\"novo-horizontal-stepper-header\"\n                         (click)=\"step.select()\"\n                         (keydown)=\"_onKeydown($event)\"\n                         [tabIndex]=\"_focusIndex === i ? 0 : -1\"\n                         [id]=\"_getStepLabelId(i)\"\n                         [attr.aria-controls]=\"_getStepContentId(i)\"\n                         [attr.aria-selected]=\"selectedIndex == i\"\n                         [index]=\"i\"\n                         [theme]=\"step.theme\"\n                         [color]=\"step.color\"\n                         [icon]=\"step.icon\"\n                         [state]=\"getIndicatorType(i)\"\n                         [label]=\"step.stepLabel || step.label\"\n                         [selected]=\"selectedIndex === i\"\n                         [active]=\"step.completed || selectedIndex === i || !linear\"\n                         [optional]=\"step.optional\"\n                         [iconOverrides]=\"_iconOverrides\">\n        </novo-step-header>\n      </ng-container>\n      <div class=\"novo-stepper-horizontal-line\" [class.complete]=\"completed\"></div>\n    </div>\n\n    <div class=\"novo-horizontal-content-container\">\n      <div *ngFor=\"let step of _steps; let i = index\"\n           class=\"novo-horizontal-stepper-content\" role=\"tabpanel\"\n           [@stepTransition]=\"_getAnimationDirection(i)\"\n           [id]=\"_getStepContentId(i)\"\n           [attr.aria-labelledby]=\"_getStepLabelId(i)\"\n           [attr.aria-expanded]=\"selectedIndex === i\">\n        <ng-container [ngTemplateOutlet]=\"step.content\"></ng-container>\n      </div>\n    </div>\n  ",
+                styles: ["\n    @-webkit-keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @-webkit-keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @-webkit-keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @-webkit-keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    @keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    .novo-stepper-vertical,\n    .novo-stepper-horizontal {\n      display: block; }\n\n    .novo-horizontal-stepper-header-container {\n      white-space: nowrap;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      margin-bottom: 1em;\n      background: #f4f4f4; }\n\n    .novo-stepper-horizontal-line {\n      border-bottom: 1px solid #d9dadc;\n      -webkit-box-flex: 1;\n          -ms-flex: auto;\n              flex: auto;\n      min-width: 0px;\n      height: 80px; }\n      .novo-stepper-horizontal-line.complete {\n        border-bottom: 1px solid #4a89dc; }\n\n    .novo-horizontal-stepper-header {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      height: 80px;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n          -ms-flex-flow: column;\n              flex-flow: column;\n      overflow: visible;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      padding: 0 24px; }\n      .novo-horizontal-stepper-header .novo-step-status {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        width: 100%;\n        -webkit-box-pack: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        -webkit-box-align: center;\n            -ms-flex-align: center;\n                align-items: center;\n        position: absolute;\n        height: 1px;\n        bottom: 0px; }\n        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line {\n          width: 100%;\n          position: absolute; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before {\n            content: \"\";\n            display: block;\n            width: calc(50% - 8px);\n            margin-right: 8px;\n            border-bottom: 1px solid #d9dadc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after {\n            content: \"\";\n            display: block;\n            width: calc(50% - 8px);\n            margin-left: calc(50% + 8px);\n            margin-top: -1px;\n            border-top: 1px solid #d9dadc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before {\n            border-bottom: 1px solid #4a89dc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before {\n            border-bottom: 1px solid #4a89dc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after {\n            border-top: 1px solid #4a89dc; }\n        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon {\n          position: relative; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before {\n            content: \"\";\n            display: block;\n            background: #ffffff;\n            border-radius: 50%;\n            position: absolute;\n            z-index: 0;\n            top: 1px;\n            left: 1px;\n            bottom: 1px;\n            right: 1px; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon > * {\n            position: relative;\n            z-index: 1; }\n\n    .novo-vertical-stepper-header {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      padding: 24px;\n      max-height: 24px; }\n      .novo-vertical-stepper-header .novo-step-icon,\n      .novo-vertical-stepper-header .novo-step-icon-not-touched {\n        margin-right: 12px; }\n        [dir='rtl'] .novo-vertical-stepper-header .novo-step-icon, [dir='rtl']\n        .novo-vertical-stepper-header .novo-step-icon-not-touched {\n          margin-right: 0;\n          margin-left: 12px; }\n\n    .novo-horizontal-stepper-content {\n      overflow: hidden; }\n      .novo-horizontal-stepper-content[aria-expanded='false'] {\n        height: 0; }\n\n    .novo-horizontal-content-container {\n      overflow: hidden;\n      padding: 0 24px 24px 24px; }\n\n    .novo-vertical-content-container {\n      margin-left: 36px;\n      border: 0;\n      position: relative; }\n      [dir='rtl'] .novo-vertical-content-container {\n        margin-left: 0;\n        margin-right: 36px; }\n\n    .novo-stepper-vertical-line:before {\n      content: '';\n      position: absolute;\n      top: -16px;\n      bottom: -16px;\n      left: 0;\n      z-index: -1;\n      border-left-width: 1px;\n      border-left-style: solid;\n      border-left-color: #d9dadc; }\n      [dir='rtl'] .novo-stepper-vertical-line:before {\n        left: auto;\n        right: 0; }\n\n    .novo-stepper-vertical-line.edit:before {\n      border-left-color: 1px solid #4a89dc; }\n\n    .novo-stepper-vertical-line.done:before {\n      border-left-color: 1px solid #4a89dc; }\n\n    .novo-stepper-vertical-line.done:after {\n      border-left-color: 1px solid #4a89dc; }\n\n    .novo-stepper-vertical novo-step-status {\n      position: absolute;\n      left: 35px;\n      top: 25px;\n      -webkit-transform: scale(0.8);\n              transform: scale(0.8); }\n\n    .novo-vertical-stepper-content {\n      overflow: hidden; }\n\n    .novo-vertical-content {\n      padding: 0 24px 24px 24px; }\n\n    .novo-step:last-child .novo-vertical-content-container {\n      border: none; }\n  "],
+                host: {
+                    'class': 'novo-stepper-horizontal',
+                    'aria-orientation': 'horizontal',
+                    'role': 'tablist',
+                },
+                animations: [novoStepperAnimations.horizontalStepTransition],
+                providers: [{ provide: NovoStepper, useExisting: NovoHorizontalStepper }],
+                // encapsulation: ViewEncapsulation.None,
+                preserveWhitespaces: false,
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoHorizontalStepper.ctorParameters = function () { return []; };
+NovoHorizontalStepper.propDecorators = {
+    'selectedIndex': [{ type: core.Input },],
+};
+var NovoVerticalStepper = /** @class */ (function (_super) {
+    __extends(NovoVerticalStepper, _super);
+    /**
+     * @param {?} dir
+     * @param {?} changeDetectorRef
+     */
+    function NovoVerticalStepper(dir, changeDetectorRef) {
+        var _this = _super.call(this, dir, changeDetectorRef) || this;
+        _this._orientation = 'vertical';
+        return _this;
+    }
+    return NovoVerticalStepper;
+}(NovoStepper));
+NovoVerticalStepper.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-vertical-stepper',
+                template: "\n    <div class=\"novo-step\" *ngFor=\"let step of _steps; let i = index; let isLast = last\">\n        <novo-step-header  class=\"novo-vertical-stepper-header\"\n                         (click)=\"step.select()\"\n                         (keydown)=\"_onKeydown($event)\"\n                         [tabIndex]=\"_focusIndex == i ? 0 : -1\"\n                         [id]=\"_getStepLabelId(i)\"\n                         [attr.aria-controls]=\"_getStepContentId(i)\"\n                         [attr.aria-selected]=\"selectedIndex === i\"\n                         [index]=\"i\"\n                         [theme]=\"step.theme\"\n                         [color]=\"step.color\"\n                         [icon]=\"step.icon\"\n                         [state]=\"getIndicatorType(i)\"\n                         [label]=\"step.stepLabel || step.label\"\n                         [selected]=\"selectedIndex === i\"\n                         [active]=\"step.completed || selectedIndex === i || !linear\"\n                         [optional]=\"step.optional\"\n                         [iconOverrides]=\"_iconOverrides\">\n        </novo-step-header>\n  \n        <div class=\"novo-vertical-content-container\" [class.novo-stepper-vertical-line]=\"!isLast\" [ngClass]=\"getIndicatorType(i)\">\n          <div class=\"novo-vertical-stepper-content\" role=\"tabpanel\"\n               [@stepTransition]=\"_getAnimationDirection(i)\"\n               [id]=\"_getStepContentId(i)\"\n               [attr.aria-labelledby]=\"_getStepLabelId(i)\"\n               [attr.aria-expanded]=\"selectedIndex === i\">\n            <div class=\"novo-vertical-content\">\n              <ng-container [ngTemplateOutlet]=\"step.content\"></ng-container>\n            </div>\n          </div>\n        </div>\n      </div>\n  ",
+                styles: ["\n    @-webkit-keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @keyframes rotate {\n      0% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); }\n      75% {\n        -webkit-transform: rotateZ(200deg);\n                transform: rotateZ(200deg); }\n      100% {\n        -webkit-transform: rotateZ(180deg);\n                transform: rotateZ(180deg); } }\n\n    @-webkit-keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @keyframes half-rotate {\n      0% {\n        -webkit-transform: rotateZ(45deg);\n                transform: rotateZ(45deg); }\n      75% {\n        -webkit-transform: rotateZ(100deg);\n                transform: rotateZ(100deg); }\n      100% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); } }\n\n    @-webkit-keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @keyframes rotateBack {\n      0% {\n        -webkit-transform: rotateZ(90deg);\n                transform: rotateZ(90deg); }\n      100% {\n        -webkit-transform: rotateZ(0deg);\n                transform: rotateZ(0deg); } }\n\n    @-webkit-keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    @keyframes show {\n      0% {\n        opacity: 0;\n        -webkit-transform: translateX(-100%);\n                transform: translateX(-100%); }\n      75% {\n        -webkit-transform: translateX(0px);\n                transform: translateX(0px); }\n      100% {\n        opacity: 1;\n        -webkit-transform: translateX(0);\n                transform: translateX(0); } }\n\n    .novo-stepper-vertical,\n    .novo-stepper-horizontal {\n      display: block; }\n\n    .novo-horizontal-stepper-header-container {\n      white-space: nowrap;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      margin-bottom: 1em;\n      background: #f4f4f4; }\n\n    .novo-stepper-horizontal-line {\n      border-bottom: 1px solid #d9dadc;\n      -webkit-box-flex: 1;\n          -ms-flex: auto;\n              flex: auto;\n      min-width: 0px;\n      height: 80px; }\n      .novo-stepper-horizontal-line.complete {\n        border-bottom: 1px solid #4a89dc; }\n\n    .novo-horizontal-stepper-header {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      height: 80px;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n          -ms-flex-flow: column;\n              flex-flow: column;\n      overflow: visible;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      padding: 0 24px; }\n      .novo-horizontal-stepper-header .novo-step-status {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        width: 100%;\n        -webkit-box-pack: center;\n            -ms-flex-pack: center;\n                justify-content: center;\n        -webkit-box-align: center;\n            -ms-flex-align: center;\n                align-items: center;\n        position: absolute;\n        height: 1px;\n        bottom: 0px; }\n        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line {\n          width: 100%;\n          position: absolute; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before {\n            content: \"\";\n            display: block;\n            width: calc(50% - 8px);\n            margin-right: 8px;\n            border-bottom: 1px solid #d9dadc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after {\n            content: \"\";\n            display: block;\n            width: calc(50% - 8px);\n            margin-left: calc(50% + 8px);\n            margin-top: -1px;\n            border-top: 1px solid #d9dadc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before {\n            border-bottom: 1px solid #4a89dc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before {\n            border-bottom: 1px solid #4a89dc; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after {\n            border-top: 1px solid #4a89dc; }\n        .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon {\n          position: relative; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before {\n            content: \"\";\n            display: block;\n            background: #ffffff;\n            border-radius: 50%;\n            position: absolute;\n            z-index: 0;\n            top: 1px;\n            left: 1px;\n            bottom: 1px;\n            right: 1px; }\n          .novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon > * {\n            position: relative;\n            z-index: 1; }\n\n    .novo-vertical-stepper-header {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      padding: 24px;\n      max-height: 24px; }\n      .novo-vertical-stepper-header .novo-step-icon,\n      .novo-vertical-stepper-header .novo-step-icon-not-touched {\n        margin-right: 12px; }\n        [dir='rtl'] .novo-vertical-stepper-header .novo-step-icon, [dir='rtl']\n        .novo-vertical-stepper-header .novo-step-icon-not-touched {\n          margin-right: 0;\n          margin-left: 12px; }\n\n    .novo-horizontal-stepper-content {\n      overflow: hidden; }\n      .novo-horizontal-stepper-content[aria-expanded='false'] {\n        height: 0; }\n\n    .novo-horizontal-content-container {\n      overflow: hidden;\n      padding: 0 24px 24px 24px; }\n\n    .novo-vertical-content-container {\n      margin-left: 36px;\n      border: 0;\n      position: relative; }\n      [dir='rtl'] .novo-vertical-content-container {\n        margin-left: 0;\n        margin-right: 36px; }\n\n    .novo-stepper-vertical-line:before {\n      content: '';\n      position: absolute;\n      top: -16px;\n      bottom: -16px;\n      left: 0;\n      z-index: -1;\n      border-left-width: 1px;\n      border-left-style: solid;\n      border-left-color: #d9dadc; }\n      [dir='rtl'] .novo-stepper-vertical-line:before {\n        left: auto;\n        right: 0; }\n\n    .novo-stepper-vertical-line.edit:before {\n      border-left-color: 1px solid #4a89dc; }\n\n    .novo-stepper-vertical-line.done:before {\n      border-left-color: 1px solid #4a89dc; }\n\n    .novo-stepper-vertical-line.done:after {\n      border-left-color: 1px solid #4a89dc; }\n\n    .novo-stepper-vertical novo-step-status {\n      position: absolute;\n      left: 35px;\n      top: 25px;\n      -webkit-transform: scale(0.8);\n              transform: scale(0.8); }\n\n    .novo-vertical-stepper-content {\n      overflow: hidden; }\n\n    .novo-vertical-content {\n      padding: 0 24px 24px 24px; }\n\n    .novo-step:last-child .novo-vertical-content-container {\n      border: none; }\n  "],
+                host: {
+                    'class': 'novo-stepper-vertical',
+                    'aria-orientation': 'vertical',
+                    'role': 'tablist',
+                },
+                animations: [novoStepperAnimations.verticalStepTransition],
+                providers: [{ provide: NovoStepper, useExisting: NovoVerticalStepper }],
+                preserveWhitespaces: false,
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoVerticalStepper.ctorParameters = function () { return [
+    { type: bidi.Directionality, decorators: [{ type: core.Optional },] },
+    { type: core.ChangeDetectorRef, },
+]; };
+NovoVerticalStepper.propDecorators = {
+    'selectedIndex': [{ type: core.Input },],
+};
+var NovoStepStatus = /** @class */ (function () {
+    /**
+     * @param {?} stepper
+     * @param {?} step
+     */
+    function NovoStepStatus(stepper$$1, step) {
+    }
+    return NovoStepStatus;
+}());
+NovoStepStatus.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-step-status',
+                template: "\n    <div class=\"novo-stepper-status-line\" [ngClass]=\"state\"></div>\n    <div [ngSwitch]=\"state\" class=\"novo-stepper-status-icon\">\n      <novo-icon size=\"small\" color=\"positive\" *ngSwitchCase=\"'edit'\">check-circle</novo-icon>\n      <novo-icon size=\"small\" color=\"positive\" *ngSwitchCase=\"'done'\">check-circle-filled</novo-icon>\n      <novo-icon size=\"small\" color=\"positive\" *ngSwitchDefault>circle-o</novo-icon>\n    </div>\n  ",
+                // encapsulation: ViewEncapsulation.None,
+                preserveWhitespaces: false,
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+                host: {
+                    'class': 'novo-step-status'
+                },
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepStatus.ctorParameters = function () { return [
+    { type: NovoStepper, decorators: [{ type: core.Inject, args: [core.forwardRef(function () { return NovoStepper; }),] },] },
+    { type: NovoStepHeader, decorators: [{ type: core.Inject, args: [core.forwardRef(function () { return NovoStepHeader; }),] },] },
+]; };
+NovoStepStatus.propDecorators = {
+    'state': [{ type: core.Input },],
+};
+var NovoStepperModule = /** @class */ (function () {
+    function NovoStepperModule() {
+    }
+    return NovoStepperModule;
+}());
+NovoStepperModule.decorators = [
+    { type: core.NgModule, args: [{
+                imports: [
+                    common.CommonModule,
+                    portal.PortalModule,
+                    NovoButtonModule,
+                    stepper.CdkStepperModule,
+                    NovoIconModule,
+                    a11y.A11yModule,
+                ],
+                exports: [
+                    NovoHorizontalStepper,
+                    NovoVerticalStepper,
+                    NovoStep,
+                    NovoStepLabel,
+                    NovoStepper,
+                    NovoStepHeader,
+                    NovoStepStatus,
+                ],
+                declarations: [
+                    NovoHorizontalStepper,
+                    NovoVerticalStepper,
+                    NovoStep,
+                    NovoStepLabel,
+                    NovoStepper,
+                    NovoStepHeader,
+                    NovoStepStatus,
+                ]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoStepperModule.ctorParameters = function () { return []; };
+// NG2
+// APP
+var NovoCategoryDropdownElement = /** @class */ (function (_super) {
+    __extends(NovoCategoryDropdownElement, _super);
+    /**
+     * @param {?} element
+     * @param {?} labels
+     */
+    function NovoCategoryDropdownElement(element, labels) {
+        var _this = _super.call(this, element) || this;
+        _this.labels = labels;
+        _this._query = '';
+        _this._categoryMap = {};
+        _this._categories = [];
+        // Boolean to keep the selection persist when closing the dropdown
+        _this.persistSelection = false;
+        // Boolean to close the dropdown on selection
+        _this.closeOnSelect = false;
+        // Event that is emitted whenever an item is selected
+        _this._select = new core.EventEmitter();
+        // Event that is emitted whenever a category is selected
+        _this.categorySelected = new core.EventEmitter();
+        _this.clickHandler = _this.toggleActive.bind(_this);
+        return _this;
+    }
+    Object.defineProperty(NovoCategoryDropdownElement.prototype, "categories", {
+        /**
+         * @param {?} categories
+         * @return {?}
+         */
+        set: function (categories) {
+            this._masterCategoryMap = Object.assign({}, categories);
+            this._categoryMap = Object.assign({}, categories);
+            this._categories = Object.keys(categories);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    NovoCategoryDropdownElement.prototype.ngOnInit = function () {
+        var /** @type {?} */ button = this.element.nativeElement.querySelector('button');
+        button.addEventListener('click', this.clickHandler);
+    };
+    /**
+     * @return {?}
+     */
+    NovoCategoryDropdownElement.prototype.ngOnDestroy = function () {
+        var /** @type {?} */ button = this.element.nativeElement.querySelector('button');
+        if (button) {
+            button.removeEventListener('click', this.clickHandler);
+        }
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoCategoryDropdownElement.prototype.onKeyDown = function (event) {
+        if (this.active && (event.keyCode === KeyCodes.ESC || event.keyCode === KeyCodes.ENTER)) {
+            this.toggleActive();
+        }
+    };
+    /**
+     * @return {?}
+     */
+    NovoCategoryDropdownElement.prototype.clearSelection = function () {
+        var _this = this;
+        this._categories.forEach(function (category) {
+            _this._categoryMap[category].forEach(function (item) {
+                item.selected = false;
+            });
+        });
+    };
+    /**
+     * @param {?} event
+     * @param {?} item
+     * @return {?}
+     */
+    NovoCategoryDropdownElement.prototype.select = function (event, item) {
+        Helpers.swallowEvent(event);
+        // If we persist the selection, clear and show a check
+        if (this.persistSelection) {
+            this.clearSelection();
+            item.selected = true;
+        }
+        // Emit the item
+        this._select.emit(item);
+        // Close, if input is set
+        if (this.closeOnSelect) {
+            this.toggleActive();
+        }
+    };
+    /**
+     * @param {?} category
+     * @return {?}
+     */
+    NovoCategoryDropdownElement.prototype.onCategorySelected = function (category) {
+        this.categorySelected.emit(category);
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoCategoryDropdownElement.prototype.clearQuery = function (event) {
+        var _this = this;
+        Helpers.swallowEvent(event);
+        this._query = '';
+        // Reset the categories
+        this._categories.forEach(function (category) {
+            _this._categoryMap[category] = _this._masterCategoryMap[category];
+        });
+    };
+    /**
+     * @param {?} query
+     * @return {?}
+     */
+    NovoCategoryDropdownElement.prototype.queryCategories = function (query$$1) {
+        var _this = this;
+        // Save the query
+        this._query = query$$1;
+        // Check timeout
+        if (this._queryTimeout) {
+            clearTimeout(this._queryTimeout);
+        }
+        // Store a timeout, to debounce user input
+        this._queryTimeout = setTimeout(function () {
+            _this._categories.forEach(function (category) {
+                if (_this.search.compare) {
+                    _this._categoryMap[category] = _this._masterCategoryMap[category].filter(function (item) { return _this.search.compare(query$$1, item); });
+                }
+                else {
+                    _this._categoryMap[category] = _this._masterCategoryMap[category].filter(function (item) { return ~item.label.toLowerCase().indexOf(query$$1.toLowerCase()); });
+                }
+            });
+        }, this.search.debounce || 300);
+    };
+    /**
+     * @param {?} event
+     * @param {?} link
+     * @return {?}
+     */
+    NovoCategoryDropdownElement.prototype.executeClickCallback = function (event, link) {
+        link.callback(event);
+        // Close, if input is set
+        if (this.closeOnSelect) {
+            this.toggleActive();
+        }
+    };
+    return NovoCategoryDropdownElement;
+}(OutsideClick));
+NovoCategoryDropdownElement.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-category-dropdown',
+                template: "\n        <ng-content select=\"button\"></ng-content>\n        <div class=\"dropdown-container\" *ngIf=\"active\">\n            <div class=\"novo-category-dropdown-search\" *ngIf=\"search\" data-automation-id=\"novo-category-dropdown-search\">\n                <input type=\"text\" [placeholder]=\"search.placeholder || labels.search\" [value]=\"_query\" (input)=\"queryCategories($event.target.value)\"/>\n                <i class=\"bhi-search\" *ngIf=\"!_query\"></i>\n                <i class=\"bhi-times\" *ngIf=\"_query\" (click)=\"clearQuery($event)\"></i>\n            </div>\n            <novo-nav theme=\"white\" [outlet]=\"novoCategoryDropdownOutlet\" direction=\"vertical\">\n                <novo-tab *ngFor=\"let category of _categories\" [attr.data-automation-id]=\"category\" (activeChange)=\"onCategorySelected(category)\">\n                    <span>{{ category }} ({{ _categoryMap[category].length }})</span>\n                </novo-tab>\n            </novo-nav>\n            <novo-nav-outlet #novoCategoryDropdownOutlet>\n                <novo-nav-content *ngFor=\"let category of _categories\">\n                    <novo-list direction=\"vertical\">\n                        <novo-list-item *ngFor=\"let item of _categoryMap[category]\" (click)=\"select($event, item)\" [attr.data-automation-id]=\"item.label\">\n                            <item-content>{{ item.label }}</item-content>\n                            <item-end class=\"novo-category-dropdown-hover\" *ngIf=\"item.hoverText && !item.selected\">{{ item.hoverText }}</item-end>\n                            <item-end class=\"novo-category-dropdown-hover\" *ngIf=\"item.hoverIcon && !item.selected\"><i class=\"bhi-{{ item.hoverIcon }}\"></i></item-end>\n                            <item-end *ngIf=\"item.selected\"><i class=\"bhi-check\"></i></item-end>\n                        </novo-list-item>\n                        <novo-list-item *ngIf=\"_categoryMap[category].length === 0 && search\" class=\"novo-category-dropdown-empty-item\">\n                            <item-content>{{ search.emptyMessage || labels.noItems }}</item-content>\n                        </novo-list-item>\n                    </novo-list>\n                </novo-nav-content>\n            </novo-nav-outlet>\n            <footer *ngIf=\"footer\" class=\"novo-category-dropdown-footer-align-{{ footer.align || 'right' }}\">\n                <a *ngFor=\"let link of footer.links\" (click)=\"executeClickCallback($event, link)\">{{ link.label }}</a>\n            </footer>\n        </div>\n    ",
+                host: {
+                    '(keydown)': 'onKeyDown($event)',
+                    '[class.active]': 'active'
+                }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoCategoryDropdownElement.ctorParameters = function () { return [
+    { type: core.ElementRef, },
+    { type: NovoLabelService, },
+]; };
+NovoCategoryDropdownElement.propDecorators = {
+    'persistSelection': [{ type: core.Input },],
+    'closeOnSelect': [{ type: core.Input },],
+    'search': [{ type: core.Input },],
+    'footer': [{ type: core.Input },],
+    '_select': [{ type: core.Output, args: ['itemSelected',] },],
+    'categorySelected': [{ type: core.Output },],
+    'categories': [{ type: core.Input },],
+};
+// NG2
+// APP
+var NovoCategoryDropdownModule = /** @class */ (function () {
+    function NovoCategoryDropdownModule() {
+    }
+    return NovoCategoryDropdownModule;
+}());
+NovoCategoryDropdownModule.decorators = [
+    { type: core.NgModule, args: [{
+                imports: [common.CommonModule, NovoTabModule, NovoListModule],
+                declarations: [NovoCategoryDropdownElement],
+                exports: [NovoCategoryDropdownElement]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoCategoryDropdownModule.ctorParameters = function () { return []; };
+// NG2
+// Vendor
+// Value accessor for the component (supports ngModel)
+var CHIPS_VALUE_ACCESSOR$1 = {
+    provide: forms.NG_VALUE_ACCESSOR,
+    useExisting: core.forwardRef(function () { return NovoMultiPickerElement; }),
+    multi: true
+};
+var NovoMultiPickerElement = /** @class */ (function () {
+    /**
+     * @param {?} element
+     * @param {?} labels
+     */
+    function NovoMultiPickerElement(element, labels) {
+        this.element = element;
+        this.labels = labels;
+        this.placeholder = '';
+        this.changed = new core.EventEmitter();
+        this.focus = new core.EventEmitter();
+        this.blur = new core.EventEmitter();
+        this.items = [];
+        this._items = new ReplaySubject.ReplaySubject(1);
+        this.selected = null;
+        this.config = {};
+        // private data model
+        this._value = {};
+        this.notShown = {};
+        this.onModelChange = function () {
+        };
+        this.onModelTouched = function () {
+        };
+        this.chipsCount = 4;
+    }
+    Object.defineProperty(NovoMultiPickerElement.prototype, "value", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return this._value;
+        },
+        /**
+         * @param {?} selectedItems
+         * @return {?}
+         */
+        set: function (selectedItems) {
+            var _this = this;
+            if (selectedItems) {
+                this.types.forEach(function (x) { return _this._value[x.value] = selectedItems[x.value]; });
+            }
+            else {
+                this._value = {};
+                this.types.forEach(function (x) { return _this._value[x.value] = []; });
+            }
+            this.changed.emit(selectedItems);
+            this.onModelChange(selectedItems);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.ngOnInit = function () {
+        this.selectAllOption = this.source.selectAllOption || false;
+        this.chipsCount = this.source.chipsCount || 4;
+        this.strictRelationship = this.source.strictRelationship || false;
+        this.setupOptions();
+    };
+    /**
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.clearValue = function () {
+        var _this = this;
+        this.types.forEach(function (type) { return _this.modifyAllOfType(type.value, 'unselect'); });
+        this.items = [];
+        this._items.next(this.items);
+        this.value = this.setInitialValue(null);
+        this.onModelChange(this.value);
+    };
+    /**
+     * @param {?} event
+     * @param {?} item
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.removeFromDisplay = function (event, item) {
+        this.remove(true, item);
+        this.modifyAffectedParentsOrChildren(false, item);
+    };
+    /**
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.setupOptions = function () {
+        var _this = this;
+        this.options = this.source.options || [];
+        this._options = [];
+        if (this.options) {
+            this.options.forEach(function (option) {
+                var /** @type {?} */ formattedOption = _this.setupOptionsByType(option);
+                _this._options.push(formattedOption);
+            });
+        }
+        this.source.options = this._options;
+    };
+    /**
+     * @param {?} section
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.setupOptionsByType = function (section) {
+        var _this = this;
+        var /** @type {?} */ formattedSection = {
+            type: section.type,
+            label: section.label || section.type
+        };
+        formattedSection.data = section.data.map(function (item) {
+            return _this.formatOption(section, item);
+        });
+        if (this.selectAllOption) {
+            var /** @type {?} */ selectAll = this.createSelectAllOption(section);
+            formattedSection.data.splice(0, 0, selectAll);
+        }
+        formattedSection.originalData = formattedSection.data.slice();
+        return formattedSection;
+    };
+    /**
+     * @param {?} section
+     * @param {?} item
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.formatOption = function (section, item) {
+        var /** @type {?} */ obj = {
+            value: section.field ? item[section.field] : (item.value || item),
+            label: section.format ? Helpers.interpolate(section.format, item) : item.label || String(item.value || item),
+            type: section.type,
+            checked: undefined,
+            isParentOf: section.isParentOf,
+            isChildOf: section.isChildOf
+        };
+        if (obj.isChildOf) {
+            obj[section.isChildOf] = item[section.isChildOf];
+        }
+        return obj;
+    };
+    /**
+     * @param {?} section
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.createSelectAllOption = function (section) {
+        var /** @type {?} */ selectAll = {
+            value: 'ALL',
+            label: "All " + section.type,
+            type: section.type,
+            checked: (this.model && this.model.length && (this.model.indexOf('ALL') !== -1)),
+            isParentOf: section.isParentOf,
+            isChildOf: section.isChildOf
+        };
+        if (section.isChildOf) {
+            var /** @type {?} */ allParents = section.data.reduce(function (accum, next) {
+                return accum.concat(next[section.isChildOf]);
+            }, []);
+            selectAll[section.isChildOf] = allParents;
+        }
+        return selectAll;
+    };
+    /**
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.deselectAll = function () {
+        this.selected = null;
+    };
+    /**
+     * @param {?} event
+     * @param {?} item
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.select = function (event, item) {
+        this.blur.emit(event);
+        this.deselectAll();
+        this.selected = item;
+    };
+    /**
+     * @param {?} e
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.onFocus = function (e) {
+        this.element.nativeElement.classList.add('selected');
+        this.focus.emit(e);
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.clickOption = function (event) {
+        if (event && !(event instanceof Event)) {
+            if (event.checked === false) {
+                this.remove(null, event);
+            }
+            else {
+                this.add(event);
+            }
+            this.modifyAffectedParentsOrChildren(event.checked, event);
+            // Set focus on the picker
+            var /** @type {?} */ input = this.element.nativeElement.querySelector('novo-picker > input');
+            if (input) {
+                input.focus();
+            }
+        }
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.add = function (event) {
+        if (event.value === 'ALL') {
+            this.modifyAllOfType(event.type, 'select');
+        }
+        else {
+            this.updateDisplayItems(event, 'add');
+            this.value[event.type].push(event.value);
+            this.updateAllItemState(event.type);
+            this.triggerValueUpdate();
+        }
+        this.updateParentOrChildren(event, 'select');
+        this.select(null, event);
+    };
+    /**
+     * @param {?} type
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.updateAllItemState = function (type) {
+        var /** @type {?} */ allOfType = this.getAllOfType(type);
+        var /** @type {?} */ allOfTypeSelected = this.allItemsSelected(allOfType, type);
+        if (allOfTypeSelected) {
+            this.selectAll(allOfType, type);
+        }
+        return { allOfType: allOfType, allOfTypeSelected: allOfTypeSelected };
+    };
+    /**
+     * @param {?} allOfType
+     * @param {?} status
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.setIndeterminateState = function (allOfType, status) {
+        if (!this.selectAllOption) {
+            return;
+        }
+        var /** @type {?} */ allItem = allOfType[0];
+        allItem.indeterminate = status;
+    };
+    /**
+     * @param {?} item
+     * @param {?} action
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.updateDisplayItems = function (item, action) {
+        var /** @type {?} */ adding = action === 'add';
+        if (adding) {
+            this.items.push(item);
+        }
+        else {
+            if (this.items.indexOf(item) > -1) {
+                this.items.splice(this.items.indexOf(item), 1);
+            }
+        }
+        this.updateDisplayText(this.items);
+        this._items.next(this.items);
+    };
+    /**
+     * @param {?} items
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.updateDisplayText = function (items) {
+        var _this = this;
+        this.notShown = [];
+        var /** @type {?} */ notShown = items.slice(this.chipsCount);
+        if (notShown.length > 0) {
+            this.types.forEach(function (type) {
+                var /** @type {?} */ count;
+                var /** @type {?} */ selectedOfType = notShown.filter(function (x) { return x.type === type.value; });
+                if (selectedOfType.length === 1 && selectedOfType[0].value === 'ALL') {
+                    count = _this.getAllOfType(type.value).length - 1;
+                }
+                else {
+                    count = selectedOfType.length;
+                }
+                var /** @type {?} */ displayType = count === 1 ? type.singular : type.plural || type.value;
+                if (count > 0) {
+                    _this.notShown.push({ type: displayType, count: count });
+                }
+            });
+        }
+    };
+    /**
+     * @param {?} event
+     * @param {?} item
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.remove = function (event, item) {
+        var /** @type {?} */ triggeredByEvent;
+        if (event) {
+            triggeredByEvent = true;
+        }
+        var /** @type {?} */ itemToRemove = item;
+        if (itemToRemove.value === 'ALL') {
+            triggeredByEvent = false;
+            this.modifyAllOfType(itemToRemove.type, 'unselect');
+        }
+        else if (this.allOfTypeSelected(itemToRemove.type)) {
+            this.handleRemoveItemIfAllSelected(itemToRemove);
+        }
+        this.removeItem(item, triggeredByEvent);
+    };
+    /**
+     * @param {?} item
+     * @param {?=} triggeredByEvent
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.removeItem = function (item, triggeredByEvent) {
+        item.checked = false;
+        this.deselectAll();
+        this.removeValue(item);
+        if (item.value !== 'ALL') {
+            this.updateParentOrChildren(item, 'unselect');
+        }
+        if (triggeredByEvent) {
+            this.modifyAffectedParentsOrChildren(false, item);
+        }
+    };
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.removeValue = function (item) {
+        var /** @type {?} */ updatedValues = this.value[item.type].filter(function (x) { return x !== item.value; });
+        this.value[item.type] = updatedValues;
+        this.triggerValueUpdate();
+        this.updateDisplayItems(item, 'remove');
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.onKeyDown = function (event) {
+        if (event.keyCode === KeyCodes.BACKSPACE) {
+            if (event.target && event.target.value.length === 0 && this.items.length) {
+                if (event) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+                if (this.selected) {
+                    this.remove(null, this.selected);
+                }
+                else {
+                    this.select(event, this.items[this.items.length - 1]);
+                }
+            }
+        }
+    };
+    /**
+     * @param {?} type
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.allOfTypeSelected = function (type) {
+        return this.items.filter(function (x) { return x.type === type && x.value === 'ALL'; }).length > 0;
+    };
+    /**
+     * @param {?} type
+     * @param {?} action
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.modifyAllOfType = function (type, action) {
+        var /** @type {?} */ selecting = action === 'select';
+        var /** @type {?} */ allOfType = this.getAllOfType(type);
+        allOfType.forEach(function (item) {
+            item.checked = selecting;
+            item.indeterminate = false;
+        });
+        if (selecting) {
+            this.selectAll(allOfType, type);
+        }
+        else {
+            this.items = this.items.filter(function (x) { return x.type !== type; }).slice();
+            this._items.next(this.items);
+            this.value[type] = [];
+        }
+        if (this.selectAllOption) {
+            this.updateAllParentsOrChildren(allOfType[0], action);
+        }
+        this.triggerValueUpdate();
+    };
+    /**
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.triggerValueUpdate = function () {
+        var _this = this;
+        var /** @type {?} */ updatedObject = {};
+        this.types.forEach(function (x) { return updatedObject[x.value] = _this.value[x.value]; });
+        this.value = updatedObject;
+    };
+    /**
+     * @param {?} allOfType
+     * @param {?} type
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.selectAll = function (allOfType, type) {
+        if (!this.selectAllOption) {
+            return;
+        }
+        allOfType[0].checked = true;
+        var /** @type {?} */ values = allOfType.map(function (i) {
+            return i.value;
+        });
+        //remove 'ALL' value
+        values.splice(0, 1);
+        this.value[type] = values;
+        var /** @type {?} */ updatedItems = this.items.filter(function (x) { return x.type !== type; });
+        this.items = updatedItems;
+        this.updateDisplayItems(allOfType[0], 'add');
+    };
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.handleRemoveItemIfAllSelected = function (item) {
+        if (!this.selectAllOption) {
+            return;
+        }
+        var /** @type {?} */ type = item.type;
+        var /** @type {?} */ allOfType = this.getAllOfType(type);
+        var /** @type {?} */ allItem = allOfType[0];
+        this.removeItem(allItem);
+        allItem.indeterminate = true;
+        var /** @type {?} */ selectedItems = allOfType.filter(function (i) { return i.checked === true; });
+        this.items = this.items.concat(selectedItems);
+        var /** @type {?} */ values = selectedItems.map(function (i) {
+            return i.value;
+        });
+        this.value[type] = values.slice();
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.handleOutsideClick = function (event) {
+        // If the elements doesn't contain the target element, it is an outside click
+        if (!this.element.nativeElement.contains(event.target)) {
+            this.blur.emit(event);
+            this.deselectAll();
+        }
+    };
+    /**
+     * @param {?} type
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.getAllOfType = function (type) {
+        return this._options.filter(function (x) { return x.type === type; })[0].originalData;
+    };
+    /**
+     * @param {?} item
+     * @param {?} action
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.updateParentOrChildren = function (item, action) {
+        if (this.strictRelationship && item.isParentOf) {
+            this.updateChildrenValue(item, action);
+        }
+        else if (item.isChildOf && this.selectAllOption) {
+            this.updateParentValue(item, action);
+        }
+    };
+    /**
+     * @param {?} selecting
+     * @param {?} itemChanged
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.modifyAffectedParentsOrChildren = function (selecting, itemChanged) {
+        var _this = this;
+        if (!itemChanged.isChildOf && !itemChanged.isParentOf) {
+            return;
+        }
+        var /** @type {?} */ parent = this.types.filter(function (x) { return !!x.isParentOf; })[0];
+        var /** @type {?} */ parentType = parent.value;
+        var /** @type {?} */ allParentType = this.getAllOfType(parentType);
+        var /** @type {?} */ childType = allParentType[0].isParentOf;
+        var /** @type {?} */ allChildren = this.getAllOfType(childType);
+        var /** @type {?} */ allCheckedChildren = allChildren.filter(function (x) { return !!x.checked; });
+        allParentType.forEach(function (obj) {
+            if (obj.value === 'ALL') {
+                return;
+            }
+            var /** @type {?} */ selectedChildrenOfParent = allCheckedChildren.filter(function (x) {
+                return x[parentType].filter(function (y) { return y === obj.value; }).length > 0;
+            });
+            if (selecting) {
+                if (obj.checked) {
+                    return;
+                }
+                obj.indeterminate = selectedChildrenOfParent.length > 0;
+            }
+            else {
+                var /** @type {?} */ allChildrenOfParent = allChildren.filter(function (x) {
+                    return x.value !== 'ALL' && x[parentType].filter(function (y) { return y === obj.value; }).length > 0;
+                });
+                if (selectedChildrenOfParent.length > 0) {
+                    if (obj.checked) {
+                        if (_this.strictRelationship && (allChildrenOfParent.length !== selectedChildrenOfParent.length)) {
+                            obj.indeterminate = true;
+                            obj.checked = false;
+                            _this.removeValue(obj);
+                            _this.addIndividualChildren(selectedChildrenOfParent);
+                        }
+                    }
+                    else {
+                        obj.indeterminate = true;
+                    }
+                    if (_this.strictRelationship && itemChanged.type !== parentType) {
+                        if (obj.checked) {
+                            obj.checked = false;
+                            _this.removeValue(obj);
+                            _this.addIndividualChildren(selectedChildrenOfParent);
+                        }
+                    }
+                }
+                else {
+                    obj.indeterminate = false;
+                    if (allChildrenOfParent.length === 0) {
+                        //if it has no children and is checked, it should stay checked
+                        return;
+                    }
+                    else if (_this.strictRelationship && itemChanged.type !== parentType) {
+                        _this.remove(null, obj);
+                    }
+                }
+            }
+        });
+        if (this.selectAllOption) {
+            this.updateIndeterminateStates(allParentType, allChildren, allCheckedChildren);
+        }
+    };
+    /**
+     * @param {?} allItem
+     * @param {?} action
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.updateAllParentsOrChildren = function (allItem, action) {
+        if (allItem.isParentOf) {
+            this.updateAllChildrenValue(allItem, action);
+        }
+        else if (allItem.isChildOf) {
+            this.updateAllParentValue(allItem, action);
+        }
+    };
+    /**
+     * @param {?} item
+     * @param {?} action
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.updateAllChildrenValue = function (item, action) {
+        var _this = this;
+        var /** @type {?} */ selecting = action === 'select';
+        var /** @type {?} */ childType = item.isParentOf;
+        var /** @type {?} */ potentialChildren = this.getAllOfType(childType);
+        if (this.selectAllOption && this.allOfTypeSelected(childType) && !selecting) {
+            this.remove(null, potentialChildren[0]);
+            return;
+        }
+        potentialChildren.forEach(function (x) {
+            if (x.value === 'ALL' && !x.checked) {
+                if (selecting) {
+                    x.checked = true;
+                }
+                x.indeterminate = selecting;
+            }
+            else {
+                if (x.checked && !selecting) {
+                    _this.remove(null, x);
+                }
+                x.checked = selecting;
+            }
+        });
+    };
+    /**
+     * @param {?} item
+     * @param {?} action
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.updateAllParentValue = function (item, action) {
+        var /** @type {?} */ selecting = action === 'select';
+        var /** @type {?} */ parentType = item.isChildOf;
+        var /** @type {?} */ potentialParents = this.getAllOfType(parentType);
+        potentialParents.forEach(function (x) {
+            if (!x.checked) {
+                x.indeterminate = selecting;
+            }
+        });
+    };
+    /**
+     * @param {?} allParentType
+     * @param {?} allChildren
+     * @param {?} allCheckedChildren
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.updateIndeterminateStates = function (allParentType, allChildren, allCheckedChildren) {
+        var /** @type {?} */ allCheckedOrIndeterminateParents = allParentType.filter(function (x) { return (!!x.checked || !!x.indeterminate) && x.value !== 'ALL'; });
+        var /** @type {?} */ isParentIndeterminate = !!allParentType[0].checked ? false : allCheckedOrIndeterminateParents.length > 0;
+        var /** @type {?} */ isChildIndeterminate = !!allChildren[0].checked ? false : allCheckedChildren.length > 0;
+        this.setIndeterminateState(allParentType, isParentIndeterminate);
+        this.setIndeterminateState(allChildren, isChildIndeterminate);
+    };
+    /**
+     * @param {?} parent
+     * @param {?} action
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.updateChildrenValue = function (parent, action) {
+        var _this = this;
+        var /** @type {?} */ selecting = action === 'select';
+        var /** @type {?} */ childType = parent.isParentOf;
+        var /** @type {?} */ potentialChildren = this.getAllOfType(childType);
+        potentialChildren.forEach(function (x) {
+            if (x.value === 'ALL') {
+                return;
+            }
+            if (x[parent.type].filter(function (y) { return y === parent.value; }).length > 0) {
+                if (x.checked && !selecting) {
+                    x.checked = false;
+                    if (_this.allOfTypeSelected(childType)) {
+                        _this.handleRemoveItemIfAllSelected(x);
+                    }
+                    else {
+                        _this.removeValue(x);
+                    }
+                }
+                x.checked = selecting;
+            }
+        });
+    };
+    /**
+     * @param {?} child
+     * @param {?} action
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.updateParentValue = function (child, action) {
+        var /** @type {?} */ allParentType = this.getAllOfType(child.isChildOf);
+        if (allParentType[0].checked && action !== 'select') {
+            this.handleRemoveItemIfAllSelected(allParentType[0]);
+        }
+    };
+    /**
+     * @param {?} children
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.addIndividualChildren = function (children) {
+        var _this = this;
+        var /** @type {?} */ parentAlreadySelected = false;
+        children.forEach(function (x) {
+            if (x.isChildOf) {
+                x[x.isChildOf].forEach(function (parent) {
+                    if (_this.value[x.isChildOf].filter(function (p) { return p === parent; }).length > 0) {
+                        parentAlreadySelected = true;
+                    }
+                });
+            }
+            if (_this.value[x.type].filter(function (item) { return item === x.value; }).length === 0 && !parentAlreadySelected) {
+                _this.add(x);
+            }
+        });
+    };
+    /**
+     * @param {?} model
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.setInitialValue = function (model) {
+        var _this = this;
+        this.items = [];
+        this.value = model || {};
+        if (!this.types) {
+            return;
+        }
+        this.types.forEach(function (typeObj) {
+            var /** @type {?} */ type = typeObj.value;
+            if (_this.value[type]) {
+                var /** @type {?} */ indeterminateIsSet_1 = false;
+                var /** @type {?} */ options = _this.updateAllItemState(type);
+                var /** @type {?} */ optionsByType_1 = options.allOfType;
+                var /** @type {?} */ allSelected_1 = options.allOfTypeSelected;
+                _this.value[type].forEach(function (item) {
+                    if (!allSelected_1 && !indeterminateIsSet_1) {
+                        indeterminateIsSet_1 = true;
+                        _this.setIndeterminateState(optionsByType_1, true);
+                    }
+                    var /** @type {?} */ value = optionsByType_1.filter(function (x) { return x.value === item; })[0];
+                    value.checked = true;
+                    if (!allSelected_1) {
+                        _this.updateDisplayItems(value, 'add');
+                    }
+                    if (_this.strictRelationship && value.isParentOf) {
+                        _this.updateChildrenValue(value, 'select');
+                    }
+                });
+                if (typeObj.isChildOf) {
+                    _this.modifyAffectedParentsOrChildren(true, { value: type, isChildOf: true });
+                }
+            }
+            else {
+                _this.value[type] = [];
+            }
+        });
+    };
+    /**
+     * @param {?} optionsByType
+     * @param {?} type
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.allItemsSelected = function (optionsByType, type) {
+        return this.value[type].length === optionsByType.length - 1;
+    };
+    /**
+     * @param {?} e
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.onTouched = function (e) {
+        this.element.nativeElement.classList.remove('selected');
+        this.onModelTouched();
+        this.blur.emit(e);
+    };
+    /**
+     * @param {?} model
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.writeValue = function (model) {
+        this.model = model;
+        this.setInitialValue(model);
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.registerOnChange = function (fn) {
+        this.onModelChange = fn;
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    NovoMultiPickerElement.prototype.registerOnTouched = function (fn) {
+        this.onModelTouched = fn;
+    };
+    return NovoMultiPickerElement;
+}());
+NovoMultiPickerElement.decorators = [
+    { type: core.Component, args: [{
+                selector: 'multi-picker',
+                providers: [CHIPS_VALUE_ACCESSOR$1],
+                template: "\n        <chip\n            *ngFor=\"let item of _items | async | slice:0:chipsCount\"\n            [type]=\"type\"\n            [class.selected]=\"item == selected\"\n            (remove)=\"removeFromDisplay($event, item)\"\n            (select)=\"select($event, item)\">\n            {{ item.label }}\n        </chip>\n        <div *ngIf=\"items.length > chipsCount\">\n            <ul class=\"summary\">\n                <li *ngFor=\"let type of notShown\">+ {{type.count}} {{ labels.more }} {{type.type}}</li>\n            </ul>\n        </div>\n        <div class=\"chip-input-container\">\n            <novo-picker\n                clearValueOnSelect=\"true\"\n                [config]=\"source\"\n                [placeholder]=\"placeholder\"\n                (select)=\"clickOption($event)\"\n                (keydown)=\"onKeyDown($event)\"\n                (focus)=\"onFocus($event)\"\n                (blur)=\"onTouched($event)\"\n                [overrideElement]=\"element\">\n            </novo-picker>\n        </div>\n        <i class=\"bhi-search\" [class.has-value]=\"items.length\"></i>\n        <label class=\"clear-all\" *ngIf=\"items.length\" (click)=\"clearValue()\">{{ labels.clearAll }} <i class=\"bhi-times\"></i></label>\n   ",
+                host: {
+                    '[class.with-value]': 'items.length > 0'
+                }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoMultiPickerElement.ctorParameters = function () { return [
+    { type: core.ElementRef, },
+    { type: NovoLabelService, },
+]; };
+NovoMultiPickerElement.propDecorators = {
+    'source': [{ type: core.Input },],
+    'placeholder': [{ type: core.Input },],
+    'types': [{ type: core.Input },],
+    'changed': [{ type: core.Output },],
+    'focus': [{ type: core.Output },],
+    'blur': [{ type: core.Output },],
+    'value': [{ type: core.Input },],
+};
+// NG2
+// APP
+var NovoMultiPickerModule = /** @class */ (function () {
+    function NovoMultiPickerModule() {
+    }
+    return NovoMultiPickerModule;
+}());
+NovoMultiPickerModule.decorators = [
+    { type: core.NgModule, args: [{
+                imports: [common.CommonModule, forms.FormsModule, NovoPickerModule, NovoChipsModule],
+                declarations: [NovoMultiPickerElement],
+                exports: [NovoMultiPickerElement]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoMultiPickerModule.ctorParameters = function () { return []; };
+// NG2
+var Security = /** @class */ (function () {
+    function Security() {
+        this.credentials = [];
+        this.change = new core.EventEmitter();
+    }
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    Security.prototype.grant = function (data) {
+        var /** @type {?} */ parsed = [];
+        if (data instanceof Array) {
+            for (var _d = 0, data_1 = data; _d < data_1.length; _d++) {
+                var permission = data_1[_d];
+                parsed.push(permission.replace(/\s/gi, ''));
+            }
+        }
+        else if (typeof data === 'object') {
+            for (var /** @type {?} */ key in data) {
+                if (data[key] instanceof Array) {
+                    for (var _e = 0, _f = data[key]; _e < _f.length; _e++) {
+                        var permission = _f[_e];
+                        parsed.push(key + "." + permission);
+                    }
+                }
+            }
+        }
+        this.credentials = [].concat(this.credentials, parsed);
+        this.change.emit(this.credentials);
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    Security.prototype.has = function (value) {
+        return this.credentials.indexOf(value) > -1;
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    Security.prototype.revoke = function (value) {
+        var /** @type {?} */ i = this.credentials.indexOf(value);
+        this.credentials.splice(i, 1);
+        this.change.emit(this.credentials);
+    };
+    /**
+     * @return {?}
+     */
+    Security.prototype.clear = function () {
+        this.credentials = [];
+        this.change.emit(this.credentials);
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    Security.prototype.subscribe = function (fn) {
+        this.change.subscribe(fn);
+    };
+    /**
+     * @param {?} routes
+     * @param {?} options
+     * @return {?}
+     */
+    Security.prototype.checkRoutes = function (routes, options) {
+        var _this = this;
+        var /** @type {?} */ filtered = [];
+        for (var _d = 0, routes_1 = routes; _d < routes_1.length; _d++) {
+            var route = routes_1[_d];
+            if (route.entities && ~route.entities.indexOf(options.entityType)) {
+                if (route.permissions instanceof Function) {
+                    if (route.permissions(options, this)) {
+                        filtered.push(route);
+                    }
+                }
+                else if (route.permissions && route.permissions.length) {
+                    if (route.permissions.every(function (perm) { return _this.has(perm); })) {
+                        filtered.push(route);
+                    }
+                }
+                else {
+                    filtered.push(route);
+                }
+            }
+        }
+        return filtered;
+    };
+    return Security;
+}());
+Security.decorators = [
+    { type: core.Injectable },
+];
+/**
+ * @nocollapse
+ */
+Security.ctorParameters = function () { return []; };
+// NG2
+// App
+var Unless = /** @class */ (function () {
+    /**
+     * @param {?} templateRef
+     * @param {?} viewContainer
+     * @param {?} security
+     */
+    function Unless(templateRef, viewContainer, security) {
+        this.templateRef = templateRef;
+        this.viewContainer = viewContainer;
+        this.security = security;
+        this.permissions = '';
+        this.isDisplayed = false;
+        this.security.subscribe(this.check.bind(this));
+    }
+    Object.defineProperty(Unless.prototype, "bhUnless", {
+        /**
+         * @param {?} value
+         * @return {?}
+         */
+        set: function (value) {
+            this.permissions = value || '';
+            this.check();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    Unless.prototype.check = function () {
+        var _this = this;
+        var /** @type {?} */ display = false;
+        if (~this.permissions.indexOf('||')) {
+            var /** @type {?} */ ps = this.permissions.split('||');
+            for (var _d = 0, ps_1 = ps; _d < ps_1.length; _d++) {
+                var p = ps_1[_d];
+                if (this.security.has(p.trim())) {
+                    display = true;
+                }
+            }
+        }
+        else {
+            display = this.permissions.split('&&').every(function (p) { return _this.security.has(p.trim()); });
+        }
+        if (display) {
+            if (!this.isDisplayed) {
+                this.isDisplayed = true;
+                this.viewContainer.createEmbeddedView(this.templateRef);
+            }
+        }
+        else {
+            this.isDisplayed = false;
+            this.viewContainer.clear();
+        }
+    };
+    return Unless;
+}());
+Unless.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[bhUnless]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+Unless.ctorParameters = function () { return [
+    { type: core.TemplateRef, },
+    { type: core.ViewContainerRef, },
+    { type: Security, },
+]; };
+Unless.propDecorators = {
+    'bhUnless': [{ type: core.Input },],
+};
+// NG2
+// APP
+var UnlessModule = /** @class */ (function () {
+    function UnlessModule() {
+    }
+    return UnlessModule;
+}());
+UnlessModule.decorators = [
+    { type: core.NgModule, args: [{
+                imports: [common.CommonModule],
+                declarations: [Unless],
+                exports: [Unless]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+UnlessModule.ctorParameters = function () { return []; };
+var NovoTemplate = /** @class */ (function () {
+    /**
+     * @param {?} template
+     */
+    function NovoTemplate(template) {
+        this.template = template;
+    }
+    /**
+     * @return {?}
+     */
+    NovoTemplate.prototype.getType = function () {
+        return this.name;
+    };
+    return NovoTemplate;
+}());
+NovoTemplate.decorators = [
+    { type: core.Directive, args: [{
+                selector: '[novoTemplate]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoTemplate.ctorParameters = function () { return [
+    { type: core.TemplateRef, },
+]; };
+NovoTemplate.propDecorators = {
+    'type': [{ type: core.Input },],
+    'name': [{ type: core.Input, args: ['novoTemplate',] },],
+};
+var NovoCommonModule = /** @class */ (function () {
+    function NovoCommonModule() {
+    }
+    return NovoCommonModule;
+}());
+NovoCommonModule.decorators = [
+    { type: core.NgModule, args: [{
+                imports: [common.CommonModule],
+                exports: [NovoTemplate],
+                declarations: [NovoTemplate],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoCommonModule.ctorParameters = function () { return []; };
 var DataTableSource = /** @class */ (function (_super) {
     __extends(DataTableSource, _super);
     /**
@@ -46797,10 +47677,10 @@ var GooglePlacesService = /** @class */ (function () {
      * @param {?} query
      * @return {?}
      */
-    GooglePlacesService.prototype.getPredictions = function (url, query) {
+    GooglePlacesService.prototype.getPredictions = function (url, query$$1) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this._http.get(url + '?query=' + query).map(function (res) { return res.json(); })
+            _this._http.get(url + '?query=' + query$$1).map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 if (data) {
                     resolve(data);
@@ -48836,6 +49716,7 @@ NovoElementsModule.decorators = [
                     NovoValueModule,
                     NovoAceEditorModule,
                     NovoIconModule,
+                    NovoExpansionModule,
                     UnlessModule,
                     NovoCommonModule,
                     NovoStepperModule,
@@ -48890,6 +49771,7 @@ exports.NovoTableModule = NovoTableModule;
 exports.NovoValueModule = NovoValueModule;
 exports.NovoTableMode = NovoTableMode;
 exports.NovoIconModule = NovoIconModule;
+exports.NovoExpansionModule = NovoExpansionModule;
 exports.NovoStepperModule = NovoStepperModule;
 exports.NovoTableExtrasModule = NovoTableExtrasModule;
 exports.NovoFormModule = NovoFormModule;
@@ -49048,29 +49930,29 @@ exports.ɵy = NovoCalendarWeekHeaderElement;
 exports.ɵx = NovoCalendarWeekViewElement;
 exports.ɵr = CardActionsElement;
 exports.ɵs = CardElement;
-exports.ɵej = NovoCategoryDropdownElement;
+exports.ɵer = NovoCategoryDropdownElement;
 exports.ɵcs = NovoChipElement;
 exports.ɵct = NovoChipsElement;
 exports.ɵdb = NovoCKEditorElement;
-exports.ɵfb = NovoDataTableCheckboxHeaderCell;
-exports.ɵfd = NovoDataTableExpandHeaderCell;
-exports.ɵes = NovoDataTableCellHeader;
-exports.ɵev = NovoDataTableHeaderCell;
-exports.ɵew = NovoDataTableCell;
-exports.ɵfa = NovoDataTableCheckboxCell;
-exports.ɵfc = NovoDataTableExpandCell;
-exports.ɵfe = NovoDataTableExpandDirective;
-exports.ɵem = DataTableInterpolatePipe;
-exports.ɵer = DateTableCurrencyRendererPipe;
-exports.ɵen = DateTableDateRendererPipe;
-exports.ɵeo = DateTableDateTimeRendererPipe;
-exports.ɵeq = DateTableNumberRendererPipe;
-exports.ɵep = DateTableTimeRendererPipe;
-exports.ɵez = NovoDataTablePagination;
-exports.ɵex = NovoDataTableHeaderRow;
-exports.ɵey = NovoDataTableRow;
-exports.ɵeu = NovoDataTableSortFilter;
-exports.ɵet = DataTableState;
+exports.ɵfj = NovoDataTableCheckboxHeaderCell;
+exports.ɵfl = NovoDataTableExpandHeaderCell;
+exports.ɵfa = NovoDataTableCellHeader;
+exports.ɵfd = NovoDataTableHeaderCell;
+exports.ɵfe = NovoDataTableCell;
+exports.ɵfi = NovoDataTableCheckboxCell;
+exports.ɵfk = NovoDataTableExpandCell;
+exports.ɵfm = NovoDataTableExpandDirective;
+exports.ɵeu = DataTableInterpolatePipe;
+exports.ɵez = DateTableCurrencyRendererPipe;
+exports.ɵev = DateTableDateRendererPipe;
+exports.ɵew = DateTableDateTimeRendererPipe;
+exports.ɵey = DateTableNumberRendererPipe;
+exports.ɵex = DateTableTimeRendererPipe;
+exports.ɵfh = NovoDataTablePagination;
+exports.ɵff = NovoDataTableHeaderRow;
+exports.ɵfg = NovoDataTableRow;
+exports.ɵfc = NovoDataTableSortFilter;
+exports.ɵfb = DataTableState;
 exports.ɵcu = NovoDatePickerElement;
 exports.ɵcv = NovoDatePickerInputElement;
 exports.ɵcz = NovoDateTimePickerElement;
@@ -49081,6 +49963,14 @@ exports.ɵcc = NovoDropdownElement;
 exports.ɵcd = NovoItemElement;
 exports.ɵcf = NovoItemHeaderElement$1;
 exports.ɵce = NovoListElement$1;
+exports.ɵeb = NovoAccordion;
+exports.ɵee = novoExpansionAnimations;
+exports.ɵec = NovoExpansionPanel;
+exports.ɵed = NovoExpansionPanelActionRow;
+exports.ɵef = NovoExpansionPanelContent;
+exports.ɵeh = NovoExpansionPanelDescription;
+exports.ɵeg = NovoExpansionPanelHeader;
+exports.ɵei = NovoExpansionPanelTitle;
 exports.ɵdf = NovoAutoSize;
 exports.ɵdh = NovoControlElement;
 exports.ɵdg = NovoCustomControlContainerElement;
@@ -49111,7 +50001,7 @@ exports.ɵp = NovoSpinnerElement;
 exports.ɵa = NovoModalContainerElement;
 exports.ɵb = NovoModalElement;
 exports.ɵc = NovoModalNotificationElement;
-exports.ɵek = NovoMultiPickerElement;
+exports.ɵes = NovoMultiPickerElement;
 exports.ɵch = DEFAULT_OVERLAY_SCROLL_STRATEGY;
 exports.ɵcj = DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER;
 exports.ɵci = DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY;
@@ -49119,25 +50009,25 @@ exports.ɵck = NovoOverlayTemplateComponent;
 exports.ɵcg = NovoOverlayModule;
 exports.ɵcn = NovoPickerElement;
 exports.ɵco = NovoPickerContainer;
-exports.ɵfm = PlacesListComponent;
-exports.ɵfl = GooglePlacesModule;
-exports.ɵfk = PopOverDirective;
-exports.ɵfi = NovoPopOverModule;
-exports.ɵfj = PopOverContent;
+exports.ɵfu = PlacesListComponent;
+exports.ɵft = GooglePlacesModule;
+exports.ɵfs = PopOverDirective;
+exports.ɵfq = NovoPopOverModule;
+exports.ɵfr = PopOverContent;
 exports.ɵby = QuickNoteElement;
 exports.ɵca = NovoRadioElement;
 exports.ɵbz = NovoRadioGroup;
 exports.ɵcp = NovoSearchBoxElement;
 exports.ɵcl = NovoSelectElement;
 exports.ɵcr = NovoSliderElement;
-exports.ɵef = NovoStepHeader;
-exports.ɵeg = NovoStepLabel;
-exports.ɵei = NovoStepStatus;
-exports.ɵeh = novoStepperAnimations;
-exports.ɵed = NovoHorizontalStepper;
-exports.ɵeb = NovoStep;
-exports.ɵec = NovoStepper;
-exports.ɵee = NovoVerticalStepper;
+exports.ɵen = NovoStepHeader;
+exports.ɵeo = NovoStepLabel;
+exports.ɵeq = NovoStepStatus;
+exports.ɵep = novoStepperAnimations;
+exports.ɵel = NovoHorizontalStepper;
+exports.ɵej = NovoStep;
+exports.ɵek = NovoStepper;
+exports.ɵem = NovoVerticalStepper;
 exports.ɵcm = NovoSwitchElement;
 exports.ɵds = NovoTableKeepFilterFocus;
 exports.ɵdt = Pagination;
@@ -49162,13 +50052,13 @@ exports.ɵcx = NovoTimePickerInputElement;
 exports.ɵdc = NovoTipWellElement;
 exports.ɵbl = NovoToastElement;
 exports.ɵq = TooltipDirective;
-exports.ɵel = Unless;
+exports.ɵet = Unless;
 exports.ɵdz = EntityList;
 exports.ɵk = NovoValueElement;
 exports.ɵcy = DateFormatService;
-exports.ɵfg = BrowserGlobalRef;
-exports.ɵff = GlobalRef;
-exports.ɵfh = LocalStorageService;
+exports.ɵfo = BrowserGlobalRef;
+exports.ɵfn = GlobalRef;
+exports.ɵfp = LocalStorageService;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
