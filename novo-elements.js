@@ -46914,7 +46914,7 @@ NovoDataTable.decorators = [
     <ng-template novoTemplate="buttonCellTemplate"
           let-row
           let-col="col">
-          <i class="bhi-{{ col?.action?.icon }} data-table-icon" (click)="col.handlers?.click({ originalEvent: $event, row: row })" [class.disabled]="isDisabled(col, row)"></i>
+          <i class="bhi-{{ col?.action?.icon }} data-table-icon" [tooltip]="col?.action?.tooltip" tooltipPosition="right" (click)="col.handlers?.click({ originalEvent: $event, row: row })" [class.disabled]="isDisabled(col, row)"></i>
     </ng-template>
     <ng-template novoTemplate="dropdownCellTemplate"
           let-row

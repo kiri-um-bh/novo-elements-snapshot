@@ -23,6 +23,7 @@ export interface IDataTableColumn<T> {
     filterable?: boolean | IDataTableColumnFilterConfig;
     action?: {
         icon?: string;
+        tooltip?: string;
         options?: {
             label: string;
             handlers: {
