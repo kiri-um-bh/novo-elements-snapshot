@@ -43095,7 +43095,6 @@ class NovoExpansionPanel extends CdkAccordionItem {
 }
 NovoExpansionPanel.decorators = [
     { type: Component, args: [{
-                moduleId: module.id,
                 styles: [`
     @-webkit-keyframes rotate {
       0% {
@@ -43509,8 +43508,7 @@ class NovoExpansionPanelHeader {
         this._parentChangeSubscription = Subscription$1.EMPTY;
         // Since the toggle state depends on an @Input on the panel, we
         // need to  subscribe and trigger change detection manually.
-        this._parentChangeSubscription = merge$1(panel.opened, panel.closed, panel._inputChanges.filter(changes => !!(changes.hideToggle || changes.disabled)))
-            .subscribe(() => this._changeDetectorRef.markForCheck());
+        this._parentChangeSubscription = merge$1(panel.opened, panel.closed, panel._inputChanges.filter((changes) => !!(changes.hideToggle || changes.disabled))).subscribe(() => this._changeDetectorRef.markForCheck());
         // _focusMonitor.monitor(_element.nativeElement);
     }
     /**
@@ -43575,7 +43573,6 @@ class NovoExpansionPanelHeader {
 }
 NovoExpansionPanelHeader.decorators = [
     { type: Component, args: [{
-                moduleId: module.id,
                 selector: 'novo-expansion-panel-header',
                 styles: [`
     .novo-expansion-panel-header {
@@ -43657,13 +43654,10 @@ NovoExpansionPanelHeader.decorators = [
   `,
                 encapsulation: ViewEncapsulation.None,
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                animations: [
-                    novoExpansionAnimations.indicatorRotate,
-                    novoExpansionAnimations.expansionHeaderHeight
-                ],
+                animations: [novoExpansionAnimations.indicatorRotate, novoExpansionAnimations.expansionHeaderHeight],
                 host: {
-                    'class': 'novo-expansion-panel-header',
-                    'role': 'button',
+                    class: 'novo-expansion-panel-header',
+                    role: 'button',
                     '[attr.id]': 'panel._headerId',
                     '[attr.tabindex]': 'panel.disabled ? -1 : 0',
                     '[attr.aria-controls]': '_getPanelId()',
@@ -43705,8 +43699,8 @@ NovoExpansionPanelDescription.decorators = [
     { type: Directive, args: [{
                 selector: 'novo-panel-description',
                 host: {
-                    class: 'novo-expansion-panel-header-description'
-                }
+                    class: 'novo-expansion-panel-header-description',
+                },
             },] },
 ];
 /**
@@ -43724,8 +43718,8 @@ NovoExpansionPanelTitle.decorators = [
     { type: Directive, args: [{
                 selector: 'novo-panel-title',
                 host: {
-                    class: 'novo-expansion-panel-header-title'
-                }
+                    class: 'novo-expansion-panel-header-title',
+                },
             },] },
 ];
 /**
