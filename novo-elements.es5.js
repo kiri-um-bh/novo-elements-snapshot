@@ -37218,6 +37218,7 @@ var DelaySubscriber = (function (_super) {
             this.schedule(state$$1, delay_1);
         }
         else {
+            this.unsubscribe();
             source.active = false;
         }
     };
