@@ -1,4 +1,3 @@
-import { OnInit } from '@angular/core';
 export declare class NovoHeaderSpacer {
 }
 export declare class NovoUtilsComponent {
@@ -8,14 +7,14 @@ export declare class NovoUtilActionComponent {
     inverse: boolean;
     disabled: boolean;
 }
-export declare class NovoHeaderComponent implements OnInit {
+export declare class NovoHeaderComponent {
+    headerClass: string;
+    condensed: boolean;
     title: string;
     subTitle: string;
-    headerClass: string;
+    inverse: string;
     theme: string;
     icon: string;
-    condensed: boolean;
-    inverse: string;
-    iconClass: string;
-    ngOnInit(): void;
+    private _theme;
+    private _icon;
 }

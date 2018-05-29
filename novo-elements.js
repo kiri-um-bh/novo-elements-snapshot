@@ -3832,8 +3832,8 @@ NovoHeaderSpacer.decorators = [
     { type: Component, args: [{
                 selector: 'header-spacer',
                 template: `
-        <ng-content></ng-content>
-    `,
+    <ng-content></ng-content>
+  `,
             },] },
 ];
 /**
@@ -3846,8 +3846,8 @@ NovoUtilsComponent.decorators = [
     { type: Component, args: [{
                 selector: 'utils',
                 template: `
-        <ng-content></ng-content>
-    `,
+    <ng-content></ng-content>
+  `,
             },] },
 ];
 /**
@@ -3860,8 +3860,10 @@ NovoUtilActionComponent.decorators = [
     { type: Component, args: [{
                 selector: 'util-action, novo-action',
                 template: `
-        <button theme="icon" [icon]="icon" [attr.inverse]="inverse" [disabled]="disabled"><ng-content></ng-content></button>
-    `,
+    <button theme="icon" [icon]="icon" [attr.inverse]="inverse" [disabled]="disabled">
+      <ng-content></ng-content>
+    </button>
+  `,
             },] },
 ];
 /**
@@ -3880,45 +3882,59 @@ class NovoHeaderComponent {
         this.inverse = 'inverse';
     }
     /**
+     * @param {?} theme
      * @return {?}
      */
-    ngOnInit() {
-        this.iconClass = `bhi-${this.icon}`;
-        this.inverse =
-            this.theme === 'white' ||
-                this.theme === 'off-white' ||
-                this.theme === 'light'
-                ? undefined
-                : 'inverse';
+    set theme(theme) {
+        this._theme = theme;
+        this.inverse = theme === 'white' || theme === 'off-white' || theme === 'light' ? undefined : 'inverse';
+    }
+    /**
+     * @return {?}
+     */
+    get theme() {
+        return this._theme;
+    }
+    /**
+     * @param {?} icon
+     * @return {?}
+     */
+    set icon(icon) {
+        this._icon = `bhi-${icon}`;
+    }
+    /**
+     * @return {?}
+     */
+    get icon() {
+        return this._icon;
     }
 }
 NovoHeaderComponent.decorators = [
     { type: Component, args: [{
                 selector: 'header[theme]',
                 template: `
-        <section>
-            <div class="header-title">
-                <ng-container *ngIf="title">
-                    <i *ngIf="icon" class="header-icon" [ngClass]="iconClass"></i>
-                    <div class="header-titles">
-                        <h1>{{ title }}</h1>
-                        <small *ngIf="subTitle">{{ subTitle }}</small>
-                    </div>
-                </ng-container>
-                <ng-container *ngIf="!title">
-                    <ng-content select="novo-icon, [novo-icon]"></ng-content>
-                    <div class="header-titles">
-                        <ng-content select="h1, h2, h3, h4, h5, h6, small, [novo-title], [novo-subtitle]"></ng-content>
-                    </div>
-                </ng-container>
-            </div>
-            <ng-content select="section"></ng-content>
-            <span flex></span>
-            <ng-content select="utils"></ng-content>
-            <!--<div class="novo-actions"><ng-content select="novo-action,[novo-action]"></ng-content></div>-->
-        </section>
-        <ng-content></ng-content>
-    `,
+    <section>
+      <div class="header-title">
+        <ng-container *ngIf="title">
+          <i *ngIf="icon" class="header-icon" [ngClass]="icon"></i>
+          <div class="header-titles">
+            <h1>{{ title }}</h1>
+            <small *ngIf="subTitle">{{ subTitle }}</small>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!title">
+          <ng-content select="novo-icon, [novo-icon]"></ng-content>
+          <div class="header-titles">
+            <ng-content select="h1, h2, h3, h4, h5, h6, small, [novo-title], [novo-subtitle]"></ng-content>
+          </div>
+        </ng-container>
+      </div>
+      <ng-content select="section"></ng-content>
+      <span flex></span>
+      <ng-content select="utils"></ng-content>
+    </section>
+    <ng-content></ng-content>
+  `,
             },] },
 ];
 /**
@@ -3926,12 +3942,12 @@ NovoHeaderComponent.decorators = [
  */
 NovoHeaderComponent.ctorParameters = () => [];
 NovoHeaderComponent.propDecorators = {
+    'headerClass': [{ type: HostBinding, args: ['class',] },],
+    'condensed': [{ type: HostBinding, args: ['class.condensed',] }, { type: Input },],
     'title': [{ type: Input },],
     'subTitle': [{ type: Input },],
-    'headerClass': [{ type: HostBinding, args: ['class',] },],
     'theme': [{ type: HostBinding, args: ['attr.theme',] }, { type: Input },],
     'icon': [{ type: Input },],
-    'condensed': [{ type: HostBinding, args: ['class.condensed',] }, { type: Input },],
 };
 
 class NovoHeaderModule {
