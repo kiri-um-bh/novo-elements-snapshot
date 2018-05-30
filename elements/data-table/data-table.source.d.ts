@@ -9,6 +9,7 @@ export declare class DataTableSource<T> extends DataSource<T> {
     private state;
     private ref;
     total: number;
+    currentTotal: number;
     current: number;
     loading: boolean;
     pristine: boolean;

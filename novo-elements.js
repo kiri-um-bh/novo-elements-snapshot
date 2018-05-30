@@ -46180,6 +46180,7 @@ class DataTableSource extends DataSource {
         this.state = state$$1;
         this.ref = ref;
         this.total = 0;
+        this.currentTotal = 0;
         this.current = 0;
         this.loading = false;
         this.pristine = true;
@@ -46212,6 +46213,7 @@ class DataTableSource extends DataSource {
                 this.totalSet = true;
                 this.state.isForceRefresh = false;
             }
+            this.currentTotal = data.total;
             this.current = data.results.length;
             this.data = data.results;
             // Clear selection
@@ -46828,7 +46830,7 @@ NovoDataTable.decorators = [
         <novo-data-table-pagination
             *ngIf="paginationOptions"
             [theme]="paginationOptions.theme"
-            [length]="dataSource?.total"
+            [length]="dataSource?.currentTotal"
             [page]="paginationOptions.page"
             [pageSize]="paginationOptions.pageSize"
             [pageSizeOptions]="paginationOptions.pageSizeOptions">
