@@ -34907,7 +34907,6 @@ class EntityList {
      * @return {?}
      */
     ngOnInit() {
-        this.meta.type = 'TO_ONE';
         this.baseEntity = this.meta.associatedEntity.entity;
         for (let /** @type {?} */ entity of this.data.data) {
             entity.isLinkable = this.isLinkable(entity);
@@ -43288,6 +43287,9 @@ NovoExpansionPanel.decorators = [
       border-top: 3px solid #bb5566; }
 
     .novo-expansion-panel.novo-expanded[theme='jobCode'] {
+      border-top: 3px solid #696d79; }
+
+    .novo-expansion-panel.novo-expanded[theme='earnCode'] {
       border-top: 3px solid #696d79; }
 
     .novo-expansion-panel.novo-expanded[theme='sendout'] {
