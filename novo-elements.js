@@ -34907,6 +34907,7 @@ class EntityList {
      * @return {?}
      */
     ngOnInit() {
+        this.meta.type = 'TO_ONE';
         this.baseEntity = this.meta.associatedEntity.entity;
         for (let /** @type {?} */ entity of this.data.data) {
             entity.isLinkable = this.isLinkable(entity);

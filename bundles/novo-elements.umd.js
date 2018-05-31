@@ -33972,6 +33972,7 @@ var EntityList = /** @class */ (function () {
      * @return {?}
      */
     EntityList.prototype.ngOnInit = function () {
+        this.meta.type = 'TO_ONE';
         this.baseEntity = this.meta.associatedEntity.entity;
         for (var _d = 0, _e = this.data.data; _d < _e.length; _d++) {
             var entity = _e[_d];
