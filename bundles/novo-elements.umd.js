@@ -33975,6 +33975,10 @@ var EntityList = /** @class */ (function () {
      * @return {?}
      */
     EntityList.prototype.ngOnInit = function () {
+        // use a local copy of the meta to set the type to TO_ONE for proper display
+        // without changing the input object
+        this.metaDisplay = Helpers.deepClone(this.meta);
+        this.metaDisplay.type = 'TO_ONE';
         this.baseEntity = this.meta.associatedEntity.entity;
         for (var _d = 0, _e = this.data.data; _d < _e.length; _d++) {
             var entity = _e[_d];
@@ -34009,7 +34013,7 @@ EntityList.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-entity-list',
                 changeDetection: core.ChangeDetectionStrategy.OnPush,
-                template: "\n        <div *ngFor=\"let entity of data.data\" class=\"entity\">\n            <a *ngIf=\"entity.isLinkable\" (click)=\"openLink(entity)\">\n                <i class=\"bhi-circle {{ entity.class }}\"></i>{{ entity | render : meta }}\n            </a>\n            <span *ngIf=\"!entity.isLinkable && entity.personSubtype\">\n                <i class=\"bhi-circle {{ entity.class }}\"></i>{{ entity | render : meta }}\n            </span>\n            <span *ngIf=\"!entity.isLinkable && !entity.personSubtype\">\n                {{ entity | render : meta }}\n            </span>\n        </div>\n    "
+                template: "\n        <div *ngFor=\"let entity of data.data\" class=\"entity\">\n            <a *ngIf=\"entity.isLinkable\" (click)=\"openLink(entity)\">\n                <i class=\"bhi-circle {{ entity.class }}\"></i>{{ entity | render : metaDisplay }}\n            </a>\n            <span *ngIf=\"!entity.isLinkable && entity.personSubtype\">\n                <i class=\"bhi-circle {{ entity.class }}\"></i>{{ entity | render : metaDisplay }}\n            </span>\n            <span *ngIf=\"!entity.isLinkable && !entity.personSubtype\">\n                {{ entity | render : metaDisplay }}\n            </span>\n        </div>\n    "
             },] },
 ];
 /**

@@ -34910,6 +34910,10 @@ class EntityList {
      * @return {?}
      */
     ngOnInit() {
+        // use a local copy of the meta to set the type to TO_ONE for proper display
+        // without changing the input object
+        this.metaDisplay = Helpers.deepClone(this.meta);
+        this.metaDisplay.type = 'TO_ONE';
         this.baseEntity = this.meta.associatedEntity.entity;
         for (let /** @type {?} */ entity of this.data.data) {
             entity.isLinkable = this.isLinkable(entity);
@@ -34945,13 +34949,13 @@ EntityList.decorators = [
                 template: `
         <div *ngFor="let entity of data.data" class="entity">
             <a *ngIf="entity.isLinkable" (click)="openLink(entity)">
-                <i class="bhi-circle {{ entity.class }}"></i>{{ entity | render : meta }}
+                <i class="bhi-circle {{ entity.class }}"></i>{{ entity | render : metaDisplay }}
             </a>
             <span *ngIf="!entity.isLinkable && entity.personSubtype">
-                <i class="bhi-circle {{ entity.class }}"></i>{{ entity | render : meta }}
+                <i class="bhi-circle {{ entity.class }}"></i>{{ entity | render : metaDisplay }}
             </span>
             <span *ngIf="!entity.isLinkable && !entity.personSubtype">
-                {{ entity | render : meta }}
+                {{ entity | render : metaDisplay }}
             </span>
         </div>
     `
