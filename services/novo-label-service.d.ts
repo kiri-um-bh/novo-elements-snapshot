@@ -27,6 +27,9 @@ export declare class NovoLabelService {
     endDate: string;
     more: string;
     clearAll: string;
+    clearAllNormalCase: string;
+    clearSort: string;
+    clearFilter: string;
     today: string;
     now: string;
     isRequired: string;

@@ -1414,6 +1414,9 @@ var NovoLabelService = /** @class */ (function () {
         this.endDate = 'End Date';
         this.more = 'more';
         this.clearAll = 'CLEAR ALL';
+        this.clearAllNormalCase = 'Clear All';
+        this.clearSort = 'Clear Sort';
+        this.clearFilter = 'Clear Filter';
         this.today = 'Today';
         this.now = 'Now';
         this.isRequired = 'is required';
@@ -33972,7 +33975,6 @@ var EntityList = /** @class */ (function () {
      * @return {?}
      */
     EntityList.prototype.ngOnInit = function () {
-        this.meta.type = 'TO_ONE';
         this.baseEntity = this.meta.associatedEntity.entity;
         for (var _d = 0, _e = this.data.data; _d < _e.length; _d++) {
             var entity = _e[_d];
@@ -44025,6 +44027,43 @@ var DataTableState = /** @class */ (function () {
         }
     };
     /**
+     * @param {?=} fireUpdate
+     * @return {?}
+     */
+    DataTableState.prototype.clearSort = function (fireUpdate) {
+        if (fireUpdate === void 0) { fireUpdate = true; }
+        this.sort = undefined;
+        this.page = 0;
+        this.selectedRows.clear();
+        this.resetSource.next();
+        if (fireUpdate) {
+            this.updates.emit({
+                sort: this.sort,
+                filter: this.filter,
+                globalSearch: this.globalSearch,
+            });
+        }
+    };
+    /**
+     * @param {?=} fireUpdate
+     * @return {?}
+     */
+    DataTableState.prototype.clearFilter = function (fireUpdate) {
+        if (fireUpdate === void 0) { fireUpdate = true; }
+        this.filter = undefined;
+        this.globalSearch = undefined;
+        this.page = 0;
+        this.selectedRows.clear();
+        this.resetSource.next();
+        if (fireUpdate) {
+            this.updates.emit({
+                sort: this.sort,
+                filter: this.filter,
+                globalSearch: this.globalSearch,
+            });
+        }
+    };
+    /**
      * @return {?}
      */
     DataTableState.prototype.onSelectionChange = function () {
@@ -44142,6 +44181,11 @@ var NovoDataTable = /** @class */ (function () {
             else {
                 notify('Must have [name] set on data-table to use preferences!');
             }
+        });
+        this.resetSubscription = this.state.resetSource.subscribe(function () {
+            setTimeout(function () {
+                _this.ref.detectChanges();
+            }, 300);
         });
     }
     Object.defineProperty(NovoDataTable.prototype, "displayedColumns", {
@@ -44367,6 +44411,9 @@ var NovoDataTable = /** @class */ (function () {
         }
         if (this.refreshSubscription) {
             this.refreshSubscription.unsubscribe();
+        }
+        if (this.resetSubscription) {
+            this.resetSubscription.unsubscribe();
         }
     };
     /**
@@ -45929,6 +45976,65 @@ NovoDataTableExpandDirective.propDecorators = {
     'template': [{ type: core.Input, args: ['novoDataTableExpand',] },],
     'onClick': [{ type: core.HostListener, args: ['click', ['$event'],] },],
 };
+var NovoDataTableClearButton = /** @class */ (function () {
+    /**
+     * @param {?} state
+     * @param {?} ref
+     * @param {?} labels
+     */
+    function NovoDataTableClearButton(state$$1, ref, labels) {
+        this.state = state$$1;
+        this.ref = ref;
+        this.labels = labels;
+        this.sortClear = new core.EventEmitter();
+        this.filterClear = new core.EventEmitter();
+        this.allClear = new core.EventEmitter();
+    }
+    /**
+     * @return {?}
+     */
+    NovoDataTableClearButton.prototype.clearSort = function () {
+        this.state.clearSort();
+        this.sortClear.emit(true);
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableClearButton.prototype.clearFilter = function () {
+        this.state.clearFilter();
+        this.filterClear.emit(true);
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableClearButton.prototype.clearAll = function () {
+        this.state.reset();
+        this.allClear.emit(true);
+        this.sortClear.emit(true);
+        this.filterClear.emit(true);
+    };
+    return NovoDataTableClearButton;
+}());
+NovoDataTableClearButton.decorators = [
+    { type: core.Component, args: [{
+                selector: 'novo-data-table-clear-button',
+                template: "\n    <novo-dropdown side=\"right\" class=\"novo-data-table-clear-button\" data-automation-id=\"novo-data-table-clear-dropdown\">\n      <button type=\"button\" theme=\"primary\" color=\"negative\" icon=\"collapse\" data-automation-id=\"novo-data-table-clear-dropdown-btn\">{{ labels.clear }}</button>\n      <list>\n          <item *ngIf=\"state.sort\" (click)=\"clearSort()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-sort\">{{ labels.clearSort }}</item>\n          <item *ngIf=\"state.filter\" (click)=\"clearFilter()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-filter\">{{ labels.clearFilter }}</item>\n          <item *ngIf=\"state.sort && state.filter\" (click)=\"clearAll()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-all\">{{ labels.clearAllNormalCase }}</item>\n      </list>\n    </novo-dropdown>\n  ",
+                changeDetection: core.ChangeDetectionStrategy.OnPush,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoDataTableClearButton.ctorParameters = function () { return [
+    { type: DataTableState, },
+    { type: core.ChangeDetectorRef, },
+    { type: NovoLabelService, },
+]; };
+NovoDataTableClearButton.propDecorators = {
+    'sortClear': [{ type: core.Output },],
+    'filterClear': [{ type: core.Output },],
+    'allClear': [{ type: core.Output },],
+};
 var NovoDataTableModule = /** @class */ (function () {
     function NovoDataTableModule() {
     }
@@ -45971,6 +46077,7 @@ NovoDataTableModule.decorators = [
                     NovoDataTableExpandHeaderCell,
                     NovoDataTable,
                     NovoDataTableExpandDirective,
+                    NovoDataTableClearButton,
                 ],
                 providers: [DataTableState],
                 exports: [
@@ -45981,6 +46088,7 @@ NovoDataTableModule.decorators = [
                     DateTableDateTimeRendererPipe,
                     DateTableNumberRendererPipe,
                     DateTableTimeRendererPipe,
+                    NovoDataTableClearButton,
                 ],
             },] },
 ];
@@ -49961,6 +50069,7 @@ exports.ɵfd = NovoDataTableHeaderCell;
 exports.ɵfe = NovoDataTableCell;
 exports.ɵfi = NovoDataTableCheckboxCell;
 exports.ɵfk = NovoDataTableExpandCell;
+exports.ɵfn = NovoDataTableClearButton;
 exports.ɵfm = NovoDataTableExpandDirective;
 exports.ɵeu = DataTableInterpolatePipe;
 exports.ɵez = DateTableCurrencyRendererPipe;
@@ -50029,11 +50138,11 @@ exports.ɵck = NovoOverlayTemplateComponent;
 exports.ɵcg = NovoOverlayModule;
 exports.ɵcn = NovoPickerElement;
 exports.ɵco = NovoPickerContainer;
-exports.ɵfu = PlacesListComponent;
-exports.ɵft = GooglePlacesModule;
-exports.ɵfs = PopOverDirective;
-exports.ɵfq = NovoPopOverModule;
-exports.ɵfr = PopOverContent;
+exports.ɵfv = PlacesListComponent;
+exports.ɵfu = GooglePlacesModule;
+exports.ɵft = PopOverDirective;
+exports.ɵfr = NovoPopOverModule;
+exports.ɵfs = PopOverContent;
 exports.ɵby = QuickNoteElement;
 exports.ɵca = NovoRadioElement;
 exports.ɵbz = NovoRadioGroup;
@@ -50076,9 +50185,9 @@ exports.ɵet = Unless;
 exports.ɵdz = EntityList;
 exports.ɵk = NovoValueElement;
 exports.ɵcy = DateFormatService;
-exports.ɵfo = BrowserGlobalRef;
-exports.ɵfn = GlobalRef;
-exports.ɵfp = LocalStorageService;
+exports.ɵfp = BrowserGlobalRef;
+exports.ɵfo = GlobalRef;
+exports.ɵfq = LocalStorageService;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

@@ -26,6 +26,8 @@ export declare class DataTableState<T> {
     readonly userFiltered: boolean;
     readonly selected: T[];
     reset(fireUpdate?: boolean, persistUserFilters?: boolean): void;
+    clearSort(fireUpdate?: boolean): void;
+    clearFilter(fireUpdate?: boolean): void;
     onSelectionChange(): void;
     onExpandChange(): void;
     onPaginationChange(isPageSizeChange: boolean, pageSize: number): void;
