@@ -16256,14 +16256,9 @@ var NovoAutoSize = /** @class */ (function () {
      * @return {?}
      */
     NovoAutoSize.prototype.adjust = function () {
-        var /** @type {?} */ hasValue = this.element.nativeElement.value.length !== 0;
-        this.element.nativeElement.style.overflow = 'hidden';
-        if (hasValue) {
-            this.element.nativeElement.style.height = Math.min((this.element.nativeElement.scrollHeight - 11), 300) + 'px';
-        }
-        else {
-            this.element.nativeElement.style.height = '14px';
-        }
+        var /** @type {?} */ nativeElement = this.element.nativeElement;
+        nativeElement.style.height = nativeElement.style.minHeight;
+        nativeElement.style.height = nativeElement.scrollHeight + "px";
     };
     return NovoAutoSize;
 }());
