@@ -22,11 +22,11 @@ export declare class NovoTimePickerInputElement implements OnInit, ControlValueA
     overlay: NovoOverlayTemplateComponent;
     constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, _changeDetectorRef: ChangeDetectorRef);
     ngOnInit(): void;
-    /** BEGIN: Convienient Panel Methods. */
+    /** BEGIN: Convenient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
     readonly panelOpen: boolean;
-    /** END: Convienient Panel Methods. */
+    /** END: Convenient Panel Methods. */
     _handleKeydown(event: KeyboardEvent): void;
     _handleInput(event: KeyboardEvent): void;
     writeValue(value: any): void;

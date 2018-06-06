@@ -1,4 +1,4 @@
-import { EventEmitter, ElementRef, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 import { NovoLabelService } from '../../services/novo-label-service';
 export declare class NovoSelectElement implements OnInit, OnChanges {
@@ -27,11 +27,11 @@ export declare class NovoSelectElement implements OnInit, OnChanges {
     constructor(element: ElementRef, labels: NovoLabelService, ref: ChangeDetectorRef);
     ngOnInit(): void;
     ngOnChanges(changes?: SimpleChanges): void;
-    /** BEGIN: Convienient Panel Methods. */
+    /** BEGIN: Convenient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
     readonly panelOpen: boolean;
-    /** END: Convienient Panel Methods. */
+    /** END: Convenient Panel Methods. */
     /**
      * This method closes the panel, and if a value is specified, also sets the associated
      * control to that value. It will also mark the control as dirty if this interaction

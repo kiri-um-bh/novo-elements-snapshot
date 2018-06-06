@@ -37,11 +37,6 @@ export declare class Helpers {
     static isDate(obj: any): boolean;
     static sortByField(fields: any, reverse?: boolean): (previous: any, current: any) => any;
     static filterByField(key: any, value: any): (item: any) => boolean;
-    static calcPositionOffset(position: ClientRect, element: Element, side: string): {
-        top: string;
-        left: string;
-        width: string;
-    };
     static findAncestor(element: Element, selector: string): Element;
     static deepClone(item: any): any;
     static deepAssign(...objs: any[]): any;

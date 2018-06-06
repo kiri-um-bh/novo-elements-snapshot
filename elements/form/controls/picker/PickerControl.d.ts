@@ -7,6 +7,3 @@ export declare class PickerControl extends BaseControl {
 export declare class TablePickerControl extends PickerControl {
     constructor(config: NovoControlConfig);
 }
-export declare class AppendToBodyPickerControl extends PickerControl {
-    constructor(config: NovoControlConfig);
-}

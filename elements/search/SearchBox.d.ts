@@ -34,12 +34,12 @@ export declare class NovoSearchBoxElement implements ControlValueAccessor {
     showSearch(event?: any, forceClose?: boolean): void;
     onFocus(): void;
     onBlur(): void;
-    /** BEGIN: Convienient Panel Methods. */
+    /** BEGIN: Convenient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
     readonly panelOpen: boolean;
     readonly active: boolean;
-    /** END: Convienient Panel Methods. */
+    /** END: Convenient Panel Methods. */
     _handleKeydown(event: KeyboardEvent): void;
     _handleInput(event: KeyboardEvent): void;
     writeValue(value: any): void;
