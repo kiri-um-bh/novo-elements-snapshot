@@ -1467,6 +1467,8 @@ var NovoLabelService = /** @class */ (function () {
         this.groupedMultiPickerSelectCategory = 'Select a category from the right to get started';
         this.add = 'Add';
         this.encryptedFieldTooltip = 'This data has been stored at the highest level of security';
+        this.noStatesForCountry = 'No states available for the selected country';
+        this.selectCountryFirst = 'Please select a country before selecting a state';
     }
     /**
      * @param {?} field
@@ -8941,9 +8943,12 @@ var NovoPickerElement = /** @class */ (function () {
                 this.ref.markForCheck();
                 return;
             }
-            if (event.keyCode === KeyCodes.BACKSPACE && !Helpers.isBlank(this._value)) {
+            if ((event.keyCode === KeyCodes.BACKSPACE || event.keyCode === KeyCodes.DELETE) && !Helpers.isBlank(this._value)) {
                 this.clearValue(false);
                 this.closePanel();
+            }
+            if (event.keyCode === KeyCodes.DELETE && Helpers.isBlank(this._value)) {
+                this.clearValue(true);
             }
         }
     };
@@ -9136,7 +9141,7 @@ NovoPickerElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-picker',
                 providers: [PICKER_VALUE_ACCESSOR],
-                template: "\n    <i class=\"bhi-more\" *ngIf=\"config?.entityIcon && !_value\"></i>\n    <i class=\"bhi-{{ config?.entityIcon }} entity-icon {{ config?.entityIcon }}\" *ngIf=\"config?.entityIcon && _value\"></i>\n    <input\n      type=\"text\"\n      class=\"picker-input\"\n      [(ngModel)]=\"term\"\n      [class.entity-picker]=\"config.entityIcon\"\n      [class.entity-selected]=\"config?.entityIcon && _value\"\n      (ngModelChange)=\"checkTerm($event)\"\n      [placeholder]=\"placeholder\"\n      (keydown)=\"onKeyDown($event)\"\n      (focus)=\"onFocus($event)\"\n      (click)=\"onFocus($event)\"\n      (blur)=\"onTouched($event)\"\n      autocomplete=\"off\" #input/>\n    <i class=\"bhi-search\" *ngIf=\"!_value || clearValueOnSelect\"></i>\n    <i class=\"bhi-times\" [class.entity-selected]=\"config?.entityIcon && _value\" *ngIf=\"_value && !clearValueOnSelect\" (click)=\"clearValue(true)\"></i>\n    <novo-overlay-template class=\"picker-results-container\" [parent]=\"element\" (closing)=\"onOverlayClosed()\">\n      <span #results></span>\n      <ng-content></ng-content>\n    </novo-overlay-template>\n  ",
+                template: "\n        <i class=\"bhi-more\" *ngIf=\"config?.entityIcon && !_value\"></i>\n        <i class=\"bhi-{{ config?.entityIcon }} entity-icon {{ config?.entityIcon }}\" *ngIf=\"config?.entityIcon && _value\"></i>\n        <input\n            type=\"text\"\n            class=\"picker-input\"\n            [(ngModel)]=\"term\"\n            [class.entity-picker]=\"config.entityIcon\"\n            [class.entity-selected]=\"config?.entityIcon && _value\"\n            (ngModelChange)=\"checkTerm($event)\"\n            [placeholder]=\"placeholder\"\n            (keydown)=\"onKeyDown($event)\"\n            (focus)=\"onFocus($event)\"\n            (click)=\"onFocus($event)\"\n            (blur)=\"onTouched($event)\"\n            autocomplete=\"off\" #input\n            [disabled]=\"disablePickerInput\"/>\n        <i class=\"bhi-search\" *ngIf=\"(!_value || clearValueOnSelect) && !disablePickerInput\"></i>\n        <i class=\"bhi-times\" [class.entity-selected]=\"config?.entityIcon && _value\" *ngIf=\"_value && !clearValueOnSelect\" (click)=\"clearValue(true)\"></i>\n        <novo-overlay-template class=\"picker-results-container\" [parent]=\"element\" (closing)=\"onOverlayClosed()\">\n            <span #results></span>\n            <ng-content></ng-content>\n        </novo-overlay-template>\n    ",
             },] },
 ];
 /**
@@ -13792,6 +13797,22 @@ var FormValidators = /** @class */ (function () {
     function FormValidators() {
     }
     /**
+     * @param {?} subfield
+     * @param {?} control
+     * @return {?}
+     */
+    FormValidators.prototype.showStateRequiredFlag = function (subfield, control) {
+        return subfield === 'state' &&
+            !Helpers.isEmpty(control.config.state) &&
+            control.config.state.required &&
+            Helpers.isBlank(control.value.state) &&
+            control.config.state.updated &&
+            !Helpers.isBlank(control.value.countryName) &&
+            control.config.state.pickerConfig &&
+            control.config.state.pickerConfig.defaultOptions &&
+            control.config.state.pickerConfig.defaultOptions.length > 0;
+    };
+    /**
      * @param {?} control
      * @return {?}
      */
@@ -13828,27 +13849,54 @@ var FormValidators = /** @class */ (function () {
      * @return {?}
      */
     FormValidators.isValidAddress = function (control) {
-        var /** @type {?} */ fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'country'];
+        var /** @type {?} */ fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'countryID'];
         var /** @type {?} */ invalidAddressFields = [];
         var /** @type {?} */ maxlengthFields = [];
         var /** @type {?} */ returnVal = null;
         var /** @type {?} */ maxlengthError = false;
+        var /** @type {?} */ showCountryRequiredFlag = function (subfield, ctrl) {
+            return subfield === 'countryID' &&
+                !Helpers.isEmpty(ctrl.config.countryID) &&
+                ctrl.config.countryID.required &&
+                Helpers.isBlank(ctrl.value.countryName) &&
+                ctrl.config.countryID.updated;
+        };
+        var /** @type {?} */ showStateRequiredFlag = function (subfield, ctrl) {
+            return subfield === 'state' &&
+                !Helpers.isEmpty(ctrl.config.state) &&
+                ctrl.config.state.required &&
+                Helpers.isBlank(ctrl.value.state) &&
+                ctrl.config.state.updated &&
+                !Helpers.isBlank(ctrl.value.countryName) &&
+                ctrl.config.state.pickerConfig &&
+                ctrl.config.state.pickerConfig.defaultOptions &&
+                ctrl.config.state.pickerConfig.defaultOptions.length > 0;
+        };
         if (control.value && control.config) {
             var /** @type {?} */ valid_1 = true;
             var /** @type {?} */ formValidity_1 = true;
             fieldList.forEach(function (subfield) {
                 if (!Helpers.isEmpty(control.config[subfield])) {
-                    if ((subfield !== 'country' && control.config[subfield].required &&
-                        !Helpers.isBlank(control.value[subfield]) && Helpers.isEmpty(control.value[subfield])) ||
-                        (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required &&
-                            !Helpers.isBlank(control.value.countryName) && Helpers.isEmpty(control.value.countryName))) {
+                    if (((['countryID', 'state'].indexOf(subfield) === -1) &&
+                        control.config[subfield].required &&
+                        !Helpers.isBlank(control.value[subfield]) &&
+                        Helpers.isEmpty(control.value[subfield])) ||
+                        showCountryRequiredFlag(subfield, control) ||
+                        showStateRequiredFlag(subfield, control)) {
                         valid_1 = false;
                         invalidAddressFields.push(control.config[subfield].label);
                     }
-                    if ((subfield !== 'country' && control.config[subfield].required &&
+                    if (((subfield !== 'countryID' && control.config[subfield].required &&
                         Helpers.isEmpty(control.value[subfield])) ||
-                        (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required &&
-                            Helpers.isEmpty(control.value.countryName))) {
+                        (subfield === 'countryID' &&
+                            !Helpers.isEmpty(control.config.countryID) &&
+                            control.config.countryID.required &&
+                            Helpers.isEmpty(control.value.countryName))) &&
+                        !(subfield === 'state' &&
+                            !Helpers.isBlank(control.value.countryName) &&
+                            control.config.state.pickerConfig &&
+                            control.config.state.pickerConfig.defaultOptions &&
+                            control.config.state.pickerConfig.defaultOptions.length === 0)) {
                         formValidity_1 = false;
                     }
                     if (!Helpers.isEmpty(control.config[subfield].maxlength) && !Helpers.isEmpty(control.value[subfield]) &&
@@ -14429,8 +14477,8 @@ var FormUtils = /** @class */ (function () {
         else if (Object.keys(numberDataTypeToTypeMap).indexOf(field.dataType) > -1) {
             type = numberDataTypeToTypeMap[field.dataType];
         } /* else {
-                throw new Error('FormUtils: This field type is unsupported.');
-            }*/
+            throw new Error('FormUtils: This field type is unsupported.');
+        }*/
         return type;
     };
     /**
@@ -14518,18 +14566,22 @@ var FormUtils = /** @class */ (function () {
                 controlConfig.multiple = true;
                 controlConfig.config.resultsTemplate = overrideResultsTemplate || EntityPickerResults;
                 controlConfig.config.previewTemplate = overridePreviewTemplate || EntityPickerResult;
+                // TODO: When appendToBody picker works better in table/form
                 control = new PickerControl(controlConfig);
                 break;
             case 'chips':
                 controlConfig.multiple = true;
+                // TODO: When appendToBody picker works better in table/form
                 control = new PickerControl(controlConfig);
                 break;
             case 'entitypicker':
                 // TODO: This doesn't belong in this codebase
                 controlConfig.config.resultsTemplate = overrideResultsTemplate || EntityPickerResults;
+                // TODO: When appendToBody picker works better in table/form
                 control = new PickerControl(controlConfig);
                 break;
             case 'picker':
+                // TODO: When appendToBody picker works better in table/form
                 control = new PickerControl(controlConfig);
                 break;
             case 'datetime':
@@ -14620,6 +14672,18 @@ var FormUtils = /** @class */ (function () {
                                 controlConfig.value = {};
                             }
                             controlConfig.value[subfield.name] = 1;
+                        }
+                        if (subfield.name === 'state' || subfield.name === 'countryID') {
+                            if (subfield.name === 'state') {
+                                subfield.optionsType = 'State';
+                            }
+                            else if (subfield.name === 'countryID') {
+                                subfield.optionsType = 'Country';
+                            }
+                            if (!subfield.optionsUrl) {
+                                subfield.optionsUrl = "options/" + subfield.optionsType;
+                            }
+                            controlConfig.config[subfield.name].pickerConfig = this.getControlOptions(subfield, http$$1, config);
                         }
                     }
                 }
@@ -14895,13 +14959,23 @@ var FormUtils = /** @class */ (function () {
      * @return {?}
      */
     FormUtils.prototype.isAddressEmpty = function (control) {
-        var /** @type {?} */ fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'country'];
+        var /** @type {?} */ fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'countryID'];
         var /** @type {?} */ valid = true;
         if (control.value && control.config) {
             fieldList.forEach(function (subfield) {
-                if ((subfield !== 'country' && !Helpers.isEmpty(control.config[subfield]) && control.config[subfield].required &&
+                if (((subfield !== 'countryID' &&
+                    !Helpers.isEmpty(control.config[subfield]) &&
+                    control.config[subfield].required &&
                     (Helpers.isBlank(control.value[subfield]) || Helpers.isEmpty(control.value[subfield]))) ||
-                    (subfield === 'country' && !Helpers.isEmpty(control.config.country) && control.config.country.required && Helpers.isEmpty(control.value.countryName))) {
+                    (subfield === 'countryID' &&
+                        !Helpers.isEmpty(control.config.countryID) &&
+                        control.config.countryID.required &&
+                        Helpers.isEmpty(control.value.countryName))) &&
+                    !(subfield === 'state' &&
+                        !Helpers.isBlank(control.value.countryName) &&
+                        control.config.state.pickerConfig &&
+                        control.config.state.pickerConfig.defaultOptions &&
+                        control.config.state.pickerConfig.defaultOptions.length === 0)) {
                     valid = false;
                 }
             });
@@ -16607,12 +16681,19 @@ var NovoControlElement = /** @class */ (function (_super) {
             }
         }
     };
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    NovoControlElement.prototype.updateValidity = function (data) {
+        this.form.controls[this.control.key].updateValueAndValidity({ emitEvent: false });
+    };
     return NovoControlElement;
 }(OutsideClick));
 NovoControlElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-control',
-                template: "\n        <div class=\"novo-control-container\" [formGroup]=\"form\" [hidden]=\"form.controls[control.key].hidden || form.controls[control.key].type === 'hidden' || form.controls[control.key].controlType === 'hidden'\">\n            <!--Encrypted Field-->\n            <span [tooltip]=\"labels.encryptedFieldTooltip\" [tooltipPosition]=\"'right'\"><i [hidden]=\"!form.controls[control.key].encrypted\"\n            class=\"bhi-lock\"></i></span>\n            <!--Label (for horizontal)-->\n            <label [attr.for]=\"control.key\" *ngIf=\"form.layout !== 'vertical' && form.controls[control.key].label && !condensed\" [ngClass]=\"{'encrypted': form.controls[control.key].encrypted }\">\n                {{ form.controls[control.key].label }}\n            </label>\n            <div class=\"novo-control-outer-container\">\n                <!--Label (for vertical)-->\n                <label\n                    *ngIf=\"form.layout === 'vertical' && form.controls[control.key].label && !condensed\"\n                    class=\"novo-control-label\"\n                    [attr.for]=\"control.key\"\n                    [class.novo-control-empty]=\"!hasValue\"\n                    [class.novo-control-focused]=\"focused\"\n                    [class.novo-control-filled]=\"hasValue\"\n                    [class.novo-control-always-active]=\"alwaysActive || form.controls[control.key].placeholder\"\n                    [class.novo-control-extra-spacing]=\"requiresExtraSpacing\">\n                    {{ form.controls[control.key].label }}\n                </label>\n                <div class=\"novo-control-inner-container\" [class.required]=\"form.controls[control.key].required && !form.controls[control.key].readOnly\">\n                    <div class=\"novo-control-inner-input-container\">\n                      <!--Required Indicator-->\n                        <i [hidden]=\"!form.controls[control.key].required || form.controls[control.key].readOnly\"\n                            class=\"required-indicator {{ form.controls[control.key].controlType }}\"\n                            [ngClass]=\"{'bhi-circle': !isValid, 'bhi-check': isValid}\" *ngIf=\"!condensed || (form.controls[control.key].required && !form.controls[control.key].readOnly)\">\n                        </i>\n                        <!--Form Controls-->\n                        <div class=\"novo-control-input {{ form.controls[control.key].controlType }}\" [ngSwitch]=\"form.controls[control.key].controlType\" [attr.data-automation-id]=\"control.key\" [class.control-disabled]=\"form.controls[control.key].disabled\">\n                            <!--Text-based Inputs-->\n                            <!--TODO prefix/suffix on the control-->\n                            <div class=\"novo-control-input-container novo-control-input-with-label\" *ngSwitchCase=\"'textbox'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                              <input *ngIf=\"form.controls[control.key].type !== 'number'\" [class.maxlength-error]=\"errors?.maxlength\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (input)=\"emitChange($event)\" [maxlength]=\"form.controls[control.key].maxlength\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" autocomplete>\n                              <input *ngIf=\"form.controls[control.key].type === 'number' && form.controls[control.key].subType !== 'percentage'\" [class.maxlength-error]=\"errors?.maxlength\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (keydown)=\"restrictKeys($event)\" (input)=\"emitChange($event)\" [maxlength]=\"form.controls[control.key].maxlength\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" step=\"any\" (mousewheel)=\"numberInput.blur()\" #numberInput>\n                              <input *ngIf=\"form.controls[control.key].type === 'number' && form.controls[control.key].subType === 'percentage'\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (keydown)=\"restrictKeys($event)\" [value]=\"percentValue\" (input)=\"handlePercentChange($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" step=\"any\" (mousewheel)=\"percentInput.blur()\" #percentInput>\n                              <label class=\"input-label\" *ngIf=\"form.controls[control.key].subType === 'currency'\">{{ control.currencyFormat }}</label>\n                              <label class=\"input-label\" *ngIf=\"form.controls[control.key].subType === 'percentage'\">%</label>\n                            </div>\n                            <!--TextArea-->\n                            <textarea *ngSwitchCase=\"'text-area'\" [class.maxlength-error]=\"errors?.maxlength\" [name]=\"control.key\" [attr.id]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [formControlName]=\"control.key\" autosize (input)=\"handleTextAreaInput($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [maxlength]=\"control.maxlength\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></textarea>\n                            <!--Editor-->\n                            <novo-editor *ngSwitchCase=\"'editor'\" [name]=\"control.key\" [formControlName]=\"control.key\" [startupFocus]=\"control.startupFocus\" [minimal]=\"control.minimal\" [fileBrowserImageUploadUrl]=\"control.fileBrowserImageUploadUrl\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\"></novo-editor>\n                            <!--AceEditor-->\n                            <novo-ace-editor *ngSwitchCase=\"'ace-editor'\" [name]=\"control.key\" [formControlName]=\"control.key\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\"></novo-ace-editor>\n                            <!--HTML5 Select-->\n                            <select [id]=\"control.key\" *ngSwitchCase=\"'native-select'\" [formControlName]=\"control.key\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <option *ngIf=\"form.controls[control.key].placeholder\" value=\"\" disabled selected hidden>{{ form.controls[control.key].placeholder }}</option>\n                                <option *ngFor=\"let opt of form.controls[control.key].options\" [value]=\"opt.key\">{{opt.value}}</option>\n                            </select>\n                            <!--File-->\n                            <novo-file-input *ngSwitchCase=\"'file'\" [formControlName]=\"control.key\" [id]=\"control.key\" [name]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [value]=\"form.controls[control.key].value\" [multiple]=\"form.controls[control.key].multiple\" [layoutOptions]=\"form.controls[control.key].layoutOptions\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (edit)=\"handleEdit($event)\" (save)=\"handleSave($event)\" (delete)=\"handleDelete($event)\" (upload)=\"handleUpload($event)\"></novo-file-input>\n                            <!--Tiles-->\n                            <novo-tiles *ngSwitchCase=\"'tiles'\" [options]=\"control.options\" [formControlName]=\"control.key\" (onChange)=\"modelChange($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [disabled]=\"form.controls[control.key].disabled\"></novo-tiles>\n                            <!--Picker-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'picker'\">\n                                <novo-picker [config]=\"form.controls[control.key].config\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [parentScrollSelector]=\"form.controls[control.key].parentScrollSelector\" *ngIf=\"!form.controls[control.key].multiple\" (select)=\"modelChange($event);\" (changed)=\"modelChangeWithRaw($event)\" (typing)=\"handleTyping($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-picker>\n                                <chips [source]=\"form.controls[control.key].config\" [type]=\"form.controls[control.key].config.type\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" *ngIf=\"control.multiple\" [closeOnSelect]=\"form.controls[control.key].closeOnSelect\" (changed)=\"modelChangeWithRaw($event)\" (typing)=\"handleTyping($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></chips>\n                            </div>\n                            <!--Novo Select-->\n                            <novo-select *ngSwitchCase=\"'select'\" [options]=\"form.controls[control.key].options\" [headerConfig]=\"form.controls[control.key].headerConfig\" [placeholder]=\"form.controls[control.key].placeholder\" [formControlName]=\"control.key\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (onSelect)=\"modelChange($event)\"></novo-select>\n                            <!--Radio-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'radio'\">\n                                <novo-radio [vertical]=\"vertical\" [name]=\"control.key\" [formControlName]=\"control.key\" *ngFor=\"let option of form.controls[control.key].options\" [value]=\"option.value\" [label]=\"option.label\" [checked]=\"option.value === form.value[control.key]\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [button]=\"!!option.icon\" [icon]=\"option.icon\" [attr.data-automation-id]=\"control.key + '-' + (option?.label || option?.value)\"></novo-radio>\n                            </div>\n                            <!--Time-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'time'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [military]=\"form.controls[control.key].military\"></novo-time-picker-input>\n                            </div>\n                            <!--Date-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'date'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-date-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [format]=\"form.controls[control.key].dateFormat\" [allowInvalidDate]=\"form.controls[control.key].allowInvalidDate\" [textMaskEnabled]=\"form.controls[control.key].textMaskEnabled\" [placeholder]=\"form.controls[control.key].placeholder\"></novo-date-picker-input>\n                            </div>\n                            <!--Date and Time-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'date-time'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-date-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [military]=\"form.controls[control.key].military\"></novo-date-time-picker-input>\n                            </div>\n                            <!--Address-->\n                            <novo-address *ngSwitchCase=\"'address'\" [formControlName]=\"control.key\" [config]=\"control.config\" (change)=\"handleAddressChange($event)\" (focus)=\"handleFocus($event.event, $event.field)\" (blur)=\"handleBlur($event.event, $event.field)\"></novo-address>\n                            <!--Checkbox-->\n                            <novo-checkbox *ngSwitchCase=\"'checkbox'\" [formControlName]=\"control.key\" [name]=\"control.key\" [label]=\"control.checkboxLabel\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [layoutOptions]=\"layoutOptions\"></novo-checkbox>\n                            <!--Checklist-->\n                            <novo-check-list *ngSwitchCase=\"'checklist'\" [formControlName]=\"control.key\" [name]=\"control.key\" [options]=\"form.controls[control.key].options\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (onSelect)=\"modelChange($event)\"></novo-check-list>\n                            <!--QuickNote-->\n                            <novo-quick-note *ngSwitchCase=\"'quick-note'\" [formControlName]=\"control.key\" [startupFocus]=\"control.startupFocus\" [placeholder]=\"form.controls[control.key].placeholder\" [config]=\"form.controls[control.key].config\" (change)=\"modelChange($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-quick-note>\n                            <!--ReadOnly-->\n                            <!--TODO - Handle rendering of different READONLY values-->\n                            <div *ngSwitchCase=\"'read-only'\">{{ form.value[control.key] }}</div>\n                        </div>\n                    </div>\n                    <!--Error Message-->\n                    <div class=\"field-message {{ form.controls[control.key].controlType }}\" *ngIf=\"!condensed\" [class.has-tip]=\"form.controls[control.key].tipWell\">\n                        <div class=\"messages\">\n                            <span class=\"error-text\" *ngIf=\"showFieldMessage\"></span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.required && form.controls[control.key].controlType !== 'address'\">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.minlength\">{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && maxLengthMet && focused && !errors?.maxlength\">{{ labels.maxlengthMet(form.controls[control.key].maxlength) }}</span>\n                            <span class=\"error-text\" *ngIf=\"errors?.maxlength && focused && !errors?.maxlengthFields\">{{ labels.invalidMaxlength(form.controls[control.key].maxlength) }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.invalidEmail\">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidEmail }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && (errors?.integerTooLarge || errors?.doubleTooLarge)\">{{ form.controls[control.key].label | uppercase }} {{ labels.isTooLarge }}</span>\n                            <span *ngIf=\"isDirty && errors?.minYear\">{{ form.controls[control.key].label | uppercase }} {{ labels.notValidYear }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && (errors?.custom)\">{{ errors.custom }}</span>\n                            <span class=\"error-text\" *ngIf=\"errors?.maxlength && errors?.maxlengthFields && maxlengthErrorField && focused\">\n                                {{ labels.invalidMaxlengthWithField(control.config[maxlengthErrorField]?.label, control.config[maxlengthErrorField]?.maxlength) }}\n                            </span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && maxlengthMetField && focused && !errors?.maxlengthFields?.includes(maxlengthMetField)\">\n                              {{ labels.maxlengthMetWithField(control.config[maxlengthMetField]?.label, control.config[maxlengthMetField]?.maxlength) }}\n                            </span>\n                            <span *ngIf=\"isDirty && errors?.invalidAddress\">\n                                <span class=\"error-text\" *ngFor=\"let invalidAddressField of errors?.invalidAddressFields\">{{ invalidAddressField | uppercase }} {{ labels.isRequired }} </span>\n                            </span>\n                            <!--Field Hint-->\n                            <span class=\"description\" *ngIf=\"form.controls[control.key].description\">\n                                {{ form.controls[control.key].description }}\n                            </span>\n                        </div>\n                        <span class=\"character-count\" [class.error]=\"((errors?.maxlength && !errors?.maxlengthFields) || (errors?.maxlength && errors?.maxlengthFields && errors.maxlengthFields.includes(focusedField)))\" *ngIf=\"showCount\">{{ characterCount }}/{{ maxLength || form.controls[control.key].maxlength }}</span>\n                    </div>\n                    <!--Tip Wel-->\n                    <novo-tip-well *ngIf=\"form.controls[control.key].tipWell\" [name]=\"control.key\" [tip]=\"form.controls[control.key]?.tipWell?.tip\" [icon]=\"form.controls[control.key]?.tipWell?.icon\" [button]=\"form.controls[control.key]?.tipWell?.button\"></novo-tip-well>\n                </div>\n                <i *ngIf=\"form.controls[control.key].fieldInteractionloading\" class=\"loading\">\n                    <svg version=\"1.1\"\n                     xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:a=\"http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/\"\n                     x=\"0px\" y=\"0px\" width=\"18.2px\" height=\"18.5px\" viewBox=\"0 0 18.2 18.5\" style=\"enable-background:new 0 0 18.2 18.5;\"\n                     xml:space=\"preserve\">\n                    <style type=\"text/css\">\n                        .spinner { fill:#FFFFFF; }\n                    </style>\n                        <path class=\"spinner\" d=\"M9.2,18.5C4.1,18.5,0,14.4,0,9.2S4.1,0,9.2,0c0.9,0,1.9,0.1,2.7,0.4c0.8,0.2,1.2,1.1,1,1.9\n                            c-0.2,0.8-1.1,1.2-1.9,1C10.5,3.1,9.9,3,9.2,3C5.8,3,3,5.8,3,9.2s2.8,6.2,6.2,6.2c2.8,0,5.3-1.9,6-4.7c0.2-0.8,1-1.3,1.8-1.1\n                            c0.8,0.2,1.3,1,1.1,1.8C17.1,15.7,13.4,18.5,9.2,18.5z\"/>\n                    </svg>\n                </i>\n            </div>\n        </div>\n    ",
+                template: "\n        <div class=\"novo-control-container\" [formGroup]=\"form\" [hidden]=\"form.controls[control.key].hidden || form.controls[control.key].type === 'hidden' || form.controls[control.key].controlType === 'hidden'\">\n            <!--Encrypted Field-->\n            <span [tooltip]=\"labels.encryptedFieldTooltip\" [tooltipPosition]=\"'right'\"><i [hidden]=\"!form.controls[control.key].encrypted\"\n            class=\"bhi-lock\"></i></span>\n            <!--Label (for horizontal)-->\n            <label [attr.for]=\"control.key\" *ngIf=\"form.layout !== 'vertical' && form.controls[control.key].label && !condensed\" [ngClass]=\"{'encrypted': form.controls[control.key].encrypted }\">\n                {{ form.controls[control.key].label }}\n            </label>\n            <div class=\"novo-control-outer-container\">\n                <!--Label (for vertical)-->\n                <label\n                    *ngIf=\"form.layout === 'vertical' && form.controls[control.key].label && !condensed\"\n                    class=\"novo-control-label\"\n                    [attr.for]=\"control.key\"\n                    [class.novo-control-empty]=\"!hasValue\"\n                    [class.novo-control-focused]=\"focused\"\n                    [class.novo-control-filled]=\"hasValue\"\n                    [class.novo-control-always-active]=\"alwaysActive || form.controls[control.key].placeholder\"\n                    [class.novo-control-extra-spacing]=\"requiresExtraSpacing\">\n                    {{ form.controls[control.key].label }}\n                </label>\n                <div class=\"novo-control-inner-container\" [class.required]=\"form.controls[control.key].required && !form.controls[control.key].readOnly\">\n                    <div class=\"novo-control-inner-input-container\">\n                      <!--Required Indicator-->\n                        <i [hidden]=\"!form.controls[control.key].required || form.controls[control.key].readOnly\"\n                            class=\"required-indicator {{ form.controls[control.key].controlType }}\"\n                            [ngClass]=\"{'bhi-circle': !isValid, 'bhi-check': isValid}\" *ngIf=\"!condensed || (form.controls[control.key].required && !form.controls[control.key].readOnly)\">\n                        </i>\n                        <!--Form Controls-->\n                        <div class=\"novo-control-input {{ form.controls[control.key].controlType }}\" [ngSwitch]=\"form.controls[control.key].controlType\" [attr.data-automation-id]=\"control.key\" [class.control-disabled]=\"form.controls[control.key].disabled\">\n                            <!--Text-based Inputs-->\n                            <!--TODO prefix/suffix on the control-->\n                            <div class=\"novo-control-input-container novo-control-input-with-label\" *ngSwitchCase=\"'textbox'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                              <input *ngIf=\"form.controls[control.key].type !== 'number'\" [class.maxlength-error]=\"errors?.maxlength\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (input)=\"emitChange($event)\" [maxlength]=\"form.controls[control.key].maxlength\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" autocomplete>\n                              <input *ngIf=\"form.controls[control.key].type === 'number' && form.controls[control.key].subType !== 'percentage'\" [class.maxlength-error]=\"errors?.maxlength\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (keydown)=\"restrictKeys($event)\" (input)=\"emitChange($event)\" [maxlength]=\"form.controls[control.key].maxlength\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" step=\"any\" (mousewheel)=\"numberInput.blur()\" #numberInput>\n                              <input *ngIf=\"form.controls[control.key].type === 'number' && form.controls[control.key].subType === 'percentage'\" [type]=\"form.controls[control.key].type\" [placeholder]=\"form.controls[control.key].placeholder\" (keydown)=\"restrictKeys($event)\" [value]=\"percentValue\" (input)=\"handlePercentChange($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" step=\"any\" (mousewheel)=\"percentInput.blur()\" #percentInput>\n                              <label class=\"input-label\" *ngIf=\"form.controls[control.key].subType === 'currency'\">{{ control.currencyFormat }}</label>\n                              <label class=\"input-label\" *ngIf=\"form.controls[control.key].subType === 'percentage'\">%</label>\n                            </div>\n                            <!--TextArea-->\n                            <textarea *ngSwitchCase=\"'text-area'\" [class.maxlength-error]=\"errors?.maxlength\" [name]=\"control.key\" [attr.id]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [formControlName]=\"control.key\" autosize (input)=\"handleTextAreaInput($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [maxlength]=\"control.maxlength\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></textarea>\n                            <!--Editor-->\n                            <novo-editor *ngSwitchCase=\"'editor'\" [name]=\"control.key\" [formControlName]=\"control.key\" [startupFocus]=\"control.startupFocus\" [minimal]=\"control.minimal\" [fileBrowserImageUploadUrl]=\"control.fileBrowserImageUploadUrl\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\"></novo-editor>\n                            <!--AceEditor-->\n                            <novo-ace-editor *ngSwitchCase=\"'ace-editor'\" [name]=\"control.key\" [formControlName]=\"control.key\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\"></novo-ace-editor>\n                            <!--HTML5 Select-->\n                            <select [id]=\"control.key\" *ngSwitchCase=\"'native-select'\" [formControlName]=\"control.key\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <option *ngIf=\"form.controls[control.key].placeholder\" value=\"\" disabled selected hidden>{{ form.controls[control.key].placeholder }}</option>\n                                <option *ngFor=\"let opt of form.controls[control.key].options\" [value]=\"opt.key\">{{opt.value}}</option>\n                            </select>\n                            <!--File-->\n                            <novo-file-input *ngSwitchCase=\"'file'\" [formControlName]=\"control.key\" [id]=\"control.key\" [name]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [value]=\"form.controls[control.key].value\" [multiple]=\"form.controls[control.key].multiple\" [layoutOptions]=\"form.controls[control.key].layoutOptions\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (edit)=\"handleEdit($event)\" (save)=\"handleSave($event)\" (delete)=\"handleDelete($event)\" (upload)=\"handleUpload($event)\"></novo-file-input>\n                            <!--Tiles-->\n                            <novo-tiles *ngSwitchCase=\"'tiles'\" [options]=\"control.options\" [formControlName]=\"control.key\" (onChange)=\"modelChange($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [disabled]=\"form.controls[control.key].disabled\"></novo-tiles>\n                            <!--Picker-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'picker'\">\n                                <novo-picker [config]=\"form.controls[control.key].config\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [parentScrollSelector]=\"form.controls[control.key].parentScrollSelector\" *ngIf=\"!form.controls[control.key].multiple\" (select)=\"modelChange($event);\" (changed)=\"modelChangeWithRaw($event)\" (typing)=\"handleTyping($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-picker>\n                                <chips [source]=\"form.controls[control.key].config\" [type]=\"form.controls[control.key].config.type\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" *ngIf=\"control.multiple\" [closeOnSelect]=\"form.controls[control.key].closeOnSelect\" (changed)=\"modelChangeWithRaw($event)\" (typing)=\"handleTyping($event)\" (focus)=\"handleFocus($event)\" (blur)=\"handleBlur($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></chips>\n                            </div>\n                            <!--Novo Select-->\n                            <novo-select *ngSwitchCase=\"'select'\" [options]=\"form.controls[control.key].options\" [headerConfig]=\"form.controls[control.key].headerConfig\" [placeholder]=\"form.controls[control.key].placeholder\" [formControlName]=\"control.key\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (onSelect)=\"modelChange($event)\"></novo-select>\n                            <!--Radio-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'radio'\">\n                                <novo-radio [vertical]=\"vertical\" [name]=\"control.key\" [formControlName]=\"control.key\" *ngFor=\"let option of form.controls[control.key].options\" [value]=\"option.value\" [label]=\"option.label\" [checked]=\"option.value === form.value[control.key]\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [button]=\"!!option.icon\" [icon]=\"option.icon\" [attr.data-automation-id]=\"control.key + '-' + (option?.label || option?.value)\"></novo-radio>\n                            </div>\n                            <!--Time-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'time'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [military]=\"form.controls[control.key].military\"></novo-time-picker-input>\n                            </div>\n                            <!--Date-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'date'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-date-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [format]=\"form.controls[control.key].dateFormat\" [allowInvalidDate]=\"form.controls[control.key].allowInvalidDate\" [textMaskEnabled]=\"form.controls[control.key].textMaskEnabled\" [placeholder]=\"form.controls[control.key].placeholder\"></novo-date-picker-input>\n                            </div>\n                            <!--Date and Time-->\n                            <div class=\"novo-control-input-container\" *ngSwitchCase=\"'date-time'\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\">\n                                <novo-date-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"form.controls[control.key].placeholder\" [military]=\"form.controls[control.key].military\"></novo-date-time-picker-input>\n                            </div>\n                            <!--Address-->\n                            <novo-address *ngSwitchCase=\"'address'\" [formControlName]=\"control.key\" [config]=\"control.config\" (change)=\"handleAddressChange($event)\" (focus)=\"handleFocus($event.event, $event.field)\" (blur)=\"handleBlur($event.event, $event.field)\" (validityChange)=\"updateValidity()\"></novo-address>\n                            <!--Checkbox-->\n                            <novo-checkbox *ngSwitchCase=\"'checkbox'\" [formControlName]=\"control.key\" [name]=\"control.key\" [label]=\"control.checkboxLabel\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" [layoutOptions]=\"layoutOptions\"></novo-checkbox>\n                            <!--Checklist-->\n                            <novo-check-list *ngSwitchCase=\"'checklist'\" [formControlName]=\"control.key\" [name]=\"control.key\" [options]=\"form.controls[control.key].options\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\" (onSelect)=\"modelChange($event)\"></novo-check-list>\n                            <!--QuickNote-->\n                            <novo-quick-note *ngSwitchCase=\"'quick-note'\" [formControlName]=\"control.key\" [startupFocus]=\"control.startupFocus\" [placeholder]=\"form.controls[control.key].placeholder\" [config]=\"form.controls[control.key].config\" (change)=\"modelChange($event)\" [tooltip]=\"tooltip\" [tooltipPosition]=\"tooltipPosition\"></novo-quick-note>\n                            <!--ReadOnly-->\n                            <!--TODO - Handle rendering of different READONLY values-->\n                            <div *ngSwitchCase=\"'read-only'\">{{ form.value[control.key] }}</div>\n                        </div>\n                    </div>\n                    <!--Error Message-->\n                    <div class=\"field-message {{ form.controls[control.key].controlType }}\" *ngIf=\"!condensed\" [class.has-tip]=\"form.controls[control.key].tipWell\">\n                        <div class=\"messages\">\n                            <span class=\"error-text\" *ngIf=\"showFieldMessage\"></span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.required && form.controls[control.key].controlType !== 'address'\">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.minlength\">{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && maxLengthMet && focused && !errors?.maxlength\">{{ labels.maxlengthMet(form.controls[control.key].maxlength) }}</span>\n                            <span class=\"error-text\" *ngIf=\"errors?.maxlength && focused && !errors?.maxlengthFields\">{{ labels.invalidMaxlength(form.controls[control.key].maxlength) }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && errors?.invalidEmail\">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidEmail }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && (errors?.integerTooLarge || errors?.doubleTooLarge)\">{{ form.controls[control.key].label | uppercase }} {{ labels.isTooLarge }}</span>\n                            <span *ngIf=\"isDirty && errors?.minYear\">{{ form.controls[control.key].label | uppercase }} {{ labels.notValidYear }}</span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && (errors?.custom)\">{{ errors.custom }}</span>\n                            <span class=\"error-text\" *ngIf=\"errors?.maxlength && errors?.maxlengthFields && maxlengthErrorField && focused\">\n                                {{ labels.invalidMaxlengthWithField(control.config[maxlengthErrorField]?.label, control.config[maxlengthErrorField]?.maxlength) }}\n                            </span>\n                            <span class=\"error-text\" *ngIf=\"isDirty && maxlengthMetField && focused && !errors?.maxlengthFields?.includes(maxlengthMetField)\">\n                              {{ labels.maxlengthMetWithField(control.config[maxlengthMetField]?.label, control.config[maxlengthMetField]?.maxlength) }}\n                            </span>\n                            <span *ngIf=\"isDirty && errors?.invalidAddress\">\n                                <span class=\"error-text\" *ngFor=\"let invalidAddressField of errors?.invalidAddressFields\">{{ invalidAddressField | uppercase }} {{ labels.isRequired }} </span>\n                            </span>\n                            <!--Field Hint-->\n                            <span class=\"description\" *ngIf=\"form.controls[control.key].description\">\n                                {{ form.controls[control.key].description }}\n                            </span>\n                        </div>\n                        <span class=\"character-count\" [class.error]=\"((errors?.maxlength && !errors?.maxlengthFields) || (errors?.maxlength && errors?.maxlengthFields && errors.maxlengthFields.includes(focusedField)))\" *ngIf=\"showCount\">{{ characterCount }}/{{ maxLength || form.controls[control.key].maxlength }}</span>\n                    </div>\n                    <!--Tip Wel-->\n                    <novo-tip-well *ngIf=\"form.controls[control.key].tipWell\" [name]=\"control.key\" [tip]=\"form.controls[control.key]?.tipWell?.tip\" [icon]=\"form.controls[control.key]?.tipWell?.icon\" [button]=\"form.controls[control.key]?.tipWell?.button\"></novo-tip-well>\n                </div>\n                <i *ngIf=\"form.controls[control.key].fieldInteractionloading\" class=\"loading\">\n                    <svg version=\"1.1\"\n                     xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:a=\"http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/\"\n                     x=\"0px\" y=\"0px\" width=\"18.2px\" height=\"18.5px\" viewBox=\"0 0 18.2 18.5\" style=\"enable-background:new 0 0 18.2 18.5;\"\n                     xml:space=\"preserve\">\n                    <style type=\"text/css\">\n                        .spinner { fill:#FFFFFF; }\n                    </style>\n                        <path class=\"spinner\" d=\"M9.2,18.5C4.1,18.5,0,14.4,0,9.2S4.1,0,9.2,0c0.9,0,1.9,0.1,2.7,0.4c0.8,0.2,1.2,1.1,1,1.9\n                            c-0.2,0.8-1.1,1.2-1.9,1C10.5,3.1,9.9,3,9.2,3C5.8,3,3,5.8,3,9.2s2.8,6.2,6.2,6.2c2.8,0,5.3-1.9,6-4.7c0.2-0.8,1-1.3,1.8-1.1\n                            c0.8,0.2,1.3,1,1.1,1.8C17.1,15.7,13.4,18.5,9.2,18.5z\"/>\n                    </svg>\n                </i>\n            </div>\n        </div>\n    ",
                 host: {
                     '[class]': 'form.controls[control.key].controlType',
                     '[attr.data-control-type]': 'form.controls[control.key].controlType',
@@ -29559,8 +29640,11 @@ function findByCountryCode(code) {
  * @return {?}
  */
 function getStateObjects(name) {
-    var /** @type {?} */ foundCountry = COUNTRIES.find(function (country) { return country.name === name.trim(); });
-    return foundCountry && foundCountry.states || [];
+    if (name) {
+        var /** @type {?} */ foundCountry = COUNTRIES.find(function (country) { return country.name === name.trim(); });
+        return foundCountry && foundCountry.states || [];
+    }
+    return [];
 }
 /**
  * Gets state names by country name
@@ -29593,17 +29677,20 @@ var NovoAddressElement = /** @class */ (function () {
         };
         this.focused = {};
         this.invalid = {};
+        this.disabled = {};
         this.invalidMaxlength = {};
         this.valid = {};
+        this.tooltip = {};
+        this.initComplete = false;
         this.change = new EventEmitter();
         this.focus = new EventEmitter();
         this.blur = new EventEmitter();
+        this.validityChange = new EventEmitter();
     }
     /**
      * @return {?}
      */
     NovoAddressElement.prototype.ngOnInit = function () {
-        var _this = this;
         if (!this.config) {
             this.config = {};
         }
@@ -29614,10 +29701,20 @@ var NovoAddressElement = /** @class */ (function () {
         else if (!this.model) {
             this.model = {};
         }
+        this.initConfig();
+        if (Helpers.isBlank(this.model.countryID)) {
+            this.updateStates();
+        }
+    };
+    /**
+     * @return {?}
+     */
+    NovoAddressElement.prototype.initConfig = function () {
+        var _this = this;
         this.fieldList.forEach((function (field) {
             if (!_this.config.hasOwnProperty(field)) {
                 _this.config[field] = {
-                    hidden: true
+                    hidden: true,
                 };
             }
             if (!_this.config[field].hasOwnProperty('label')) {
@@ -29625,6 +29722,24 @@ var NovoAddressElement = /** @class */ (function () {
             }
             if (_this.config.required) {
                 _this.config[field].required = true;
+            }
+            if (field === 'countryID') {
+                if (!_this.config[field].pickerConfig) {
+                    _this.config.countryID.pickerConfig = _this.getDefaultCountryConfig();
+                }
+                _this.config[field].pickerConfig.defaultOptions = _this.config.countryID.pickerConfig.options;
+            }
+            if (field === 'state') {
+                if (!_this.config[field].pickerConfig) {
+                    _this.config.state.pickerConfig = _this.getDefaultStateConfig();
+                    _this.config[field].pickerConfig.defaultOptions = _this.config[field].pickerConfig.options;
+                }
+                _this.stateOptions = _this.config[field].pickerConfig.options;
+                _this.config[field].pickerConfig.options = function (query$$1) {
+                    if (query$$1 === void 0) { query$$1 = ''; }
+                    return _this.stateOptions(query$$1, _this.model.countryID);
+                };
+                _this.config[field].pickerConfig.defaultOptions = _this.stateOptions;
             }
         }));
     };
@@ -29634,8 +29749,20 @@ var NovoAddressElement = /** @class */ (function () {
      */
     NovoAddressElement.prototype.isValid = function (field) {
         var /** @type {?} */ valid = true;
-        if (((this.config[field].required && Helpers.isEmpty(this.model[field])) || !this.config[field].required) &&
-            !(field === 'countryID' && this.config[field].required && !Helpers.isEmpty(this.model.countryName))) {
+        if (((this.config[field].required &&
+            (Helpers.isBlank(this.model[field]) || Helpers.isEmpty(this.model[field]))) ||
+            !this.config[field].required) &&
+            !(field === 'countryID' &&
+                this.config[field].required &&
+                !Helpers.isBlank(this.model.countryID)) &&
+            !(field === 'state' &&
+                this.config[field].required &&
+                (!Helpers.isEmpty(this.model.state) ||
+                    ((Helpers.isBlank(this.model.state) || Helpers.isEmpty(this.model.state)) &&
+                        !Helpers.isBlank(this.model.countryName) &&
+                        this.config.state.pickerConfig &&
+                        this.config.state.pickerConfig.defaultOptions &&
+                        this.config.state.pickerConfig.defaultOptions.length === 0)))) {
             valid = false;
         }
         else if (!Helpers.isEmpty(this.model[field]) && !Helpers.isBlank(this.config[field].maxlength) && this.config[field].maxlength < this.model[field].length) {
@@ -29650,11 +29777,26 @@ var NovoAddressElement = /** @class */ (function () {
     NovoAddressElement.prototype.isInvalid = function (field) {
         var /** @type {?} */ invalid = false;
         var /** @type {?} */ invalidMaxlength = false;
-        if (((this.config[field].required && Helpers.isEmpty(this.model[field]) && !Helpers.isBlank(this.model[field]))) &&
-            !(field === 'countryID' && this.config[field].required && !Helpers.isEmpty(this.model.countryName) && !Helpers.isBlank(this.model.countryName))) {
+        if ((field !== 'countryID' && field !== 'state' && this.config[field].required &&
+            Helpers.isEmpty(this.model[field]) &&
+            !Helpers.isBlank(this.model[field])) ||
+            (field === 'countryID' &&
+                this.config[field].required &&
+                Helpers.isBlank(this.model.countryName) &&
+                this.config[field].updated) ||
+            (field === 'state' &&
+                this.config[field].required &&
+                (Helpers.isBlank(this.model.state) || Helpers.isEmpty(this.model.state)) &&
+                !Helpers.isBlank(this.model.countryID) &&
+                this.config[field].updated &&
+                this.config.state.pickerConfig &&
+                this.config.state.pickerConfig.defaultOptions &&
+                this.config.state.pickerConfig.defaultOptions.length > 0)) {
             invalid = true;
         }
-        else if (!Helpers.isEmpty(this.model[field]) && !Helpers.isBlank(this.config[field].maxlength) && this.config[field].maxlength < this.model[field].length) {
+        else if (!Helpers.isEmpty(this.model[field]) &&
+            !Helpers.isBlank(this.config[field].maxlength) &&
+            this.config[field].maxlength < this.model[field].length) {
             invalid = true;
             invalidMaxlength = true;
         }
@@ -29696,36 +29838,123 @@ var NovoAddressElement = /** @class */ (function () {
      * @return {?}
      */
     NovoAddressElement.prototype.onCountryChange = function (evt) {
-        var /** @type {?} */ country = findByCountryName(evt);
-        if (country) {
-            this.model.countryName = country.name;
-            this.model.countryCode = country.code;
-            this.model.countryID = country.id;
-            this.updateStates();
+        var /** @type {?} */ country = evt && evt.rawValue ? evt.rawValue : null;
+        var /** @type {?} */ field;
+        var /** @type {?} */ statesUpdatable = false;
+        this.config.countryID.updated = true;
+        if (this.config.countryID.pickerConfig) {
+            field = this.config.countryID.pickerConfig.field;
+        }
+        if (country && field &&
+            !Helpers.isBlank(country[field]) &&
+            this.model.countryID !== country[field]) {
+            this.model.countryID = country[field];
+            this.model.countryName = Helpers.interpolate(this.config.countryID.pickerConfig.format, country);
+            this.disabled.state = false;
+            this.tooltip.state = undefined;
+            statesUpdatable = true;
+        }
+        else if (Helpers.isBlank(country) || Helpers.isBlank(country[field])) {
+            this.model.countryID = undefined;
+            this.model.countryName = undefined;
+            this.disabled.state = true;
+            this.tooltip.state = this.labels.selectCountryFirst;
+            this.invalid.state = false;
+            statesUpdatable = true;
         }
         // Update state
-        this.model.state = undefined;
+        if (statesUpdatable) {
+            this.model.state = undefined;
+            this.updateStates();
+        }
         this.updateControl();
         this.onInput(null, 'countryID');
+        this.onInput(null, 'state');
     };
     /**
      * @param {?} evt
      * @return {?}
      */
     NovoAddressElement.prototype.onStateChange = function (evt) {
-        this.model.state = evt;
+        var /** @type {?} */ state$$1 = evt && evt.value ? evt.value : null;
+        this.config.state.updated = true;
+        this.model.state = state$$1;
         this.updateControl();
         this.onInput(null, 'state');
+    };
+    /**
+     * @param {?} model
+     * @return {?}
+     */
+    NovoAddressElement.prototype.setStateLabel = function (model) {
+        var /** @type {?} */ state$$1 = model.state;
+        if (!Helpers.isBlank(state$$1)) {
+            if (this.config.state.required) {
+                this.valid.state = true;
+            }
+            this.model.state = state$$1;
+        }
+        else {
+            this.model.state = undefined;
+            if (this.config.state.required) {
+                this.valid.state = false;
+            }
+        }
     };
     /**
      * @return {?}
      */
     NovoAddressElement.prototype.updateStates = function () {
-        if (this.model.countryName) {
-            this.states = getStates(this.model.countryName);
+        var _this = this;
+        if (this.config.state.pickerConfig.options && !Helpers.isBlank(this.model.countryID)) {
+            this.config.state.pickerConfig.options = function (query$$1) {
+                if (query$$1 === void 0) { query$$1 = ''; }
+                return _this.stateOptions(query$$1, _this.model.countryID);
+            };
+            this.stateOptions('', this.model.countryID).then(function (results) {
+                _this.config.state.pickerConfig.defaultOptions = results;
+                if (results.length) {
+                    _this.tooltip.state = undefined;
+                    _this.disabled.state = false;
+                    _this.setStateLabel(_this.model);
+                }
+                else {
+                    _this.disabled.state = true;
+                    _this.tooltip.state = _this.labels.noStatesForCountry;
+                    if (_this.config.state.required) {
+                        _this.valid.state = true;
+                    }
+                }
+                _this.validityChange.emit();
+                _this.onInput(null, 'state');
+            });
         }
         else {
-            this.states = [];
+            this.config.state.pickerConfig.defaultOptions = [];
+            this.disabled.state = true;
+            this.tooltip.state = this.labels.selectCountryFirst;
+            if (this.config.state.required) {
+                this.valid.state = false;
+            }
+        }
+    };
+    /**
+     * @param {?=} filter
+     * @param {?=} countryID
+     * @return {?}
+     */
+    NovoAddressElement.prototype.getStateOptions = function (filter$$1, countryID) {
+        if (filter$$1 === void 0) { filter$$1 = ''; }
+        if (countryID) {
+            var /** @type {?} */ country = findByCountryId(countryID);
+            var /** @type {?} */ states = getStates(countryID);
+            if (filter$$1) {
+                return states.filter(function (name) { return new RegExp("" + filter$$1, 'gi').test(name); });
+            }
+            return states;
+        }
+        else {
+            return [];
         }
     };
     /**
@@ -29733,6 +29962,8 @@ var NovoAddressElement = /** @class */ (function () {
      */
     NovoAddressElement.prototype.updateControl = function () {
         this.onModelChange(this.model);
+        this.onInput(null, 'countryID');
+        this.onInput(null, 'state');
     };
     /**
      * @param {?} model
@@ -29740,28 +29971,39 @@ var NovoAddressElement = /** @class */ (function () {
      */
     NovoAddressElement.prototype.writeValue = function (model) {
         var _this = this;
+        var /** @type {?} */ loadingCountries = false;
         if (model) {
-            var /** @type {?} */ countryName = void 0;
-            if (model.countryName) {
-                countryName = model.countryName;
+            var /** @type {?} */ countryName_1;
+            if (model.countryName && model.countryID) {
+                countryName_1 = model.countryName;
             }
             else if (model.countryID) {
-                var /** @type {?} */ country = findByCountryId(model.countryID);
-                if (country) {
-                    countryName = country.name;
+                if (this.config.countryID.pickerConfig &&
+                    this.config.countryID.pickerConfig.getLabels) {
+                    if (Helpers.isFunction(this.config.countryID.pickerConfig.getLabels)) {
+                        var /** @type {?} */ promise = this.config.countryID.pickerConfig.getLabels(model.countryID);
+                        loadingCountries = true;
+                        if (promise.then) {
+                            promise.then(function (result) {
+                                loadingCountries = false;
+                                countryName_1 = Helpers.interpolateWithFallback(_this.config.countryID.pickerConfig.format, result);
+                                _this.model = Object.assign(model, { countryName: countryName_1 });
+                                _this.updateStates();
+                            });
+                        }
+                    }
                 }
             }
-            if (countryName) {
-                countryName = countryName.trim();
+            if (countryName_1) {
+                countryName_1 = countryName_1.trim();
                 model.state = model.state || '';
-                var /** @type {?} */ stateObj = getStateObjects(countryName).find(function (state$$1) {
-                    return state$$1.code === model.state.replace(/\W+/g, '').toUpperCase() || state$$1.name === model.state;
-                }) || {};
-                this.model = Object.assign(model, { countryName: countryName, state: stateObj.name });
-                this.updateStates();
+                this.model = Object.assign(model, { countryName: countryName_1 });
             }
             else {
                 this.model = model;
+            }
+            if (!loadingCountries && !Helpers.isBlank(this.model.countryID)) {
+                this.updateStates();
             }
         }
         this.fieldList.forEach(function (field) {
@@ -29782,13 +30024,60 @@ var NovoAddressElement = /** @class */ (function () {
     NovoAddressElement.prototype.registerOnTouched = function (fn) {
         this.onModelTouched = fn;
     };
+    /**
+     * @return {?}
+     */
+    NovoAddressElement.prototype.getDefaultStateConfig = function () {
+        var _this = this;
+        return {
+            field: 'value',
+            format: '$label',
+            options: function (query$$1, countryID) {
+                if (query$$1 === void 0) { query$$1 = ''; }
+                return Promise.resolve(_this.getStateOptions(query$$1, countryID));
+            },
+            getLabels: function (state$$1) {
+                return Promise.resolve(state$$1);
+            }
+        };
+    };
+    /**
+     * @return {?}
+     */
+    NovoAddressElement.prototype.getDefaultCountryConfig = function () {
+        return {
+            field: 'value',
+            format: '$label',
+            options: function (query$$1) {
+                if (query$$1 === void 0) { query$$1 = ''; }
+                return new Promise(function (resolve) {
+                    var /** @type {?} */ countries = getCountries();
+                    if (query$$1) {
+                        countries = countries.filter(function (country) { return new RegExp("" + query$$1, 'gi').test(country.name); });
+                    }
+                    return resolve(countries);
+                });
+            },
+            getLabels: function (countryID) {
+                return new Promise(function (resolve) {
+                    var /** @type {?} */ country = findByCountryId(countryID);
+                    if (country) {
+                        resolve(country.name);
+                    }
+                    else {
+                        resolve('');
+                    }
+                });
+            },
+        };
+    };
     return NovoAddressElement;
 }());
 NovoAddressElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-address',
                 providers: [ADDRESS_VALUE_ACCESSOR],
-                template: "\n        <span *ngIf=\"!config?.address1?.hidden\" class=\"street-address\" [class.invalid]=\"invalid.address1\" [class.focus]=\"focused.address1\">\n            <i *ngIf=\"config.address1.required\"\n                class=\"required-indicator address1\"\n                [ngClass]=\"{'bhi-circle': !valid.address1, 'bhi-check': valid.address1}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.address1\" type=\"text\" id=\"address1\" name=\"address1\" [placeholder]=\"config.address1.label\" [maxlength]=\"config?.address1?.maxlength\" autocomplete=\"shipping street-address address-line-1\" [(ngModel)]=\"model.address1\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'address1')\" (blur)=\"isBlurred($event, 'address1')\" (input)=\"onInput($event, 'address1')\"/>\n        </span>\n        <span *ngIf=\"!config?.address2?.hidden\" class=\"apt suite\" [class.invalid]=\"invalid.address2\" [class.focus]=\"focused.address2\">\n            <i *ngIf=\"config.address2.required\"\n                class=\"required-indicator address2\"\n                [ngClass]=\"{'bhi-circle': !valid.address2, 'bhi-check': valid.address2}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.address2\" type=\"text\" id=\"address2\" name=\"address2\" [placeholder]=\"config.address2.label\" [maxlength]=\"config?.address2?.maxlength\" autocomplete=\"shipping address-line-2\" [(ngModel)]=\"model.address2\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'address2')\" (blur)=\"isBlurred($event, 'address2')\" (input)=\"onInput($event, 'address2')\"/>\n        </span>\n        <span *ngIf=\"!config?.city?.hidden\" class=\"city locality\" [class.invalid]=\"invalid.city\" [class.focus]=\"focused.city\">\n            <i *ngIf=\"config.city.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.city, 'bhi-check': valid.city}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.city\" type=\"text\" id=\"city\" name=\"city\" [placeholder]=\"config.city.label\" autocomplete=\"shipping city locality\" [maxlength]=\"config?.city?.maxlength\" [(ngModel)]=\"model.city\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'city')\" (blur)=\"isBlurred($event, 'city')\" (input)=\"onInput($event, 'city')\"/>\n        </span>\n        <span *ngIf=\"!config?.state?.hidden\" class=\"state region\" [class.invalid]=\"invalid.state\" [class.focus]=\"focused.state\">\n            <i *ngIf=\"config.state.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.state, 'bhi-check': valid.state}\">\n            </i>\n            <novo-select id=\"state\" [options]=\"states\" [placeholder]=\"config.state.label\" autocomplete=\"shipping region\" [(ngModel)]=\"model.state\" (ngModelChange)=\"onStateChange($event)\"></novo-select>\n        </span>\n        <span *ngIf=\"!config?.zip?.hidden\" class=\"zip postal-code\" [class.invalid]=\"invalid.zip\" [class.focus]=\"focused.zip\">\n            <i *ngIf=\"config.zip.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.zip, 'bhi-check': valid.zip}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.zip\" type=\"text\" id=\"zip\" name=\"zip\" [placeholder]=\"config.zip.label\" autocomplete=\"shipping postal-code\" [maxlength]=\"config?.zip?.maxlength\" [(ngModel)]=\"model.zip\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'zip')\" (blur)=\"isBlurred($event, 'zip')\" (input)=\"onInput($event, 'zip')\" />\n        </span>\n        <span *ngIf=\"!config?.countryID?.hidden\" class=\"country-name\" [class.invalid]=\"invalid.countryID\" [class.focus]=\"focused.countryID\">\n            <i *ngIf=\"config.countryID.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.countryID, 'bhi-check': valid.countryID}\">\n            </i>\n            <novo-select id=\"country\" [options]=\"countries\" [placeholder]=\"config.countryID.label\" autocomplete=\"shipping country\" [(ngModel)]=\"model.countryName\" (ngModelChange)=\"onCountryChange($event)\"></novo-select>\n        </span>\n    "
+                template: "\n        <span *ngIf=\"!config?.address1?.hidden\" class=\"street-address\" [class.invalid]=\"invalid.address1\" [class.focus]=\"focused.address1\" [class.disabled]=\"disabled.address1\">\n            <i *ngIf=\"config.address1.required\"\n                class=\"required-indicator address1\"\n                [ngClass]=\"{'bhi-circle': !valid.address1, 'bhi-check': valid.address1}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.address1\" type=\"text\" id=\"address1\" name=\"address1\" [placeholder]=\"config.address1.label\" [maxlength]=\"config?.address1?.maxlength\" autocomplete=\"shipping street-address address-line-1\" [(ngModel)]=\"model.address1\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'address1')\" (blur)=\"isBlurred($event, 'address1')\" (input)=\"onInput($event, 'address1')\"/>\n        </span>\n        <span *ngIf=\"!config?.address2?.hidden\" class=\"apt suite\" [class.invalid]=\"invalid.address2\" [class.focus]=\"focused.address2\" [class.disabled]=\"disabled.address2\">\n            <i *ngIf=\"config.address2.required\"\n                class=\"required-indicator address2\"\n                [ngClass]=\"{'bhi-circle': !valid.address2, 'bhi-check': valid.address2}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.address2\" type=\"text\" id=\"address2\" name=\"address2\" [placeholder]=\"config.address2.label\" [maxlength]=\"config?.address2?.maxlength\" autocomplete=\"shipping address-line-2\" [(ngModel)]=\"model.address2\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'address2')\" (blur)=\"isBlurred($event, 'address2')\" (input)=\"onInput($event, 'address2')\"/>\n        </span>\n        <span *ngIf=\"!config?.city?.hidden\" class=\"city locality\" [class.invalid]=\"invalid.city\" [class.focus]=\"focused.city\" [class.disabled]=\"disabled.city\">\n            <i *ngIf=\"config.city.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.city, 'bhi-check': valid.city}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.city\" type=\"text\" id=\"city\" name=\"city\" [placeholder]=\"config.city.label\" autocomplete=\"shipping city locality\" [maxlength]=\"config?.city?.maxlength\" [(ngModel)]=\"model.city\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'city')\" (blur)=\"isBlurred($event, 'city')\" (input)=\"onInput($event, 'city')\"/>\n        </span>\n        <span *ngIf=\"!config?.state?.hidden\" class=\"state region\" [class.invalid]=\"invalid.state\" [class.focus]=\"focused.state\" [class.disabled]=\"disabled.state\"  [tooltip]=\"tooltip.state\">\n            <i *ngIf=\"config.state.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.state, 'bhi-check': valid.state}\">\n            </i>\n            <novo-picker [config]=\"config?.state?.pickerConfig\" [placeholder]=\"config?.state?.label\" (changed)=\"onStateChange($event)\" autocomplete=\"shipping region\" [(ngModel)]=\"model.state\" [disablePickerInput]=\"disabled.state\"></novo-picker>\n        </span>\n        <span *ngIf=\"!config?.zip?.hidden\" class=\"zip postal-code\" [class.invalid]=\"invalid.zip\" [class.focus]=\"focused.zip\" [class.disabled]=\"disabled.zip\">\n            <i *ngIf=\"config.zip.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.zip, 'bhi-check': valid.zip}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.zip\" type=\"text\" id=\"zip\" name=\"zip\" [placeholder]=\"config.zip.label\" autocomplete=\"shipping postal-code\" [maxlength]=\"config?.zip?.maxlength\" [(ngModel)]=\"model.zip\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'zip')\" (blur)=\"isBlurred($event, 'zip')\" (input)=\"onInput($event, 'zip')\" />\n        </span>\n        <span *ngIf=\"!config?.countryID?.hidden\" class=\"country-name\" [class.invalid]=\"invalid.countryID\" [class.focus]=\"focused.countryID\" [class.disabled]=\"disabled.countryID\">\n            <i *ngIf=\"config.countryID.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.countryID, 'bhi-check': valid.countryID}\">\n            </i>\n            <novo-picker [config]=\"config?.countryID?.pickerConfig\" [placeholder]=\"config.countryID.label\" (changed)=\"onCountryChange($event)\" autocomplete=\"shipping country\" [(ngModel)]=\"model.countryName\"></novo-picker>\n        </span>\n    "
             },] },
 ];
 /**
@@ -29802,6 +30091,7 @@ NovoAddressElement.propDecorators = {
     'change': [{ type: Output },],
     'focus': [{ type: Output },],
     'blur': [{ type: Output },],
+    'validityChange': [{ type: Output },],
 };
 // NG2
 // APP
@@ -30344,7 +30634,7 @@ var NovoFormExtrasModule = /** @class */ (function () {
 }());
 NovoFormExtrasModule.decorators = [
     { type: NgModule, args: [{
-                imports: [CommonModule, FormsModule, NovoPipesModule, NovoButtonModule, NovoSelectModule, NovoLoadingModule, NovoDragulaModule],
+                imports: [CommonModule, FormsModule, NovoPipesModule, NovoButtonModule, NovoSelectModule, NovoPickerModule, NovoLoadingModule, NovoDragulaModule, NovoTooltipModule],
                 declarations: [NovoAddressElement, NovoCheckboxElement, NovoCheckListElement, NovoFileInputElement],
                 exports: [NovoAddressElement, NovoCheckboxElement, NovoCheckListElement, NovoFileInputElement]
             },] },

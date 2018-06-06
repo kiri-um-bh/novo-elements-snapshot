@@ -1,4 +1,5 @@
 export declare class FormValidators {
+    private showStateRequiredFlag(subfield, control);
     static maxInteger(control: any): {
         'integerTooLarge': boolean;
     };

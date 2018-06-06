@@ -89,4 +89,5 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     handleDelete(value: any): void;
     handleUpload(value: any): void;
     handleAddressChange(data: any): void;
+    updateValidity(data: any): void;
 }

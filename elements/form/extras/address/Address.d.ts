@@ -5,7 +5,9 @@ export interface NovoAddressSubfieldConfig {
     label: string;
     required: boolean;
     maxlength: number;
+    pickerConfig?: any;
     hidden: boolean;
+    updated?: boolean;
 }
 export interface NovoAddressConfig {
     required?: boolean;
@@ -27,13 +29,19 @@ export declare class NovoAddressElement implements ControlValueAccessor, OnInit 
     onModelTouched: Function;
     focused: any;
     invalid: any;
+    disabled: any;
     invalidMaxlength: any;
     valid: any;
+    stateOptions: any;
+    tooltip: any;
+    initComplete: boolean;
     change: EventEmitter<any>;
     focus: EventEmitter<any>;
     blur: EventEmitter<any>;
+    validityChange: EventEmitter<any>;
     constructor(labels: NovoLabelService);
     ngOnInit(): void;
+    initConfig(): void;
     isValid(field: string): void;
     isInvalid(field: string): void;
     onInput(event: Event, field: string): void;
@@ -41,9 +49,13 @@ export declare class NovoAddressElement implements ControlValueAccessor, OnInit 
     isBlurred(event: Event, field: string): void;
     onCountryChange(evt: any): void;
     onStateChange(evt: any): void;
+    setStateLabel(model: any): void;
     updateStates(): void;
+    getStateOptions(filter: string, countryID: number): any[];
     updateControl(): void;
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
+    private getDefaultStateConfig();
+    private getDefaultCountryConfig();
 }
