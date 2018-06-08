@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, ElementRef, EventEmitter, OnInit, ViewContainerRef } from '@angular/core';
+import { EventEmitter, ElementRef, ViewContainerRef, OnInit, ChangeDetectorRef } from '@angular/core';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -49,11 +49,11 @@ export declare class NovoPickerElement implements OnInit {
     constructor(element: ElementRef, componentUtils: ComponentUtils, ref: ChangeDetectorRef);
     ngOnInit(): void;
     private onDebouncedKeyup(event);
-    /** BEGIN: Convenient Panel Methods. */
+    /** BEGIN: Convienient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
     readonly panelOpen: boolean;
-    /** END: Convenient Panel Methods. */
+    /** END: Convienient Panel Methods. */
     private show(term?);
     private hide();
     onKeyDown(event: KeyboardEvent): void;

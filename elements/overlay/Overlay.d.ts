@@ -1,33 +1,45 @@
-import { ChangeDetectorRef, ElementRef, EventEmitter, NgZone, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
-import { ConnectedPositionStrategy, Overlay, OverlayConfig, OverlayRef, ScrollStrategy } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
-import { Subscription } from 'rxjs/Subscription';
+import { ElementRef, EventEmitter, InjectionToken, ChangeDetectorRef, TemplateRef, NgZone, ViewContainerRef, OnDestroy } from '@angular/core';
+import { ConnectedPositionStrategy, Overlay, OverlayRef, OverlayConfig, PositionStrategy, RepositionScrollStrategy, ScrollStrategy } from '@angular/cdk/overlay';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+/** Injection token that determines the scroll handling while the autocomplete panel is open. */
+export declare const DEFAULT_OVERLAY_SCROLL_STRATEGY: InjectionToken<ScrollStrategy>;
+/** @docs-private */
+export declare function DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY(overlay: Overlay): () => RepositionScrollStrategy;
+/** @docs-private */
+export declare const DEFAULT_OVERLAY_SCROLL_STRATEGY_PROVIDER: any;
 export declare class NovoOverlayTemplateComponent implements OnDestroy {
-    protected overlay: Overlay;
-    protected viewContainerRef: ViewContainerRef;
-    protected zone: NgZone;
-    protected changeDetectorRef: ChangeDetectorRef;
-    protected document: any;
+    protected _overlay: Overlay;
+    protected _viewContainerRef: ViewContainerRef;
+    protected _zone: NgZone;
+    protected _changeDetectorRef: ChangeDetectorRef;
+    protected _scrollStrategy: any;
+    protected _document: any;
     id: string;
+    /** @docs-private */
     template: TemplateRef<any>;
+    /** Element for the panel containing the autocomplete options. */
     panel: ElementRef;
     position: string;
-    scrollStrategy: 'reposition' | 'block' | 'close';
-    width: number;
-    height: number;
+    size: string;
     closeOnSelect: boolean;
     select: EventEmitter<any>;
     closing: EventEmitter<any>;
-    overlayRef: OverlayRef | null;
-    portal: TemplatePortal<any>;
-    protected closingActionsSubscription: Subscription;
+    _overlayRef: OverlayRef | null;
+    _portal: any;
+    _panelOpen: boolean;
+    /** Strategy that is used to position the panel. */
+    _positionStrategy: ConnectedPositionStrategy;
+    /** The subscription for closing actions (some are bound to document). */
+    _closingActionsSubscription: Subscription;
     private _parent;
-    constructor(overlay: Overlay, viewContainerRef: ViewContainerRef, zone: NgZone, changeDetectorRef: ChangeDetectorRef, document: any);
+    constructor(_overlay: Overlay, _viewContainerRef: ViewContainerRef, _zone: NgZone, _changeDetectorRef: ChangeDetectorRef, _scrollStrategy: any, _document: any);
     ngOnDestroy(): void;
     readonly panelOpen: boolean;
     parent: ElementRef;
+    /** Opens the autocomplete suggestion panel. */
     openPanel(): void;
+    /** Closes the autocomplete suggestion panel. */
     closePanel(): void;
     onClosingAction(event: any): void;
     /**
@@ -36,18 +48,19 @@ export declare class NovoOverlayTemplateComponent implements OnDestroy {
      */
     readonly panelClosingActions: Observable<any>;
     /** Stream of clicks outside of the autocomplete panel. */
-    protected readonly outsideClickStream: Observable<any>;
+    protected readonly _outsideClickStream: Observable<any>;
     /**
      * This method listens to a stream of panel closing actions and resets the
      * stream every time the option list changes.
      */
-    protected subscribeToClosingActions(): Subscription;
-    protected createOverlay(template: TemplateRef<any>): void;
-    protected destroyOverlay(): void;
-    protected getOverlayConfig(): OverlayConfig;
-    protected getPosition(): ConnectedPositionStrategy;
-    protected getScrollStrategy(): ScrollStrategy;
-    protected checkSizes(): void;
-    protected getConnectedElement(): ElementRef;
-    protected getHostWidth(): number;
+    protected _subscribeToClosingActions(): Subscription;
+    /** Destroys the autocomplete suggestion panel. */
+    protected _destroyPanel(): void;
+    protected _createOverlay(template: TemplateRef<any>): void;
+    protected _getOverlayConfig(): OverlayConfig;
+    protected _getOverlayPosition(): PositionStrategy;
+    protected _checkSizes(): void;
+    protected _getConnectedElement(): ElementRef;
+    /** Returns the width of the input element, so the panel width can match it. */
+    protected _getHostWidth(): number;
 }

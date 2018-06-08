@@ -23,11 +23,11 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     overlay: NovoOverlayTemplateComponent;
     constructor(element: ElementRef, labels: NovoLabelService, _changeDetectorRef: ChangeDetectorRef);
     ngOnInit(): void;
-    /** BEGIN: Convenient Panel Methods. */
+    /** BEGIN: Convienient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
     readonly panelOpen: boolean;
-    /** END: Convenient Panel Methods. */
+    /** END: Convienient Panel Methods. */
     _handleKeydown(event: KeyboardEvent): void;
     _handleInput(event: KeyboardEvent): void;
     writeValue(value: any): void;
