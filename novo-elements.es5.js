@@ -44455,7 +44455,6 @@ var StaticDataTableService = /** @class */ (function () {
      */
     StaticDataTableService.prototype.getTableResults = function (sort, filter$$1, page, pageSize, globalSearch, outsideFilter) {
         if (page === void 0) { page = 0; }
-        var /** @type {?} */ ret = [];
         this.currentData = this.originalData.slice();
         if (this.currentData.length !== 0) {
             if (globalSearch) {
@@ -44472,10 +44471,10 @@ var StaticDataTableService = /** @class */ (function () {
                 this.currentData = this.originalData.slice();
             }
             if (!Helpers.isBlank(page) && !Helpers.isBlank(pageSize)) {
-                ret = this.currentData.slice(page * pageSize, (page + 1) * pageSize);
+                this.currentData = this.currentData.slice(page * pageSize, (page + 1) * pageSize);
             }
         }
-        return Observable$1.of({ results: ret, total: this.currentData.length });
+        return Observable$1.of({ results: this.currentData, total: this.currentData.length });
     };
     return StaticDataTableService;
 }());

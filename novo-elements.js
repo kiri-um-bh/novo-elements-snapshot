@@ -46679,7 +46679,6 @@ class StaticDataTableService {
      * @return {?}
      */
     getTableResults(sort, filter$$1, page = 0, pageSize, globalSearch, outsideFilter) {
-        let /** @type {?} */ ret = [];
         this.currentData = [...this.originalData];
         if (this.currentData.length !== 0) {
             if (globalSearch) {
@@ -46696,10 +46695,10 @@ class StaticDataTableService {
                 this.currentData = [...this.originalData];
             }
             if (!Helpers.isBlank(page) && !Helpers.isBlank(pageSize)) {
-                ret = this.currentData.slice(page * pageSize, (page + 1) * pageSize);
+                this.currentData = this.currentData.slice(page * pageSize, (page + 1) * pageSize);
             }
         }
-        return Observable$1.of({ results: ret, total: this.currentData.length });
+        return Observable$1.of({ results: this.currentData, total: this.currentData.length });
     }
 }
 
