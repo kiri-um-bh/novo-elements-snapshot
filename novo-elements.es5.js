@@ -16034,6 +16034,7 @@ var FieldInteractionApi = /** @class */ (function () {
     FieldInteractionApi.prototype.addStaticOption = function (key, newOption) {
         var /** @type {?} */ control = this.getControl(key);
         var /** @type {?} */ optionToAdd = newOption;
+        var /** @type {?} */ isUnique = true;
         if (control) {
             var /** @type {?} */ currentOptions = this.getProperty(key, 'options');
             if (!currentOptions || !currentOptions.length) {
@@ -16053,9 +16054,19 @@ var FieldInteractionApi = /** @class */ (function () {
                 if (currentOptions[0].value && !optionToAdd.value) {
                     optionToAdd = { value: newOption, label: newOption };
                 }
-                this.setProperty(key, 'options', currentOptions.concat([optionToAdd]));
+                // Ensure duplicate values are not added
+                currentOptions.forEach(function (option) {
+                    if ((option.value && option.value === optionToAdd.value) || (option === optionToAdd)) {
+                        isUnique = false;
+                    }
+                });
+                if (isUnique) {
+                    this.setProperty(key, 'options', currentOptions.concat([optionToAdd]));
+                }
             }
-            this.triggerEvent({ controlKey: key, prop: 'options', value: currentOptions.concat([optionToAdd]) });
+            if (isUnique) {
+                this.triggerEvent({ controlKey: key, prop: 'options', value: currentOptions.concat([optionToAdd]) });
+            }
         }
     };
     /**
