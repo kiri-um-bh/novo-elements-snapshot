@@ -4342,7 +4342,7 @@ NovoTabModule.ctorParameters = () => [];
 const TILES_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NovoTilesElement),
-    multi: true
+    multi: true,
 };
 class NovoTilesElement {
     /**
@@ -4360,10 +4360,8 @@ class NovoTilesElement {
         this.activeTile = null;
         this.state = 'inactive';
         this.focused = false;
-        this.onModelChange = () => {
-        };
-        this.onModelTouched = () => {
-        };
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
     }
     /**
      * @param {?} focus
@@ -4512,14 +4510,14 @@ NovoTilesElement.decorators = [
                 animations: [
                     trigger$1('tileState', [
                         state$1('inactive', style$1({
-                            opacity: '0'
+                            opacity: '0',
                         })),
                         state$1('active', style$1({
-                            opacity: '1'
+                            opacity: '1',
                         })),
                         transition$1('inactive => active', animate$1('200ms ease-in')),
-                        transition$1('active => inactive', animate$1('200ms ease-out'))
-                    ])
+                        transition$1('active => inactive', animate$1('200ms ease-out')),
+                    ]),
                 ],
                 changeDetection: ChangeDetectionStrategy.OnPush,
             },] },
@@ -4535,7 +4533,7 @@ NovoTilesElement.propDecorators = {
     'name': [{ type: Input },],
     'options': [{ type: Input },],
     'required': [{ type: Input },],
-    'disabled': [{ type: Input },],
+    'disabled': [{ type: Input, args: ['controlDisabled',] },],
     'onChange': [{ type: Output },],
     'onDisabledOptionClick': [{ type: Output },],
 };
@@ -16935,7 +16933,6 @@ FieldInteractionApi.ctorParameters = () => [
 ];
 
 // NG2
-
 class NovoAutoSize {
     /**
      * @param {?} element
@@ -16969,7 +16966,7 @@ class NovoAutoSize {
 }
 NovoAutoSize.decorators = [
     { type: Directive, args: [{
-                selector: 'textarea[autosize]'
+                selector: 'textarea[autosize]',
             },] },
 ];
 /**
@@ -17026,7 +17023,7 @@ NovoCustomControlContainerElement.decorators = [
                 </div>
             </div>
         </div>
-    `
+    `,
             },] },
 ];
 /**
@@ -17142,7 +17139,8 @@ class NovoControlElement extends OutsideClick {
     ngOnInit() {
         // Make sure to initially format the time controls
         if (this.control && this.form.controls[this.control.key].value) {
-            if (this.form.controls[this.control.key].controlType === 'textbox' || this.form.controls[this.control.key].controlType === 'text-area') {
+            if (this.form.controls[this.control.key].controlType === 'textbox' ||
+                this.form.controls[this.control.key].controlType === 'text-area') {
                 this.characterCount = this.form.controls[this.control.key].value.length;
             }
         }
@@ -17291,7 +17289,21 @@ class NovoControlElement extends OutsideClick {
             return true;
         }
         // Controls that always have the label active
-        return ['tiles', 'checklist', 'checkbox', 'date', 'time', 'date-time', 'address', 'file', 'editor', 'ace-editor', 'radio', 'text-area', 'quick-note'].indexOf(this.form.controls[this.control.key].controlType) !== -1;
+        return ([
+            'tiles',
+            'checklist',
+            'checkbox',
+            'date',
+            'time',
+            'date-time',
+            'address',
+            'file',
+            'editor',
+            'ace-editor',
+            'radio',
+            'text-area',
+            'quick-note',
+        ].indexOf(this.form.controls[this.control.key].controlType) !== -1);
     }
     /**
      * @return {?}
@@ -17323,7 +17335,9 @@ class NovoControlElement extends OutsideClick {
             this.showCount = true;
         }
         else if (this.form.controls[this.control.key].controlType === 'address' &&
-            field && !Helpers.isEmpty(this.form.value[this.control.key]) && !Helpers.isBlank(this.form.value[this.control.key][field])) {
+            field &&
+            !Helpers.isEmpty(this.form.value[this.control.key]) &&
+            !Helpers.isBlank(this.form.value[this.control.key][field])) {
             this.handleAddressChange({ value: this.form.value[this.control.key][field], field });
         }
         this._focusEmitter.emit(event);
@@ -17399,7 +17413,8 @@ class NovoControlElement extends OutsideClick {
         if (this.form.controls[this.control.key].subType === 'number' && !(NUMBERS_ONLY.test(key) || UTILITY_KEYS.includes(key))) {
             event.preventDefault();
         }
-        else if (~['currency', 'float', 'percentage'].indexOf(this.form.controls[this.control.key].subType) && !(NUMBERS_WITH_DECIMAL.test(key) || UTILITY_KEYS.includes(key))) {
+        else if (~['currency', 'float', 'percentage'].indexOf(this.form.controls[this.control.key].subType) &&
+            !(NUMBERS_WITH_DECIMAL.test(key) || UTILITY_KEYS.includes(key))) {
             event.preventDefault();
         }
         // Max Length
@@ -17475,8 +17490,10 @@ class NovoControlElement extends OutsideClick {
      * @return {?}
      */
     handleAddressChange(data) {
-        if (data && !Helpers.isBlank(data.value) &&
-            data.field && this.control.config[data.field] &&
+        if (data &&
+            !Helpers.isBlank(data.value) &&
+            data.field &&
+            this.control.config[data.field] &&
             !Helpers.isEmpty(this.control.config[data.field].maxlength)) {
             this.characterCount = data.value.length;
             this.characterCountField = data.field;
@@ -17555,7 +17572,7 @@ NovoControlElement.decorators = [
                             <!--File-->
                             <novo-file-input *ngSwitchCase="'file'" [formControlName]="control.key" [id]="control.key" [name]="control.key" [placeholder]="form.controls[control.key].placeholder" [value]="form.controls[control.key].value" [multiple]="form.controls[control.key].multiple" [layoutOptions]="form.controls[control.key].layoutOptions" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" (edit)="handleEdit($event)" (save)="handleSave($event)" (delete)="handleDelete($event)" (upload)="handleUpload($event)"></novo-file-input>
                             <!--Tiles-->
-                            <novo-tiles *ngSwitchCase="'tiles'" [options]="control.options" [formControlName]="control.key" (onChange)="modelChange($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [disabled]="form.controls[control.key].disabled"></novo-tiles>
+                            <novo-tiles *ngSwitchCase="'tiles'" [options]="control.options" [formControlName]="control.key" (onChange)="modelChange($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [controlDisabled]="form.controls[control.key].disabled"></novo-tiles>
                             <!--Picker-->
                             <div class="novo-control-input-container" *ngSwitchCase="'picker'">
                                 <novo-picker [config]="form.controls[control.key].config" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder" [parentScrollSelector]="form.controls[control.key].parentScrollSelector" *ngIf="!form.controls[control.key].multiple" (select)="modelChange($event);" (changed)="modelChangeWithRaw($event)" (typing)="handleTyping($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition"></novo-picker>
