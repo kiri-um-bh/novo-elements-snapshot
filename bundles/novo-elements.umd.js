@@ -12654,7 +12654,7 @@ NovoTimePickerModule.ctorParameters = function () { return []; };
 var DATE_TIME_PICKER_VALUE_ACCESSOR = {
     provide: forms.NG_VALUE_ACCESSOR,
     useExisting: core.forwardRef(function () { return NovoDateTimePickerElement; }),
-    multi: true
+    multi: true,
 };
 var NovoDateTimePickerElement = /** @class */ (function () {
     /**
@@ -12687,7 +12687,7 @@ var NovoDateTimePickerElement = /** @class */ (function () {
         this.selectedLabel = this.labels.formatDateWithFormat(value, {
             month: 'short',
             day: '2-digit',
-            year: 'numeric'
+            year: 'numeric',
         });
     };
     /**
@@ -12782,44 +12782,44 @@ NovoDateTimePickerElement.decorators = [
                 selector: 'novo-date-time-picker',
                 providers: [DATE_TIME_PICKER_VALUE_ACCESSOR],
                 animations: [
-                    core.trigger('dateTextState', [
-                        core.state('date', core.style({
-                            'opacity': '1.0'
+                    animations.trigger('dateTextState', [
+                        animations.state('date', animations.style({
+                            opacity: '1.0',
                         })),
-                        core.state('time', core.style({
-                            'opacity': '0.6'
+                        animations.state('time', animations.style({
+                            opacity: '0.6',
                         })),
-                        core.transition('date <=> time', core.animate('200ms ease-in'))
+                        animations.transition('date <=> time', animations.animate('200ms ease-in')),
                     ]),
-                    core.trigger('timeTextState', [
-                        core.state('date', core.style({
-                            'opacity': '0.6'
+                    animations.trigger('timeTextState', [
+                        animations.state('date', animations.style({
+                            opacity: '0.6',
                         })),
-                        core.state('time', core.style({
-                            'opacity': '1.0'
+                        animations.state('time', animations.style({
+                            opacity: '1.0',
                         })),
-                        core.transition('date <=> time', core.animate('200ms ease-in'))
+                        animations.transition('date <=> time', animations.animate('200ms ease-in')),
                     ]),
-                    core.trigger('indicatorState', [
-                        core.state('date', core.style({
-                            'transform': 'translateX(0%)'
+                    animations.trigger('indicatorState', [
+                        animations.state('date', animations.style({
+                            transform: 'translateX(0%)',
                         })),
-                        core.state('time', core.style({
-                            'transform': 'translateX(100%)'
+                        animations.state('time', animations.style({
+                            transform: 'translateX(100%)',
                         })),
-                        core.transition('date <=> time', core.animate('200ms ease-in'))
+                        animations.transition('date <=> time', animations.animate('200ms ease-in')),
                     ]),
-                    core.trigger('containerState', [
-                        core.state('date', core.style({
-                            'transform': 'translateX(0%)'
+                    animations.trigger('containerState', [
+                        animations.state('date', animations.style({
+                            transform: 'translateX(0%)',
                         })),
-                        core.state('time', core.style({
-                            'transform': 'translateX(-100%)'
+                        animations.state('time', animations.style({
+                            transform: 'translateX(-100%)',
                         })),
-                        core.transition('date <=> time', core.animate('200ms ease-in'))
-                    ])
+                        animations.transition('date <=> time', animations.animate('200ms ease-in')),
+                    ]),
                 ],
-                template: "\n        <div class=\"date-time-container\">\n            <div class=\"date-time-tabs\">\n                <span class=\"date-tab\" (click)=\"toggleView('date')\" [@dateTextState]=\"componentTabState\" data-automation-id=\"novo-date-time-date-tab\">{{selectedLabel}}</span>\n                <span class=\"time-tab\" (click)=\"toggleView('time')\" [@timeTextState]=\"componentTabState\" data-automation-id=\"novo-date-time-time-tab\">\n                    <span class=\"hours\" data-automation-id=\"novo-time-picker-hours\">{{hours}}</span>:<span\n                    class=\"minutes\" data-automation-id=\"novo-time-picker-minutes\">{{minutes}}</span>\n                    <span *ngIf=\"!military\" class=\"meridian\">{{meridian}}</span>\n                </span>\n                <i class=\"date-time-indicator\" [@indicatorState]=\"componentTabState\"></i>\n            </div>\n            <div class=\"view-container\" [@containerState]=\"componentTabState\">\n                <div class=\"calendar\">\n                    <novo-date-picker (onSelect)=\"onDateSelected($event)\" [(ngModel)]=\"model\" inline=\"true\" [minYear]=\"minYear\" [maxYear]=\"maxYear\" [start]=\"start\" [end]=\"end\"></novo-date-picker>\n                </div>\n                <div class=\"time-picker\">\n                    <novo-time-picker (onSelect)=\"onTimeSelected($event)\" [(ngModel)]=\"model\" [military]=\"military\" inline=\"true\"></novo-time-picker>\n                </div>\n            </div>\n        </div>\n    "
+                template: "\n        <div class=\"date-time-container\">\n            <div class=\"date-time-tabs\">\n                <span class=\"date-tab\" (click)=\"toggleView('date')\" [@dateTextState]=\"componentTabState\" data-automation-id=\"novo-date-time-date-tab\">{{selectedLabel}}</span>\n                <span class=\"time-tab\" (click)=\"toggleView('time')\" [@timeTextState]=\"componentTabState\" data-automation-id=\"novo-date-time-time-tab\">\n                    <span class=\"hours\" data-automation-id=\"novo-time-picker-hours\">{{hours}}</span>:<span\n                    class=\"minutes\" data-automation-id=\"novo-time-picker-minutes\">{{minutes}}</span>\n                    <span *ngIf=\"!military\" class=\"meridian\">{{meridian}}</span>\n                </span>\n                <i class=\"date-time-indicator\" [@indicatorState]=\"componentTabState\"></i>\n            </div>\n            <div class=\"view-container\" [@containerState]=\"componentTabState\">\n                <div class=\"calendar\">\n                    <novo-date-picker (onSelect)=\"onDateSelected($event)\" [(ngModel)]=\"model\" inline=\"true\" [minYear]=\"minYear\" [maxYear]=\"maxYear\" [start]=\"start\" [end]=\"end\"></novo-date-picker>\n                </div>\n                <div class=\"time-picker\">\n                    <novo-time-picker (onSelect)=\"onTimeSelected($event)\" [(ngModel)]=\"model\" [military]=\"military\" inline=\"true\"></novo-time-picker>\n                </div>\n            </div>\n        </div>\n    ",
             },] },
 ];
 /**

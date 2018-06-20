@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, Host, HostBinding, HostListener, Inject, Injectable, InjectionToken, Input, LOCALE_ID, NgModule, NgZone, Optional, Output, PLATFORM_ID, Pipe, ReflectiveInjector, Renderer2, TemplateRef, ViewChild, ViewChildren, ViewContainerRef, ViewEncapsulation, animate, forwardRef, isDevMode, state, style, transition, trigger } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, Host, HostBinding, HostListener, Inject, Injectable, InjectionToken, Input, LOCALE_ID, NgModule, NgZone, Optional, Output, PLATFORM_ID, Pipe, ReflectiveInjector, Renderer2, TemplateRef, ViewChild, ViewChildren, ViewContainerRef, ViewEncapsulation, forwardRef, isDevMode } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import 'brace/index';
@@ -17,7 +17,7 @@ import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
 import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, format, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isDate, isSameDay, isSameMonth, isSameSecond, isToday, isValid, parse, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
 import { DOCUMENT, DomSanitizer } from '@angular/platform-browser';
-import { animate as animate$1, animateChild, group, query, state as state$1, style as style$1, transition as transition$1, trigger as trigger$1 } from '@angular/animations';
+import { animate, animateChild, group, query, state, style, transition, trigger } from '@angular/animations';
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
@@ -4202,15 +4202,15 @@ NovoTilesElement.decorators = [
                 providers: [TILES_VALUE_ACCESSOR],
                 template: "\n        <div class=\"tile-container\" [class.active]=\"focused\" [class.disabled]=\"disabled\">\n            <div class=\"tile\" *ngFor=\"let option of _options; let i = index\" [ngClass]=\"{active: option.checked, disabled: option.disabled}\" (click)=\"select($event, option, i)\" [attr.data-automation-id]=\"option.label || option\">\n                <input class=\"tiles-input\" [name]=\"name\" type=\"radio\" [value]=\"option.checked || option\" [attr.id]=\"name + i\" (change)=\"select($event, option, i)\" (focus)=\"setFocus(true)\" (blur)=\"setFocus(false)\">\n                <label [attr.for]=\"name + i\" [attr.data-automation-id]=\"option.label || option\">\n                    {{ option.label || option }}\n                </label>\n            </div>\n            <span class=\"active-indicator\" [@tileState]=\"state\" [hidden]=\"activeTile === undefined || activeTile === null\"></span>\n        </div>\n    ",
                 animations: [
-                    trigger$1('tileState', [
-                        state$1('inactive', style$1({
+                    trigger('tileState', [
+                        state('inactive', style({
                             opacity: '0',
                         })),
-                        state$1('active', style$1({
+                        state('active', style({
                             opacity: '1',
                         })),
-                        transition$1('inactive => active', animate$1('200ms ease-in')),
-                        transition$1('active => inactive', animate$1('200ms ease-out')),
+                        transition('inactive => active', animate('200ms ease-in')),
+                        transition('active => inactive', animate('200ms ease-out')),
                     ]),
                 ],
                 changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11670,32 +11670,32 @@ NovoDatePickerElement.decorators = [
                 selector: 'novo-date-picker',
                 providers: [DATE_PICKER_VALUE_ACCESSOR],
                 animations: [
-                    trigger$1('startDateTextState', [
-                        state$1('startDate', style$1({
+                    trigger('startDateTextState', [
+                        state('startDate', style({
                             'opacity': '1.0'
                         })),
-                        state$1('endDate', style$1({
+                        state('endDate', style({
                             'opacity': '0.6'
                         })),
-                        transition$1('startDate <=> endDate', animate$1('200ms ease-in'))
+                        transition('startDate <=> endDate', animate('200ms ease-in'))
                     ]),
-                    trigger$1('endDateTextState', [
-                        state$1('startDate', style$1({
+                    trigger('endDateTextState', [
+                        state('startDate', style({
                             'opacity': '0.6'
                         })),
-                        state$1('endDate', style$1({
+                        state('endDate', style({
                             'opacity': '1.0'
                         })),
-                        transition$1('startDate <=> endDate', animate$1('200ms ease-in'))
+                        transition('startDate <=> endDate', animate('200ms ease-in'))
                     ]),
-                    trigger$1('indicatorState', [
-                        state$1('startDate', style$1({
+                    trigger('indicatorState', [
+                        state('startDate', style({
                             'transform': 'translateX(0%)'
                         })),
-                        state$1('endDate', style$1({
+                        state('endDate', style({
                             'transform': 'translateX(100%)'
                         })),
-                        transition$1('startDate <=> endDate', animate$1('200ms ease-in'))
+                        transition('startDate <=> endDate', animate('200ms ease-in'))
                     ])
                 ],
                 template: "\n        <div class=\"calendar\">\n            <div class=\"calendar-top\" *ngIf=\"!inline && !range\">\n                <h4 class=\"day\" [attr.data-automation-id]=\"heading?.day\">{{heading?.day}}</h4>\n                <h2 class=\"month\" [attr.data-automation-id]=\"heading?.month\">{{heading?.month}}</h2>\n                <h1 class=\"date\" [attr.data-automation-id]=\"heading?.date\">{{heading?.date}}</h1>\n                <h3 class=\"year\" [attr.data-automation-id]=\"heading?.year\">{{heading?.year}}</h3>\n            </div>\n            <div class=\"date-range-tabs\" *ngIf=\"range\" [class.week-select-mode]=\"weekRangeSelect\">\n                <span class=\"range-tab\" (click)=\"toggleRangeSelect('startDate')\" [@startDateTextState]=\"rangeSelectMode\" data-automation-id=\"calendar-start-date\">{{selectedLabel}}</span>\n                <span class=\"range-tab\" (click)=\"toggleRangeSelect('endDate')\" [@endDateTextState]=\"rangeSelectMode\" data-automation-id=\"calendar-end-date\">{{selected2Label}}</span>\n                <i class=\"indicator\" [@indicatorState]=\"rangeSelectMode\"></i>\n            </div>\n            <div class=\"calendar-header\">\n                <span class=\"previous\" (click)=\"prevMonth($event)\" data-automation-id=\"calendar-previous\"></span>\n                <span class=\"heading\">\n                    <span class=\"month\" (click)=\"open($event, 'months')\" data-automation-id=\"header-month\">{{monthLabel}}</span>\n                    <span class=\"year\" (click)=\"open($event, 'years')\" data-automation-id=\"header-year\">{{month?.getFullYear()}}</span>\n                </span>\n                <span class=\"next\" (click)=\"nextMonth($event)\" data-automation-id=\"calendar-next\"></span>\n            </div>\n            <table class=\"calendar-content days\" cellspacing=\"0\" cellpadding=\"0\" [hidden]=\"!(view=='days')\">\n                <thead>\n                    <tr>\n                        <th *ngFor=\"let day of weekdays\" title=\"{{day}}\" class=\"weekday\" [attr.data-automation-id]=\"day.substr(0, 2)\">{{day.substr(0, 2)}}</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let week of weeks\">\n                        <td *ngFor=\"let day of week.days\" [ngClass]=\"{\n                            today: day.isToday,\n                            'notinmonth': day.date.getMonth() !== this.month.getMonth(),\n                            selected: isSelected(range, day.date, selected, selected2),\n                            filler: isFiller(range, day.date, selected, selected2),\n                            startfill: isStartFill(range, day.date, selected, selected2),\n                            endfill: isEndFill(range, day.date, selected, selected2),\n                            'selecting-range': isSelectingRange(range, day.date, selected, selected2, hoverDay, rangeSelectMode, weekRangeSelect)\n                           }\" (click)=\"select($event, day, true)\" (mouseover)=\"rangeHover($event, day)\" [attr.data-automation-id]=\"day.number\">\n                            <button class=\"day\" [attr.data-automation-id]=\"day.number\" [disabled]=\"isDisabled(day.date, start, end)\">{{day.number}}</button>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n            <section class=\"calendar-content months\" [hidden]=\"view !== 'months'\">\n                <div *ngFor=\"let month of months;let i = index\" (click)=\"setMonth(i)\">\n                    <div class=\"month\" [ngClass]=\"{selected: i === selected?.getMonth()}\" [attr.data-automation-id]=\"month\">{{month}}</div>\n                </div>\n            </section>\n            <section class=\"calendar-content years\" [hidden]=\"view !== 'years'\">\n                <div *ngFor=\"let year of years\" (click)=\"setYear(year)\">\n                    <div class=\"year\" [ngClass]=\"{selected: year == selected?.getFullYear()}\" [attr.data-automation-id]=\"year\">{{year}}</div>\n                </div>\n            </section>\n            <div class=\"calendar-footer\">\n                <span (click)=\"setToday()\" class=\"today\" data-automation-id=\"calendar-today\">{{ labels.today }}</span>\n            </div>\n        </div>\n    "
@@ -12690,7 +12690,7 @@ NovoTimePickerModule.ctorParameters = function () { return []; };
 var DATE_TIME_PICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(function () { return NovoDateTimePickerElement; }),
-    multi: true
+    multi: true,
 };
 var NovoDateTimePickerElement = /** @class */ (function () {
     /**
@@ -12723,7 +12723,7 @@ var NovoDateTimePickerElement = /** @class */ (function () {
         this.selectedLabel = this.labels.formatDateWithFormat(value, {
             month: 'short',
             day: '2-digit',
-            year: 'numeric'
+            year: 'numeric',
         });
     };
     /**
@@ -12820,42 +12820,42 @@ NovoDateTimePickerElement.decorators = [
                 animations: [
                     trigger('dateTextState', [
                         state('date', style({
-                            'opacity': '1.0'
+                            opacity: '1.0',
                         })),
                         state('time', style({
-                            'opacity': '0.6'
+                            opacity: '0.6',
                         })),
-                        transition('date <=> time', animate('200ms ease-in'))
+                        transition('date <=> time', animate('200ms ease-in')),
                     ]),
                     trigger('timeTextState', [
                         state('date', style({
-                            'opacity': '0.6'
+                            opacity: '0.6',
                         })),
                         state('time', style({
-                            'opacity': '1.0'
+                            opacity: '1.0',
                         })),
-                        transition('date <=> time', animate('200ms ease-in'))
+                        transition('date <=> time', animate('200ms ease-in')),
                     ]),
                     trigger('indicatorState', [
                         state('date', style({
-                            'transform': 'translateX(0%)'
+                            transform: 'translateX(0%)',
                         })),
                         state('time', style({
-                            'transform': 'translateX(100%)'
+                            transform: 'translateX(100%)',
                         })),
-                        transition('date <=> time', animate('200ms ease-in'))
+                        transition('date <=> time', animate('200ms ease-in')),
                     ]),
                     trigger('containerState', [
                         state('date', style({
-                            'transform': 'translateX(0%)'
+                            transform: 'translateX(0%)',
                         })),
                         state('time', style({
-                            'transform': 'translateX(-100%)'
+                            transform: 'translateX(-100%)',
                         })),
-                        transition('date <=> time', animate('200ms ease-in'))
-                    ])
+                        transition('date <=> time', animate('200ms ease-in')),
+                    ]),
                 ],
-                template: "\n        <div class=\"date-time-container\">\n            <div class=\"date-time-tabs\">\n                <span class=\"date-tab\" (click)=\"toggleView('date')\" [@dateTextState]=\"componentTabState\" data-automation-id=\"novo-date-time-date-tab\">{{selectedLabel}}</span>\n                <span class=\"time-tab\" (click)=\"toggleView('time')\" [@timeTextState]=\"componentTabState\" data-automation-id=\"novo-date-time-time-tab\">\n                    <span class=\"hours\" data-automation-id=\"novo-time-picker-hours\">{{hours}}</span>:<span\n                    class=\"minutes\" data-automation-id=\"novo-time-picker-minutes\">{{minutes}}</span>\n                    <span *ngIf=\"!military\" class=\"meridian\">{{meridian}}</span>\n                </span>\n                <i class=\"date-time-indicator\" [@indicatorState]=\"componentTabState\"></i>\n            </div>\n            <div class=\"view-container\" [@containerState]=\"componentTabState\">\n                <div class=\"calendar\">\n                    <novo-date-picker (onSelect)=\"onDateSelected($event)\" [(ngModel)]=\"model\" inline=\"true\" [minYear]=\"minYear\" [maxYear]=\"maxYear\" [start]=\"start\" [end]=\"end\"></novo-date-picker>\n                </div>\n                <div class=\"time-picker\">\n                    <novo-time-picker (onSelect)=\"onTimeSelected($event)\" [(ngModel)]=\"model\" [military]=\"military\" inline=\"true\"></novo-time-picker>\n                </div>\n            </div>\n        </div>\n    "
+                template: "\n        <div class=\"date-time-container\">\n            <div class=\"date-time-tabs\">\n                <span class=\"date-tab\" (click)=\"toggleView('date')\" [@dateTextState]=\"componentTabState\" data-automation-id=\"novo-date-time-date-tab\">{{selectedLabel}}</span>\n                <span class=\"time-tab\" (click)=\"toggleView('time')\" [@timeTextState]=\"componentTabState\" data-automation-id=\"novo-date-time-time-tab\">\n                    <span class=\"hours\" data-automation-id=\"novo-time-picker-hours\">{{hours}}</span>:<span\n                    class=\"minutes\" data-automation-id=\"novo-time-picker-minutes\">{{minutes}}</span>\n                    <span *ngIf=\"!military\" class=\"meridian\">{{meridian}}</span>\n                </span>\n                <i class=\"date-time-indicator\" [@indicatorState]=\"componentTabState\"></i>\n            </div>\n            <div class=\"view-container\" [@containerState]=\"componentTabState\">\n                <div class=\"calendar\">\n                    <novo-date-picker (onSelect)=\"onDateSelected($event)\" [(ngModel)]=\"model\" inline=\"true\" [minYear]=\"minYear\" [maxYear]=\"maxYear\" [start]=\"start\" [end]=\"end\"></novo-date-picker>\n                </div>\n                <div class=\"time-picker\">\n                    <novo-time-picker (onSelect)=\"onTimeSelected($event)\" [(ngModel)]=\"model\" [military]=\"military\" inline=\"true\"></novo-time-picker>\n                </div>\n            </div>\n        </div>\n    ",
             },] },
 ];
 /**
@@ -42134,33 +42134,33 @@ var EXPANSION_PANEL_ANIMATION_TIMING = '225ms cubic-bezier(0.4,0.0,0.2,1)';
  */
 var novoExpansionAnimations = {
     /** Animation that rotates the indicator arrow. */
-    indicatorRotate: trigger$1('indicatorRotate', [
-        state$1('collapsed', style$1({ transform: 'rotate(0deg)' })),
-        state$1('expanded', style$1({ transform: 'rotate(180deg)' })),
-        transition$1('expanded <=> collapsed', animate$1(EXPANSION_PANEL_ANIMATION_TIMING)),
+    indicatorRotate: trigger('indicatorRotate', [
+        state('collapsed', style({ transform: 'rotate(0deg)' })),
+        state('expanded', style({ transform: 'rotate(180deg)' })),
+        transition('expanded <=> collapsed', animate(EXPANSION_PANEL_ANIMATION_TIMING)),
     ]),
     /** Animation that expands and collapses the panel header height. */
-    expansionHeaderHeight: trigger$1('expansionHeight', [
-        state$1('collapsed', style$1({
+    expansionHeaderHeight: trigger('expansionHeight', [
+        state('collapsed', style({
             height: '{{collapsedHeight}}',
         }), {
             params: { collapsedHeight: '48px' },
         }),
-        state$1('expanded', style$1({
+        state('expanded', style({
             height: '{{expandedHeight}}'
         }), {
             params: { expandedHeight: '56px' }
         }),
-        transition$1('expanded <=> collapsed', group([
+        transition('expanded <=> collapsed', group([
             query('@indicatorRotate', animateChild(), { optional: true }),
-            animate$1(EXPANSION_PANEL_ANIMATION_TIMING),
+            animate(EXPANSION_PANEL_ANIMATION_TIMING),
         ])),
     ]),
     /** Animation that expands and collapses the panel content. */
-    bodyExpansion: trigger$1('bodyExpansion', [
-        state$1('collapsed', style$1({ height: '0px', visibility: 'hidden' })),
-        state$1('expanded', style$1({ height: '*', visibility: 'visible' })),
-        transition$1('expanded <=> collapsed', animate$1(EXPANSION_PANEL_ANIMATION_TIMING)),
+    bodyExpansion: trigger('bodyExpansion', [
+        state('collapsed', style({ height: '0px', visibility: 'hidden' })),
+        state('expanded', style({ height: '*', visibility: 'visible' })),
+        transition('expanded <=> collapsed', animate(EXPANSION_PANEL_ANIMATION_TIMING)),
     ])
 };
 /**
@@ -42742,18 +42742,18 @@ NovoStepHeader.propDecorators = {
  */
 var novoStepperAnimations = {
     /** Animation that transitions the step along the X axis in a horizontal stepper. */
-    horizontalStepTransition: trigger$1('stepTransition', [
-        state$1('previous', style$1({ transform: 'translate3d(-100%, 0, 0)', visibility: 'hidden' })),
-        state$1('current', style$1({ transform: 'none', visibility: 'visible' })),
-        state$1('next', style$1({ transform: 'translate3d(100%, 0, 0)', visibility: 'hidden' })),
-        transition$1('* => *', animate$1('500ms cubic-bezier(0.35, 0, 0.25, 1)'))
+    horizontalStepTransition: trigger('stepTransition', [
+        state('previous', style({ transform: 'translate3d(-100%, 0, 0)', visibility: 'hidden' })),
+        state('current', style({ transform: 'none', visibility: 'visible' })),
+        state('next', style({ transform: 'translate3d(100%, 0, 0)', visibility: 'hidden' })),
+        transition('* => *', animate('500ms cubic-bezier(0.35, 0, 0.25, 1)'))
     ]),
     /** Animation that transitions the step along the Y axis in a vertical stepper. */
-    verticalStepTransition: trigger$1('stepTransition', [
-        state$1('previous', style$1({ height: '0px', visibility: 'hidden' })),
-        state$1('next', style$1({ height: '0px', visibility: 'hidden' })),
-        state$1('current', style$1({ height: '*', visibility: 'visible' })),
-        transition$1('* <=> current', animate$1('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    verticalStepTransition: trigger('stepTransition', [
+        state('previous', style({ height: '0px', visibility: 'hidden' })),
+        state('next', style({ height: '0px', visibility: 'hidden' })),
+        state('current', style({ height: '*', visibility: 'visible' })),
+        transition('* <=> current', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
     ])
 };
 var NovoStep = /** @class */ (function (_super) {
@@ -44995,10 +44995,10 @@ NovoDataTable.decorators = [
     { type: Component, args: [{
                 selector: 'novo-data-table',
                 animations: [
-                    trigger$1('expand', [
-                        state$1('void', style$1({ height: '0px', minHeight: '0', visibility: 'hidden' })),
-                        state$1('*', style$1({ height: '*', visibility: 'visible' })),
-                        transition$1('void <=> *', animate$1('70ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+                    trigger('expand', [
+                        state('void', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+                        state('*', style({ height: '*', visibility: 'visible' })),
+                        transition('void <=> *', animate('70ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
                     ]),
                 ],
                 template: "\n    <header *ngIf=\"(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader\"\n            [class.empty]=\"hideGlobalSearch && !paginationOptions && !templates['customActions']\">\n      <ng-container *ngTemplateOutlet=\"templates['customHeader']\"></ng-container>\n        <novo-search\n            alwaysOpen=\"true\"\n            (searchChanged)=\"onSearchChange($event)\"\n            [(ngModel)]=\"state.globalSearch\"\n            *ngIf=\"!hideGlobalSearch\"\n            [placeholder]=\"searchOptions?.placeholder\"\n            [hint]=\"searchOptions?.tooltip\">\n        </novo-search>\n        <novo-data-table-pagination\n            *ngIf=\"paginationOptions\"\n            [theme]=\"paginationOptions.theme\"\n            [length]=\"dataSource?.currentTotal\"\n            [page]=\"paginationOptions.page\"\n            [pageSize]=\"paginationOptions.pageSize\"\n            [pageSizeOptions]=\"paginationOptions.pageSizeOptions\">\n        </novo-data-table-pagination>\n        <div class=\"novo-data-table-actions\" *ngIf=\"templates['customActions']\">\n          <ng-container *ngTemplateOutlet=\"templates['customActions']\"></ng-container>\n        </div>\n    </header>\n    <div class=\"novo-data-table-loading-mask\" *ngIf=\"dataSource?.loading || loading\" data-automation-id=\"novo-data-table-loading\">\n        <novo-loading></novo-loading>\n    </div>\n    <div class=\"novo-data-table-outside-container\">\n        <div class=\"novo-data-table-custom-filter\" *ngIf=\"customFilter\">\n          <ng-container *ngTemplateOutlet=\"templates['customFilter']\"></ng-container>\n        </div>\n        <div #novoDataTableContainer class=\"novo-data-table-container\" [class.empty-user-filtered]=\"dataSource?.currentlyEmpty && state.userFiltered\" [class.empty]=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n            <cdk-table *ngIf=\"(columns?.length > 0) && columnsLoaded && dataSource\" [dataSource]=\"dataSource\" [trackBy]=\"trackByFn\" novoDataTableSortFilter [class.expandable]=\"expandable\" [class.empty]=\"dataSource?.currentlyEmpty && state.userFiltered\" [hidden]=\"dataSource?.totallyEmpty && !userFiltered\">\n                <ng-container cdkColumnDef=\"selection\">\n                    <novo-data-table-checkbox-header-cell *cdkHeaderCellDef></novo-data-table-checkbox-header-cell>\n                    <novo-data-table-checkbox-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-checkbox-cell>\n                </ng-container>\n                <ng-container cdkColumnDef=\"expand\">\n                    <novo-data-table-expand-header-cell *cdkHeaderCellDef></novo-data-table-expand-header-cell>\n                    <novo-data-table-expand-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-expand-cell>\n                </ng-container>\n                <ng-container *ngFor=\"let column of columns;trackBy: trackColumnsBy\" [cdkColumnDef]=\"column.id\">\n                  <novo-data-table-header-cell *cdkHeaderCellDef [column]=\"column\" [novo-data-table-cell-config]=\"column\" [defaultSort]=\"defaultSort\" [class.empty]=\"column?.type === 'action' && !column?.label\" [class.button-header-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\" [class.dropdown-header-cell]=\"column?.type === 'action' && column?.action?.options\"></novo-data-table-header-cell>\n                  <novo-data-table-cell *cdkCellDef=\"let row\" [column]=\"column\" [row]=\"row\" [template]=\"columnToTemplate[column.id]\" [class.empty]=\"column?.type === 'action' && !column?.label\" [class.button-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\" [class.dropdown-cell]=\"column?.type === 'action' && column?.action?.options\"></novo-data-table-cell>\n                </ng-container>\n                <novo-data-table-header-row *cdkHeaderRowDef=\"displayedColumns\" data-automation-id=\"novo-data-table-header-row\"></novo-data-table-header-row>\n                <novo-data-table-row *cdkRowDef=\"let row; columns: displayedColumns\" [novoDataTableExpand]=\"detailRowTemplate\" [row]=\"row\" [id]=\"name + '-' + row[rowIdentifier]\" [dataAutomationId]=\"row[rowIdentifier]\"></novo-data-table-row>\n            </cdk-table>\n            <div class=\"novo-data-table-footer\" *ngIf=\"templates['footer']\">\n              <ng-container *ngTemplateOutlet=\"templates['footer']; context: {$implicit: columns, data: dataSource.data}\"></ng-container>\n            </div>\n            <div class=\"novo-data-table-no-results-container\" [style.left.px]=\"scrollLeft\" *ngIf=\"dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine\">\n              <div class=\"novo-data-table-empty-message\" >\n                <ng-container *ngTemplateOutlet=\"templates['noResultsMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n              </div>\n            </div>\n        </div>\n        <div class=\"novo-data-table-empty-container\" *ngIf=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n          <div class=\"novo-data-table-empty-message\">\n            <ng-container *ngTemplateOutlet=\"templates['emptyMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n          </div>\n        </div>\n    </div>\n\n      <!-- DEFAULT CELL TEMPLATE -->\n    <ng-template novoTemplate=\"textCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"dateCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"datetimeCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateTimeRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"timeCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableTimeRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"currencyCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableCurrencyRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"numberCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"percentCellTemplate\"\n        let-row\n        let-col=\"col\">\n        <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col:true }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"linkCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <a (click)=\"col.handlers?.click({originalEvent: $event, row: row})\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"telCellTemplate\"\n          let-row\n          let-col=\"col\">\n        <a href=\"tel:{{ row[col.id] | dataTableInterpolate:col }}\" [target]=\"col?.attributes?.target\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"mailtoCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <a href=\"mailto:{{ row[col.id] | dataTableInterpolate:col }}\" [target]=\"col?.attributes?.target\">{{ row[col.id] | dataTableInterpolate:col }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"buttonCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <p [tooltip]=\"col?.action?.tooltip\" tooltipPosition=\"right\">\n            <i class=\"bhi-{{ col?.action?.icon }} data-table-icon\" (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\" [class.disabled]=\"isDisabled(col, row)\"></i>\n          </p>\n    </ng-template>\n    <ng-template novoTemplate=\"dropdownCellTemplate\"\n          let-row\n          let-col=\"col\">\n          <novo-dropdown appendToBody=\"true\" parentScrollSelector=\".novo-data-table-container\" containerClass=\"novo-data-table-dropdown\">\n            <button type=\"button\" theme=\"dialogue\" icon=\"collapse\" inverse>{{ col.label }}</button>\n            <list>\n                <item *ngFor=\"let option of col?.action?.options\" (action)=\"option.handlers.click({ originalEvent: $event?.originalEvent, row: row })\" [disabled]=\"isDisabled(option, row)\">\n                    <span [attr.data-automation-id]=\"option.label\">{{ option.label }}</span>\n                </item>\n            </list>\n        </novo-dropdown>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultNoResultsMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.noMatchingRecordsMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultEmptyMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.emptyTableMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"expandedRow\">\n      You did not provide an \"expandedRow\" template!\n    </ng-template>\n    <ng-template #detailRowTemplate let-row>\n      <div class=\"novo-data-table-detail-row\" [@expand] style=\"overflow: hidden\">\n        <ng-container *ngTemplateOutlet=\"templates['expandedRow']; context: {$implicit: row}\"></ng-container>\n      </div>\n    </ng-template>\n    <!-- CUSTOM CELLS PASSED IN -->\n    <ng-content></ng-content>\n  ",

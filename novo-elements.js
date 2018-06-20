@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, Host, HostBinding, HostListener, Inject, Injectable, InjectionToken, Input, LOCALE_ID, NgModule, NgZone, Optional, Output, PLATFORM_ID, Pipe, ReflectiveInjector, Renderer2, TemplateRef, ViewChild, ViewChildren, ViewContainerRef, ViewEncapsulation, animate, forwardRef, isDevMode, state, style, transition, trigger } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, Host, HostBinding, HostListener, Inject, Injectable, InjectionToken, Input, LOCALE_ID, NgModule, NgZone, Optional, Output, PLATFORM_ID, Pipe, ReflectiveInjector, Renderer2, TemplateRef, ViewChild, ViewChildren, ViewContainerRef, ViewEncapsulation, forwardRef, isDevMode } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import 'brace/index';
@@ -7,7 +7,7 @@ import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
 import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, format, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isDate, isSameDay, isSameMonth, isSameSecond, isToday, isValid, parse, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
 import { DOCUMENT, DomSanitizer } from '@angular/platform-browser';
-import { animate as animate$1, animateChild, group, query, state as state$1, style as style$1, transition as transition$1, trigger as trigger$1 } from '@angular/animations';
+import { animate, animateChild, group, query, state, style, transition, trigger } from '@angular/animations';
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
@@ -4508,15 +4508,15 @@ NovoTilesElement.decorators = [
         </div>
     `,
                 animations: [
-                    trigger$1('tileState', [
-                        state$1('inactive', style$1({
+                    trigger('tileState', [
+                        state('inactive', style({
                             opacity: '0',
                         })),
-                        state$1('active', style$1({
+                        state('active', style({
                             opacity: '1',
                         })),
-                        transition$1('inactive => active', animate$1('200ms ease-in')),
-                        transition$1('active => inactive', animate$1('200ms ease-out')),
+                        transition('inactive => active', animate('200ms ease-in')),
+                        transition('active => inactive', animate('200ms ease-out')),
                     ]),
                 ],
                 changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12263,32 +12263,32 @@ NovoDatePickerElement.decorators = [
                 selector: 'novo-date-picker',
                 providers: [DATE_PICKER_VALUE_ACCESSOR],
                 animations: [
-                    trigger$1('startDateTextState', [
-                        state$1('startDate', style$1({
+                    trigger('startDateTextState', [
+                        state('startDate', style({
                             'opacity': '1.0'
                         })),
-                        state$1('endDate', style$1({
+                        state('endDate', style({
                             'opacity': '0.6'
                         })),
-                        transition$1('startDate <=> endDate', animate$1('200ms ease-in'))
+                        transition('startDate <=> endDate', animate('200ms ease-in'))
                     ]),
-                    trigger$1('endDateTextState', [
-                        state$1('startDate', style$1({
+                    trigger('endDateTextState', [
+                        state('startDate', style({
                             'opacity': '0.6'
                         })),
-                        state$1('endDate', style$1({
+                        state('endDate', style({
                             'opacity': '1.0'
                         })),
-                        transition$1('startDate <=> endDate', animate$1('200ms ease-in'))
+                        transition('startDate <=> endDate', animate('200ms ease-in'))
                     ]),
-                    trigger$1('indicatorState', [
-                        state$1('startDate', style$1({
+                    trigger('indicatorState', [
+                        state('startDate', style({
                             'transform': 'translateX(0%)'
                         })),
-                        state$1('endDate', style$1({
+                        state('endDate', style({
                             'transform': 'translateX(100%)'
                         })),
-                        transition$1('startDate <=> endDate', animate$1('200ms ease-in'))
+                        transition('startDate <=> endDate', animate('200ms ease-in'))
                     ])
                 ],
                 template: `
@@ -13367,7 +13367,7 @@ NovoTimePickerModule.ctorParameters = () => [];
 const DATE_TIME_PICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NovoDateTimePickerElement),
-    multi: true
+    multi: true,
 };
 class NovoDateTimePickerElement {
     /**
@@ -13400,7 +13400,7 @@ class NovoDateTimePickerElement {
         this.selectedLabel = this.labels.formatDateWithFormat(value, {
             month: 'short',
             day: '2-digit',
-            year: 'numeric'
+            year: 'numeric',
         });
     }
     /**
@@ -13496,40 +13496,40 @@ NovoDateTimePickerElement.decorators = [
                 animations: [
                     trigger('dateTextState', [
                         state('date', style({
-                            'opacity': '1.0'
+                            opacity: '1.0',
                         })),
                         state('time', style({
-                            'opacity': '0.6'
+                            opacity: '0.6',
                         })),
-                        transition('date <=> time', animate('200ms ease-in'))
+                        transition('date <=> time', animate('200ms ease-in')),
                     ]),
                     trigger('timeTextState', [
                         state('date', style({
-                            'opacity': '0.6'
+                            opacity: '0.6',
                         })),
                         state('time', style({
-                            'opacity': '1.0'
+                            opacity: '1.0',
                         })),
-                        transition('date <=> time', animate('200ms ease-in'))
+                        transition('date <=> time', animate('200ms ease-in')),
                     ]),
                     trigger('indicatorState', [
                         state('date', style({
-                            'transform': 'translateX(0%)'
+                            transform: 'translateX(0%)',
                         })),
                         state('time', style({
-                            'transform': 'translateX(100%)'
+                            transform: 'translateX(100%)',
                         })),
-                        transition('date <=> time', animate('200ms ease-in'))
+                        transition('date <=> time', animate('200ms ease-in')),
                     ]),
                     trigger('containerState', [
                         state('date', style({
-                            'transform': 'translateX(0%)'
+                            transform: 'translateX(0%)',
                         })),
                         state('time', style({
-                            'transform': 'translateX(-100%)'
+                            transform: 'translateX(-100%)',
                         })),
-                        transition('date <=> time', animate('200ms ease-in'))
-                    ])
+                        transition('date <=> time', animate('200ms ease-in')),
+                    ]),
                 ],
                 template: `
         <div class="date-time-container">
@@ -13551,7 +13551,7 @@ NovoDateTimePickerElement.decorators = [
                 </div>
             </div>
         </div>
-    `
+    `,
             },] },
 ];
 /**
@@ -43230,33 +43230,33 @@ const EXPANSION_PANEL_ANIMATION_TIMING = '225ms cubic-bezier(0.4,0.0,0.2,1)';
  */
 const novoExpansionAnimations = {
     /** Animation that rotates the indicator arrow. */
-    indicatorRotate: trigger$1('indicatorRotate', [
-        state$1('collapsed', style$1({ transform: 'rotate(0deg)' })),
-        state$1('expanded', style$1({ transform: 'rotate(180deg)' })),
-        transition$1('expanded <=> collapsed', animate$1(EXPANSION_PANEL_ANIMATION_TIMING)),
+    indicatorRotate: trigger('indicatorRotate', [
+        state('collapsed', style({ transform: 'rotate(0deg)' })),
+        state('expanded', style({ transform: 'rotate(180deg)' })),
+        transition('expanded <=> collapsed', animate(EXPANSION_PANEL_ANIMATION_TIMING)),
     ]),
     /** Animation that expands and collapses the panel header height. */
-    expansionHeaderHeight: trigger$1('expansionHeight', [
-        state$1('collapsed', style$1({
+    expansionHeaderHeight: trigger('expansionHeight', [
+        state('collapsed', style({
             height: '{{collapsedHeight}}',
         }), {
             params: { collapsedHeight: '48px' },
         }),
-        state$1('expanded', style$1({
+        state('expanded', style({
             height: '{{expandedHeight}}'
         }), {
             params: { expandedHeight: '56px' }
         }),
-        transition$1('expanded <=> collapsed', group([
+        transition('expanded <=> collapsed', group([
             query('@indicatorRotate', animateChild(), { optional: true }),
-            animate$1(EXPANSION_PANEL_ANIMATION_TIMING),
+            animate(EXPANSION_PANEL_ANIMATION_TIMING),
         ])),
     ]),
     /** Animation that expands and collapses the panel content. */
-    bodyExpansion: trigger$1('bodyExpansion', [
-        state$1('collapsed', style$1({ height: '0px', visibility: 'hidden' })),
-        state$1('expanded', style$1({ height: '*', visibility: 'visible' })),
-        transition$1('expanded <=> collapsed', animate$1(EXPANSION_PANEL_ANIMATION_TIMING)),
+    bodyExpansion: trigger('bodyExpansion', [
+        state('collapsed', style({ height: '0px', visibility: 'hidden' })),
+        state('expanded', style({ height: '*', visibility: 'visible' })),
+        transition('expanded <=> collapsed', animate(EXPANSION_PANEL_ANIMATION_TIMING)),
     ])
 };
 
@@ -44396,18 +44396,18 @@ NovoStepHeader.propDecorators = {
  */
 const novoStepperAnimations = {
     /** Animation that transitions the step along the X axis in a horizontal stepper. */
-    horizontalStepTransition: trigger$1('stepTransition', [
-        state$1('previous', style$1({ transform: 'translate3d(-100%, 0, 0)', visibility: 'hidden' })),
-        state$1('current', style$1({ transform: 'none', visibility: 'visible' })),
-        state$1('next', style$1({ transform: 'translate3d(100%, 0, 0)', visibility: 'hidden' })),
-        transition$1('* => *', animate$1('500ms cubic-bezier(0.35, 0, 0.25, 1)'))
+    horizontalStepTransition: trigger('stepTransition', [
+        state('previous', style({ transform: 'translate3d(-100%, 0, 0)', visibility: 'hidden' })),
+        state('current', style({ transform: 'none', visibility: 'visible' })),
+        state('next', style({ transform: 'translate3d(100%, 0, 0)', visibility: 'hidden' })),
+        transition('* => *', animate('500ms cubic-bezier(0.35, 0, 0.25, 1)'))
     ]),
     /** Animation that transitions the step along the Y axis in a vertical stepper. */
-    verticalStepTransition: trigger$1('stepTransition', [
-        state$1('previous', style$1({ height: '0px', visibility: 'hidden' })),
-        state$1('next', style$1({ height: '0px', visibility: 'hidden' })),
-        state$1('current', style$1({ height: '*', visibility: 'visible' })),
-        transition$1('* <=> current', animate$1('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    verticalStepTransition: trigger('stepTransition', [
+        state('previous', style({ height: '0px', visibility: 'hidden' })),
+        state('next', style({ height: '0px', visibility: 'hidden' })),
+        state('current', style({ height: '*', visibility: 'visible' })),
+        transition('* <=> current', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
     ])
 };
 
@@ -47162,10 +47162,10 @@ NovoDataTable.decorators = [
     { type: Component, args: [{
                 selector: 'novo-data-table',
                 animations: [
-                    trigger$1('expand', [
-                        state$1('void', style$1({ height: '0px', minHeight: '0', visibility: 'hidden' })),
-                        state$1('*', style$1({ height: '*', visibility: 'visible' })),
-                        transition$1('void <=> *', animate$1('70ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+                    trigger('expand', [
+                        state('void', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+                        state('*', style({ height: '*', visibility: 'visible' })),
+                        transition('void <=> *', animate('70ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
                     ]),
                 ],
                 template: `
