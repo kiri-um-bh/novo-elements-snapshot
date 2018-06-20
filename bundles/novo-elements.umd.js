@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('@angular/platform-browser'), require('@angular/animations'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('rxjs/operators/filter'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('@bullhorn/dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/cdk/collections'), require('rxjs/Subject'), require('rxjs/Subscription'), require('rxjs/add/operator/filter'), require('@angular/cdk/a11y'), require('@angular/cdk/stepper'), require('@angular/cdk/bidi'), require('@angular/cdk/table'), require('rxjs/add/observable/of'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', '@angular/platform-browser', '@angular/animations', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/observable/fromEvent', 'rxjs/observable/of', 'rxjs/operators/filter', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', '@bullhorn/dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/http', 'rxjs/add/operator/map', '@angular/cdk/collections', 'rxjs/Subject', 'rxjs/Subscription', 'rxjs/add/operator/filter', '@angular/cdk/a11y', '@angular/cdk/stepper', '@angular/cdk/bidi', '@angular/cdk/table', 'rxjs/add/observable/of', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
-	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.ng.platformBrowser,global.ng.animations,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.http,global.Rx.Observable.prototype,global.ng.cdk.collections,global.Rx,global.Rx,global.Rx.Observable.prototype,global.ng.cdk.a11y,global.ng.cdk.stepper,global.ng.cdk.bidi,global.ng.cdk.table));
-}(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,platformBrowser,animations,Observable,fromPromise,overlay,portal,merge,fromEvent,of,filter,coercion,fromEvent$2,debounceTime,distinctUntilChanged,keycodes,dragulaImported,ReplaySubject,angular2TextMask,http,map,collections,Subject,Subscription,filter$2,a11y,stepper,bidi,table) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('@angular/platform-browser'), require('@angular/animations'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/a11y'), require('@angular/cdk/portal'), require('rxjs/observable/merge'), require('rxjs/observable/fromEvent'), require('rxjs/observable/of'), require('rxjs/operators/filter'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('@bullhorn/dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/cdk/collections'), require('rxjs/Subject'), require('rxjs/Subscription'), require('rxjs/add/operator/filter'), require('@angular/cdk/stepper'), require('@angular/cdk/bidi'), require('@angular/cdk/table'), require('rxjs/add/observable/of'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', '@angular/platform-browser', '@angular/animations', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/a11y', '@angular/cdk/portal', 'rxjs/observable/merge', 'rxjs/observable/fromEvent', 'rxjs/observable/of', 'rxjs/operators/filter', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', '@bullhorn/dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/http', 'rxjs/add/operator/map', '@angular/cdk/collections', 'rxjs/Subject', 'rxjs/Subscription', 'rxjs/add/operator/filter', '@angular/cdk/stepper', '@angular/cdk/bidi', '@angular/cdk/table', 'rxjs/add/observable/of', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
+	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.ng.platformBrowser,global.ng.animations,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.a11y,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.http,global.Rx.Observable.prototype,global.ng.cdk.collections,global.Rx,global.Rx,global.Rx.Observable.prototype,global.ng.cdk.stepper,global.ng.cdk.bidi,global.ng.cdk.table));
+}(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,platformBrowser,animations,Observable,fromPromise,overlay,a11y,portal,merge,fromEvent,of,filter,coercion,fromEvent$2,debounceTime,distinctUntilChanged,keycodes,dragulaImported,ReplaySubject,angular2TextMask,http,map,collections,Subject,Subscription,filter$2,stepper,bidi,table) { 'use strict';
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -8375,8 +8375,8 @@ NovoOverlayModule.decorators = [
  * @nocollapse
  */
 NovoOverlayModule.ctorParameters = function () { return []; };
-// NG2
-// APP
+// NG
+// App
 // Value accessor for the component (supports ngModel)
 var SELECT_VALUE_ACCESSOR = {
     provide: forms.NG_VALUE_ACCESSOR,
@@ -8388,11 +8388,15 @@ var NovoSelectElement = /** @class */ (function () {
      * @param {?} element
      * @param {?} labels
      * @param {?} ref
+     * @param {?} focusMonitor
+     * @param {?} ngZone
      */
-    function NovoSelectElement(element, labels, ref) {
+    function NovoSelectElement(element, labels, ref, focusMonitor, ngZone) {
         this.element = element;
         this.labels = labels;
         this.ref = ref;
+        this.focusMonitor = focusMonitor;
+        this.ngZone = ngZone;
         this.placeholder = 'Select...';
         this.onSelect = new core.EventEmitter();
         this.selectedIndex = -1;
@@ -8410,6 +8414,12 @@ var NovoSelectElement = /** @class */ (function () {
      * @return {?}
      */
     NovoSelectElement.prototype.ngOnInit = function () {
+        var _this = this;
+        this.focusMonitor.monitor(this.dropdown.nativeElement).subscribe(function (origin) { return _this.ngZone.run(function () {
+            if (origin === 'keyboard') {
+                _this.openPanel();
+            }
+        }); });
         this.ngOnChanges();
     };
     /**
@@ -8448,6 +8458,12 @@ var NovoSelectElement = /** @class */ (function () {
         }
     };
     /**
+     * @return {?}
+     */
+    NovoSelectElement.prototype.ngOnDestroy = function () {
+        this.focusMonitor.stopMonitoring(this.dropdown.nativeElement);
+    };
+    /**
      * BEGIN: Convienient Panel Methods.
      * @return {?}
      */
@@ -8459,6 +8475,21 @@ var NovoSelectElement = /** @class */ (function () {
      */
     NovoSelectElement.prototype.closePanel = function () {
         this.overlay.closePanel();
+    };
+    /**
+     * @return {?}
+     */
+    NovoSelectElement.prototype.togglePanel = function () {
+        var _this = this;
+        if (this.panelOpen) {
+            this.closePanel();
+        }
+        else {
+            setTimeout(function () {
+                _this.dropdown.nativeElement.focus();
+            });
+            this.openPanel();
+        }
     };
     Object.defineProperty(NovoSelectElement.prototype, "panelOpen", {
         /**
@@ -8526,30 +8557,39 @@ var NovoSelectElement = /** @class */ (function () {
      */
     NovoSelectElement.prototype.onKeyDown = function (event) {
         var _this = this;
-        if (this.panelOpen) {
-            if (!this.header.open) {
-                // Prevent Scrolling
-                event.preventDefault();
+        // To prevent default window scrolling
+        if ([KeyCodes.UP, KeyCodes.DOWN].includes(event.keyCode)) {
+            event.preventDefault();
+        }
+        if ([KeyCodes.ESC, KeyCodes.TAB].includes(event.keyCode)) {
+            this.closePanel();
+        }
+        else if (event.keyCode === KeyCodes.ENTER) {
+            if (this.header.open && this.header.value) {
+                this.saveHeader();
             }
-            // Close popup on escape key
-            if (event.keyCode === KeyCodes.ESC) {
-                this.closePanel();
-                return;
+            else {
+                this.setValueAndClose({
+                    value: this.filteredOptions[this.selectedIndex],
+                    index: this.selectedIndex,
+                });
             }
-            if (event.keyCode === KeyCodes.ENTER) {
-                if (this.header.open && this.header.value) {
-                    this.saveHeader();
-                    return;
-                }
-                this.setValueAndClose({ value: this.filteredOptions[this.selectedIndex], index: this.selectedIndex });
-                return;
+        }
+        else if (event.keyCode === KeyCodes.UP) {
+            if (!this.panelOpen) {
+                this.openPanel();
             }
-            if (event.keyCode === KeyCodes.UP && this.selectedIndex > 0) {
+            if (this.selectedIndex > 0) {
                 this.selectedIndex--;
                 this.select(this.filteredOptions[this.selectedIndex], this.selectedIndex);
                 this.scrollToSelected();
             }
-            else if (event.keyCode === KeyCodes.DOWN && this.selectedIndex < this.filteredOptions.length - 1) {
+        }
+        else if (event.keyCode === KeyCodes.DOWN) {
+            if (!this.panelOpen) {
+                this.openPanel();
+            }
+            if (this.selectedIndex < this.filteredOptions.length - 1) {
                 this.selectedIndex++;
                 this.select(this.filteredOptions[this.selectedIndex], this.selectedIndex);
                 this.scrollToSelected();
@@ -8557,38 +8597,39 @@ var NovoSelectElement = /** @class */ (function () {
                     this.toggleHeader(null, false);
                 }
             }
-            else if (event.keyCode === KeyCodes.UP && this.selectedIndex === 0) {
-                this.selectedIndex--;
-                this.toggleHeader(null, true);
+        }
+        else if (event.keyCode === KeyCodes.UP && this.selectedIndex === 0) {
+            if (!this.panelOpen) {
+                this.openPanel();
             }
-            else if ((event.keyCode >= 65 && event.keyCode <= 90) || event.keyCode === KeyCodes.SPACE) {
-                clearTimeout(this.filterTermTimeout);
-                this.filterTermTimeout = setTimeout(function () {
-                    _this.filterTerm = '';
-                }, 2000);
-                var /** @type {?} */ char = String.fromCharCode(event.keyCode);
-                this.filterTerm = this.filterTerm.concat(char);
-                // let element = this.element.nativeElement;
-                // let list = element.querySelector('.novo-select-list');
-                // let item = element.querySelector(`[data-automation-value^="${this.filterTerm}" i]`);
-                var /** @type {?} */ item = this.filteredOptions.find(function (i) { return i.label.toUpperCase().indexOf(_this.filterTerm) === 0; });
-                if (item) {
-                    this.select(item, this.filteredOptions.indexOf(item));
-                    this.scrollToSelected();
-                }
+            this.selectedIndex--;
+            this.toggleHeader(null, true);
+        }
+        else if ((event.keyCode >= 65 && event.keyCode <= 90) || event.keyCode === KeyCodes.SPACE) {
+            if (event.keyCode === KeyCodes.SPACE) {
+                event.preventDefault();
             }
-            else if ([KeyCodes.BACKSPACE, KeyCodes.DELETE].includes(event.keyCode)) {
-                clearTimeout(this.filterTermTimeout);
-                this.filterTermTimeout = setTimeout(function () {
-                    _this.filterTerm = '';
-                }, 2000);
-                this.filterTerm = this.filterTerm.slice(0, -1);
+            if (!this.panelOpen) {
+                this.openPanel();
+            }
+            clearTimeout(this.filterTermTimeout);
+            this.filterTermTimeout = setTimeout(function () {
+                _this.filterTerm = '';
+            }, 2000);
+            var /** @type {?} */ char = String.fromCharCode(event.keyCode);
+            this.filterTerm = this.filterTerm.concat(char);
+            var /** @type {?} */ item = this.filteredOptions.find(function (i) { return i.label.toUpperCase().indexOf(_this.filterTerm) === 0; });
+            if (item) {
+                this.select(item, this.filteredOptions.indexOf(item));
+                this.scrollToSelected();
             }
         }
-        else {
-            if ([KeyCodes.DOWN, KeyCodes.UP].includes(event.keyCode)) {
-                this.panelOpen ? this.closePanel() : this.openPanel();
-            }
+        else if ([KeyCodes.BACKSPACE, KeyCodes.DELETE].includes(event.keyCode)) {
+            clearTimeout(this.filterTermTimeout);
+            this.filterTermTimeout = setTimeout(function () {
+                _this.filterTerm = '';
+            }, 2000);
+            this.filterTerm = this.filterTerm.slice(0, -1);
         }
     };
     /**
@@ -8698,13 +8739,23 @@ var NovoSelectElement = /** @class */ (function () {
     NovoSelectElement.prototype.registerOnTouched = function (fn) {
         this.onModelTouched = fn;
     };
+    Object.defineProperty(NovoSelectElement.prototype, "disabled", {
+        /**
+         * @return {?}
+         */
+        get: function () {
+            return Boolean(this.element.nativeElement.attributes.getNamedItem('disabled'));
+        },
+        enumerable: true,
+        configurable: true
+    });
     return NovoSelectElement;
 }());
 NovoSelectElement.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-select',
                 providers: [SELECT_VALUE_ACCESSOR],
-                template: "\n        <div (click)=\"openPanel()\" tabIndex=\"0\" type=\"button\" [class.empty]=\"empty\">{{selected.label}}<i class=\"bhi-collapse\"></i></div>\n        <novo-overlay-template [parent]=\"element\" position=\"center\">\n            <ul class=\"novo-select-list\" tabIndex=\"-1\" [class.header]=\"headerConfig\" [class.active]=\"panelOpen\">\n                <ng-content></ng-content>\n                <li *ngIf=\"headerConfig\" class=\"select-header\" [class.open]=\"header.open\">\n                    <button  *ngIf=\"!header.open\" (click)=\"toggleHeader($event); false\" tabIndex=\"-1\" type=\"button\" class=\"header\"><i class=\"bhi-add-thin\"></i>&nbsp;{{headerConfig.label}}</button>\n                    <div *ngIf=\"header.open\" [ngClass]=\"{active: header.open}\">\n                        <input autofocus type=\"text\" [placeholder]=\"headerConfig.placeholder\" [attr.id]=\"name\" autocomplete=\"false\" [(ngModel)]=\"header.value\" [ngClass]=\"{invalid: !header.valid}\"/>\n                        <footer>\n                            <button (click)=\"toggleHeader($event, false)\">{{labels.cancel}}</button>\n                            <button (click)=\"saveHeader()\" class=\"primary\">{{labels.save}}</button>\n                        </footer>\n                    </div>\n                </li>\n                <li *ngFor=\"let option of filteredOptions; let i = index\" [ngClass]=\"{active: option.active}\" (click)=\"setValueAndClose({value: option, index: i})\" [attr.data-automation-value]=\"option.label\">\n                    <span [innerHtml]=\"highlight(option.label, filterTerm)\"></span>\n                    <i *ngIf=\"option.active\" class=\"bhi-check\"></i>\n                </li>\n            </ul>\n        </novo-overlay-template>\n    ",
+                template: "\n    <div #dropdownElement (click)=\"togglePanel(); false\" tabIndex=\"{{disabled ? -1 : 0}}\" type=\"button\" [class.empty]=\"empty\">{{selected.label}}<i class=\"bhi-collapse\"></i></div>\n    <novo-overlay-template [parent]=\"element\" position=\"center\" (closing)=\"dropdown.nativeElement.focus()\">\n      <ul class=\"novo-select-list\" tabIndex=\"-1\" [class.header]=\"headerConfig\" [class.active]=\"panelOpen\">\n        <ng-content></ng-content>\n        <li *ngIf=\"headerConfig\" class=\"select-header\" [class.open]=\"header.open\">\n          <button *ngIf=\"!header.open\" (click)=\"toggleHeader($event); false\" tabIndex=\"-1\" type=\"button\" class=\"header\"><i class=\"bhi-add-thin\"></i>&nbsp;{{headerConfig.label}}\n          </button>\n          <div *ngIf=\"header.open\" [ngClass]=\"{active: header.open}\">\n            <input autofocus type=\"text\" [placeholder]=\"headerConfig.placeholder\" [attr.id]=\"name\" autocomplete=\"false\" [(ngModel)]=\"header.value\" [ngClass]=\"{invalid: !header.valid}\" />\n            <footer>\n              <button (click)=\"toggleHeader($event, false)\">{{labels.cancel}}</button>\n              <button (click)=\"saveHeader()\" class=\"primary\">{{labels.save}}</button>\n            </footer>\n          </div>\n        </li>\n        <li *ngFor=\"let option of filteredOptions; let i = index\" [ngClass]=\"{active: option.active}\" (click)=\"setValueAndClose({value: option, index: i})\" [attr.data-automation-value]=\"option.label\">\n          <span [innerHtml]=\"highlight(option.label, filterTerm)\"></span>\n          <i *ngIf=\"option.active\" class=\"bhi-check\"></i>\n        </li>\n      </ul>\n    </novo-overlay-template>\n  ",
                 host: {
                     '(keydown)': 'onKeyDown($event)',
                 },
@@ -8717,6 +8768,8 @@ NovoSelectElement.ctorParameters = function () { return [
     { type: core.ElementRef, },
     { type: NovoLabelService, },
     { type: core.ChangeDetectorRef, },
+    { type: a11y.FocusMonitor, },
+    { type: core.NgZone, },
 ]; };
 NovoSelectElement.propDecorators = {
     'name': [{ type: core.Input },],
@@ -8726,10 +8779,11 @@ NovoSelectElement.propDecorators = {
     'headerConfig': [{ type: core.Input },],
     'onSelect': [{ type: core.Output },],
     'overlay': [{ type: core.ViewChild, args: [NovoOverlayTemplateComponent,] },],
+    'dropdown': [{ type: core.ViewChild, args: ['dropdownElement',] },],
     'onKeyDown': [{ type: core.HostListener, args: ['keydown', ['$event'],] },],
 };
-// NG2
-// APP
+// NG
+// App
 var NovoSelectModule = /** @class */ (function () {
     function NovoSelectModule() {
     }
@@ -8737,9 +8791,9 @@ var NovoSelectModule = /** @class */ (function () {
 }());
 NovoSelectModule.decorators = [
     { type: core.NgModule, args: [{
-                imports: [common.CommonModule, forms.FormsModule, overlay.OverlayModule, NovoOverlayModule],
+                imports: [common.CommonModule, forms.FormsModule, overlay.OverlayModule, a11y.A11yModule, NovoOverlayModule],
                 declarations: [NovoSelectElement],
-                exports: [NovoSelectElement]
+                exports: [NovoSelectElement],
             },] },
 ];
 /**

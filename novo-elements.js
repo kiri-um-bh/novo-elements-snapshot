@@ -11,6 +11,7 @@ import { animate, animateChild, group, query, state, style, transition, trigger 
 import { Observable as Observable$1 } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
+import { A11yModule, FocusMonitor } from '@angular/cdk/a11y';
 import { PortalModule, TemplatePortal } from '@angular/cdk/portal';
 import { merge as merge$1 } from 'rxjs/observable/merge';
 import { fromEvent as fromEvent$1 } from 'rxjs/observable/fromEvent';
@@ -30,7 +31,6 @@ import { UNIQUE_SELECTION_DISPATCHER_PROVIDER, UniqueSelectionDispatcher } from 
 import { Subject as Subject$1 } from 'rxjs/Subject';
 import { Subscription as Subscription$1 } from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
-import { A11yModule, FocusMonitor } from '@angular/cdk/a11y';
 import { CdkStep, CdkStepLabel, CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
 import { Directionality } from '@angular/cdk/bidi';
 import { CDK_ROW_TEMPLATE, CDK_TABLE_TEMPLATE, CdkCell, CdkCellDef, CdkColumnDef, CdkHeaderCell, CdkHeaderCellDef, CdkHeaderRow, CdkHeaderRowDef, CdkRow, CdkRowDef, CdkTable, CdkTableModule, DataSource } from '@angular/cdk/table';
@@ -8789,8 +8789,8 @@ NovoOverlayModule.decorators = [
  */
 NovoOverlayModule.ctorParameters = () => [];
 
-// NG2
-// APP
+// NG
+// App
 // Value accessor for the component (supports ngModel)
 const SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -8802,11 +8802,15 @@ class NovoSelectElement {
      * @param {?} element
      * @param {?} labels
      * @param {?} ref
+     * @param {?} focusMonitor
+     * @param {?} ngZone
      */
-    constructor(element, labels, ref) {
+    constructor(element, labels, ref, focusMonitor, ngZone) {
         this.element = element;
         this.labels = labels;
         this.ref = ref;
+        this.focusMonitor = focusMonitor;
+        this.ngZone = ngZone;
         this.placeholder = 'Select...';
         this.onSelect = new EventEmitter();
         this.selectedIndex = -1;
@@ -8824,6 +8828,11 @@ class NovoSelectElement {
      * @return {?}
      */
     ngOnInit() {
+        this.focusMonitor.monitor(this.dropdown.nativeElement).subscribe((origin) => this.ngZone.run(() => {
+            if (origin === 'keyboard') {
+                this.openPanel();
+            }
+        }));
         this.ngOnChanges();
     }
     /**
@@ -8861,6 +8870,12 @@ class NovoSelectElement {
         }
     }
     /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        this.focusMonitor.stopMonitoring(this.dropdown.nativeElement);
+    }
+    /**
      * BEGIN: Convienient Panel Methods.
      * @return {?}
      */
@@ -8872,6 +8887,20 @@ class NovoSelectElement {
      */
     closePanel() {
         this.overlay.closePanel();
+    }
+    /**
+     * @return {?}
+     */
+    togglePanel() {
+        if (this.panelOpen) {
+            this.closePanel();
+        }
+        else {
+            setTimeout(() => {
+                this.dropdown.nativeElement.focus();
+            });
+            this.openPanel();
+        }
     }
     /**
      * @return {?}
@@ -8933,30 +8962,39 @@ class NovoSelectElement {
      * @return {?}
      */
     onKeyDown(event) {
-        if (this.panelOpen) {
-            if (!this.header.open) {
-                // Prevent Scrolling
-                event.preventDefault();
+        // To prevent default window scrolling
+        if ([KeyCodes.UP, KeyCodes.DOWN].includes(event.keyCode)) {
+            event.preventDefault();
+        }
+        if ([KeyCodes.ESC, KeyCodes.TAB].includes(event.keyCode)) {
+            this.closePanel();
+        }
+        else if (event.keyCode === KeyCodes.ENTER) {
+            if (this.header.open && this.header.value) {
+                this.saveHeader();
             }
-            // Close popup on escape key
-            if (event.keyCode === KeyCodes.ESC) {
-                this.closePanel();
-                return;
+            else {
+                this.setValueAndClose({
+                    value: this.filteredOptions[this.selectedIndex],
+                    index: this.selectedIndex,
+                });
             }
-            if (event.keyCode === KeyCodes.ENTER) {
-                if (this.header.open && this.header.value) {
-                    this.saveHeader();
-                    return;
-                }
-                this.setValueAndClose({ value: this.filteredOptions[this.selectedIndex], index: this.selectedIndex });
-                return;
+        }
+        else if (event.keyCode === KeyCodes.UP) {
+            if (!this.panelOpen) {
+                this.openPanel();
             }
-            if (event.keyCode === KeyCodes.UP && this.selectedIndex > 0) {
+            if (this.selectedIndex > 0) {
                 this.selectedIndex--;
                 this.select(this.filteredOptions[this.selectedIndex], this.selectedIndex);
                 this.scrollToSelected();
             }
-            else if (event.keyCode === KeyCodes.DOWN && this.selectedIndex < this.filteredOptions.length - 1) {
+        }
+        else if (event.keyCode === KeyCodes.DOWN) {
+            if (!this.panelOpen) {
+                this.openPanel();
+            }
+            if (this.selectedIndex < this.filteredOptions.length - 1) {
                 this.selectedIndex++;
                 this.select(this.filteredOptions[this.selectedIndex], this.selectedIndex);
                 this.scrollToSelected();
@@ -8964,38 +9002,39 @@ class NovoSelectElement {
                     this.toggleHeader(null, false);
                 }
             }
-            else if (event.keyCode === KeyCodes.UP && this.selectedIndex === 0) {
-                this.selectedIndex--;
-                this.toggleHeader(null, true);
+        }
+        else if (event.keyCode === KeyCodes.UP && this.selectedIndex === 0) {
+            if (!this.panelOpen) {
+                this.openPanel();
             }
-            else if ((event.keyCode >= 65 && event.keyCode <= 90) || event.keyCode === KeyCodes.SPACE) {
-                clearTimeout(this.filterTermTimeout);
-                this.filterTermTimeout = setTimeout(() => {
-                    this.filterTerm = '';
-                }, 2000);
-                let /** @type {?} */ char = String.fromCharCode(event.keyCode);
-                this.filterTerm = this.filterTerm.concat(char);
-                // let element = this.element.nativeElement;
-                // let list = element.querySelector('.novo-select-list');
-                // let item = element.querySelector(`[data-automation-value^="${this.filterTerm}" i]`);
-                let /** @type {?} */ item = this.filteredOptions.find((i) => i.label.toUpperCase().indexOf(this.filterTerm) === 0);
-                if (item) {
-                    this.select(item, this.filteredOptions.indexOf(item));
-                    this.scrollToSelected();
-                }
+            this.selectedIndex--;
+            this.toggleHeader(null, true);
+        }
+        else if ((event.keyCode >= 65 && event.keyCode <= 90) || event.keyCode === KeyCodes.SPACE) {
+            if (event.keyCode === KeyCodes.SPACE) {
+                event.preventDefault();
             }
-            else if ([KeyCodes.BACKSPACE, KeyCodes.DELETE].includes(event.keyCode)) {
-                clearTimeout(this.filterTermTimeout);
-                this.filterTermTimeout = setTimeout(() => {
-                    this.filterTerm = '';
-                }, 2000);
-                this.filterTerm = this.filterTerm.slice(0, -1);
+            if (!this.panelOpen) {
+                this.openPanel();
+            }
+            clearTimeout(this.filterTermTimeout);
+            this.filterTermTimeout = setTimeout(() => {
+                this.filterTerm = '';
+            }, 2000);
+            let /** @type {?} */ char = String.fromCharCode(event.keyCode);
+            this.filterTerm = this.filterTerm.concat(char);
+            let /** @type {?} */ item = this.filteredOptions.find((i) => i.label.toUpperCase().indexOf(this.filterTerm) === 0);
+            if (item) {
+                this.select(item, this.filteredOptions.indexOf(item));
+                this.scrollToSelected();
             }
         }
-        else {
-            if ([KeyCodes.DOWN, KeyCodes.UP].includes(event.keyCode)) {
-                this.panelOpen ? this.closePanel() : this.openPanel();
-            }
+        else if ([KeyCodes.BACKSPACE, KeyCodes.DELETE].includes(event.keyCode)) {
+            clearTimeout(this.filterTermTimeout);
+            this.filterTermTimeout = setTimeout(() => {
+                this.filterTerm = '';
+            }, 2000);
+            this.filterTerm = this.filterTerm.slice(0, -1);
         }
     }
     /**
@@ -9105,33 +9144,40 @@ class NovoSelectElement {
     registerOnTouched(fn) {
         this.onModelTouched = fn;
     }
+    /**
+     * @return {?}
+     */
+    get disabled() {
+        return Boolean(this.element.nativeElement.attributes.getNamedItem('disabled'));
+    }
 }
 NovoSelectElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-select',
                 providers: [SELECT_VALUE_ACCESSOR],
                 template: `
-        <div (click)="openPanel()" tabIndex="0" type="button" [class.empty]="empty">{{selected.label}}<i class="bhi-collapse"></i></div>
-        <novo-overlay-template [parent]="element" position="center">
-            <ul class="novo-select-list" tabIndex="-1" [class.header]="headerConfig" [class.active]="panelOpen">
-                <ng-content></ng-content>
-                <li *ngIf="headerConfig" class="select-header" [class.open]="header.open">
-                    <button  *ngIf="!header.open" (click)="toggleHeader($event); false" tabIndex="-1" type="button" class="header"><i class="bhi-add-thin"></i>&nbsp;{{headerConfig.label}}</button>
-                    <div *ngIf="header.open" [ngClass]="{active: header.open}">
-                        <input autofocus type="text" [placeholder]="headerConfig.placeholder" [attr.id]="name" autocomplete="false" [(ngModel)]="header.value" [ngClass]="{invalid: !header.valid}"/>
-                        <footer>
-                            <button (click)="toggleHeader($event, false)">{{labels.cancel}}</button>
-                            <button (click)="saveHeader()" class="primary">{{labels.save}}</button>
-                        </footer>
-                    </div>
-                </li>
-                <li *ngFor="let option of filteredOptions; let i = index" [ngClass]="{active: option.active}" (click)="setValueAndClose({value: option, index: i})" [attr.data-automation-value]="option.label">
-                    <span [innerHtml]="highlight(option.label, filterTerm)"></span>
-                    <i *ngIf="option.active" class="bhi-check"></i>
-                </li>
-            </ul>
-        </novo-overlay-template>
-    `,
+    <div #dropdownElement (click)="togglePanel(); false" tabIndex="{{disabled ? -1 : 0}}" type="button" [class.empty]="empty">{{selected.label}}<i class="bhi-collapse"></i></div>
+    <novo-overlay-template [parent]="element" position="center" (closing)="dropdown.nativeElement.focus()">
+      <ul class="novo-select-list" tabIndex="-1" [class.header]="headerConfig" [class.active]="panelOpen">
+        <ng-content></ng-content>
+        <li *ngIf="headerConfig" class="select-header" [class.open]="header.open">
+          <button *ngIf="!header.open" (click)="toggleHeader($event); false" tabIndex="-1" type="button" class="header"><i class="bhi-add-thin"></i>&nbsp;{{headerConfig.label}}
+          </button>
+          <div *ngIf="header.open" [ngClass]="{active: header.open}">
+            <input autofocus type="text" [placeholder]="headerConfig.placeholder" [attr.id]="name" autocomplete="false" [(ngModel)]="header.value" [ngClass]="{invalid: !header.valid}" />
+            <footer>
+              <button (click)="toggleHeader($event, false)">{{labels.cancel}}</button>
+              <button (click)="saveHeader()" class="primary">{{labels.save}}</button>
+            </footer>
+          </div>
+        </li>
+        <li *ngFor="let option of filteredOptions; let i = index" [ngClass]="{active: option.active}" (click)="setValueAndClose({value: option, index: i})" [attr.data-automation-value]="option.label">
+          <span [innerHtml]="highlight(option.label, filterTerm)"></span>
+          <i *ngIf="option.active" class="bhi-check"></i>
+        </li>
+      </ul>
+    </novo-overlay-template>
+  `,
                 host: {
                     '(keydown)': 'onKeyDown($event)',
                 },
@@ -9144,6 +9190,8 @@ NovoSelectElement.ctorParameters = () => [
     { type: ElementRef, },
     { type: NovoLabelService, },
     { type: ChangeDetectorRef, },
+    { type: FocusMonitor, },
+    { type: NgZone, },
 ];
 NovoSelectElement.propDecorators = {
     'name': [{ type: Input },],
@@ -9153,18 +9201,19 @@ NovoSelectElement.propDecorators = {
     'headerConfig': [{ type: Input },],
     'onSelect': [{ type: Output },],
     'overlay': [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] },],
+    'dropdown': [{ type: ViewChild, args: ['dropdownElement',] },],
     'onKeyDown': [{ type: HostListener, args: ['keydown', ['$event'],] },],
 };
 
-// NG2
-// APP
+// NG
+// App
 class NovoSelectModule {
 }
 NovoSelectModule.decorators = [
     { type: NgModule, args: [{
-                imports: [CommonModule, FormsModule, OverlayModule, NovoOverlayModule],
+                imports: [CommonModule, FormsModule, OverlayModule, A11yModule, NovoOverlayModule],
                 declarations: [NovoSelectElement],
-                exports: [NovoSelectElement]
+                exports: [NovoSelectElement],
             },] },
 ];
 /**

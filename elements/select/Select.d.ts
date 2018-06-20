@@ -1,10 +1,13 @@
-import { EventEmitter, ElementRef, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { EventEmitter, ElementRef, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef, OnDestroy, NgZone } from '@angular/core';
+import { FocusMonitor } from '@angular/cdk/a11y';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 import { NovoLabelService } from '../../services/novo-label-service';
-export declare class NovoSelectElement implements OnInit, OnChanges {
+export declare class NovoSelectElement implements OnInit, OnChanges, OnDestroy {
     element: ElementRef;
     labels: NovoLabelService;
     ref: ChangeDetectorRef;
+    private focusMonitor;
+    private ngZone;
     name: string;
     options: Array<any>;
     placeholder: string;
@@ -24,14 +27,17 @@ export declare class NovoSelectElement implements OnInit, OnChanges {
     filteredOptions: any;
     /** Element for the panel containing the autocomplete options. */
     overlay: NovoOverlayTemplateComponent;
-    constructor(element: ElementRef, labels: NovoLabelService, ref: ChangeDetectorRef);
+    dropdown: ElementRef;
+    constructor(element: ElementRef, labels: NovoLabelService, ref: ChangeDetectorRef, focusMonitor: FocusMonitor, ngZone: NgZone);
     ngOnInit(): void;
     ngOnChanges(changes?: SimpleChanges): void;
+    ngOnDestroy(): void;
     /** BEGIN: Convienient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
+    togglePanel(): void;
     readonly panelOpen: boolean;
-    /** END: Convienient Panel Methods. */
+    /** END: Convenient Panel Methods. */
     /**
      * This method closes the panel, and if a value is specified, also sets the associated
      * control to that value. It will also mark the control as dirty if this interaction
@@ -50,4 +56,5 @@ export declare class NovoSelectElement implements OnInit, OnChanges {
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
+    readonly disabled: boolean;
 }
