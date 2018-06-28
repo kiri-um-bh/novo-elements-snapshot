@@ -45,6 +45,8 @@ export interface NovoControlConfig {
     description?: string;
     tooltip?: string;
     tooltipPosition?: string;
+    tooltipSize?: string;
+    tooltipPreline?: boolean;
     layoutOptions?: {
         order?: string;
         download?: boolean;
@@ -109,6 +111,8 @@ export declare class BaseControl {
     description?: string;
     tooltip?: string;
     tooltipPosition?: string;
+    tooltipSize?: string;
+    tooltipPreline?: boolean;
     layoutOptions?: {
         order?: string;
         download?: boolean;
