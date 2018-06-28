@@ -44328,7 +44328,7 @@ var StaticDataTableService = /** @class */ (function () {
                 this.currentData = this.currentData.slice(page * pageSize, (page + 1) * pageSize);
             }
         }
-        return Observable.Observable.of({ results: this.currentData, total: this.currentData.length });
+        return Observable.Observable.of({ results: this.currentData, total: this.originalData.length });
     };
     return StaticDataTableService;
 }());
