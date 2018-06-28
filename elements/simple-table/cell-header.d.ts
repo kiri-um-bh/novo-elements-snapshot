@@ -1,9 +1,8 @@
-import { ChangeDetectorRef, OnDestroy, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { CdkColumnDef } from '@angular/cdk/table';
-import { NovoSimpleSortFilter } from './interfaces';
+import { NovoSimpleSortFilter, SimpleTableColumnFilterConfig } from './interfaces';
 import { NovoSortFilter } from './sort';
 import { NovoLabelService } from '../../services/novo-label-service';
-import { SimpleTableColumnFilterConfig } from './interfaces';
 import { NovoActivityTableState } from './state';
 export declare class NovoSimpleFilterFocus implements AfterViewInit {
     private element;

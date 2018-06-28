@@ -34,12 +34,12 @@ export declare class NovoSearchBoxElement implements ControlValueAccessor {
     showSearch(event?: any, forceClose?: boolean): void;
     onFocus(): void;
     onBlur(): void;
-    /** BEGIN: Convienient Panel Methods. */
+    /** BEGIN: Convenient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
     readonly panelOpen: boolean;
     readonly active: boolean;
-    /** END: Convienient Panel Methods. */
+    /** END: Convenient Panel Methods. */
     _handleKeydown(event: KeyboardEvent): void;
     _handleInput(event: KeyboardEvent): void;
     writeValue(value: any): void;
@@ -47,10 +47,10 @@ export declare class NovoSearchBoxElement implements ControlValueAccessor {
     registerOnTouched(fn: () => {}): void;
     private _setValue(value);
     /**
-    * This method closes the panel, and if a value is specified, also sets the associated
-    * control to that value. It will also mark the control as dirty if this interaction
-    * stemmed from the user.
-    */
+     * This method closes the panel, and if a value is specified, also sets the associated
+     * control to that value. It will also mark the control as dirty if this interaction
+     * stemmed from the user.
+     */
     setValueAndClose(event: any | null): void;
     /**
      * Clear any previous selected option and emit a selection change event for this option

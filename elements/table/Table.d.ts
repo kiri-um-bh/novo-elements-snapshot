@@ -1,4 +1,4 @@
-import { EventEmitter, DoCheck } from '@angular/core';
+import { EventEmitter, DoCheck, ElementRef, QueryList } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { FormUtils } from '../../utils/form-utils/FormUtils';
@@ -39,6 +39,7 @@ export declare class NovoTableElement implements DoCheck {
     labels: NovoLabelService;
     private formUtils;
     private builder;
+    filterInputs: QueryList<ElementRef>;
     config: NovoTableConfig;
     columns: Array<any>;
     theme: string;
@@ -80,6 +81,7 @@ export declare class NovoTableElement implements DoCheck {
     readonly formValue: any;
     constructor(labels: NovoLabelService, formUtils: FormUtils, builder: FormBuilder);
     onDropdownToggled(event: any, column: any): void;
+    focusInput(): void;
     onPageChange(event: any): void;
     getOptionDataAutomationId(option: any): any;
     /**

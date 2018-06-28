@@ -1,33 +1,18 @@
-import { ElementRef, ChangeDetectorRef, EventEmitter, OnInit, AfterContentInit, OnDestroy, DoCheck, Renderer2, QueryList } from '@angular/core';
-import { OutsideClick } from '../../utils/outside-click/OutsideClick';
-export declare class NovoDropdownContainer implements DoCheck {
+import { AfterContentInit, ChangeDetectorRef, ElementRef, EventEmitter, OnDestroy, OnInit, QueryList } from '@angular/core';
+import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
+export declare class NovoDropdownElement implements OnInit, OnDestroy {
     element: ElementRef;
-    private renderer;
     private ref;
-    private position;
-    private isVisible;
-    private relativeElement;
-    private scrollHandler;
-    private side;
-    private appendToBody;
-    parent: NovoDropdownElement;
-    constructor(element: ElementRef, renderer: Renderer2, ref: ChangeDetectorRef);
-    ngDoCheck(): void;
-    private handleScroll();
-    show(appendToBody: boolean): void;
-    hide(): void;
-    updatePosition(element: Element, side: string): void;
-    onKeyDown(event: KeyboardEvent): void;
-}
-export declare class NovoDropdownElement extends OutsideClick implements OnInit, OnDestroy {
-    private ref;
-    appendToBody: boolean;
     parentScrollSelector: string;
     parentScrollAction: string;
     containerClass: string;
-    side: string;
+    side: 'default' | 'right' | 'above-below' | 'right-above-below' | 'center' | 'bottom' | 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
+    scrollStrategy: 'reposition' | 'block' | 'close';
+    height: number;
+    width: number;
+    appendToBody: boolean;
     toggled: EventEmitter<boolean>;
-    container: NovoDropdownContainer;
+    overlay: NovoOverlayTemplateComponent;
     button: any;
     clickHandler: any;
     closeHandler: any;
@@ -38,12 +23,17 @@ export declare class NovoDropdownElement extends OutsideClick implements OnInit,
     private filterTerm;
     private filterTermTimeout;
     constructor(element: ElementRef, ref: ChangeDetectorRef);
-    items: QueryList<NovoItemElement>;
     ngOnInit(): void;
     ngOnDestroy(): void;
-    private show();
-    private hide();
+    items: QueryList<NovoItemElement>;
+    /** BEGIN: Convenient Panel Methods. */
+    readonly panelOpen: boolean;
+    openPanel(): void;
+    closePanel(): void;
+    togglePanel(): void;
+    /** END: Convenient Panel Methods. */
     onKeyDown(event: KeyboardEvent): void;
+    onOverlayKeyDown(event: KeyboardEvent): void;
     private scrollToActive();
 }
 export declare class NovoItemElement {
