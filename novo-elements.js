@@ -9430,7 +9430,9 @@ class NovoPickerElement {
      * @return {?}
      */
     onFocus(event) {
-        this.show();
+        if (!this.panelOpen) {
+            this.show();
+        }
         this.focus.emit(event);
     }
     /**

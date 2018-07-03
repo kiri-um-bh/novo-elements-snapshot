@@ -9049,7 +9049,9 @@ var NovoPickerElement = /** @class */ (function () {
      * @return {?}
      */
     NovoPickerElement.prototype.onFocus = function (event) {
-        this.show();
+        if (!this.panelOpen) {
+            this.show();
+        }
         this.focus.emit(event);
     };
     /**
