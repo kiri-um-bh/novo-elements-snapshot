@@ -11606,6 +11606,7 @@ var NovoDatePickerInputElement = /** @class */ (function () {
      */
     NovoDatePickerInputElement.prototype._handleKeydown = function (event) {
         if ((event.keyCode === keycodes.ESCAPE || event.keyCode === keycodes.ENTER || event.keyCode === keycodes.TAB) && this.panelOpen) {
+            this._handleEvent(event, true);
             this.closePanel();
             event.stopPropagation();
         }
@@ -11616,20 +11617,28 @@ var NovoDatePickerInputElement = /** @class */ (function () {
      */
     NovoDatePickerInputElement.prototype._handleInput = function (event) {
         if (document.activeElement === event.target) {
-            var /** @type {?} */ value = ((event.target)).value;
-            try {
-                var /** @type {?} */ dateTimeValue = Date.parse(value);
-                if (!isNaN(dateTimeValue)) {
-                    var /** @type {?} */ dt = new Date(dateTimeValue);
-                    this.dispatchOnChange(dt);
-                }
-                else {
-                    this.dispatchOnChange(null);
-                }
-            }
-            catch (err) { }
-            this.openPanel();
+            this._handleEvent(event, false);
         }
+    };
+    /**
+     * @param {?} event
+     * @param {?} blur
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype._handleEvent = function (event, blur) {
+        var /** @type {?} */ value = ((event.target)).value;
+        try {
+            var /** @type {?} */ dateTimeValue = Date.parse(value);
+            if (!isNaN(dateTimeValue)) {
+                var /** @type {?} */ dt = new Date(dateTimeValue);
+                this.dispatchOnChange(dt, blur);
+            }
+            else {
+                this.dispatchOnChange(null, blur);
+            }
+        }
+        catch (err) { }
+        this.openPanel();
     };
     /**
      * @param {?} value
@@ -11655,14 +11664,21 @@ var NovoDatePickerInputElement = /** @class */ (function () {
     };
     /**
      * @param {?=} newValue
+     * @param {?=} blur
      * @param {?=} skip
      * @return {?}
      */
-    NovoDatePickerInputElement.prototype.dispatchOnChange = function (newValue, skip) {
+    NovoDatePickerInputElement.prototype.dispatchOnChange = function (newValue, blur, skip) {
+        if (blur === void 0) { blur = false; }
         if (skip === void 0) { skip = false; }
         if (newValue !== this.value) {
             this._onChange(newValue);
-            !skip && this.writeValue(newValue);
+            if (blur) {
+                !skip && this.writeValue(newValue);
+            }
+            else {
+                !skip && this._setCalendarValue(newValue);
+            }
         }
     };
     /**
@@ -11670,15 +11686,29 @@ var NovoDatePickerInputElement = /** @class */ (function () {
      * @return {?}
      */
     NovoDatePickerInputElement.prototype._setTriggerValue = function (value) {
+        this._setCalendarValue(value);
+        this._setFormValue(value);
+        this._changeDetectorRef.markForCheck();
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype._setCalendarValue = function (value) {
         if (value instanceof Date && this.value instanceof Date) {
             value = new Date(value.setHours(this.value.getHours(), this.value.getMinutes()));
         }
         this.value = value;
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype._setFormValue = function (value) {
         if (this.value) {
             var /** @type {?} */ test = this.formatDateValue(this.value);
             this.formattedValue = test;
         }
-        this._changeDetectorRef.markForCheck();
     };
     /**
      * This method closes the panel, and if a value is specified, also sets the associated
@@ -11689,7 +11719,7 @@ var NovoDatePickerInputElement = /** @class */ (function () {
      */
     NovoDatePickerInputElement.prototype.setValueAndClose = function (event) {
         if (event && event.date) {
-            this.dispatchOnChange(event.date);
+            this.dispatchOnChange(event.date, true);
         }
         this.closePanel();
     };
@@ -11748,7 +11778,7 @@ NovoDatePickerInputElement.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-date-picker-input',
                 providers: [DATE_VALUE_ACCESSOR],
-                template: "\n        <input type=\"text\" [name]=\"name\" [(ngModel)]=\"formattedValue\" [textMask]=\"maskOptions\" [placeholder]=\"placeholder\" (focus)=\"openPanel()\" (keydown)=\"_handleKeydown($event)\" (input)=\"_handleInput($event)\" #input data-automation-id=\"date-input\"/>\n        <i *ngIf=\"!hasValue\" (click)=\"openPanel()\" class=\"bhi-calendar\"></i>\n        <i *ngIf=\"hasValue\" (click)=\"clearValue()\" class=\"bhi-times\"></i>\n\n        <novo-overlay-template [parent]=\"element\" position=\"above-below\">\n            <novo-date-picker inline=\"true\" (onSelect)=\"setValueAndClose($event)\" [ngModel]=\"value\"></novo-date-picker>\n        </novo-overlay-template>\n  ",
+                template: "\n        <input type=\"text\" [name]=\"name\" [(ngModel)]=\"formattedValue\" [textMask]=\"maskOptions\" [placeholder]=\"placeholder\" (focus)=\"openPanel()\" (keydown)=\"_handleKeydown($event)\" (input)=\"_handleInput($event)\" #input data-automation-id=\"date-input\"/>\n        <i *ngIf=\"!hasValue\" (click)=\"openPanel()\" class=\"bhi-calendar\"></i>\n        <i *ngIf=\"hasValue\" (click)=\"clearValue()\" class=\"bhi-times\"></i>\n        <novo-overlay-template [parent]=\"element\" position=\"above-below\">\n            <novo-date-picker inline=\"true\" (onSelect)=\"setValueAndClose($event)\" [ngModel]=\"value\"></novo-date-picker>\n        </novo-overlay-template>\n  ",
             },] },
 ];
 /**
