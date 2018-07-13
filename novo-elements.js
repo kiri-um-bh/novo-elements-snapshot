@@ -17446,7 +17446,9 @@ NovoControlElement.decorators = [
                               <label class="input-label" *ngIf="form.controls[control.key].subType === 'percentage'">%</label>
                             </div>
                             <!--TextArea-->
-                            <textarea *ngSwitchCase="'text-area'" [class.maxlength-error]="errors?.maxlength" [name]="control.key" [attr.id]="control.key" [placeholder]="form.controls[control.key].placeholder" [formControlName]="control.key" autosize (input)="handleTextAreaInput($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" [maxlength]="control.maxlength" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline"></textarea>
+                            <div class="novo-control-input-container novo-control-input-with-label" *ngSwitchCase="'text-area'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline">
+                              <textarea [class.maxlength-error]="errors?.maxlength" [name]="control.key" [attr.id]="control.key" [placeholder]="form.controls[control.key].placeholder" [formControlName]="control.key" autosize (input)="handleTextAreaInput($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" [maxlength]="control.maxlength"></textarea>
+                            </div>
                             <!--Editor-->
                             <novo-editor *ngSwitchCase="'editor'" [name]="control.key" [formControlName]="control.key" [startupFocus]="control.startupFocus" [minimal]="control.minimal" [fileBrowserImageUploadUrl]="control.fileBrowserImageUploadUrl" (focus)="handleFocus($event)" (blur)="handleBlur($event)"></novo-editor>
                             <!--AceEditor-->
