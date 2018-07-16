@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, OnInit, EventEmitter } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 import { NovoLabelService } from '../../services/novo-label-service';
@@ -18,6 +18,8 @@ export declare class NovoTimePickerInputElement implements OnInit, ControlValueA
     placeholder: string;
     military: boolean;
     maskOptions: any;
+    blurEvent: EventEmitter<FocusEvent>;
+    focusEvent: EventEmitter<FocusEvent>;
     /** Element for the panel containing the autocomplete options. */
     overlay: NovoOverlayTemplateComponent;
     constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, _changeDetectorRef: ChangeDetectorRef);
@@ -29,6 +31,8 @@ export declare class NovoTimePickerInputElement implements OnInit, ControlValueA
     /** END: Convenient Panel Methods. */
     _handleKeydown(event: KeyboardEvent): void;
     _handleInput(event: KeyboardEvent): void;
+    _handleBlur(event: FocusEvent): void;
+    _handleFocus(event: FocusEvent): void;
     writeValue(value: any): void;
     registerOnChange(fn: (value: any) => {}): void;
     registerOnTouched(fn: () => {}): void;

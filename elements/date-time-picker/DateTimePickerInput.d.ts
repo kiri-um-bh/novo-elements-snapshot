@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, ElementRef } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, EventEmitter } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../services/novo-label-service';
 export declare class NovoDateTimePickerInputElement implements ControlValueAccessor {
@@ -17,10 +17,14 @@ export declare class NovoDateTimePickerInputElement implements ControlValueAcces
     maskOptions: any;
     military: boolean;
     format: string;
+    blurEvent: EventEmitter<FocusEvent>;
+    focusEvent: EventEmitter<FocusEvent>;
     constructor(element: ElementRef, labels: NovoLabelService, _changeDetectorRef: ChangeDetectorRef);
     writeValue(value: any): void;
     updateDate(event: any): void;
     updateTime(event: any): void;
+    handleBlur(event: any): void;
+    handleFocus(event: any): void;
     checkParts(): void;
     registerOnChange(fn: (value: any) => {}): void;
     registerOnTouched(fn: () => {}): void;

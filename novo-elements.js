@@ -12242,6 +12242,8 @@ class NovoDatePickerInputElement {
         this._onTouched = () => { };
         this.textMaskEnabled = true;
         this.allowInvalidDate = false;
+        this.blurEvent = new EventEmitter();
+        this.focusEvent = new EventEmitter();
         this.placeholder = this.labels.dateFormatPlaceholder;
     }
     /**
@@ -12300,6 +12302,25 @@ class NovoDatePickerInputElement {
         if (document.activeElement === event.target) {
             this._handleEvent(event, false);
         }
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    _handleBlur(event) {
+        if (this.value && !event.relatedTarget) {
+            this._handleEvent(event, true);
+            this.closePanel();
+        }
+        this.blurEvent.emit(event);
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    _handleFocus(event) {
+        this.openPanel();
+        this.focusEvent.emit(event);
     }
     /**
      * @param {?} event
@@ -12452,7 +12473,7 @@ NovoDatePickerInputElement.decorators = [
                 selector: 'novo-date-picker-input',
                 providers: [DATE_VALUE_ACCESSOR],
                 template: `
-        <input type="text" [name]="name" [(ngModel)]="formattedValue" [textMask]="maskOptions" [placeholder]="placeholder" (focus)="openPanel()" (keydown)="_handleKeydown($event)" (input)="_handleInput($event)" #input data-automation-id="date-input"/>
+        <input type="text" [name]="name" [(ngModel)]="formattedValue" [textMask]="maskOptions" [placeholder]="placeholder" (focus)="_handleFocus($event)" (keydown)="_handleKeydown($event)" (input)="_handleInput($event)" (blur)="_handleBlur($event)" #input data-automation-id="date-input"/>
         <i *ngIf="!hasValue" (click)="openPanel()" class="bhi-calendar"></i>
         <i *ngIf="hasValue" (click)="clearValue()" class="bhi-times"></i>
         <novo-overlay-template [parent]="element" position="above-below">
@@ -12476,6 +12497,8 @@ NovoDatePickerInputElement.propDecorators = {
     'format': [{ type: Input },],
     'textMaskEnabled': [{ type: Input },],
     'allowInvalidDate': [{ type: Input },],
+    'blurEvent': [{ type: Output },],
+    'focusEvent': [{ type: Output },],
     'overlay': [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] },],
 };
 
@@ -12999,6 +13022,8 @@ class NovoTimePickerInputElement {
          */
         this._onTouched = () => { };
         this.military = false;
+        this.blurEvent = new EventEmitter();
+        this.focusEvent = new EventEmitter();
     }
     /**
      * @return {?}
@@ -13066,6 +13091,21 @@ class NovoTimePickerInputElement {
             let /** @type {?} */ num = Number(text.split(':')[0]);
             this.scrollToIndex(num * 4);
         }
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    _handleBlur(event) {
+        this.blurEvent.emit(event);
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    _handleFocus(event) {
+        this.openPanel();
+        this.focusEvent.emit(event);
     }
     /**
      * @param {?} value
@@ -13181,8 +13221,8 @@ NovoTimePickerInputElement.decorators = [
                 selector: 'novo-time-picker-input',
                 providers: [DATE_VALUE_ACCESSOR$1],
                 template: `
-    <input type="text" [name]="name" [(ngModel)]="formattedValue" [textMask]="maskOptions" [placeholder]="placeholder" (focus)="openPanel()"
-           (keydown)="_handleKeydown($event)" (input)="_handleInput($event)" #input data-automation-id="time-input"/>
+    <input type="text" [name]="name" [(ngModel)]="formattedValue" [textMask]="maskOptions" [placeholder]="placeholder" (focus)="_handleFocus($event)"
+           (keydown)="_handleKeydown($event)" (input)="_handleInput($event)" (blur)="_handleBlur($event)" #input data-automation-id="time-input"/>
     <i *ngIf="!hasValue" (click)="openPanel()" class="bhi-clock"></i>
     <i *ngIf="hasValue" (click)="clearValue()" class="bhi-times"></i>
 
@@ -13206,6 +13246,8 @@ NovoTimePickerInputElement.propDecorators = {
     'placeholder': [{ type: Input },],
     'military': [{ type: Input },],
     'maskOptions': [{ type: Input },],
+    'blurEvent': [{ type: Output },],
+    'focusEvent': [{ type: Output },],
     'overlay': [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] },],
 };
 
@@ -13463,6 +13505,8 @@ class NovoDateTimePickerInputElement {
          */
         this._onTouched = () => { };
         this.military = false;
+        this.blurEvent = new EventEmitter();
+        this.focusEvent = new EventEmitter();
     }
     /**
      * @param {?} value
@@ -13488,6 +13532,20 @@ class NovoDateTimePickerInputElement {
     updateTime(event) {
         this.timePart = event;
         this.checkParts();
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    handleBlur(event) {
+        this.blurEvent.emit(event);
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    handleFocus(event) {
+        this.focusEvent.emit(event);
     }
     /**
      * @return {?}
@@ -13574,8 +13632,8 @@ NovoDateTimePickerInputElement.decorators = [
                 selector: 'novo-date-time-picker-input',
                 providers: [DATE_VALUE_ACCESSOR$2],
                 template: `
-        <novo-date-picker-input [ngModel]="datePart" (ngModelChange)="updateDate($event)" [maskOptions]="maskOptions"></novo-date-picker-input>
-        <novo-time-picker-input [ngModel]="timePart" (ngModelChange)="updateTime($event)" [military]="military"></novo-time-picker-input>
+        <novo-date-picker-input [ngModel]="datePart" (ngModelChange)="updateDate($event)" [maskOptions]="maskOptions" (blurEvent)="handleBlur($event)" (focusEvent)="handleFocus($event)" ></novo-date-picker-input>
+        <novo-time-picker-input [ngModel]="timePart" (ngModelChange)="updateTime($event)" [military]="military" (blurEvent)="handleBlur($event)" (focusEvent)="handleFocus($event)"></novo-time-picker-input>
   `,
             },] },
 ];
@@ -13593,6 +13651,8 @@ NovoDateTimePickerInputElement.propDecorators = {
     'maskOptions': [{ type: Input },],
     'military': [{ type: Input },],
     'format': [{ type: Input },],
+    'blurEvent': [{ type: Output },],
+    'focusEvent': [{ type: Output },],
 };
 
 // NG2
@@ -17475,15 +17535,15 @@ NovoControlElement.decorators = [
                             </div>
                             <!--Time-->
                             <div class="novo-control-input-container" *ngSwitchCase="'time'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline">
-                                <novo-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder" [military]="form.controls[control.key].military"></novo-time-picker-input>
+                                <novo-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder" [military]="form.controls[control.key].military" (focusEvent)="handleFocus($event)" (blurEvent)="handleBlur($event)"></novo-time-picker-input>
                             </div>
                             <!--Date-->
                             <div class="novo-control-input-container" *ngSwitchCase="'date'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline">
-                                <novo-date-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [format]="form.controls[control.key].dateFormat" [allowInvalidDate]="form.controls[control.key].allowInvalidDate" [textMaskEnabled]="form.controls[control.key].textMaskEnabled" [placeholder]="form.controls[control.key].placeholder"></novo-date-picker-input>
+                                <novo-date-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [format]="form.controls[control.key].dateFormat" [allowInvalidDate]="form.controls[control.key].allowInvalidDate" [textMaskEnabled]="form.controls[control.key].textMaskEnabled" [placeholder]="form.controls[control.key].placeholder" (blurEvent)="handleBlur($event)" (focusEvent)="handleFocus($event)"></novo-date-picker-input>
                             </div>
                             <!--Date and Time-->
                             <div class="novo-control-input-container" *ngSwitchCase="'date-time'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline">
-                                <novo-date-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder" [military]="form.controls[control.key].military"></novo-date-time-picker-input>
+                                <novo-date-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder" [military]="form.controls[control.key].military" (focusEvent)="handleFocus($event)" (blurEvent)="handleBlur($event)"></novo-date-time-picker-input>
                             </div>
                             <!--Address-->
                             <novo-address *ngSwitchCase="'address'" [formControlName]="control.key" [config]="control.config" (change)="handleAddressChange($event)" (focus)="handleFocus($event.event, $event.field)" (blur)="handleBlur($event.event, $event.field)" (validityChange)="updateValidity()"></novo-address>
