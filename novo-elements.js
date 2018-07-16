@@ -12308,10 +12308,6 @@ class NovoDatePickerInputElement {
      * @return {?}
      */
     _handleBlur(event) {
-        if (this.value && !event.relatedTarget) {
-            this._handleEvent(event, true);
-            this.closePanel();
-        }
         this.blurEvent.emit(event);
     }
     /**

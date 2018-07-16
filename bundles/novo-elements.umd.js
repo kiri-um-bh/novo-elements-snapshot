@@ -11627,10 +11627,6 @@ var NovoDatePickerInputElement = /** @class */ (function () {
      * @return {?}
      */
     NovoDatePickerInputElement.prototype._handleBlur = function (event) {
-        if (this.value && !event.relatedTarget) {
-            this._handleEvent(event, true);
-            this.closePanel();
-        }
         this.blurEvent.emit(event);
     };
     /**
