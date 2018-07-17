@@ -10,10 +10,11 @@ import { GlobalRef, BrowserGlobalRef } from './services/global/global.service';
 import { LocalStorageService } from './services/storage/storage.service';
 import { Security } from './services/security/Security';
 import { OptionsService } from './services/options/OptionsService';
+import { NovoTemplateService } from './services/template/NovoTemplateService';
 export declare class NovoElementProviders {
     static forRoot(): {
         ngModule: typeof NovoElementProviders;
-        providers: (typeof DateFormatService | typeof FieldInteractionApi | typeof Security | {
+        providers: (typeof DateFormatService | typeof NovoTemplateService | typeof FieldInteractionApi | typeof Security | {
             provide: typeof NovoDragulaService;
             useClass: typeof NovoDragulaService;
         } | {

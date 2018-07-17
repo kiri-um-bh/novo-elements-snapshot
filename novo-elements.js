@@ -14026,6 +14026,84 @@ NovoTipWellModule.decorators = [
 NovoTipWellModule.ctorParameters = () => [];
 
 // NG2
+class NovoTemplateService {
+    constructor() {
+        this.templates = {
+            default: {},
+            custom: {},
+        };
+    }
+    /**
+     * @return {?}
+     */
+    getAll() {
+        let /** @type {?} */ templates = {};
+        const /** @type {?} */ customTemplateTypes = Object.keys(this.templates.custom);
+        const /** @type {?} */ defaultTemplateTypes = Object.keys(this.templates.default);
+        defaultTemplateTypes.forEach((type) => {
+            templates[type] = this.templates.default[type];
+        });
+        customTemplateTypes.forEach((type) => {
+            templates[type] = this.templates.custom[type];
+        });
+        return templates;
+    }
+    /**
+     * @param {?} key
+     * @param {?} template
+     * @return {?}
+     */
+    addDefault(key, template) {
+        this.templates.default[key] = template;
+    }
+    /**
+     * @param {?} key
+     * @param {?} template
+     * @return {?}
+     */
+    addCustom(key, template) {
+        this.templates.custom[key] = template;
+    }
+}
+NovoTemplateService.decorators = [
+    { type: Injectable },
+];
+/**
+ * @nocollapse
+ */
+NovoTemplateService.ctorParameters = () => [];
+
+class NovoTemplate {
+    /**
+     * @param {?} template
+     */
+    constructor(template) {
+        this.template = template;
+    }
+    /**
+     * @return {?}
+     */
+    getType() {
+        return this.name;
+    }
+}
+NovoTemplate.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoTemplate]',
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoTemplate.ctorParameters = () => [
+    { type: TemplateRef, },
+];
+NovoTemplate.propDecorators = {
+    'type': [{ type: Input },],
+    'name': [{ type: Input, args: ['novoTemplate',] },],
+};
+
+// NG2
 // APP
 class NovoFieldsetHeaderElement {
 }
@@ -14045,44 +14123,6 @@ NovoFieldsetHeaderElement.propDecorators = {
     'title': [{ type: Input },],
     'icon': [{ type: Input },],
 };
-class NovoControlCustom {
-    /**
-     * @param {?} componentUtils
-     */
-    constructor(componentUtils) {
-        this.componentUtils = componentUtils;
-    }
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-        this.controlComponent = this.componentUtils.appendNextToLocation(this.control.customControl, this.referencePoint);
-        this.controlComponent.instance.control = this.control;
-        this.controlComponent.instance.form = this.form;
-        if (this.control.customControlConfig) {
-            this.controlComponent.instance.config = this.control.customControlConfig;
-        }
-    }
-}
-NovoControlCustom.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-control-custom',
-                template: `
-        <span #ref></span>
-    `
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoControlCustom.ctorParameters = () => [
-    { type: ComponentUtils, },
-];
-NovoControlCustom.propDecorators = {
-    'control': [{ type: Input },],
-    'form': [{ type: Input },],
-    'referencePoint': [{ type: ViewChild, args: ['ref', { read: ViewContainerRef },] },],
-};
 class NovoFieldsetElement {
     constructor() {
         this.controls = [];
@@ -14096,8 +14136,7 @@ NovoFieldsetElement.decorators = [
             <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title"></novo-fieldset-header>
             <ng-container *ngFor="let control of controls;let controlIndex = index;">
                 <div class="novo-form-row" [class.disabled]="control.disabled" *ngIf="control.__type !== 'GroupedControl'">
-                    <novo-control *ngIf="!control.customControl" [autoFocus]="autoFocus && index === 0 && controlIndex === 0" [control]="control" [form]="form"></novo-control>
-                    <novo-control-custom *ngIf="control.customControl" [control]="control" [form]="form"></novo-control-custom>
+                    <novo-control [autoFocus]="autoFocus && index === 0 && controlIndex === 0" [control]="control" [form]="form"></novo-control>
                 </div>
                 <div *ngIf="control.__type === 'GroupedControl'">TODO - GroupedControl</div>
             </ng-container>
@@ -14120,9 +14159,11 @@ NovoFieldsetElement.propDecorators = {
 class NovoDynamicFormElement {
     /**
      * @param {?} element
+     * @param {?} templates
      */
-    constructor(element) {
+    constructor(element, templates) {
         this.element = element;
+        this.templates = templates;
         this.controls = [];
         this.fieldsets = [];
         this.hideNonRequiredFields = true;
@@ -14178,6 +14219,16 @@ class NovoDynamicFormElement {
             });
         }
         this.form.fieldsets = [...this.fieldsets];
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterContentInit() {
+        if (this.customTemplates && this.customTemplates.length) {
+            this.customTemplates.forEach((template) => {
+                this.templates.addCustom(template.name, template.template);
+            });
+        }
     }
     /**
      * @return {?}
@@ -14273,7 +14324,8 @@ NovoDynamicFormElement.decorators = [
                 </ng-container>
             </form>
         </div>
-    `
+    `,
+                providers: [NovoTemplateService]
             },] },
 ];
 /**
@@ -14281,6 +14333,7 @@ NovoDynamicFormElement.decorators = [
  */
 NovoDynamicFormElement.ctorParameters = () => [
     { type: ElementRef, },
+    { type: NovoTemplateService, },
 ];
 NovoDynamicFormElement.propDecorators = {
     'controls': [{ type: Input },],
@@ -14289,20 +14342,19 @@ NovoDynamicFormElement.propDecorators = {
     'layout': [{ type: Input },],
     'hideNonRequiredFields': [{ type: Input },],
     'autoFocusFirstField': [{ type: Input },],
+    'customTemplates': [{ type: ContentChildren, args: [NovoTemplate,] },],
 };
 
 // NG2
 class NovoFormElement {
-    constructor() {
+    /**
+     * @param {?} templates
+     */
+    constructor(templates) {
+        this.templates = templates;
         this.hideHeader = false;
         this.showingAllFields = false;
         this.showingRequiredFields = true;
-    }
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-        this.form.layout = this.layout;
     }
     /**
      * @return {?}
@@ -14315,6 +14367,22 @@ class NovoFormElement {
      */
     get isValid() {
         return this.form.valid;
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+        this.form.layout = this.layout;
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterContentInit() {
+        if (this.customTemplates && this.customTemplates.length) {
+            this.customTemplates.forEach((template) => {
+                this.templates.addCustom(template.name, template.template);
+            });
+        }
     }
     /**
      * @return {?}
@@ -14375,17 +14443,21 @@ NovoFormElement.decorators = [
                 <ng-content></ng-content>
             </form>
         </div>
-    `
+    `,
+                providers: [NovoTemplateService]
             },] },
 ];
 /**
  * @nocollapse
  */
-NovoFormElement.ctorParameters = () => [];
+NovoFormElement.ctorParameters = () => [
+    { type: NovoTemplateService, },
+];
 NovoFormElement.propDecorators = {
     'form': [{ type: Input },],
     'layout': [{ type: Input },],
     'hideHeader': [{ type: Input },],
+    'customTemplates': [{ type: ContentChildren, args: [NovoTemplate,] },],
 };
 
 // NG2
@@ -14442,6 +14514,7 @@ class NovoFormControl extends FormControl {
         this.description = control.description;
         this.options = control.options;
         this.tipWell = control.tipWell;
+        this.customControlConfig = control.customControlConfig;
         // Reactive Form, need to enable/disable, can't bind to [disabled]
         if (this.readOnly) {
             this.disable();
@@ -14622,7 +14695,7 @@ class BaseControl {
             this.tooltipSize = config.tooltipSize;
             this.tooltipPreline = config.tooltipPreline;
         }
-        this.customControl = config.customControl;
+        this.template = config.template;
         this.customControlConfig = config.customControlConfig;
         this.tipWell = config.tipWell;
         this.width = config.width;
@@ -15101,6 +15174,18 @@ class ControlFactory {
     }
 }
 
+// APP
+class CustomControl extends BaseControl {
+    /**
+     * @param {?} config
+     */
+    constructor(config) {
+        super(config.template, config);
+        this.controlType = 'custom';
+        this.controlType = config.template;
+    }
+}
+
 // NG2
 class OptionsService {
     constructor() { }
@@ -15277,8 +15362,8 @@ class FormUtils {
         else if (Object.keys(numberDataTypeToTypeMap).indexOf(field.dataType) > -1) {
             type = numberDataTypeToTypeMap[field.dataType];
         } /* else {
-            throw new Error('FormUtils: This field type is unsupported.');
-        }*/
+                throw new Error('FormUtils: This field type is unsupported.');
+            }*/
         return type;
     }
     /**
@@ -15321,7 +15406,7 @@ class FormUtils {
             description: field.description || '',
             tooltip: field.tooltip,
             tooltipPosition: field.tooltipPosition,
-            customControl: field.customControl,
+            template: field.template,
             customControlConfig: field.customControlConfig
         };
         // TODO: getControlOptions should always return the correct format
@@ -15356,6 +15441,9 @@ class FormUtils {
             }
             if (overrides[field.name].pickerCallback) {
                 controlConfig.config.callback = overrides[field.name].pickerCallback;
+            }
+            if (overrides[field.name].type) {
+                type = overrides[field.name].type;
             }
             Object.assign(controlConfig, overrides[field.name]);
         }
@@ -15490,6 +15578,9 @@ class FormUtils {
                 break;
             case 'file':
                 control = new FileControl(controlConfig);
+                break;
+            case 'custom':
+                control = new CustomControl(controlConfig);
                 break;
             default:
                 control = new TextBoxControl(controlConfig);
@@ -16653,7 +16744,7 @@ class FieldInteractionApi {
         if (control) {
             let /** @type {?} */ newConfig = Object.assign({}, control.config);
             if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
-                newConfig = {
+                newConfig = Object.assign(newConfig, {
                     format: config.format,
                     options: (query$$1) => {
                         if (config.optionsPromise) {
@@ -16683,7 +16774,7 @@ class FieldInteractionApi {
                             }
                         });
                     }
-                };
+                });
             }
             else if (config.options) {
                 newConfig.options = [...config.options];
@@ -16903,74 +16994,20 @@ NovoAutoSize.ctorParameters = () => [
 NovoAutoSize.propDecorators = {
     'onInput': [{ type: HostListener, args: ['input', ['$event.target'],] },],
 };
-class NovoCustomControlContainerElement {
-}
-NovoCustomControlContainerElement.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-custom-control-container',
-                template: `
-        <div class="novo-control-container" [hidden]="form.controls[control.key].hidden || form.controls[control.key].type === 'hidden' || form.controls[control.key].controlType === 'hidden'">
-            <!--Label (for horizontal)-->
-            <label [attr.for]="control.key" *ngIf="form.layout !== 'vertical' && form.controls[control.key].label">{{ form.controls[control.key].label }}</label>
-            <div class="novo-control-outer-container">
-                <!--Label (for vertical)-->
-                <label
-                    *ngIf="form.layout === 'vertical' && form.controls[control.key].label"
-                    class="novo-control-label"
-                    [attr.for]="control.key"
-                    [class.novo-control-always-active]="true">
-                    {{ form.controls[control.key].label }}
-                </label>
-                <div class="novo-control-inner-container">
-                    <div class="novo-control-inner-input-container">
-                        <!--Required Indicator-->
-                        <i class="required-indicator"
-                            [ngClass]="{'bhi-circle': !isValid, 'bhi-check': isValid}" *ngIf="form.controls[control.key].required && !form.controls[control.key].readOnly">
-                        </i>
-                        <!--Form Controls-->
-                        <div class="novo-control-input {{ form.controls[control.key].controlType }}" [attr.data-automation-id]="control.key">
-                            <ng-content></ng-content>
-                        </div>
-                    </div>
-                    <!--Error Message-->
-                    <div class="field-message">
-                        <div class="messages">
-                            <span class="error-text" *ngIf="(form.controls[control.key].dirty || control.dirty) && form.controls[control.key].errors?.required">{{ form.controls[control.key].label | uppercase }} is required</span>
-                            <span class="error-text" *ngIf="(form.controls[control.key].dirty || control.dirty) && (form.controls[control.key].errors?.custom)">{{ form.controls[control.key].errors.custom }}</span>
-                            <!--Field Hint-->
-                            <span class="description" *ngIf="form.controls[control.key].description">
-                                {{ form.controls[control.key].description }}
-                            </span>
-                        </div>
-                    </div>
-                    <!--Tip Wel-->
-                    <novo-tip-well *ngIf="form.controls[control.key].tipWell" [name]="control.key" [tip]="form.controls[control.key]?.tipWell?.tip" [icon]="form.controls[control.key]?.tipWell?.icon" [button]="form.controls[control.key]?.tipWell?.button"></novo-tip-well>
-                </div>
-            </div>
-        </div>
-    `,
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoCustomControlContainerElement.ctorParameters = () => [];
-NovoCustomControlContainerElement.propDecorators = {
-    'control': [{ type: Input },],
-    'form': [{ type: Input },],
-};
 class NovoControlElement extends OutsideClick {
     /**
      * @param {?} element
      * @param {?} labels
      * @param {?} dateFormatService
      * @param {?} fieldInteractionApi
+     * @param {?} templateService
      */
-    constructor(element, labels, dateFormatService, fieldInteractionApi) {
+    constructor(element, labels, dateFormatService, fieldInteractionApi, templateService) {
         super(element);
         this.labels = labels;
         this.dateFormatService = dateFormatService;
         this.fieldInteractionApi = fieldInteractionApi;
+        this.templateService = templateService;
         this.condensed = false;
         this.autoFocus = false;
         this.change = new EventEmitter();
@@ -16987,6 +17024,7 @@ class NovoControlElement extends OutsideClick {
         this.characterCount = 0;
         this._showCount = false;
         this.maxLengthMetErrorfields = [];
+        this.templates = {};
     }
     /**
      * @return {?}
@@ -17061,6 +17099,14 @@ class NovoControlElement extends OutsideClick {
     /**
      * @return {?}
      */
+    ngAfterContentInit() {
+        setTimeout(() => {
+            this.templates = this.templateService.getAll();
+        });
+    }
+    /**
+     * @return {?}
+     */
     ngOnInit() {
         // Make sure to initially format the time controls
         if (this.control && this.form.controls[this.control.key].value) {
@@ -17074,6 +17120,13 @@ class NovoControlElement extends OutsideClick {
             // Listen to clear events
             this.forceClearSubscription = this.control.forceClear.subscribe(() => {
                 this.clearValue();
+            });
+            // For Asynchronous validations
+            this.statusChangeSubscription = this.form.controls[this.control.key].statusChanges.subscribe((validity) => {
+                this.form.controls[this.control.key] = this.templateContext.$implicit;
+                if (validity !== 'PENDING' && this.form.updateValueAndValidity) {
+                    this.form.updateValueAndValidity();
+                }
             });
             // Subscribe to control interactions
             if (this.control.interactions) {
@@ -17106,32 +17159,45 @@ class NovoControlElement extends OutsideClick {
                 }
             }
         }
+        this.templateContext = {
+            $implicit: this.form.controls[this.control.key],
+            methods: {
+                restrictKeys: this.restrictKeys.bind(this),
+                emitChange: this.emitChange.bind(this),
+                handleFocus: this.handleFocus.bind(this),
+                handlePercentChange: this.handlePercentChange.bind(this),
+                handleBlur: this.handleBlur.bind(this),
+                handleTextAreaInput: this.handleTextAreaInput.bind(this),
+                handleEdit: this.handleEdit.bind(this),
+                handleSave: this.handleSave.bind(this),
+                handleDelete: this.handleDelete.bind(this),
+                handleUpload: this.handleUpload.bind(this),
+                modelChange: this.modelChange.bind(this),
+                modelChangeWithRaw: this.modelChangeWithRaw.bind(this),
+                handleAddressChange: this.handleAddressChange.bind(this),
+                handleTyping: this.handleTyping.bind(this),
+                updateValidity: this.updateValidity.bind(this),
+                toggleActive: this.toggleActive.bind(this),
+            },
+            form: this.form,
+        };
+        this.templateContext.$implicit.tooltipPosition = this.tooltipPosition;
+        this.templateContext.$implicit.tooltip = this.tooltip;
+        this.templateContext.$implicit.tooltipSize = this.tooltipSize;
+        this.templateContext.$implicit.tooltipPreline = this.tooltipPreline;
+        this.templateContext.$implicit.startupFocus = this.control.startupFocus;
+        this.templateContext.$implicit.fileBrowserImageUploadUrl = this.control.fileBrowserImageUploadUrl;
+        this.templateContext.$implicit.minimal = this.control.minimal;
+        this.templateContext.$implicit.currencyFormat = this.control.currencyFormat;
+        this.templateContext.$implicit.percentValue = this.control.percentValue;
+        this.templateContext.$implicit.config = this.control.config;
         if (this.form.controls[this.control.key] && this.form.controls[this.control.key].subType === 'percentage') {
             if (!Helpers.isEmpty(this.form.controls[this.control.key].value)) {
-                this.percentValue = Number((this.form.controls[this.control.key].value * 100).toFixed(6).replace(/\.?0*$/, ''));
+                this.templateContext.$implicit.percentValue = Number((this.form.controls[this.control.key].value * 100).toFixed(6).replace(/\.?0*$/, ''));
             }
             this.percentChangeSubscription = this.form.controls[this.control.key].displayValueChanges.subscribe((value) => {
                 if (!Helpers.isEmpty(value)) {
-                    this.percentValue = Number((value * 100).toFixed(6).replace(/\.?0*$/, ''));
-                }
-            });
-        }
-    }
-    /**
-     * @param {?} interaction
-     * @return {?}
-     */
-    executeInteraction(interaction) {
-        if (interaction.script && Helpers.isFunction(interaction.script)) {
-            setTimeout(() => {
-                this.fieldInteractionApi.form = this.form;
-                this.fieldInteractionApi.currentKey = this.control.key;
-                try {
-                    interaction.script(this.fieldInteractionApi, this.control.key);
-                }
-                catch (err) {
-                    console.info('Field Interaction Error!', this.control.key); // tslint:disable-line
-                    console.error(err); // tslint:disable-line
+                    this.templateContext.$implicit.percentValue = Number((value * 100).toFixed(6).replace(/\.?0*$/, ''));
                 }
             });
         }
@@ -17157,6 +17223,9 @@ class NovoControlElement extends OutsideClick {
         }
         if (this.dateChangeSubscription) {
             this.dateChangeSubscription.unsubscribe();
+        }
+        if (this.statusChangeSubscription) {
+            this.statusChangeSubscription.unsubscribe();
         }
         super.ngOnDestroy();
     }
@@ -17257,6 +17326,25 @@ class NovoControlElement extends OutsideClick {
             return true;
         }
         return false;
+    }
+    /**
+     * @param {?} interaction
+     * @return {?}
+     */
+    executeInteraction(interaction) {
+        if (interaction.script && Helpers.isFunction(interaction.script)) {
+            setTimeout(() => {
+                this.fieldInteractionApi.form = this.form;
+                this.fieldInteractionApi.currentKey = this.control.key;
+                try {
+                    interaction.script(this.fieldInteractionApi, this.control.key);
+                }
+                catch (err) {
+                    console.info('Field Interaction Error!', this.control.key); // tslint:disable-line
+                    console.error(err); // tslint:disable-line
+                }
+            });
+        }
     }
     /**
      * @param {?} event
@@ -17451,18 +17539,20 @@ class NovoControlElement extends OutsideClick {
         }
     }
     /**
-     * @param {?} data
+     * @param {?} shouldEventBeEmitted
      * @return {?}
      */
-    updateValidity(data) {
-        this.form.controls[this.control.key].updateValueAndValidity({ emitEvent: false });
+    updateValidity(shouldEventBeEmitted) {
+        let /** @type {?} */ emitEvent = shouldEventBeEmitted ? true : false;
+        this.form.controls[this.control.key].updateValueAndValidity({ emitEvent });
     }
 }
 NovoControlElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-control',
                 template: `
-        <div class="novo-control-container" [formGroup]="form" [hidden]="form.controls[control.key].hidden || form.controls[control.key].type === 'hidden' || form.controls[control.key].controlType === 'hidden'">
+        <novo-control-templates></novo-control-templates>
+        <div class="novo-control-container" [hidden]="form.controls[control.key].hidden || form.controls[control.key].type === 'hidden' || form.controls[control.key].controlType === 'hidden'">
             <!--Encrypted Field-->
             <span [tooltip]="labels.encryptedFieldTooltip" [tooltipPosition]="'right'"><i [hidden]="!form.controls[control.key].encrypted"
             class="bhi-lock"></i></span>
@@ -17491,67 +17581,11 @@ NovoControlElement.decorators = [
                             [ngClass]="{'bhi-circle': !isValid, 'bhi-check': isValid}" *ngIf="!condensed || (form.controls[control.key].required && !form.controls[control.key].readOnly)">
                         </i>
                         <!--Form Controls-->
-                        <div class="novo-control-input {{ form.controls[control.key].controlType }}" [ngSwitch]="form.controls[control.key].controlType" [attr.data-automation-id]="control.key" [class.control-disabled]="form.controls[control.key].disabled">
-                            <!--Text-based Inputs-->
+                        <div class="novo-control-input {{ form.controls[control.key].controlType }}" [attr.data-automation-id]="control.key" [class.control-disabled]="form.controls[control.key].disabled">
                             <!--TODO prefix/suffix on the control-->
-                            <div class="novo-control-input-container novo-control-input-with-label" *ngSwitchCase="'textbox'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline">
-                              <input *ngIf="form.controls[control.key].type !== 'number'" [class.maxlength-error]="errors?.maxlength" [formControlName]="control.key" [id]="control.key" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (input)="emitChange($event)" [maxlength]="form.controls[control.key].maxlength" (focus)="handleFocus($event)" (blur)="handleBlur($event)" autocomplete>
-                              <input *ngIf="form.controls[control.key].type === 'number' && form.controls[control.key].subType !== 'percentage'" [class.maxlength-error]="errors?.maxlength" [formControlName]="control.key" [id]="control.key" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (keydown)="restrictKeys($event)" (input)="emitChange($event)" [maxlength]="form.controls[control.key].maxlength" (focus)="handleFocus($event)" (blur)="handleBlur($event)" step="any" (mousewheel)="numberInput.blur()" #numberInput>
-                              <input *ngIf="form.controls[control.key].type === 'number' && form.controls[control.key].subType === 'percentage'" [type]="form.controls[control.key].type" [placeholder]="form.controls[control.key].placeholder" (keydown)="restrictKeys($event)" [value]="percentValue" (input)="handlePercentChange($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" step="any" (mousewheel)="percentInput.blur()" #percentInput>
-                              <label class="input-label" *ngIf="form.controls[control.key].subType === 'currency'">{{ control.currencyFormat }}</label>
-                              <label class="input-label" *ngIf="form.controls[control.key].subType === 'percentage'">%</label>
-                            </div>
-                            <!--TextArea-->
-                            <div class="novo-control-input-container novo-control-input-with-label" *ngSwitchCase="'text-area'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline">
-                              <textarea [class.maxlength-error]="errors?.maxlength" [name]="control.key" [attr.id]="control.key" [placeholder]="form.controls[control.key].placeholder" [formControlName]="control.key" autosize (input)="handleTextAreaInput($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" [maxlength]="control.maxlength"></textarea>
-                            </div>
-                            <!--Editor-->
-                            <novo-editor *ngSwitchCase="'editor'" [name]="control.key" [formControlName]="control.key" [startupFocus]="control.startupFocus" [minimal]="control.minimal" [fileBrowserImageUploadUrl]="control.fileBrowserImageUploadUrl" (focus)="handleFocus($event)" (blur)="handleBlur($event)"></novo-editor>
-                            <!--AceEditor-->
-                            <novo-ace-editor *ngSwitchCase="'ace-editor'" [name]="control.key" [formControlName]="control.key" (focus)="handleFocus($event)" (blur)="handleBlur($event)"></novo-ace-editor>
-                            <!--HTML5 Select-->
-                            <select [id]="control.key" *ngSwitchCase="'native-select'" [formControlName]="control.key" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline">
-                                <option *ngIf="form.controls[control.key].placeholder" value="" disabled selected hidden>{{ form.controls[control.key].placeholder }}</option>
-                                <option *ngFor="let opt of form.controls[control.key].options" [value]="opt.key">{{opt.value}}</option>
-                            </select>
-                            <!--File-->
-                            <novo-file-input *ngSwitchCase="'file'" [formControlName]="control.key" [id]="control.key" [name]="control.key" [placeholder]="form.controls[control.key].placeholder" [value]="form.controls[control.key].value" [multiple]="form.controls[control.key].multiple" [layoutOptions]="form.controls[control.key].layoutOptions" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline" (edit)="handleEdit($event)" (save)="handleSave($event)" (delete)="handleDelete($event)" (upload)="handleUpload($event)"></novo-file-input>
-                            <!--Tiles-->
-                            <novo-tiles *ngSwitchCase="'tiles'" [options]="control.options" [formControlName]="control.key" (onChange)="modelChange($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline" [controlDisabled]="form.controls[control.key].disabled"></novo-tiles>
-                            <!--Picker-->
-                            <div class="novo-control-input-container" *ngSwitchCase="'picker'">
-                                <novo-picker [config]="form.controls[control.key].config" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder" [parentScrollSelector]="form.controls[control.key].parentScrollSelector" *ngIf="!form.controls[control.key].multiple" (select)="modelChange($event);" (changed)="modelChangeWithRaw($event)" (typing)="handleTyping($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline"></novo-picker>
-                                <chips [source]="form.controls[control.key].config" [type]="form.controls[control.key].config.type" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder" *ngIf="control.multiple" [closeOnSelect]="form.controls[control.key].closeOnSelect" (changed)="modelChangeWithRaw($event)" (typing)="handleTyping($event)" (focus)="handleFocus($event)" (blur)="handleBlur($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline"></chips>
-                            </div>
-                            <!--Novo Select-->
-                            <novo-select *ngSwitchCase="'select'" [options]="form.controls[control.key].options" [headerConfig]="form.controls[control.key].headerConfig" [placeholder]="form.controls[control.key].placeholder" [formControlName]="control.key" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline" (onSelect)="modelChange($event)"></novo-select>
-                            <!--Radio-->
-                            <div class="novo-control-input-container" *ngSwitchCase="'radio'">
-                                <novo-radio [vertical]="vertical" [name]="control.key" [formControlName]="control.key" *ngFor="let option of form.controls[control.key].options" [value]="option.value" [label]="option.label" [checked]="option.value === form.value[control.key]" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline" [button]="!!option.icon" [icon]="option.icon" [attr.data-automation-id]="control.key + '-' + (option?.label || option?.value)"></novo-radio>
-                            </div>
-                            <!--Time-->
-                            <div class="novo-control-input-container" *ngSwitchCase="'time'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline">
-                                <novo-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder" [military]="form.controls[control.key].military" (focusEvent)="handleFocus($event)" (blurEvent)="handleBlur($event)"></novo-time-picker-input>
-                            </div>
-                            <!--Date-->
-                            <div class="novo-control-input-container" *ngSwitchCase="'date'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline">
-                                <novo-date-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [format]="form.controls[control.key].dateFormat" [allowInvalidDate]="form.controls[control.key].allowInvalidDate" [textMaskEnabled]="form.controls[control.key].textMaskEnabled" [placeholder]="form.controls[control.key].placeholder" (blurEvent)="handleBlur($event)" (focusEvent)="handleFocus($event)"></novo-date-picker-input>
-                            </div>
-                            <!--Date and Time-->
-                            <div class="novo-control-input-container" *ngSwitchCase="'date-time'" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline">
-                                <novo-date-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="form.controls[control.key].placeholder" [military]="form.controls[control.key].military" (focusEvent)="handleFocus($event)" (blurEvent)="handleBlur($event)"></novo-date-time-picker-input>
-                            </div>
-                            <!--Address-->
-                            <novo-address *ngSwitchCase="'address'" [formControlName]="control.key" [config]="control.config" (change)="handleAddressChange($event)" (focus)="handleFocus($event.event, $event.field)" (blur)="handleBlur($event.event, $event.field)" (validityChange)="updateValidity()"></novo-address>
-                            <!--Checkbox-->
-                            <novo-checkbox *ngSwitchCase="'checkbox'" [formControlName]="control.key" [name]="control.key" [label]="control.checkboxLabel" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline" [layoutOptions]="layoutOptions"></novo-checkbox>
-                            <!--Checklist-->
-                            <novo-check-list *ngSwitchCase="'checklist'" [formControlName]="control.key" [name]="control.key" [options]="form.controls[control.key].options" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline" (onSelect)="modelChange($event)"></novo-check-list>
-                            <!--QuickNote-->
-                            <novo-quick-note *ngSwitchCase="'quick-note'" [formControlName]="control.key" [startupFocus]="control.startupFocus" [placeholder]="form.controls[control.key].placeholder" [config]="form.controls[control.key].config" (change)="modelChange($event)" [tooltip]="tooltip" [tooltipPosition]="tooltipPosition" [tooltipSize]="tooltipSize" [tooltipPreline]="tooltipPreline"></novo-quick-note>
-                            <!--ReadOnly-->
-                            <!--TODO - Handle rendering of different READONLY values-->
-                            <div *ngSwitchCase="'read-only'">{{ form.value[control.key] }}</div>
+                            <ng-container *ngIf="templates">
+                              <ng-container *ngTemplateOutlet="templates[form.controls[control.key].controlType]; context: templateContext"></ng-container>
+                            </ng-container>
                         </div>
                     </div>
                     <!--Error Message-->
@@ -17618,6 +17652,7 @@ NovoControlElement.ctorParameters = () => [
     { type: NovoLabelService, },
     { type: DateFormatService, },
     { type: FieldInteractionApi, },
+    { type: NovoTemplateService, },
 ];
 NovoControlElement.propDecorators = {
     'control': [{ type: Input },],
@@ -31960,6 +31995,187 @@ NovoControlGroup.propDecorators = {
     'onAdd': [{ type: Output },],
 };
 
+// App
+class NovoControlTemplates {
+    /**
+     * @param {?} templates
+     */
+    constructor(templates) {
+        this.templates = templates;
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterViewInit() {
+        if (this.defaultTemplates && this.defaultTemplates.length) {
+            this.defaultTemplates.forEach((template) => {
+                this.templates.addDefault(template.name, template.template);
+            });
+        }
+    }
+}
+NovoControlTemplates.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-control-templates',
+                template: `
+        <!---Readonly--->
+        <ng-template novoTemplate="read-only" let-form="form" let-control>
+          <div>{{ form.value[control.key] }}</div>
+        </ng-template>
+        <!--Textbox--->
+        <ng-template novoTemplate="textbox" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form" class="novo-control-input-container novo-control-input-with-label" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline">
+            <input *ngIf="control?.type !== 'number'" [class.maxlength-error]="errors?.maxlength" [formControlName]="control.key" [id]="control.key" [type]="control?.type" [placeholder]="control?.placeholder" (input)="methods.emitChange($event)" [maxlength]="control?.maxlength" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" autocomplete>
+            <input *ngIf="control?.type === 'number' && control?.subType !== 'percentage'" [class.maxlength-error]="errors?.maxlength" [formControlName]="control.key" [id]="control.key" [type]="control?.type" [placeholder]="control?.placeholder" (keydown)="methods.restrictKeys($event)" (input)="methods.emitChange($event)" [maxlength]="control?.maxlength" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" step="any" (mousewheel)="numberInput.blur()" #numberInput>
+            <input *ngIf="control?.type === 'number' && control?.subType === 'percentage'" [type]="control?.type" [placeholder]="control?.placeholder" (keydown)="methods.restrictKeys($event)" [value]="control?.percentValue" (input)="methods.handlePercentChange($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" step="any" (mousewheel)="percentInput.blur()" #percentInput>
+            <label class="input-label" *ngIf="control?.subType === 'currency'">{{ control.currencyFormat }}</label>
+            <label class="input-label" *ngIf="control?.subType === 'percentage'">%</label>
+          </div>
+        </ng-template>
+
+        <!--Textarea--->
+        <ng-template novoTemplate="text-area" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form">
+            <textarea [class.maxlength-error]="errors?.maxlength" [name]="control.key" [attr.id]="control.key" [placeholder]="control.placeholder" [formControlName]="control.key" autosize (input)="methods.handleTextAreaInput($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [maxlength]="control?.maxlength" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline"></textarea>
+          </div>
+        </ng-template>
+
+        <!--Editor-->
+        <ng-template novoTemplate="editor" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form">
+            <novo-editor [name]="control.key" [formControlName]="control.key" [startupFocus]="control.startupFocus" [minimal]="control.minimal" [fileBrowserImageUploadUrl]="control.fileBrowserImageUploadUrl" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)"></novo-editor>
+          </div>
+        </ng-template>
+
+        <!--AceEditor-->
+        <ng-template novoTemplate="ace-editor" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form">
+            <novo-ace-editor [name]="control.key" [formControlName]="control.key" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)"></novo-ace-editor>
+          </div>
+        </ng-template>
+
+        <!--HTML5 Select-->
+        <ng-template novoTemplate="native-select" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form">
+            <select [id]="control.key" [formControlName]="control.key" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline">
+                <option *ngIf="control.placeholder" value="" disabled selected hidden>{{ control.placeholder }}</option>
+                <option *ngFor="let opt of control.options" [value]="opt.key">{{opt.value}}</option>
+            </select>
+          </div>
+        </ng-template>
+
+        <!--File-->
+        <ng-template novoTemplate="file" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form">
+            <novo-file-input [formControlName]="control.key" [id]="control.key" [name]="control.key" [placeholder]="control.placeholder" [value]="control.value" [multiple]="control.multiple" [layoutOptions]="control.layoutOptions" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" (edit)="methods.handleEdit($event)" (save)="methods.handleSave($event)" (delete)="methods.handleDelete($event)" (upload)="methods.handleUpload($event)"></novo-file-input>
+          </div>
+        </ng-template>
+
+        <!--Tiles-->
+        <ng-template novoTemplate="tiles" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form">
+            <novo-tiles [options]="control.options" [formControlName]="control.key" (onChange)="methods.modelChange($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [controlDisabled]="control.disabled"></novo-tiles>
+          </div>
+        </ng-template>
+
+        <!--Picker-->
+        <ng-template novoTemplate="picker" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form" class="novo-control-input-container">
+            <novo-picker [config]="control.config" [formControlName]="control.key" [placeholder]="control.placeholder" [parentScrollSelector]="control.parentScrollSelector" *ngIf="!control.multiple" (select)="methods.modelChange($event);" (changed)="methods.modelChangeWithRaw($event)" (typing)="methods.handleTyping($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline"></novo-picker>
+            <chips [source]="control.config" [type]="control.config.type" [formControlName]="control.key" [placeholder]="control.placeholder" *ngIf="control.multiple" [closeOnSelect]="control.closeOnSelect" (changed)="methods.modelChangeWithRaw($event)" (typing)="methods.handleTyping($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline"></chips>
+          </div>
+        </ng-template>
+
+        <!--Novo Select-->
+        <ng-template novoTemplate="select" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form">
+            <novo-select [options]="control.options" [headerConfig]="control.headerConfig" [placeholder]="control.placeholder" [formControlName]="control.key" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" (onSelect)="methods.modelChange($event)"></novo-select>
+          </div>
+        </ng-template>
+
+        <!--Radio-->
+        <ng-template novoTemplate="radio" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form" class="novo-control-input-container">
+            <novo-radio [vertical]="vertical" [name]="control.key" [formControlName]="control.key" *ngFor="let option of control.options" [value]="option.value" [label]="option.label" [checked]="option.value === form.value[control.key]" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [button]="!!option.icon" [icon]="option.icon" [attr.data-automation-id]="control.key + '-' + (option?.label || option?.value)"></novo-radio>
+          </div>
+        </ng-template>
+
+        <!--Time-->
+        <ng-template novoTemplate="time" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline">
+          <novo-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="control.placeholder" [military]="control.military"></novo-time-picker-input>
+          </div>
+        </ng-template>
+
+        <!--Date-->
+        <ng-template novoTemplate="date" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline">
+            <novo-date-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [format]="control.dateFormat" [allowInvalidDate]="control.allowInvalidDate" [textMaskEnabled]="control.textMaskEnabled" [placeholder]="control.placeholder" (focusEvent)="handleFocus($event)" (blurEvent)="handleBlur($event)"></novo-date-picker-input>
+          </div>
+        </ng-template>
+
+
+        <!--Date and Time-->
+        <ng-template novoTemplate="date-time" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline">
+            <novo-date-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="control.placeholder" [military]="control.military" (focusEvent)="handleFocus($event)" (blurEvent)="handleBlur($event)"></novo-date-time-picker-input>
+          </div>
+        </ng-template>
+
+        <!--Address-->
+        <ng-template novoTemplate="address" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form">
+            <novo-address [formControlName]="control.key" [config]="control?.config" (change)="methods.handleAddressChange($event)" (focus)="methods.handleFocus($event.event, $event.field)" (blur)="methods.handleBlur($event.event, $event.field)"  (validityChange)="methods.updateValidity()" (focusEvent)="handleFocus($event)" (blurEvent)="handleBlur($event)"></novo-address>
+          </div>
+        </ng-template>
+
+        <!--Checkbox-->
+        <ng-template novoTemplate="checkbox" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form">
+            <novo-checkbox [formControlName]="control?.key" [name]="control?.key" [label]="control?.checkboxLabel" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [layoutOptions]="control?.layoutOptions"></novo-checkbox>
+          </div>
+        </ng-template>
+
+        <!--Checklist-->
+        <ng-template novoTemplate="checklist" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form">
+            <novo-check-list [formControlName]="control.key" [name]="control.key" [options]="control?.options" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" (onSelect)="methods.modelChange($event)"></novo-check-list>
+          </div>
+        </ng-template>
+
+        <!--QuickNote-->
+        <ng-template novoTemplate="quick-note" let-control let-form="form" let-errors="errors" let-methods="methods">
+          <div [formGroup]="form">
+            <novo-quick-note [formControlName]="control.key" [startupFocus]="control?.startupFocus" [placeholder]="control?.placeholder" [config]="control?.config" (change)="methods.modelChange($event)" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline"></novo-quick-note>
+          </div>
+        </ng-template>
+    `,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoControlTemplates.ctorParameters = () => [
+    { type: NovoTemplateService, },
+];
+NovoControlTemplates.propDecorators = {
+    'defaultTemplates': [{ type: ViewChildren, args: [NovoTemplate,] },],
+};
+
+class NovoCommonModule {
+}
+NovoCommonModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule],
+                exports: [NovoTemplate],
+                declarations: [NovoTemplate],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoCommonModule.ctorParameters = () => [];
+
 // NG2
 // Vendor
 // APP
@@ -31988,19 +32204,22 @@ NovoFormModule.decorators = [
                     NovoTipWellModule,
                     NovoModalModule,
                     NovoButtonModule,
-                    NovoAceEditorModule
+                    NovoAceEditorModule,
+                    NovoCommonModule,
                 ],
                 declarations: [
                     NovoAutoSize, NovoControlElement, NovoDynamicFormElement, NovoFormElement,
-                    NovoFieldsetElement, NovoFieldsetHeaderElement, NovoControlCustom,
-                    NovoCustomControlContainerElement, ControlConfirmModal, ControlPromptModal, NovoControlGroup
+                    NovoFieldsetElement, NovoFieldsetHeaderElement,
+                    ControlConfirmModal, ControlPromptModal, NovoControlGroup, NovoControlTemplates
                 ],
                 exports: [
                     NovoAutoSize, NovoDynamicFormElement, NovoControlElement, NovoFormElement,
-                    NovoFieldsetHeaderElement, NovoControlCustom, NovoCustomControlContainerElement,
-                    NovoControlGroup
+                    NovoFieldsetHeaderElement,
+                    NovoControlGroup,
+                    NovoControlTemplates
                 ],
-                entryComponents: [ControlConfirmModal, ControlPromptModal]
+                entryComponents: [ControlConfirmModal, ControlPromptModal],
+                providers: [NovoTemplateService]
             },] },
 ];
 /**
@@ -46402,50 +46621,6 @@ UnlessModule.decorators = [
  */
 UnlessModule.ctorParameters = () => [];
 
-class NovoTemplate {
-    /**
-     * @param {?} template
-     */
-    constructor(template) {
-        this.template = template;
-    }
-    /**
-     * @return {?}
-     */
-    getType() {
-        return this.name;
-    }
-}
-NovoTemplate.decorators = [
-    { type: Directive, args: [{
-                selector: '[novoTemplate]',
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoTemplate.ctorParameters = () => [
-    { type: TemplateRef, },
-];
-NovoTemplate.propDecorators = {
-    'type': [{ type: Input },],
-    'name': [{ type: Input, args: ['novoTemplate',] },],
-};
-
-class NovoCommonModule {
-}
-NovoCommonModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [CommonModule],
-                exports: [NovoTemplate],
-                declarations: [NovoTemplate],
-            },] },
-];
-/**
- * @nocollapse
- */
-NovoCommonModule.ctorParameters = () => [];
-
 class DataTableSource extends DataSource {
     /**
      * @param {?} tableService
@@ -51559,6 +51734,7 @@ const NOVO_ELEMENTS_PROVIDERS = [
     FieldInteractionApi,
     DateFormatService,
     Security,
+    NovoTemplateService,
 ];
 class NovoElementProviders {
     /**
@@ -52544,5 +52720,5 @@ NovoElementsModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTable, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵt, NovoCalendarAllDayEventElement as ɵbd, NovoCalendarDayEventElement as ɵbb, NovoCalendarDayViewElement as ɵba, NovoCalendarHourSegmentElement as ɵbc, NovoCalendarMonthDayElement as ɵw, NovoCalendarMonthHeaderElement as ɵv, NovoCalendarMonthViewElement as ɵu, DayOfMonthPipe as ɵbf, EndOfWeekDisplayPipe as ɵbk, HoursPipe as ɵbj, MonthPipe as ɵbg, MonthDayPipe as ɵbh, WeekdayPipe as ɵbe, YearPipe as ɵbi, NovoCalendarWeekEventElement as ɵz, NovoCalendarWeekHeaderElement as ɵy, NovoCalendarWeekViewElement as ɵx, CardActionsElement as ɵr, CardElement as ɵs, NovoCategoryDropdownElement as ɵem, NovoChipElement as ɵcn, NovoChipsElement as ɵco, NovoCKEditorElement as ɵcw, NovoDataTableCheckboxHeaderCell as ɵfe, NovoDataTableExpandHeaderCell as ɵfg, NovoDataTableCellHeader as ɵev, NovoDataTableHeaderCell as ɵey, NovoDataTableCell as ɵez, NovoDataTableCheckboxCell as ɵfd, NovoDataTableExpandCell as ɵff, NovoDataTableClearButton as ɵfi, NovoDataTableExpandDirective as ɵfh, DataTableInterpolatePipe as ɵep, DateTableCurrencyRendererPipe as ɵeu, DateTableDateRendererPipe as ɵeq, DateTableDateTimeRendererPipe as ɵer, DateTableNumberRendererPipe as ɵet, DateTableTimeRendererPipe as ɵes, NovoDataTablePagination as ɵfc, NovoDataTableHeaderRow as ɵfa, NovoDataTableRow as ɵfb, NovoDataTableSortFilter as ɵex, DataTableState as ɵew, NovoDatePickerElement as ɵcp, NovoDatePickerInputElement as ɵcq, NovoDateTimePickerElement as ɵcu, NovoDateTimePickerInputElement as ɵcv, NovoDragulaElement as ɵcl, NovoDropdownElement as ɵcd, NovoItemElement as ɵce, NovoItemHeaderElement$1 as ɵcg, NovoListElement$1 as ɵcf, NovoAccordion as ɵdw, novoExpansionAnimations as ɵdz, NovoExpansionPanel as ɵdx, NovoExpansionPanelActionRow as ɵdy, NovoExpansionPanelContent as ɵea, NovoExpansionPanelDescription as ɵec, NovoExpansionPanelHeader as ɵeb, NovoExpansionPanelTitle as ɵed, NovoAutoSize as ɵda, NovoControlElement as ɵdc, NovoCustomControlContainerElement as ɵdb, NovoControlCustom as ɵde, NovoDynamicFormElement as ɵdg, NovoFieldsetElement as ɵdf, NovoFieldsetHeaderElement as ɵdd, ControlConfirmModal as ɵdi, ControlPromptModal as ɵdj, NovoFormElement as ɵdh, NovoAddressElement as ɵl, NovoCheckboxElement as ɵcy, NovoFileInputElement as ɵcz, NovoHeaderComponent as ɵbp, NovoHeaderSpacer as ɵbm, NovoUtilActionComponent as ɵbo, NovoUtilsComponent as ɵbn, NovoIconComponent as ɵdv, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵen, NovoOverlayTemplateComponent as ɵcc, NovoOverlayModule as ɵcb, NovoPickerElement as ɵcj, PlacesListComponent as ɵfq, GooglePlacesModule as ɵfp, PopOverDirective as ɵfo, NovoPopOverModule as ɵfm, PopOverContent as ɵfn, QuickNoteElement as ɵby, NovoRadioElement as ɵca, NovoRadioGroup as ɵbz, NovoSearchBoxElement as ɵck, NovoSelectElement as ɵch, NovoSliderElement as ɵcm, NovoStepHeader as ɵei, NovoStepLabel as ɵej, NovoStepStatus as ɵel, novoStepperAnimations as ɵek, NovoHorizontalStepper as ɵeg, NovoStep as ɵee, NovoStepper as ɵef, NovoVerticalStepper as ɵeh, NovoSwitchElement as ɵci, NovoTableKeepFilterFocus as ɵdn, Pagination as ɵdo, RowDetails as ɵdp, NovoTableActionsElement as ɵdm, TableCell as ɵdq, TableFilter as ɵdr, NovoTableFooterElement as ɵdl, NovoTableHeaderElement as ɵdk, ThOrderable as ɵds, ThSortable as ɵdt, NovoNavContentElement as ɵbv, NovoNavElement as ɵbq, NovoNavHeaderElement as ɵbw, NovoNavOutletElement as ɵbu, NovoTabButtonElement as ɵbs, NovoTabElement as ɵbr, NovoTabLinkElement as ɵbt, NovoTilesElement as ɵbx, NovoTimePickerElement as ɵcr, NovoTimePickerInputElement as ɵcs, NovoTipWellElement as ɵcx, NovoToastElement as ɵbl, TooltipDirective as ɵq, Unless as ɵeo, EntityList as ɵdu, NovoValueElement as ɵk, DateFormatService as ɵct, BrowserGlobalRef as ɵfk, GlobalRef as ɵfj, LocalStorageService as ɵfl };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTable, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵt, NovoCalendarAllDayEventElement as ɵbd, NovoCalendarDayEventElement as ɵbb, NovoCalendarDayViewElement as ɵba, NovoCalendarHourSegmentElement as ɵbc, NovoCalendarMonthDayElement as ɵw, NovoCalendarMonthHeaderElement as ɵv, NovoCalendarMonthViewElement as ɵu, DayOfMonthPipe as ɵbf, EndOfWeekDisplayPipe as ɵbk, HoursPipe as ɵbj, MonthPipe as ɵbg, MonthDayPipe as ɵbh, WeekdayPipe as ɵbe, YearPipe as ɵbi, NovoCalendarWeekEventElement as ɵz, NovoCalendarWeekHeaderElement as ɵy, NovoCalendarWeekViewElement as ɵx, CardActionsElement as ɵr, CardElement as ɵs, NovoCategoryDropdownElement as ɵel, NovoChipElement as ɵcn, NovoChipsElement as ɵco, NovoCKEditorElement as ɵcw, NovoDataTableCheckboxHeaderCell as ɵfd, NovoDataTableExpandHeaderCell as ɵff, NovoDataTableCellHeader as ɵeu, NovoDataTableHeaderCell as ɵex, NovoDataTableCell as ɵey, NovoDataTableCheckboxCell as ɵfc, NovoDataTableExpandCell as ɵfe, NovoDataTableClearButton as ɵfh, NovoDataTableExpandDirective as ɵfg, DataTableInterpolatePipe as ɵeo, DateTableCurrencyRendererPipe as ɵet, DateTableDateRendererPipe as ɵep, DateTableDateTimeRendererPipe as ɵeq, DateTableNumberRendererPipe as ɵes, DateTableTimeRendererPipe as ɵer, NovoDataTablePagination as ɵfb, NovoDataTableHeaderRow as ɵez, NovoDataTableRow as ɵfa, NovoDataTableSortFilter as ɵew, DataTableState as ɵev, NovoDatePickerElement as ɵcp, NovoDatePickerInputElement as ɵcq, NovoDateTimePickerElement as ɵcu, NovoDateTimePickerInputElement as ɵcv, NovoDragulaElement as ɵcl, NovoDropdownElement as ɵcd, NovoItemElement as ɵce, NovoItemHeaderElement$1 as ɵcg, NovoListElement$1 as ɵcf, NovoAccordion as ɵdv, novoExpansionAnimations as ɵdy, NovoExpansionPanel as ɵdw, NovoExpansionPanelActionRow as ɵdx, NovoExpansionPanelContent as ɵdz, NovoExpansionPanelDescription as ɵeb, NovoExpansionPanelHeader as ɵea, NovoExpansionPanelTitle as ɵec, NovoAutoSize as ɵda, NovoControlElement as ɵdb, NovoControlTemplates as ɵdi, NovoDynamicFormElement as ɵde, NovoFieldsetElement as ɵdd, NovoFieldsetHeaderElement as ɵdc, ControlConfirmModal as ɵdg, ControlPromptModal as ɵdh, NovoFormElement as ɵdf, NovoAddressElement as ɵl, NovoCheckboxElement as ɵcy, NovoFileInputElement as ɵcz, NovoHeaderComponent as ɵbp, NovoHeaderSpacer as ɵbm, NovoUtilActionComponent as ɵbo, NovoUtilsComponent as ɵbn, NovoIconComponent as ɵdu, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵem, NovoOverlayTemplateComponent as ɵcc, NovoOverlayModule as ɵcb, NovoPickerElement as ɵcj, PlacesListComponent as ɵfp, GooglePlacesModule as ɵfo, PopOverDirective as ɵfn, NovoPopOverModule as ɵfl, PopOverContent as ɵfm, QuickNoteElement as ɵby, NovoRadioElement as ɵca, NovoRadioGroup as ɵbz, NovoSearchBoxElement as ɵck, NovoSelectElement as ɵch, NovoSliderElement as ɵcm, NovoStepHeader as ɵeh, NovoStepLabel as ɵei, NovoStepStatus as ɵek, novoStepperAnimations as ɵej, NovoHorizontalStepper as ɵef, NovoStep as ɵed, NovoStepper as ɵee, NovoVerticalStepper as ɵeg, NovoSwitchElement as ɵci, NovoTableKeepFilterFocus as ɵdm, Pagination as ɵdn, RowDetails as ɵdo, NovoTableActionsElement as ɵdl, TableCell as ɵdp, TableFilter as ɵdq, NovoTableFooterElement as ɵdk, NovoTableHeaderElement as ɵdj, ThOrderable as ɵdr, ThSortable as ɵds, NovoNavContentElement as ɵbv, NovoNavElement as ɵbq, NovoNavHeaderElement as ɵbw, NovoNavOutletElement as ɵbu, NovoTabButtonElement as ɵbs, NovoTabElement as ɵbr, NovoTabLinkElement as ɵbt, NovoTilesElement as ɵbx, NovoTimePickerElement as ɵcr, NovoTimePickerInputElement as ɵcs, NovoTipWellElement as ɵcx, NovoToastElement as ɵbl, TooltipDirective as ɵq, Unless as ɵen, EntityList as ɵdt, NovoValueElement as ɵk, DateFormatService as ɵct, BrowserGlobalRef as ɵfj, GlobalRef as ɵfi, LocalStorageService as ɵfk };
 //# sourceMappingURL=novo-elements.js.map

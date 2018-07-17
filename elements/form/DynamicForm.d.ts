@@ -1,18 +1,10 @@
-import { OnInit, OnChanges, SimpleChanges, ViewContainerRef, ElementRef } from '@angular/core';
-import { ComponentUtils } from './../../utils/component-utils/ComponentUtils';
+import { OnInit, OnChanges, SimpleChanges, ElementRef, QueryList, AfterContentInit } from '@angular/core';
 import { NovoFieldset, NovoFormGroup } from './FormInterfaces';
+import { NovoTemplateService } from '../../services/template/NovoTemplateService';
+import { NovoTemplate } from '../common/novo-template/novo-template.directive';
 export declare class NovoFieldsetHeaderElement {
     title: string;
     icon: string;
-}
-export declare class NovoControlCustom implements OnInit {
-    private componentUtils;
-    control: any;
-    form: any;
-    referencePoint: ViewContainerRef;
-    controlComponent: any;
-    constructor(componentUtils: ComponentUtils);
-    ngOnInit(): void;
 }
 export declare class NovoFieldsetElement {
     controls: Array<any>;
@@ -22,22 +14,25 @@ export declare class NovoFieldsetElement {
     index: number;
     autoFocus: boolean;
 }
-export declare class NovoDynamicFormElement implements OnChanges, OnInit {
+export declare class NovoDynamicFormElement implements OnChanges, OnInit, AfterContentInit {
     private element;
+    private templates;
     controls: Array<any>;
     fieldsets: Array<NovoFieldset>;
     form: NovoFormGroup;
     layout: string;
     hideNonRequiredFields: boolean;
     autoFocusFirstField: boolean;
+    customTemplates: QueryList<NovoTemplate>;
     allFieldsRequired: boolean;
     allFieldsNotRequired: boolean;
     showingAllFields: boolean;
     showingRequiredFields: boolean;
     numControls: number;
-    constructor(element: ElementRef);
+    constructor(element: ElementRef, templates: NovoTemplateService);
     ngOnInit(): void;
     ngOnChanges(changes?: SimpleChanges): void;
+    ngAfterContentInit(): void;
     showAllFields(): void;
     showOnlyRequired(hideRequiredWithValue: any): void;
     readonly values: any;

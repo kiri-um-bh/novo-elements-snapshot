@@ -56,7 +56,7 @@ export interface NovoControlConfig {
         draggable?: boolean;
         iconStyle?: string;
     };
-    customControl?: any;
+    template?: any;
     customControlConfig?: any;
     military?: boolean;
     dateFormat?: string;
@@ -120,7 +120,7 @@ export declare class BaseControl {
         draggable?: boolean;
         iconStyle?: string;
     };
-    customControl?: any;
+    template?: any;
     customControlConfig?: any;
     military?: boolean;
     dateFormat?: string;

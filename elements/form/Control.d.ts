@@ -1,10 +1,10 @@
 import { ElementRef, EventEmitter, OnInit, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { NovoFormGroup } from './FormInterfaces';
 import { OutsideClick } from '../../utils/outside-click/OutsideClick';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { DateFormatService } from '../../services/date-format/DateFormat';
 import { FieldInteractionApi } from './FieldInteractionApi';
+import { NovoTemplateService } from '../../services/template/NovoTemplateService';
 export interface IMaskOptions {
     mask: any;
     keepCharPositions: boolean;
@@ -17,16 +17,13 @@ export declare class NovoAutoSize implements AfterContentInit {
     ngAfterContentInit(): void;
     adjust(): void;
 }
-export declare class NovoCustomControlContainerElement {
-    control: any;
-    form: NovoFormGroup;
-}
-export declare class NovoControlElement extends OutsideClick implements OnInit, OnDestroy, AfterViewInit {
+export declare class NovoControlElement extends OutsideClick implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
     labels: NovoLabelService;
     private dateFormatService;
     private fieldInteractionApi;
+    private templateService;
     control: any;
-    form: NovoFormGroup;
+    form: any;
     condensed: boolean;
     autoFocus: boolean;
     change: EventEmitter<any>;
@@ -53,15 +50,18 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     private focusedField;
     private characterCountField;
     private maxLengthMetErrorfields;
+    private statusChangeSubscription;
     maskOptions: IMaskOptions;
-    constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, fieldInteractionApi: FieldInteractionApi);
+    templates: any;
+    templateContext: any;
+    constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, fieldInteractionApi: FieldInteractionApi, templateService: NovoTemplateService);
     readonly maxlengthMetField: string;
     readonly maxlengthErrorField: string;
     readonly showFieldMessage: boolean;
     showCount: boolean;
     ngAfterViewInit(): void;
+    ngAfterContentInit(): void;
     ngOnInit(): void;
-    executeInteraction(interaction: any): void;
     ngOnDestroy(): void;
     readonly errors: any;
     readonly isValid: any;
@@ -74,6 +74,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     readonly tooltipPreline: any;
     readonly alwaysActive: boolean;
     readonly requiresExtraSpacing: boolean;
+    executeInteraction(interaction: any): void;
     handleTyping(event: any): void;
     handleFocus(event: FocusEvent, field: any): void;
     handleBlur(event: FocusEvent): void;
@@ -91,5 +92,5 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     handleDelete(value: any): void;
     handleUpload(value: any): void;
     handleAddressChange(data: any): void;
-    updateValidity(data: any): void;
+    updateValidity(shouldEventBeEmitted: any): void;
 }

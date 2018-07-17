@@ -53,6 +53,7 @@ export declare class NovoFormControl extends FormControl {
         button?: boolean;
     };
     rawValue?: any;
+    customControlConfig?: any;
     private historyTimeout;
     constructor(value: any, control: NovoControlConfig);
     /**
