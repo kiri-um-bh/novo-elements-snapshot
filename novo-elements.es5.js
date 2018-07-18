@@ -16424,13 +16424,15 @@ var NovoControlElement = /** @class */ (function (_super) {
      * @param {?} dateFormatService
      * @param {?} fieldInteractionApi
      * @param {?} templateService
+     * @param {?} changeDetectorRef
      */
-    function NovoControlElement(element, labels, dateFormatService, fieldInteractionApi, templateService) {
+    function NovoControlElement(element, labels, dateFormatService, fieldInteractionApi, templateService, changeDetectorRef) {
         var _this = _super.call(this, element) || this;
         _this.labels = labels;
         _this.dateFormatService = dateFormatService;
         _this.fieldInteractionApi = fieldInteractionApi;
         _this.templateService = templateService;
+        _this.changeDetectorRef = changeDetectorRef;
         _this.condensed = false;
         _this.autoFocus = false;
         _this.change = new EventEmitter();
@@ -16554,6 +16556,7 @@ var NovoControlElement = /** @class */ (function (_super) {
         var _this = this;
         setTimeout(function () {
             _this.templates = _this.templateService.getAll();
+            _this.changeDetectorRef.detectChanges();
         });
     };
     /**
@@ -16568,7 +16571,6 @@ var NovoControlElement = /** @class */ (function (_super) {
                 this.characterCount = this.form.controls[this.control.key].value.length;
             }
         }
-        // this.maxLenghtCount = form.controls[control.key].maxlength;
         if (this.control) {
             // Listen to clear events
             this.forceClearSubscription = this.control.forceClear.subscribe(function () {
@@ -17073,6 +17075,7 @@ NovoControlElement.ctorParameters = function () { return [
     { type: DateFormatService, },
     { type: FieldInteractionApi, },
     { type: NovoTemplateService, },
+    { type: ChangeDetectorRef, },
 ]; };
 NovoControlElement.propDecorators = {
     'control': [{ type: Input },],

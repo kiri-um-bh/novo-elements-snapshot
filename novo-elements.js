@@ -17001,13 +17001,15 @@ class NovoControlElement extends OutsideClick {
      * @param {?} dateFormatService
      * @param {?} fieldInteractionApi
      * @param {?} templateService
+     * @param {?} changeDetectorRef
      */
-    constructor(element, labels, dateFormatService, fieldInteractionApi, templateService) {
+    constructor(element, labels, dateFormatService, fieldInteractionApi, templateService, changeDetectorRef) {
         super(element);
         this.labels = labels;
         this.dateFormatService = dateFormatService;
         this.fieldInteractionApi = fieldInteractionApi;
         this.templateService = templateService;
+        this.changeDetectorRef = changeDetectorRef;
         this.condensed = false;
         this.autoFocus = false;
         this.change = new EventEmitter();
@@ -17102,6 +17104,7 @@ class NovoControlElement extends OutsideClick {
     ngAfterContentInit() {
         setTimeout(() => {
             this.templates = this.templateService.getAll();
+            this.changeDetectorRef.detectChanges();
         });
     }
     /**
@@ -17115,7 +17118,6 @@ class NovoControlElement extends OutsideClick {
                 this.characterCount = this.form.controls[this.control.key].value.length;
             }
         }
-        // this.maxLenghtCount = form.controls[control.key].maxlength;
         if (this.control) {
             // Listen to clear events
             this.forceClearSubscription = this.control.forceClear.subscribe(() => {
@@ -17653,6 +17655,7 @@ NovoControlElement.ctorParameters = () => [
     { type: DateFormatService, },
     { type: FieldInteractionApi, },
     { type: NovoTemplateService, },
+    { type: ChangeDetectorRef, },
 ];
 NovoControlElement.propDecorators = {
     'control': [{ type: Input },],

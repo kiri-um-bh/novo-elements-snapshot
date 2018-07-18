@@ -1,4 +1,4 @@
-import { ElementRef, EventEmitter, OnInit, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, EventEmitter, OnInit, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { OutsideClick } from '../../utils/outside-click/OutsideClick';
 import { NovoLabelService } from '../../services/novo-label-service';
@@ -22,6 +22,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     private dateFormatService;
     private fieldInteractionApi;
     private templateService;
+    private changeDetectorRef;
     control: any;
     form: any;
     condensed: boolean;
@@ -54,7 +55,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     maskOptions: IMaskOptions;
     templates: any;
     templateContext: any;
-    constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, fieldInteractionApi: FieldInteractionApi, templateService: NovoTemplateService);
+    constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, fieldInteractionApi: FieldInteractionApi, templateService: NovoTemplateService, changeDetectorRef: ChangeDetectorRef);
     readonly maxlengthMetField: string;
     readonly maxlengthErrorField: string;
     readonly showFieldMessage: boolean;
