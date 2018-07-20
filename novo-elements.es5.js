@@ -9188,6 +9188,7 @@ var NovoPickerElement = /** @class */ (function () {
                     else {
                         _this.term = value;
                     }
+                    _this.ref.markForCheck();
                 });
             }
             else {

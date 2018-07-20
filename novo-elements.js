@@ -9564,6 +9564,7 @@ class NovoPickerElement {
                     else {
                         this.term = value;
                     }
+                    this.ref.markForCheck();
                 });
             }
             else {
