@@ -16521,7 +16521,7 @@ var NovoControlElement = /** @class */ (function (_super) {
         var _this = this;
         setTimeout(function () {
             _this.templates = _this.templateService.getAll();
-            _this.changeDetectorRef.detectChanges();
+            _this.changeDetectorRef.markForCheck();
         });
     };
     /**

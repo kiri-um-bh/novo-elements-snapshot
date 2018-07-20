@@ -17106,7 +17106,7 @@ class NovoControlElement extends OutsideClick {
     ngAfterContentInit() {
         setTimeout(() => {
             this.templates = this.templateService.getAll();
-            this.changeDetectorRef.detectChanges();
+            this.changeDetectorRef.markForCheck();
         });
     }
     /**
