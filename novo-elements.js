@@ -8729,11 +8729,12 @@ class NovoSelectElement {
             });
         }
         else {
-            this.filteredOptions = (this.options || []).filter((item) => {
+            this.filteredOptions = (this.options || [])
+                .filter((item) => {
                 return !item.readOnly;
-            });
-            this.filteredOptions.forEach((element) => {
-                element.active = false;
+            })
+                .map((element) => {
+                return Object.assign({}, element, { active: false });
             });
         }
         if (!this.model && !this.createdItem) {

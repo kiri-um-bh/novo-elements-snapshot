@@ -8352,11 +8352,12 @@ var NovoSelectElement = /** @class */ (function () {
             });
         }
         else {
-            this.filteredOptions = (this.options || []).filter(function (item) {
+            this.filteredOptions = (this.options || [])
+                .filter(function (item) {
                 return !item.readOnly;
-            });
-            this.filteredOptions.forEach(function (element) {
-                element.active = false;
+            })
+                .map(function (element) {
+                return Object.assign({}, element, { active: false });
             });
         }
         if (!this.model && !this.createdItem) {
