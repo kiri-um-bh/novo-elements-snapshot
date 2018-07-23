@@ -2,6 +2,7 @@ import { ChangeDetectorRef, OnDestroy, OnInit, ElementRef } from '@angular/core'
 import { CdkColumnDef } from '@angular/cdk/table';
 import { IDataTableSortFilter, IDataTableColumn, IDataTableColumnFilterConfig } from '../interfaces';
 import { NovoDataTableSortFilter } from '../sort-filter/sort-filter.directive';
+import { NovoDropdownElement } from '../../dropdown/Dropdown';
 import { NovoLabelService } from '../../../services/novo-label-service';
 import { DataTableState } from '../state/data-table-state.service';
 export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter, OnInit, OnDestroy {
@@ -11,6 +12,7 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
     _sort: NovoDataTableSortFilter<T>;
     _cdkColumnDef: CdkColumnDef;
     filterInput: ElementRef;
+    dropdown: NovoDropdownElement;
     defaultSort: {
         id: string;
         value: string;

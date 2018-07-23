@@ -49878,6 +49878,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
         Helpers.swallowEvent(event);
         this.showCustomRange = value;
         this.changeDetectorRef.markForCheck();
+        this.dropdown.openPanel(); // Ensures that the panel correctly updates to the dynamic size of the dropdown
     };
     /**
      * @return {?}
@@ -49998,6 +49999,7 @@ NovoDataTableCellHeader.ctorParameters = function () { return [
 ]; };
 NovoDataTableCellHeader.propDecorators = {
     'filterInput': [{ type: core.ViewChild, args: ['filterInput',] },],
+    'dropdown': [{ type: core.ViewChild, args: [NovoDropdownElement,] },],
     'defaultSort': [{ type: core.Input },],
     'column': [{ type: core.Input, args: ['novo-data-table-cell-config',] },],
 };
@@ -52010,7 +52012,7 @@ var NovoSimpleFilterFocus = /** @class */ (function () {
 }());
 NovoSimpleFilterFocus.decorators = [
     { type: core.Directive, args: [{
-                selector: '[novoSimpleFilterFocus]'
+                selector: '[novoSimpleFilterFocus]',
             },] },
 ];
 /**
@@ -52138,6 +52140,7 @@ var NovoSimpleCellHeader = /** @class */ (function () {
         Helpers.swallowEvent(event);
         this.showCustomRange = value;
         this.changeDetectorRef.markForCheck();
+        this.dropdown.openPanel(); // Ensures that the panel correctly updates to the dynamic size of the dropdown
     };
     /**
      * @param {?=} filter
@@ -52235,6 +52238,7 @@ NovoSimpleCellHeader.ctorParameters = function () { return [
     { type: table.CdkColumnDef, decorators: [{ type: core.Optional },] },
 ]; };
 NovoSimpleCellHeader.propDecorators = {
+    'dropdown': [{ type: core.ViewChild, args: [NovoDropdownElement,] },],
     'defaultSort': [{ type: core.Input },],
     'config': [{ type: core.Input, args: ['novo-simple-cell-config',] },],
 };

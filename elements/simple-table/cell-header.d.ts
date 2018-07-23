@@ -1,5 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { CdkColumnDef } from '@angular/cdk/table';
+import { NovoDropdownElement } from '../dropdown/Dropdown';
 import { NovoSimpleSortFilter, SimpleTableColumnFilterConfig } from './interfaces';
 import { NovoSortFilter } from './sort';
 import { NovoLabelService } from '../../services/novo-label-service';
@@ -15,6 +16,7 @@ export declare class NovoSimpleCellHeader implements NovoSimpleSortFilter, OnIni
     private state;
     _sort: NovoSortFilter;
     _cdkColumnDef: CdkColumnDef;
+    dropdown: NovoDropdownElement;
     defaultSort: {
         id: string;
         value: string;
