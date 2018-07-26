@@ -38954,7 +38954,7 @@ NovoTableElement.decorators = [
                                         <item [ngClass]="{ active: isFilterActive(column, option) }" *ngFor="let option of column.options" (click)="onFilterClick(column, option)" [keepOpen]="option.range" [hidden]="column.calenderShow" [attr.data-automation-id]="(option?.label || option)">
                                             {{ option?.label || option }} <i class="bhi-check" *ngIf="isFilterActive(column, option)"></i>
                                         </item>
-                                        <div class="calender-container" [hidden]="!column.calenderShow">
+                                        <div class="calendar-container" [hidden]="!column.calenderShow">
                                             <div (click)="column.calenderShow=false"><i class="bhi-previous"></i>{{ labels.backToPresetFilters }}</div>
                                             <novo-date-picker #rangePicker (onSelect)="onCalenderSelect(column, $event)" [(ngModel)]="column.filter" range="true"></novo-date-picker>
                                         </div>
@@ -52376,7 +52376,7 @@ NovoDataTableCellHeader.decorators = [
                         <item [class.active]="labels.customDateRange === activeDateFilter" (click)="toggleCustomRange($event, true)" *ngIf="config.filterConfig.allowCustomRange && !showCustomRange" [keepOpen]="true">
                             {{ labels.customDateRange }} <i class="bhi-check" *ngIf="labels.customDateRange === activeDateFilter"></i>
                         </item>
-                        <div class="calender-container" *ngIf="showCustomRange">
+                        <div class="calendar-container" *ngIf="showCustomRange">
                             <div (click)="toggleCustomRange($event, false)"><i class="bhi-previous"></i>{{ labels.backToPresetFilters }}</div>
                             <novo-date-picker (onSelect)="filterData($event)" [(ngModel)]="filter" range="true"></novo-date-picker>
                         </div>
@@ -54656,7 +54656,7 @@ NovoSimpleCellHeader.decorators = [
                   *ngIf="config.filterConfig.allowCustomRange && !showCustomRange" [keepOpen]="true">
               {{ labels.customDateRange }} <i class="bhi-check" *ngIf="labels.customDateRange === activeDateFilter"></i>
             </item>
-            <div class="calender-container" *ngIf="showCustomRange">
+            <div class="calendar-container" *ngIf="showCustomRange">
               <div (click)="toggleCustomRange($event, false)"><i class="bhi-previous"></i>{{ labels.backToPresetFilters }}</div>
               <novo-date-picker (onSelect)="filterData($event)" [(ngModel)]="filter" range="true"></novo-date-picker>
             </div>
