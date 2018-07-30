@@ -11531,6 +11531,225 @@ var createAutoCorrectedDatePipe = createCommonjsModule(function (module, exports
 });
 var createAutoCorrectedDatePipe$1 = unwrapExports(createAutoCorrectedDatePipe);
 var createAutoCorrectedDatePipe_1 = createAutoCorrectedDatePipe.createAutoCorrectedDatePipe;
+// NG2
+// APP
+var DateFormatService = /** @class */ (function () {
+    /**
+     * @param {?} labels
+     */
+    function DateFormatService(labels) {
+        this.labels = labels;
+    }
+    /**
+     * @param {?} militaryTime
+     * @return {?}
+     */
+    DateFormatService.prototype.getTimeMask = function (militaryTime) {
+        var /** @type {?} */ mask = [/\d/, /\d/, /:/, /\d/, /\d/], /** @type {?} */ timeFormatArray = [];
+        var /** @type {?} */ timeFormat = this.labels.timeFormatPlaceholderAM.toLowerCase();
+        if (militaryTime) {
+            return mask;
+        }
+        else {
+            timeFormatArray = timeFormat.split('hh:mm');
+            if (timeFormatArray && timeFormatArray.length) {
+                mask = [];
+                for (var _d = 0, timeFormatArray_1 = timeFormatArray; _d < timeFormatArray_1.length; _d++) {
+                    var timeFormatPart = timeFormatArray_1[_d];
+                    if (timeFormatPart === '') {
+                        mask = mask.concat([/\d/, /\d|:/, /:|\d/, /\d|\w|\s/, /\d|\s|\w/]);
+                    }
+                    else if (timeFormatPart.length) {
+                        for (var /** @type {?} */ i = 0; i < timeFormatPart.length; i++) {
+                            mask.push(/\s|\w|\d|\./);
+                        }
+                    }
+                }
+            }
+        }
+        return mask;
+    };
+    /**
+     * @return {?}
+     */
+    DateFormatService.prototype.getDateMask = function () {
+        return [/\d/, /\d|\/|\.|\-/, /\/|\.|\-|\d/, /\d|\/|\.|\-/, /\d|\/|\.|\-/, /\d|\/|\.|\-/, /\d|\/|\.|\-/, /\d|\/|\.|\-/, /\d/, /\d/];
+    };
+    /**
+     * @param {?=} militaryTime
+     * @return {?}
+     */
+    DateFormatService.prototype.getDateTimeMask = function (militaryTime) {
+        if (militaryTime === void 0) { militaryTime = false; }
+        return this.getDateMask().concat([/\,?/, /\s/], this.getTimeMask(militaryTime));
+    };
+    /**
+     * @param {?} militaryTime
+     * @return {?}
+     */
+    DateFormatService.prototype.getTimePlaceHolder = function (militaryTime) {
+        if (militaryTime) {
+            return this.labels.timeFormatPlaceholder24Hour;
+        }
+        return this.labels.timeFormatPlaceholderAM;
+    };
+    /**
+     * @param {?} dateString
+     * @return {?}
+     */
+    DateFormatService.prototype.parseDateString = function (dateString) {
+        var /** @type {?} */ dateFormat = this.labels.dateFormat, /** @type {?} */ dateFormatRegex = /(\w+)[\/|\.|\-](\w+)[\/|\.|\-](\w+)/gi, /** @type {?} */ dateValueRegex = /(\d+)[\/|\.|\-](\d+)[\/|\.|\-](\d+)/gi, /** @type {?} */ dateFormatTokens, /** @type {?} */ dateValueTokens, /** @type {?} */ year, /** @type {?} */ month, /** @type {?} */ day, /** @type {?} */ date = new Date();
+        if (Helpers.isEmpty(dateFormat)) {
+            // Default to MM/dd/yyyy
+            dateFormat = 'mm/dd/yyyy';
+        }
+        else {
+            dateFormat = dateFormat.toLowerCase();
+        }
+        dateFormatTokens = dateFormatRegex.exec(dateFormat);
+        dateValueTokens = dateValueRegex.exec(dateString);
+        if (dateFormatTokens && dateFormatTokens.length === 4 && dateValueTokens && dateValueTokens.length === 4) {
+            for (var /** @type {?} */ i = 1; i < 4; i++) {
+                if (dateFormatTokens[i].includes('m')) {
+                    month = parseInt(dateValueTokens[i]) - 1;
+                }
+                else if (dateFormatTokens[i].includes('d')) {
+                    day = parseInt(dateValueTokens[i]);
+                }
+                else {
+                    year = parseInt(dateValueTokens[i]);
+                }
+            }
+            if (month >= 0 && month <= 11 && year > 1900 && day > 0 && day <= 31) {
+                date = new Date(year, month, day);
+            }
+        }
+        else if (dateFormatTokens && dateFormatTokens.length === 4 && dateString.length >= 1) {
+            var /** @type {?} */ twoTokens = /\d{1,4}(\/|\.|\-)(\d{1,2})/.exec(dateString);
+            var /** @type {?} */ oneToken = /^(\d{1,4})$/.exec(dateString);
+            var /** @type {?} */ delimiter = /\w+(\/|\.|\-)\w+[\/|\.|\-]\w+/gi.exec(dateFormat);
+            var /** @type {?} */ dateStringWithDelimiter = dateString[dateString.length - 1].match(/\/|\.|\-/);
+            if (twoTokens && twoTokens.length === 3 && this.isValidDatePart(twoTokens[2], dateFormatTokens[2]) && !dateStringWithDelimiter) {
+                dateString = "" + dateString + delimiter[1];
+            }
+            else if (oneToken && oneToken.length === 2 && this.isValidDatePart(oneToken[1], dateFormatTokens[1]) && !dateStringWithDelimiter) {
+                dateString = "" + dateString + delimiter[1];
+            }
+        }
+        return [date, dateString];
+    };
+    /**
+     * @param {?} timeString
+     * @param {?} militaryTime
+     * @return {?}
+     */
+    DateFormatService.prototype.parseTimeString = function (timeString, militaryTime) {
+        var /** @type {?} */ value = new Date(), /** @type {?} */ timeStringParts;
+        var /** @type {?} */ amFormat = this.labels.timeFormatAM;
+        var /** @type {?} */ pmFormat = this.labels.timeFormatPM;
+        if (!(timeString && timeString.includes(':'))) {
+            return [value, timeString];
+        }
+        if (!militaryTime && amFormat && pmFormat) {
+            var /** @type {?} */ splits = [], /** @type {?} */ pm = false;
+            amFormat = this.labels.timeFormatAM.toLowerCase();
+            pmFormat = this.labels.timeFormatPM.toLowerCase();
+            timeString = timeString.toLowerCase();
+            if (timeString.includes(amFormat)) {
+                splits = timeString.split(amFormat);
+            }
+            else if (timeString.includes(pmFormat)) {
+                splits = timeString.split(pmFormat);
+                pm = true;
+            }
+            if (splits && splits.length) {
+                for (var _d = 0, splits_1 = splits; _d < splits_1.length; _d++) {
+                    var item = splits_1[_d];
+                    if (item && item.trim().includes(':')) {
+                        timeStringParts = item.trim().split(':');
+                    }
+                }
+            }
+            if (timeStringParts && timeStringParts.length && timeStringParts.length === 2) {
+                var /** @type {?} */ hours = parseInt(timeStringParts[0]);
+                if (hours === 12 && pm) {
+                    hours = 12;
+                }
+                else if (pm) {
+                    hours = hours + 12;
+                }
+                else if (hours === 12) {
+                    hours = 0;
+                }
+                value.setHours(hours);
+                value.setMinutes(parseInt(timeStringParts[1]));
+                value.setSeconds(0);
+            }
+        }
+        else {
+            timeStringParts = /(\d{1,2}):(\d{2})/.exec(timeString);
+            if (timeStringParts && timeStringParts.length && timeStringParts.length === 3) {
+                value.setHours(parseInt(timeStringParts[1]));
+                value.setMinutes(parseInt(timeStringParts[2]));
+                value.setSeconds(0);
+            }
+        }
+        return [value, timeString];
+    };
+    /**
+     * @param {?} dateTimeString
+     * @param {?} militaryTime
+     * @param {?} type
+     * @return {?}
+     */
+    DateFormatService.prototype.parseString = function (dateTimeString, militaryTime, type) {
+        switch (type) {
+            case 'datetime':
+                var /** @type {?} */ str = dateTimeString.replace(/-/g, '/');
+                var /** @type {?} */ parts = str.split(' ');
+                var _d = this.parseDateString(parts[0]), dt = _d[0], dts = _d[1];
+                if (parts.length > 1) {
+                    var _e = this.parseTimeString(parts[1], militaryTime), tm = _e[0], tms = _e[1];
+                    return [new Date(dt.setHours(tm.getHours(), tm.getMinutes())), dts + " " + tms];
+                }
+                return [dt, dts];
+            case 'date':
+                return this.parseDateString(dateTimeString);
+            case 'time':
+                return this.parseTimeString(dateTimeString, militaryTime);
+            default:
+                return;
+        }
+    };
+    /**
+     * @param {?} value
+     * @param {?} format
+     * @return {?}
+     */
+    DateFormatService.prototype.isValidDatePart = function (value, format$$1) {
+        var /** @type {?} */ datePart = parseInt(value);
+        if (format$$1.includes('m') && (datePart >= 2 || value.length === 2)) {
+            return true;
+        }
+        else if (format$$1.includes('d') && (datePart >= 4 || value.length === 2)) {
+            return true;
+        }
+        else if (format$$1.includes('y') && datePart >= 1000) {
+            return true;
+        }
+        return false;
+    };
+    return DateFormatService;
+}());
+DateFormatService.decorators = [
+    { type: core.Injectable },
+];
+/**
+ * @nocollapse
+ */
+DateFormatService.ctorParameters = function () { return [
+    { type: NovoLabelService, },
+]; };
 // NG
 // Value accessor for the component (supports ngModel)
 var DATE_VALUE_ACCESSOR = {
@@ -11543,11 +11762,13 @@ var NovoDatePickerInputElement = /** @class */ (function () {
      * @param {?} element
      * @param {?} labels
      * @param {?} _changeDetectorRef
+     * @param {?} dateFormatService
      */
-    function NovoDatePickerInputElement(element, labels, _changeDetectorRef) {
+    function NovoDatePickerInputElement(element, labels, _changeDetectorRef, dateFormatService) {
         this.element = element;
         this.labels = labels;
         this._changeDetectorRef = _changeDetectorRef;
+        this.dateFormatService = dateFormatService;
         this.formattedValue = '';
         /**
          * View -> model callback called when value changes
@@ -11646,9 +11867,18 @@ var NovoDatePickerInputElement = /** @class */ (function () {
      */
     NovoDatePickerInputElement.prototype._handleEvent = function (event, blur) {
         var /** @type {?} */ value = ((event.target)).value;
+        this.formatDate(value, blur);
+        this.openPanel();
+    };
+    /**
+     * @param {?} value
+     * @param {?} blur
+     * @return {?}
+     */
+    NovoDatePickerInputElement.prototype.formatDate = function (value, blur) {
         try {
-            var /** @type {?} */ dateTimeValue = Date.parse(value);
-            if (!isNaN(dateTimeValue)) {
+            var _d = this.dateFormatService.parseString(value, false, 'date'), dateTimeValue = _d[0], formatted = _d[1];
+            if (!isNaN(dateTimeValue.getUTCDate())) {
                 var /** @type {?} */ dt = new Date(dateTimeValue);
                 this.dispatchOnChange(dt, blur);
             }
@@ -11657,7 +11887,6 @@ var NovoDatePickerInputElement = /** @class */ (function () {
             }
         }
         catch (err) { }
-        this.openPanel();
     };
     /**
      * @param {?} value
@@ -11807,6 +12036,7 @@ NovoDatePickerInputElement.ctorParameters = function () { return [
     { type: core.ElementRef, },
     { type: NovoLabelService, },
     { type: core.ChangeDetectorRef, },
+    { type: DateFormatService, },
 ]; };
 NovoDatePickerInputElement.propDecorators = {
     'name': [{ type: core.Input },],
@@ -12057,225 +12287,6 @@ NovoTimePickerElement.propDecorators = {
     'inline': [{ type: core.Input },],
     'onSelect': [{ type: core.Output },],
 };
-// NG2
-// APP
-var DateFormatService = /** @class */ (function () {
-    /**
-     * @param {?} labels
-     */
-    function DateFormatService(labels) {
-        this.labels = labels;
-    }
-    /**
-     * @param {?} militaryTime
-     * @return {?}
-     */
-    DateFormatService.prototype.getTimeMask = function (militaryTime) {
-        var /** @type {?} */ mask = [/\d/, /\d/, /:/, /\d/, /\d/], /** @type {?} */ timeFormatArray = [];
-        var /** @type {?} */ timeFormat = this.labels.timeFormatPlaceholderAM.toLowerCase();
-        if (militaryTime) {
-            return mask;
-        }
-        else {
-            timeFormatArray = timeFormat.split('hh:mm');
-            if (timeFormatArray && timeFormatArray.length) {
-                mask = [];
-                for (var _d = 0, timeFormatArray_1 = timeFormatArray; _d < timeFormatArray_1.length; _d++) {
-                    var timeFormatPart = timeFormatArray_1[_d];
-                    if (timeFormatPart === '') {
-                        mask = mask.concat([/\d/, /\d|:/, /:|\d/, /\d|\w|\s/, /\d|\s|\w/]);
-                    }
-                    else if (timeFormatPart.length) {
-                        for (var /** @type {?} */ i = 0; i < timeFormatPart.length; i++) {
-                            mask.push(/\s|\w|\d|\./);
-                        }
-                    }
-                }
-            }
-        }
-        return mask;
-    };
-    /**
-     * @return {?}
-     */
-    DateFormatService.prototype.getDateMask = function () {
-        return [/\d/, /\d|\/|\.|\-/, /\/|\.|\-|\d/, /\d|\/|\.|\-/, /\d|\/|\.|\-/, /\d|\/|\.|\-/, /\d|\/|\.|\-/, /\d|\/|\.|\-/, /\d/, /\d/];
-    };
-    /**
-     * @param {?=} militaryTime
-     * @return {?}
-     */
-    DateFormatService.prototype.getDateTimeMask = function (militaryTime) {
-        if (militaryTime === void 0) { militaryTime = false; }
-        return this.getDateMask().concat([/\,?/, /\s/], this.getTimeMask(militaryTime));
-    };
-    /**
-     * @param {?} militaryTime
-     * @return {?}
-     */
-    DateFormatService.prototype.getTimePlaceHolder = function (militaryTime) {
-        if (militaryTime) {
-            return this.labels.timeFormatPlaceholder24Hour;
-        }
-        return this.labels.timeFormatPlaceholderAM;
-    };
-    /**
-     * @param {?} dateString
-     * @return {?}
-     */
-    DateFormatService.prototype.parseDateString = function (dateString) {
-        var /** @type {?} */ dateFormat = this.labels.dateFormat, /** @type {?} */ dateFormatRegex = /(\w+)[\/|\.|\-](\w+)[\/|\.|\-](\w+)/gi, /** @type {?} */ dateValueRegex = /(\d+)[\/|\.|\-](\d+)[\/|\.|\-](\d+)/gi, /** @type {?} */ dateFormatTokens, /** @type {?} */ dateValueTokens, /** @type {?} */ year, /** @type {?} */ month, /** @type {?} */ day, /** @type {?} */ date = new Date();
-        if (Helpers.isEmpty(dateFormat)) {
-            // Default to MM/dd/yyyy
-            dateFormat = 'mm/dd/yyyy';
-        }
-        else {
-            dateFormat = dateFormat.toLowerCase();
-        }
-        dateFormatTokens = dateFormatRegex.exec(dateFormat);
-        dateValueTokens = dateValueRegex.exec(dateString);
-        if (dateFormatTokens && dateFormatTokens.length === 4 && dateValueTokens && dateValueTokens.length === 4) {
-            for (var /** @type {?} */ i = 1; i < 4; i++) {
-                if (dateFormatTokens[i].includes('m')) {
-                    month = parseInt(dateValueTokens[i]) - 1;
-                }
-                else if (dateFormatTokens[i].includes('d')) {
-                    day = parseInt(dateValueTokens[i]);
-                }
-                else {
-                    year = parseInt(dateValueTokens[i]);
-                }
-            }
-            if (month >= 0 && month <= 11 && year > 1900 && day > 0 && day <= 31) {
-                date = new Date(year, month, day);
-            }
-        }
-        else if (dateFormatTokens && dateFormatTokens.length === 4 && dateString.length >= 1) {
-            var /** @type {?} */ twoTokens = /\d{1,4}(\/|\.|\-)(\d{1,2})/.exec(dateString);
-            var /** @type {?} */ oneToken = /^(\d{1,4})$/.exec(dateString);
-            var /** @type {?} */ delimiter = /\w+(\/|\.|\-)\w+[\/|\.|\-]\w+/gi.exec(dateFormat);
-            var /** @type {?} */ dateStringWithDelimiter = dateString[dateString.length - 1].match(/\/|\.|\-/);
-            if (twoTokens && twoTokens.length === 3 && this.isValidDatePart(twoTokens[2], dateFormatTokens[2]) && !dateStringWithDelimiter) {
-                dateString = "" + dateString + delimiter[1];
-            }
-            else if (oneToken && oneToken.length === 2 && this.isValidDatePart(oneToken[1], dateFormatTokens[1]) && !dateStringWithDelimiter) {
-                dateString = "" + dateString + delimiter[1];
-            }
-        }
-        return [date, dateString];
-    };
-    /**
-     * @param {?} timeString
-     * @param {?} militaryTime
-     * @return {?}
-     */
-    DateFormatService.prototype.parseTimeString = function (timeString, militaryTime) {
-        var /** @type {?} */ value = new Date(), /** @type {?} */ timeStringParts;
-        var /** @type {?} */ amFormat = this.labels.timeFormatAM;
-        var /** @type {?} */ pmFormat = this.labels.timeFormatPM;
-        if (!(timeString && timeString.includes(':'))) {
-            return [value, timeString];
-        }
-        if (!militaryTime && amFormat && pmFormat) {
-            var /** @type {?} */ splits = [], /** @type {?} */ pm = false;
-            amFormat = this.labels.timeFormatAM.toLowerCase();
-            pmFormat = this.labels.timeFormatPM.toLowerCase();
-            timeString = timeString.toLowerCase();
-            if (timeString.includes(amFormat)) {
-                splits = timeString.split(amFormat);
-            }
-            else if (timeString.includes(pmFormat)) {
-                splits = timeString.split(pmFormat);
-                pm = true;
-            }
-            if (splits && splits.length) {
-                for (var _d = 0, splits_1 = splits; _d < splits_1.length; _d++) {
-                    var item = splits_1[_d];
-                    if (item && item.trim().includes(':')) {
-                        timeStringParts = item.trim().split(':');
-                    }
-                }
-            }
-            if (timeStringParts && timeStringParts.length && timeStringParts.length === 2) {
-                var /** @type {?} */ hours = parseInt(timeStringParts[0]);
-                if (hours === 12 && pm) {
-                    hours = 12;
-                }
-                else if (pm) {
-                    hours = hours + 12;
-                }
-                else if (hours === 12) {
-                    hours = 0;
-                }
-                value.setHours(hours);
-                value.setMinutes(parseInt(timeStringParts[1]));
-                value.setSeconds(0);
-            }
-        }
-        else {
-            timeStringParts = /(\d{1,2}):(\d{2})/.exec(timeString);
-            if (timeStringParts && timeStringParts.length && timeStringParts.length === 3) {
-                value.setHours(parseInt(timeStringParts[1]));
-                value.setMinutes(parseInt(timeStringParts[2]));
-                value.setSeconds(0);
-            }
-        }
-        return [value, timeString];
-    };
-    /**
-     * @param {?} dateTimeString
-     * @param {?} militaryTime
-     * @param {?} type
-     * @return {?}
-     */
-    DateFormatService.prototype.parseString = function (dateTimeString, militaryTime, type) {
-        switch (type) {
-            case 'datetime':
-                var /** @type {?} */ str = dateTimeString.replace(/-/g, '/');
-                var /** @type {?} */ parts = str.split(' ');
-                var _d = this.parseDateString(parts[0]), dt = _d[0], dts = _d[1];
-                if (parts.length > 1) {
-                    var _e = this.parseTimeString(parts[1], militaryTime), tm = _e[0], tms = _e[1];
-                    return [new Date(dt.setHours(tm.getHours(), tm.getMinutes())), dts + " " + tms];
-                }
-                return [dt, dts];
-            case 'date':
-                return this.parseDateString(dateTimeString);
-            case 'time':
-                return this.parseTimeString(dateTimeString, militaryTime);
-            default:
-                return;
-        }
-    };
-    /**
-     * @param {?} value
-     * @param {?} format
-     * @return {?}
-     */
-    DateFormatService.prototype.isValidDatePart = function (value, format$$1) {
-        var /** @type {?} */ datePart = parseInt(value);
-        if (format$$1.includes('m') && (datePart >= 2 || value.length === 2)) {
-            return true;
-        }
-        else if (format$$1.includes('d') && (datePart >= 4 || value.length === 2)) {
-            return true;
-        }
-        else if (format$$1.includes('y') && datePart >= 1000) {
-            return true;
-        }
-        return false;
-    };
-    return DateFormatService;
-}());
-DateFormatService.decorators = [
-    { type: core.Injectable },
-];
-/**
- * @nocollapse
- */
-DateFormatService.ctorParameters = function () { return [
-    { type: NovoLabelService, },
-]; };
 // NG
 // Vendor
 // App
@@ -54961,15 +54972,15 @@ exports.ɵbs = NovoTabButtonElement;
 exports.ɵbr = NovoTabElement;
 exports.ɵbt = NovoTabLinkElement;
 exports.ɵbx = NovoTilesElement;
-exports.ɵcr = NovoTimePickerElement;
-exports.ɵcs = NovoTimePickerInputElement;
+exports.ɵcs = NovoTimePickerElement;
+exports.ɵct = NovoTimePickerInputElement;
 exports.ɵcx = NovoTipWellElement;
 exports.ɵbl = NovoToastElement;
 exports.ɵq = TooltipDirective;
 exports.ɵen = Unless;
 exports.ɵdt = EntityList;
 exports.ɵk = NovoValueElement;
-exports.ɵct = DateFormatService;
+exports.ɵcr = DateFormatService;
 exports.ɵfj = BrowserGlobalRef;
 exports.ɵfi = GlobalRef;
 exports.ɵfk = LocalStorageService;

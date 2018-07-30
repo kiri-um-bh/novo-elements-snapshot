@@ -97,14 +97,14 @@ export { ThOrderable as ɵdr } from './elements/table/extras/th-orderable/ThOrde
 export { ThSortable as ɵds } from './elements/table/extras/th-sortable/ThSortable';
 export { NovoNavContentElement as ɵbv, NovoNavElement as ɵbq, NovoNavHeaderElement as ɵbw, NovoNavOutletElement as ɵbu, NovoTabButtonElement as ɵbs, NovoTabElement as ɵbr, NovoTabLinkElement as ɵbt } from './elements/tabs/Tabs';
 export { NovoTilesElement as ɵbx } from './elements/tiles/Tiles';
-export { NovoTimePickerElement as ɵcr } from './elements/time-picker/TimePicker';
-export { NovoTimePickerInputElement as ɵcs } from './elements/time-picker/TimePickerInput';
+export { NovoTimePickerElement as ɵcs } from './elements/time-picker/TimePicker';
+export { NovoTimePickerInputElement as ɵct } from './elements/time-picker/TimePickerInput';
 export { NovoTipWellElement as ɵcx } from './elements/tip-well/TipWell';
 export { NovoToastElement as ɵbl } from './elements/toast/Toast';
 export { TooltipDirective as ɵq } from './elements/tooltip/Tooltip';
 export { Unless as ɵen } from './elements/unless/Unless';
 export { EntityList as ɵdt } from './elements/value/EntityList';
 export { NovoValueElement as ɵk } from './elements/value/Value';
-export { DateFormatService as ɵct } from './services/date-format/DateFormat';
+export { DateFormatService as ɵcr } from './services/date-format/DateFormat';
 export { BrowserGlobalRef as ɵfj, GlobalRef as ɵfi } from './services/global/global.service';
 export { LocalStorageService as ɵfk } from './services/storage/storage.service';

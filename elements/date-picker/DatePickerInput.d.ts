@@ -2,10 +2,12 @@ import { ChangeDetectorRef, ElementRef, OnInit, EventEmitter } from '@angular/co
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 import { NovoLabelService } from '../../services/novo-label-service';
+import { DateFormatService } from '../../services/date-format/DateFormat';
 export declare class NovoDatePickerInputElement implements OnInit, ControlValueAccessor {
     element: ElementRef;
     labels: NovoLabelService;
     private _changeDetectorRef;
+    dateFormatService: DateFormatService;
     value: any;
     formattedValue: string;
     private userDefinedFormat;
@@ -23,7 +25,7 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     focusEvent: EventEmitter<FocusEvent>;
     /** Element for the panel containing the autocomplete options. */
     overlay: NovoOverlayTemplateComponent;
-    constructor(element: ElementRef, labels: NovoLabelService, _changeDetectorRef: ChangeDetectorRef);
+    constructor(element: ElementRef, labels: NovoLabelService, _changeDetectorRef: ChangeDetectorRef, dateFormatService: DateFormatService);
     ngOnInit(): void;
     /** BEGIN: Convenient Panel Methods. */
     openPanel(): void;
@@ -35,6 +37,7 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     _handleBlur(event: FocusEvent): void;
     _handleFocus(event: FocusEvent): void;
     _handleEvent(event: Event, blur: boolean): void;
+    protected formatDate(value: string, blur: boolean): void;
     writeValue(value: any): void;
     registerOnChange(fn: (value: any) => {}): void;
     registerOnTouched(fn: () => {}): void;
