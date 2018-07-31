@@ -11527,7 +11527,10 @@ NovoDatePickerElement.propDecorators = {
 };
 var createAutoCorrectedDatePipe = createCommonjsModule(function (module, exports) {
     !function (e, t) { module.exports = t(); }(commonjsGlobal, function () { return function (e) { function t(n) { if (r[n])
-        return r[n].exports; var o = r[n] = { exports: {}, id: n, loaded: !1 }; return e[n].call(o.exports, o, o.exports, t), o.loaded = !0, o.exports; } var r = {}; return t.m = e, t.c = r, t.p = "", t(0); }([function (e, t, r) { e.exports = r(1); }, function (e, t) { function r() { var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : "mm dd yyyy"; return function (t) { var r = [], n = e.split(/[^dmyHMS]+/), o = { dd: 31, mm: 12, yy: 99, yyyy: 9999, HH: 23, MM: 59, SS: 59 }, i = { dd: 1, mm: 1, yy: 0, yyyy: 1, HH: 0, MM: 0, SS: 0 }, u = t.split(""); n.forEach(function (t) { var n = e.indexOf(t), i = parseInt(o[t].toString().substr(0, 1), 10); parseInt(u[n], 10) > i && (u[n + 1] = u[n], u[n] = 0, r.push(n)); }); var d = n.some(function (r) { var n = e.indexOf(r), u = r.length, d = t.substr(n, u).replace(/\D/g, ""), s = parseInt(d, 10); return s > o[r] || d.length === u && s < i[r]; }); return !d && { value: u.join(""), indexesOfPipedChars: r }; }; } Object.defineProperty(t, "__esModule", { value: !0 }), t.default = r; }]); });
+        return r[n].exports; var o = r[n] = { exports: {}, id: n, loaded: !1 }; return e[n].call(o.exports, o, o.exports, t), o.loaded = !0, o.exports; } var r = {}; return t.m = e, t.c = r, t.p = "", t(0); }([function (e, t, r) { e.exports = r(1); }, function (e, t) { function r() { var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : "mm dd yyyy", t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {}, r = t.minYear, i = void 0 === r ? 1 : r, d = t.maxYear, u = void 0 === d ? 9999 : d, s = e.split(/[^dmyHMS]+/).sort(function (e, t) { return o.indexOf(e) - o.indexOf(t); }); return function (t) { var r = [], o = { dd: 31, mm: 12, yy: 99, yyyy: u, HH: 23, MM: 59, SS: 59 }, d = { dd: 1, mm: 1, yy: 0, yyyy: i, HH: 0, MM: 0, SS: 0 }, a = t.split(""); s.forEach(function (t) { var n = e.indexOf(t), i = parseInt(o[t].toString().substr(0, 1), 10); parseInt(a[n], 10) > i && (a[n + 1] = a[n], a[n] = 0, r.push(n)); }); var y = 0, f = s.some(function (r) { var s = e.indexOf(r), a = r.length, f = t.substr(s, a).replace(/\D/g, ""), p = parseInt(f, 10); "mm" === r && (y = p || 0); var c = "dd" === r ? n[y] : o[r]; if ("yyyy" === r && (1 !== i || 9999 !== u)) {
+            var l = parseInt(o[r].toString().substring(0, f.length), 10), m = parseInt(d[r].toString().substring(0, f.length), 10);
+            return p < m || p > l;
+        } return p > c || f.length === a && p < d[r]; }); return !f && { value: a.join(""), indexesOfPipedChars: r }; }; } Object.defineProperty(t, "__esModule", { value: !0 }), t.default = r; var n = [31, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], o = ["yyyy", "yy", "mm", "dd", "HH", "MM", "SS"]; }]); });
 });
 var createAutoCorrectedDatePipe$1 = unwrapExports(createAutoCorrectedDatePipe);
 var createAutoCorrectedDatePipe_1 = createAutoCorrectedDatePipe.createAutoCorrectedDatePipe;
@@ -37209,6 +37212,7 @@ var NovoTableElement = /** @class */ (function () {
         this.footers = [];
         this.grossFlagToAvoidTheTableFromBeingUglyWhenHidingTheToast = false;
         this.loading = false;
+        notify('[Deprecated]: The table is deprecated. Please migrate to novo-data-tables!');
     }
     Object.defineProperty(NovoTableElement.prototype, "rows", {
         /**
@@ -49219,15 +49223,15 @@ var NovoDataTable = /** @class */ (function () {
         }
         // Default templates defined here
         this.defaultTemplates.forEach(function (item) {
+            // Only override if it doesn't already exist
             if (!_this.templates[item.getType()]) {
                 _this.templates[item.getType()] = item.template;
             }
         });
         // Custom templates passed in
         this.customTemplates.forEach(function (item) {
-            if (!_this.templates[item.getType()]) {
-                _this.templates[item.getType()] = item.template;
-            }
+            // Override anything that is custom and in HTML
+            _this.templates[item.getType()] = item.template;
         });
         // Load columns
         this.configureColumns();
@@ -51118,7 +51122,7 @@ var NovoActivityTableActions = /** @class */ (function () {
 }());
 NovoActivityTableActions.decorators = [
     { type: core.Directive, args: [{
-                selector: 'novo-activity-table-actions'
+                selector: 'novo-activity-table-actions',
             },] },
 ];
 /**
@@ -51132,7 +51136,7 @@ var NovoActivityTableCustomHeader = /** @class */ (function () {
 }());
 NovoActivityTableCustomHeader.decorators = [
     { type: core.Directive, args: [{
-                selector: 'novo-activity-table-custom-header'
+                selector: 'novo-activity-table-custom-header',
             },] },
 ];
 /**
@@ -51146,7 +51150,7 @@ var NovoActivityTableCustomFilter = /** @class */ (function () {
 }());
 NovoActivityTableCustomFilter.decorators = [
     { type: core.Directive, args: [{
-                selector: 'novo-activity-table-custom-filter'
+                selector: 'novo-activity-table-custom-filter',
             },] },
 ];
 /**
@@ -51160,7 +51164,7 @@ var NovoActivityTableEmptyMessage = /** @class */ (function () {
 }());
 NovoActivityTableEmptyMessage.decorators = [
     { type: core.Directive, args: [{
-                selector: 'novo-activity-table-empty-message'
+                selector: 'novo-activity-table-empty-message',
             },] },
 ];
 /**
@@ -51174,7 +51178,7 @@ var NovoActivityTableNoResultsMessage = /** @class */ (function () {
 }());
 NovoActivityTableNoResultsMessage.decorators = [
     { type: core.Directive, args: [{
-                selector: 'novo-activity-table-no-results-message'
+                selector: 'novo-activity-table-no-results-message',
             },] },
 ];
 /**
@@ -51193,6 +51197,7 @@ var NovoActivityTable = /** @class */ (function () {
         this.state = state$$1;
         this.globalSearchHiddenClassToggle = false;
         this.loading = true;
+        notify('[Deprecated]: The simple table is deprecated. Please migrate to novo-data-tables!');
     }
     Object.defineProperty(NovoActivityTable.prototype, "customFilter", {
         /**
@@ -51347,7 +51352,7 @@ NovoActivityTable.decorators = [
                 selector: 'novo-activity-table',
                 template: "\n        <div *ngIf=\"debug\">\n            <p>Total: {{ dataSource?.total }}</p>\n            <p>Current: {{ dataSource?.current }}</p>\n            <p>Totally Empty: {{ dataSource?.totallyEmpty }}</p>\n            <p>Currently Empty: {{ dataSource?.currentlyEmpty }}</p>\n            <p>Loading (DataSource): {{ dataSource?.loading }}</p>\n            <p>User Filtered: {{ state.userFiltered }}</p>\n            <p>Loading (Table): {{ loading }}</p>\n        </div>\n        <header *ngIf=\"(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader\">\n            <ng-content select=\"[novo-activity-table-custom-header]\"></ng-content>\n            <novo-search\n                alwaysOpen=\"true\"\n                (searchChanged)=\"onSearchChange($event)\"\n                [(ngModel)]=\"state.globalSearch\"\n                *ngIf=\"!hideGlobalSearch\"\n                [placeholder]=\"searchOptions?.placeholder\"\n                [hint]=\"searchOptions?.tooltip\">\n            </novo-search>\n            <novo-simple-table-pagination\n                *ngIf=\"paginationOptions\"\n                [length]=\"dataSource?.total\"\n                [page]=\"paginationOptions.page\"\n                [pageSize]=\"paginationOptions.pageSize\"\n                [pageSizeOptions]=\"paginationOptions.pageSizeOptions\">\n            </novo-simple-table-pagination>\n            <div class=\"novo-activity-table-actions\">\n                <ng-content select=\"[novo-activity-table-actions]\"></ng-content>\n            </div>\n        </header>\n        <div class=\"novo-activity-table-loading-mask\" *ngIf=\"dataSource?.loading || loading\" data-automation-id=\"novo-activity-table-loading\">\n            <novo-loading></novo-loading>\n        </div>\n        <div class=\"novo-activity-table-filter-container\">\n            <div class=\"novo-activity-table-custom-filter\" *ngIf=\"customFilter\">\n                <ng-content select=\"[novo-activity-table-custom-filter]\"></ng-content>\n            </div>\n            <div class=\"novo-activity-table-container\">\n                <novo-simple-table *ngIf=\"(columns?.length > 0)\" [dataSource]=\"dataSource\" novoSortFilter novoSelection [class.empty]=\"dataSource?.currentlyEmpty && state.userFiltered\" [hidden]=\"dataSource?.totallyEmpty && !userFiltered\">\n                    <ng-content></ng-content>\n                    <ng-container novoSimpleColumnDef=\"selection\">\n                        <novo-simple-checkbox-header-cell *novoSimpleHeaderCellDef></novo-simple-checkbox-header-cell>\n                        <novo-simple-checkbox-cell *novoSimpleCellDef=\"let row; let i = index\" [row]=\"row\" [index]=\"i\"></novo-simple-checkbox-cell>\n                    </ng-container>\n                    <ng-container *ngFor=\"let column of actionColumns\" [novoSimpleColumnDef]=\"column.id\">\n                        <novo-simple-empty-header-cell [class.button-header-cell]=\"!column.options\" [class.dropdown-header-cell]=\"column.options\" *novoSimpleHeaderCellDef></novo-simple-empty-header-cell>\n                        <novo-simple-action-cell *novoSimpleCellDef=\"let row; let i = index\" [row]=\"row\" [column]=\"column\"></novo-simple-action-cell>\n                    </ng-container>\n                    <ng-container *ngFor=\"let column of columns\" [novoSimpleColumnDef]=\"column.id\">\n                        <novo-simple-header-cell *novoSimpleHeaderCellDef [column]=\"column\" [novo-simple-cell-config]=\"column.config\" [defaultSort]=\"defaultSort\">{{ column.label }}</novo-simple-header-cell>\n                        <novo-simple-cell *novoSimpleCellDef=\"let row\" [column]=\"column\" [row]=\"row\"></novo-simple-cell>\n                    </ng-container>\n                    <novo-simple-header-row *novoSimpleHeaderRowDef=\"displayedColumns\"></novo-simple-header-row>\n                    <novo-simple-row *novoSimpleRowDef=\"let row; columns: displayedColumns;\"></novo-simple-row>\n                </novo-simple-table>\n                <div class=\"novo-activity-table-no-results-container\" *ngIf=\"dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine\">\n                    <div #filtered><ng-content select=\"[novo-activity-table-no-results-message]\"></ng-content></div>\n                    <div class=\"novo-activity-table-empty-message\" *ngIf=\"filtered.childNodes.length == 0\">\n                        <h4><i class=\"bhi-search-question\"></i> {{ labels.noMatchingRecordsMessage }}</h4>\n                    </div>\n                </div>\n                <div class=\"novo-activity-table-empty-container\" *ngIf=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\">\n                    <div #empty><ng-content select=\"[novo-activity-table-empty-message]\"></ng-content></div>\n                    <div class=\"novo-activity-table-empty-message\" *ngIf=\"empty.childNodes.length == 0\">\n                        <h4><i class=\"bhi-search-question\"></i> {{ labels.emptyTableMessage }}</h4>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
                 changeDetection: core.ChangeDetectionStrategy.OnPush,
-                providers: [NovoActivityTableState]
+                providers: [NovoActivityTableState],
             },] },
 ];
 /**
