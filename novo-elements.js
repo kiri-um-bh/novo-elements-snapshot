@@ -9601,7 +9601,7 @@ NovoPickerElement.decorators = [
             type="text"
             class="picker-input"
             [(ngModel)]="term"
-            [class.entity-picker]="config.entityIcon"
+            [class.entity-picker]="config?.entityIcon"
             [class.entity-selected]="config?.entityIcon && _value"
             (ngModelChange)="checkTerm($event)"
             [placeholder]="placeholder"
@@ -17115,6 +17115,36 @@ class NovoControlElement extends OutsideClick {
      * @return {?}
      */
     ngAfterContentInit() {
+        // Subscribe to control interactions
+        if (this.control.interactions) {
+            for (let /** @type {?} */ interaction of this.control.interactions) {
+                switch (interaction.event) {
+                    case 'blur':
+                        this.valueChangeSubscription = this.onBlur.debounceTime(300).subscribe(() => {
+                            this.executeInteraction(interaction);
+                        });
+                        break;
+                    case 'focus':
+                        this.valueChangeSubscription = this.onFocus.debounceTime(300).subscribe(() => {
+                            this.executeInteraction(interaction);
+                        });
+                        break;
+                    case 'change':
+                        this.valueChangeSubscription = this.form.controls[this.control.key].valueChanges.debounceTime(300).subscribe(() => {
+                            this.executeInteraction(interaction);
+                        });
+                        break;
+                    case 'init':
+                        interaction.invokeOnInit = true;
+                        break;
+                    default:
+                        break;
+                }
+                if (interaction.invokeOnInit) {
+                    this.executeInteraction(interaction);
+                }
+            }
+        }
         setTimeout(() => {
             this.templates = this.templateService.getAll();
             this.changeDetectorRef.markForCheck();
@@ -17143,36 +17173,6 @@ class NovoControlElement extends OutsideClick {
                     this.form.updateValueAndValidity();
                 }
             });
-            // Subscribe to control interactions
-            if (this.control.interactions) {
-                for (let /** @type {?} */ interaction of this.control.interactions) {
-                    switch (interaction.event) {
-                        case 'blur':
-                            this.valueChangeSubscription = this.onBlur.debounceTime(300).subscribe(() => {
-                                this.executeInteraction(interaction);
-                            });
-                            break;
-                        case 'focus':
-                            this.valueChangeSubscription = this.onFocus.debounceTime(300).subscribe(() => {
-                                this.executeInteraction(interaction);
-                            });
-                            break;
-                        case 'change':
-                            this.valueChangeSubscription = this.form.controls[this.control.key].valueChanges.debounceTime(300).subscribe(() => {
-                                this.executeInteraction(interaction);
-                            });
-                            break;
-                        case 'init':
-                            interaction.invokeOnInit = true;
-                            break;
-                        default:
-                            break;
-                    }
-                    if (interaction.invokeOnInit) {
-                        this.executeInteraction(interaction);
-                    }
-                }
-            }
         }
         this.templateContext = {
             $implicit: this.form.controls[this.control.key],
@@ -17200,12 +17200,12 @@ class NovoControlElement extends OutsideClick {
         this.templateContext.$implicit.tooltip = this.tooltip;
         this.templateContext.$implicit.tooltipSize = this.tooltipSize;
         this.templateContext.$implicit.tooltipPreline = this.tooltipPreline;
-        this.templateContext.$implicit.startupFocus = this.control.startupFocus;
-        this.templateContext.$implicit.fileBrowserImageUploadUrl = this.control.fileBrowserImageUploadUrl;
-        this.templateContext.$implicit.minimal = this.control.minimal;
-        this.templateContext.$implicit.currencyFormat = this.control.currencyFormat;
-        this.templateContext.$implicit.percentValue = this.control.percentValue;
-        this.templateContext.$implicit.config = this.control.config;
+        this.templateContext.$implicit.startupFocus = this.form.controls[this.control.key].startupFocus;
+        this.templateContext.$implicit.fileBrowserImageUploadUrl = this.form.controls[this.control.key].fileBrowserImageUploadUrl;
+        this.templateContext.$implicit.minimal = this.form.controls[this.control.key].minimal;
+        this.templateContext.$implicit.currencyFormat = this.form.controls[this.control.key].currencyFormat;
+        this.templateContext.$implicit.percentValue = this.form.controls[this.control.key].percentValue;
+        this.templateContext.$implicit.config = this.form.controls[this.control.key].config;
         if (this.form.controls[this.control.key] && this.form.controls[this.control.key].subType === 'percentage') {
             if (!Helpers.isEmpty(this.form.controls[this.control.key].value)) {
                 this.templateContext.$implicit.percentValue = Number((this.form.controls[this.control.key].value * 100).toFixed(6).replace(/\.?0*$/, ''));

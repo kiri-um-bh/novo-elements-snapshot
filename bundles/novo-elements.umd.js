@@ -9182,7 +9182,7 @@ NovoPickerElement.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-picker',
                 providers: [PICKER_VALUE_ACCESSOR],
-                template: "\n        <i class=\"bhi-more\" *ngIf=\"config?.entityIcon && !_value\"></i>\n        <i class=\"bhi-{{ config?.entityIcon }} entity-icon {{ config?.entityIcon }}\" *ngIf=\"config?.entityIcon && _value\"></i>\n        <input\n            type=\"text\"\n            class=\"picker-input\"\n            [(ngModel)]=\"term\"\n            [class.entity-picker]=\"config.entityIcon\"\n            [class.entity-selected]=\"config?.entityIcon && _value\"\n            (ngModelChange)=\"checkTerm($event)\"\n            [placeholder]=\"placeholder\"\n            (keydown)=\"onKeyDown($event)\"\n            (focus)=\"onFocus($event)\"\n            (click)=\"onFocus($event)\"\n            (blur)=\"onTouched($event)\"\n            autocomplete=\"off\" #input\n            [disabled]=\"disablePickerInput\"/>\n        <i class=\"bhi-search\" *ngIf=\"(!_value || clearValueOnSelect) && !disablePickerInput\"></i>\n        <i class=\"bhi-times\" [class.entity-selected]=\"config?.entityIcon && _value\" *ngIf=\"_value && !clearValueOnSelect\" (click)=\"clearValue(true)\"></i>\n        <novo-overlay-template class=\"picker-results-container\" [parent]=\"element\" position=\"above-below\" (closing)=\"onOverlayClosed()\">\n            <span #results></span>\n            <ng-content></ng-content>\n        </novo-overlay-template>\n    ",
+                template: "\n        <i class=\"bhi-more\" *ngIf=\"config?.entityIcon && !_value\"></i>\n        <i class=\"bhi-{{ config?.entityIcon }} entity-icon {{ config?.entityIcon }}\" *ngIf=\"config?.entityIcon && _value\"></i>\n        <input\n            type=\"text\"\n            class=\"picker-input\"\n            [(ngModel)]=\"term\"\n            [class.entity-picker]=\"config?.entityIcon\"\n            [class.entity-selected]=\"config?.entityIcon && _value\"\n            (ngModelChange)=\"checkTerm($event)\"\n            [placeholder]=\"placeholder\"\n            (keydown)=\"onKeyDown($event)\"\n            (focus)=\"onFocus($event)\"\n            (click)=\"onFocus($event)\"\n            (blur)=\"onTouched($event)\"\n            autocomplete=\"off\" #input\n            [disabled]=\"disablePickerInput\"/>\n        <i class=\"bhi-search\" *ngIf=\"(!_value || clearValueOnSelect) && !disablePickerInput\"></i>\n        <i class=\"bhi-times\" [class.entity-selected]=\"config?.entityIcon && _value\" *ngIf=\"_value && !clearValueOnSelect\" (click)=\"clearValue(true)\"></i>\n        <novo-overlay-template class=\"picker-results-container\" [parent]=\"element\" position=\"above-below\" (closing)=\"onOverlayClosed()\">\n            <span #results></span>\n            <ng-content></ng-content>\n        </novo-overlay-template>\n    ",
             },] },
 ];
 /**
@@ -16533,6 +16533,41 @@ var NovoControlElement = /** @class */ (function (_super) {
      */
     NovoControlElement.prototype.ngAfterContentInit = function () {
         var _this = this;
+        // Subscribe to control interactions
+        if (this.control.interactions) {
+            var _loop_5 = function (interaction) {
+                switch (interaction.event) {
+                    case 'blur':
+                        this_1.valueChangeSubscription = this_1.onBlur.debounceTime(300).subscribe(function () {
+                            _this.executeInteraction(interaction);
+                        });
+                        break;
+                    case 'focus':
+                        this_1.valueChangeSubscription = this_1.onFocus.debounceTime(300).subscribe(function () {
+                            _this.executeInteraction(interaction);
+                        });
+                        break;
+                    case 'change':
+                        this_1.valueChangeSubscription = this_1.form.controls[this_1.control.key].valueChanges.debounceTime(300).subscribe(function () {
+                            _this.executeInteraction(interaction);
+                        });
+                        break;
+                    case 'init':
+                        interaction.invokeOnInit = true;
+                        break;
+                    default:
+                        break;
+                }
+                if (interaction.invokeOnInit) {
+                    this_1.executeInteraction(interaction);
+                }
+            };
+            var this_1 = this;
+            for (var _d = 0, _e = this.control.interactions; _d < _e.length; _d++) {
+                var interaction = _e[_d];
+                _loop_5(/** @type {?} */ interaction);
+            }
+        }
         setTimeout(function () {
             _this.templates = _this.templateService.getAll();
             _this.changeDetectorRef.markForCheck();
@@ -16562,41 +16597,6 @@ var NovoControlElement = /** @class */ (function (_super) {
                     _this.form.updateValueAndValidity();
                 }
             });
-            // Subscribe to control interactions
-            if (this.control.interactions) {
-                var _loop_5 = function (interaction) {
-                    switch (interaction.event) {
-                        case 'blur':
-                            this_1.valueChangeSubscription = this_1.onBlur.debounceTime(300).subscribe(function () {
-                                _this.executeInteraction(interaction);
-                            });
-                            break;
-                        case 'focus':
-                            this_1.valueChangeSubscription = this_1.onFocus.debounceTime(300).subscribe(function () {
-                                _this.executeInteraction(interaction);
-                            });
-                            break;
-                        case 'change':
-                            this_1.valueChangeSubscription = this_1.form.controls[this_1.control.key].valueChanges.debounceTime(300).subscribe(function () {
-                                _this.executeInteraction(interaction);
-                            });
-                            break;
-                        case 'init':
-                            interaction.invokeOnInit = true;
-                            break;
-                        default:
-                            break;
-                    }
-                    if (interaction.invokeOnInit) {
-                        this_1.executeInteraction(interaction);
-                    }
-                };
-                var this_1 = this;
-                for (var _d = 0, _e = this.control.interactions; _d < _e.length; _d++) {
-                    var interaction = _e[_d];
-                    _loop_5(/** @type {?} */ interaction);
-                }
-            }
         }
         this.templateContext = {
             $implicit: this.form.controls[this.control.key],
@@ -16624,12 +16624,12 @@ var NovoControlElement = /** @class */ (function (_super) {
         this.templateContext.$implicit.tooltip = this.tooltip;
         this.templateContext.$implicit.tooltipSize = this.tooltipSize;
         this.templateContext.$implicit.tooltipPreline = this.tooltipPreline;
-        this.templateContext.$implicit.startupFocus = this.control.startupFocus;
-        this.templateContext.$implicit.fileBrowserImageUploadUrl = this.control.fileBrowserImageUploadUrl;
-        this.templateContext.$implicit.minimal = this.control.minimal;
-        this.templateContext.$implicit.currencyFormat = this.control.currencyFormat;
-        this.templateContext.$implicit.percentValue = this.control.percentValue;
-        this.templateContext.$implicit.config = this.control.config;
+        this.templateContext.$implicit.startupFocus = this.form.controls[this.control.key].startupFocus;
+        this.templateContext.$implicit.fileBrowserImageUploadUrl = this.form.controls[this.control.key].fileBrowserImageUploadUrl;
+        this.templateContext.$implicit.minimal = this.form.controls[this.control.key].minimal;
+        this.templateContext.$implicit.currencyFormat = this.form.controls[this.control.key].currencyFormat;
+        this.templateContext.$implicit.percentValue = this.form.controls[this.control.key].percentValue;
+        this.templateContext.$implicit.config = this.form.controls[this.control.key].config;
         if (this.form.controls[this.control.key] && this.form.controls[this.control.key].subType === 'percentage') {
             if (!Helpers.isEmpty(this.form.controls[this.control.key].value)) {
                 this.templateContext.$implicit.percentValue = Number((this.form.controls[this.control.key].value * 100).toFixed(6).replace(/\.?0*$/, ''));
