@@ -9825,9 +9825,19 @@ EntityPickerResult.decorators = [
                     <i class="bhi-person"></i>
                     <span [innerHtml]="highlight(match.data.owner.name, term)"></span>
                 </p>
+                <!-- PRIMARY DEPARTMENT -->
+                <p class="primary-department" *ngIf="match.data.primaryDepartment && match.data.primaryDepartment.name && match.data.searchEntity === 'CorporateUser'">
+                    <i class="bhi-department"></i>
+                    <span [innerHtml]="highlight(match.data.primaryDepartment.name, term)"></span>
+                </p>
+                <!-- OCCUPATION -->
+                <p class="occupation" *ngIf="match.data.occupation && match.data.searchEntity === 'CorporateUser'">
+                    <i class="bhi-occupation"></i>
+                    <span [innerHtml]="highlight(match.data.occupation, term)"></span>
+                </p>
             </item-content>
         </novo-list-item>
-    `
+    `,
             },] },
 ];
 /**
@@ -9884,7 +9894,7 @@ EntityPickerResults.decorators = [
         </novo-list>
         <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
         <p class="picker-null-results" *ngIf="!isLoading && !matches.length && !hasError">{{ labels.pickerEmpty }}</p>
-    `
+    `,
             },] },
 ];
 /**
