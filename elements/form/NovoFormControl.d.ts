@@ -54,6 +54,7 @@ export declare class NovoFormControl extends FormControl {
     };
     rawValue?: any;
     customControlConfig?: any;
+    checkboxLabel?: string;
     private historyTimeout;
     constructor(value: any, control: NovoControlConfig);
     /**

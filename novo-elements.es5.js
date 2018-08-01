@@ -13838,6 +13838,7 @@ var NovoFormControl = /** @class */ (function (_super) {
         _this.minlength = control.minlength;
         _this.closeOnSelect = control.closeOnSelect;
         _this.interactions = control.interactions;
+        _this.checkboxLabel = control.checkboxLabel;
         _this.appendToBody = control.appendToBody;
         if (_this.appendToBody) {
             notify("'appendToBody' has been deprecated. Please remove this attribute.");
@@ -14910,6 +14911,7 @@ var FormUtils = /** @class */ (function () {
                 control = new TilesControl(controlConfig);
                 break;
             case 'checkbox':
+                controlConfig.checkboxLabel = field.checkboxLabel;
                 control = new CheckboxControl(controlConfig);
                 break;
             case 'checklist':

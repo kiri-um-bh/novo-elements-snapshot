@@ -14532,6 +14532,7 @@ class NovoFormControl extends FormControl {
         this.minlength = control.minlength;
         this.closeOnSelect = control.closeOnSelect;
         this.interactions = control.interactions;
+        this.checkboxLabel = control.checkboxLabel;
         this.appendToBody = control.appendToBody;
         if (this.appendToBody) {
             notify(`'appendToBody' has been deprecated. Please remove this attribute.`);
@@ -15543,6 +15544,7 @@ class FormUtils {
                 control = new TilesControl(controlConfig);
                 break;
             case 'checkbox':
+                controlConfig.checkboxLabel = field.checkboxLabel;
                 control = new CheckboxControl(controlConfig);
                 break;
             case 'checklist':
