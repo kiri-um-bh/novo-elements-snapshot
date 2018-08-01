@@ -4016,6 +4016,7 @@ var NovoTilesElement = /** @class */ (function () {
         this.name = new Date().getTime().toString();
         this.disabled = false;
         this.onChange = new EventEmitter();
+        this.onSelectedOptionClick = new EventEmitter();
         this.onDisabledOptionClick = new EventEmitter();
         this._options = [];
         this.activeTile = null;
@@ -4085,6 +4086,7 @@ var NovoTilesElement = /** @class */ (function () {
             event.preventDefault();
         }
         if (item.checked) {
+            this.onSelectedOptionClick.emit(item);
             return;
         }
         if (!item.disabled) {
@@ -4190,6 +4192,7 @@ NovoTilesElement.propDecorators = {
     'required': [{ type: Input },],
     'disabled': [{ type: Input, args: ['controlDisabled',] },],
     'onChange': [{ type: Output },],
+    'onSelectedOptionClick': [{ type: Output },],
     'onDisabledOptionClick': [{ type: Output },],
 };
 // NG2

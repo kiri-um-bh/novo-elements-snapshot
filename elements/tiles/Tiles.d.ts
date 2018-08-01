@@ -8,6 +8,7 @@ export declare class NovoTilesElement implements ControlValueAccessor, AfterCont
     required: boolean;
     disabled: boolean;
     onChange: EventEmitter<any>;
+    onSelectedOptionClick: EventEmitter<any>;
     onDisabledOptionClick: EventEmitter<any>;
     _options: Array<any>;
     activeTile: any;
