@@ -38559,7 +38559,7 @@ var RenderPipe = /** @class */ (function () {
         if (value === undefined || value === null || !args) {
             return text;
         }
-        if (args.formatter && (typeof args.formatter === 'function')) {
+        if (args.formatter && typeof args.formatter === 'function') {
             return args.formatter(value, args);
         }
         // TODO move this to a service
@@ -38585,7 +38585,7 @@ var RenderPipe = /** @class */ (function () {
         else if (args.name && args.name.substring(0, 5) === 'email') {
             type = 'Email';
         }
-        else if (args.name && args.name === 'address.countryID' || args.optionsType === 'Country') {
+        else if ((args.name && args.name === 'address.countryID') || args.optionsType === 'Country') {
             type = 'Country';
         }
         else if (args.optionsType === 'SkillText') {
@@ -38608,9 +38608,10 @@ var RenderPipe = /** @class */ (function () {
                 var /** @type {?} */ country = findByCountryId(Number(value.countryName));
                 text = '';
                 if (value.address1 || value.address2) {
-                    text += ("\n                        " + (value.address1 || '') + "\n                        " + (value.address2 || '') + "<br />\n                    ").trim();
+                    text += (value.address1 || '') + " " + (value.address2 || '') + "<br />\n";
                 }
-                text += "\n                    " + (value.city || '') + " " + (value.state || '') + " " + (value.zip || '') + (value.city || value.state || value.zip ? '<br />' : '') + "\n                    " + (country ? country.name : (value.countryName || '')) + (country || value.countryName ? '<br />' : '') + "\n                ";
+                text += (value.city || '') + " " + (value.state || '') + " " + (value.zip || '') + (value.city || value.state || value.zip ? '<br />\n' : '');
+                text += "" + (country ? country.name : value.countryName || '') + (country || value.countryName ? '<br />\n' : '');
                 text = this.sanitizationService.bypassSecurityTrustHtml(text.trim());
                 break;
             case 'DateTime':
@@ -38628,7 +38629,7 @@ var RenderPipe = /** @class */ (function () {
                 text = this.labels.formatCurrency(value);
                 break;
             case 'Percentage':
-                text = this.labels.formatNumber((parseFloat(value)).toString(), { style: 'percent', minimumFractionDigits: 2 });
+                text = this.labels.formatNumber(parseFloat(value).toString(), { style: 'percent', minimumFractionDigits: 2 });
                 break;
             case 'Double':
             case 'BigDecimal':
@@ -38671,7 +38672,9 @@ var RenderPipe = /** @class */ (function () {
                 }
                 break;
             case 'JobSubmission':
-                text = value.label || (value.jobOrder ? value.jobOrder.title + " - " : '') + " " + (value.candidate ? value.candidate.firstName : '') + " " + (value.candidate ? value.candidate.lastName : '');
+                text =
+                    value.label ||
+                        (value.jobOrder ? value.jobOrder.title + " - " : '') + " " + (value.candidate ? value.candidate.firstName : '') + " " + (value.candidate ? value.candidate.lastName : '');
                 break;
             case 'WorkersCompensationRate':
                 text = (value.compensation ? value.compensation.code + " - " : '') + " " + (value.compensation ? value.compensation.name : '');
