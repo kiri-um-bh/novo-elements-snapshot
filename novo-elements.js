@@ -16770,7 +16770,9 @@ class FieldInteractionApi {
     modifyPickerConfig(key, config, mapper) {
         let /** @type {?} */ control = this.getControl(key);
         if (control) {
-            let /** @type {?} */ newConfig = Object.assign({}, control.config);
+            let /** @type {?} */ newConfig = {
+                resultsTemplate: control.config.resultsTemplate,
+            };
             if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
                 newConfig = Object.assign(newConfig, {
                     format: config.format,

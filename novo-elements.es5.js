@@ -16180,7 +16180,9 @@ var FieldInteractionApi = /** @class */ (function () {
         var _this = this;
         var /** @type {?} */ control = this.getControl(key);
         if (control) {
-            var /** @type {?} */ newConfig = Object.assign({}, control.config);
+            var /** @type {?} */ newConfig = {
+                resultsTemplate: control.config.resultsTemplate,
+            };
             if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
                 newConfig = Object.assign(newConfig, {
                     format: config.format,
