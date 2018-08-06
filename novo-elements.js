@@ -3662,6 +3662,7 @@ class NovoToastElement {
         this.icon = 'caution';
         this.hasDialogue = false;
         this.isCloseable = false;
+        this.closed = new EventEmitter();
         this.show = false;
         this.animate = false;
         this.parent = null;
@@ -3715,6 +3716,9 @@ class NovoToastElement {
             if (this.parent) {
                 this.parent.hide(this);
             }
+            else {
+                this.closed.emit({ closed: true });
+            }
         }
     }
     /**
@@ -3726,7 +3730,12 @@ class NovoToastElement {
             event.stopPropagation();
             event.preventDefault();
         }
-        this.parent.hide(this);
+        if (this.parent) {
+            this.parent.hide(this);
+        }
+        else {
+            this.closed.emit({ closed: true });
+        }
     }
 }
 NovoToastElement.decorators = [
@@ -3737,7 +3746,7 @@ NovoToastElement.decorators = [
                     '[class.show]': 'show',
                     '[class.animate]': 'animate',
                     '[class.embedded]': 'embedded',
-                    '(click)': '!isCloseable && clickHandler($event)'
+                    '(click)': '!isCloseable && clickHandler($event)',
                 },
                 template: `
         <div class="toast-icon">
@@ -3756,7 +3765,7 @@ NovoToastElement.decorators = [
         <div class="close-icon" *ngIf="isCloseable" (click)="close($event)">
             <i class="bhi-times"></i>
         </div>
-    `
+    `,
             },] },
 ];
 /**
@@ -3773,6 +3782,7 @@ NovoToastElement.propDecorators = {
     'link': [{ type: Input },],
     'isCloseable': [{ type: Input },],
     'message': [{ type: Input },],
+    'closed': [{ type: Output },],
 };
 
 // NG2
@@ -39139,11 +39149,13 @@ NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.DEFAULT] = "DEFAULT";
 NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.ENTITY_LIST] = "ENTITY_LIST";
 NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.LINK] = "LINK";
 NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.INTERNAL_LINK] = "INTERNAL_LINK";
+
 let NOVO_VALUE_THEME = {};
 NOVO_VALUE_THEME.DEFAULT = 0;
 NOVO_VALUE_THEME.MOBILE = 1;
 NOVO_VALUE_THEME[NOVO_VALUE_THEME.DEFAULT] = "DEFAULT";
 NOVO_VALUE_THEME[NOVO_VALUE_THEME.MOBILE] = "MOBILE";
+
 class NovoValueElement {
     constructor() {
         this.theme = NOVO_VALUE_THEME.DEFAULT;
@@ -39157,7 +39169,7 @@ class NovoValueElement {
     ngOnInit() {
         if (Helpers.isEmpty(this.meta)) {
             this.meta = {
-                label: '',
+                label: ''
             };
         }
     }
@@ -39238,8 +39250,10 @@ class NovoValueElement {
         }
         else if (this.isHTMLField(this.meta)) {
             this.customClass = this.meta.customClass ? this.meta.customClass : '';
-            if (this.meta.stripHTML && this.data && this.data.replace) {
-                this.data = this.data.replace(/<(?!style|\/style).+?>/gi, '');
+            if (this.meta.stripHTML &&
+                this.data &&
+                this.data.replace) {
+                this.data = this.data.replace(/<(.|\n)+?>/gi, '');
             }
         }
         else if (this.meta && this.meta.associatedEntity) {
@@ -39264,9 +39278,9 @@ class NovoValueElement {
      */
     isLinkField(field, data) {
         let /** @type {?} */ linkFields = ['companyURL', 'clientCorporationCompanyURL'];
-        let /** @type {?} */ regex = new RegExp('^(https?://(?:www.|(?!www))[^s.]+.[^s]{2,}|www.[^s]+.[^s]{2,})$', 'gi');
+        let /** @type {?} */ regex = new RegExp('^(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})$', 'gi');
         let /** @type {?} */ isURL = Helpers.isString(data) && regex.exec(data.trim());
-        return linkFields.indexOf(field.name) > -1 || !!isURL || field.type === NOVO_VALUE_TYPE.LINK;
+        return (linkFields.indexOf(field.name) > -1) || !!isURL || field.type === NOVO_VALUE_TYPE.LINK;
     }
     /**
      * @param {?} type
@@ -39302,7 +39316,7 @@ NovoValueElement.decorators = [
                 <i *ngFor="let icon of meta.icons" [class]="iconClass(icon)" (click)="onValueClick(icon)"></i>
             </div>
         </ng-container>
-    `,
+    `
             },] },
 ];
 /**

@@ -3386,6 +3386,7 @@ var NovoToastElement = /** @class */ (function () {
         this.icon = 'caution';
         this.hasDialogue = false;
         this.isCloseable = false;
+        this.closed = new EventEmitter();
         this.show = false;
         this.animate = false;
         this.parent = null;
@@ -3443,6 +3444,9 @@ var NovoToastElement = /** @class */ (function () {
             if (this.parent) {
                 this.parent.hide(this);
             }
+            else {
+                this.closed.emit({ closed: true });
+            }
         }
     };
     /**
@@ -3454,7 +3458,12 @@ var NovoToastElement = /** @class */ (function () {
             event.stopPropagation();
             event.preventDefault();
         }
-        this.parent.hide(this);
+        if (this.parent) {
+            this.parent.hide(this);
+        }
+        else {
+            this.closed.emit({ closed: true });
+        }
     };
     return NovoToastElement;
 }());
@@ -3466,9 +3475,9 @@ NovoToastElement.decorators = [
                     '[class.show]': 'show',
                     '[class.animate]': 'animate',
                     '[class.embedded]': 'embedded',
-                    '(click)': '!isCloseable && clickHandler($event)'
+                    '(click)': '!isCloseable && clickHandler($event)',
                 },
-                template: "\n        <div class=\"toast-icon\">\n            <i [ngClass]=\"iconClass\"></i>\n        </div>\n        <div class=\"toast-content\">\n            <h5 *ngIf=\"title\">{{title}}</h5>\n            <p *ngIf=\"_message\" [class.message-only]=\"!title\" [innerHtml]=\"_message\"></p>\n            <div *ngIf=\"link\" class=\"link-generated\">\n                <input type=\"text\" [value]=\"link\" onfocus=\"this.select();\"/>\n            </div>\n            <div class=\"dialogue\">\n                <ng-content></ng-content>\n            </div>\n        </div>\n        <div class=\"close-icon\" *ngIf=\"isCloseable\" (click)=\"close($event)\">\n            <i class=\"bhi-times\"></i>\n        </div>\n    "
+                template: "\n        <div class=\"toast-icon\">\n            <i [ngClass]=\"iconClass\"></i>\n        </div>\n        <div class=\"toast-content\">\n            <h5 *ngIf=\"title\">{{title}}</h5>\n            <p *ngIf=\"_message\" [class.message-only]=\"!title\" [innerHtml]=\"_message\"></p>\n            <div *ngIf=\"link\" class=\"link-generated\">\n                <input type=\"text\" [value]=\"link\" onfocus=\"this.select();\"/>\n            </div>\n            <div class=\"dialogue\">\n                <ng-content></ng-content>\n            </div>\n        </div>\n        <div class=\"close-icon\" *ngIf=\"isCloseable\" (click)=\"close($event)\">\n            <i class=\"bhi-times\"></i>\n        </div>\n    ",
             },] },
 ];
 /**
@@ -3485,6 +3494,7 @@ NovoToastElement.propDecorators = {
     'link': [{ type: Input },],
     'isCloseable': [{ type: Input },],
     'message': [{ type: Input },],
+    'closed': [{ type: Output },],
 };
 // NG2
 // APP
@@ -38237,7 +38247,7 @@ var NovoValueElement = /** @class */ (function () {
     NovoValueElement.prototype.ngOnInit = function () {
         if (Helpers.isEmpty(this.meta)) {
             this.meta = {
-                label: '',
+                label: ''
             };
         }
     };
@@ -38334,8 +38344,10 @@ var NovoValueElement = /** @class */ (function () {
         }
         else if (this.isHTMLField(this.meta)) {
             this.customClass = this.meta.customClass ? this.meta.customClass : '';
-            if (this.meta.stripHTML && this.data && this.data.replace) {
-                this.data = this.data.replace(/<(?!style|\/style).+?>/gi, '');
+            if (this.meta.stripHTML &&
+                this.data &&
+                this.data.replace) {
+                this.data = this.data.replace(/<(.|\n)+?>/gi, '');
             }
         }
         else if (this.meta && this.meta.associatedEntity) {
@@ -38360,9 +38372,9 @@ var NovoValueElement = /** @class */ (function () {
      */
     NovoValueElement.prototype.isLinkField = function (field, data) {
         var /** @type {?} */ linkFields = ['companyURL', 'clientCorporationCompanyURL'];
-        var /** @type {?} */ regex = new RegExp('^(https?://(?:www.|(?!www))[^s.]+.[^s]{2,}|www.[^s]+.[^s]{2,})$', 'gi');
+        var /** @type {?} */ regex = new RegExp('^(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})$', 'gi');
         var /** @type {?} */ isURL = Helpers.isString(data) && regex.exec(data.trim());
-        return linkFields.indexOf(field.name) > -1 || !!isURL || field.type === NOVO_VALUE_TYPE.LINK;
+        return (linkFields.indexOf(field.name) > -1) || !!isURL || field.type === NOVO_VALUE_TYPE.LINK;
     };
     /**
      * @param {?} type
@@ -38383,7 +38395,7 @@ var NovoValueElement = /** @class */ (function () {
 NovoValueElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-value',
-                template: "\n        <ng-container [ngSwitch]=\"type\">\n            <div class=\"value-outer\" *ngIf=\"showLabel\">\n                <label>{{ meta.label }}</label>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" class=\"value\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n                <novo-entity-list *ngSwitchCase=\"NOVO_VALUE_TYPE.ENTITY_LIST\" [data]='data' [meta]=\"meta\"></novo-entity-list>\n            </div>\n            <div *ngSwitchDefault class=\"value-outer\" [ngClass]=\"customClass\">\n                <label>{{ meta.label }}</label>\n                <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n            </div>\n            <div class=\"actions\" *ngIf=\"showIcon\">\n                <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n            </div>\n        </ng-container>\n    ",
+                template: "\n        <ng-container [ngSwitch]=\"type\">\n            <div class=\"value-outer\" *ngIf=\"showLabel\">\n                <label>{{ meta.label }}</label>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" class=\"value\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n                <novo-entity-list *ngSwitchCase=\"NOVO_VALUE_TYPE.ENTITY_LIST\" [data]='data' [meta]=\"meta\"></novo-entity-list>\n            </div>\n            <div *ngSwitchDefault class=\"value-outer\" [ngClass]=\"customClass\">\n                <label>{{ meta.label }}</label>\n                <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n            </div>\n            <div class=\"actions\" *ngIf=\"showIcon\">\n                <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n            </div>\n        </ng-container>\n    "
             },] },
 ];
 /**
