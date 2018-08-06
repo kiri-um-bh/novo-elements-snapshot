@@ -38200,7 +38200,7 @@ var NovoValueElement = /** @class */ (function () {
     NovoValueElement.prototype.ngOnInit = function () {
         if (Helpers.isEmpty(this.meta)) {
             this.meta = {
-                label: ''
+                label: '',
             };
         }
     };
@@ -38297,10 +38297,8 @@ var NovoValueElement = /** @class */ (function () {
         }
         else if (this.isHTMLField(this.meta)) {
             this.customClass = this.meta.customClass ? this.meta.customClass : '';
-            if (this.meta.stripHTML &&
-                this.data &&
-                this.data.replace) {
-                this.data = this.data.replace(/<(.|\n)+?>/gi, '');
+            if (this.meta.stripHTML && this.data && this.data.replace) {
+                this.data = this.data.replace(/<(?!style|\/style).+?>/gi, '');
             }
         }
         else if (this.meta && this.meta.associatedEntity) {
@@ -38325,9 +38323,9 @@ var NovoValueElement = /** @class */ (function () {
      */
     NovoValueElement.prototype.isLinkField = function (field, data) {
         var /** @type {?} */ linkFields = ['companyURL', 'clientCorporationCompanyURL'];
-        var /** @type {?} */ regex = new RegExp('^(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})$', 'gi');
+        var /** @type {?} */ regex = new RegExp('^(https?://(?:www.|(?!www))[^s.]+.[^s]{2,}|www.[^s]+.[^s]{2,})$', 'gi');
         var /** @type {?} */ isURL = Helpers.isString(data) && regex.exec(data.trim());
-        return (linkFields.indexOf(field.name) > -1) || !!isURL || field.type === NOVO_VALUE_TYPE.LINK;
+        return linkFields.indexOf(field.name) > -1 || !!isURL || field.type === NOVO_VALUE_TYPE.LINK;
     };
     /**
      * @param {?} type
@@ -38348,7 +38346,7 @@ var NovoValueElement = /** @class */ (function () {
 NovoValueElement.decorators = [
     { type: core.Component, args: [{
                 selector: 'novo-value',
-                template: "\n        <ng-container [ngSwitch]=\"type\">\n            <div class=\"value-outer\" *ngIf=\"showLabel\">\n                <label>{{ meta.label }}</label>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" class=\"value\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n                <novo-entity-list *ngSwitchCase=\"NOVO_VALUE_TYPE.ENTITY_LIST\" [data]='data' [meta]=\"meta\"></novo-entity-list>\n            </div>\n            <div *ngSwitchDefault class=\"value-outer\" [ngClass]=\"customClass\">\n                <label>{{ meta.label }}</label>\n                <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n            </div>\n            <div class=\"actions\" *ngIf=\"showIcon\">\n                <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n            </div>\n        </ng-container>\n    "
+                template: "\n        <ng-container [ngSwitch]=\"type\">\n            <div class=\"value-outer\" *ngIf=\"showLabel\">\n                <label>{{ meta.label }}</label>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" class=\"value\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n                <novo-entity-list *ngSwitchCase=\"NOVO_VALUE_TYPE.ENTITY_LIST\" [data]='data' [meta]=\"meta\"></novo-entity-list>\n            </div>\n            <div *ngSwitchDefault class=\"value-outer\" [ngClass]=\"customClass\">\n                <label>{{ meta.label }}</label>\n                <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n            </div>\n            <div class=\"actions\" *ngIf=\"showIcon\">\n                <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n            </div>\n        </ng-container>\n    ",
             },] },
 ];
 /**
