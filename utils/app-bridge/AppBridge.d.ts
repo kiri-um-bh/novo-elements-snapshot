@@ -1,4 +1,4 @@
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 export declare enum AppBridgeHandler {
     HTTP = 0,
@@ -36,7 +36,7 @@ export declare class AppBridgeService {
 }
 export declare class DevAppBridgeService {
     private http;
-    constructor(http: Http);
+    constructor(http: HttpClient);
     create(name: string): DevAppBridge;
 }
 export declare class AppBridge {
@@ -86,9 +86,9 @@ export declare class AppBridge {
      */
     pin(packet?: object): Promise<boolean>;
     /**
-    * Fires or responds to a requestData event
-    * @param packet any - packet of data to send with the requestData event
-    */
+     * Fires or responds to a requestData event
+     * @param packet any - packet of data to send with the requestData event
+     */
     requestData(packet: {
         type: string;
     }): Promise<any>;
@@ -152,12 +152,12 @@ export declare class AppBridge {
 export declare class DevAppBridge extends AppBridge {
     private http;
     private baseURL;
-    constructor(traceName: string, http: Http);
+    constructor(traceName: string, http: HttpClient);
     protected _setupHandlers(): void;
     /**
-    * Fires or responds to an HTTP_GET event
-    * @param packet any - packet of data to send with the event
-    */
+     * Fires or responds to an HTTP_GET event
+     * @param packet any - packet of data to send with the event
+     */
     httpGET(relativeURL: string): Promise<any>;
     /**
      * Fires or responds to an HTTP_POST event

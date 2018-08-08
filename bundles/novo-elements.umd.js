@@ -1,7 +1,7 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('@angular/platform-browser'), require('@angular/animations'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/of'), require('rxjs/observable/merge'), require('rxjs/operators/filter'), require('rxjs/observable/fromEvent'), require('@angular/cdk/scrolling'), require('@angular/cdk/a11y'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('@bullhorn/dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/http'), require('rxjs/add/operator/map'), require('@angular/cdk/collections'), require('rxjs/Subject'), require('rxjs/Subscription'), require('rxjs/add/operator/filter'), require('@angular/cdk/stepper'), require('@angular/cdk/bidi'), require('@angular/cdk/table'), require('rxjs/add/observable/of'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', '@angular/platform-browser', '@angular/animations', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/of', 'rxjs/observable/merge', 'rxjs/operators/filter', 'rxjs/observable/fromEvent', '@angular/cdk/scrolling', '@angular/cdk/a11y', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', '@bullhorn/dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/http', 'rxjs/add/operator/map', '@angular/cdk/collections', 'rxjs/Subject', 'rxjs/Subscription', 'rxjs/add/operator/filter', '@angular/cdk/stepper', '@angular/cdk/bidi', '@angular/cdk/table', 'rxjs/add/observable/of', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
-	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.ng.platformBrowser,global.ng.animations,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.scrolling,global.ng.cdk.a11y,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.http,global.Rx.Observable.prototype,global.ng.cdk.collections,global.Rx,global.Rx,global.Rx.Observable.prototype,global.ng.cdk.stepper,global.ng.cdk.bidi,global.ng.cdk.table));
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('@angular/forms'), require('brace/index'), require('brace/theme/chrome'), require('brace/mode/javascript'), require('brace/ext/language_tools.js'), require('date-fns'), require('@angular/platform-browser'), require('@angular/animations'), require('rxjs/Observable'), require('rxjs/add/observable/fromPromise'), require('@angular/cdk/overlay'), require('@angular/cdk/portal'), require('rxjs/observable/of'), require('rxjs/observable/merge'), require('rxjs/operators/filter'), require('rxjs/observable/fromEvent'), require('@angular/cdk/scrolling'), require('@angular/cdk/a11y'), require('@angular/cdk/coercion'), require('rxjs/add/observable/fromEvent'), require('rxjs/add/operator/debounceTime'), require('rxjs/add/operator/distinctUntilChanged'), require('@angular/cdk/keycodes'), require('@bullhorn/dragula'), require('rxjs/ReplaySubject'), require('angular2-text-mask'), require('@angular/common/http'), require('rxjs/add/operator/map'), require('@angular/cdk/collections'), require('rxjs/Subject'), require('rxjs/Subscription'), require('rxjs/add/operator/filter'), require('@angular/cdk/stepper'), require('@angular/cdk/bidi'), require('@angular/cdk/table'), require('rxjs/add/observable/of'), require('rxjs/add/operator/switchMap'), require('rxjs/add/operator/startWith'), require('rxjs/add/observable/merge'), require('rxjs/add/operator/catch'), require('rxjs/add/operator/toPromise')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', '@angular/forms', 'brace/index', 'brace/theme/chrome', 'brace/mode/javascript', 'brace/ext/language_tools.js', 'date-fns', '@angular/platform-browser', '@angular/animations', 'rxjs/Observable', 'rxjs/add/observable/fromPromise', '@angular/cdk/overlay', '@angular/cdk/portal', 'rxjs/observable/of', 'rxjs/observable/merge', 'rxjs/operators/filter', 'rxjs/observable/fromEvent', '@angular/cdk/scrolling', '@angular/cdk/a11y', '@angular/cdk/coercion', 'rxjs/add/observable/fromEvent', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', '@angular/cdk/keycodes', '@bullhorn/dragula', 'rxjs/ReplaySubject', 'angular2-text-mask', '@angular/common/http', 'rxjs/add/operator/map', '@angular/cdk/collections', 'rxjs/Subject', 'rxjs/Subscription', 'rxjs/add/operator/filter', '@angular/cdk/stepper', '@angular/cdk/bidi', '@angular/cdk/table', 'rxjs/add/observable/of', 'rxjs/add/operator/switchMap', 'rxjs/add/operator/startWith', 'rxjs/add/observable/merge', 'rxjs/add/operator/catch', 'rxjs/add/operator/toPromise'], factory) :
+	(factory((global['novo-elements'] = {}),global.ng.core,global.ng.common,global.ng.forms,global.Brace.Core,global.Brace.Chrome,global.Brace.JS,global.Brace.Tools,global.DateFNS,global.ng.platformBrowser,global.ng.animations,global.Rx,global.Rx.Observable,global.ng.cdk.overlay,global.ng.cdk.portal,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable,global.ng.cdk.scrolling,global.ng.cdk.a11y,global.ng.cdk.coercion,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.ng.cdk.keycodes,global.dragula,global.Rx,global.ng.text,global.ng.common.http,global.Rx.Observable.prototype,global.ng.cdk.collections,global.Rx,global.Rx,global.Rx.Observable.prototype,global.ng.cdk.stepper,global.ng.cdk.bidi,global.ng.cdk.table));
 }(this, (function (exports,core,common,forms,index,chrome,javascript,language_tools_js,dateFns,platformBrowser,animations,Observable,fromPromise,overlay,portal,of,merge,filter,fromEvent,scrolling,a11y,coercion,fromEvent$2,debounceTime,distinctUntilChanged,keycodes,dragulaImported,ReplaySubject,angular2TextMask,http,map,collections,Subject,Subscription,filter$2,stepper,bidi,table) { 'use strict';
 
 var __extends = (this && this.__extends) || (function () {
@@ -14558,8 +14558,7 @@ var OptionsService = /** @class */ (function () {
             options: function (query$$1) {
                 return new Promise(function (resolve, reject) {
                     if (query$$1 && query$$1.length) {
-                        http$$1.get(field.optionsUrl + "?filter=" + (query$$1 || ''))
-                            .subscribe(resolve, reject);
+                        http$$1.get(field.optionsUrl + "?filter=" + (query$$1 || '')).subscribe(resolve, reject);
                     }
                     else {
                         resolve([]);
@@ -14588,8 +14587,28 @@ var FormUtils = /** @class */ (function () {
     function FormUtils(labels, optionsService) {
         this.labels = labels;
         this.optionsService = optionsService;
-        this.ASSOCIATED_ENTITY_LIST = ['Candidate', 'ClientContact', 'ClientCorporation', 'Lead', 'Opportunity', 'JobOrder', 'CorporateUser', 'Person', 'Placement'];
-        this.PICKER_TEST_LIST = ['CandidateText', 'ClientText', 'ClientContactText', 'ClientCorporationText', 'LeadText', 'OpportunityText', 'JobOrderText', 'CorporateUserText', 'PersonText'];
+        this.ASSOCIATED_ENTITY_LIST = [
+            'Candidate',
+            'ClientContact',
+            'ClientCorporation',
+            'Lead',
+            'Opportunity',
+            'JobOrder',
+            'CorporateUser',
+            'Person',
+            'Placement',
+        ];
+        this.PICKER_TEST_LIST = [
+            'CandidateText',
+            'ClientText',
+            'ClientContactText',
+            'ClientCorporationText',
+            'LeadText',
+            'OpportunityText',
+            'JobOrderText',
+            'CorporateUserText',
+            'PersonText',
+        ];
     }
     /**
      * @param {?} controls
@@ -14641,37 +14660,37 @@ var FormUtils = /** @class */ (function () {
     FormUtils.prototype.determineInputType = function (field) {
         var /** @type {?} */ type;
         var /** @type {?} */ dataSpecializationTypeMap = {
-            'DATETIME': 'datetime',
-            'TIME': 'time',
-            'MONEY': 'currency',
-            'PERCENTAGE': 'percentage',
-            'HTML': 'editor',
+            DATETIME: 'datetime',
+            TIME: 'time',
+            MONEY: 'currency',
+            PERCENTAGE: 'percentage',
+            HTML: 'editor',
             'HTML-MINIMAL': 'editor-minimal',
-            'YEAR': 'year',
+            YEAR: 'year',
         };
         var /** @type {?} */ dataTypeToTypeMap = {
-            'Timestamp': 'date',
-            'Boolean': 'tiles',
+            Timestamp: 'date',
+            Boolean: 'tiles',
         };
         var /** @type {?} */ inputTypeToTypeMap = {
-            'CHECKBOX': 'radio',
-            'RADIO': 'radio',
-            'SELECT': 'select',
-            'TILES': 'tiles',
+            CHECKBOX: 'radio',
+            RADIO: 'radio',
+            SELECT: 'select',
+            TILES: 'tiles',
         };
         var /** @type {?} */ inputTypeMultiToTypeMap = {
-            'CHECKBOX': 'checklist',
-            'RADIO': 'checklist',
-            'SELECT': 'chips',
+            CHECKBOX: 'checklist',
+            RADIO: 'checklist',
+            SELECT: 'chips',
         };
         var /** @type {?} */ typeToTypeMap = {
-            'file': 'file',
-            'COMPOSITE': 'address'
+            file: 'file',
+            COMPOSITE: 'address',
         };
         var /** @type {?} */ numberDataTypeToTypeMap = {
-            'Double': 'float',
-            'BigDecimal': 'float',
-            'Integer': 'number'
+            Double: 'float',
+            BigDecimal: 'float',
+            Integer: 'number',
         };
         if (field.type === 'TO_MANY') {
             if (field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity)) {
@@ -14764,7 +14783,7 @@ var FormUtils = /** @class */ (function () {
             tooltip: field.tooltip,
             tooltipPosition: field.tooltipPosition,
             template: field.template,
-            customControlConfig: field.customControlConfig
+            customControlConfig: field.customControlConfig,
         };
         // TODO: getControlOptions should always return the correct format
         var /** @type {?} */ optionsConfig = this.getControlOptions(field, http$$1, config);
@@ -14773,7 +14792,7 @@ var FormUtils = /** @class */ (function () {
         }
         else if (Array.isArray(optionsConfig) && (type === 'chips' || type === 'picker')) {
             controlConfig.config = {
-                options: optionsConfig
+                options: optionsConfig,
             };
         }
         else if (optionsConfig) {
@@ -14897,7 +14916,7 @@ var FormUtils = /** @class */ (function () {
                         var subfield = _e[_d];
                         controlConfig.config[subfield.name] = {
                             required: !!subfield.required,
-                            hidden: !!subfield.readOnly
+                            hidden: !!subfield.readOnly,
                         };
                         if (!Helpers.isEmpty(subfield.label)) {
                             controlConfig.config[subfield.name].label = subfield.label;
@@ -14963,7 +14982,9 @@ var FormUtils = /** @class */ (function () {
         if (meta && meta.fields) {
             var /** @type {?} */ fields = meta.fields;
             fields.forEach(function (field) {
-                if (field.name !== 'id' && (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) && !field.readOnly) {
+                if (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly) {
                     var /** @type {?} */ control = _this.getControlForField(field, http$$1, config, overrides, forTable);
                     // Set currency format
                     if (control.subType === 'currency') {
@@ -14990,7 +15011,7 @@ var FormUtils = /** @class */ (function () {
         controls.forEach(function (control) {
             ret[control.key] = {
                 editorType: control.__type,
-                editorConfig: control.__config
+                editorConfig: control.__config,
             };
         });
         return ret;
@@ -15008,35 +15029,37 @@ var FormUtils = /** @class */ (function () {
         var /** @type {?} */ fieldsets = [];
         var /** @type {?} */ ranges = [];
         if (meta && meta.fields) {
-            var /** @type {?} */ fields = meta.fields.map(function (field) {
+            var /** @type {?} */ fields = meta.fields
+                .map(function (field) {
                 if (!field.hasOwnProperty('sortOrder')) {
                     field.sortOrder = Number.MAX_SAFE_INTEGER - 1;
                 }
                 return field;
-            }).sort(Helpers.sortByField(['sortOrder', 'name']));
+            })
+                .sort(Helpers.sortByField(['sortOrder', 'name']));
             if (meta.sectionHeaders && meta.sectionHeaders.length) {
                 meta.sectionHeaders.sort(Helpers.sortByField(['sortOrder', 'name']));
                 meta.sectionHeaders.forEach(function (item, i) {
                     if (item.enabled) {
                         if (item.sortOrder > 0 && fieldsets.length === 0) {
                             fieldsets.push({
-                                controls: []
+                                controls: [],
                             });
                             ranges.push({
                                 min: 0,
                                 max: item.sortOrder - 1,
-                                fieldsetIdx: 0
+                                fieldsetIdx: 0,
                             });
                         }
                         fieldsets.push({
                             title: item.label,
                             icon: item.icon || 'bhi-section',
-                            controls: []
+                            controls: [],
                         });
                         ranges.push({
                             min: item.sortOrder,
                             max: Number.MAX_SAFE_INTEGER,
-                            fieldsetIdx: fieldsets.length - 1
+                            fieldsetIdx: fieldsets.length - 1,
                         });
                         if (i > 0 && fieldsets.length > 1) {
                             ranges[fieldsets.length - 2].max = item.sortOrder - 1;
@@ -15045,27 +15068,29 @@ var FormUtils = /** @class */ (function () {
                 });
                 if (!ranges.length) {
                     fieldsets.push({
-                        controls: []
+                        controls: [],
                     });
                     ranges.push({
                         min: 0,
                         max: Number.MAX_SAFE_INTEGER,
-                        fieldsetIdx: 0
+                        fieldsetIdx: 0,
                     });
                 }
             }
             else {
                 fieldsets.push({
-                    controls: []
+                    controls: [],
                 });
                 ranges.push({
                     min: 0,
                     max: Number.MAX_SAFE_INTEGER,
-                    fieldsetIdx: 0
+                    fieldsetIdx: 0,
                 });
             }
             fields.forEach(function (field) {
-                if (field.name !== 'id' && (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) && !field.readOnly) {
+                if (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly) {
                     var /** @type {?} */ control = _this.getControlForField(field, http$$1, config, overrides);
                     // Set currency format
                     if (control.subType === 'currency') {
@@ -15085,9 +15110,11 @@ var FormUtils = /** @class */ (function () {
             return fieldsets;
         }
         else {
-            return [{
-                    controls: this.toControls(meta, currencyFormat, http$$1, config)
-                }];
+            return [
+                {
+                    controls: this.toControls(meta, currencyFormat, http$$1, config),
+                },
+            ];
         }
     };
     /**
@@ -15101,10 +15128,7 @@ var FormUtils = /** @class */ (function () {
         if (field.dataType === 'Boolean' && !field.options) {
             // TODO: dataType should only be determined by `determineInputType` which doesn't ever return 'Boolean' it
             // TODO: (cont.) returns `tiles`
-            return [
-                { value: false, label: this.labels.no },
-                { value: true, label: this.labels.yes }
-            ];
+            return [{ value: false, label: this.labels.no }, { value: true, label: this.labels.yes }];
         }
         else if (field.optionsUrl) {
             return this.optionsService.getOptionsConfig(http$$1, field, config);
@@ -15114,7 +15138,7 @@ var FormUtils = /** @class */ (function () {
             return {
                 field: 'value',
                 format: '$label',
-                options: options
+                options: options,
             };
         }
         else if (field.options) {
@@ -15701,7 +15725,7 @@ var FieldInteractionApi = /** @class */ (function () {
             console.error('[FieldInteractionAPI] - could not find a control in the form by the key --', key); // tslint:disable-line
             return null;
         }
-        return ((control));
+        return /** @type {?} */ (control);
     };
     /**
      * @param {?} key
@@ -15937,7 +15961,7 @@ var FieldInteractionApi = /** @class */ (function () {
             control.tipWell = {
                 tip: tip,
                 icon: icon,
-                button: allowDismiss
+                button: allowDismiss,
             };
             this.triggerEvent({ controlKey: key, prop: 'tipWell', value: tip });
         }
@@ -16063,7 +16087,7 @@ var FieldInteractionApi = /** @class */ (function () {
                 }
                 // Ensure duplicate values are not added
                 currentOptions.forEach(function (option) {
-                    if ((option.value && option.value === optionToAdd.value) || (option === optionToAdd)) {
+                    if ((option.value && option.value === optionToAdd.value) || option === optionToAdd) {
                         isUnique = false;
                     }
                 });
@@ -16158,12 +16182,6 @@ var FieldInteractionApi = /** @class */ (function () {
                             if (query$$1 && query$$1.length) {
                                 _this.http
                                     .get(url)
-                                    .map(function (res) {
-                                    if (res.json) {
-                                        return res.json();
-                                    }
-                                    return res;
-                                })
                                     .map(function (results) {
                                     if (mapper) {
                                         return results.map(mapper);
@@ -16176,7 +16194,7 @@ var FieldInteractionApi = /** @class */ (function () {
                                 resolve([]);
                             }
                         });
-                    }
+                    },
                 });
             }
             else if (config.options) {
@@ -16197,7 +16215,7 @@ var FieldInteractionApi = /** @class */ (function () {
         if (control) {
             if (loading) {
                 this.form.controls[key].fieldInteractionloading = true;
-                control.setErrors({ 'loading': true });
+                control.setErrors({ loading: true });
                 // History
                 clearTimeout(this.asyncBlockTimeout);
                 this.asyncBlockTimeout = setTimeout(function () {
@@ -16209,7 +16227,7 @@ var FieldInteractionApi = /** @class */ (function () {
             else {
                 this.form.controls[key].fieldInteractionloading = false;
                 clearTimeout(this.asyncBlockTimeout);
-                control.setErrors({ 'loading': null });
+                control.setErrors({ loading: null });
                 control.updateValueAndValidity({ emitEvent: false });
                 if (this.getProperty(key, '_displayedAsyncFailure')) {
                     this.setProperty(key, 'tipWell', null);
@@ -16339,7 +16357,7 @@ FieldInteractionApi.FIELD_POSITIONS = {
     ABOVE_FIELD: 'ABOVE_FIELD',
     BELOW_FIELD: 'BELOW_FIELD',
     TOP_OF_FORM: 'TOP_OF_FORM',
-    BOTTOM_OF_FORM: 'BOTTOM_OF_FORM'
+    BOTTOM_OF_FORM: 'BOTTOM_OF_FORM',
 };
 FieldInteractionApi.decorators = [
     { type: core.Injectable },
@@ -16351,7 +16369,7 @@ FieldInteractionApi.ctorParameters = function () { return [
     { type: NovoToastService, },
     { type: NovoModalService, },
     { type: FormUtils, },
-    { type: http.Http, },
+    { type: http.HttpClient, },
     { type: NovoLabelService, },
 ]; };
 // NG2
@@ -52620,8 +52638,7 @@ var GooglePlacesService = /** @class */ (function () {
     GooglePlacesService.prototype.getPredictions = function (url, query$$1) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this._http.get(url + '?query=' + query$$1).map(function (res) { return res.json(); })
-                .subscribe(function (data) {
+            _this._http.get(url + '?query=' + query$$1).subscribe(function (data) {
                 if (data) {
                     resolve(data);
                 }
@@ -52640,8 +52657,7 @@ var GooglePlacesService = /** @class */ (function () {
     GooglePlacesService.prototype.getLatLngDetail = function (url, lat, lng) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this._http.get(url + '?lat=' + lat + '&lng=' + lng).map(function (res) { return res.json(); })
-                .subscribe(function (data) {
+            _this._http.get(url + '?lat=' + lat + '&lng=' + lng).subscribe(function (data) {
                 if (data) {
                     resolve(data);
                 }
@@ -52659,8 +52675,7 @@ var GooglePlacesService = /** @class */ (function () {
     GooglePlacesService.prototype.getPlaceDetails = function (url, placeId) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this._http.get(url + '?query=' + placeId).map(function (res) { return res.json(); })
-                .subscribe(function (data) {
+            _this._http.get(url + '?query=' + placeId).subscribe(function (data) {
                 if (data) {
                     resolve(data);
                 }
@@ -52703,7 +52718,7 @@ var GooglePlacesService = /** @class */ (function () {
             if (common.isPlatformBrowser(_this.platformId)) {
                 var /** @type {?} */ _window = _this._global.nativeGlobal;
                 var /** @type {?} */ geocoder = new _window.google.maps.Geocoder();
-                geocoder.geocode({ 'location': latlng }, function (results, status) {
+                geocoder.geocode({ location: latlng }, function (results, status) {
                     if (status === 'OK') {
                         _this.getGeoPlaceDetail(results[0].place_id).then(function (result) {
                             if (result) {
@@ -52744,7 +52759,7 @@ var GooglePlacesService = /** @class */ (function () {
                 }
                 else {
                     queryInput = {
-                        input: params.query
+                        input: params.query,
                     };
                 }
                 if (params.geoLocation) {
@@ -52793,7 +52808,7 @@ var GooglePlacesService = /** @class */ (function () {
             if (common.isPlatformBrowser(_this.platformId)) {
                 var /** @type {?} */ _window = _this._global.nativeGlobal;
                 var /** @type {?} */ placesService = new _window.google.maps.places.PlacesService(document.createElement('div'));
-                placesService.getDetails({ 'placeId': placeId }, function (result, status) {
+                placesService.getDetails({ placeId: placeId }, function (result, status) {
                     if (result === null || result.length === 0) {
                         _this.getGeoPaceDetailByReferance(result.referance).then(function (referanceData) {
                             if (!referanceData) {
@@ -52824,7 +52839,7 @@ var GooglePlacesService = /** @class */ (function () {
             if (common.isPlatformBrowser(_this.platformId)) {
                 var /** @type {?} */ _window_1 = _this._global.nativeGlobal;
                 var /** @type {?} */ placesService = new _window_1.google.maps.places.PlacesService();
-                placesService.getDetails({ 'reference': referance }, function (result, status) {
+                placesService.getDetails({ reference: referance }, function (result, status) {
                     if (status === _window_1.google.maps.places.PlacesServiceStatus.OK) {
                         resolve(result);
                     }
@@ -52862,7 +52877,6 @@ var GooglePlacesService = /** @class */ (function () {
             }
         });
     };
-    
     /**
      * @param {?} localStorageName
      * @return {?}
@@ -52914,7 +52928,7 @@ GooglePlacesService.decorators = [
  * @nocollapse
  */
 GooglePlacesService.ctorParameters = function () { return [
-    { type: http.Http, },
+    { type: http.HttpClient, },
     { type: Object, decorators: [{ type: core.Inject, args: [core.PLATFORM_ID,] },] },
     { type: GlobalRef, },
     { type: LocalStorageService, },
@@ -52945,7 +52959,7 @@ var HTTP_VERBS = {
     GET: 'get',
     POST: 'post',
     PUT: 'put',
-    DELETE: 'delete'
+    DELETE: 'delete',
 };
 var MESSAGE_TYPES = {
     REGISTER: 'register',
@@ -52961,7 +52975,7 @@ var MESSAGE_TYPES = {
     HTTP_DELETE: 'httpDELETE',
     CUSTOM_EVENT: 'customEvent',
     REQUEST_DATA: 'requestData',
-    CALLBACK: 'callback'
+    CALLBACK: 'callback',
 };
 var AppBridgeService = /** @class */ (function () {
     function AppBridgeService() {
@@ -53177,7 +53191,9 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 Object.assign(packet, { id: _this.id, windowName: _this.windowName });
-                postRobot.sendToParent(MESSAGE_TYPES.OPEN, packet).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.OPEN, packet)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.OPEN + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53185,7 +53201,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53212,7 +53229,9 @@ var AppBridge = /** @class */ (function () {
             else {
                 var /** @type {?} */ openListPacket = {};
                 Object.assign(openListPacket, { type: 'List', entityType: packet.type, keywords: packet.keywords, criteria: packet.criteria });
-                postRobot.sendToParent(MESSAGE_TYPES.OPEN_LIST, packet).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.OPEN_LIST, packet)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.OPEN_LIST + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53220,7 +53239,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53246,7 +53266,9 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 Object.assign(packet, { id: _this.id, windowName: _this.windowName });
-                postRobot.sendToParent(MESSAGE_TYPES.UPDATE, packet).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.UPDATE, packet)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.UPDATE + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53254,7 +53276,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53283,7 +53306,9 @@ var AppBridge = /** @class */ (function () {
                     console.info('[AppBridge] - close(packet) is deprecated! Please just use close()!'); // tslint:disable-line
                 }
                 var /** @type {?} */ realPacket = { id: _this.id, windowName: _this.windowName };
-                postRobot.sendToParent(MESSAGE_TYPES.CLOSE, realPacket).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.CLOSE, realPacket)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.CLOSE + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53291,7 +53316,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53320,7 +53346,9 @@ var AppBridge = /** @class */ (function () {
                     console.info('[AppBridge] - refresh(packet) is deprecated! Please just use refresh()!'); // tslint:disable-line
                 }
                 var /** @type {?} */ realPacket = { id: _this.id, windowName: _this.windowName };
-                postRobot.sendToParent(MESSAGE_TYPES.REFRESH, realPacket).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.REFRESH, realPacket)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.REFRESH + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53328,7 +53356,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53357,7 +53386,9 @@ var AppBridge = /** @class */ (function () {
                     console.info('[AppBridge] - pin(packet) is deprecated! Please just use pin()!'); // tslint:disable-line
                 }
                 var /** @type {?} */ realPacket = { id: _this.id, windowName: _this.windowName };
-                postRobot.sendToParent(MESSAGE_TYPES.PIN, realPacket).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.PIN, realPacket)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.PIN + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53365,7 +53396,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53391,7 +53423,9 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 Object.assign(packet, { id: _this.id, windowName: _this.windowName });
-                postRobot.sendToParent(MESSAGE_TYPES.REQUEST_DATA, packet).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.REQUEST_DATA, packet)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.REQUEST_DATA + " (callback)", event);
                     if (event.data) {
                         resolve({ data: event.data.data });
@@ -53399,7 +53433,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53425,7 +53460,9 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 Object.assign(packet, { id: _this.id, windowName: _this.windowName });
-                postRobot.sendToParent(MESSAGE_TYPES.CALLBACK, packet).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.CALLBACK, packet)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.CALLBACK + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53433,7 +53470,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53460,7 +53498,9 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 Object.assign(packet, { id: _this.id });
-                postRobot.sendToParent(MESSAGE_TYPES.REGISTER, packet).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.REGISTER, packet)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.REGISTER + " (callback)", event);
                     if (event.data) {
                         _this.windowName = event.data.windowName;
@@ -53469,7 +53509,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         resolve(null);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     _this._trace(MESSAGE_TYPES.REGISTER + " - FAILED - (no parent)", err);
                     resolve(null);
                 });
@@ -53490,9 +53531,12 @@ var AppBridge = /** @class */ (function () {
                 });
             }
             else {
-                postRobot.sendToParent(MESSAGE_TYPES.HTTP_GET, { relativeURL: relativeURL }).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.HTTP_GET, { relativeURL: relativeURL })
+                    .then(function (event) {
                     resolve({ data: event.data.data, error: event.data.error });
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(null);
                 });
             }
@@ -53513,9 +53557,12 @@ var AppBridge = /** @class */ (function () {
                 });
             }
             else {
-                postRobot.sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL: relativeURL, data: postData }).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL: relativeURL, data: postData })
+                    .then(function (event) {
                     resolve({ data: event.data.data, error: event.data.error });
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(null);
                 });
             }
@@ -53536,9 +53583,12 @@ var AppBridge = /** @class */ (function () {
                 });
             }
             else {
-                postRobot.sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL: relativeURL, data: putData }).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL: relativeURL, data: putData })
+                    .then(function (event) {
                     resolve({ data: event.data.data, error: event.data.error });
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(null);
                 });
             }
@@ -53558,9 +53608,12 @@ var AppBridge = /** @class */ (function () {
                 });
             }
             else {
-                postRobot.sendToParent(MESSAGE_TYPES.HTTP_DELETE, { relativeURL: relativeURL }).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.HTTP_DELETE, { relativeURL: relativeURL })
+                    .then(function (event) {
                     resolve({ data: event.data.data, error: event.data.error });
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(null);
                 });
             }
@@ -53574,9 +53627,12 @@ var AppBridge = /** @class */ (function () {
      */
     AppBridge.prototype.fireEvent = function (event, data) {
         return new Promise(function (resolve, reject) {
-            postRobot.sendToParent(MESSAGE_TYPES.CUSTOM_EVENT, { event: event, data: data }).then(function (e) {
+            postRobot
+                .sendToParent(MESSAGE_TYPES.CUSTOM_EVENT, { event: event, data: data })
+                .then(function (e) {
                 resolve(e);
-            }).catch(function (err) {
+            })
+                .catch(function (err) {
                 reject(null);
             });
         });
@@ -53592,7 +53648,7 @@ var AppBridge = /** @class */ (function () {
             this._registeredFrames.forEach(function (frame) {
                 postRobot.send(frame.source, MESSAGE_TYPES.CUSTOM_EVENT, {
                     eventType: event,
-                    data: data
+                    data: data,
                 });
             });
         }
@@ -53642,7 +53698,10 @@ var DevAppBridge = /** @class */ (function (_super) {
      * @return {?}
      */
     DevAppBridge.prototype.httpGET = function (relativeURL) {
-        return this.http.get(this.baseURL + "/" + relativeURL, { withCredentials: true }).map(function (res) { return ({ data: res.json() }); }).toPromise();
+        return this.http
+            .get(this.baseURL + "/" + relativeURL, { withCredentials: true })
+            .map(function (res) { return ({ data: res }); })
+            .toPromise();
     };
     /**
      * Fires or responds to an HTTP_POST event
@@ -53651,7 +53710,10 @@ var DevAppBridge = /** @class */ (function (_super) {
      * @return {?}
      */
     DevAppBridge.prototype.httpPOST = function (relativeURL, postData) {
-        return this.http.post(this.baseURL + "/" + relativeURL, postData, { withCredentials: true }).map(function (res) { return ({ data: res.json() }); }).toPromise();
+        return this.http
+            .post(this.baseURL + "/" + relativeURL, postData, { withCredentials: true })
+            .map(function (res) { return ({ data: res }); })
+            .toPromise();
     };
     /**
      * Fires or responds to an HTTP_PUT event
@@ -53660,7 +53722,10 @@ var DevAppBridge = /** @class */ (function (_super) {
      * @return {?}
      */
     DevAppBridge.prototype.httpPUT = function (relativeURL, putData) {
-        return this.http.put(this.baseURL + "/" + relativeURL, putData, { withCredentials: true }).map(function (res) { return ({ data: res.json() }); }).toPromise();
+        return this.http
+            .put(this.baseURL + "/" + relativeURL, putData, { withCredentials: true })
+            .map(function (res) { return ({ data: res }); })
+            .toPromise();
     };
     /**
      * Fires or responds to an HTTP_DELETE event
@@ -53668,7 +53733,10 @@ var DevAppBridge = /** @class */ (function (_super) {
      * @return {?}
      */
     DevAppBridge.prototype.httpDELETE = function (relativeURL) {
-        return this.http.delete(this.baseURL + "/" + relativeURL, { withCredentials: true }).map(function (res) { return ({ data: res.json() }); }).toPromise();
+        return this.http
+            .delete(this.baseURL + "/" + relativeURL, { withCredentials: true })
+            .map(function (res) { return ({ data: res }); })
+            .toPromise();
     };
     /**
      * @param {?} cname
@@ -54584,21 +54652,10 @@ var GooglePlacesModule = /** @class */ (function () {
 }());
 GooglePlacesModule.decorators = [
     { type: core.NgModule, args: [{
-                declarations: [
-                    PlacesListComponent
-                ],
-                imports: [
-                    common.CommonModule,
-                    http.HttpModule,
-                    forms.FormsModule,
-                    NovoListModule
-                ],
-                exports: [
-                    PlacesListComponent
-                ],
-                providers: [
-                    { provide: GooglePlacesService, useClass: GooglePlacesService },
-                ]
+                declarations: [PlacesListComponent],
+                imports: [common.CommonModule, http.HttpClientModule, forms.FormsModule, NovoListModule],
+                exports: [PlacesListComponent],
+                providers: [GooglePlacesService],
             },] },
 ];
 /**
