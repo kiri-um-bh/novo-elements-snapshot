@@ -26,7 +26,7 @@ import { ENTER, ESCAPE, SPACE, TAB } from '@angular/cdk/keycodes';
 import * as dragulaImported from '@bullhorn/dragula';
 import { ReplaySubject as ReplaySubject$1 } from 'rxjs/ReplaySubject';
 import { TextMaskModule } from 'angular2-text-mask';
-import { Http, HttpModule } from '@angular/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { UNIQUE_SELECTION_DISPATCHER_PROVIDER, UniqueSelectionDispatcher } from '@angular/cdk/collections';
 import { Subject as Subject$1 } from 'rxjs/Subject';
@@ -3662,6 +3662,7 @@ class NovoToastElement {
         this.icon = 'caution';
         this.hasDialogue = false;
         this.isCloseable = false;
+        this.closed = new EventEmitter();
         this.show = false;
         this.animate = false;
         this.parent = null;
@@ -3715,6 +3716,9 @@ class NovoToastElement {
             if (this.parent) {
                 this.parent.hide(this);
             }
+            else {
+                this.closed.emit({ closed: true });
+            }
         }
     }
     /**
@@ -3726,7 +3730,12 @@ class NovoToastElement {
             event.stopPropagation();
             event.preventDefault();
         }
-        this.parent.hide(this);
+        if (this.parent) {
+            this.parent.hide(this);
+        }
+        else {
+            this.closed.emit({ closed: true });
+        }
     }
 }
 NovoToastElement.decorators = [
@@ -3737,7 +3746,7 @@ NovoToastElement.decorators = [
                     '[class.show]': 'show',
                     '[class.animate]': 'animate',
                     '[class.embedded]': 'embedded',
-                    '(click)': '!isCloseable && clickHandler($event)'
+                    '(click)': '!isCloseable && clickHandler($event)',
                 },
                 template: `
         <div class="toast-icon">
@@ -3756,7 +3765,7 @@ NovoToastElement.decorators = [
         <div class="close-icon" *ngIf="isCloseable" (click)="close($event)">
             <i class="bhi-times"></i>
         </div>
-    `
+    `,
             },] },
 ];
 /**
@@ -3773,6 +3782,7 @@ NovoToastElement.propDecorators = {
     'link': [{ type: Input },],
     'isCloseable': [{ type: Input },],
     'message': [{ type: Input },],
+    'closed': [{ type: Output },],
 };
 
 // NG2
@@ -5740,7 +5750,7 @@ QuickNoteResults.ctorParameters = () => [
 const QUICK_NOTE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => QuickNoteElement),
-    multi: true
+    multi: true,
 };
 class QuickNoteElement extends OutsideClick {
     /**
@@ -5759,12 +5769,10 @@ class QuickNoteElement extends OutsideClick {
         this.change = new EventEmitter();
         this.placeholderVisible = false;
         this._placeholderElement = null;
-        this.onModelChange = () => {
-        };
-        this.onModelTouched = () => {
-        };
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
         // Bind to the active change event from the OutsideClick
-        this.onActiveChange.subscribe(active => {
+        this.onActiveChange.subscribe((active) => {
             if (!active) {
                 setTimeout(() => {
                     this.hideResults();
@@ -5872,13 +5880,13 @@ class QuickNoteElement extends OutsideClick {
         if (model && (model.references || model.note)) {
             this.model = {
                 note: model.note || '',
-                references: model.references || {}
+                references: model.references || {},
             };
         }
         else {
             this.model = {
                 note: model,
-                references: {}
+                references: {},
             };
         }
         // Set the note html value in the editor
@@ -5960,7 +5968,7 @@ class QuickNoteElement extends OutsideClick {
             else {
                 // Loop through all triggers and turn on tagging mode if the user just pressed a trigger character
                 let /** @type {?} */ triggers = this.config.triggers || {};
-                Object.keys(triggers).forEach(key => {
+                Object.keys(triggers).forEach((key) => {
                     let /** @type {?} */ trigger$$1 = triggers[key] || {};
                     if (event.key === trigger$$1) {
                         this.isTagging = true;
@@ -5991,7 +5999,7 @@ class QuickNoteElement extends OutsideClick {
         if (value) {
             newModel = {
                 note: value,
-                references: this.model.references
+                references: this.model.references,
             };
         }
         // Inform listeners to the ngModel change event that something has changed
@@ -6014,7 +6022,7 @@ class QuickNoteElement extends OutsideClick {
                     // Update existing list
                     this.quickNoteResults.instance.term = {
                         searchTerm: searchTerm,
-                        taggingMode: this.taggingMode
+                        taggingMode: this.taggingMode,
                     };
                 }
                 else {
@@ -6024,7 +6032,7 @@ class QuickNoteElement extends OutsideClick {
                     this.quickNoteResults.instance.config = this.config;
                     this.quickNoteResults.instance.term = {
                         searchTerm: searchTerm,
-                        taggingMode: this.taggingMode
+                        taggingMode: this.taggingMode,
                     };
                     this.positionResultsDropdown();
                 }
@@ -6067,7 +6075,7 @@ class QuickNoteElement extends OutsideClick {
         // Add the new reference, if it doesn't already exist
         this.model.references = this.model.references || {};
         this.model.references[taggingMode] = this.model.references[taggingMode] || [];
-        let /** @type {?} */ matchingItems = this.model.references[taggingMode].filter(item => JSON.stringify(item) === JSON.stringify(selected));
+        let /** @type {?} */ matchingItems = this.model.references[taggingMode].filter((item) => JSON.stringify(item) === JSON.stringify(selected));
         if (matchingItems.length === 0) {
             this.model.references[taggingMode].push(selected);
         }
@@ -6104,6 +6112,17 @@ class QuickNoteElement extends OutsideClick {
             let /** @type {?} */ text = start.getText();
             let /** @type {?} */ symbol = this.config.triggers[this.taggingMode];
             let /** @type {?} */ wordStart = text.lastIndexOf(symbol, range.startOffset - 1);
+            if (wordStart > 0) {
+                let /** @type {?} */ beforeSymbol = text.charAt(wordStart - 1);
+                // We don't want to trigger the lookup call unless the symbol was preceded by whitespace
+                if (beforeSymbol !== '\u200B' && /\S/.test(beforeSymbol)) {
+                    return '';
+                }
+            }
+            else if (start.hasPrevious() && /\S$/.test(start.getPrevious().getText())) {
+                // When wordStart is <= 0, we need to check the previous node's text to see if it ended with whitespace or not
+                return '';
+            }
             let /** @type {?} */ wordEnd = text.indexOf(' ', range.startOffset + 1);
             if (wordStart === -1) {
                 wordStart = 0;
@@ -6152,11 +6171,11 @@ class QuickNoteElement extends OutsideClick {
         // when we pull html from the editor - see: https://dev.ckeditor.com/ticket/13723
         let /** @type {?} */ ampRegex = new RegExp('&amp;', 'g');
         html = html.replace(ampRegex, '&');
-        Object.keys(this.model.references).forEach(taggingMode => {
+        Object.keys(this.model.references).forEach((taggingMode) => {
             let /** @type {?} */ array = this.model.references[taggingMode] || [];
             let /** @type {?} */ symbol = this.config.triggers[taggingMode];
             let /** @type {?} */ renderer = this.getRenderer(taggingMode);
-            this.model.references[taggingMode] = array.filter(item => {
+            this.model.references[taggingMode] = array.filter((item) => {
                 let /** @type {?} */ renderedText = renderer(symbol, item);
                 return html.includes(renderedText);
             });
@@ -6186,10 +6205,25 @@ class QuickNoteElement extends OutsideClick {
             height: editorHeight,
             startupFocus: this.startupFocus,
             removePlugins: 'liststyle,tabletools,contextmenu',
-            toolbar: [{
+            toolbar: [
+                {
                     name: 'basicstyles',
-                    items: ['Styles', 'FontSize', 'Bold', 'Italic', 'Underline', 'TextColor', '-', 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Link']
-                }]
+                    items: [
+                        'Styles',
+                        'FontSize',
+                        'Bold',
+                        'Italic',
+                        'Underline',
+                        'TextColor',
+                        '-',
+                        'NumberedList',
+                        'BulletedList',
+                        'Outdent',
+                        'Indent',
+                        'Link',
+                    ],
+                },
+            ],
         };
     }
     /**
@@ -6210,7 +6244,7 @@ class QuickNoteElement extends OutsideClick {
         parentElement.appendChild(cursorElement);
         let /** @type {?} */ cursorPosition = {
             top: cursorElement.offsetTop - editorElement.scrollTop,
-            left: cursorElement.offsetLeft - editorElement.scrollLeft
+            left: cursorElement.offsetLeft - editorElement.scrollLeft,
         };
         cursorElement.remove();
         return cursorPosition;
@@ -6236,7 +6270,10 @@ class QuickNoteElement extends OutsideClick {
      */
     getContentHeight() {
         let /** @type {?} */ contentHeight = 0;
-        if (this.ckeInstance.ui && this.ckeInstance.ui.contentsElement && this.ckeInstance.ui.contentsElement.$ && this.ckeInstance.ui.contentsElement.$.style) {
+        if (this.ckeInstance.ui &&
+            this.ckeInstance.ui.contentsElement &&
+            this.ckeInstance.ui.contentsElement.$ &&
+            this.ckeInstance.ui.contentsElement.$.style) {
             let /** @type {?} */ cssText = this.ckeInstance.ui.contentsElement.$.style.cssText;
             if (cssText.indexOf('height: ') !== -1) {
                 let /** @type {?} */ height = cssText.split('height: ')[1];
@@ -6252,7 +6289,10 @@ class QuickNoteElement extends OutsideClick {
      */
     showPlaceholder() {
         if (!this.ckeInstance.getData() && !this.startupFocus) {
-            this.ckeInstance.editable().getParent().$.appendChild(this.placeholderElement);
+            this.ckeInstance
+                .editable()
+                .getParent()
+                .$.appendChild(this.placeholderElement);
             this.placeholderVisible = true;
         }
     }
@@ -6262,7 +6302,10 @@ class QuickNoteElement extends OutsideClick {
      */
     hidePlaceholder() {
         if (this.placeholderVisible) {
-            this.ckeInstance.editable().getParent().$.removeChild(this.placeholderElement);
+            this.ckeInstance
+                .editable()
+                .getParent()
+                .$.removeChild(this.placeholderElement);
             this.placeholderVisible = false;
         }
     }
@@ -6274,7 +6317,8 @@ class QuickNoteElement extends OutsideClick {
         if (!this._placeholderElement) {
             this._placeholderElement = document.createElement('div');
             this._placeholderElement.className = 'placeholder';
-            this._placeholderElement.style.cssText = 'margin: 20px; color: #AAAAAA; font-family: sans-serif; font-size: 13px; line-height: 20px; position: absolute; top: 0';
+            this._placeholderElement.style.cssText =
+                'margin: 20px; color: #AAAAAA; font-family: sans-serif; font-size: 13px; line-height: 20px; position: absolute; top: 0';
             this._placeholderElement.textContent = this.placeholder;
         }
         return this._placeholderElement;
@@ -6290,7 +6334,7 @@ QuickNoteElement.decorators = [
             <textarea #host></textarea>
             <span #results></span>
         </div>
-    `
+    `,
             },] },
 ];
 /**
@@ -13699,7 +13743,7 @@ NovoDateTimePickerModule.ctorParameters = () => [];
 const CKEDITOR_CONTROL_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NovoCKEditorElement),
-    multi: true
+    multi: true,
 };
 /**
  * CKEditor component
@@ -13831,25 +13875,56 @@ class NovoCKEditorElement {
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_P,
             disableNativeSpellChecker: false,
-            removePlugins: 'liststyle,tabletools,contextmenu' // allows browser based spell checking
+            removePlugins: 'liststyle,tabletools,contextmenu',
+            extraAllowedContent: '*(*){*};table tbody tr td th[*];',
         };
         const /** @type {?} */ minimalConfig = {
-            toolbar: [{
+            toolbar: [
+                {
                     name: 'basicstyles',
-                    items: ['Styles', 'FontSize', 'Bold', 'Italic', 'Underline', 'TextColor', '-', 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Link']
-                }]
+                    items: [
+                        'Styles',
+                        'FontSize',
+                        'Bold',
+                        'Italic',
+                        'Underline',
+                        'TextColor',
+                        '-',
+                        'NumberedList',
+                        'BulletedList',
+                        'Outdent',
+                        'Indent',
+                        'Link',
+                    ],
+                },
+            ],
         };
         const /** @type {?} */ extendedConfig = {
             toolbar: [
                 { name: 'clipboard', items: ['Paste', 'PasteText', 'PasteFromWord', 'Undo', 'Redo'] },
-                { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl'] },
+                {
+                    name: 'paragraph',
+                    items: [
+                        'NumberedList',
+                        'BulletedList',
+                        'Outdent',
+                        'Indent',
+                        'Blockquote',
+                        'JustifyLeft',
+                        'JustifyCenter',
+                        'JustifyRight',
+                        'JustifyBlock',
+                        'BidiLtr',
+                        'BidiRtl',
+                    ],
+                },
                 { name: 'links', items: ['Link'] },
                 { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] },
                 { name: 'tools', items: ['Maximize', 'Source'] },
                 '/',
                 { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'] },
                 { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
-                { name: 'colors', items: ['TextColor', 'BGColor'] }
+                { name: 'colors', items: ['TextColor', 'BGColor'] },
             ],
             filebrowserImageUploadUrl: this.fileBrowserImageUploadUrl,
         };
@@ -13869,14 +13944,12 @@ class NovoCKEditorElement {
      * @param {?=} value
      * @return {?}
      */
-    onChange(value) {
-    }
+    onChange(value) { }
     /**
      * @param {?=} event
      * @return {?}
      */
-    onTouched(event) {
-    }
+    onTouched(event) { }
     /**
      * @param {?} fn
      * @return {?}
@@ -13904,7 +13977,7 @@ NovoCKEditorElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-editor',
                 providers: [CKEDITOR_CONTROL_VALUE_ACCESSOR],
-                template: '<textarea [name]="name" [id]="name" #host></textarea>'
+                template: '<textarea [name]="name" [id]="name" #host></textarea>',
             },] },
 ];
 /**
@@ -15215,7 +15288,6 @@ class CustomControl extends BaseControl {
 
 // NG2
 class OptionsService {
-    constructor() { }
     /**
      * @param {?} http
      * @param {?} field
@@ -15229,8 +15301,7 @@ class OptionsService {
             options: (query$$1) => {
                 return new Promise((resolve, reject) => {
                     if (query$$1 && query$$1.length) {
-                        http$$1.get(`${field.optionsUrl}?filter=${query$$1 || ''}`)
-                            .subscribe(resolve, reject);
+                        http$$1.get(`${field.optionsUrl}?filter=${query$$1 || ''}`).subscribe(resolve, reject);
                     }
                     else {
                         resolve([]);
@@ -15259,8 +15330,28 @@ class FormUtils {
     constructor(labels, optionsService) {
         this.labels = labels;
         this.optionsService = optionsService;
-        this.ASSOCIATED_ENTITY_LIST = ['Candidate', 'ClientContact', 'ClientCorporation', 'Lead', 'Opportunity', 'JobOrder', 'CorporateUser', 'Person', 'Placement'];
-        this.PICKER_TEST_LIST = ['CandidateText', 'ClientText', 'ClientContactText', 'ClientCorporationText', 'LeadText', 'OpportunityText', 'JobOrderText', 'CorporateUserText', 'PersonText'];
+        this.ASSOCIATED_ENTITY_LIST = [
+            'Candidate',
+            'ClientContact',
+            'ClientCorporation',
+            'Lead',
+            'Opportunity',
+            'JobOrder',
+            'CorporateUser',
+            'Person',
+            'Placement',
+        ];
+        this.PICKER_TEST_LIST = [
+            'CandidateText',
+            'ClientText',
+            'ClientContactText',
+            'ClientCorporationText',
+            'LeadText',
+            'OpportunityText',
+            'JobOrderText',
+            'CorporateUserText',
+            'PersonText',
+        ];
     }
     /**
      * @param {?} controls
@@ -15268,7 +15359,7 @@ class FormUtils {
      */
     toFormGroup(controls) {
         let /** @type {?} */ group$$1 = {};
-        controls.forEach(control => {
+        controls.forEach((control) => {
             let /** @type {?} */ value = Helpers.isBlank(control.value) ? '' : control.value;
             group$$1[control.key] = new NovoFormControl(value, control);
         });
@@ -15286,7 +15377,7 @@ class FormUtils {
      * @return {?}
      */
     addControls(formGroup, controls) {
-        controls.forEach(control => {
+        controls.forEach((control) => {
             let /** @type {?} */ value = Helpers.isBlank(control.value) ? '' : control.value;
             let /** @type {?} */ formControl = new NovoFormControl(value, control);
             formGroup.addControl(control.key, formControl);
@@ -15299,7 +15390,7 @@ class FormUtils {
      */
     toFormGroupFromFieldset(fieldsets) {
         let /** @type {?} */ controls = [];
-        fieldsets.forEach(fieldset => {
+        fieldsets.forEach((fieldset) => {
             controls.push(...fieldset.controls);
         });
         return this.toFormGroup(controls);
@@ -15312,37 +15403,37 @@ class FormUtils {
     determineInputType(field) {
         let /** @type {?} */ type;
         let /** @type {?} */ dataSpecializationTypeMap = {
-            'DATETIME': 'datetime',
-            'TIME': 'time',
-            'MONEY': 'currency',
-            'PERCENTAGE': 'percentage',
-            'HTML': 'editor',
+            DATETIME: 'datetime',
+            TIME: 'time',
+            MONEY: 'currency',
+            PERCENTAGE: 'percentage',
+            HTML: 'editor',
             'HTML-MINIMAL': 'editor-minimal',
-            'YEAR': 'year',
+            YEAR: 'year',
         };
         let /** @type {?} */ dataTypeToTypeMap = {
-            'Timestamp': 'date',
-            'Boolean': 'tiles',
+            Timestamp: 'date',
+            Boolean: 'tiles',
         };
         let /** @type {?} */ inputTypeToTypeMap = {
-            'CHECKBOX': 'radio',
-            'RADIO': 'radio',
-            'SELECT': 'select',
-            'TILES': 'tiles',
+            CHECKBOX: 'radio',
+            RADIO: 'radio',
+            SELECT: 'select',
+            TILES: 'tiles',
         };
         let /** @type {?} */ inputTypeMultiToTypeMap = {
-            'CHECKBOX': 'checklist',
-            'RADIO': 'checklist',
-            'SELECT': 'chips',
+            CHECKBOX: 'checklist',
+            RADIO: 'checklist',
+            SELECT: 'chips',
         };
         let /** @type {?} */ typeToTypeMap = {
-            'file': 'file',
-            'COMPOSITE': 'address'
+            file: 'file',
+            COMPOSITE: 'address',
         };
         let /** @type {?} */ numberDataTypeToTypeMap = {
-            'Double': 'float',
-            'BigDecimal': 'float',
-            'Integer': 'number'
+            Double: 'float',
+            BigDecimal: 'float',
+            Integer: 'number',
         };
         if (field.type === 'TO_MANY') {
             if (field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity)) {
@@ -15434,7 +15525,7 @@ class FormUtils {
             tooltip: field.tooltip,
             tooltipPosition: field.tooltipPosition,
             template: field.template,
-            customControlConfig: field.customControlConfig
+            customControlConfig: field.customControlConfig,
         };
         // TODO: getControlOptions should always return the correct format
         let /** @type {?} */ optionsConfig = this.getControlOptions(field, http$$1, config);
@@ -15443,7 +15534,7 @@ class FormUtils {
         }
         else if (Array.isArray(optionsConfig) && (type === 'chips' || type === 'picker')) {
             controlConfig.config = {
-                options: optionsConfig
+                options: optionsConfig,
             };
         }
         else if (optionsConfig) {
@@ -15566,7 +15657,7 @@ class FormUtils {
                     for (let /** @type {?} */ subfield of field.fields) {
                         controlConfig.config[subfield.name] = {
                             required: !!subfield.required,
-                            hidden: !!subfield.readOnly
+                            hidden: !!subfield.readOnly,
                         };
                         if (!Helpers.isEmpty(subfield.label)) {
                             controlConfig.config[subfield.name].label = subfield.label;
@@ -15629,8 +15720,10 @@ class FormUtils {
         let /** @type {?} */ controls = [];
         if (meta && meta.fields) {
             let /** @type {?} */ fields = meta.fields;
-            fields.forEach(field => {
-                if (field.name !== 'id' && (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) && !field.readOnly) {
+            fields.forEach((field) => {
+                if (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly) {
                     let /** @type {?} */ control = this.getControlForField(field, http$$1, config, overrides, forTable);
                     // Set currency format
                     if (control.subType === 'currency') {
@@ -15657,7 +15750,7 @@ class FormUtils {
         controls.forEach((control) => {
             ret[control.key] = {
                 editorType: control.__type,
-                editorConfig: control.__config
+                editorConfig: control.__config,
             };
         });
         return ret;
@@ -15674,35 +15767,37 @@ class FormUtils {
         let /** @type {?} */ fieldsets = [];
         let /** @type {?} */ ranges = [];
         if (meta && meta.fields) {
-            let /** @type {?} */ fields = meta.fields.map(field => {
+            let /** @type {?} */ fields = meta.fields
+                .map((field) => {
                 if (!field.hasOwnProperty('sortOrder')) {
                     field.sortOrder = Number.MAX_SAFE_INTEGER - 1;
                 }
                 return field;
-            }).sort(Helpers.sortByField(['sortOrder', 'name']));
+            })
+                .sort(Helpers.sortByField(['sortOrder', 'name']));
             if (meta.sectionHeaders && meta.sectionHeaders.length) {
                 meta.sectionHeaders.sort(Helpers.sortByField(['sortOrder', 'name']));
                 meta.sectionHeaders.forEach((item, i) => {
                     if (item.enabled) {
                         if (item.sortOrder > 0 && fieldsets.length === 0) {
                             fieldsets.push({
-                                controls: []
+                                controls: [],
                             });
                             ranges.push({
                                 min: 0,
                                 max: item.sortOrder - 1,
-                                fieldsetIdx: 0
+                                fieldsetIdx: 0,
                             });
                         }
                         fieldsets.push({
                             title: item.label,
                             icon: item.icon || 'bhi-section',
-                            controls: []
+                            controls: [],
                         });
                         ranges.push({
                             min: item.sortOrder,
                             max: Number.MAX_SAFE_INTEGER,
-                            fieldsetIdx: fieldsets.length - 1
+                            fieldsetIdx: fieldsets.length - 1,
                         });
                         if (i > 0 && fieldsets.length > 1) {
                             ranges[fieldsets.length - 2].max = item.sortOrder - 1;
@@ -15711,33 +15806,35 @@ class FormUtils {
                 });
                 if (!ranges.length) {
                     fieldsets.push({
-                        controls: []
+                        controls: [],
                     });
                     ranges.push({
                         min: 0,
                         max: Number.MAX_SAFE_INTEGER,
-                        fieldsetIdx: 0
+                        fieldsetIdx: 0,
                     });
                 }
             }
             else {
                 fieldsets.push({
-                    controls: []
+                    controls: [],
                 });
                 ranges.push({
                     min: 0,
                     max: Number.MAX_SAFE_INTEGER,
-                    fieldsetIdx: 0
+                    fieldsetIdx: 0,
                 });
             }
-            fields.forEach(field => {
-                if (field.name !== 'id' && (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) && !field.readOnly) {
+            fields.forEach((field) => {
+                if (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly) {
                     let /** @type {?} */ control = this.getControlForField(field, http$$1, config, overrides);
                     // Set currency format
                     if (control.subType === 'currency') {
                         control.currencyFormat = currencyFormat;
                     }
-                    let /** @type {?} */ location = ranges.find(item => {
+                    let /** @type {?} */ location = ranges.find((item) => {
                         return (item.min <= field.sortOrder && field.sortOrder <= item.max) || (item.min <= field.sortOrder && item.min === item.max);
                     });
                     if (location) {
@@ -15751,9 +15848,11 @@ class FormUtils {
             return fieldsets;
         }
         else {
-            return [{
-                    controls: this.toControls(meta, currencyFormat, http$$1, config)
-                }];
+            return [
+                {
+                    controls: this.toControls(meta, currencyFormat, http$$1, config),
+                },
+            ];
         }
     }
     /**
@@ -15767,10 +15866,7 @@ class FormUtils {
         if (field.dataType === 'Boolean' && !field.options) {
             // TODO: dataType should only be determined by `determineInputType` which doesn't ever return 'Boolean' it
             // TODO: (cont.) returns `tiles`
-            return [
-                { value: false, label: this.labels.no },
-                { value: true, label: this.labels.yes }
-            ];
+            return [{ value: false, label: this.labels.no }, { value: true, label: this.labels.yes }];
         }
         else if (field.optionsUrl) {
             return this.optionsService.getOptionsConfig(http$$1, field, config);
@@ -15780,7 +15876,7 @@ class FormUtils {
             return {
                 field: 'value',
                 format: '$label',
-                options
+                options,
             };
         }
         else if (field.options) {
@@ -15807,7 +15903,7 @@ class FormUtils {
                 continue;
             }
             if (Array.isArray(value) && value.length > 0) {
-                value = value.filter(val => !(Object.keys(val).length === 0 && val.constructor === Object));
+                value = value.filter((val) => !(Object.keys(val).length === 0 && val.constructor === Object));
                 if (value.length === 0) {
                     continue;
                 }
@@ -15830,7 +15926,7 @@ class FormUtils {
      * @return {?}
      */
     setInitialValuesFieldsets(fieldsets, values, keepClean) {
-        fieldsets.forEach(fieldset => {
+        fieldsets.forEach((fieldset) => {
             this.setInitialValues(fieldset.controls, values, keepClean);
         });
     }
@@ -15839,7 +15935,7 @@ class FormUtils {
      * @return {?}
      */
     forceShowAllControls(controls) {
-        controls.forEach(control => {
+        controls.forEach((control) => {
             control.hidden = false;
         });
     }
@@ -15848,8 +15944,8 @@ class FormUtils {
      * @return {?}
      */
     forceShowAllControlsInFieldsets(fieldsets) {
-        fieldsets.forEach(fieldset => {
-            fieldset.controls.forEach(control => {
+        fieldsets.forEach((fieldset) => {
+            fieldset.controls.forEach((control) => {
                 control.hidden = false;
             });
         });
@@ -16331,7 +16427,7 @@ class FieldInteractionApi {
             console.error('[FieldInteractionAPI] - could not find a control in the form by the key --', key); // tslint:disable-line
             return null;
         }
-        return ((control));
+        return /** @type {?} */ (control);
     }
     /**
      * @param {?} key
@@ -16566,7 +16662,7 @@ class FieldInteractionApi {
             control.tipWell = {
                 tip: tip,
                 icon: icon,
-                button: allowDismiss
+                button: allowDismiss,
             };
             this.triggerEvent({ controlKey: key, prop: 'tipWell', value: tip });
         }
@@ -16598,7 +16694,7 @@ class FieldInteractionApi {
         let /** @type {?} */ newValue = this.getValue(key);
         let /** @type {?} */ label = this.getProperty(key, 'label');
         ((document.activeElement)).blur();
-        return this.modalService.open(ControlConfirmModal, { oldValue, newValue, label, message, key }).onClosed.then(result => {
+        return this.modalService.open(ControlConfirmModal, { oldValue, newValue, label, message, key }).onClosed.then((result) => {
             if (!result) {
                 this.setValue(key, oldValue, { emitEvent: false });
             }
@@ -16691,7 +16787,7 @@ class FieldInteractionApi {
                 }
                 // Ensure duplicate values are not added
                 currentOptions.forEach((option) => {
-                    if ((option.value && option.value === optionToAdd.value) || (option === optionToAdd)) {
+                    if ((option.value && option.value === optionToAdd.value) || option === optionToAdd) {
                         isUnique = false;
                     }
                 });
@@ -16785,13 +16881,7 @@ class FieldInteractionApi {
                             if (query$$1 && query$$1.length) {
                                 this.http
                                     .get(url)
-                                    .map(res => {
-                                    if (res.json) {
-                                        return res.json();
-                                    }
-                                    return res;
-                                })
-                                    .map(results => {
+                                    .map((results) => {
                                     if (mapper) {
                                         return results.map(mapper);
                                     }
@@ -16803,7 +16893,7 @@ class FieldInteractionApi {
                                 resolve([]);
                             }
                         });
-                    }
+                    },
                 });
             }
             else if (config.options) {
@@ -16823,7 +16913,7 @@ class FieldInteractionApi {
         if (control) {
             if (loading) {
                 this.form.controls[key].fieldInteractionloading = true;
-                control.setErrors({ 'loading': true });
+                control.setErrors({ loading: true });
                 // History
                 clearTimeout(this.asyncBlockTimeout);
                 this.asyncBlockTimeout = setTimeout(() => {
@@ -16835,7 +16925,7 @@ class FieldInteractionApi {
             else {
                 this.form.controls[key].fieldInteractionloading = false;
                 clearTimeout(this.asyncBlockTimeout);
-                control.setErrors({ 'loading': null });
+                control.setErrors({ loading: null });
                 control.updateValueAndValidity({ emitEvent: false });
                 if (this.getProperty(key, '_displayedAsyncFailure')) {
                     this.setProperty(key, 'tipWell', null);
@@ -16962,7 +17052,7 @@ FieldInteractionApi.FIELD_POSITIONS = {
     ABOVE_FIELD: 'ABOVE_FIELD',
     BELOW_FIELD: 'BELOW_FIELD',
     TOP_OF_FORM: 'TOP_OF_FORM',
-    BOTTOM_OF_FORM: 'BOTTOM_OF_FORM'
+    BOTTOM_OF_FORM: 'BOTTOM_OF_FORM',
 };
 FieldInteractionApi.decorators = [
     { type: Injectable },
@@ -16974,7 +17064,7 @@ FieldInteractionApi.ctorParameters = () => [
     { type: NovoToastService, },
     { type: NovoModalService, },
     { type: FormUtils, },
-    { type: Http, },
+    { type: HttpClient, },
     { type: NovoLabelService, },
 ];
 
@@ -52880,7 +52970,7 @@ NovoDataTablePagination.decorators = [
     { type: Component, args: [{
                 selector: 'novo-data-table-pagination',
                 template: `
-      <ng-container *ngIf="theme === 'basic'">
+      <ng-container *ngIf="theme === 'basic' || theme === 'basic-wide'">
         <div class="novo-data-table-pagination-size">
             <novo-tiles *ngIf="displayedPageSizeOptions.length > 1"
                         [(ngModel)]="pageSize"
@@ -52897,7 +52987,7 @@ NovoDataTablePagination.decorators = [
         <div class="novo-data-table-range-label-short" data-automation-id="novo-data-table-pagination-range-label-short">
             {{ shortRangeLabel }}
         </div>
-
+        <span class="spacer novo-data-table-spacer" *ngIf="theme === 'basic-wide'"></span>
         <button theme="dialogue" type="button"
                 class="novo-data-table-pagination-navigation-previous"
                 (click)="previousPage()"
@@ -55075,9 +55165,8 @@ class GooglePlacesService {
      * @return {?}
      */
     getPredictions(url, query$$1) {
-        return new Promise(resolve => {
-            this._http.get(url + '?query=' + query$$1).map(res => res.json())
-                .subscribe((data) => {
+        return new Promise((resolve) => {
+            this._http.get(url + '?query=' + query$$1).subscribe((data) => {
                 if (data) {
                     resolve(data);
                 }
@@ -55094,9 +55183,8 @@ class GooglePlacesService {
      * @return {?}
      */
     getLatLngDetail(url, lat, lng) {
-        return new Promise(resolve => {
-            this._http.get(url + '?lat=' + lat + '&lng=' + lng).map(res => res.json())
-                .subscribe((data) => {
+        return new Promise((resolve) => {
+            this._http.get(url + '?lat=' + lat + '&lng=' + lng).subscribe((data) => {
                 if (data) {
                     resolve(data);
                 }
@@ -55112,9 +55200,8 @@ class GooglePlacesService {
      * @return {?}
      */
     getPlaceDetails(url, placeId) {
-        return new Promise(resolve => {
-            this._http.get(url + '?query=' + placeId).map(res => res.json())
-                .subscribe((data) => {
+        return new Promise((resolve) => {
+            this._http.get(url + '?query=' + placeId).subscribe((data) => {
                 if (data) {
                     resolve(data);
                 }
@@ -55128,7 +55215,7 @@ class GooglePlacesService {
      * @return {?}
      */
     getGeoCurrentLocation() {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 let /** @type {?} */ _window = this._global.nativeGlobal;
                 if (_window.navigator.geolocation) {
@@ -55151,11 +55238,11 @@ class GooglePlacesService {
      * @return {?}
      */
     getGeoLatLngDetail(latlng) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 let /** @type {?} */ _window = this._global.nativeGlobal;
                 let /** @type {?} */ geocoder = new _window.google.maps.Geocoder();
-                geocoder.geocode({ 'location': latlng }, (results, status) => {
+                geocoder.geocode({ location: latlng }, (results, status) => {
                     if (status === 'OK') {
                         this.getGeoPlaceDetail(results[0].place_id).then((result) => {
                             if (result) {
@@ -55181,7 +55268,7 @@ class GooglePlacesService {
      * @return {?}
      */
     getGeoPrediction(params) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 let /** @type {?} */ _window = this._global.nativeGlobal;
                 let /** @type {?} */ placesService = new _window.google.maps.places.AutocompleteService();
@@ -55195,7 +55282,7 @@ class GooglePlacesService {
                 }
                 else {
                     queryInput = {
-                        input: params.query
+                        input: params.query,
                     };
                 }
                 if (params.geoLocation) {
@@ -55212,7 +55299,7 @@ class GooglePlacesService {
                 else {
                     promiseArr.push(this.geoPredictionCall(placesService, queryInput));
                 }
-                Promise.all(promiseArr).then(values => {
+                Promise.all(promiseArr).then((values) => {
                     let /** @type {?} */ val = values;
                     if (val.length > 1) {
                         let /** @type {?} */ _tempArr = [];
@@ -55239,11 +55326,11 @@ class GooglePlacesService {
      * @return {?}
      */
     getGeoPlaceDetail(placeId) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 let /** @type {?} */ _window = this._global.nativeGlobal;
                 let /** @type {?} */ placesService = new _window.google.maps.places.PlacesService(document.createElement('div'));
-                placesService.getDetails({ 'placeId': placeId }, (result, status) => {
+                placesService.getDetails({ placeId: placeId }, (result, status) => {
                     if (result === null || result.length === 0) {
                         this.getGeoPaceDetailByReferance(result.referance).then((referanceData) => {
                             if (!referanceData) {
@@ -55269,11 +55356,11 @@ class GooglePlacesService {
      * @return {?}
      */
     getGeoPaceDetailByReferance(referance) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 let /** @type {?} */ _window = this._global.nativeGlobal;
                 let /** @type {?} */ placesService = new _window.google.maps.places.PlacesService();
-                placesService.getDetails({ 'reference': referance }, (result, status) => {
+                placesService.getDetails({ reference: referance }, (result, status) => {
                     if (status === _window.google.maps.places.PlacesServiceStatus.OK) {
                         resolve(result);
                     }
@@ -55310,13 +55397,12 @@ class GooglePlacesService {
             }
         });
     }
-    ;
     /**
      * @param {?} localStorageName
      * @return {?}
      */
     getRecentList(localStorageName) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             let /** @type {?} */ value = this._localStorageService.getItem(localStorageName);
             if (value) {
                 value = JSON.parse(value);
@@ -55341,7 +55427,7 @@ class GooglePlacesService {
      */
     geoPredictionCall(placesService, queryInput) {
         let /** @type {?} */ _window = this._global.nativeGlobal;
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             placesService.getPlacePredictions(queryInput, (result, status) => {
                 if (status === _window.google.maps.places.PlacesServiceStatus.OK) {
                     resolve(result);
@@ -55360,7 +55446,7 @@ GooglePlacesService.decorators = [
  * @nocollapse
  */
 GooglePlacesService.ctorParameters = () => [
-    { type: Http, },
+    { type: HttpClient, },
     { type: Object, decorators: [{ type: Inject, args: [PLATFORM_ID,] },] },
     { type: GlobalRef, },
     { type: LocalStorageService, },
@@ -55392,7 +55478,7 @@ const HTTP_VERBS = {
     GET: 'get',
     POST: 'post',
     PUT: 'put',
-    DELETE: 'delete'
+    DELETE: 'delete',
 };
 const MESSAGE_TYPES = {
     REGISTER: 'register',
@@ -55408,7 +55494,7 @@ const MESSAGE_TYPES = {
     HTTP_DELETE: 'httpDELETE',
     CUSTOM_EVENT: 'customEvent',
     REQUEST_DATA: 'requestData',
-    CALLBACK: 'callback'
+    CALLBACK: 'callback',
 };
 class AppBridgeService {
     /**
@@ -55488,80 +55574,80 @@ class AppBridge {
         postRobot.on(MESSAGE_TYPES.REGISTER, (event) => {
             this._trace(MESSAGE_TYPES.REGISTER, event);
             this._registeredFrames.push(event);
-            return this.register(event.data).then(windowName => {
+            return this.register(event.data).then((windowName) => {
                 return { windowName };
             });
         });
         // Update
         postRobot.on(MESSAGE_TYPES.UPDATE, (event) => {
             this._trace(MESSAGE_TYPES.UPDATE, event);
-            return this.update(event.data).then(success => {
+            return this.update(event.data).then((success) => {
                 return { success };
             });
         });
         // Open
         postRobot.on(MESSAGE_TYPES.OPEN, (event) => {
             this._trace(MESSAGE_TYPES.OPEN, event);
-            return this.open(event.data).then(success => {
+            return this.open(event.data).then((success) => {
                 return { success };
             });
         });
         postRobot.on(MESSAGE_TYPES.OPEN_LIST, (event) => {
             this._trace(MESSAGE_TYPES.OPEN_LIST, event);
-            return this.openList(event.data).then(success => {
+            return this.openList(event.data).then((success) => {
                 return { success };
             });
         });
         // Close
         postRobot.on(MESSAGE_TYPES.CLOSE, (event) => {
             this._trace(MESSAGE_TYPES.CLOSE, event);
-            const /** @type {?} */ index$$1 = this._registeredFrames.findIndex(frame => frame.data.id === event.data.id);
+            const /** @type {?} */ index$$1 = this._registeredFrames.findIndex((frame) => frame.data.id === event.data.id);
             if (index$$1 !== -1) {
                 this._registeredFrames.splice(index$$1, 1);
             }
-            return this.close(event.data).then(success => {
+            return this.close(event.data).then((success) => {
                 return { success };
             });
         });
         // Refresh
         postRobot.on(MESSAGE_TYPES.REFRESH, (event) => {
             this._trace(MESSAGE_TYPES.REFRESH, event);
-            return this.refresh(event.data).then(success => {
+            return this.refresh(event.data).then((success) => {
                 return { success };
             });
         });
         // PIN
         postRobot.on(MESSAGE_TYPES.PIN, (event) => {
             this._trace(MESSAGE_TYPES.PIN, event);
-            return this.pin(event.data).then(success => {
+            return this.pin(event.data).then((success) => {
                 return { success };
             });
         });
         // REQUEST_DATA
         postRobot.on(MESSAGE_TYPES.REQUEST_DATA, (event) => {
             this._trace(MESSAGE_TYPES.REQUEST_DATA, event);
-            return this.requestData(event.data).then(result => {
+            return this.requestData(event.data).then((result) => {
                 return { data: result.data, error: result.error };
             });
         });
         // CALLBACKS
         postRobot.on(MESSAGE_TYPES.CALLBACK, (event) => {
             this._trace(MESSAGE_TYPES.CALLBACK, event);
-            return this.callback(event.data).then(success => {
+            return this.callback(event.data).then((success) => {
                 return { success };
             });
         });
         // HTTP-GET
         postRobot.on(MESSAGE_TYPES.HTTP_GET, (event) => {
             this._trace(MESSAGE_TYPES.HTTP_GET, event);
-            return this.httpGET(event.data.relativeURL).then(result => {
+            return this.httpGET(event.data.relativeURL).then((result) => {
                 return { data: result.data, error: result.error };
             });
         });
         // HTTP-POST
         postRobot.on(MESSAGE_TYPES.HTTP_POST, (event) => {
             this._trace(MESSAGE_TYPES.HTTP_POST, event);
-            return this.httpPOST(event.data.relativeURL, event.data.data).then(result => {
+            return this.httpPOST(event.data.relativeURL, event.data.data).then((result) => {
                 return { data: result.data, error: result.error };
             });
         });
@@ -55575,7 +55661,7 @@ class AppBridge {
         // HTTP-DELETE
         postRobot.on(MESSAGE_TYPES.HTTP_DELETE, (event) => {
             this._trace(MESSAGE_TYPES.HTTP_DELETE, event);
-            return this.httpDELETE(event.data.relativeURL).then(result => {
+            return this.httpDELETE(event.data.relativeURL).then((result) => {
                 return { data: result.data, error: result.error };
             });
         });
@@ -55588,7 +55674,7 @@ class AppBridge {
                 });
             }
             if (this._registeredFrames.length > 0) {
-                this._registeredFrames.forEach(frame => {
+                this._registeredFrames.forEach((frame) => {
                     postRobot.send(frame.source, MESSAGE_TYPES.CUSTOM_EVENT, event.data);
                 });
             }
@@ -55613,7 +55699,9 @@ class AppBridge {
             }
             else {
                 Object.assign(packet, { id: this.id, windowName: this.windowName });
-                postRobot.sendToParent(MESSAGE_TYPES.OPEN, packet).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.OPEN, packet)
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.OPEN} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55621,7 +55709,8 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     reject(false);
                 });
             }
@@ -55647,7 +55736,9 @@ class AppBridge {
             else {
                 let /** @type {?} */ openListPacket = {};
                 Object.assign(openListPacket, { type: 'List', entityType: packet.type, keywords: packet.keywords, criteria: packet.criteria });
-                postRobot.sendToParent(MESSAGE_TYPES.OPEN_LIST, packet).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.OPEN_LIST, packet)
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.OPEN_LIST} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55655,7 +55746,8 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     reject(false);
                 });
             }
@@ -55680,7 +55772,9 @@ class AppBridge {
             }
             else {
                 Object.assign(packet, { id: this.id, windowName: this.windowName });
-                postRobot.sendToParent(MESSAGE_TYPES.UPDATE, packet).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.UPDATE, packet)
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.UPDATE} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55688,7 +55782,8 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     reject(false);
                 });
             }
@@ -55716,7 +55811,9 @@ class AppBridge {
                     console.info('[AppBridge] - close(packet) is deprecated! Please just use close()!'); // tslint:disable-line
                 }
                 let /** @type {?} */ realPacket = { id: this.id, windowName: this.windowName };
-                postRobot.sendToParent(MESSAGE_TYPES.CLOSE, realPacket).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.CLOSE, realPacket)
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.CLOSE} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55724,7 +55821,8 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     reject(false);
                 });
             }
@@ -55752,7 +55850,9 @@ class AppBridge {
                     console.info('[AppBridge] - refresh(packet) is deprecated! Please just use refresh()!'); // tslint:disable-line
                 }
                 let /** @type {?} */ realPacket = { id: this.id, windowName: this.windowName };
-                postRobot.sendToParent(MESSAGE_TYPES.REFRESH, realPacket).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.REFRESH, realPacket)
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.REFRESH} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55760,7 +55860,8 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     reject(false);
                 });
             }
@@ -55788,7 +55889,9 @@ class AppBridge {
                     console.info('[AppBridge] - pin(packet) is deprecated! Please just use pin()!'); // tslint:disable-line
                 }
                 let /** @type {?} */ realPacket = { id: this.id, windowName: this.windowName };
-                postRobot.sendToParent(MESSAGE_TYPES.PIN, realPacket).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.PIN, realPacket)
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.PIN} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55796,7 +55899,8 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     reject(false);
                 });
             }
@@ -55821,7 +55925,9 @@ class AppBridge {
             }
             else {
                 Object.assign(packet, { id: this.id, windowName: this.windowName });
-                postRobot.sendToParent(MESSAGE_TYPES.REQUEST_DATA, packet).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.REQUEST_DATA, packet)
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.REQUEST_DATA} (callback)`, event);
                     if (event.data) {
                         resolve({ data: event.data.data });
@@ -55829,7 +55935,8 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     reject(false);
                 });
             }
@@ -55854,7 +55961,9 @@ class AppBridge {
             }
             else {
                 Object.assign(packet, { id: this.id, windowName: this.windowName });
-                postRobot.sendToParent(MESSAGE_TYPES.CALLBACK, packet).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.CALLBACK, packet)
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.CALLBACK} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55862,7 +55971,8 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     reject(false);
                 });
             }
@@ -55887,7 +55997,9 @@ class AppBridge {
             }
             else {
                 Object.assign(packet, { id: this.id });
-                postRobot.sendToParent(MESSAGE_TYPES.REGISTER, packet).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.REGISTER, packet)
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.REGISTER} (callback)`, event);
                     if (event.data) {
                         this.windowName = event.data.windowName;
@@ -55896,7 +56008,8 @@ class AppBridge {
                     else {
                         resolve(null);
                     }
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     this._trace(`${MESSAGE_TYPES.REGISTER} - FAILED - (no parent)`, err);
                     resolve(null);
                 });
@@ -55916,9 +56029,12 @@ class AppBridge {
                 });
             }
             else {
-                postRobot.sendToParent(MESSAGE_TYPES.HTTP_GET, { relativeURL }).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.HTTP_GET, { relativeURL })
+                    .then((event) => {
                     resolve({ data: event.data.data, error: event.data.error });
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     reject(null);
                 });
             }
@@ -55938,9 +56054,12 @@ class AppBridge {
                 });
             }
             else {
-                postRobot.sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL: relativeURL, data: postData }).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL: relativeURL, data: postData })
+                    .then((event) => {
                     resolve({ data: event.data.data, error: event.data.error });
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     reject(null);
                 });
             }
@@ -55960,9 +56079,12 @@ class AppBridge {
                 });
             }
             else {
-                postRobot.sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL: relativeURL, data: putData }).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL: relativeURL, data: putData })
+                    .then((event) => {
                     resolve({ data: event.data.data, error: event.data.error });
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     reject(null);
                 });
             }
@@ -55981,9 +56103,12 @@ class AppBridge {
                 });
             }
             else {
-                postRobot.sendToParent(MESSAGE_TYPES.HTTP_DELETE, { relativeURL }).then((event) => {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.HTTP_DELETE, { relativeURL })
+                    .then((event) => {
                     resolve({ data: event.data.data, error: event.data.error });
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     reject(null);
                 });
             }
@@ -55997,9 +56122,12 @@ class AppBridge {
      */
     fireEvent(event, data) {
         return new Promise((resolve, reject) => {
-            postRobot.sendToParent(MESSAGE_TYPES.CUSTOM_EVENT, { event, data }).then((e) => {
+            postRobot
+                .sendToParent(MESSAGE_TYPES.CUSTOM_EVENT, { event, data })
+                .then((e) => {
                 resolve(e);
-            }).catch((err) => {
+            })
+                .catch((err) => {
                 reject(null);
             });
         });
@@ -56012,10 +56140,10 @@ class AppBridge {
      */
     fireEventToChildren(event, data) {
         if (this._registeredFrames.length > 0) {
-            this._registeredFrames.forEach(frame => {
+            this._registeredFrames.forEach((frame) => {
                 postRobot.send(frame.source, MESSAGE_TYPES.CUSTOM_EVENT, {
                     eventType: event,
-                    data: data
+                    data: data,
                 });
             });
         }
@@ -56061,7 +56189,10 @@ class DevAppBridge extends AppBridge {
      * @return {?}
      */
     httpGET(relativeURL) {
-        return this.http.get(`${this.baseURL}/${relativeURL}`, { withCredentials: true }).map(res => ({ data: res.json() })).toPromise();
+        return this.http
+            .get(`${this.baseURL}/${relativeURL}`, { withCredentials: true })
+            .map((res) => ({ data: res }))
+            .toPromise();
     }
     /**
      * Fires or responds to an HTTP_POST event
@@ -56070,7 +56201,10 @@ class DevAppBridge extends AppBridge {
      * @return {?}
      */
     httpPOST(relativeURL, postData) {
-        return this.http.post(`${this.baseURL}/${relativeURL}`, postData, { withCredentials: true }).map(res => ({ data: res.json() })).toPromise();
+        return this.http
+            .post(`${this.baseURL}/${relativeURL}`, postData, { withCredentials: true })
+            .map((res) => ({ data: res }))
+            .toPromise();
     }
     /**
      * Fires or responds to an HTTP_PUT event
@@ -56079,7 +56213,10 @@ class DevAppBridge extends AppBridge {
      * @return {?}
      */
     httpPUT(relativeURL, putData) {
-        return this.http.put(`${this.baseURL}/${relativeURL}`, putData, { withCredentials: true }).map(res => ({ data: res.json() })).toPromise();
+        return this.http
+            .put(`${this.baseURL}/${relativeURL}`, putData, { withCredentials: true })
+            .map((res) => ({ data: res }))
+            .toPromise();
     }
     /**
      * Fires or responds to an HTTP_DELETE event
@@ -56087,7 +56224,10 @@ class DevAppBridge extends AppBridge {
      * @return {?}
      */
     httpDELETE(relativeURL) {
-        return this.http.delete(`${this.baseURL}/${relativeURL}`, { withCredentials: true }).map(res => ({ data: res.json() })).toPromise();
+        return this.http
+            .delete(`${this.baseURL}/${relativeURL}`, { withCredentials: true })
+            .map((res) => ({ data: res }))
+            .toPromise();
     }
     /**
      * @param {?} cname
@@ -57011,21 +57151,10 @@ class GooglePlacesModule {
 }
 GooglePlacesModule.decorators = [
     { type: NgModule, args: [{
-                declarations: [
-                    PlacesListComponent
-                ],
-                imports: [
-                    CommonModule,
-                    HttpModule,
-                    FormsModule,
-                    NovoListModule
-                ],
-                exports: [
-                    PlacesListComponent
-                ],
-                providers: [
-                    { provide: GooglePlacesService, useClass: GooglePlacesService },
-                ]
+                declarations: [PlacesListComponent],
+                imports: [CommonModule, HttpClientModule, FormsModule, NovoListModule],
+                exports: [PlacesListComponent],
+                providers: [GooglePlacesService],
             },] },
 ];
 /**

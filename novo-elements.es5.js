@@ -36,7 +36,7 @@ import { ENTER, ESCAPE, SPACE, TAB } from '@angular/cdk/keycodes';
 import * as dragulaImported from '@bullhorn/dragula';
 import { ReplaySubject as ReplaySubject$1 } from 'rxjs/ReplaySubject';
 import { TextMaskModule } from 'angular2-text-mask';
-import { Http, HttpModule } from '@angular/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { UNIQUE_SELECTION_DISPATCHER_PROVIDER, UniqueSelectionDispatcher } from '@angular/cdk/collections';
 import { Subject as Subject$1 } from 'rxjs/Subject';
@@ -3386,6 +3386,7 @@ var NovoToastElement = /** @class */ (function () {
         this.icon = 'caution';
         this.hasDialogue = false;
         this.isCloseable = false;
+        this.closed = new EventEmitter();
         this.show = false;
         this.animate = false;
         this.parent = null;
@@ -3443,6 +3444,9 @@ var NovoToastElement = /** @class */ (function () {
             if (this.parent) {
                 this.parent.hide(this);
             }
+            else {
+                this.closed.emit({ closed: true });
+            }
         }
     };
     /**
@@ -3454,7 +3458,12 @@ var NovoToastElement = /** @class */ (function () {
             event.stopPropagation();
             event.preventDefault();
         }
-        this.parent.hide(this);
+        if (this.parent) {
+            this.parent.hide(this);
+        }
+        else {
+            this.closed.emit({ closed: true });
+        }
     };
     return NovoToastElement;
 }());
@@ -3466,9 +3475,9 @@ NovoToastElement.decorators = [
                     '[class.show]': 'show',
                     '[class.animate]': 'animate',
                     '[class.embedded]': 'embedded',
-                    '(click)': '!isCloseable && clickHandler($event)'
+                    '(click)': '!isCloseable && clickHandler($event)',
                 },
-                template: "\n        <div class=\"toast-icon\">\n            <i [ngClass]=\"iconClass\"></i>\n        </div>\n        <div class=\"toast-content\">\n            <h5 *ngIf=\"title\">{{title}}</h5>\n            <p *ngIf=\"_message\" [class.message-only]=\"!title\" [innerHtml]=\"_message\"></p>\n            <div *ngIf=\"link\" class=\"link-generated\">\n                <input type=\"text\" [value]=\"link\" onfocus=\"this.select();\"/>\n            </div>\n            <div class=\"dialogue\">\n                <ng-content></ng-content>\n            </div>\n        </div>\n        <div class=\"close-icon\" *ngIf=\"isCloseable\" (click)=\"close($event)\">\n            <i class=\"bhi-times\"></i>\n        </div>\n    "
+                template: "\n        <div class=\"toast-icon\">\n            <i [ngClass]=\"iconClass\"></i>\n        </div>\n        <div class=\"toast-content\">\n            <h5 *ngIf=\"title\">{{title}}</h5>\n            <p *ngIf=\"_message\" [class.message-only]=\"!title\" [innerHtml]=\"_message\"></p>\n            <div *ngIf=\"link\" class=\"link-generated\">\n                <input type=\"text\" [value]=\"link\" onfocus=\"this.select();\"/>\n            </div>\n            <div class=\"dialogue\">\n                <ng-content></ng-content>\n            </div>\n        </div>\n        <div class=\"close-icon\" *ngIf=\"isCloseable\" (click)=\"close($event)\">\n            <i class=\"bhi-times\"></i>\n        </div>\n    ",
             },] },
 ];
 /**
@@ -3485,6 +3494,7 @@ NovoToastElement.propDecorators = {
     'link': [{ type: Input },],
     'isCloseable': [{ type: Input },],
     'message': [{ type: Input },],
+    'closed': [{ type: Output },],
 };
 // NG2
 // APP
@@ -5409,7 +5419,7 @@ QuickNoteResults.ctorParameters = function () { return [
 var QUICK_NOTE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(function () { return QuickNoteElement; }),
-    multi: true
+    multi: true,
 };
 var QuickNoteElement = /** @class */ (function (_super) {
     __extends(QuickNoteElement, _super);
@@ -5429,10 +5439,8 @@ var QuickNoteElement = /** @class */ (function (_super) {
         _this.change = new EventEmitter();
         _this.placeholderVisible = false;
         _this._placeholderElement = null;
-        _this.onModelChange = function () {
-        };
-        _this.onModelTouched = function () {
-        };
+        _this.onModelChange = function () { };
+        _this.onModelTouched = function () { };
         // Bind to the active change event from the OutsideClick
         _this.onActiveChange.subscribe(function (active) {
             if (!active) {
@@ -5545,13 +5553,13 @@ var QuickNoteElement = /** @class */ (function (_super) {
         if (model && (model.references || model.note)) {
             this.model = {
                 note: model.note || '',
-                references: model.references || {}
+                references: model.references || {},
             };
         }
         else {
             this.model = {
                 note: model,
-                references: {}
+                references: {},
             };
         }
         // Set the note html value in the editor
@@ -5665,7 +5673,7 @@ var QuickNoteElement = /** @class */ (function (_super) {
         if (value) {
             newModel = {
                 note: value,
-                references: this.model.references
+                references: this.model.references,
             };
         }
         // Inform listeners to the ngModel change event that something has changed
@@ -5688,7 +5696,7 @@ var QuickNoteElement = /** @class */ (function (_super) {
                     // Update existing list
                     this.quickNoteResults.instance.term = {
                         searchTerm: searchTerm,
-                        taggingMode: this.taggingMode
+                        taggingMode: this.taggingMode,
                     };
                 }
                 else {
@@ -5698,7 +5706,7 @@ var QuickNoteElement = /** @class */ (function (_super) {
                     this.quickNoteResults.instance.config = this.config;
                     this.quickNoteResults.instance.term = {
                         searchTerm: searchTerm,
-                        taggingMode: this.taggingMode
+                        taggingMode: this.taggingMode,
                     };
                     this.positionResultsDropdown();
                 }
@@ -5778,6 +5786,17 @@ var QuickNoteElement = /** @class */ (function (_super) {
             var /** @type {?} */ text = start.getText();
             var /** @type {?} */ symbol = this.config.triggers[this.taggingMode];
             var /** @type {?} */ wordStart = text.lastIndexOf(symbol, range.startOffset - 1);
+            if (wordStart > 0) {
+                var /** @type {?} */ beforeSymbol = text.charAt(wordStart - 1);
+                // We don't want to trigger the lookup call unless the symbol was preceded by whitespace
+                if (beforeSymbol !== '\u200B' && /\S/.test(beforeSymbol)) {
+                    return '';
+                }
+            }
+            else if (start.hasPrevious() && /\S$/.test(start.getPrevious().getText())) {
+                // When wordStart is <= 0, we need to check the previous node's text to see if it ended with whitespace or not
+                return '';
+            }
             var /** @type {?} */ wordEnd = text.indexOf(' ', range.startOffset + 1);
             if (wordStart === -1) {
                 wordStart = 0;
@@ -5861,10 +5880,25 @@ var QuickNoteElement = /** @class */ (function (_super) {
             height: editorHeight,
             startupFocus: this.startupFocus,
             removePlugins: 'liststyle,tabletools,contextmenu',
-            toolbar: [{
+            toolbar: [
+                {
                     name: 'basicstyles',
-                    items: ['Styles', 'FontSize', 'Bold', 'Italic', 'Underline', 'TextColor', '-', 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Link']
-                }]
+                    items: [
+                        'Styles',
+                        'FontSize',
+                        'Bold',
+                        'Italic',
+                        'Underline',
+                        'TextColor',
+                        '-',
+                        'NumberedList',
+                        'BulletedList',
+                        'Outdent',
+                        'Indent',
+                        'Link',
+                    ],
+                },
+            ],
         };
     };
     /**
@@ -5885,7 +5919,7 @@ var QuickNoteElement = /** @class */ (function (_super) {
         parentElement.appendChild(cursorElement);
         var /** @type {?} */ cursorPosition = {
             top: cursorElement.offsetTop - editorElement.scrollTop,
-            left: cursorElement.offsetLeft - editorElement.scrollLeft
+            left: cursorElement.offsetLeft - editorElement.scrollLeft,
         };
         cursorElement.remove();
         return cursorPosition;
@@ -5911,7 +5945,10 @@ var QuickNoteElement = /** @class */ (function (_super) {
      */
     QuickNoteElement.prototype.getContentHeight = function () {
         var /** @type {?} */ contentHeight = 0;
-        if (this.ckeInstance.ui && this.ckeInstance.ui.contentsElement && this.ckeInstance.ui.contentsElement.$ && this.ckeInstance.ui.contentsElement.$.style) {
+        if (this.ckeInstance.ui &&
+            this.ckeInstance.ui.contentsElement &&
+            this.ckeInstance.ui.contentsElement.$ &&
+            this.ckeInstance.ui.contentsElement.$.style) {
             var /** @type {?} */ cssText = this.ckeInstance.ui.contentsElement.$.style.cssText;
             if (cssText.indexOf('height: ') !== -1) {
                 var /** @type {?} */ height = cssText.split('height: ')[1];
@@ -5927,7 +5964,10 @@ var QuickNoteElement = /** @class */ (function (_super) {
      */
     QuickNoteElement.prototype.showPlaceholder = function () {
         if (!this.ckeInstance.getData() && !this.startupFocus) {
-            this.ckeInstance.editable().getParent().$.appendChild(this.placeholderElement);
+            this.ckeInstance
+                .editable()
+                .getParent()
+                .$.appendChild(this.placeholderElement);
             this.placeholderVisible = true;
         }
     };
@@ -5937,7 +5977,10 @@ var QuickNoteElement = /** @class */ (function (_super) {
      */
     QuickNoteElement.prototype.hidePlaceholder = function () {
         if (this.placeholderVisible) {
-            this.ckeInstance.editable().getParent().$.removeChild(this.placeholderElement);
+            this.ckeInstance
+                .editable()
+                .getParent()
+                .$.removeChild(this.placeholderElement);
             this.placeholderVisible = false;
         }
     };
@@ -5950,7 +5993,8 @@ var QuickNoteElement = /** @class */ (function (_super) {
             if (!this._placeholderElement) {
                 this._placeholderElement = document.createElement('div');
                 this._placeholderElement.className = 'placeholder';
-                this._placeholderElement.style.cssText = 'margin: 20px; color: #AAAAAA; font-family: sans-serif; font-size: 13px; line-height: 20px; position: absolute; top: 0';
+                this._placeholderElement.style.cssText =
+                    'margin: 20px; color: #AAAAAA; font-family: sans-serif; font-size: 13px; line-height: 20px; position: absolute; top: 0';
                 this._placeholderElement.textContent = this.placeholder;
             }
             return this._placeholderElement;
@@ -5965,7 +6009,7 @@ QuickNoteElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-quick-note',
                 providers: [QUICK_NOTE_VALUE_ACCESSOR],
-                template: "\n        <div class=\"quick-note-wrapper\" #wrapper>\n            <textarea #host></textarea>\n            <span #results></span>\n        </div>\n    "
+                template: "\n        <div class=\"quick-note-wrapper\" #wrapper>\n            <textarea #host></textarea>\n            <span #results></span>\n        </div>\n    ",
             },] },
 ];
 /**
@@ -13004,7 +13048,7 @@ NovoDateTimePickerModule.ctorParameters = function () { return []; };
 var CKEDITOR_CONTROL_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(function () { return NovoCKEditorElement; }),
-    multi: true
+    multi: true,
 };
 /**
  * CKEditor component
@@ -13143,25 +13187,56 @@ var NovoCKEditorElement = /** @class */ (function () {
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_P,
             disableNativeSpellChecker: false,
-            removePlugins: 'liststyle,tabletools,contextmenu' // allows browser based spell checking
+            removePlugins: 'liststyle,tabletools,contextmenu',
+            extraAllowedContent: '*(*){*};table tbody tr td th[*];',
         };
         var /** @type {?} */ minimalConfig = {
-            toolbar: [{
+            toolbar: [
+                {
                     name: 'basicstyles',
-                    items: ['Styles', 'FontSize', 'Bold', 'Italic', 'Underline', 'TextColor', '-', 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Link']
-                }]
+                    items: [
+                        'Styles',
+                        'FontSize',
+                        'Bold',
+                        'Italic',
+                        'Underline',
+                        'TextColor',
+                        '-',
+                        'NumberedList',
+                        'BulletedList',
+                        'Outdent',
+                        'Indent',
+                        'Link',
+                    ],
+                },
+            ],
         };
         var /** @type {?} */ extendedConfig = {
             toolbar: [
                 { name: 'clipboard', items: ['Paste', 'PasteText', 'PasteFromWord', 'Undo', 'Redo'] },
-                { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl'] },
+                {
+                    name: 'paragraph',
+                    items: [
+                        'NumberedList',
+                        'BulletedList',
+                        'Outdent',
+                        'Indent',
+                        'Blockquote',
+                        'JustifyLeft',
+                        'JustifyCenter',
+                        'JustifyRight',
+                        'JustifyBlock',
+                        'BidiLtr',
+                        'BidiRtl',
+                    ],
+                },
                 { name: 'links', items: ['Link'] },
                 { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] },
                 { name: 'tools', items: ['Maximize', 'Source'] },
                 '/',
                 { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'] },
                 { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
-                { name: 'colors', items: ['TextColor', 'BGColor'] }
+                { name: 'colors', items: ['TextColor', 'BGColor'] },
             ],
             filebrowserImageUploadUrl: this.fileBrowserImageUploadUrl,
         };
@@ -13181,14 +13256,12 @@ var NovoCKEditorElement = /** @class */ (function () {
      * @param {?=} value
      * @return {?}
      */
-    NovoCKEditorElement.prototype.onChange = function (value) {
-    };
+    NovoCKEditorElement.prototype.onChange = function (value) { };
     /**
      * @param {?=} event
      * @return {?}
      */
-    NovoCKEditorElement.prototype.onTouched = function (event) {
-    };
+    NovoCKEditorElement.prototype.onTouched = function (event) { };
     /**
      * @param {?} fn
      * @return {?}
@@ -13217,7 +13290,7 @@ NovoCKEditorElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-editor',
                 providers: [CKEDITOR_CONTROL_VALUE_ACCESSOR],
-                template: '<textarea [name]="name" [id]="name" #host></textarea>'
+                template: '<textarea [name]="name" [id]="name" #host></textarea>',
             },] },
 ];
 /**
@@ -14595,8 +14668,7 @@ var OptionsService = /** @class */ (function () {
             options: function (query$$1) {
                 return new Promise(function (resolve, reject) {
                     if (query$$1 && query$$1.length) {
-                        http$$1.get(field.optionsUrl + "?filter=" + (query$$1 || ''))
-                            .subscribe(resolve, reject);
+                        http$$1.get(field.optionsUrl + "?filter=" + (query$$1 || '')).subscribe(resolve, reject);
                     }
                     else {
                         resolve([]);
@@ -14625,8 +14697,28 @@ var FormUtils = /** @class */ (function () {
     function FormUtils(labels, optionsService) {
         this.labels = labels;
         this.optionsService = optionsService;
-        this.ASSOCIATED_ENTITY_LIST = ['Candidate', 'ClientContact', 'ClientCorporation', 'Lead', 'Opportunity', 'JobOrder', 'CorporateUser', 'Person', 'Placement'];
-        this.PICKER_TEST_LIST = ['CandidateText', 'ClientText', 'ClientContactText', 'ClientCorporationText', 'LeadText', 'OpportunityText', 'JobOrderText', 'CorporateUserText', 'PersonText'];
+        this.ASSOCIATED_ENTITY_LIST = [
+            'Candidate',
+            'ClientContact',
+            'ClientCorporation',
+            'Lead',
+            'Opportunity',
+            'JobOrder',
+            'CorporateUser',
+            'Person',
+            'Placement',
+        ];
+        this.PICKER_TEST_LIST = [
+            'CandidateText',
+            'ClientText',
+            'ClientContactText',
+            'ClientCorporationText',
+            'LeadText',
+            'OpportunityText',
+            'JobOrderText',
+            'CorporateUserText',
+            'PersonText',
+        ];
     }
     /**
      * @param {?} controls
@@ -14678,37 +14770,37 @@ var FormUtils = /** @class */ (function () {
     FormUtils.prototype.determineInputType = function (field) {
         var /** @type {?} */ type;
         var /** @type {?} */ dataSpecializationTypeMap = {
-            'DATETIME': 'datetime',
-            'TIME': 'time',
-            'MONEY': 'currency',
-            'PERCENTAGE': 'percentage',
-            'HTML': 'editor',
+            DATETIME: 'datetime',
+            TIME: 'time',
+            MONEY: 'currency',
+            PERCENTAGE: 'percentage',
+            HTML: 'editor',
             'HTML-MINIMAL': 'editor-minimal',
-            'YEAR': 'year',
+            YEAR: 'year',
         };
         var /** @type {?} */ dataTypeToTypeMap = {
-            'Timestamp': 'date',
-            'Boolean': 'tiles',
+            Timestamp: 'date',
+            Boolean: 'tiles',
         };
         var /** @type {?} */ inputTypeToTypeMap = {
-            'CHECKBOX': 'radio',
-            'RADIO': 'radio',
-            'SELECT': 'select',
-            'TILES': 'tiles',
+            CHECKBOX: 'radio',
+            RADIO: 'radio',
+            SELECT: 'select',
+            TILES: 'tiles',
         };
         var /** @type {?} */ inputTypeMultiToTypeMap = {
-            'CHECKBOX': 'checklist',
-            'RADIO': 'checklist',
-            'SELECT': 'chips',
+            CHECKBOX: 'checklist',
+            RADIO: 'checklist',
+            SELECT: 'chips',
         };
         var /** @type {?} */ typeToTypeMap = {
-            'file': 'file',
-            'COMPOSITE': 'address'
+            file: 'file',
+            COMPOSITE: 'address',
         };
         var /** @type {?} */ numberDataTypeToTypeMap = {
-            'Double': 'float',
-            'BigDecimal': 'float',
-            'Integer': 'number'
+            Double: 'float',
+            BigDecimal: 'float',
+            Integer: 'number',
         };
         if (field.type === 'TO_MANY') {
             if (field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity)) {
@@ -14801,7 +14893,7 @@ var FormUtils = /** @class */ (function () {
             tooltip: field.tooltip,
             tooltipPosition: field.tooltipPosition,
             template: field.template,
-            customControlConfig: field.customControlConfig
+            customControlConfig: field.customControlConfig,
         };
         // TODO: getControlOptions should always return the correct format
         var /** @type {?} */ optionsConfig = this.getControlOptions(field, http$$1, config);
@@ -14810,7 +14902,7 @@ var FormUtils = /** @class */ (function () {
         }
         else if (Array.isArray(optionsConfig) && (type === 'chips' || type === 'picker')) {
             controlConfig.config = {
-                options: optionsConfig
+                options: optionsConfig,
             };
         }
         else if (optionsConfig) {
@@ -14934,7 +15026,7 @@ var FormUtils = /** @class */ (function () {
                         var subfield = _e[_d];
                         controlConfig.config[subfield.name] = {
                             required: !!subfield.required,
-                            hidden: !!subfield.readOnly
+                            hidden: !!subfield.readOnly,
                         };
                         if (!Helpers.isEmpty(subfield.label)) {
                             controlConfig.config[subfield.name].label = subfield.label;
@@ -15000,7 +15092,9 @@ var FormUtils = /** @class */ (function () {
         if (meta && meta.fields) {
             var /** @type {?} */ fields = meta.fields;
             fields.forEach(function (field) {
-                if (field.name !== 'id' && (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) && !field.readOnly) {
+                if (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly) {
                     var /** @type {?} */ control = _this.getControlForField(field, http$$1, config, overrides, forTable);
                     // Set currency format
                     if (control.subType === 'currency') {
@@ -15027,7 +15121,7 @@ var FormUtils = /** @class */ (function () {
         controls.forEach(function (control) {
             ret[control.key] = {
                 editorType: control.__type,
-                editorConfig: control.__config
+                editorConfig: control.__config,
             };
         });
         return ret;
@@ -15045,35 +15139,37 @@ var FormUtils = /** @class */ (function () {
         var /** @type {?} */ fieldsets = [];
         var /** @type {?} */ ranges = [];
         if (meta && meta.fields) {
-            var /** @type {?} */ fields = meta.fields.map(function (field) {
+            var /** @type {?} */ fields = meta.fields
+                .map(function (field) {
                 if (!field.hasOwnProperty('sortOrder')) {
                     field.sortOrder = Number.MAX_SAFE_INTEGER - 1;
                 }
                 return field;
-            }).sort(Helpers.sortByField(['sortOrder', 'name']));
+            })
+                .sort(Helpers.sortByField(['sortOrder', 'name']));
             if (meta.sectionHeaders && meta.sectionHeaders.length) {
                 meta.sectionHeaders.sort(Helpers.sortByField(['sortOrder', 'name']));
                 meta.sectionHeaders.forEach(function (item, i) {
                     if (item.enabled) {
                         if (item.sortOrder > 0 && fieldsets.length === 0) {
                             fieldsets.push({
-                                controls: []
+                                controls: [],
                             });
                             ranges.push({
                                 min: 0,
                                 max: item.sortOrder - 1,
-                                fieldsetIdx: 0
+                                fieldsetIdx: 0,
                             });
                         }
                         fieldsets.push({
                             title: item.label,
                             icon: item.icon || 'bhi-section',
-                            controls: []
+                            controls: [],
                         });
                         ranges.push({
                             min: item.sortOrder,
                             max: Number.MAX_SAFE_INTEGER,
-                            fieldsetIdx: fieldsets.length - 1
+                            fieldsetIdx: fieldsets.length - 1,
                         });
                         if (i > 0 && fieldsets.length > 1) {
                             ranges[fieldsets.length - 2].max = item.sortOrder - 1;
@@ -15082,27 +15178,29 @@ var FormUtils = /** @class */ (function () {
                 });
                 if (!ranges.length) {
                     fieldsets.push({
-                        controls: []
+                        controls: [],
                     });
                     ranges.push({
                         min: 0,
                         max: Number.MAX_SAFE_INTEGER,
-                        fieldsetIdx: 0
+                        fieldsetIdx: 0,
                     });
                 }
             }
             else {
                 fieldsets.push({
-                    controls: []
+                    controls: [],
                 });
                 ranges.push({
                     min: 0,
                     max: Number.MAX_SAFE_INTEGER,
-                    fieldsetIdx: 0
+                    fieldsetIdx: 0,
                 });
             }
             fields.forEach(function (field) {
-                if (field.name !== 'id' && (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) && !field.readOnly) {
+                if (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly) {
                     var /** @type {?} */ control = _this.getControlForField(field, http$$1, config, overrides);
                     // Set currency format
                     if (control.subType === 'currency') {
@@ -15122,9 +15220,11 @@ var FormUtils = /** @class */ (function () {
             return fieldsets;
         }
         else {
-            return [{
-                    controls: this.toControls(meta, currencyFormat, http$$1, config)
-                }];
+            return [
+                {
+                    controls: this.toControls(meta, currencyFormat, http$$1, config),
+                },
+            ];
         }
     };
     /**
@@ -15138,10 +15238,7 @@ var FormUtils = /** @class */ (function () {
         if (field.dataType === 'Boolean' && !field.options) {
             // TODO: dataType should only be determined by `determineInputType` which doesn't ever return 'Boolean' it
             // TODO: (cont.) returns `tiles`
-            return [
-                { value: false, label: this.labels.no },
-                { value: true, label: this.labels.yes }
-            ];
+            return [{ value: false, label: this.labels.no }, { value: true, label: this.labels.yes }];
         }
         else if (field.optionsUrl) {
             return this.optionsService.getOptionsConfig(http$$1, field, config);
@@ -15151,7 +15248,7 @@ var FormUtils = /** @class */ (function () {
             return {
                 field: 'value',
                 format: '$label',
-                options: options
+                options: options,
             };
         }
         else if (field.options) {
@@ -15738,7 +15835,7 @@ var FieldInteractionApi = /** @class */ (function () {
             console.error('[FieldInteractionAPI] - could not find a control in the form by the key --', key); // tslint:disable-line
             return null;
         }
-        return ((control));
+        return /** @type {?} */ (control);
     };
     /**
      * @param {?} key
@@ -15974,7 +16071,7 @@ var FieldInteractionApi = /** @class */ (function () {
             control.tipWell = {
                 tip: tip,
                 icon: icon,
-                button: allowDismiss
+                button: allowDismiss,
             };
             this.triggerEvent({ controlKey: key, prop: 'tipWell', value: tip });
         }
@@ -16100,7 +16197,7 @@ var FieldInteractionApi = /** @class */ (function () {
                 }
                 // Ensure duplicate values are not added
                 currentOptions.forEach(function (option) {
-                    if ((option.value && option.value === optionToAdd.value) || (option === optionToAdd)) {
+                    if ((option.value && option.value === optionToAdd.value) || option === optionToAdd) {
                         isUnique = false;
                     }
                 });
@@ -16195,12 +16292,6 @@ var FieldInteractionApi = /** @class */ (function () {
                             if (query$$1 && query$$1.length) {
                                 _this.http
                                     .get(url)
-                                    .map(function (res) {
-                                    if (res.json) {
-                                        return res.json();
-                                    }
-                                    return res;
-                                })
                                     .map(function (results) {
                                     if (mapper) {
                                         return results.map(mapper);
@@ -16213,7 +16304,7 @@ var FieldInteractionApi = /** @class */ (function () {
                                 resolve([]);
                             }
                         });
-                    }
+                    },
                 });
             }
             else if (config.options) {
@@ -16234,7 +16325,7 @@ var FieldInteractionApi = /** @class */ (function () {
         if (control) {
             if (loading) {
                 this.form.controls[key].fieldInteractionloading = true;
-                control.setErrors({ 'loading': true });
+                control.setErrors({ loading: true });
                 // History
                 clearTimeout(this.asyncBlockTimeout);
                 this.asyncBlockTimeout = setTimeout(function () {
@@ -16246,7 +16337,7 @@ var FieldInteractionApi = /** @class */ (function () {
             else {
                 this.form.controls[key].fieldInteractionloading = false;
                 clearTimeout(this.asyncBlockTimeout);
-                control.setErrors({ 'loading': null });
+                control.setErrors({ loading: null });
                 control.updateValueAndValidity({ emitEvent: false });
                 if (this.getProperty(key, '_displayedAsyncFailure')) {
                     this.setProperty(key, 'tipWell', null);
@@ -16376,7 +16467,7 @@ FieldInteractionApi.FIELD_POSITIONS = {
     ABOVE_FIELD: 'ABOVE_FIELD',
     BELOW_FIELD: 'BELOW_FIELD',
     TOP_OF_FORM: 'TOP_OF_FORM',
-    BOTTOM_OF_FORM: 'BOTTOM_OF_FORM'
+    BOTTOM_OF_FORM: 'BOTTOM_OF_FORM',
 };
 FieldInteractionApi.decorators = [
     { type: Injectable },
@@ -16388,7 +16479,7 @@ FieldInteractionApi.ctorParameters = function () { return [
     { type: NovoToastService, },
     { type: NovoModalService, },
     { type: FormUtils, },
-    { type: Http, },
+    { type: HttpClient, },
     { type: NovoLabelService, },
 ]; };
 // NG2
@@ -50521,7 +50612,7 @@ var NovoDataTablePagination = /** @class */ (function () {
 NovoDataTablePagination.decorators = [
     { type: Component, args: [{
                 selector: 'novo-data-table-pagination',
-                template: "\n      <ng-container *ngIf=\"theme === 'basic'\">\n        <div class=\"novo-data-table-pagination-size\">\n            <novo-tiles *ngIf=\"displayedPageSizeOptions.length > 1\"\n                        [(ngModel)]=\"pageSize\"\n                        [options]=\"displayedPageSizeOptions\"\n                        (onChange)=\"changePageSize($event)\"\n                        data-automation-id=\"novo-data-table-pagination-tiles\">\n            </novo-tiles>\n            <div *ngIf=\"displayedPageSizeOptions.length <= 1\">{{ pageSize }}</div>\n        </div>\n\n        <div class=\"novo-data-table-range-label-long\" data-automation-id=\"novo-data-table-pagination-range-label-long\">\n            {{ longRangeLabel }}\n        </div>\n        <div class=\"novo-data-table-range-label-short\" data-automation-id=\"novo-data-table-pagination-range-label-short\">\n            {{ shortRangeLabel }}\n        </div>\n\n        <button theme=\"dialogue\" type=\"button\"\n                class=\"novo-data-table-pagination-navigation-previous\"\n                (click)=\"previousPage()\"\n                icon=\"previous\"\n                side=\"left\"\n                [disabled]=\"!hasPreviousPage()\"\n                data-automation-id=\"novo-data-table-pagination-previous\">\n            <span>{{ labels.previous }}</span>\n        </button>\n        <button theme=\"dialogue\" type=\"button\"\n                class=\"novo-data-table-pagination-navigation-next\"\n                (click)=\"nextPage()\"\n                icon=\"next\"\n                side=\"right\"\n                [disabled]=\"!hasNextPage()\"\n                data-automation-id=\"novo-data-table-pagination-next\">\n            <span>{{ labels.next }}</span>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"theme === 'standard'\">\n        <h5 class=\"rows\">{{ labels.itemsPerPage }}</h5>\n        <novo-select [options]=\"displayedPageSizeOptions\" [placeholder]=\"labels.select\" [(ngModel)]=\"pageSize\" (onSelect)=\"changePageSize($event.selected)\" data-automation-id=\"pager-select\"></novo-select>\n        <span class=\"spacer\"></span>\n        <ul class=\"pager\" data-automation-id=\"pager\">\n            <li class=\"page\" (click)=\"selectPage(page - 1)\" [ngClass]=\"{ 'disabled': page === 0 }\"><i class=\"bhi-previous\" data-automation-id=\"pager-previous\"></i></li>\n            <li class=\"page\" [ngClass]=\"{active: p.number === page + 1}\" *ngFor=\"let p of pages\" (click)=\"selectPage(p.number - 1)\">{{ p.text }}</li>\n            <li class=\"page\" (click)=\"selectPage(page + 1)\" [ngClass]=\"{ 'disabled': page + 1 === totalPages }\"><i class=\"bhi-next\" data-automation-id=\"pager-next\"></i></li>\n        </ul>\n      </ng-container>\n  ",
+                template: "\n      <ng-container *ngIf=\"theme === 'basic' || theme === 'basic-wide'\">\n        <div class=\"novo-data-table-pagination-size\">\n            <novo-tiles *ngIf=\"displayedPageSizeOptions.length > 1\"\n                        [(ngModel)]=\"pageSize\"\n                        [options]=\"displayedPageSizeOptions\"\n                        (onChange)=\"changePageSize($event)\"\n                        data-automation-id=\"novo-data-table-pagination-tiles\">\n            </novo-tiles>\n            <div *ngIf=\"displayedPageSizeOptions.length <= 1\">{{ pageSize }}</div>\n        </div>\n\n        <div class=\"novo-data-table-range-label-long\" data-automation-id=\"novo-data-table-pagination-range-label-long\">\n            {{ longRangeLabel }}\n        </div>\n        <div class=\"novo-data-table-range-label-short\" data-automation-id=\"novo-data-table-pagination-range-label-short\">\n            {{ shortRangeLabel }}\n        </div>\n        <span class=\"spacer novo-data-table-spacer\" *ngIf=\"theme === 'basic-wide'\"></span>\n        <button theme=\"dialogue\" type=\"button\"\n                class=\"novo-data-table-pagination-navigation-previous\"\n                (click)=\"previousPage()\"\n                icon=\"previous\"\n                side=\"left\"\n                [disabled]=\"!hasPreviousPage()\"\n                data-automation-id=\"novo-data-table-pagination-previous\">\n            <span>{{ labels.previous }}</span>\n        </button>\n        <button theme=\"dialogue\" type=\"button\"\n                class=\"novo-data-table-pagination-navigation-next\"\n                (click)=\"nextPage()\"\n                icon=\"next\"\n                side=\"right\"\n                [disabled]=\"!hasNextPage()\"\n                data-automation-id=\"novo-data-table-pagination-next\">\n            <span>{{ labels.next }}</span>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"theme === 'standard'\">\n        <h5 class=\"rows\">{{ labels.itemsPerPage }}</h5>\n        <novo-select [options]=\"displayedPageSizeOptions\" [placeholder]=\"labels.select\" [(ngModel)]=\"pageSize\" (onSelect)=\"changePageSize($event.selected)\" data-automation-id=\"pager-select\"></novo-select>\n        <span class=\"spacer\"></span>\n        <ul class=\"pager\" data-automation-id=\"pager\">\n            <li class=\"page\" (click)=\"selectPage(page - 1)\" [ngClass]=\"{ 'disabled': page === 0 }\"><i class=\"bhi-previous\" data-automation-id=\"pager-previous\"></i></li>\n            <li class=\"page\" [ngClass]=\"{active: p.number === page + 1}\" *ngFor=\"let p of pages\" (click)=\"selectPage(p.number - 1)\">{{ p.text }}</li>\n            <li class=\"page\" (click)=\"selectPage(page + 1)\" [ngClass]=\"{ 'disabled': page + 1 === totalPages }\"><i class=\"bhi-next\" data-automation-id=\"pager-next\"></i></li>\n        </ul>\n      </ng-container>\n  ",
                 changeDetection: ChangeDetectionStrategy.OnPush,
             },] },
 ];
@@ -52657,8 +52748,7 @@ var GooglePlacesService = /** @class */ (function () {
     GooglePlacesService.prototype.getPredictions = function (url, query$$1) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this._http.get(url + '?query=' + query$$1).map(function (res) { return res.json(); })
-                .subscribe(function (data) {
+            _this._http.get(url + '?query=' + query$$1).subscribe(function (data) {
                 if (data) {
                     resolve(data);
                 }
@@ -52677,8 +52767,7 @@ var GooglePlacesService = /** @class */ (function () {
     GooglePlacesService.prototype.getLatLngDetail = function (url, lat, lng) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this._http.get(url + '?lat=' + lat + '&lng=' + lng).map(function (res) { return res.json(); })
-                .subscribe(function (data) {
+            _this._http.get(url + '?lat=' + lat + '&lng=' + lng).subscribe(function (data) {
                 if (data) {
                     resolve(data);
                 }
@@ -52696,8 +52785,7 @@ var GooglePlacesService = /** @class */ (function () {
     GooglePlacesService.prototype.getPlaceDetails = function (url, placeId) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this._http.get(url + '?query=' + placeId).map(function (res) { return res.json(); })
-                .subscribe(function (data) {
+            _this._http.get(url + '?query=' + placeId).subscribe(function (data) {
                 if (data) {
                     resolve(data);
                 }
@@ -52740,7 +52828,7 @@ var GooglePlacesService = /** @class */ (function () {
             if (isPlatformBrowser(_this.platformId)) {
                 var /** @type {?} */ _window = _this._global.nativeGlobal;
                 var /** @type {?} */ geocoder = new _window.google.maps.Geocoder();
-                geocoder.geocode({ 'location': latlng }, function (results, status) {
+                geocoder.geocode({ location: latlng }, function (results, status) {
                     if (status === 'OK') {
                         _this.getGeoPlaceDetail(results[0].place_id).then(function (result) {
                             if (result) {
@@ -52781,7 +52869,7 @@ var GooglePlacesService = /** @class */ (function () {
                 }
                 else {
                     queryInput = {
-                        input: params.query
+                        input: params.query,
                     };
                 }
                 if (params.geoLocation) {
@@ -52830,7 +52918,7 @@ var GooglePlacesService = /** @class */ (function () {
             if (isPlatformBrowser(_this.platformId)) {
                 var /** @type {?} */ _window = _this._global.nativeGlobal;
                 var /** @type {?} */ placesService = new _window.google.maps.places.PlacesService(document.createElement('div'));
-                placesService.getDetails({ 'placeId': placeId }, function (result, status) {
+                placesService.getDetails({ placeId: placeId }, function (result, status) {
                     if (result === null || result.length === 0) {
                         _this.getGeoPaceDetailByReferance(result.referance).then(function (referanceData) {
                             if (!referanceData) {
@@ -52861,7 +52949,7 @@ var GooglePlacesService = /** @class */ (function () {
             if (isPlatformBrowser(_this.platformId)) {
                 var /** @type {?} */ _window_1 = _this._global.nativeGlobal;
                 var /** @type {?} */ placesService = new _window_1.google.maps.places.PlacesService();
-                placesService.getDetails({ 'reference': referance }, function (result, status) {
+                placesService.getDetails({ reference: referance }, function (result, status) {
                     if (status === _window_1.google.maps.places.PlacesServiceStatus.OK) {
                         resolve(result);
                     }
@@ -52899,7 +52987,6 @@ var GooglePlacesService = /** @class */ (function () {
             }
         });
     };
-    ;
     /**
      * @param {?} localStorageName
      * @return {?}
@@ -52951,7 +53038,7 @@ GooglePlacesService.decorators = [
  * @nocollapse
  */
 GooglePlacesService.ctorParameters = function () { return [
-    { type: Http, },
+    { type: HttpClient, },
     { type: Object, decorators: [{ type: Inject, args: [PLATFORM_ID,] },] },
     { type: GlobalRef, },
     { type: LocalStorageService, },
@@ -52982,7 +53069,7 @@ var HTTP_VERBS = {
     GET: 'get',
     POST: 'post',
     PUT: 'put',
-    DELETE: 'delete'
+    DELETE: 'delete',
 };
 var MESSAGE_TYPES = {
     REGISTER: 'register',
@@ -52998,7 +53085,7 @@ var MESSAGE_TYPES = {
     HTTP_DELETE: 'httpDELETE',
     CUSTOM_EVENT: 'customEvent',
     REQUEST_DATA: 'requestData',
-    CALLBACK: 'callback'
+    CALLBACK: 'callback',
 };
 var AppBridgeService = /** @class */ (function () {
     function AppBridgeService() {
@@ -53214,7 +53301,9 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 Object.assign(packet, { id: _this.id, windowName: _this.windowName });
-                postRobot.sendToParent(MESSAGE_TYPES.OPEN, packet).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.OPEN, packet)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.OPEN + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53222,7 +53311,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53249,7 +53339,9 @@ var AppBridge = /** @class */ (function () {
             else {
                 var /** @type {?} */ openListPacket = {};
                 Object.assign(openListPacket, { type: 'List', entityType: packet.type, keywords: packet.keywords, criteria: packet.criteria });
-                postRobot.sendToParent(MESSAGE_TYPES.OPEN_LIST, packet).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.OPEN_LIST, packet)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.OPEN_LIST + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53257,7 +53349,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53283,7 +53376,9 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 Object.assign(packet, { id: _this.id, windowName: _this.windowName });
-                postRobot.sendToParent(MESSAGE_TYPES.UPDATE, packet).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.UPDATE, packet)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.UPDATE + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53291,7 +53386,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53320,7 +53416,9 @@ var AppBridge = /** @class */ (function () {
                     console.info('[AppBridge] - close(packet) is deprecated! Please just use close()!'); // tslint:disable-line
                 }
                 var /** @type {?} */ realPacket = { id: _this.id, windowName: _this.windowName };
-                postRobot.sendToParent(MESSAGE_TYPES.CLOSE, realPacket).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.CLOSE, realPacket)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.CLOSE + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53328,7 +53426,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53357,7 +53456,9 @@ var AppBridge = /** @class */ (function () {
                     console.info('[AppBridge] - refresh(packet) is deprecated! Please just use refresh()!'); // tslint:disable-line
                 }
                 var /** @type {?} */ realPacket = { id: _this.id, windowName: _this.windowName };
-                postRobot.sendToParent(MESSAGE_TYPES.REFRESH, realPacket).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.REFRESH, realPacket)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.REFRESH + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53365,7 +53466,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53394,7 +53496,9 @@ var AppBridge = /** @class */ (function () {
                     console.info('[AppBridge] - pin(packet) is deprecated! Please just use pin()!'); // tslint:disable-line
                 }
                 var /** @type {?} */ realPacket = { id: _this.id, windowName: _this.windowName };
-                postRobot.sendToParent(MESSAGE_TYPES.PIN, realPacket).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.PIN, realPacket)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.PIN + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53402,7 +53506,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53428,7 +53533,9 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 Object.assign(packet, { id: _this.id, windowName: _this.windowName });
-                postRobot.sendToParent(MESSAGE_TYPES.REQUEST_DATA, packet).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.REQUEST_DATA, packet)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.REQUEST_DATA + " (callback)", event);
                     if (event.data) {
                         resolve({ data: event.data.data });
@@ -53436,7 +53543,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53462,7 +53570,9 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 Object.assign(packet, { id: _this.id, windowName: _this.windowName });
-                postRobot.sendToParent(MESSAGE_TYPES.CALLBACK, packet).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.CALLBACK, packet)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.CALLBACK + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -53470,7 +53580,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
                 });
             }
@@ -53497,7 +53608,9 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 Object.assign(packet, { id: _this.id });
-                postRobot.sendToParent(MESSAGE_TYPES.REGISTER, packet).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.REGISTER, packet)
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.REGISTER + " (callback)", event);
                     if (event.data) {
                         _this.windowName = event.data.windowName;
@@ -53506,7 +53619,8 @@ var AppBridge = /** @class */ (function () {
                     else {
                         resolve(null);
                     }
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     _this._trace(MESSAGE_TYPES.REGISTER + " - FAILED - (no parent)", err);
                     resolve(null);
                 });
@@ -53527,9 +53641,12 @@ var AppBridge = /** @class */ (function () {
                 });
             }
             else {
-                postRobot.sendToParent(MESSAGE_TYPES.HTTP_GET, { relativeURL: relativeURL }).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.HTTP_GET, { relativeURL: relativeURL })
+                    .then(function (event) {
                     resolve({ data: event.data.data, error: event.data.error });
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(null);
                 });
             }
@@ -53550,9 +53667,12 @@ var AppBridge = /** @class */ (function () {
                 });
             }
             else {
-                postRobot.sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL: relativeURL, data: postData }).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL: relativeURL, data: postData })
+                    .then(function (event) {
                     resolve({ data: event.data.data, error: event.data.error });
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(null);
                 });
             }
@@ -53573,9 +53693,12 @@ var AppBridge = /** @class */ (function () {
                 });
             }
             else {
-                postRobot.sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL: relativeURL, data: putData }).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL: relativeURL, data: putData })
+                    .then(function (event) {
                     resolve({ data: event.data.data, error: event.data.error });
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(null);
                 });
             }
@@ -53595,9 +53718,12 @@ var AppBridge = /** @class */ (function () {
                 });
             }
             else {
-                postRobot.sendToParent(MESSAGE_TYPES.HTTP_DELETE, { relativeURL: relativeURL }).then(function (event) {
+                postRobot
+                    .sendToParent(MESSAGE_TYPES.HTTP_DELETE, { relativeURL: relativeURL })
+                    .then(function (event) {
                     resolve({ data: event.data.data, error: event.data.error });
-                }).catch(function (err) {
+                })
+                    .catch(function (err) {
                     reject(null);
                 });
             }
@@ -53611,9 +53737,12 @@ var AppBridge = /** @class */ (function () {
      */
     AppBridge.prototype.fireEvent = function (event, data) {
         return new Promise(function (resolve, reject) {
-            postRobot.sendToParent(MESSAGE_TYPES.CUSTOM_EVENT, { event: event, data: data }).then(function (e) {
+            postRobot
+                .sendToParent(MESSAGE_TYPES.CUSTOM_EVENT, { event: event, data: data })
+                .then(function (e) {
                 resolve(e);
-            }).catch(function (err) {
+            })
+                .catch(function (err) {
                 reject(null);
             });
         });
@@ -53629,7 +53758,7 @@ var AppBridge = /** @class */ (function () {
             this._registeredFrames.forEach(function (frame) {
                 postRobot.send(frame.source, MESSAGE_TYPES.CUSTOM_EVENT, {
                     eventType: event,
-                    data: data
+                    data: data,
                 });
             });
         }
@@ -53679,7 +53808,10 @@ var DevAppBridge = /** @class */ (function (_super) {
      * @return {?}
      */
     DevAppBridge.prototype.httpGET = function (relativeURL) {
-        return this.http.get(this.baseURL + "/" + relativeURL, { withCredentials: true }).map(function (res) { return ({ data: res.json() }); }).toPromise();
+        return this.http
+            .get(this.baseURL + "/" + relativeURL, { withCredentials: true })
+            .map(function (res) { return ({ data: res }); })
+            .toPromise();
     };
     /**
      * Fires or responds to an HTTP_POST event
@@ -53688,7 +53820,10 @@ var DevAppBridge = /** @class */ (function (_super) {
      * @return {?}
      */
     DevAppBridge.prototype.httpPOST = function (relativeURL, postData) {
-        return this.http.post(this.baseURL + "/" + relativeURL, postData, { withCredentials: true }).map(function (res) { return ({ data: res.json() }); }).toPromise();
+        return this.http
+            .post(this.baseURL + "/" + relativeURL, postData, { withCredentials: true })
+            .map(function (res) { return ({ data: res }); })
+            .toPromise();
     };
     /**
      * Fires or responds to an HTTP_PUT event
@@ -53697,7 +53832,10 @@ var DevAppBridge = /** @class */ (function (_super) {
      * @return {?}
      */
     DevAppBridge.prototype.httpPUT = function (relativeURL, putData) {
-        return this.http.put(this.baseURL + "/" + relativeURL, putData, { withCredentials: true }).map(function (res) { return ({ data: res.json() }); }).toPromise();
+        return this.http
+            .put(this.baseURL + "/" + relativeURL, putData, { withCredentials: true })
+            .map(function (res) { return ({ data: res }); })
+            .toPromise();
     };
     /**
      * Fires or responds to an HTTP_DELETE event
@@ -53705,7 +53843,10 @@ var DevAppBridge = /** @class */ (function (_super) {
      * @return {?}
      */
     DevAppBridge.prototype.httpDELETE = function (relativeURL) {
-        return this.http.delete(this.baseURL + "/" + relativeURL, { withCredentials: true }).map(function (res) { return ({ data: res.json() }); }).toPromise();
+        return this.http
+            .delete(this.baseURL + "/" + relativeURL, { withCredentials: true })
+            .map(function (res) { return ({ data: res }); })
+            .toPromise();
     };
     /**
      * @param {?} cname
@@ -54621,21 +54762,10 @@ var GooglePlacesModule = /** @class */ (function () {
 }());
 GooglePlacesModule.decorators = [
     { type: NgModule, args: [{
-                declarations: [
-                    PlacesListComponent
-                ],
-                imports: [
-                    CommonModule,
-                    HttpModule,
-                    FormsModule,
-                    NovoListModule
-                ],
-                exports: [
-                    PlacesListComponent
-                ],
-                providers: [
-                    { provide: GooglePlacesService, useClass: GooglePlacesService },
-                ]
+                declarations: [PlacesListComponent],
+                imports: [CommonModule, HttpClientModule, FormsModule, NovoListModule],
+                exports: [PlacesListComponent],
+                providers: [GooglePlacesService],
             },] },
 ];
 /**

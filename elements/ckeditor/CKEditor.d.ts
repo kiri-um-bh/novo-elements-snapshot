@@ -33,6 +33,7 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit {
         shiftEnterMode: any;
         disableNativeSpellChecker: boolean;
         removePlugins: string;
+        extraAllowedContent: string;
     } & {
         toolbar: {
             name: string;
@@ -43,6 +44,7 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit {
         shiftEnterMode: any;
         disableNativeSpellChecker: boolean;
         removePlugins: string;
+        extraAllowedContent: string;
     } & {
         toolbar: (string | {
             name: string;
