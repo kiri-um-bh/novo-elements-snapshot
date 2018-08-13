@@ -38,7 +38,7 @@ export interface IDataTableColumn<T> {
     };
 }
 export interface IDataTablePaginationOptions {
-    theme: 'basic' | 'standard' | 'basic-wide';
+    theme: 'basic' | 'standard';
     page?: number;
     pageSize: number;
     pageSizeOptions: number[] | {

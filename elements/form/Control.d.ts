@@ -55,6 +55,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     maskOptions: IMaskOptions;
     templates: any;
     templateContext: any;
+    loading: boolean;
     constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, fieldInteractionApi: FieldInteractionApi, templateService: NovoTemplateService, changeDetectorRef: ChangeDetectorRef);
     readonly maxlengthMetField: string;
     readonly maxlengthErrorField: string;

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { Http } from '@angular/http';
 import { GlobalRef } from '../../services/global/global.service';
 import { LocalStorageService } from '../../services/storage/storage.service';
 export declare class GooglePlacesService {
@@ -6,7 +6,7 @@ export declare class GooglePlacesService {
     private platformId;
     private _global;
     private _localStorageService;
-    constructor(_http: HttpClient, platformId: Object, _global: GlobalRef, _localStorageService: LocalStorageService);
+    constructor(_http: Http, platformId: Object, _global: GlobalRef, _localStorageService: LocalStorageService);
     getPredictions(url: string, query: string): Promise<any>;
     getLatLngDetail(url: string, lat: number, lng: number): Promise<any>;
     getPlaceDetails(url: string, placeId: string): Promise<any>;

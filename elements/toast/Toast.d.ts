@@ -1,4 +1,4 @@
-import { OnInit, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
+import { OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export declare class NovoToastElement implements OnInit, OnChanges {
     private sanitizer;
@@ -9,7 +9,6 @@ export declare class NovoToastElement implements OnInit, OnChanges {
     link: string;
     isCloseable: boolean;
     message: string;
-    closed: EventEmitter<any>;
     _message: SafeHtml;
     show: boolean;
     animate: boolean;

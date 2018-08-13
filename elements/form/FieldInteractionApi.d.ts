@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { NovoFormControl } from './NovoFormControl';
 import { FormUtils } from '../../utils/form-utils/FormUtils';
@@ -23,7 +23,7 @@ export declare class FieldInteractionApi {
         TOP_OF_FORM: string;
         BOTTOM_OF_FORM: string;
     };
-    constructor(toaster: NovoToastService, modalService: NovoModalService, formUtils: FormUtils, http: HttpClient, labels: NovoLabelService);
+    constructor(toaster: NovoToastService, modalService: NovoModalService, formUtils: FormUtils, http: Http, labels: NovoLabelService);
     form: any;
     readonly associations: object;
     readonly currentEntity: string;
@@ -113,7 +113,7 @@ export declare class FieldInteractionApi {
         optionsUrlBuilder?: Function;
         optionsPromise?: any;
         options?: any[];
-    }, mapper?: any): void;
+    }, mapper?: Function): void;
     setLoading(key: string, loading: boolean): void;
     addControl(key: string, metaForNewField: any, position?: string, initialValue?: any): void;
     removeControl(key: string): void;
