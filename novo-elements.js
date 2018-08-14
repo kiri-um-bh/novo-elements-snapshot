@@ -14286,20 +14286,22 @@ class NovoDynamicFormElement {
     ngOnChanges(changes) {
         this.form.layout = this.layout;
         if (!(this.fieldsets && this.fieldsets.length) && this.controls && this.controls.length) {
-            this.fieldsets = [{
-                    controls: this.controls
-                }];
+            this.fieldsets = [
+                {
+                    controls: this.controls,
+                },
+            ];
             this.numControls = this.controls.length;
         }
         else if (this.fieldsets) {
-            this.fieldsets.forEach(fieldset => {
+            this.fieldsets.forEach((fieldset) => {
                 this.numControls = this.numControls + fieldset.controls.length;
             });
         }
         let /** @type {?} */ requiredFields = [];
         let /** @type {?} */ nonRequiredFields = [];
-        this.fieldsets.forEach(fieldset => {
-            fieldset.controls.forEach(control => {
+        this.fieldsets.forEach((fieldset) => {
+            fieldset.controls.forEach((control) => {
                 if (control.required) {
                     requiredFields.push(control);
                 }
@@ -14311,8 +14313,8 @@ class NovoDynamicFormElement {
         this.allFieldsRequired = requiredFields.length === this.numControls;
         this.allFieldsNotRequired = nonRequiredFields.length === this.numControls;
         if (this.allFieldsNotRequired && this.hideNonRequiredFields) {
-            this.fieldsets.forEach(fieldset => {
-                fieldset.controls.forEach(control => {
+            this.fieldsets.forEach((fieldset) => {
+                fieldset.controls.forEach((control) => {
                     this.form.controls[control.key].hidden = false;
                 });
             });
@@ -14333,8 +14335,8 @@ class NovoDynamicFormElement {
      * @return {?}
      */
     showAllFields() {
-        this.form.fieldsets.forEach(fieldset => {
-            fieldset.controls.forEach(control => {
+        this.form.fieldsets.forEach((fieldset) => {
+            fieldset.controls.forEach((control) => {
                 this.form.controls[control.key].hidden = false;
             });
         });
@@ -14346,14 +14348,16 @@ class NovoDynamicFormElement {
      * @return {?}
      */
     showOnlyRequired(hideRequiredWithValue) {
-        this.form.fieldsets.forEach(fieldset => {
-            fieldset.controls.forEach(control => {
+        this.form.fieldsets.forEach((fieldset) => {
+            fieldset.controls.forEach((control) => {
                 // Hide any non-required fields
                 if (!control.required) {
                     this.form.controls[control.key].hidden = true;
                 }
                 // Hide required fields that have been successfully filled out
-                if (hideRequiredWithValue && !Helpers.isBlank(this.form.value[control.key]) && (!control.isEmpty || control.isEmpty && control.isEmpty(this.form.controls[control.key]))) {
+                if (hideRequiredWithValue &&
+                    !Helpers.isBlank(this.form.value[control.key]) &&
+                    (!control.isEmpty || (control.isEmpty && control.isEmpty(this.form.controls[control.key])))) {
                     this.form.controls[control.key].hidden = true;
                 }
                 // Don't hide fields with errors
@@ -14383,8 +14387,8 @@ class NovoDynamicFormElement {
      */
     updatedValues() {
         let /** @type {?} */ ret = null;
-        this.form.fieldsets.forEach(fieldset => {
-            fieldset.controls.forEach(control => {
+        this.form.fieldsets.forEach((fieldset) => {
+            fieldset.controls.forEach((control) => {
                 if (this.form.controls[control.key].dirty || control.dirty) {
                     if (!ret) {
                         ret = {};
@@ -14412,6 +14416,7 @@ NovoDynamicFormElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-dynamic-form',
                 template: `
+        <novo-control-templates></novo-control-templates>
         <div class="novo-form-container">
             <header>
                 <ng-content select="form-title"></ng-content>
@@ -14424,7 +14429,7 @@ NovoDynamicFormElement.decorators = [
             </form>
         </div>
     `,
-                providers: [NovoTemplateService]
+                providers: [NovoTemplateService],
             },] },
 ];
 /**
@@ -14533,6 +14538,7 @@ NovoFormElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-form',
                 template: `
+        <novo-control-templates></novo-control-templates>
         <div class="novo-form-container">
             <header *ngIf="!hideHeader">
                 <ng-content select="form-title"></ng-content>
@@ -14543,7 +14549,7 @@ NovoFormElement.decorators = [
             </form>
         </div>
     `,
-                providers: [NovoTemplateService]
+                providers: [NovoTemplateService],
             },] },
 ];
 /**
@@ -17147,6 +17153,7 @@ class NovoControlElement extends OutsideClick {
         this._showCount = false;
         this.maxLengthMetErrorfields = [];
         this.templates = {};
+        this.loading = false;
     }
     /**
      * @return {?}
@@ -17254,6 +17261,7 @@ class NovoControlElement extends OutsideClick {
         }
         setTimeout(() => {
             this.templates = this.templateService.getAll();
+            this.loading = false;
             this.changeDetectorRef.markForCheck();
         });
     }
@@ -17261,6 +17269,7 @@ class NovoControlElement extends OutsideClick {
      * @return {?}
      */
     ngOnInit() {
+        this.loading = true;
         // Make sure to initially format the time controls
         if (this.control && this.form.controls[this.control.key].value) {
             if (this.form.controls[this.control.key].controlType === 'textbox' ||
@@ -17673,7 +17682,6 @@ NovoControlElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-control',
                 template: `
-        <novo-control-templates></novo-control-templates>
         <div class="novo-control-container" [hidden]="form.controls[control.key].hidden || form.controls[control.key].type === 'hidden' || form.controls[control.key].controlType === 'hidden'">
             <!--Encrypted Field-->
             <span [tooltip]="labels.encryptedFieldTooltip" [tooltipPosition]="'right'"><i [hidden]="!form.controls[control.key].encrypted"
@@ -17707,6 +17715,11 @@ NovoControlElement.decorators = [
                             <!--TODO prefix/suffix on the control-->
                             <ng-container *ngIf="templates">
                               <ng-container *ngTemplateOutlet="templates[form.controls[control.key].controlType]; context: templateContext"></ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="!templates || loading">
+                                <div class="novo-control-input-container novo-control-input-with-label">
+                                  <input type="text"/>>
+                                </div>
                             </ng-container>
                         </div>
                     </div>
