@@ -1,8 +1,9 @@
 import { EventEmitter, ElementRef, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef, OnDestroy, NgZone } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 import { NovoLabelService } from '../../services/novo-label-service';
-export declare class NovoSelectElement implements OnInit, OnChanges, OnDestroy {
+export declare class NovoSelectElement implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     element: ElementRef;
     labels: NovoLabelService;
     ref: ChangeDetectorRef;
@@ -25,6 +26,7 @@ export declare class NovoSelectElement implements OnInit, OnChanges, OnDestroy {
     filterTerm: string;
     filterTermTimeout: any;
     filteredOptions: any;
+    disabled: boolean;
     /** Element for the panel containing the autocomplete options. */
     overlay: NovoOverlayTemplateComponent;
     dropdown: ElementRef;
@@ -56,5 +58,5 @@ export declare class NovoSelectElement implements OnInit, OnChanges, OnDestroy {
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
-    readonly disabled: boolean;
+    setDisabledState(disabled: boolean): void;
 }

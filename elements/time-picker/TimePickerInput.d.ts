@@ -18,6 +18,7 @@ export declare class NovoTimePickerInputElement implements OnInit, ControlValueA
     placeholder: string;
     military: boolean;
     maskOptions: any;
+    disabled: boolean;
     blurEvent: EventEmitter<FocusEvent>;
     focusEvent: EventEmitter<FocusEvent>;
     /** Element for the panel containing the autocomplete options. */
@@ -36,6 +37,7 @@ export declare class NovoTimePickerInputElement implements OnInit, ControlValueA
     writeValue(value: any): void;
     registerOnChange(fn: (value: any) => {}): void;
     registerOnTouched(fn: () => {}): void;
+    setDisabledState(disabled: boolean): void;
     dispatchOnChange(newValue?: any, skip?: boolean): void;
     private _setTriggerValue(value);
     setValue(event: any | null): void;

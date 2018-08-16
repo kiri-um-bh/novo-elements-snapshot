@@ -1,10 +1,11 @@
 import { EventEmitter, NgZone, AfterViewInit, OnDestroy } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 /**
  * CKEditor component
  * Usage :
  *  <novo-editor [(ngModel)]="data" [config]="{...}" debounce="500"></novo-editor>
  */
-export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit {
+export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit, ControlValueAccessor {
     private zone;
     config: any;
     debounce: any;
@@ -12,6 +13,7 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit {
     minimal: any;
     startupFocus: boolean;
     fileBrowserImageUploadUrl: string;
+    disabled: boolean;
     change: EventEmitter<{}>;
     ready: EventEmitter<{}>;
     blur: EventEmitter<{}>;
@@ -57,5 +59,6 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit {
     onTouched(event?: any): void;
     registerOnChange(fn: any): void;
     registerOnTouched(fn: any): void;
+    setDisabledState(disabled: boolean): void;
     insertText(text: any): void;
 }

@@ -16,6 +16,7 @@ export declare class NovoDateTimePickerInputElement implements ControlValueAcces
     placeholder: string;
     maskOptions: any;
     military: boolean;
+    disabled: boolean;
     format: string;
     blurEvent: EventEmitter<FocusEvent>;
     focusEvent: EventEmitter<FocusEvent>;
@@ -28,6 +29,7 @@ export declare class NovoDateTimePickerInputElement implements ControlValueAcces
     checkParts(): void;
     registerOnChange(fn: (value: any) => {}): void;
     registerOnTouched(fn: () => {}): void;
+    setDisabledState(disabled: boolean): void;
     dispatchOnChange(newValue?: any): void;
     private _setTriggerValue(value);
     setValue(event: any | null): void;

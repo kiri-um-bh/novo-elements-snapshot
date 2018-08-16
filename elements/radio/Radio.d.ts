@@ -12,6 +12,7 @@ export declare class NovoRadioElement implements ControlValueAccessor {
     button: boolean;
     theme: string;
     icon: string;
+    disabled: boolean;
     change: EventEmitter<any>;
     model: any;
     onModelChange: Function;
@@ -21,4 +22,5 @@ export declare class NovoRadioElement implements ControlValueAccessor {
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
+    setDisabledState(disabled: boolean): void;
 }

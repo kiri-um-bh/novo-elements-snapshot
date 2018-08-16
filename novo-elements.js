@@ -4394,11 +4394,11 @@ class NovoTilesElement {
             event.stopPropagation();
             event.preventDefault();
         }
-        if (item.checked) {
-            this.onSelectedOptionClick.emit(item);
-            return;
-        }
         if (!item.disabled) {
+            if (item.checked) {
+                this.onSelectedOptionClick.emit(item);
+                return;
+            }
             for (let /** @type {?} */ option of this._options) {
                 option.checked = false;
             }
@@ -4464,6 +4464,13 @@ class NovoTilesElement {
     registerOnTouched(fn) {
         this.onModelTouched = fn;
     }
+    /**
+     * @param {?} disabled
+     * @return {?}
+     */
+    setDisabledState(disabled) {
+        this.disabled = disabled;
+    }
 }
 NovoTilesElement.decorators = [
     { type: Component, args: [{
@@ -4472,7 +4479,7 @@ NovoTilesElement.decorators = [
                 template: `
         <div class="tile-container" [class.active]="focused" [class.disabled]="disabled">
             <div class="tile" *ngFor="let option of _options; let i = index" [ngClass]="{active: option.checked, disabled: option.disabled}" (click)="select($event, option, i)" [attr.data-automation-id]="option.label || option">
-                <input class="tiles-input" [name]="name" type="radio" [value]="option.checked || option" [attr.id]="name + i" (change)="select($event, option, i)" (focus)="setFocus(true)" (blur)="setFocus(false)">
+                <input class="tiles-input" [name]="name" type="radio" [value]="option.checked || option" [attr.id]="name + i" (change)="select($event, option, i)" (focus)="setFocus(true)" (blur)="setFocus(false)" [disabled]="disabled">
                 <label [attr.for]="name + i" [attr.data-automation-id]="option.label || option">
                     {{ option.label || option }}
                 </label>
@@ -6380,14 +6387,14 @@ NovoQuickNoteModule.ctorParameters = () => [];
 const RADIO_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NovoRadioElement),
-    multi: true
+    multi: true,
 };
 class NovoRadioGroup {
 }
 NovoRadioGroup.decorators = [
     { type: Component, args: [{
                 selector: 'novo-radio-group',
-                template: '<ng-content></ng-content>'
+                template: '<ng-content></ng-content>',
             },] },
 ];
 /**
@@ -6402,11 +6409,10 @@ class NovoRadioElement {
         this.ref = ref;
         this.button = false;
         this.theme = 'secondary';
+        this.disabled = false;
         this.change = new EventEmitter();
-        this.onModelChange = () => {
-        };
-        this.onModelTouched = () => {
-        };
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
     }
     /**
      * @param {?} event
@@ -6444,13 +6450,20 @@ class NovoRadioElement {
     registerOnTouched(fn) {
         this.onModelTouched = fn;
     }
+    /**
+     * @param {?} disabled
+     * @return {?}
+     */
+    setDisabledState(disabled) {
+        this.disabled = disabled;
+    }
 }
 NovoRadioElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-radio',
                 providers: [RADIO_VALUE_ACCESSOR],
                 template: `
-        <input [name]="name" type="radio" [checked]="checked" [attr.id]="name" (change)="select($event)">
+        <input [name]="name" type="radio" [checked]="checked" [attr.id]="name" (change)="select($event)" [disabled]="disabled">
         <label [attr.for]="name" (click)="select($event)">
             <button *ngIf="button" [ngClass]="{'unchecked': !checked, 'checked': checked, 'has-icon': !!icon}" [theme]="theme" [icon]="icon">{{ label }}</button>
             <div *ngIf="!button">
@@ -6461,8 +6474,8 @@ NovoRadioElement.decorators = [
         </label>
     `,
                 host: {
-                    '[class.vertical]': 'vertical'
-                }
+                    '[class.vertical]': 'vertical',
+                },
             },] },
 ];
 /**
@@ -6480,6 +6493,7 @@ NovoRadioElement.propDecorators = {
     'button': [{ type: Input },],
     'theme': [{ type: Input },],
     'icon': [{ type: Input },],
+    'disabled': [{ type: Input },],
     'change': [{ type: Output },],
 };
 
@@ -8752,13 +8766,14 @@ class NovoSelectElement {
         this.onModelChange = () => { };
         this.onModelTouched = () => { };
         this.filterTerm = '';
+        this.disabled = false;
     }
     /**
      * @return {?}
      */
     ngOnInit() {
         this.focusMonitor.monitor(this.dropdown.nativeElement).subscribe((origin) => this.ngZone.run(() => {
-            if (origin === 'keyboard') {
+            if (origin === 'keyboard' && !this.disabled) {
                 this.openPanel();
             }
         }));
@@ -9075,10 +9090,11 @@ class NovoSelectElement {
         this.onModelTouched = fn;
     }
     /**
+     * @param {?} disabled
      * @return {?}
      */
-    get disabled() {
-        return Boolean(this.element.nativeElement.attributes.getNamedItem('disabled'));
+    setDisabledState(disabled) {
+        this.disabled = disabled;
     }
 }
 NovoSelectElement.decorators = [
@@ -9086,7 +9102,7 @@ NovoSelectElement.decorators = [
                 selector: 'novo-select',
                 providers: [SELECT_VALUE_ACCESSOR],
                 template: `
-    <div #dropdownElement (click)="togglePanel(); false" tabIndex="{{disabled ? -1 : 0}}" type="button" [class.empty]="empty">{{selected.label}}<i class="bhi-collapse"></i></div>
+    <div #dropdownElement (click)="togglePanel(); false" tabIndex="{{ disabled ? -1 : 0 }}" type="button" [class.empty]="empty">{{selected.label}}<i class="bhi-collapse"></i></div>
     <novo-overlay-template [parent]="element" position="center" (closing)="dropdown.nativeElement.focus()">
       <ul class="novo-select-list" tabIndex="-1" [class.header]="headerConfig" [class.active]="panelOpen">
         <ng-content></ng-content>
@@ -9425,6 +9441,7 @@ class NovoPickerElement {
     onKeyDown(event) {
         if (this.disablePickerInput) {
             Helpers.swallowEvent(event);
+            return;
         }
         if (this.panelOpen && !this.disablePickerInput) {
             if (event.keyCode === KeyCodes.ESC || event.keyCode === KeyCodes.TAB) {
@@ -9636,6 +9653,13 @@ class NovoPickerElement {
     registerOnTouched(fn) {
         this.onModelTouched = fn;
     }
+    /**
+     * @param {?} disabled
+     * @return {?}
+     */
+    setDisabledState(disabled) {
+        this._disablePickerInput = disabled;
+    }
 }
 NovoPickerElement.decorators = [
     { type: Component, args: [{
@@ -9659,7 +9683,7 @@ NovoPickerElement.decorators = [
             autocomplete="off" #input
             [disabled]="disablePickerInput"/>
         <i class="bhi-search" *ngIf="(!_value || clearValueOnSelect) && !disablePickerInput"></i>
-        <i class="bhi-times" [class.entity-selected]="config?.entityIcon && _value" *ngIf="_value && !clearValueOnSelect" (click)="clearValue(true)"></i>
+        <i class="bhi-times" [class.entity-selected]="config?.entityIcon && _value" *ngIf="_value && !clearValueOnSelect && !disablePickerInput" (click)="clearValue(true)"></i>
         <novo-overlay-template class="picker-results-container" [parent]="element" position="above-below" (closing)="onOverlayClosed()">
             <span #results></span>
             <ng-content></ng-content>
@@ -11227,10 +11251,11 @@ NovoSliderModule.ctorParameters = () => [];
 const CHIPS_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NovoChipsElement),
-    multi: true
+    multi: true,
 };
 class NovoChipElement {
     constructor() {
+        this.disabled = false;
         this.select = new EventEmitter();
         this.remove = new EventEmitter();
     }
@@ -11274,8 +11299,8 @@ NovoChipElement.decorators = [
             <i *ngIf="_type" class="bhi-circle"></i>
             <span><ng-content></ng-content></span>
         </span>
-        <i class="bhi-close" (click)="onRemove($event)"></i>
-    `
+        <i class="bhi-close" *ngIf="!disabled" (click)="onRemove($event)"></i>
+    `,
             },] },
 ];
 /**
@@ -11284,6 +11309,7 @@ NovoChipElement.decorators = [
 NovoChipElement.ctorParameters = () => [];
 NovoChipElement.propDecorators = {
     'type': [{ type: Input },],
+    'disabled': [{ type: Input },],
     'select': [{ type: Output },],
     'remove': [{ type: Output },],
 };
@@ -11311,10 +11337,8 @@ class NovoChipsElement {
         this._value = '';
         this._items = new ReplaySubject$1(1);
         // Placeholders for the callbacks
-        this.onModelChange = () => {
-        };
-        this.onModelTouched = () => {
-        };
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
     }
     /**
      * @param {?} v
@@ -11378,7 +11402,7 @@ class NovoChipsElement {
                 if (this.source && label && label !== this.source.format) {
                     this.items.push({
                         value,
-                        label
+                        label,
                     });
                 }
                 else if (this.source.getLabels && typeof this.source.getLabels === 'function') {
@@ -11390,7 +11414,7 @@ class NovoChipsElement {
                 else {
                     this.items.push({
                         value,
-                        label: value
+                        label: value,
                     });
                 }
             }
@@ -11400,7 +11424,7 @@ class NovoChipsElement {
                         if (value.hasOwnProperty('label')) {
                             this.items.push({
                                 value,
-                                label: value.label
+                                label: value.label,
                             });
                         }
                         else if (this.source.options && Array.isArray(this.source.options)) {
@@ -11422,10 +11446,10 @@ class NovoChipsElement {
      * @return {?}
      */
     getLabelFromOptions(value) {
-        let /** @type {?} */ optLabel = this.source.options.find(val => val.value === value);
+        let /** @type {?} */ optLabel = this.source.options.find((val) => val.value === value);
         return {
             value,
-            label: optLabel ? optLabel.label : value
+            label: optLabel ? optLabel.label : value,
         };
     }
     /**
@@ -11470,7 +11494,7 @@ class NovoChipsElement {
     add(event) {
         if (event && !(event instanceof Event)) {
             this.items.push(event);
-            this.value = this.items.map(i => i.value);
+            this.value = this.items.map((i) => i.value);
             // Set focus on the picker
             let /** @type {?} */ input = this.element.nativeElement.querySelector('novo-picker > input');
             if (input) {
@@ -11491,7 +11515,7 @@ class NovoChipsElement {
         }
         this.items.splice(this.items.indexOf(item), 1);
         this.deselectAll();
-        this.value = this.items.map(i => i.value);
+        this.value = this.items.map((i) => i.value);
         this.changed.emit({ value: this.value.length ? this.value : '', rawValue: this.items });
         this.onModelChange(this.value.length ? this.value : '');
         this._items.next(this.items);
@@ -11548,6 +11572,13 @@ class NovoChipsElement {
         this.onModelTouched = fn;
     }
     /**
+     * @param {?} disabled
+     * @return {?}
+     */
+    setDisabledState(disabled) {
+        this._disablePickerInput = disabled;
+    }
+    /**
      * \@name showPreview
      *
      * \@description This method creates an instance of the preview (called popup) and adds all the bindings to that
@@ -11585,6 +11616,7 @@ NovoChipsElement.decorators = [
             *ngFor="let item of _items | async"
             [type]="type || item?.value?.searchEntity"
             [class.selected]="item == selected"
+            [disabled]="disablePickerInput"
             (remove)="remove($event, item)"
             (select)="select($event, item)">
             {{ item.label }}
@@ -11609,12 +11641,13 @@ NovoChipsElement.decorators = [
         <div class="preview-container">
             <span #preview></span>
         </div>
-        <i class="bhi-search" [class.has-value]="items.length"></i>
-        <label class="clear-all" *ngIf="items.length" (click)="clearValue()">{{ labels.clearAll }} <i class="bhi-times"></i></label>
+        <i class="bhi-search" [class.has-value]="items.length" *ngIf="!disablePickerInput"></i>
+        <label class="clear-all" *ngIf="items.length && !disablePickerInput" (click)="clearValue()">{{ labels.clearAll }} <i class="bhi-times"></i></label>
    `,
                 host: {
-                    '[class.with-value]': 'items.length > 0'
-                }
+                    '[class.with-value]': 'items.length > 0',
+                    '[class.disabled]': 'disablePickerInput',
+                },
             },] },
 ];
 /**
@@ -12519,6 +12552,7 @@ class NovoDatePickerInputElement {
         this._onTouched = () => { };
         this.textMaskEnabled = true;
         this.allowInvalidDate = false;
+        this.disabled = false;
         this.blurEvent = new EventEmitter();
         this.focusEvent = new EventEmitter();
         this.placeholder = this.labels.dateFormatPlaceholder;
@@ -12645,6 +12679,13 @@ class NovoDatePickerInputElement {
         this._onTouched = fn;
     }
     /**
+     * @param {?} disabled
+     * @return {?}
+     */
+    setDisabledState(disabled) {
+        this.disabled = disabled;
+    }
+    /**
      * @param {?=} newValue
      * @param {?=} blur
      * @param {?=} skip
@@ -12754,7 +12795,7 @@ NovoDatePickerInputElement.decorators = [
                 selector: 'novo-date-picker-input',
                 providers: [DATE_VALUE_ACCESSOR],
                 template: `
-        <input type="text" [name]="name" [(ngModel)]="formattedValue" [textMask]="maskOptions" [placeholder]="placeholder" (focus)="_handleFocus($event)" (keydown)="_handleKeydown($event)" (input)="_handleInput($event)" (blur)="_handleBlur($event)" #input data-automation-id="date-input"/>
+        <input type="text" [name]="name" [(ngModel)]="formattedValue" [textMask]="maskOptions" [placeholder]="placeholder" (focus)="_handleFocus($event)" (keydown)="_handleKeydown($event)" (input)="_handleInput($event)" (blur)="_handleBlur($event)" #input data-automation-id="date-input" [disabled]="disabled"/>
         <i *ngIf="!hasValue" (click)="openPanel()" class="bhi-calendar"></i>
         <i *ngIf="hasValue" (click)="clearValue()" class="bhi-times"></i>
         <novo-overlay-template [parent]="element" position="above-below">
@@ -12779,6 +12820,7 @@ NovoDatePickerInputElement.propDecorators = {
     'format': [{ type: Input },],
     'textMaskEnabled': [{ type: Input },],
     'allowInvalidDate': [{ type: Input },],
+    'disabled': [{ type: HostBinding, args: ['class.disabled',] }, { type: Input },],
     'blurEvent': [{ type: Output },],
     'focusEvent': [{ type: Output },],
     'overlay': [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] },],
@@ -13088,6 +13130,7 @@ class NovoTimePickerInputElement {
          */
         this._onTouched = () => { };
         this.military = false;
+        this.disabled = false;
         this.blurEvent = new EventEmitter();
         this.focusEvent = new EventEmitter();
     }
@@ -13195,6 +13238,13 @@ class NovoTimePickerInputElement {
         this._onTouched = fn;
     }
     /**
+     * @param {?} disabled
+     * @return {?}
+     */
+    setDisabledState(disabled) {
+        this.disabled = disabled;
+    }
+    /**
      * @param {?=} newValue
      * @param {?=} skip
      * @return {?}
@@ -13288,7 +13338,7 @@ NovoTimePickerInputElement.decorators = [
                 providers: [DATE_VALUE_ACCESSOR$1],
                 template: `
     <input type="text" [name]="name" [(ngModel)]="formattedValue" [textMask]="maskOptions" [placeholder]="placeholder" (focus)="_handleFocus($event)"
-           (keydown)="_handleKeydown($event)" (input)="_handleInput($event)" (blur)="_handleBlur($event)" #input data-automation-id="time-input"/>
+           (keydown)="_handleKeydown($event)" (input)="_handleInput($event)" (blur)="_handleBlur($event)" #input data-automation-id="time-input" [disabled]="disabled"/>
     <i *ngIf="!hasValue" (click)="openPanel()" class="bhi-clock"></i>
     <i *ngIf="hasValue" (click)="clearValue()" class="bhi-times"></i>
 
@@ -13312,6 +13362,7 @@ NovoTimePickerInputElement.propDecorators = {
     'placeholder': [{ type: Input },],
     'military': [{ type: Input },],
     'maskOptions': [{ type: Input },],
+    'disabled': [{ type: HostBinding, args: ['class.disabled',] }, { type: Input },],
     'blurEvent': [{ type: Output },],
     'focusEvent': [{ type: Output },],
     'overlay': [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] },],
@@ -13571,6 +13622,7 @@ class NovoDateTimePickerInputElement {
          */
         this._onTouched = () => { };
         this.military = false;
+        this.disabled = false;
         this.blurEvent = new EventEmitter();
         this.focusEvent = new EventEmitter();
     }
@@ -13646,6 +13698,13 @@ class NovoDateTimePickerInputElement {
         this._onTouched = fn;
     }
     /**
+     * @param {?} disabled
+     * @return {?}
+     */
+    setDisabledState(disabled) {
+        this.disabled = disabled;
+    }
+    /**
      * @param {?=} newValue
      * @return {?}
      */
@@ -13698,8 +13757,8 @@ NovoDateTimePickerInputElement.decorators = [
                 selector: 'novo-date-time-picker-input',
                 providers: [DATE_VALUE_ACCESSOR$2],
                 template: `
-        <novo-date-picker-input [ngModel]="datePart" (ngModelChange)="updateDate($event)" [maskOptions]="maskOptions" (blurEvent)="handleBlur($event)" (focusEvent)="handleFocus($event)" ></novo-date-picker-input>
-        <novo-time-picker-input [ngModel]="timePart" (ngModelChange)="updateTime($event)" [military]="military" (blurEvent)="handleBlur($event)" (focusEvent)="handleFocus($event)"></novo-time-picker-input>
+        <novo-date-picker-input [ngModel]="datePart" (ngModelChange)="updateDate($event)" [maskOptions]="maskOptions" (blurEvent)="handleBlur($event)" (focusEvent)="handleFocus($event)" [disabled]="disabled"></novo-date-picker-input>
+        <novo-time-picker-input [ngModel]="timePart" (ngModelChange)="updateTime($event)" [military]="military" (blurEvent)="handleBlur($event)" (focusEvent)="handleFocus($event)" [disabled]="disabled"></novo-time-picker-input>
   `,
             },] },
 ];
@@ -13716,6 +13775,7 @@ NovoDateTimePickerInputElement.propDecorators = {
     'placeholder': [{ type: Input },],
     'maskOptions': [{ type: Input },],
     'military': [{ type: Input },],
+    'disabled': [{ type: Input },],
     'format': [{ type: Input },],
     'blurEvent': [{ type: Output },],
     'focusEvent': [{ type: Output },],
@@ -13758,6 +13818,7 @@ class NovoCKEditorElement {
         this.zone = zone;
         this.startupFocus = false;
         this.fileBrowserImageUploadUrl = '';
+        this.disabled = false;
         this.change = new EventEmitter();
         this.ready = new EventEmitter();
         this.blur = new EventEmitter();
@@ -13803,6 +13864,9 @@ class NovoCKEditorElement {
         let /** @type {?} */ config = this.config || this.getBaseConfig();
         if (this.startupFocus) {
             config.startupFocus = true;
+        }
+        if (this.disabled) {
+            config.readOnly = true;
         }
         this.ckeditorInit(config);
     }
@@ -13965,6 +14029,14 @@ class NovoCKEditorElement {
         this.onTouched = fn;
     }
     /**
+     * @param {?} disabled
+     * @return {?}
+     */
+    setDisabledState(disabled) {
+        this.disabled = disabled;
+        CKEDITOR.instances[this.instance.name].setReadOnly(disabled);
+    }
+    /**
      * @param {?} text
      * @return {?}
      */
@@ -13993,6 +14065,7 @@ NovoCKEditorElement.propDecorators = {
     'minimal': [{ type: Input },],
     'startupFocus': [{ type: Input },],
     'fileBrowserImageUploadUrl': [{ type: Input },],
+    'disabled': [{ type: Input },],
     'change': [{ type: Output },],
     'ready': [{ type: Output },],
     'blur': [{ type: Output },],
@@ -35776,6 +35849,7 @@ class NovoCheckboxElement {
     constructor(ref) {
         this.ref = ref;
         this.indeterminate = false;
+        this.disabled = false;
         this.onSelect = new EventEmitter();
         this.boxIcon = true;
         this.onModelChange = () => { };
@@ -35794,9 +35868,11 @@ class NovoCheckboxElement {
      */
     select(event) {
         Helpers.swallowEvent(event);
-        this.model = !this.model;
-        this.onModelChange(this.model);
-        this.onSelect.emit({ originalEvent: event, value: this.model });
+        if (!this.disabled) {
+            this.model = !this.model;
+            this.onModelChange(this.model);
+            this.onSelect.emit({ originalEvent: event, value: this.model });
+        }
     }
     /**
      * @param {?} model
@@ -35820,6 +35896,13 @@ class NovoCheckboxElement {
     registerOnTouched(fn) {
         this.onModelTouched = fn;
     }
+    /**
+     * @param {?} disabled
+     * @return {?}
+     */
+    setDisabledState(disabled) {
+        this.disabled = disabled;
+    }
 }
 NovoCheckboxElement.decorators = [
     { type: Component, args: [{
@@ -35827,8 +35910,8 @@ NovoCheckboxElement.decorators = [
                 providers: [CHECKBOX_VALUE_ACCESSOR],
                 template: `
     <div class="check-box-group" [class.checked]="model" [class.disabled]="disabled">
-        <input [name]="name" type="checkbox" [(ngModel)]="model" [attr.id]="name">
-        <label [attr.for]="name" (click)="select($event)">
+        <input [name]="name" type="checkbox" [(ngModel)]="model" [attr.id]="name" [disabled]="disabled">
+        <label [attr.for]="name" (click)="select($event)" [class.disabled]="disabled">
           <i [class.bhi-checkbox-empty]="!model && !indeterminate && boxIcon"
               [class.bhi-checkbox-filled]="model && !indeterminate && boxIcon"
               [class.bhi-checkbox-indeterminate]="indeterminate && boxIcon"
@@ -35862,15 +35945,13 @@ NovoCheckboxElement.propDecorators = {
 const CHECKLIST_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NovoCheckListElement),
-    multi: true
+    multi: true,
 };
 class NovoCheckListElement {
     constructor() {
         this.onSelect = new EventEmitter();
-        this.onModelChange = () => {
-        };
-        this.onModelTouched = () => {
-        };
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
     }
     /**
      * @return {?}
@@ -35886,10 +35967,12 @@ class NovoCheckListElement {
      */
     select(event, item) {
         Helpers.swallowEvent(event);
-        item.checked = !item.checked;
-        this.model = this._options.filter(checkBox => checkBox.checked).map(x => x.value);
-        this.onModelChange(this.model.length > 0 ? this.model : '');
-        this.onSelect.emit({ selected: this.model });
+        if (!this.disabled) {
+            item.checked = !item.checked;
+            this.model = this._options.filter((checkBox) => checkBox.checked).map((x) => x.value);
+            this.onModelChange(this.model.length > 0 ? this.model : '');
+            this.onSelect.emit({ selected: this.model });
+        }
     }
     /**
      * @return {?}
@@ -35898,19 +35981,19 @@ class NovoCheckListElement {
         this.options = this.options || [];
         this._options = [];
         if (this.options.length && !this.options[0].value) {
-            this.options.forEach(option => {
+            this.options.forEach((option) => {
                 let /** @type {?} */ formattedOption = {
                     value: option,
                     label: option,
-                    checked: (this.model && this.model.length && (this.model.indexOf(option.value) !== -1))
+                    checked: this.model && this.model.length && this.model.indexOf(option.value) !== -1,
                 };
                 this._options.push(formattedOption);
             });
         }
         else {
-            this.options.forEach(option => {
+            this.options.forEach((option) => {
                 let /** @type {?} */ formattedOption = option;
-                formattedOption.checked = (this.model && this.model.length && (this.model.indexOf(option.value) !== -1));
+                formattedOption.checked = this.model && this.model.length && this.model.indexOf(option.value) !== -1;
                 this._options.push(formattedOption);
             });
         }
@@ -35919,7 +36002,7 @@ class NovoCheckListElement {
      * @return {?}
      */
     setModel() {
-        let /** @type {?} */ checkedOptions = this.options.filter(checkBox => checkBox.checked).map(x => x.value);
+        let /** @type {?} */ checkedOptions = this.options.filter((checkBox) => checkBox.checked).map((x) => x.value);
         this.writeValue(checkedOptions);
     }
     /**
@@ -35946,6 +36029,13 @@ class NovoCheckListElement {
     registerOnTouched(fn) {
         this.onModelTouched = fn;
     }
+    /**
+     * @param {?} disabled
+     * @return {?}
+     */
+    setDisabledState(disabled) {
+        this.disabled = disabled;
+    }
 }
 NovoCheckListElement.decorators = [
     { type: Component, args: [{
@@ -35953,13 +36043,13 @@ NovoCheckListElement.decorators = [
                 providers: [CHECKLIST_VALUE_ACCESSOR],
                 template: `
         <div class="check-box-group" *ngFor="let option of _options; let i = index" [ngClass]="{checked: option.checked}" >
-            <input [name]="name" type="checkbox" [ngModel]="option.checked" [attr.id]="name+i" [value]="option.checked" (change)="select($event, option)">
+            <input [name]="name" type="checkbox" [ngModel]="option.checked" [attr.id]="name+i" [value]="option.checked" (change)="select($event, option)" [disabled]="disabled">
             <label [attr.for]="name+i" (click)="select($event, option)">
               <i [ngClass]="{'bhi-checkbox-empty': !option.checked, 'bhi-checkbox-filled': option.checked }"></i>
               <span>{{option.label}}</span>
             </label>
         </div>
-    `
+    `,
             },] },
 ];
 /**
@@ -35969,6 +36059,7 @@ NovoCheckListElement.ctorParameters = () => [];
 NovoCheckListElement.propDecorators = {
     'name': [{ type: Input },],
     'options': [{ type: Input },],
+    'disabled': [{ type: Input },],
     'onSelect': [{ type: Output },],
 };
 

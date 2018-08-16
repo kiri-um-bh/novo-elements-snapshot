@@ -3,6 +3,7 @@ import { ControlValueAccessor } from '@angular/forms';
 export declare class NovoCheckListElement implements ControlValueAccessor, OnInit {
     name: string;
     options: Array<any>;
+    disabled: boolean;
     onSelect: EventEmitter<any>;
     _options: Array<any>;
     model: any;
@@ -15,4 +16,5 @@ export declare class NovoCheckListElement implements ControlValueAccessor, OnIni
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
+    setDisabledState(disabled: boolean): void;
 }

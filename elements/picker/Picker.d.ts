@@ -84,4 +84,5 @@ export declare class NovoPickerElement implements OnInit {
     writeValue(value: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
+    setDisabledState(disabled: boolean): void;
 }

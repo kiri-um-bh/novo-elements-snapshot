@@ -1,9 +1,11 @@
 import { EventEmitter, ElementRef, OnInit, ViewContainerRef } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
 export declare class NovoChipElement {
     type: string;
+    disabled: boolean;
     select: EventEmitter<any>;
     remove: EventEmitter<any>;
     entity: string;
@@ -11,7 +13,7 @@ export declare class NovoChipElement {
     onRemove(e: any): boolean;
     onSelect(e: any): boolean;
 }
-export declare class NovoChipsElement implements OnInit {
+export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     element: ElementRef;
     private componentUtils;
     labels: NovoLabelService;
@@ -56,6 +58,7 @@ export declare class NovoChipsElement implements OnInit {
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
+    setDisabledState(disabled: boolean): void;
     /**
      * @name showPreview
      *

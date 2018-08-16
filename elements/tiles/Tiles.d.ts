@@ -28,4 +28,5 @@ export declare class NovoTilesElement implements ControlValueAccessor, AfterCont
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
+    setDisabledState(disabled: boolean): void;
 }

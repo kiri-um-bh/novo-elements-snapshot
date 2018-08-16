@@ -21,6 +21,7 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     format: string;
     textMaskEnabled: boolean;
     allowInvalidDate: boolean;
+    disabled: boolean;
     blurEvent: EventEmitter<FocusEvent>;
     focusEvent: EventEmitter<FocusEvent>;
     /** Element for the panel containing the autocomplete options. */
@@ -41,6 +42,7 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     writeValue(value: any): void;
     registerOnChange(fn: (value: any) => {}): void;
     registerOnTouched(fn: () => {}): void;
+    setDisabledState(disabled: boolean): void;
     dispatchOnChange(newValue?: any, blur?: boolean, skip?: boolean): void;
     private _setTriggerValue(value);
     private _setCalendarValue(value);

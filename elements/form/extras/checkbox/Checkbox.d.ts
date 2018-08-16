@@ -20,4 +20,5 @@ export declare class NovoCheckboxElement implements ControlValueAccessor, OnInit
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
+    setDisabledState(disabled: boolean): void;
 }
