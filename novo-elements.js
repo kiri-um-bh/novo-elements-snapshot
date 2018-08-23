@@ -12799,7 +12799,7 @@ NovoDatePickerInputElement.decorators = [
         <i *ngIf="!hasValue" (click)="openPanel()" class="bhi-calendar"></i>
         <i *ngIf="hasValue" (click)="clearValue()" class="bhi-times"></i>
         <novo-overlay-template [parent]="element" position="above-below">
-            <novo-date-picker inline="true" (onSelect)="setValueAndClose($event)" [ngModel]="value"></novo-date-picker>
+            <novo-date-picker [start]="start" [end]="end" inline="true" (onSelect)="setValueAndClose($event)" [ngModel]="value"></novo-date-picker>
         </novo-overlay-template>
   `,
             },] },
@@ -12815,6 +12815,8 @@ NovoDatePickerInputElement.ctorParameters = () => [
 ];
 NovoDatePickerInputElement.propDecorators = {
     'name': [{ type: Input },],
+    'start': [{ type: Input },],
+    'end': [{ type: Input },],
     'placeholder': [{ type: Input },],
     'maskOptions': [{ type: Input },],
     'format': [{ type: Input },],
@@ -13757,7 +13759,7 @@ NovoDateTimePickerInputElement.decorators = [
                 selector: 'novo-date-time-picker-input',
                 providers: [DATE_VALUE_ACCESSOR$2],
                 template: `
-        <novo-date-picker-input [ngModel]="datePart" (ngModelChange)="updateDate($event)" [maskOptions]="maskOptions" (blurEvent)="handleBlur($event)" (focusEvent)="handleFocus($event)" [disabled]="disabled"></novo-date-picker-input>
+        <novo-date-picker-input [ngModel]="datePart" (ngModelChange)="updateDate($event)" [start]="start" [end]="end" [maskOptions]="maskOptions" (blurEvent)="handleBlur($event)" (focusEvent)="handleFocus($event)" [disabled]="disabled"></novo-date-picker-input>
         <novo-time-picker-input [ngModel]="timePart" (ngModelChange)="updateTime($event)" [military]="military" (blurEvent)="handleBlur($event)" (focusEvent)="handleFocus($event)" [disabled]="disabled"></novo-time-picker-input>
   `,
             },] },
@@ -13772,6 +13774,8 @@ NovoDateTimePickerInputElement.ctorParameters = () => [
 ];
 NovoDateTimePickerInputElement.propDecorators = {
     'name': [{ type: Input },],
+    'start': [{ type: Input },],
+    'end': [{ type: Input },],
     'placeholder': [{ type: Input },],
     'maskOptions': [{ type: Input },],
     'military': [{ type: Input },],
@@ -14678,6 +14682,8 @@ class NovoFormControl extends FormControl {
         this.layoutOptions = control.layoutOptions;
         this.military = control.military;
         this.dateFormat = control.dateFormat;
+        this.startDate = control.startDate;
+        this.endDate = control.endDate;
         this.textMaskEnabled = control.textMaskEnabled;
         this.allowInvalidDate = control.allowInvalidDate;
         this.maxlength = control.maxlength;
@@ -14738,7 +14744,7 @@ class NovoFormControl extends FormControl {
         }
         else if (!this.required && this.hasRequiredValidator) {
             let /** @type {?} */ validators = [...this.validators];
-            validators = validators.filter(val => val !== Validators.required);
+            validators = validators.filter((val) => val !== Validators.required);
             // TODO: duplicated above
             this.setValidators(validators);
             this.updateValueAndValidity();
@@ -14752,7 +14758,7 @@ class NovoFormControl extends FormControl {
      * @param {?=} __1
      * @return {?}
      */
-    setValue(value, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange } = {}) {
+    setValue(value, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange, } = {}) {
         this.markAsDirty();
         this.markAsTouched();
         this.displayValueChanges.emit(value);
@@ -14848,6 +14854,8 @@ class BaseControl {
         this.dateFormat = config.dateFormat;
         this.textMaskEnabled = config.textMaskEnabled;
         this.allowInvalidDate = config.allowInvalidDate;
+        this.startDate = config.startDate;
+        this.endDate = config.endDate;
         if (this.required) {
             this.validators.push(Validators.required);
         }
@@ -36883,14 +36891,14 @@ NovoControlTemplates.decorators = [
         <!--Time-->
         <ng-template novoTemplate="time" let-control let-form="form" let-errors="errors" let-methods="methods">
           <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline">
-          <novo-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="control.placeholder" [military]="control.military"></novo-time-picker-input>
+            <novo-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="control.placeholder" [military]="control.military"></novo-time-picker-input>
           </div>
         </ng-template>
 
         <!--Date-->
         <ng-template novoTemplate="date" let-control let-form="form" let-errors="errors" let-methods="methods">
           <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline">
-            <novo-date-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [format]="control.dateFormat" [allowInvalidDate]="control.allowInvalidDate" [textMaskEnabled]="control.textMaskEnabled" [placeholder]="control.placeholder" (focusEvent)="methods.handleFocus($event)" (blurEvent)="methods.handleBlur($event)"></novo-date-picker-input>
+            <novo-date-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [start]="control.startDate" [end]="control.endDate" [format]="control.dateFormat" [allowInvalidDate]="control.allowInvalidDate" [textMaskEnabled]="control.textMaskEnabled" [placeholder]="control.placeholder" (focusEvent)="methods.handleFocus($event)" (blurEvent)="methods.handleBlur($event)"></novo-date-picker-input>
           </div>
         </ng-template>
 
@@ -36898,7 +36906,7 @@ NovoControlTemplates.decorators = [
         <!--Date and Time-->
         <ng-template novoTemplate="date-time" let-control let-form="form" let-errors="errors" let-methods="methods">
           <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline">
-            <novo-date-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="control.placeholder" [military]="control.military" (focusEvent)="methods.handleFocus($event)" (blurEvent)="methods.handleBlur($event)"></novo-date-time-picker-input>
+            <novo-date-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [start]="control.startDate" [end]="control.endDate" [placeholder]="control.placeholder" [military]="control.military" (focusEvent)="methods.handleFocus($event)" (blurEvent)="methods.handleBlur($event)"></novo-date-time-picker-input>
           </div>
         </ng-template>
 

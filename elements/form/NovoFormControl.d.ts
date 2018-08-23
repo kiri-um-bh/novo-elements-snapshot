@@ -45,6 +45,8 @@ export declare class NovoFormControl extends FormControl {
     };
     military?: boolean;
     dateFormat?: string;
+    startDate?: Date | Number;
+    endDate?: Date | Number;
     textMaskEnabled?: boolean;
     allowInvalidDate?: boolean;
     tipWell?: {

@@ -71,6 +71,8 @@ export interface NovoControlConfig {
     startupFocus?: boolean;
     fileBrowserImageUploadUrl?: string;
     isEmpty?: Function;
+    startDate?: Date | Number;
+    endDate?: Date | Number;
 }
 export declare class BaseControl {
     __type: string;
@@ -135,5 +137,7 @@ export declare class BaseControl {
     startupFocus?: boolean;
     fileBrowserImageUploadUrl?: string;
     isEmpty?: Function;
+    startDate?: Date | Number;
+    endDate?: Date | Number;
     constructor(type?: string, config?: NovoControlConfig);
 }
