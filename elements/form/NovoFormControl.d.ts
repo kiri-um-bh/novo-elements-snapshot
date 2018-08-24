@@ -2,6 +2,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
 import { NovoControlConfig } from './FormControls';
 import { IFieldInteractionEvent } from './FormInterfaces';
+import { IMaskOptions } from './Control';
 export declare class NovoFormControl extends FormControl {
     displayValueChanges: EventEmitter<any>;
     hidden: boolean;
@@ -45,9 +46,11 @@ export declare class NovoFormControl extends FormControl {
     };
     military?: boolean;
     dateFormat?: string;
+    currencyFormat?: string;
     startDate?: Date | Number;
     endDate?: Date | Number;
     textMaskEnabled?: boolean;
+    maskOptions: IMaskOptions;
     allowInvalidDate?: boolean;
     tipWell?: {
         tip: string;
