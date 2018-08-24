@@ -12591,6 +12591,12 @@ var NovoTimePickerInputElement = /** @class */ (function () {
             minute: '2-digit',
             hour12: !this.military,
         });
+        if (format$$1.indexOf('vorm.') > -1) {
+            format$$1 = format$$1.replace('vorm.', 'am');
+        }
+        else if (format$$1.indexOf('nachm.') > -1) {
+            format$$1 = format$$1.replace('nachm.', 'pm');
+        }
         if (format$$1.split(':')[0].length === 1) {
             return "0" + format$$1;
         }
