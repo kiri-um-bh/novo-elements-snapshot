@@ -1,8 +1,9 @@
-import { EventEmitter, ElementRef, OnInit, ViewContainerRef } from '@angular/core';
+import { EventEmitter, ElementRef, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
+import { ChipsStateService } from './ChipsStateService';
 export declare class NovoChipElement {
     type: string;
     disabled: boolean;
@@ -13,10 +14,11 @@ export declare class NovoChipElement {
     onRemove(e: any): boolean;
     onSelect(e: any): boolean;
 }
-export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
+export declare class NovoChipsElement implements ControlValueAccessor, OnInit, OnDestroy {
     element: ElementRef;
     private componentUtils;
     labels: NovoLabelService;
+    private chipsStateService;
     closeOnSelect: boolean;
     placeholder: string;
     source: any;
@@ -27,6 +29,7 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     focus: EventEmitter<any>;
     blur: EventEmitter<any>;
     typing: EventEmitter<any>;
+    loadingStateChange: EventEmitter<any>;
     preview: ViewContainerRef;
     items: Array<any>;
     selected: any;
@@ -36,10 +39,13 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     popup: any;
     _value: any;
     _items: ReplaySubject<{}>;
+    pickerLoadingState: boolean;
+    actualPlaceholder: string;
     onModelChange: Function;
     onModelTouched: Function;
-    constructor(element: ElementRef, componentUtils: ComponentUtils, labels: NovoLabelService);
+    constructor(element: ElementRef, componentUtils: ComponentUtils, labels: NovoLabelService, chipsStateService: ChipsStateService);
     ngOnInit(): void;
+    ngOnDestroy(): void;
     value: any;
     clearValue(): void;
     setItems(): void;

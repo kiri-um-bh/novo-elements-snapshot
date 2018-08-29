@@ -52,6 +52,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     private characterCountField;
     private maxLengthMetErrorfields;
     private statusChangeSubscription;
+    private invokeOnInitInteractions;
     maskOptions: IMaskOptions;
     templates: any;
     templateContext: any;
@@ -86,6 +87,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     modelChangeWithRaw(event: any): void;
     modelChange(value: any): void;
     restrictKeys(event: any): void;
+    handleChipsPickerStableState(event: any): void;
     handlePercentChange(event: KeyboardEvent): void;
     handleTabForPickers(event: any): void;
     emitChange(value: any): void;

@@ -6,3 +6,7 @@ export declare class NovoSpinnerElement {
     inverse: boolean;
     baseHref: string;
 }
+export declare class NovoSimpleSpinnerElement {
+    spinnerCss: any;
+    fillColor: any;
+}

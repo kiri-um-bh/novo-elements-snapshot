@@ -85,6 +85,7 @@ export declare class NovoLabelService {
     encryptedFieldTooltip: string;
     noStatesForCountry: string;
     selectCountryFirst: string;
+    loading: string;
     constructor(userLocale?: string);
     maxlengthMetWithField(field: string, maxlength: number): string;
     maxlengthMet(maxlength: number): string;
