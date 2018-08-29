@@ -11069,7 +11069,9 @@ var NovoRowChipsElement = /** @class */ (function (_super) {
      * @param {?} labels
      */
     function NovoRowChipsElement(element, componentUtils, labels) {
-        return _super.call(this, element, componentUtils, labels) || this;
+        var _this = _super.call(this, element, componentUtils, labels) || this;
+        _this.closeOnSelect = true;
+        return _this;
     }
     /**
      * @param {?} event
@@ -11098,6 +11100,9 @@ NovoRowChipsElement.ctorParameters = function () { return [
     { type: ComponentUtils, },
     { type: NovoLabelService, },
 ]; };
+NovoRowChipsElement.propDecorators = {
+    'closeOnSelect': [{ type: core.Input },],
+};
 // NG2
 // APP
 var NovoChipsModule = /** @class */ (function () {
