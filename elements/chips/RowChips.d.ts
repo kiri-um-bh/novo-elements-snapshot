@@ -6,6 +6,7 @@ export declare class NovoRowChipElement extends NovoChipElement {
     onSelect(e: any): boolean;
 }
 export declare class NovoRowChipsElement extends NovoChipsElement {
+    closeOnSelect: boolean;
     constructor(element: ElementRef, componentUtils: ComponentUtils, labels: NovoLabelService);
     onKeyDown(event: any): void;
 }

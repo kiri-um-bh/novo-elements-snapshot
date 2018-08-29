@@ -11708,6 +11708,7 @@ class NovoRowChipsElement extends NovoChipsElement {
      */
     constructor(element, componentUtils, labels) {
         super(element, componentUtils, labels);
+        this.closeOnSelect = true;
     }
     /**
      * @param {?} event
@@ -11767,6 +11768,9 @@ NovoRowChipsElement.ctorParameters = () => [
     { type: ComponentUtils, },
     { type: NovoLabelService, },
 ];
+NovoRowChipsElement.propDecorators = {
+    'closeOnSelect': [{ type: Input },],
+};
 
 // NG2
 // APP
