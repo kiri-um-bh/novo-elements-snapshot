@@ -11612,7 +11612,7 @@ NovoChipsElement.decorators = [
                 selector: 'chips,novo-chips',
                 providers: [CHIPS_VALUE_ACCESSOR],
                 template: `
-        <chip
+        <novo-chip
             *ngFor="let item of _items | async"
             [type]="type || item?.value?.searchEntity"
             [class.selected]="item == selected"
@@ -11620,7 +11620,7 @@ NovoChipsElement.decorators = [
             (remove)="remove($event, item)"
             (select)="select($event, item)">
             {{ item.label }}
-        </chip>
+        </novo-chip>
         <div class="chip-input-container">
             <novo-picker
                 clearValueOnSelect="true"
@@ -15765,6 +15765,7 @@ class FormUtils {
             }
             if (overrides[field.name].columns) {
                 controlConfig.config.columns = overrides[field.name].columns;
+                controlConfig.closeOnSelect = true;
                 delete controlConfig.label;
             }
             Object.assign(controlConfig, overrides[field.name]);
