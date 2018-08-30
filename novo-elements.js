@@ -17396,6 +17396,14 @@ class NovoControlElement extends OutsideClick {
     /**
      * @return {?}
      */
+    get showErrorState() {
+        return ((this.isDirty && this.errors) ||
+            (this.maxLengthMet && this.focused && this.errors && !this.errors.maxlengthFields) ||
+            (this.focused && this.errors && this.errors.maxlength && this.errors.maxlengthFields && this.maxlengthErrorField));
+    }
+    /**
+     * @return {?}
+     */
     get showCount() {
         let /** @type {?} */ charCount = this.form.controls[this.control.key].maxlength &&
             this.focused &&
@@ -17902,7 +17910,7 @@ NovoControlElement.decorators = [
                     {{ form.controls[control.key].label }}
                 </label>
                 <div class="novo-control-inner-container" [class.required]="form.controls[control.key].required && !form.controls[control.key].readOnly">
-                    <div class="novo-control-inner-input-container">
+                    <div class="novo-control-inner-input-container" [class.novo-control-filled]="hasValue" [class.novo-control-empty]="!hasValue">
                       <!--Required Indicator-->
                         <i [hidden]="!form.controls[control.key].required || form.controls[control.key].readOnly"
                             class="required-indicator {{ form.controls[control.key].controlType }}"
@@ -17922,7 +17930,7 @@ NovoControlElement.decorators = [
                         </div>
                     </div>
                     <!--Error Message-->
-                    <div class="field-message {{ form.controls[control.key].controlType }}" *ngIf="!condensed" [class.has-tip]="form.controls[control.key].tipWell">
+                    <div class="field-message {{ form.controls[control.key].controlType }}" *ngIf="!condensed" [class.has-tip]="form.controls[control.key].tipWell" [ngClass]="showErrorState ? 'error-shown' : 'error-hidden'">
                         <div class="messages">
                             <span class="error-text" *ngIf="showFieldMessage"></span>
                             <span class="error-text" *ngIf="isDirty && errors?.required && form.controls[control.key].controlType !== 'address'">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>
