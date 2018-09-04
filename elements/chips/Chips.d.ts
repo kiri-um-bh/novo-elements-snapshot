@@ -8,10 +8,12 @@ export declare class NovoChipElement {
     disabled: boolean;
     select: EventEmitter<any>;
     remove: EventEmitter<any>;
+    deselect: EventEmitter<any>;
     entity: string;
     _type: string;
     onRemove(e: any): boolean;
     onSelect(e: any): boolean;
+    onDeselect(e: any): boolean;
 }
 export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     element: ElementRef;
@@ -49,6 +51,7 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     };
     deselectAll(event?: any): void;
     select(event?: any, item?: any): void;
+    deselect(event?: any, item?: any): void;
     onTyping(event?: any): void;
     onFocus(event?: any): void;
     add(event: any): void;
