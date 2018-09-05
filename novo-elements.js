@@ -12679,7 +12679,9 @@ class NovoDatePickerInputElement {
      * @return {?}
      */
     openPanel() {
-        this.overlay.openPanel();
+        if (!this.disabled) {
+            this.overlay.openPanel();
+        }
     }
     /**
      * @return {?}

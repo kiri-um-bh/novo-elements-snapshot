@@ -11960,7 +11960,9 @@ var NovoDatePickerInputElement = /** @class */ (function () {
      * @return {?}
      */
     NovoDatePickerInputElement.prototype.openPanel = function () {
-        this.overlay.openPanel();
+        if (!this.disabled) {
+            this.overlay.openPanel();
+        }
     };
     /**
      * @return {?}
