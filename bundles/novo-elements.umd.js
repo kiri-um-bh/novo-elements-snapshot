@@ -14041,6 +14041,7 @@ var NovoFormControl = /** @class */ (function (_super) {
         _this.interactions = control.interactions;
         _this.checkboxLabel = control.checkboxLabel;
         _this.appendToBody = control.appendToBody;
+        _this.checkboxLabel = control.checkboxLabel;
         if (_this.appendToBody) {
             notify("'appendToBody' has been deprecated. Please remove this attribute.");
         }
@@ -14090,7 +14091,7 @@ var NovoFormControl = /** @class */ (function (_super) {
             validators.push(forms.Validators.required);
             // TODO: duplicated below
             this.setValidators(validators);
-            this.updateValueAndValidity();
+            this.updateValueAndValidity({ emitEvent: false });
             this.hasRequiredValidator = this.required;
         }
         else if (!this.required && this.hasRequiredValidator) {
@@ -14098,7 +14099,7 @@ var NovoFormControl = /** @class */ (function (_super) {
             validators = validators.filter(function (val) { return val !== forms.Validators.required; });
             // TODO: duplicated above
             this.setValidators(validators);
-            this.updateValueAndValidity();
+            this.updateValueAndValidity({ emitEvent: false });
             this.hasRequiredValidator = this.required;
         }
     };
@@ -14137,6 +14138,32 @@ var NovoFormControl = /** @class */ (function (_super) {
         }
     };
     /**
+     * Disables the control. This means the control will be exempt from validation checks and
+     * excluded from the aggregate value of any parent. Its status is `DISABLED`.
+     *
+     * If the control has children, all children will be disabled to maintain the model.
+     * @param {?=} opts
+     * @return {?}
+     */
+    NovoFormControl.prototype.disable = function (opts) {
+        if (opts === void 0) { opts = { emitEvent: false }; }
+        if (typeof opts.emitEvent === 'undefined') {
+            opts.emitEvent = false;
+        }
+        _super.prototype.disable.call(this, opts);
+    };
+    /**
+     * @param {?=} opts
+     * @return {?}
+     */
+    NovoFormControl.prototype.enable = function (opts) {
+        if (opts === void 0) { opts = { emitEvent: false }; }
+        if (typeof opts.emitEvent === 'undefined') {
+            opts.emitEvent = false;
+        }
+        _super.prototype.enable.call(this, opts);
+    };
+    /**
      * \@name markAsInvalid
      * @param {?} message
      * @return {?}
@@ -14145,6 +14172,7 @@ var NovoFormControl = /** @class */ (function (_super) {
         this.markAsDirty();
         this.markAsTouched();
         this.setErrors(Object.assign({}, this.errors, { custom: message }));
+        _super.prototype.disable.call(this);
     };
     return NovoFormControl;
 }(forms.FormControl));
