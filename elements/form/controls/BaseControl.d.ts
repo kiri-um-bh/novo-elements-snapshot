@@ -1,6 +1,5 @@
 import { EventEmitter } from '@angular/core';
 import { NovoControlGroupAddConfig } from '../ControlGroup';
-import { IMaskOptions } from '../Control';
 export interface NovoGroupedControlConfig {
     label?: string;
     icon?: string;
@@ -62,7 +61,6 @@ export interface NovoControlConfig {
     military?: boolean;
     dateFormat?: string;
     textMaskEnabled?: boolean;
-    maskOptions?: IMaskOptions;
     allowInvalidDate?: boolean;
     tipWell?: {
         tip: string;
@@ -73,8 +71,6 @@ export interface NovoControlConfig {
     startupFocus?: boolean;
     fileBrowserImageUploadUrl?: string;
     isEmpty?: Function;
-    startDate?: Date | Number;
-    endDate?: Date | Number;
 }
 export declare class BaseControl {
     __type: string;
@@ -129,7 +125,6 @@ export declare class BaseControl {
     military?: boolean;
     dateFormat?: string;
     textMaskEnabled?: boolean;
-    maskOptions?: IMaskOptions;
     allowInvalidDate?: boolean;
     tipWell?: {
         tip: string;
@@ -140,7 +135,5 @@ export declare class BaseControl {
     startupFocus?: boolean;
     fileBrowserImageUploadUrl?: string;
     isEmpty?: Function;
-    startDate?: Date | Number;
-    endDate?: Date | Number;
     constructor(type?: string, config?: NovoControlConfig);
 }

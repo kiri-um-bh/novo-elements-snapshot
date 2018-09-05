@@ -2,7 +2,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
 import { NovoControlConfig } from './FormControls';
 import { IFieldInteractionEvent } from './FormInterfaces';
-import { IMaskOptions } from './Control';
 export declare class NovoFormControl extends FormControl {
     displayValueChanges: EventEmitter<any>;
     hidden: boolean;
@@ -46,11 +45,7 @@ export declare class NovoFormControl extends FormControl {
     };
     military?: boolean;
     dateFormat?: string;
-    currencyFormat?: string;
-    startDate?: Date | Number;
-    endDate?: Date | Number;
     textMaskEnabled?: boolean;
-    maskOptions: IMaskOptions;
     allowInvalidDate?: boolean;
     tipWell?: {
         tip: string;
@@ -97,6 +92,20 @@ export declare class NovoFormControl extends FormControl {
      * @param isReadOnly
      */
     setReadOnly(isReadOnly: boolean): void;
+    /**
+     * Disables the control. This means the control will be exempt from validation checks and
+     * excluded from the aggregate value of any parent. Its status is `DISABLED`.
+     *
+     * If the control has children, all children will be disabled to maintain the model.
+     */
+    disable(opts?: {
+        onlySelf?: boolean;
+        emitEvent?: boolean;
+    }): void;
+    enable(opts?: {
+        onlySelf?: boolean;
+        emitEvent?: boolean;
+    }): void;
     /**
      * @name markAsInvalid
      * @param message
