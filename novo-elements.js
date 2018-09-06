@@ -12679,7 +12679,9 @@ class NovoDatePickerInputElement {
      * @return {?}
      */
     openPanel() {
-        this.overlay.openPanel();
+        if (!this.disabled) {
+            this.overlay.openPanel();
+        }
     }
     /**
      * @return {?}
@@ -14792,17 +14794,14 @@ class NovoFormControl extends FormControl {
         this.layoutOptions = control.layoutOptions;
         this.military = control.military;
         this.dateFormat = control.dateFormat;
-        this.currencyFormat = control.currencyFormat;
-        this.startDate = control.startDate;
-        this.endDate = control.endDate;
         this.textMaskEnabled = control.textMaskEnabled;
-        this.maskOptions = control.maskOptions;
         this.allowInvalidDate = control.allowInvalidDate;
         this.maxlength = control.maxlength;
         this.minlength = control.minlength;
         this.closeOnSelect = control.closeOnSelect;
         this.interactions = control.interactions;
         this.checkboxLabel = control.checkboxLabel;
+        this.restrictFieldInteractions = control.restrictFieldInteractions;
         this.appendToBody = control.appendToBody;
         if (this.appendToBody) {
             notify(`'appendToBody' has been deprecated. Please remove this attribute.`);
@@ -14851,7 +14850,7 @@ class NovoFormControl extends FormControl {
             validators.push(Validators.required);
             // TODO: duplicated below
             this.setValidators(validators);
-            this.updateValueAndValidity();
+            this.updateValueAndValidity({ emitEvent: false });
             this.hasRequiredValidator = this.required;
         }
         else if (!this.required && this.hasRequiredValidator) {
@@ -14859,7 +14858,7 @@ class NovoFormControl extends FormControl {
             validators = validators.filter((val) => val !== Validators.required);
             // TODO: duplicated above
             this.setValidators(validators);
-            this.updateValueAndValidity();
+            this.updateValueAndValidity({ emitEvent: false });
             this.hasRequiredValidator = this.required;
         }
     }
@@ -14894,6 +14893,30 @@ class NovoFormControl extends FormControl {
         else {
             this.enable();
         }
+    }
+    /**
+     * Disables the control. This means the control will be exempt from validation checks and
+     * excluded from the aggregate value of any parent. Its status is `DISABLED`.
+     *
+     * If the control has children, all children will be disabled to maintain the model.
+     * @param {?=} opts
+     * @return {?}
+     */
+    disable(opts = { emitEvent: false }) {
+        if (typeof opts.emitEvent === 'undefined') {
+            opts.emitEvent = false;
+        }
+        super.disable(opts);
+    }
+    /**
+     * @param {?=} opts
+     * @return {?}
+     */
+    enable(opts = { emitEvent: false }) {
+        if (typeof opts.emitEvent === 'undefined') {
+            opts.emitEvent = false;
+        }
+        super.enable(opts);
     }
     /**
      * \@name markAsInvalid
@@ -14969,6 +14992,7 @@ class BaseControl {
         this.allowInvalidDate = config.allowInvalidDate;
         this.startDate = config.startDate;
         this.endDate = config.endDate;
+        this.restrictFieldInteractions = !!config.restrictFieldInteractions;
         if (this.required) {
             this.validators.push(Validators.required);
         }
@@ -15726,6 +15750,7 @@ class FormUtils {
             tooltipPosition: field.tooltipPosition,
             template: field.template,
             customControlConfig: field.customControlConfig,
+            restrictFieldInteractions: field.restrictFieldInteractions,
         };
         // TODO: getControlOptions should always return the correct format
         let /** @type {?} */ optionsConfig = this.getControlOptions(field, http$$1, config);
@@ -16675,7 +16700,7 @@ class FieldInteractionApi {
      */
     setValue(key, value, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.setValue(value, options);
             this.triggerEvent({ controlKey: key, prop: 'value', value: value });
         }
@@ -16688,7 +16713,7 @@ class FieldInteractionApi {
      */
     patchValue(key, value, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.setValue(value, options);
             this.triggerEvent({ controlKey: key, prop: 'value', value: value });
         }
@@ -16700,7 +16725,7 @@ class FieldInteractionApi {
      */
     setReadOnly(key, isReadOnly) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.setReadOnly(isReadOnly);
             this.triggerEvent({ controlKey: key, prop: 'readOnly', value: isReadOnly });
         }
@@ -16712,7 +16737,7 @@ class FieldInteractionApi {
      */
     setRequired(key, required) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.setRequired(required);
             this.triggerEvent({ controlKey: key, prop: 'required', value: required });
         }
@@ -16724,7 +16749,7 @@ class FieldInteractionApi {
      */
     hide(key, clearValue = true) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.hide(clearValue);
             this.disable(key, { emitEvent: false });
             this.triggerEvent({ controlKey: key, prop: 'hidden', value: true });
@@ -16736,7 +16761,7 @@ class FieldInteractionApi {
      */
     show(key) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.show();
             this.enable(key, { emitEvent: false });
             this.triggerEvent({ controlKey: key, prop: 'hidden', value: false });
@@ -16749,7 +16774,7 @@ class FieldInteractionApi {
      */
     disable(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.disable(options);
             this.triggerEvent({ controlKey: key, prop: 'readOnly', value: true });
         }
@@ -16761,7 +16786,7 @@ class FieldInteractionApi {
      */
     enable(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.enable(options);
             this.triggerEvent({ controlKey: key, prop: 'readOnly', value: false });
         }
@@ -16774,7 +16799,7 @@ class FieldInteractionApi {
     markAsInvalid(key, validationMessage) {
         let /** @type {?} */ control = this.getControl(key);
         if (control) {
-            if (control) {
+            if (control && !control.restrictFieldInteractions) {
                 control.markAsInvalid(validationMessage);
             }
         }
@@ -16786,7 +16811,7 @@ class FieldInteractionApi {
      */
     markAsDirty(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.markAsDirty(options);
         }
     }
@@ -16797,7 +16822,7 @@ class FieldInteractionApi {
      */
     markAsPending(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.markAsPending(options);
         }
     }
@@ -16808,7 +16833,7 @@ class FieldInteractionApi {
      */
     markAsPristine(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.markAsPristine(options);
         }
     }
@@ -16819,7 +16844,7 @@ class FieldInteractionApi {
      */
     markAsTouched(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.markAsTouched(options);
         }
     }
@@ -16830,7 +16855,7 @@ class FieldInteractionApi {
      */
     markAsUntouched(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.markAsUntouched(options);
         }
     }
@@ -16841,7 +16866,7 @@ class FieldInteractionApi {
      */
     updateValueAndValidity(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.updateValueAndValidity(options);
         }
     }
@@ -16863,7 +16888,7 @@ class FieldInteractionApi {
      */
     displayTip(key, tip, icon, allowDismiss) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.tipWell = {
                 tip: tip,
                 icon: icon,
@@ -16879,7 +16904,7 @@ class FieldInteractionApi {
      */
     setTooltip(key, tooltip) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control.tooltip = tooltip;
             if (tooltip.length >= 40) {
                 control.tooltipSize = 'large';
@@ -16922,7 +16947,7 @@ class FieldInteractionApi {
      */
     setProperty(key, prop, value) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             control[prop] = value;
             this.triggerEvent({ controlKey: key, prop: prop, value: value });
         }
@@ -16934,7 +16959,7 @@ class FieldInteractionApi {
      */
     getProperty(key, prop) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             return control[prop];
         }
         return null;
@@ -16971,7 +16996,7 @@ class FieldInteractionApi {
         let /** @type {?} */ control = this.getControl(key);
         let /** @type {?} */ optionToAdd = newOption;
         let /** @type {?} */ isUnique = true;
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             let /** @type {?} */ currentOptions = this.getProperty(key, 'options');
             if (!currentOptions || !currentOptions.length) {
                 let /** @type {?} */ config = this.getProperty(key, 'config');
@@ -17012,7 +17037,7 @@ class FieldInteractionApi {
      */
     removeStaticOption(key, optionToRemove) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             let /** @type {?} */ currentOptions = this.getProperty(key, 'options');
             if (!currentOptions || !currentOptions.length) {
                 let /** @type {?} */ config = this.getProperty(key, 'config');
@@ -17070,7 +17095,7 @@ class FieldInteractionApi {
      */
     modifyPickerConfig(key, config, mapper) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             let /** @type {?} */ newConfig = {
                 resultsTemplate: control.config.resultsTemplate,
             };
@@ -17115,7 +17140,7 @@ class FieldInteractionApi {
      */
     setLoading(key, loading) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             if (loading) {
                 this.form.controls[key].fieldInteractionloading = true;
                 control.setErrors({ loading: true });
@@ -17215,7 +17240,7 @@ class FieldInteractionApi {
             return null;
         }
         let /** @type {?} */ control = this.getControl(key);
-        if (control) {
+        if (control && !control.restrictFieldInteractions) {
             let /** @type {?} */ fieldsetIndex = -1;
             let /** @type {?} */ controlIndex = -1;
             this.form.fieldsets.forEach((fieldset, fi) => {
@@ -17437,22 +17462,28 @@ class NovoControlElement extends OutsideClick {
      */
     ngAfterContentInit() {
         // Subscribe to control interactions
-        if (this.control.interactions) {
+        if (this.control.interactions && !this.form.controls[this.control.key].restrictFieldInteractions) {
             for (let /** @type {?} */ interaction of this.control.interactions) {
                 switch (interaction.event) {
                     case 'blur':
                         this.valueChangeSubscription = this.onBlur.debounceTime(300).subscribe(() => {
-                            this.executeInteraction(interaction);
+                            if (!this.form.controls[this.control.key].restrictFieldInteractions) {
+                                this.executeInteraction(interaction);
+                            }
                         });
                         break;
                     case 'focus':
                         this.valueChangeSubscription = this.onFocus.debounceTime(300).subscribe(() => {
-                            this.executeInteraction(interaction);
+                            if (!this.form.controls[this.control.key].restrictFieldInteractions) {
+                                this.executeInteraction(interaction);
+                            }
                         });
                         break;
                     case 'change':
                         this.valueChangeSubscription = this.form.controls[this.control.key].valueChanges.debounceTime(300).subscribe(() => {
-                            this.executeInteraction(interaction);
+                            if (!this.form.controls[this.control.key].restrictFieldInteractions) {
+                                this.executeInteraction(interaction);
+                            }
                         });
                         break;
                     case 'init':
@@ -17462,7 +17493,9 @@ class NovoControlElement extends OutsideClick {
                         break;
                 }
                 if (interaction.invokeOnInit) {
-                    this.executeInteraction(interaction);
+                    if (!this.form.controls[this.control.key].restrictFieldInteractions) {
+                        this.executeInteraction(interaction);
+                    }
                 }
             }
         }

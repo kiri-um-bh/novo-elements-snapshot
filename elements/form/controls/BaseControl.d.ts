@@ -75,6 +75,7 @@ export interface NovoControlConfig {
     isEmpty?: Function;
     startDate?: Date | Number;
     endDate?: Date | Number;
+    restrictFieldInteractions?: boolean;
 }
 export declare class BaseControl {
     __type: string;
@@ -142,5 +143,6 @@ export declare class BaseControl {
     isEmpty?: Function;
     startDate?: Date | Number;
     endDate?: Date | Number;
+    restrictFieldInteractions?: boolean;
     constructor(type?: string, config?: NovoControlConfig);
 }
