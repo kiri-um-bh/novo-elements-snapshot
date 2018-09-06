@@ -13,8 +13,6 @@ export declare class NovoDateTimePickerInputElement implements ControlValueAcces
     /** View -> model callback called when autocomplete has been touched */
     _onTouched: () => void;
     name: string;
-    start: Date;
-    end: Date;
     placeholder: string;
     maskOptions: any;
     military: boolean;
