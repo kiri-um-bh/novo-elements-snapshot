@@ -11258,6 +11258,7 @@ class NovoChipElement {
         this.disabled = false;
         this.select = new EventEmitter();
         this.remove = new EventEmitter();
+        this.deselect = new EventEmitter();
     }
     /**
      * @param {?} type
@@ -11290,12 +11291,24 @@ class NovoChipElement {
         this.select.emit(e);
         return false;
     }
+    /**
+     * @param {?} e
+     * @return {?}
+     */
+    onDeselect(e) {
+        if (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+        this.deselect.emit(e);
+        return false;
+    }
 }
 NovoChipElement.decorators = [
     { type: Component, args: [{
                 selector: 'chip,novo-chip',
                 template: `
-        <span (click)="onSelect($event)" (mouseover)="onSelect($event)" [ngClass]="_type">
+        <span (click)="onSelect($event)" (mouseenter)="onSelect($event)" (mouseleave)="onDeselect($event)" [ngClass]="_type">
             <i *ngIf="_type" class="bhi-circle"></i>
             <span><ng-content></ng-content></span>
         </span>
@@ -11312,6 +11325,7 @@ NovoChipElement.propDecorators = {
     'disabled': [{ type: Input },],
     'select': [{ type: Output },],
     'remove': [{ type: Output },],
+    'deselect': [{ type: Output },],
 };
 class NovoChipsElement {
     /**
@@ -11473,6 +11487,15 @@ class NovoChipsElement {
     }
     /**
      * @param {?=} event
+     * @param {?=} item
+     * @return {?}
+     */
+    deselect(event, item) {
+        this.blur.emit(event);
+        this.deselectAll();
+    }
+    /**
+     * @param {?=} event
      * @return {?}
      */
     onTyping(event) {
@@ -11618,7 +11641,8 @@ NovoChipsElement.decorators = [
             [class.selected]="item == selected"
             [disabled]="disablePickerInput"
             (remove)="remove($event, item)"
-            (select)="select($event, item)">
+            (select)="select($event, item)"
+            (deselect)="deselect($event, item)">
             {{ item.label }}
         </novo-chip>
         <div class="chip-input-container">
