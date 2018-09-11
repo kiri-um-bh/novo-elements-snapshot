@@ -14241,6 +14241,7 @@ class NovoTipWellElement {
     constructor(labels) {
         this.labels = labels;
         this.button = true;
+        this.sanitize = true;
         this.confirmed = new EventEmitter();
         this.isActive = true;
         this.isActive = true;
@@ -14296,14 +14297,15 @@ NovoTipWellElement.decorators = [
         <div *ngIf="isActive">
             <div>
                 <i class="bhi-{{ icon }}" *ngIf="icon" [attr.data-automation-id]="'novo-tip-well-icon-' + name"></i>
-                <p [attr.data-automation-id]="'novo-tip-well-tip-' + name">{{ tip }}</p>
+                <p *ngIf="sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name">{{ tip }}</p>
+                <p *ngIf="!sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name" [innerHTML]="tip"></p>
             </div>
             <button theme="dialogue" (click)="hideTip()" *ngIf="button" [attr.data-automation-id]="'novo-tip-well-button-' + name">{{ buttonText }}</button>
         </div>
     `,
                 host: {
-                    '[class.active]': 'isActive'
-                }
+                    '[class.active]': 'isActive',
+                },
             },] },
 ];
 /**
@@ -14318,6 +14320,7 @@ NovoTipWellElement.propDecorators = {
     'buttonText': [{ type: Input },],
     'button': [{ type: Input },],
     'icon': [{ type: Input },],
+    'sanitize': [{ type: Input },],
     'confirmed': [{ type: Output },],
 };
 
