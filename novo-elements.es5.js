@@ -13524,6 +13524,7 @@ var NovoTipWellElement = /** @class */ (function () {
     function NovoTipWellElement(labels) {
         this.labels = labels;
         this.button = true;
+        this.sanitize = true;
         this.confirmed = new EventEmitter();
         this.isActive = true;
         this.isActive = true;
@@ -13576,10 +13577,10 @@ var NovoTipWellElement = /** @class */ (function () {
 NovoTipWellElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-tip-well',
-                template: "\n        <div *ngIf=\"isActive\">\n            <div>\n                <i class=\"bhi-{{ icon }}\" *ngIf=\"icon\" [attr.data-automation-id]=\"'novo-tip-well-icon-' + name\"></i>\n                <p [attr.data-automation-id]=\"'novo-tip-well-tip-' + name\">{{ tip }}</p>\n            </div>\n            <button theme=\"dialogue\" (click)=\"hideTip()\" *ngIf=\"button\" [attr.data-automation-id]=\"'novo-tip-well-button-' + name\">{{ buttonText }}</button>\n        </div>\n    ",
+                template: "\n        <div *ngIf=\"isActive\">\n            <div>\n                <i class=\"bhi-{{ icon }}\" *ngIf=\"icon\" [attr.data-automation-id]=\"'novo-tip-well-icon-' + name\"></i>\n                <p *ngIf=\"sanitize\" [attr.data-automation-id]=\"'novo-tip-well-tip-' + name\">{{ tip }}</p>\n                <p *ngIf=\"!sanitize\" [attr.data-automation-id]=\"'novo-tip-well-tip-' + name\" [innerHTML]=\"tip\"></p>\n            </div>\n            <button theme=\"dialogue\" (click)=\"hideTip()\" *ngIf=\"button\" [attr.data-automation-id]=\"'novo-tip-well-button-' + name\">{{ buttonText }}</button>\n        </div>\n    ",
                 host: {
-                    '[class.active]': 'isActive'
-                }
+                    '[class.active]': 'isActive',
+                },
             },] },
 ];
 /**
@@ -13594,6 +13595,7 @@ NovoTipWellElement.propDecorators = {
     'buttonText': [{ type: Input },],
     'button': [{ type: Input },],
     'icon': [{ type: Input },],
+    'sanitize': [{ type: Input },],
     'confirmed': [{ type: Output },],
 };
 // NG2

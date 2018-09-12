@@ -7,6 +7,7 @@ export declare class NovoTipWellElement implements OnInit {
     buttonText: string;
     button: boolean;
     icon: string;
+    sanitize: boolean;
     confirmed: EventEmitter<{}>;
     isActive: boolean;
     isLocalStorageEnabled: any;
