@@ -14821,7 +14821,12 @@ class NovoFormControl extends FormControl {
         this.layoutOptions = control.layoutOptions;
         this.military = control.military;
         this.dateFormat = control.dateFormat;
+        this.currencyFormat = control.currencyFormat;
+        this.startDate = control.startDate;
+        this.endDate = control.endDate;
         this.textMaskEnabled = control.textMaskEnabled;
+        this.textMaskEnabled = control.textMaskEnabled;
+        this.maskOptions = control.maskOptions;
         this.allowInvalidDate = control.allowInvalidDate;
         this.maxlength = control.maxlength;
         this.minlength = control.minlength;
