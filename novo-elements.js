@@ -14241,7 +14241,6 @@ class NovoTipWellElement {
     constructor(labels) {
         this.labels = labels;
         this.button = true;
-        this.sanitize = true;
         this.confirmed = new EventEmitter();
         this.isActive = true;
         this.isActive = true;
@@ -14297,15 +14296,14 @@ NovoTipWellElement.decorators = [
         <div *ngIf="isActive">
             <div>
                 <i class="bhi-{{ icon }}" *ngIf="icon" [attr.data-automation-id]="'novo-tip-well-icon-' + name"></i>
-                <p *ngIf="sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name">{{ tip }}</p>
-                <p *ngIf="!sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name" [innerHTML]="tip"></p>
+                <p [attr.data-automation-id]="'novo-tip-well-tip-' + name">{{ tip }}</p>
             </div>
             <button theme="dialogue" (click)="hideTip()" *ngIf="button" [attr.data-automation-id]="'novo-tip-well-button-' + name">{{ buttonText }}</button>
         </div>
     `,
                 host: {
-                    '[class.active]': 'isActive',
-                },
+                    '[class.active]': 'isActive'
+                }
             },] },
 ];
 /**
@@ -14320,7 +14318,6 @@ NovoTipWellElement.propDecorators = {
     'buttonText': [{ type: Input },],
     'button': [{ type: Input },],
     'icon': [{ type: Input },],
-    'sanitize': [{ type: Input },],
     'confirmed': [{ type: Output },],
 };
 
@@ -17449,9 +17446,19 @@ class NovoControlElement extends OutsideClick {
     /**
      * @return {?}
      */
+    get showMaxLengthMetMessage() {
+        return ((this.isDirty && this.maxLengthMet && this.focused && (!this.errors || (this.errors && !this.errors.maxlength))) ||
+            (this.isDirty &&
+                this.maxlengthMetField &&
+                this.focused &&
+                (!this.errors || (this.errors && !this.errors.maxlengthFields.includes(this.maxlengthMetField)))));
+    }
+    /**
+     * @return {?}
+     */
     get showErrorState() {
         return ((this.isDirty && this.errors) ||
-            (this.maxLengthMet && this.focused && this.errors && !this.errors.maxlengthFields) ||
+            (this.focused && this.errors && this.errors.maxlength && this.errors.maxlengthFields) ||
             (this.focused && this.errors && this.errors.maxlength && this.errors.maxlengthFields && this.maxlengthErrorField));
     }
     /**
@@ -17991,8 +17998,8 @@ NovoControlElement.decorators = [
                         </div>
                     </div>
                     <!--Error Message-->
-                    <div class="field-message {{ form.controls[control.key].controlType }}" *ngIf="!condensed" [class.has-tip]="form.controls[control.key].tipWell" [ngClass]="showErrorState ? 'error-shown' : 'error-hidden'">
-                        <div class="messages">
+                    <div class="field-message {{ form.controls[control.key].controlType }}" *ngIf="!condensed" [class.has-tip]="form.controls[control.key].tipWell" [ngClass]="showErrorState || showMaxLengthMetMessage ? 'error-shown' : 'error-hidden'">
+                        <div class="messages" [ngClass]="showCount ? 'count-shown' : 'count-hidden'">
                             <span class="error-text" *ngIf="showFieldMessage"></span>
                             <span class="error-text" *ngIf="isDirty && errors?.required && form.controls[control.key].controlType !== 'address'">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>
                             <span class="error-text" *ngIf="isDirty && errors?.minlength">{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span>
