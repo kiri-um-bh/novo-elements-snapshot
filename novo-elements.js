@@ -8378,7 +8378,7 @@ class NovoDropdownElement {
         this.parentScrollAction = 'close';
         this.side = 'default';
         this.scrollStrategy = 'reposition';
-        this.width = 180;
+        this.width = -1; // Defaults to dynamic width (no hardcoded width value and no host width lookup)
         this.appendToBody = false; // Deprecated
         this.toggled = new EventEmitter();
         this.activeIndex = -1;
