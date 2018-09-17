@@ -50535,7 +50535,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
             else {
                 actualFilter = {
                     min: filter$$1.min ? dateFns.addDays(dateFns.startOfToday(), filter$$1.min) : dateFns.startOfToday(),
-                    max: filter$$1.max ? dateFns.addDays(dateFns.startOfTomorrow(), filter$$1.max) : dateFns.startOfTomorrow(),
+                    max: filter$$1.max ? dateFns.addDays(dateFns.endOfToday(), filter$$1.max) : dateFns.endOfToday(),
                 };
             }
         }

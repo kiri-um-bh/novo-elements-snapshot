@@ -15,7 +15,7 @@ import 'brace/index';
 import 'brace/theme/chrome';
 import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
-import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, format, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isDate, isSameDay, isSameMonth, isSameSecond, isToday, isValid, parse, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
+import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfToday, endOfWeek, format, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isDate, isSameDay, isSameMonth, isSameSecond, isToday, isValid, parse, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
 import { DomSanitizer } from '@angular/platform-browser';
 import { animate, animateChild, group, query, state, style, transition, trigger } from '@angular/animations';
 import { Observable as Observable$1 } from 'rxjs/Observable';
@@ -50572,7 +50572,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
             else {
                 actualFilter = {
                     min: filter$$1.min ? addDays(startOfToday(), filter$$1.min) : startOfToday(),
-                    max: filter$$1.max ? addDays(startOfTomorrow(), filter$$1.max) : startOfTomorrow(),
+                    max: filter$$1.max ? addDays(endOfToday(), filter$$1.max) : endOfToday(),
                 };
             }
         }
