@@ -49517,16 +49517,20 @@ var StaticDataTableService = /** @class */ (function () {
     StaticDataTableService.prototype.getTableResults = function (sort, filter$$1, page, pageSize, globalSearch, outsideFilter) {
         if (page === void 0) { page = 0; }
         this.currentData = this.originalData.slice();
+        var /** @type {?} */ total = this.originalData.length;
         if (this.currentData.length !== 0) {
             if (globalSearch) {
                 this.currentData = this.currentData.filter(function (item) { return Object.keys(item).some(function (key) { return ("" + item[key]).toLowerCase().includes(globalSearch.toLowerCase()); }); });
+                total = this.currentData.length;
             }
             if (filter$$1) {
                 var /** @type {?} */ value = Helpers.isString(filter$$1.value) ? filter$$1.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter$$1.value;
                 this.currentData = this.currentData.filter(Helpers.filterByField(filter$$1.id, value));
+                total = this.currentData.length;
             }
             if (sort) {
                 this.currentData = this.currentData.sort(Helpers.sortByField(sort.id, sort.value === 'desc'));
+                total = this.currentData.length;
             }
             if (!sort && !filter$$1 && !globalSearch && !outsideFilter) {
                 this.currentData = this.originalData.slice();
@@ -49535,7 +49539,7 @@ var StaticDataTableService = /** @class */ (function () {
                 this.currentData = this.currentData.slice(page * pageSize, (page + 1) * pageSize);
             }
         }
-        return Observable.Observable.of({ results: this.currentData, total: this.originalData.length });
+        return Observable.Observable.of({ results: this.currentData, total: total });
     };
     return StaticDataTableService;
 }());
