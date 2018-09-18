@@ -60,7 +60,6 @@ export declare class NovoFormControl extends FormControl {
     rawValue?: any;
     customControlConfig?: any;
     checkboxLabel?: string;
-    restrictFieldInteractions?: boolean;
     private historyTimeout;
     constructor(value: any, control: NovoControlConfig);
     /**
@@ -98,20 +97,6 @@ export declare class NovoFormControl extends FormControl {
      * @param isReadOnly
      */
     setReadOnly(isReadOnly: boolean): void;
-    /**
-     * Disables the control. This means the control will be exempt from validation checks and
-     * excluded from the aggregate value of any parent. Its status is `DISABLED`.
-     *
-     * If the control has children, all children will be disabled to maintain the model.
-     */
-    disable(opts?: {
-        onlySelf?: boolean;
-        emitEvent?: boolean;
-    }): void;
-    enable(opts?: {
-        onlySelf?: boolean;
-        emitEvent?: boolean;
-    }): void;
     /**
      * @name markAsInvalid
      * @param message

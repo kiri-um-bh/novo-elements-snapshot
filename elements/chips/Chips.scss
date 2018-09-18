@@ -25,7 +25,7 @@ novo-entity-chips {
     }
   }
   &.disabled {
-    border-bottom-style: dashed !important;
+    border-bottom: none;
   }
   chip,
   novo-chip {
@@ -136,9 +136,6 @@ novo-entity-chips {
     > input {
       border: none;
       border-bottom: none !important;
-      &:disabled {
-        border-bottom: none !important;
-      }
     }
   }
   &.with-value {

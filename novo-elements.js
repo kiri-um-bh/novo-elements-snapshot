@@ -5,7 +5,7 @@ import 'brace/index';
 import 'brace/theme/chrome';
 import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
-import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfToday, endOfWeek, format, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isDate, isSameDay, isSameMonth, isSameSecond, isToday, isValid, parse, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
+import { addDays, addHours, addMinutes, addMonths, addSeconds, addWeeks, differenceInDays, differenceInMinutes, differenceInSeconds, endOfDay, endOfMonth, endOfWeek, format, getDate, getDay, getHours, getMilliseconds, getMinutes, getMonth, getSeconds, getYear, isAfter, isBefore, isDate, isSameDay, isSameMonth, isSameSecond, isToday, isValid, parse, setDate, setHours, setMilliseconds, setMinutes, setMonth, setSeconds, setYear, startOfDay, startOfMinute, startOfMonth, startOfToday, startOfTomorrow, startOfWeek, subMonths } from 'date-fns';
 import { DomSanitizer } from '@angular/platform-browser';
 import { animate, animateChild, group, query, state, style, transition, trigger } from '@angular/animations';
 import { Observable as Observable$1 } from 'rxjs/Observable';
@@ -8378,7 +8378,7 @@ class NovoDropdownElement {
         this.parentScrollAction = 'close';
         this.side = 'default';
         this.scrollStrategy = 'reposition';
-        this.width = -1; // Defaults to dynamic width (no hardcoded width value and no host width lookup)
+        this.width = 180;
         this.appendToBody = false; // Deprecated
         this.toggled = new EventEmitter();
         this.activeIndex = -1;
@@ -11258,7 +11258,6 @@ class NovoChipElement {
         this.disabled = false;
         this.select = new EventEmitter();
         this.remove = new EventEmitter();
-        this.deselect = new EventEmitter();
     }
     /**
      * @param {?} type
@@ -11291,24 +11290,12 @@ class NovoChipElement {
         this.select.emit(e);
         return false;
     }
-    /**
-     * @param {?} e
-     * @return {?}
-     */
-    onDeselect(e) {
-        if (e) {
-            e.stopPropagation();
-            e.preventDefault();
-        }
-        this.deselect.emit(e);
-        return false;
-    }
 }
 NovoChipElement.decorators = [
     { type: Component, args: [{
                 selector: 'chip,novo-chip',
                 template: `
-        <span (click)="onSelect($event)" (mouseenter)="onSelect($event)" (mouseleave)="onDeselect($event)" [ngClass]="_type">
+        <span (click)="onSelect($event)" (mouseover)="onSelect($event)" [ngClass]="_type">
             <i *ngIf="_type" class="bhi-circle"></i>
             <span><ng-content></ng-content></span>
         </span>
@@ -11325,7 +11312,6 @@ NovoChipElement.propDecorators = {
     'disabled': [{ type: Input },],
     'select': [{ type: Output },],
     'remove': [{ type: Output },],
-    'deselect': [{ type: Output },],
 };
 class NovoChipsElement {
     /**
@@ -11487,15 +11473,6 @@ class NovoChipsElement {
     }
     /**
      * @param {?=} event
-     * @param {?=} item
-     * @return {?}
-     */
-    deselect(event, item) {
-        this.blur.emit(event);
-        this.deselectAll();
-    }
-    /**
-     * @param {?=} event
      * @return {?}
      */
     onTyping(event) {
@@ -11641,8 +11618,7 @@ NovoChipsElement.decorators = [
             [class.selected]="item == selected"
             [disabled]="disablePickerInput"
             (remove)="remove($event, item)"
-            (select)="select($event, item)"
-            (deselect)="deselect($event, item)">
+            (select)="select($event, item)">
             {{ item.label }}
         </novo-chip>
         <div class="chip-input-container">
@@ -12703,9 +12679,7 @@ class NovoDatePickerInputElement {
      * @return {?}
      */
     openPanel() {
-        if (!this.disabled) {
-            this.overlay.openPanel();
-        }
+        this.overlay.openPanel();
     }
     /**
      * @return {?}
@@ -14241,7 +14215,6 @@ class NovoTipWellElement {
     constructor(labels) {
         this.labels = labels;
         this.button = true;
-        this.sanitize = true;
         this.confirmed = new EventEmitter();
         this.isActive = true;
         this.isActive = true;
@@ -14297,15 +14270,14 @@ NovoTipWellElement.decorators = [
         <div *ngIf="isActive">
             <div>
                 <i class="bhi-{{ icon }}" *ngIf="icon" [attr.data-automation-id]="'novo-tip-well-icon-' + name"></i>
-                <p *ngIf="sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name">{{ tip }}</p>
-                <p *ngIf="!sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name" [innerHTML]="tip"></p>
+                <p [attr.data-automation-id]="'novo-tip-well-tip-' + name">{{ tip }}</p>
             </div>
             <button theme="dialogue" (click)="hideTip()" *ngIf="button" [attr.data-automation-id]="'novo-tip-well-button-' + name">{{ buttonText }}</button>
         </div>
     `,
                 host: {
-                    '[class.active]': 'isActive',
-                },
+                    '[class.active]': 'isActive'
+                }
             },] },
 ];
 /**
@@ -14320,7 +14292,6 @@ NovoTipWellElement.propDecorators = {
     'buttonText': [{ type: Input },],
     'button': [{ type: Input },],
     'icon': [{ type: Input },],
-    'sanitize': [{ type: Input },],
     'confirmed': [{ type: Output },],
 };
 
@@ -14825,15 +14796,14 @@ class NovoFormControl extends FormControl {
         this.startDate = control.startDate;
         this.endDate = control.endDate;
         this.textMaskEnabled = control.textMaskEnabled;
-        this.textMaskEnabled = control.textMaskEnabled;
         this.maskOptions = control.maskOptions;
         this.allowInvalidDate = control.allowInvalidDate;
+        this.currencyFormat = control.currencyFormat;
         this.maxlength = control.maxlength;
         this.minlength = control.minlength;
         this.closeOnSelect = control.closeOnSelect;
         this.interactions = control.interactions;
         this.checkboxLabel = control.checkboxLabel;
-        this.restrictFieldInteractions = control.restrictFieldInteractions;
         this.appendToBody = control.appendToBody;
         if (this.appendToBody) {
             notify(`'appendToBody' has been deprecated. Please remove this attribute.`);
@@ -14882,7 +14852,7 @@ class NovoFormControl extends FormControl {
             validators.push(Validators.required);
             // TODO: duplicated below
             this.setValidators(validators);
-            this.updateValueAndValidity({ emitEvent: false });
+            this.updateValueAndValidity();
             this.hasRequiredValidator = this.required;
         }
         else if (!this.required && this.hasRequiredValidator) {
@@ -14890,7 +14860,7 @@ class NovoFormControl extends FormControl {
             validators = validators.filter((val) => val !== Validators.required);
             // TODO: duplicated above
             this.setValidators(validators);
-            this.updateValueAndValidity({ emitEvent: false });
+            this.updateValueAndValidity();
             this.hasRequiredValidator = this.required;
         }
     }
@@ -14925,30 +14895,6 @@ class NovoFormControl extends FormControl {
         else {
             this.enable();
         }
-    }
-    /**
-     * Disables the control. This means the control will be exempt from validation checks and
-     * excluded from the aggregate value of any parent. Its status is `DISABLED`.
-     *
-     * If the control has children, all children will be disabled to maintain the model.
-     * @param {?=} opts
-     * @return {?}
-     */
-    disable(opts = { emitEvent: false }) {
-        if (typeof opts.emitEvent === 'undefined') {
-            opts.emitEvent = false;
-        }
-        super.disable(opts);
-    }
-    /**
-     * @param {?=} opts
-     * @return {?}
-     */
-    enable(opts = { emitEvent: false }) {
-        if (typeof opts.emitEvent === 'undefined') {
-            opts.emitEvent = false;
-        }
-        super.enable(opts);
     }
     /**
      * \@name markAsInvalid
@@ -15024,7 +14970,6 @@ class BaseControl {
         this.allowInvalidDate = config.allowInvalidDate;
         this.startDate = config.startDate;
         this.endDate = config.endDate;
-        this.restrictFieldInteractions = !!config.restrictFieldInteractions;
         if (this.required) {
             this.validators.push(Validators.required);
         }
@@ -15782,7 +15727,6 @@ class FormUtils {
             tooltipPosition: field.tooltipPosition,
             template: field.template,
             customControlConfig: field.customControlConfig,
-            restrictFieldInteractions: field.restrictFieldInteractions,
         };
         // TODO: getControlOptions should always return the correct format
         let /** @type {?} */ optionsConfig = this.getControlOptions(field, http$$1, config);
@@ -16732,7 +16676,7 @@ class FieldInteractionApi {
      */
     setValue(key, value, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.setValue(value, options);
             this.triggerEvent({ controlKey: key, prop: 'value', value: value });
         }
@@ -16745,7 +16689,7 @@ class FieldInteractionApi {
      */
     patchValue(key, value, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.setValue(value, options);
             this.triggerEvent({ controlKey: key, prop: 'value', value: value });
         }
@@ -16757,7 +16701,7 @@ class FieldInteractionApi {
      */
     setReadOnly(key, isReadOnly) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.setReadOnly(isReadOnly);
             this.triggerEvent({ controlKey: key, prop: 'readOnly', value: isReadOnly });
         }
@@ -16769,7 +16713,7 @@ class FieldInteractionApi {
      */
     setRequired(key, required) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.setRequired(required);
             this.triggerEvent({ controlKey: key, prop: 'required', value: required });
         }
@@ -16781,7 +16725,7 @@ class FieldInteractionApi {
      */
     hide(key, clearValue = true) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.hide(clearValue);
             this.disable(key, { emitEvent: false });
             this.triggerEvent({ controlKey: key, prop: 'hidden', value: true });
@@ -16793,7 +16737,7 @@ class FieldInteractionApi {
      */
     show(key) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.show();
             this.enable(key, { emitEvent: false });
             this.triggerEvent({ controlKey: key, prop: 'hidden', value: false });
@@ -16806,7 +16750,7 @@ class FieldInteractionApi {
      */
     disable(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.disable(options);
             this.triggerEvent({ controlKey: key, prop: 'readOnly', value: true });
         }
@@ -16818,7 +16762,7 @@ class FieldInteractionApi {
      */
     enable(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.enable(options);
             this.triggerEvent({ controlKey: key, prop: 'readOnly', value: false });
         }
@@ -16831,7 +16775,7 @@ class FieldInteractionApi {
     markAsInvalid(key, validationMessage) {
         let /** @type {?} */ control = this.getControl(key);
         if (control) {
-            if (control && !control.restrictFieldInteractions) {
+            if (control) {
                 control.markAsInvalid(validationMessage);
             }
         }
@@ -16843,7 +16787,7 @@ class FieldInteractionApi {
      */
     markAsDirty(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.markAsDirty(options);
         }
     }
@@ -16854,7 +16798,7 @@ class FieldInteractionApi {
      */
     markAsPending(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.markAsPending(options);
         }
     }
@@ -16865,7 +16809,7 @@ class FieldInteractionApi {
      */
     markAsPristine(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.markAsPristine(options);
         }
     }
@@ -16876,7 +16820,7 @@ class FieldInteractionApi {
      */
     markAsTouched(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.markAsTouched(options);
         }
     }
@@ -16887,7 +16831,7 @@ class FieldInteractionApi {
      */
     markAsUntouched(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.markAsUntouched(options);
         }
     }
@@ -16898,7 +16842,7 @@ class FieldInteractionApi {
      */
     updateValueAndValidity(key, options) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.updateValueAndValidity(options);
         }
     }
@@ -16920,7 +16864,7 @@ class FieldInteractionApi {
      */
     displayTip(key, tip, icon, allowDismiss) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.tipWell = {
                 tip: tip,
                 icon: icon,
@@ -16936,7 +16880,7 @@ class FieldInteractionApi {
      */
     setTooltip(key, tooltip) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control.tooltip = tooltip;
             if (tooltip.length >= 40) {
                 control.tooltipSize = 'large';
@@ -16979,7 +16923,7 @@ class FieldInteractionApi {
      */
     setProperty(key, prop, value) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             control[prop] = value;
             this.triggerEvent({ controlKey: key, prop: prop, value: value });
         }
@@ -16991,7 +16935,7 @@ class FieldInteractionApi {
      */
     getProperty(key, prop) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             return control[prop];
         }
         return null;
@@ -17028,7 +16972,7 @@ class FieldInteractionApi {
         let /** @type {?} */ control = this.getControl(key);
         let /** @type {?} */ optionToAdd = newOption;
         let /** @type {?} */ isUnique = true;
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             let /** @type {?} */ currentOptions = this.getProperty(key, 'options');
             if (!currentOptions || !currentOptions.length) {
                 let /** @type {?} */ config = this.getProperty(key, 'config');
@@ -17069,7 +17013,7 @@ class FieldInteractionApi {
      */
     removeStaticOption(key, optionToRemove) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             let /** @type {?} */ currentOptions = this.getProperty(key, 'options');
             if (!currentOptions || !currentOptions.length) {
                 let /** @type {?} */ config = this.getProperty(key, 'config');
@@ -17127,7 +17071,7 @@ class FieldInteractionApi {
      */
     modifyPickerConfig(key, config, mapper) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             let /** @type {?} */ newConfig = {
                 resultsTemplate: control.config.resultsTemplate,
             };
@@ -17172,7 +17116,7 @@ class FieldInteractionApi {
      */
     setLoading(key, loading) {
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             if (loading) {
                 this.form.controls[key].fieldInteractionloading = true;
                 control.setErrors({ loading: true });
@@ -17272,7 +17216,7 @@ class FieldInteractionApi {
             return null;
         }
         let /** @type {?} */ control = this.getControl(key);
-        if (control && !control.restrictFieldInteractions) {
+        if (control) {
             let /** @type {?} */ fieldsetIndex = -1;
             let /** @type {?} */ controlIndex = -1;
             this.form.fieldsets.forEach((fieldset, fi) => {
@@ -17494,28 +17438,22 @@ class NovoControlElement extends OutsideClick {
      */
     ngAfterContentInit() {
         // Subscribe to control interactions
-        if (this.control.interactions && !this.form.controls[this.control.key].restrictFieldInteractions) {
+        if (this.control.interactions) {
             for (let /** @type {?} */ interaction of this.control.interactions) {
                 switch (interaction.event) {
                     case 'blur':
                         this.valueChangeSubscription = this.onBlur.debounceTime(300).subscribe(() => {
-                            if (!this.form.controls[this.control.key].restrictFieldInteractions) {
-                                this.executeInteraction(interaction);
-                            }
+                            this.executeInteraction(interaction);
                         });
                         break;
                     case 'focus':
                         this.valueChangeSubscription = this.onFocus.debounceTime(300).subscribe(() => {
-                            if (!this.form.controls[this.control.key].restrictFieldInteractions) {
-                                this.executeInteraction(interaction);
-                            }
+                            this.executeInteraction(interaction);
                         });
                         break;
                     case 'change':
                         this.valueChangeSubscription = this.form.controls[this.control.key].valueChanges.debounceTime(300).subscribe(() => {
-                            if (!this.form.controls[this.control.key].restrictFieldInteractions) {
-                                this.executeInteraction(interaction);
-                            }
+                            this.executeInteraction(interaction);
                         });
                         break;
                     case 'init':
@@ -17525,9 +17463,7 @@ class NovoControlElement extends OutsideClick {
                         break;
                 }
                 if (interaction.invokeOnInit) {
-                    if (!this.form.controls[this.control.key].restrictFieldInteractions) {
-                        this.executeInteraction(interaction);
-                    }
+                    this.executeInteraction(interaction);
                 }
             }
         }
@@ -17565,10 +17501,8 @@ class NovoControlElement extends OutsideClick {
         this.templateContext = {
             $implicit: this.form.controls[this.control.key],
             methods: {
-                restrictKeys: this.restrictKeys.bind(this),
                 emitChange: this.emitChange.bind(this),
                 handleFocus: this.handleFocus.bind(this),
-                handlePercentChange: this.handlePercentChange.bind(this),
                 handleBlur: this.handleBlur.bind(this),
                 handleTextAreaInput: this.handleTextAreaInput.bind(this),
                 handleEdit: this.handleEdit.bind(this),
@@ -17799,7 +17733,6 @@ class NovoControlElement extends OutsideClick {
      */
     handleTextAreaInput(event) {
         this.emitChange(event);
-        this.restrictKeys(event);
     }
     /**
      * @param {?} event
@@ -17833,44 +17766,6 @@ class NovoControlElement extends OutsideClick {
             this._enteredText = '';
         }
         this.change.emit(value);
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    restrictKeys(event) {
-        const /** @type {?} */ NUMBERS_ONLY = /[0-9\-]/;
-        const /** @type {?} */ NUMBERS_WITH_DECIMAL = /[0-9\.\-]/;
-        const /** @type {?} */ UTILITY_KEYS = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
-        let /** @type {?} */ key = event.key;
-        // Types
-        if (this.form.controls[this.control.key].subType === 'number' && !(NUMBERS_ONLY.test(key) || UTILITY_KEYS.includes(key))) {
-            event.preventDefault();
-        }
-        else if (~['currency', 'float', 'percentage'].indexOf(this.form.controls[this.control.key].subType) &&
-            !(NUMBERS_WITH_DECIMAL.test(key) || UTILITY_KEYS.includes(key))) {
-            event.preventDefault();
-        }
-        // Max Length
-        if (this.form.controls[this.control.key].maxlength && event.target.value.length >= this.form.controls[this.control.key].maxlength) {
-            event.preventDefault();
-        }
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    handlePercentChange(event) {
-        let /** @type {?} */ value = event.target['value'];
-        let /** @type {?} */ percent = Helpers.isEmpty(value) ? null : Number((value / 100).toFixed(6).replace(/\.?0*$/, ''));
-        if (!Helpers.isEmpty(percent)) {
-            this.change.emit(percent);
-            this.form.controls[this.control.key].setValue(percent);
-        }
-        else {
-            this.change.emit(null);
-            this.form.controls[this.control.key].setValue(null);
-        }
     }
     /**
      * @param {?} event
@@ -18079,7 +17974,7 @@ NovoControlElement.propDecorators = {
 /**
  * AUTOGENERATED FILE - DO NOT EDIT
  * Generated by: https://bhsource.bullhorn.com/DEV_WORKSPACE/country-state-parser
- * Last generated on: Wed Sep 12 2018 10:22:49 GMT-0500 (CDT)
+ * Last generated on: Wed Aug 15 2018 14:45:32 GMT-0500 (CDT)
  */
 const COUNTRIES = [
     {
@@ -19424,12 +19319,7 @@ const COUNTRIES = [
         code: 'AB',
         id: 2373,
         name: 'Aruba',
-        states: [
-            {
-                code: 'AW.AA',
-                name: 'Aruba',
-            },
-        ],
+        states: [],
     },
     {
         code: 'AU',
@@ -20330,12 +20220,6 @@ const COUNTRIES = [
                 name: 'Tarija',
             },
         ],
-    },
-    {
-        code: 'BQ',
-        id: 2449,
-        name: 'Bonaire',
-        states: [],
     },
     {
         code: 'BA',
@@ -22188,12 +22072,7 @@ const COUNTRIES = [
         code: 'C999',
         id: 2387,
         name: 'Curacao',
-        states: [
-            {
-                code: 'CW.CU',
-                name: 'Curacao',
-            },
-        ],
+        states: [],
     },
     {
         code: 'CY',
@@ -31026,12 +30905,7 @@ const COUNTRIES = [
         code: 'MF',
         id: 2434,
         name: 'Saint Martin',
-        states: [
-            {
-                code: 'MF.SM',
-                name: 'Saint Martin',
-            },
-        ],
+        states: [],
     },
     {
         code: 'PM',
@@ -31412,12 +31286,6 @@ const COUNTRIES = [
                 name: 'South West',
             },
         ],
-    },
-    {
-        code: 'SX',
-        id: 2448,
-        name: 'Sint Maarten',
-        states: [],
     },
     {
         code: 'SK',
@@ -35308,12 +35176,7 @@ const COUNTRIES = [
         code: 'VG',
         id: 2446,
         name: 'Virgin Islands; British',
-        states: [
-            {
-                code: 'VG.VI',
-                name: 'British Virgin Islands',
-            },
-        ],
+        states: [],
     },
     {
         code: 'VI',
@@ -37038,8 +36901,8 @@ NovoControlTemplates.decorators = [
           <div [formGroup]="form" class="novo-control-input-container novo-control-input-with-label" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline">
             <input *ngIf="control?.type !== 'number' && control?.textMaskEnabled" [textMask]="control.maskOptions" [formControlName]="control.key" [id]="control.key" [type]="control?.type" [placeholder]="control?.placeholder" (input)="methods.emitChange($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" autocomplete>
             <input *ngIf="control?.type !== 'number' && !control?.textMaskEnabled" [class.maxlength-error]="errors?.maxlength" [formControlName]="control.key" [id]="control.key" [type]="control?.type" [placeholder]="control?.placeholder" (input)="methods.emitChange($event)" [maxlength]="control?.maxlength" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" autocomplete>
-            <input *ngIf="control?.type === 'number' && control?.subType !== 'percentage'" [class.maxlength-error]="errors?.maxlength" [formControlName]="control.key" [id]="control.key" [type]="control?.type" [placeholder]="control?.placeholder" (keydown)="methods.restrictKeys($event)" (input)="methods.emitChange($event)" [maxlength]="control?.maxlength" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" step="any" (mousewheel)="numberInput.blur()" #numberInput>
-            <input *ngIf="control?.type === 'number' && control?.subType === 'percentage'" [type]="control?.type" [placeholder]="control?.placeholder" (keydown)="methods.restrictKeys($event)" [value]="control?.percentValue" (input)="methods.handlePercentChange($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" step="any" (mousewheel)="percentInput.blur()" #percentInput>
+            <novo-number-textbox *ngIf="control?.type === 'number' && control?.subType !== 'percentage'" [value]="control.value" [name]="control?.key" [formControlName]="control?.key" [subType]="control?.subType" [decimalSeparator]="control?.config?.decimalSeparator" [maxlength]="control?.maxlength" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)"></novo-number-textbox>
+            <novo-number-textbox *ngIf="control?.type === 'number' && control?.subType === 'percentage'" [value]="control?.percentValue" [name]="control?.key" [formControlName]="control?.key" [subType]="control?.subType" [decimalSeparator]="control?.config?.decimalSeparator" [placeholder]="control?.placeholder" [maxlength]="control?.maxlength" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)"></novo-number-textbox>
             <label class="input-label" *ngIf="control?.subType === 'currency'">{{ control.currencyFormat }}</label>
             <label class="input-label" *ngIf="control?.subType === 'percentage'">%</label>
           </div>
@@ -37047,8 +36910,8 @@ NovoControlTemplates.decorators = [
 
         <!--Textarea--->
         <ng-template novoTemplate="text-area" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div class="textarea-container" [formGroup]="form" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline">
-            <textarea [class.maxlength-error]="errors?.maxlength" [name]="control.key" [attr.id]="control.key" [placeholder]="control.placeholder" [formControlName]="control.key" autosize (input)="methods.handleTextAreaInput($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [maxlength]="control?.maxlength"></textarea>
+          <div [formGroup]="form">
+            <textarea [class.maxlength-error]="errors?.maxlength" [name]="control.key" [attr.id]="control.key" [placeholder]="control.placeholder" [formControlName]="control.key" autosize (input)="methods.handleTextAreaInput($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [maxlength]="control?.maxlength" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline"></textarea>
           </div>
         </ng-template>
 
@@ -37189,6 +37052,242 @@ NovoCommonModule.decorators = [
  */
 NovoCommonModule.ctorParameters = () => [];
 
+// NG
+// App
+// Value accessor for the component (supports ngModel)
+const NUMBER_TEXTBOX_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => NovoNumberTextBoxElement),
+    multi: true,
+};
+class NovoNumberTextBoxElement {
+    /**
+     * @param {?} element
+     * @param {?} labels
+     * @param {?} _changeDetectorRef
+     * @param {?} ngZone
+     */
+    constructor(element, labels, _changeDetectorRef, ngZone) {
+        this.element = element;
+        this.labels = labels;
+        this._changeDetectorRef = _changeDetectorRef;
+        this.ngZone = ngZone;
+        this._decimalSeparator = '.';
+        this.invalidMaxlength = false;
+        this.invalid = false;
+        /**
+         * View -> model callback called when value changes
+         */
+        this._onChange = () => { };
+        /**
+         * View -> model callback called when autocomplete has been touched
+         */
+        this._onTouched = () => { };
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    _handleKeydown(event) {
+        this.restrictKeys(event);
+    }
+    /**
+     * @param {?} event
+     * @param {?=} isPercent
+     * @return {?}
+     */
+    _handleInput(event, isPercent = false) {
+        if (document.activeElement === event.target) {
+            let /** @type {?} */ value = ((event.target)).value;
+            let /** @type {?} */ parsedValue = this.replaceDecimalSeperatorAndParse(this.decimalSeparator, value);
+            this.isInvalid(parsedValue, value.length);
+            if (isPercent) {
+                this._handlePercentInput(value, parsedValue);
+            }
+            else {
+                this._setValue(value, parsedValue);
+            }
+        }
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    restrictKeys(event) {
+        const /** @type {?} */ NUMBERS_ONLY = /[0-9\-]/;
+        const /** @type {?} */ UTILITY_KEYS = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
+        let /** @type {?} */ key = event.key;
+        if (this.subType === 'number' && !(NUMBERS_ONLY.test(key) || UTILITY_KEYS.includes(key))) {
+            event.preventDefault();
+        }
+        else if (~['currency', 'float', 'percentage'].indexOf(this.subType) &&
+            !(this.numbersWithDecimalRegex.test(key) || UTILITY_KEYS.includes(key))) {
+            event.preventDefault();
+        }
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    writeValue(value) {
+        this._setValue(value, value);
+    }
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    registerOnChange(fn) {
+        this._onChange = fn;
+    }
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    registerOnTouched(fn) {
+        this._onTouched = fn;
+    }
+    /**
+     * @param {?} displayValue
+     * @param {?} parsedValue
+     * @return {?}
+     */
+    _setValue(displayValue, parsedValue) {
+        this.value = parsedValue;
+        this._onChange(this.value);
+        if (this.input && this.input.nativeElement) {
+            // TODO: it's null when this is called through writeValue - need to figure out if this is a problem
+            this.input.nativeElement.value = displayValue;
+        }
+        this._changeDetectorRef.markForCheck();
+    }
+    /**
+     * @param {?} value
+     * @param {?} parsedValue
+     * @return {?}
+     */
+    _handlePercentInput(value, parsedValue) {
+        let /** @type {?} */ percent = Helpers.isEmpty(parsedValue) ? null : Number((parsedValue / 100).toFixed(6).replace(/\.?0*$/, ''));
+        if (!Helpers.isEmpty(percent)) {
+            this._setValue(percent, value);
+        }
+        else {
+            this._setValue(null, '');
+        }
+    }
+    /**
+     * replace decimal separator with period and parse
+     * @param {?} decimalSeparator
+     * @param {?} value
+     * @return {?}
+     */
+    replaceDecimalSeperatorAndParse(decimalSeparator, value) {
+        let /** @type {?} */ parsedValue = value;
+        if (decimalSeparator && decimalSeparator !== '.' && value) {
+            parsedValue = parseFloat(value.replace(decimalSeparator, '.'));
+        }
+        if (isNaN(Number(parsedValue))) {
+            return '';
+        }
+        else {
+            return parsedValue;
+        }
+    }
+    /**
+     * @param {?} value
+     * @param {?} strLength
+     * @return {?}
+     */
+    isInvalid(value, strLength) {
+        this.invalidMaxlength = false;
+        this.invalid = false;
+        if (strLength > 0 && (value === null || value === '')) {
+            this.invalid = true;
+            return;
+        }
+        switch (this.subType) {
+            case 'number':
+            case 'currency':
+                if (FormValidators.maxInteger({ value: value }) !== null) {
+                    this.invalidMaxlength = true;
+                }
+                break;
+            case 'float':
+            case 'percentage':
+                if (FormValidators.maxDouble({ value: value }) !== null) {
+                    this.invalidMaxlength = true;
+                }
+                break;
+            case 'year':
+                if (FormValidators.minYear({ value: value }) !== null) {
+                    this.invalid = true;
+                }
+                break;
+        }
+    }
+    /**
+     * @return {?}
+     */
+    get decimalSeparator() {
+        return this._decimalSeparator;
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set decimalSeparator(value) {
+        if (value) {
+            this._decimalSeparator = value;
+        }
+        this.numbersWithDecimalRegex = new RegExp('[0-9\\' + this.decimalSeparator + ']');
+    }
+}
+NovoNumberTextBoxElement.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-number-textbox',
+                providers: [NUMBER_TEXTBOX_VALUE_ACCESSOR],
+                template: `
+    <input *ngIf="subType !== 'percentage'" type="text" [attr.name]="name" [class.maxlength-error]="invalidMaxlength" [class.invalid]="invalid" (keydown)="_handleKeydown($event)" 
+      (input)="_handleInput($event)" (mousewheel)="numberInput.blur()" #input data-automation-id="novo-number-textbox-input"/>
+    <input *ngIf="subType === 'percentage'" type="text" [attr.name]="name" [class.maxlength-error]="invalidMaxlength" [class.invalid]="invalid" (keydown)="_handleKeydown($event)"
+      (input)="_handleInput($event, true)" [placeholder]="placeholder" (mousewheel)="percentInput.blur()" #percentInput data-automation-id="novo-number-textbox-input"/>
+  `,
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoNumberTextBoxElement.ctorParameters = () => [
+    { type: ElementRef, },
+    { type: NovoLabelService, },
+    { type: ChangeDetectorRef, },
+    { type: NgZone, },
+];
+NovoNumberTextBoxElement.propDecorators = {
+    'config': [{ type: Input },],
+    'name': [{ type: Input },],
+    'subType': [{ type: Input },],
+    'placeholder': [{ type: Input },],
+    'value': [{ type: Input },],
+    'input': [{ type: ViewChild, args: ['input',] },],
+    'decimalSeparator': [{ type: Input },],
+};
+
+// NG
+// App
+class NovoNumberTextBoxModule {
+}
+NovoNumberTextBoxModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule],
+                declarations: [NovoNumberTextBoxElement],
+                exports: [NovoNumberTextBoxElement],
+            },] },
+];
+/**
+ * @nocollapse
+ */
+NovoNumberTextBoxModule.ctorParameters = () => [];
+
 // NG2
 // Vendor
 // APP
@@ -37219,20 +37318,31 @@ NovoFormModule.decorators = [
                     NovoButtonModule,
                     NovoAceEditorModule,
                     NovoCommonModule,
+                    NovoNumberTextBoxModule,
                 ],
                 declarations: [
-                    NovoAutoSize, NovoControlElement, NovoDynamicFormElement, NovoFormElement,
-                    NovoFieldsetElement, NovoFieldsetHeaderElement,
-                    ControlConfirmModal, ControlPromptModal, NovoControlGroup, NovoControlTemplates
+                    NovoAutoSize,
+                    NovoControlElement,
+                    NovoDynamicFormElement,
+                    NovoFormElement,
+                    NovoFieldsetElement,
+                    NovoFieldsetHeaderElement,
+                    ControlConfirmModal,
+                    ControlPromptModal,
+                    NovoControlGroup,
+                    NovoControlTemplates,
                 ],
                 exports: [
-                    NovoAutoSize, NovoDynamicFormElement, NovoControlElement, NovoFormElement,
+                    NovoAutoSize,
+                    NovoDynamicFormElement,
+                    NovoControlElement,
+                    NovoFormElement,
                     NovoFieldsetHeaderElement,
                     NovoControlGroup,
-                    NovoControlTemplates
+                    NovoControlTemplates,
                 ],
                 entryComponents: [ControlConfirmModal, ControlPromptModal],
-                providers: [NovoTemplateService]
+                providers: [NovoTemplateService],
             },] },
 ];
 /**
@@ -51833,20 +51943,16 @@ class StaticDataTableService {
      */
     getTableResults(sort, filter$$1, page = 0, pageSize, globalSearch, outsideFilter) {
         this.currentData = [...this.originalData];
-        let /** @type {?} */ total = this.originalData.length;
         if (this.currentData.length !== 0) {
             if (globalSearch) {
                 this.currentData = this.currentData.filter((item) => Object.keys(item).some((key) => `${item[key]}`.toLowerCase().includes(globalSearch.toLowerCase())));
-                total = this.currentData.length;
             }
             if (filter$$1) {
                 let /** @type {?} */ value = Helpers.isString(filter$$1.value) ? filter$$1.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter$$1.value;
                 this.currentData = this.currentData.filter(Helpers.filterByField(filter$$1.id, value));
-                total = this.currentData.length;
             }
             if (sort) {
                 this.currentData = this.currentData.sort(Helpers.sortByField(sort.id, sort.value === 'desc'));
-                total = this.currentData.length;
             }
             if (!sort && !filter$$1 && !globalSearch && !outsideFilter) {
                 this.currentData = [...this.originalData];
@@ -51855,7 +51961,7 @@ class StaticDataTableService {
                 this.currentData = this.currentData.slice(page * pageSize, (page + 1) * pageSize);
             }
         }
-        return Observable$1.of({ results: this.currentData, total: total });
+        return Observable$1.of({ results: this.currentData, total: this.originalData.length });
     }
 }
 
@@ -52940,7 +53046,7 @@ class NovoDataTableCellHeader {
             else {
                 actualFilter = {
                     min: filter$$1.min ? addDays(startOfToday(), filter$$1.min) : startOfToday(),
-                    max: filter$$1.max ? addDays(endOfToday(), filter$$1.max) : endOfToday(),
+                    max: filter$$1.max ? addDays(startOfTomorrow(), filter$$1.max) : startOfTomorrow(),
                 };
             }
         }
@@ -57750,6 +57856,7 @@ NovoElementsModule.decorators = [
                     NovoCommonModule,
                     NovoStepperModule,
                     ScrollDispatchModule,
+                    NovoNumberTextBoxModule,
                 ],
                 providers: [
                     { provide: ComponentUtils, useClass: ComponentUtils },
@@ -57775,5 +57882,5 @@ NovoElementsModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoDatePickerElement, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTable, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵt, NovoCalendarAllDayEventElement as ɵbd, NovoCalendarDayEventElement as ɵbb, NovoCalendarDayViewElement as ɵba, NovoCalendarHourSegmentElement as ɵbc, NovoCalendarMonthDayElement as ɵw, NovoCalendarMonthHeaderElement as ɵv, NovoCalendarMonthViewElement as ɵu, DayOfMonthPipe as ɵbf, EndOfWeekDisplayPipe as ɵbk, HoursPipe as ɵbj, MonthPipe as ɵbg, MonthDayPipe as ɵbh, WeekdayPipe as ɵbe, YearPipe as ɵbi, NovoCalendarWeekEventElement as ɵz, NovoCalendarWeekHeaderElement as ɵy, NovoCalendarWeekViewElement as ɵx, CardActionsElement as ɵr, CardElement as ɵs, NovoCategoryDropdownElement as ɵem, NovoChipElement as ɵcn, NovoChipsElement as ɵco, NovoRowChipElement as ɵcp, NovoRowChipsElement as ɵcq, NovoCKEditorElement as ɵcx, NovoDataTableCheckboxHeaderCell as ɵfe, NovoDataTableExpandHeaderCell as ɵfg, NovoDataTableCellHeader as ɵev, NovoDataTableHeaderCell as ɵey, NovoDataTableCell as ɵez, NovoDataTableCheckboxCell as ɵfd, NovoDataTableExpandCell as ɵff, NovoDataTableClearButton as ɵfi, NovoDataTableExpandDirective as ɵfh, DataTableInterpolatePipe as ɵep, DateTableCurrencyRendererPipe as ɵeu, DateTableDateRendererPipe as ɵeq, DateTableDateTimeRendererPipe as ɵer, DateTableNumberRendererPipe as ɵet, DateTableTimeRendererPipe as ɵes, NovoDataTablePagination as ɵfc, NovoDataTableHeaderRow as ɵfa, NovoDataTableRow as ɵfb, NovoDataTableSortFilter as ɵex, DataTableState as ɵew, NovoDatePickerInputElement as ɵcr, NovoDateTimePickerElement as ɵcv, NovoDateTimePickerInputElement as ɵcw, NovoDragulaElement as ɵcl, NovoDropdownElement as ɵcd, NovoItemElement as ɵce, NovoItemHeaderElement$1 as ɵcg, NovoListElement$1 as ɵcf, NovoAccordion as ɵdw, novoExpansionAnimations as ɵdz, NovoExpansionPanel as ɵdx, NovoExpansionPanelActionRow as ɵdy, NovoExpansionPanelContent as ɵea, NovoExpansionPanelDescription as ɵec, NovoExpansionPanelHeader as ɵeb, NovoExpansionPanelTitle as ɵed, NovoAutoSize as ɵdb, NovoControlElement as ɵdc, NovoControlTemplates as ɵdj, NovoDynamicFormElement as ɵdf, NovoFieldsetElement as ɵde, NovoFieldsetHeaderElement as ɵdd, ControlConfirmModal as ɵdh, ControlPromptModal as ɵdi, NovoFormElement as ɵdg, NovoAddressElement as ɵl, NovoCheckboxElement as ɵcz, NovoFileInputElement as ɵda, NovoHeaderComponent as ɵbp, NovoHeaderSpacer as ɵbm, NovoUtilActionComponent as ɵbo, NovoUtilsComponent as ɵbn, NovoIconComponent as ɵdv, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵen, NovoOverlayTemplateComponent as ɵcc, NovoOverlayModule as ɵcb, NovoPickerElement as ɵcj, PlacesListComponent as ɵfq, GooglePlacesModule as ɵfp, PopOverDirective as ɵfo, NovoPopOverModule as ɵfm, PopOverContent as ɵfn, QuickNoteElement as ɵby, NovoRadioElement as ɵca, NovoRadioGroup as ɵbz, NovoSearchBoxElement as ɵck, NovoSelectElement as ɵch, NovoSliderElement as ɵcm, NovoStepHeader as ɵei, NovoStepLabel as ɵej, NovoStepStatus as ɵel, novoStepperAnimations as ɵek, NovoHorizontalStepper as ɵeg, NovoStep as ɵee, NovoStepper as ɵef, NovoVerticalStepper as ɵeh, NovoSwitchElement as ɵci, NovoTableKeepFilterFocus as ɵdn, Pagination as ɵdo, RowDetails as ɵdp, NovoTableActionsElement as ɵdm, TableCell as ɵdq, TableFilter as ɵdr, NovoTableFooterElement as ɵdl, NovoTableHeaderElement as ɵdk, ThOrderable as ɵds, ThSortable as ɵdt, NovoNavContentElement as ɵbv, NovoNavElement as ɵbq, NovoNavHeaderElement as ɵbw, NovoNavOutletElement as ɵbu, NovoTabButtonElement as ɵbs, NovoTabElement as ɵbr, NovoTabLinkElement as ɵbt, NovoTilesElement as ɵbx, NovoTimePickerElement as ɵct, NovoTimePickerInputElement as ɵcu, NovoTipWellElement as ɵcy, NovoToastElement as ɵbl, TooltipDirective as ɵq, Unless as ɵeo, EntityList as ɵdu, NovoValueElement as ɵk, DateFormatService as ɵcs, BrowserGlobalRef as ɵfk, GlobalRef as ɵfj, LocalStorageService as ɵfl };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoDatePickerElement, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoNumberTextBoxModule, NovoDataTable, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, CalendarEventResponse, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵt, NovoCalendarAllDayEventElement as ɵbd, NovoCalendarDayEventElement as ɵbb, NovoCalendarDayViewElement as ɵba, NovoCalendarHourSegmentElement as ɵbc, NovoCalendarMonthDayElement as ɵw, NovoCalendarMonthHeaderElement as ɵv, NovoCalendarMonthViewElement as ɵu, DayOfMonthPipe as ɵbf, EndOfWeekDisplayPipe as ɵbk, HoursPipe as ɵbj, MonthPipe as ɵbg, MonthDayPipe as ɵbh, WeekdayPipe as ɵbe, YearPipe as ɵbi, NovoCalendarWeekEventElement as ɵz, NovoCalendarWeekHeaderElement as ɵy, NovoCalendarWeekViewElement as ɵx, CardActionsElement as ɵr, CardElement as ɵs, NovoCategoryDropdownElement as ɵen, NovoChipElement as ɵcn, NovoChipsElement as ɵco, NovoRowChipElement as ɵcp, NovoRowChipsElement as ɵcq, NovoCKEditorElement as ɵcx, NovoDataTableCheckboxHeaderCell as ɵff, NovoDataTableExpandHeaderCell as ɵfh, NovoDataTableCellHeader as ɵew, NovoDataTableHeaderCell as ɵez, NovoDataTableCell as ɵfa, NovoDataTableCheckboxCell as ɵfe, NovoDataTableExpandCell as ɵfg, NovoDataTableClearButton as ɵfj, NovoDataTableExpandDirective as ɵfi, DataTableInterpolatePipe as ɵeq, DateTableCurrencyRendererPipe as ɵev, DateTableDateRendererPipe as ɵer, DateTableDateTimeRendererPipe as ɵes, DateTableNumberRendererPipe as ɵeu, DateTableTimeRendererPipe as ɵet, NovoDataTablePagination as ɵfd, NovoDataTableHeaderRow as ɵfb, NovoDataTableRow as ɵfc, NovoDataTableSortFilter as ɵey, DataTableState as ɵex, NovoDatePickerInputElement as ɵcr, NovoDateTimePickerElement as ɵcv, NovoDateTimePickerInputElement as ɵcw, NovoDragulaElement as ɵcl, NovoDropdownElement as ɵcd, NovoItemElement as ɵce, NovoItemHeaderElement$1 as ɵcg, NovoListElement$1 as ɵcf, NovoAccordion as ɵdx, novoExpansionAnimations as ɵea, NovoExpansionPanel as ɵdy, NovoExpansionPanelActionRow as ɵdz, NovoExpansionPanelContent as ɵeb, NovoExpansionPanelDescription as ɵed, NovoExpansionPanelHeader as ɵec, NovoExpansionPanelTitle as ɵee, NovoAutoSize as ɵdc, NovoControlElement as ɵdd, NovoControlTemplates as ɵdk, NovoDynamicFormElement as ɵdg, NovoFieldsetElement as ɵdf, NovoFieldsetHeaderElement as ɵde, ControlConfirmModal as ɵdi, ControlPromptModal as ɵdj, NovoFormElement as ɵdh, NovoAddressElement as ɵl, NovoCheckboxElement as ɵcz, NovoFileInputElement as ɵda, NovoHeaderComponent as ɵbp, NovoHeaderSpacer as ɵbm, NovoUtilActionComponent as ɵbo, NovoUtilsComponent as ɵbn, NovoIconComponent as ɵdw, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoLoadingElement as ɵo, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵeo, NovoNumberTextBoxElement as ɵdb, NovoOverlayTemplateComponent as ɵcc, NovoOverlayModule as ɵcb, NovoPickerElement as ɵcj, PlacesListComponent as ɵfr, GooglePlacesModule as ɵfq, PopOverDirective as ɵfp, NovoPopOverModule as ɵfn, PopOverContent as ɵfo, QuickNoteElement as ɵby, NovoRadioElement as ɵca, NovoRadioGroup as ɵbz, NovoSearchBoxElement as ɵck, NovoSelectElement as ɵch, NovoSliderElement as ɵcm, NovoStepHeader as ɵej, NovoStepLabel as ɵek, NovoStepStatus as ɵem, novoStepperAnimations as ɵel, NovoHorizontalStepper as ɵeh, NovoStep as ɵef, NovoStepper as ɵeg, NovoVerticalStepper as ɵei, NovoSwitchElement as ɵci, NovoTableKeepFilterFocus as ɵdo, Pagination as ɵdp, RowDetails as ɵdq, NovoTableActionsElement as ɵdn, TableCell as ɵdr, TableFilter as ɵds, NovoTableFooterElement as ɵdm, NovoTableHeaderElement as ɵdl, ThOrderable as ɵdt, ThSortable as ɵdu, NovoNavContentElement as ɵbv, NovoNavElement as ɵbq, NovoNavHeaderElement as ɵbw, NovoNavOutletElement as ɵbu, NovoTabButtonElement as ɵbs, NovoTabElement as ɵbr, NovoTabLinkElement as ɵbt, NovoTilesElement as ɵbx, NovoTimePickerElement as ɵct, NovoTimePickerInputElement as ɵcu, NovoTipWellElement as ɵcy, NovoToastElement as ɵbl, TooltipDirective as ɵq, Unless as ɵep, EntityList as ɵdv, NovoValueElement as ɵk, DateFormatService as ɵcs, BrowserGlobalRef as ɵfl, GlobalRef as ɵfk, LocalStorageService as ɵfm };
 //# sourceMappingURL=novo-elements.js.map

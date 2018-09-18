@@ -42,6 +42,7 @@ export { UnlessModule } from './elements/unless/Unless.module';
 export { NovoDataTableModule } from './elements/data-table/data-table.module';
 export { RemoteDataTableService } from './elements/data-table/services/remote-data-table.service';
 export { StaticDataTableService } from './elements/data-table/services/static-data-table.service';
+export { NovoNumberTextBoxModule } from './elements/number-textbox/NumberTextBox.module';
 export { IDataTableCell, IDataTableChangeEvent, IDataTableColumn, IDataTableColumnFilterConfig, IDataTableColumnFilterOption, IDataTableColumnSortConfig, IDataTablePaginationEvent, IDataTablePaginationOptions, IDataTableSearchOptions, IDataTableSelectionChangeEvent, IDataTableService, IDataTableSortFilter, IDataTablePreferences } from './elements/data-table/interfaces';
 export { NovoDataTable } from './elements/data-table/data-table.component';
 export { NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader } from './elements/simple-table/table';

@@ -318,9 +318,6 @@ novo-form {
                   > div.novo-control-input {
                     width: 100%;
                     position: relative;
-                    .textarea-container {
-                      display: flex;
-                    }
                     &.control-disabled {
                       pointer-events: none;
                     }
@@ -360,7 +357,8 @@ novo-form {
                       &:focus {
                         border-bottom: 1px solid $positive;
                       }
-                      &:invalid {
+                      &:invalid,
+                      &.invalid {
                         border-bottom: 1px solid #da4453;
                       }
                       &.maxlength-error {
@@ -412,6 +410,7 @@ novo-form {
                     > div.novo-control-input-with-label {
                       display: flex;
                       align-items: center;
+                      > novo-number-textbox,
                       input {
                         flex: 1;
                       }
