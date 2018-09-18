@@ -15039,6 +15039,7 @@ class BaseControl {
         this.closeOnSelect = !!config.closeOnSelect;
         this.interactions = config.interactions;
         this.dataSpecialization = config.dataSpecialization;
+        this.dataType = config.dataType;
         this.appendToBody = !!config.appendToBody;
         if (this.appendToBody) {
             notify(`'appendToBody' has been deprecated. Please remove this attribute.`);
@@ -15669,6 +15670,7 @@ class FormUtils {
         };
         let /** @type {?} */ dataTypeToTypeMap = {
             Timestamp: 'date',
+            Date: 'date',
             Boolean: 'tiles',
         };
         let /** @type {?} */ inputTypeToTypeMap = {
@@ -15777,6 +15779,7 @@ class FormUtils {
             maxlength: field.maxLength,
             interactions: field.interactions,
             dataSpecialization: field.dataSpecialization,
+            dataType: field.dataType,
             description: field.description || '',
             tooltip: field.tooltip,
             tooltipPosition: field.tooltipPosition,
@@ -40116,6 +40119,9 @@ class RenderPipe {
         else if (args.dataSpecialization === 'YEAR') {
             type = 'Year';
         }
+        else if (args.dataSpecialization === 'DATE' && args.dataType === 'Date') {
+            type = 'Date';
+        }
         else if (args.dataType === 'Timestamp') {
             type = 'Timestamp';
         }
@@ -40157,6 +40163,9 @@ class RenderPipe {
             case 'DateTime':
             case 'Timestamp':
                 text = this.labels.formatDateShort(value);
+                break;
+            case 'Date':
+                text = this.labels.formatDate(new Date(value));
                 break;
             case 'Year':
                 text = new Date(value).getFullYear();
