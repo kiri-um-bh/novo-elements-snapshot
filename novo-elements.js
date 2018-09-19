@@ -1415,10 +1415,10 @@ NovoTooltipModule.ctorParameters = () => [];
 // NG2
 class NovoLabelService {
     /**
-     * @param {?=} userLocale
+     * @param {?=} locale
      */
-    constructor(userLocale = 'en-US') {
-        this.userLocale = userLocale;
+    constructor(locale = 'en-US') {
+        this.locale = locale;
         this.filters = 'Filter';
         this.clear = 'Clear';
         this.sort = 'Sort';
@@ -1575,7 +1575,7 @@ class NovoLabelService {
         if (date.getTime() !== date.getTime()) {
             return value;
         }
-        return new Intl.DateTimeFormat(this.userLocale, format$$1).format(date);
+        return new Intl.DateTimeFormat(this.locale, format$$1).format(date);
     }
     /**
      * @return {?}
@@ -1590,7 +1590,7 @@ class NovoLabelService {
             return dt.setDate(dt.getDate() - dt.getDay() + dayOfWeek);
         }
         return [getDay$$1(0), getDay$$1(1), getDay$$1(2), getDay$$1(3), getDay$$1(4), getDay$$1(5), getDay$$1(6)].reduce((weekdays, dt) => {
-            weekdays.push(new Intl.DateTimeFormat(this.userLocale, { weekday: 'long' }).format(dt));
+            weekdays.push(new Intl.DateTimeFormat(this.locale, { weekday: 'long' }).format(dt));
             return weekdays;
         }, []);
     }
@@ -1620,7 +1620,7 @@ class NovoLabelService {
             getMonth$$1(10),
             getMonth$$1(11),
         ].reduce((months, dt) => {
-            months.push(new Intl.DateTimeFormat(this.userLocale, { month: 'long' }).format(dt));
+            months.push(new Intl.DateTimeFormat(this.locale, { month: 'long' }).format(dt));
             return months;
         }, []);
     }
@@ -1654,7 +1654,7 @@ class NovoLabelService {
      */
     formatCurrency(value) {
         let /** @type {?} */ options = { style: 'currency', currency: 'USD' };
-        return new Intl.NumberFormat(this.userLocale, options).format(value);
+        return new Intl.NumberFormat(this.locale, options).format(value);
     }
     /**
      * @param {?} value
@@ -1662,7 +1662,7 @@ class NovoLabelService {
      * @return {?}
      */
     formatNumber(value, options) {
-        return new Intl.NumberFormat(this.userLocale, options).format(value);
+        return new Intl.NumberFormat(this.locale, options).format(value);
     }
     /**
      * @param {?} value
@@ -1678,7 +1678,7 @@ class NovoLabelService {
             minute: '2-digit',
         };
         let /** @type {?} */ _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
-        return new Intl.DateTimeFormat(this.userLocale, options).format(_value);
+        return new Intl.DateTimeFormat(this.locale, options).format(_value);
     }
     /**
      * @param {?} value
@@ -1691,7 +1691,7 @@ class NovoLabelService {
             minute: '2-digit',
         };
         let /** @type {?} */ _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
-        return new Intl.DateTimeFormat(this.userLocale, options).format(_value);
+        return new Intl.DateTimeFormat(this.locale, options).format(_value);
     }
     /**
      * @param {?} value
@@ -1705,7 +1705,7 @@ class NovoLabelService {
             year: 'numeric',
         };
         let /** @type {?} */ _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
-        return new Intl.DateTimeFormat(this.userLocale, options).format(_value);
+        return new Intl.DateTimeFormat(this.locale, options).format(_value);
     }
 }
 NovoLabelService.decorators = [
@@ -1715,7 +1715,7 @@ NovoLabelService.decorators = [
  * @nocollapse
  */
 NovoLabelService.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [LOCALE_ID,] },] },
+    { type: undefined, decorators: [{ type: Inject, args: [LOCALE_ID,] },] },
 ];
 
 // NG2

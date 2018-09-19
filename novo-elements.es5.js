@@ -1379,11 +1379,11 @@ NovoTooltipModule.ctorParameters = function () { return []; };
 // NG2
 var NovoLabelService = /** @class */ (function () {
     /**
-     * @param {?=} userLocale
+     * @param {?=} locale
      */
-    function NovoLabelService(userLocale) {
-        if (userLocale === void 0) { userLocale = 'en-US'; }
-        this.userLocale = userLocale;
+    function NovoLabelService(locale) {
+        if (locale === void 0) { locale = 'en-US'; }
+        this.locale = locale;
         this.filters = 'Filter';
         this.clear = 'Clear';
         this.sort = 'Sort';
@@ -1540,7 +1540,7 @@ var NovoLabelService = /** @class */ (function () {
         if (date.getTime() !== date.getTime()) {
             return value;
         }
-        return new Intl.DateTimeFormat(this.userLocale, format$$1).format(date);
+        return new Intl.DateTimeFormat(this.locale, format$$1).format(date);
     };
     /**
      * @return {?}
@@ -1556,7 +1556,7 @@ var NovoLabelService = /** @class */ (function () {
             return dt.setDate(dt.getDate() - dt.getDay() + dayOfWeek);
         }
         return [getDay$$1(0), getDay$$1(1), getDay$$1(2), getDay$$1(3), getDay$$1(4), getDay$$1(5), getDay$$1(6)].reduce(function (weekdays, dt) {
-            weekdays.push(new Intl.DateTimeFormat(_this.userLocale, { weekday: 'long' }).format(dt));
+            weekdays.push(new Intl.DateTimeFormat(_this.locale, { weekday: 'long' }).format(dt));
             return weekdays;
         }, []);
     };
@@ -1587,7 +1587,7 @@ var NovoLabelService = /** @class */ (function () {
             getMonth$$1(10),
             getMonth$$1(11),
         ].reduce(function (months, dt) {
-            months.push(new Intl.DateTimeFormat(_this.userLocale, { month: 'long' }).format(dt));
+            months.push(new Intl.DateTimeFormat(_this.locale, { month: 'long' }).format(dt));
             return months;
         }, []);
     };
@@ -1621,7 +1621,7 @@ var NovoLabelService = /** @class */ (function () {
      */
     NovoLabelService.prototype.formatCurrency = function (value) {
         var /** @type {?} */ options = { style: 'currency', currency: 'USD' };
-        return new Intl.NumberFormat(this.userLocale, options).format(value);
+        return new Intl.NumberFormat(this.locale, options).format(value);
     };
     /**
      * @param {?} value
@@ -1629,7 +1629,7 @@ var NovoLabelService = /** @class */ (function () {
      * @return {?}
      */
     NovoLabelService.prototype.formatNumber = function (value, options) {
-        return new Intl.NumberFormat(this.userLocale, options).format(value);
+        return new Intl.NumberFormat(this.locale, options).format(value);
     };
     /**
      * @param {?} value
@@ -1645,7 +1645,7 @@ var NovoLabelService = /** @class */ (function () {
             minute: '2-digit',
         };
         var /** @type {?} */ _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
-        return new Intl.DateTimeFormat(this.userLocale, options).format(_value);
+        return new Intl.DateTimeFormat(this.locale, options).format(_value);
     };
     /**
      * @param {?} value
@@ -1658,7 +1658,7 @@ var NovoLabelService = /** @class */ (function () {
             minute: '2-digit',
         };
         var /** @type {?} */ _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
-        return new Intl.DateTimeFormat(this.userLocale, options).format(_value);
+        return new Intl.DateTimeFormat(this.locale, options).format(_value);
     };
     /**
      * @param {?} value
@@ -1672,7 +1672,7 @@ var NovoLabelService = /** @class */ (function () {
             year: 'numeric',
         };
         var /** @type {?} */ _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
-        return new Intl.DateTimeFormat(this.userLocale, options).format(_value);
+        return new Intl.DateTimeFormat(this.locale, options).format(_value);
     };
     return NovoLabelService;
 }());
@@ -1683,7 +1683,7 @@ NovoLabelService.decorators = [
  * @nocollapse
  */
 NovoLabelService.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [LOCALE_ID,] },] },
+    { type: undefined, decorators: [{ type: Inject, args: [LOCALE_ID,] },] },
 ]; };
 // NG2
 // APP

@@ -1,5 +1,5 @@
 export declare class NovoLabelService {
-    userLocale: string;
+    private locale;
     filters: string;
     clear: string;
     sort: string;
@@ -85,7 +85,7 @@ export declare class NovoLabelService {
     encryptedFieldTooltip: string;
     noStatesForCountry: string;
     selectCountryFirst: string;
-    constructor(userLocale?: string);
+    constructor(locale?: string);
     maxlengthMetWithField(field: string, maxlength: number): string;
     maxlengthMet(maxlength: number): string;
     invalidMaxlengthWithField(field: string, maxlength: number): string;
