@@ -59,4 +59,5 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
     customSave(file: any): void;
     customDelete(file: any): void;
     customCheck(event: any): void;
+    setDisabledState(disabled: boolean): void;
 }
