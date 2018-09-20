@@ -5540,6 +5540,10 @@ var QuickNoteElement = /** @class */ (function (_super) {
         // Show placeholder if the note is empty, after the editor is instantiated
         this.ckeInstance.on('instanceReady', function (event) {
             _this.showPlaceholder();
+            // Set editor to readOnly
+            if (_this.config.readOnly) {
+                _this.ckeInstance.setReadOnly(_this.config.readOnly);
+            }
         });
     };
     /**
@@ -6142,7 +6146,7 @@ NovoRadioElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-radio',
                 providers: [RADIO_VALUE_ACCESSOR],
-                template: "\n        <input [name]=\"name\" type=\"radio\" [checked]=\"checked\" [attr.id]=\"name\" (change)=\"select($event)\" [disabled]=\"disabled\">\n        <label [attr.for]=\"name\" (click)=\"select($event)\">\n            <button *ngIf=\"button\" [ngClass]=\"{'unchecked': !checked, 'checked': checked, 'has-icon': !!icon}\" [theme]=\"theme\" [icon]=\"icon\">{{ label }}</button>\n            <div *ngIf=\"!button\">\n                <i [ngClass]=\"{'bhi-radio-empty': !checked, 'bhi-radio-filled': checked}\"></i>\n                {{ label }}\n                <ng-content></ng-content>\n            </div>\n        </label>\n    ",
+                template: "\n        <input [name]=\"name\" type=\"radio\" [checked]=\"checked\" [attr.id]=\"name\" (change)=\"select($event)\" [disabled]=\"disabled\">\n        <label [attr.for]=\"name\" (click)=\"select($event)\" [class.disabled]=\"disabled\">\n            <button *ngIf=\"button\" [ngClass]=\"{'unchecked': !checked, 'checked': checked, 'has-icon': !!icon}\" [theme]=\"theme\" [icon]=\"icon\">{{ label }}</button>\n            <div *ngIf=\"!button\">\n                <i [ngClass]=\"{'bhi-radio-empty': !checked, 'bhi-radio-filled': checked}\"></i>\n                {{ label }}\n                <ng-content></ng-content>\n            </div>\n        </label>\n    ",
                 host: {
                     '[class.vertical]': 'vertical',
                 },
@@ -13455,7 +13459,9 @@ var NovoCKEditorElement = /** @class */ (function () {
      */
     NovoCKEditorElement.prototype.setDisabledState = function (disabled) {
         this.disabled = disabled;
-        CKEDITOR.instances[this.instance.name].setReadOnly(disabled);
+        if (this.instance) {
+            CKEDITOR.instances[this.instance.name].setReadOnly(disabled);
+        }
     };
     /**
      * @param {?} text
@@ -14326,6 +14332,7 @@ var BaseControl = /** @class */ (function () {
         this.closeOnSelect = !!config.closeOnSelect;
         this.interactions = config.interactions;
         this.dataSpecialization = config.dataSpecialization;
+        this.dataType = config.dataType;
         this.appendToBody = !!config.appendToBody;
         if (this.appendToBody) {
             notify("'appendToBody' has been deprecated. Please remove this attribute.");
@@ -15004,6 +15011,7 @@ var FormUtils = /** @class */ (function () {
         };
         var /** @type {?} */ dataTypeToTypeMap = {
             Timestamp: 'date',
+            Date: 'date',
             Boolean: 'tiles',
         };
         var /** @type {?} */ inputTypeToTypeMap = {
@@ -15113,6 +15121,7 @@ var FormUtils = /** @class */ (function () {
             maxlength: field.maxLength,
             interactions: field.interactions,
             dataSpecialization: field.dataSpecialization,
+            dataType: field.dataType,
             description: field.description || '',
             tooltip: field.tooltip,
             tooltipPosition: field.tooltipPosition,
@@ -15251,6 +15260,7 @@ var FormUtils = /** @class */ (function () {
                     controlConfig.config = {};
                 }
                 controlConfig.config.required = field.required;
+                controlConfig.config.readOnly = controlConfig.readOnly;
                 if (field.fields && field.fields.length) {
                     for (var _d = 0, _e = field.fields; _d < _e.length; _d++) {
                         var subfield = _e[_d];
@@ -34977,7 +34987,7 @@ function getStates(name) {
 var ADDRESS_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(function () { return NovoAddressElement; }),
-    multi: true
+    multi: true,
 };
 var NovoAddressElement = /** @class */ (function () {
     /**
@@ -34988,10 +34998,8 @@ var NovoAddressElement = /** @class */ (function () {
         this.states = [];
         this.countries = getCountries();
         this.fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'countryID'];
-        this.onModelChange = function () {
-        };
-        this.onModelTouched = function () {
-        };
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
         this.focused = {};
         this.invalid = {};
         this.disabled = {};
@@ -35028,7 +35036,7 @@ var NovoAddressElement = /** @class */ (function () {
      */
     NovoAddressElement.prototype.initConfig = function () {
         var _this = this;
-        this.fieldList.forEach((function (field) {
+        this.fieldList.forEach(function (field) {
             if (!_this.config.hasOwnProperty(field)) {
                 _this.config[field] = {
                     hidden: true,
@@ -35039,6 +35047,10 @@ var NovoAddressElement = /** @class */ (function () {
             }
             if (_this.config.required) {
                 _this.config[field].required = true;
+            }
+            if (_this.config[field].readOnly || _this.config.readOnly) {
+                _this.config[field].readOnly = true;
+                _this.disabled[field] = true;
             }
             if (field === 'countryID') {
                 if (!_this.config[field].pickerConfig) {
@@ -35058,7 +35070,7 @@ var NovoAddressElement = /** @class */ (function () {
                 };
                 _this.config[field].pickerConfig.defaultOptions = _this.stateOptions;
             }
-        }));
+        });
     };
     /**
      * @param {?} field
@@ -35066,12 +35078,9 @@ var NovoAddressElement = /** @class */ (function () {
      */
     NovoAddressElement.prototype.isValid = function (field) {
         var /** @type {?} */ valid = true;
-        if (((this.config[field].required &&
-            (Helpers.isBlank(this.model[field]) || Helpers.isEmpty(this.model[field]))) ||
+        if (((this.config[field].required && (Helpers.isBlank(this.model[field]) || Helpers.isEmpty(this.model[field]))) ||
             !this.config[field].required) &&
-            !(field === 'countryID' &&
-                this.config[field].required &&
-                !Helpers.isBlank(this.model.countryID)) &&
+            !(field === 'countryID' && this.config[field].required && !Helpers.isBlank(this.model.countryID)) &&
             !(field === 'state' &&
                 this.config[field].required &&
                 (!Helpers.isEmpty(this.model.state) ||
@@ -35082,7 +35091,9 @@ var NovoAddressElement = /** @class */ (function () {
                         this.config.state.pickerConfig.defaultOptions.length === 0)))) {
             valid = false;
         }
-        else if (!Helpers.isEmpty(this.model[field]) && !Helpers.isBlank(this.config[field].maxlength) && this.config[field].maxlength < this.model[field].length) {
+        else if (!Helpers.isEmpty(this.model[field]) &&
+            !Helpers.isBlank(this.config[field].maxlength) &&
+            this.config[field].maxlength < this.model[field].length) {
             valid = false;
         }
         this.valid[field] = valid;
@@ -35094,13 +35105,12 @@ var NovoAddressElement = /** @class */ (function () {
     NovoAddressElement.prototype.isInvalid = function (field) {
         var /** @type {?} */ invalid = false;
         var /** @type {?} */ invalidMaxlength = false;
-        if ((field !== 'countryID' && field !== 'state' && this.config[field].required &&
+        if ((field !== 'countryID' &&
+            field !== 'state' &&
+            this.config[field].required &&
             Helpers.isEmpty(this.model[field]) &&
             !Helpers.isBlank(this.model[field])) ||
-            (field === 'countryID' &&
-                this.config[field].required &&
-                Helpers.isBlank(this.model.countryName) &&
-                this.config[field].updated) ||
+            (field === 'countryID' && this.config[field].required && Helpers.isBlank(this.model.countryName) && this.config[field].updated) ||
             (field === 'state' &&
                 this.config[field].required &&
                 (Helpers.isBlank(this.model.state) || Helpers.isEmpty(this.model.state)) &&
@@ -35162,9 +35172,7 @@ var NovoAddressElement = /** @class */ (function () {
         if (this.config.countryID.pickerConfig) {
             field = this.config.countryID.pickerConfig.field;
         }
-        if (country && field &&
-            !Helpers.isBlank(country[field]) &&
-            this.model.countryID !== country[field]) {
+        if (country && field && !Helpers.isBlank(country[field]) && this.model.countryID !== country[field]) {
             this.model.countryID = country[field];
             this.model.countryName = Helpers.interpolate(this.config.countryID.pickerConfig.format, country);
             this.disabled.state = false;
@@ -35295,8 +35303,7 @@ var NovoAddressElement = /** @class */ (function () {
                 countryName_1 = model.countryName;
             }
             else if (model.countryID) {
-                if (this.config.countryID.pickerConfig &&
-                    this.config.countryID.pickerConfig.getLabels) {
+                if (this.config.countryID.pickerConfig && this.config.countryID.pickerConfig.getLabels) {
                     if (Helpers.isFunction(this.config.countryID.pickerConfig.getLabels)) {
                         var /** @type {?} */ promise = this.config.countryID.pickerConfig.getLabels(model.countryID);
                         loadingCountries = true;
@@ -35355,7 +35362,7 @@ var NovoAddressElement = /** @class */ (function () {
             },
             getLabels: function (state$$1) {
                 return Promise.resolve(state$$1);
-            }
+            },
         };
     };
     /**
@@ -35394,7 +35401,7 @@ NovoAddressElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-address',
                 providers: [ADDRESS_VALUE_ACCESSOR],
-                template: "\n        <span *ngIf=\"!config?.address1?.hidden\" class=\"street-address\" [class.invalid]=\"invalid.address1\" [class.focus]=\"focused.address1\" [class.disabled]=\"disabled.address1\">\n            <i *ngIf=\"config.address1.required\"\n                class=\"required-indicator address1\"\n                [ngClass]=\"{'bhi-circle': !valid.address1, 'bhi-check': valid.address1}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.address1\" type=\"text\" id=\"address1\" name=\"address1\" [placeholder]=\"config.address1.label\" [maxlength]=\"config?.address1?.maxlength\" autocomplete=\"shipping street-address address-line-1\" [(ngModel)]=\"model.address1\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'address1')\" (blur)=\"isBlurred($event, 'address1')\" (input)=\"onInput($event, 'address1')\"/>\n        </span>\n        <span *ngIf=\"!config?.address2?.hidden\" class=\"apt suite\" [class.invalid]=\"invalid.address2\" [class.focus]=\"focused.address2\" [class.disabled]=\"disabled.address2\">\n            <i *ngIf=\"config.address2.required\"\n                class=\"required-indicator address2\"\n                [ngClass]=\"{'bhi-circle': !valid.address2, 'bhi-check': valid.address2}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.address2\" type=\"text\" id=\"address2\" name=\"address2\" [placeholder]=\"config.address2.label\" [maxlength]=\"config?.address2?.maxlength\" autocomplete=\"shipping address-line-2\" [(ngModel)]=\"model.address2\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'address2')\" (blur)=\"isBlurred($event, 'address2')\" (input)=\"onInput($event, 'address2')\"/>\n        </span>\n        <span *ngIf=\"!config?.city?.hidden\" class=\"city locality\" [class.invalid]=\"invalid.city\" [class.focus]=\"focused.city\" [class.disabled]=\"disabled.city\">\n            <i *ngIf=\"config.city.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.city, 'bhi-check': valid.city}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.city\" type=\"text\" id=\"city\" name=\"city\" [placeholder]=\"config.city.label\" autocomplete=\"shipping city locality\" [maxlength]=\"config?.city?.maxlength\" [(ngModel)]=\"model.city\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'city')\" (blur)=\"isBlurred($event, 'city')\" (input)=\"onInput($event, 'city')\"/>\n        </span>\n        <span *ngIf=\"!config?.state?.hidden\" class=\"state region\" [class.invalid]=\"invalid.state\" [class.focus]=\"focused.state\" [class.disabled]=\"disabled.state\"  [tooltip]=\"tooltip.state\">\n            <i *ngIf=\"config.state.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.state, 'bhi-check': valid.state}\">\n            </i>\n            <novo-picker [config]=\"config?.state?.pickerConfig\" [placeholder]=\"config?.state?.label\" (changed)=\"onStateChange($event)\" autocomplete=\"shipping region\" [(ngModel)]=\"model.state\" [disablePickerInput]=\"disabled.state\"></novo-picker>\n        </span>\n        <span *ngIf=\"!config?.zip?.hidden\" class=\"zip postal-code\" [class.invalid]=\"invalid.zip\" [class.focus]=\"focused.zip\" [class.disabled]=\"disabled.zip\">\n            <i *ngIf=\"config.zip.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.zip, 'bhi-check': valid.zip}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.zip\" type=\"text\" id=\"zip\" name=\"zip\" [placeholder]=\"config.zip.label\" autocomplete=\"shipping postal-code\" [maxlength]=\"config?.zip?.maxlength\" [(ngModel)]=\"model.zip\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'zip')\" (blur)=\"isBlurred($event, 'zip')\" (input)=\"onInput($event, 'zip')\" />\n        </span>\n        <span *ngIf=\"!config?.countryID?.hidden\" class=\"country-name\" [class.invalid]=\"invalid.countryID\" [class.focus]=\"focused.countryID\" [class.disabled]=\"disabled.countryID\">\n            <i *ngIf=\"config.countryID.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.countryID, 'bhi-check': valid.countryID}\">\n            </i>\n            <novo-picker [config]=\"config?.countryID?.pickerConfig\" [placeholder]=\"config.countryID.label\" (changed)=\"onCountryChange($event)\" autocomplete=\"shipping country\" [(ngModel)]=\"model.countryName\"></novo-picker>\n        </span>\n    "
+                template: "\n        <span *ngIf=\"!config?.address1?.hidden\" class=\"street-address\" [class.invalid]=\"invalid.address1\" [class.focus]=\"focused.address1\" [class.disabled]=\"disabled.address1\">\n            <i *ngIf=\"config.address1.required\"\n                class=\"required-indicator address1\"\n                [ngClass]=\"{'bhi-circle': !valid.address1, 'bhi-check': valid.address1}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.address1\" type=\"text\" id=\"address1\" name=\"address1\" [placeholder]=\"config.address1.label\" [maxlength]=\"config?.address1?.maxlength\" autocomplete=\"shipping street-address address-line-1\" [(ngModel)]=\"model.address1\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'address1')\" (blur)=\"isBlurred($event, 'address1')\" (input)=\"onInput($event, 'address1')\"/>\n        </span>\n        <span *ngIf=\"!config?.address2?.hidden\" class=\"apt suite\" [class.invalid]=\"invalid.address2\" [class.focus]=\"focused.address2\" [class.disabled]=\"disabled.address2\">\n            <i *ngIf=\"config.address2.required\"\n                class=\"required-indicator address2\"\n                [ngClass]=\"{'bhi-circle': !valid.address2, 'bhi-check': valid.address2}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.address2\" type=\"text\" id=\"address2\" name=\"address2\" [placeholder]=\"config.address2.label\" [maxlength]=\"config?.address2?.maxlength\" autocomplete=\"shipping address-line-2\" [(ngModel)]=\"model.address2\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'address2')\" (blur)=\"isBlurred($event, 'address2')\" (input)=\"onInput($event, 'address2')\"/>\n        </span>\n        <span *ngIf=\"!config?.city?.hidden\" class=\"city locality\" [class.invalid]=\"invalid.city\" [class.focus]=\"focused.city\" [class.disabled]=\"disabled.city\">\n            <i *ngIf=\"config.city.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.city, 'bhi-check': valid.city}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.city\" type=\"text\" id=\"city\" name=\"city\" [placeholder]=\"config.city.label\" autocomplete=\"shipping city locality\" [maxlength]=\"config?.city?.maxlength\" [(ngModel)]=\"model.city\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'city')\" (blur)=\"isBlurred($event, 'city')\" (input)=\"onInput($event, 'city')\"/>\n        </span>\n        <span *ngIf=\"!config?.state?.hidden\" class=\"state region\" [class.invalid]=\"invalid.state\" [class.focus]=\"focused.state\" [class.disabled]=\"disabled.state\"  [tooltip]=\"tooltip.state\">\n            <i *ngIf=\"config.state.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.state, 'bhi-check': valid.state}\">\n            </i>\n            <novo-picker [config]=\"config?.state?.pickerConfig\" [placeholder]=\"config?.state?.label\" (changed)=\"onStateChange($event)\" autocomplete=\"shipping region\" [(ngModel)]=\"model.state\" [disablePickerInput]=\"disabled.state || config.readOnly\"></novo-picker>\n        </span>\n        <span *ngIf=\"!config?.zip?.hidden\" class=\"zip postal-code\" [class.invalid]=\"invalid.zip\" [class.focus]=\"focused.zip\" [class.disabled]=\"disabled.zip\">\n            <i *ngIf=\"config.zip.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.zip, 'bhi-check': valid.zip}\">\n            </i>\n            <input [class.maxlength-error]=\"invalidMaxlength.zip\" type=\"text\" id=\"zip\" name=\"zip\" [placeholder]=\"config.zip.label\" autocomplete=\"shipping postal-code\" [maxlength]=\"config?.zip?.maxlength\" [(ngModel)]=\"model.zip\" (ngModelChange)=\"updateControl()\" (focus)=\"isFocused($event, 'zip')\" (blur)=\"isBlurred($event, 'zip')\" (input)=\"onInput($event, 'zip')\" />\n        </span>\n        <span *ngIf=\"!config?.countryID?.hidden\" class=\"country-name\" [class.invalid]=\"invalid.countryID\" [class.focus]=\"focused.countryID\" [class.disabled]=\"disabled.countryID\">\n            <i *ngIf=\"config.countryID.required\"\n                class=\"required-indicator\"\n                [ngClass]=\"{'bhi-circle': !valid.countryID, 'bhi-check': valid.countryID}\">\n            </i>\n            <novo-picker [config]=\"config?.countryID?.pickerConfig\" [placeholder]=\"config.countryID.label\" (changed)=\"onCountryChange($event)\" autocomplete=\"shipping country\" [(ngModel)]=\"model.countryName\" [disablePickerInput]=\"disabled.countryID\"></novo-picker>\n        </span>\n    ",
             },] },
 ];
 /**
@@ -35607,7 +35614,7 @@ NovoCheckListElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-check-list',
                 providers: [CHECKLIST_VALUE_ACCESSOR],
-                template: "\n        <div class=\"check-box-group\" *ngFor=\"let option of _options; let i = index\" [ngClass]=\"{checked: option.checked}\" >\n            <input [name]=\"name\" type=\"checkbox\" [ngModel]=\"option.checked\" [attr.id]=\"name+i\" [value]=\"option.checked\" (change)=\"select($event, option)\" [disabled]=\"disabled\">\n            <label [attr.for]=\"name+i\" (click)=\"select($event, option)\">\n              <i [ngClass]=\"{'bhi-checkbox-empty': !option.checked, 'bhi-checkbox-filled': option.checked }\"></i>\n              <span>{{option.label}}</span>\n            </label>\n        </div>\n    ",
+                template: "\n        <div class=\"check-box-group\" *ngFor=\"let option of _options; let i = index\" [ngClass]=\"{checked: option.checked}\" [class.disabled]=\"disabled\">\n            <input [name]=\"name\" type=\"checkbox\" [ngModel]=\"option.checked\" [attr.id]=\"name+i\" [value]=\"option.checked\" (change)=\"select($event, option)\" [disabled]=\"disabled\">\n            <label [attr.for]=\"name+i\" (click)=\"select($event, option)\">\n              <i [ngClass]=\"{'bhi-checkbox-empty': !option.checked, 'bhi-checkbox-filled': option.checked }\"></i>\n              <span>{{option.label}}</span>\n            </label>\n        </div>\n    ",
             },] },
 ];
 /**
@@ -35928,13 +35935,20 @@ var NovoFileInputElement = /** @class */ (function () {
     NovoFileInputElement.prototype.customCheck = function (event) {
         this.upload.emit(event);
     };
+    /**
+     * @param {?} disabled
+     * @return {?}
+     */
+    NovoFileInputElement.prototype.setDisabledState = function (disabled) {
+        this.disabled = disabled;
+    };
     return NovoFileInputElement;
 }());
 NovoFileInputElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-file-input',
                 providers: [FILE_VALUE_ACCESSOR],
-                template: "\n        <div #container></div>\n        <ng-template #fileInput>\n            <div class=\"file-input-group\" [class.disabled]=\"disabled\" [class.active]=\"active\">\n                <input *ngIf=\"!layoutOptions.customActions\" type=\"file\" [name]=\"name\" [attr.id]=\"name\" (change)=\"check($event)\" [attr.multiple]=\"multiple\" tabindex=\"-1\"/>\n                <input *ngIf=\"layoutOptions.customActions\" type=\"file\" [name]=\"name\" [attr.id]=\"name\" (change)=\"customCheck($event)\" [attr.multiple]=\"multiple\" tabindex=\"-1\"/>\n                <section [ngSwitch]=\"layoutOptions.labelStyle\">\n                    <label *ngSwitchCase=\"'no-box'\" [attr.for]=\"name\" class=\"no-box\">\n                        <div><i class=\"bhi-dropzone\"></i>{{ placeholder || labels.chooseAFile }} {{ labels.or }} <strong class=\"link\">{{ labels.clickToBrowse }}</strong></div>\n                    </label>\n                    <label *ngSwitchDefault [attr.for]=\"name\" class=\"boxed\">\n                        <span>{{ placeholder || labels.chooseAFile }}</span>\n                        <small>{{ labels.or }} <strong class=\"link\">{{ labels.clickToBrowse }}</strong></small>\n                    </label>\n                </section>\n            </div>\n        </ng-template>\n        <ng-template #fileOutput>\n            <div class=\"file-output-group\" [dragula]=\"fileOutputBag\" [dragulaModel]=\"files\">\n                <div class=\"file-item\" *ngFor=\"let file of files\">\n                  <i *ngIf=\"layoutOptions.draggable\" class=\"bhi-move\"></i>\n                  <label *ngIf=\"file.link\"><span><a href=\"{{ file.link }}\" target=\"_blank\">{{ file.name | decodeURI }}</a></span><span  *ngIf=\"file.description\">||</span><span>{{ file.description }}</span></label> \n                  <label *ngIf=\"!file.link\">{{ file.name | decodeURI }}</label> \n                  <div class=\"actions\" [attr.data-automation-id]=\"'file-actions'\" *ngIf=\"file.loaded\">\n                    <div *ngIf=\"!layoutOptions.customActions\">\n                      <button *ngIf=\"layoutOptions.download\" type=\"button\" theme=\"icon\" icon=\"save\" (click)=\"download(file)\" [attr.data-automation-id]=\"'file-download'\" tabindex=\"-1\"></button>\n                      <button type=\"button\" theme=\"icon\" icon=\"close\" (click)=\"remove(file)\" [attr.data-automation-id]=\"'file-remove'\" tabindex=\"-1\"></button>\n                    </div>\n                    <div *ngIf=\"layoutOptions.customActions\">\n                      <button *ngIf=\"layoutOptions.edit\" type=\"button\" theme=\"icon\" icon=\"edit\" (click)=\"customEdit(file)\" [attr.data-automation-id]=\"'file-edit'\" tabindex=\"-1\"></button>\n                      <button *ngIf=\"layoutOptions.download\" type=\"button\" theme=\"icon\" icon=\"save\" (click)=\"customSave(file)\" [attr.data-automation-id]=\"'file-download'\" tabindex=\"-1\"></button>\n                      <button type=\"button\" theme=\"icon\" icon=\"close\" (click)=\"customDelete(file)\" [attr.data-automation-id]=\"'file-remove'\" tabindex=\"-1\"></button>\n                    </div> \n                  </div>\n                    <novo-loading *ngIf=\"!file.loaded\"></novo-loading>\n                </div>\n            </div>\n        </ng-template>",
+                template: "\n        <div #container></div>\n        <ng-template #fileInput>\n            <div class=\"file-input-group\" [class.disabled]=\"disabled\" [class.active]=\"active\">\n                <input *ngIf=\"!layoutOptions.customActions\" type=\"file\" [name]=\"name\" [attr.id]=\"name\" (change)=\"check($event)\" [attr.multiple]=\"multiple\" tabindex=\"-1\"/>\n                <input *ngIf=\"layoutOptions.customActions\" type=\"file\" [name]=\"name\" [attr.id]=\"name\" (change)=\"customCheck($event)\" [attr.multiple]=\"multiple\" tabindex=\"-1\"/>\n                <section [ngSwitch]=\"layoutOptions.labelStyle\">\n                    <label *ngSwitchCase=\"'no-box'\" [attr.for]=\"name\" class=\"no-box\">\n                        <div><i class=\"bhi-dropzone\"></i>{{ placeholder || labels.chooseAFile }} {{ labels.or }} <strong class=\"link\">{{ labels.clickToBrowse }}</strong></div>\n                    </label>\n                    <label *ngSwitchDefault [attr.for]=\"name\" class=\"boxed\">\n                        <span>{{ placeholder || labels.chooseAFile }}</span>\n                        <small>{{ labels.or }} <strong class=\"link\">{{ labels.clickToBrowse }}</strong></small>\n                    </label>\n                </section>\n            </div>\n        </ng-template>\n        <ng-template #fileOutput>\n            <div class=\"file-output-group\" [dragula]=\"fileOutputBag\" [dragulaModel]=\"files\">\n                <div class=\"file-item\" *ngFor=\"let file of files\" [class.disabled]=\"disabled\">\n                  <i *ngIf=\"layoutOptions.draggable\" class=\"bhi-move\"></i>\n                  <label *ngIf=\"file.link\"><span><a href=\"{{ file.link }}\" target=\"_blank\">{{ file.name | decodeURI }}</a></span><span  *ngIf=\"file.description\">||</span><span>{{ file.description }}</span></label> \n                  <label *ngIf=\"!file.link\">{{ file.name | decodeURI }}</label> \n                  <div class=\"actions\" [attr.data-automation-id]=\"'file-actions'\" *ngIf=\"file.loaded\">\n                    <div *ngIf=\"!layoutOptions.customActions\">\n                      <button *ngIf=\"layoutOptions.download\" type=\"button\" theme=\"icon\" icon=\"save\" (click)=\"download(file)\" [attr.data-automation-id]=\"'file-download'\" tabindex=\"-1\"></button>\n                      <button *ngIf=\"!disabled\" type=\"button\" theme=\"icon\" icon=\"close\" (click)=\"remove(file)\" [attr.data-automation-id]=\"'file-remove'\" tabindex=\"-1\"></button>\n                    </div>\n                    <div *ngIf=\"layoutOptions.customActions\">\n                      <button *ngIf=\"layoutOptions.edit && !disabled\" type=\"button\" theme=\"icon\" icon=\"edit\" (click)=\"customEdit(file)\" [attr.data-automation-id]=\"'file-edit'\" tabindex=\"-1\"></button>\n                      <button *ngIf=\"layoutOptions.download\" type=\"button\" theme=\"icon\" icon=\"save\" (click)=\"customSave(file)\" [attr.data-automation-id]=\"'file-download'\" tabindex=\"-1\"></button>\n                      <button *ngIf=\"!disabled\" type=\"button\" theme=\"icon\" icon=\"close\" (click)=\"customDelete(file)\" [attr.data-automation-id]=\"'file-remove'\" tabindex=\"-1\"></button>\n                    </div> \n                  </div>\n                    <novo-loading *ngIf=\"!file.loaded\"></novo-loading>\n                </div>\n            </div>\n        </ng-template>",
             },] },
 ];
 /**
@@ -39163,6 +39177,9 @@ var RenderPipe = /** @class */ (function () {
         else if (args.dataSpecialization === 'YEAR') {
             type = 'Year';
         }
+        else if (args.dataSpecialization === 'DATE' && args.dataType === 'Date') {
+            type = 'Date';
+        }
         else if (args.dataType === 'Timestamp') {
             type = 'Timestamp';
         }
@@ -39204,6 +39221,9 @@ var RenderPipe = /** @class */ (function () {
             case 'DateTime':
             case 'Timestamp':
                 text = this.labels.formatDateShort(value);
+                break;
+            case 'Date':
+                text = this.labels.formatDate(new Date(value));
                 break;
             case 'Year':
                 text = new Date(value).getFullYear();

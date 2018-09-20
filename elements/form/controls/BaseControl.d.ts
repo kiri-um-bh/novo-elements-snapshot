@@ -41,6 +41,7 @@ export interface NovoControlConfig {
     closeOnSelect?: boolean;
     interactions?: Array<Object>;
     dataSpecialization?: string;
+    dataType?: string;
     appendToBody?: boolean;
     parentScrollSelector?: string;
     description?: string;
@@ -111,6 +112,7 @@ export declare class BaseControl {
     closeOnSelect: boolean;
     interactions: Array<Object>;
     dataSpecialization: string;
+    dataType: string;
     appendToBody: boolean;
     parentScrollSelector: string;
     description?: string;
