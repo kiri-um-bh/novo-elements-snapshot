@@ -5293,7 +5293,8 @@ class BasePickerResults {
                     resolve(this.structureArray(options));
                 }
                 else if (term && term.length >= (this.config.minSearchLength || 1)) {
-                    if ((options.hasOwnProperty('reject') && options.hasOwnProperty('resolve')) || Object.getPrototypeOf(options).hasOwnProperty('then')) {
+                    if ((options.hasOwnProperty('reject') && options.hasOwnProperty('resolve')) ||
+                        Object.getPrototypeOf(options).hasOwnProperty('then')) {
                         this.isStatic = false;
                         // Promises (ES6 or Deferred) are resolved whenever they resolve
                         options.then(this.structureArray.bind(this)).then(resolve, reject);
@@ -5512,6 +5513,7 @@ class BasePickerResults {
      * @return {?}
      */
     highlight(match, query$$1) {
+        query$$1 = query$$1.trim();
         // Replaces the capture string with a the same string inside of a "strong" tag
         return query$$1 ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
     }
@@ -9754,6 +9756,7 @@ class EntityPickerResult {
      * @return {?}
      */
     highlight(match, query$$1) {
+        query$$1 = query$$1.trim();
         // Replaces the capture string with a the same string inside of a "strong" tag
         return query$$1 && match ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
     }
