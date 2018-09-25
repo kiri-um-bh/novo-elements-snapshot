@@ -5293,8 +5293,7 @@ class BasePickerResults {
                     resolve(this.structureArray(options));
                 }
                 else if (term && term.length >= (this.config.minSearchLength || 1)) {
-                    if ((options.hasOwnProperty('reject') && options.hasOwnProperty('resolve')) ||
-                        Object.getPrototypeOf(options).hasOwnProperty('then')) {
+                    if ((options.hasOwnProperty('reject') && options.hasOwnProperty('resolve')) || Object.getPrototypeOf(options).hasOwnProperty('then')) {
                         this.isStatic = false;
                         // Promises (ES6 or Deferred) are resolved whenever they resolve
                         options.then(this.structureArray.bind(this)).then(resolve, reject);
@@ -5513,7 +5512,6 @@ class BasePickerResults {
      * @return {?}
      */
     highlight(match, query$$1) {
-        query$$1 = query$$1.trim();
         // Replaces the capture string with a the same string inside of a "strong" tag
         return query$$1 ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
     }
@@ -9756,7 +9754,6 @@ class EntityPickerResult {
      * @return {?}
      */
     highlight(match, query$$1) {
-        query$$1 = query$$1.trim();
         // Replaces the capture string with a the same string inside of a "strong" tag
         return query$$1 && match ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
     }
@@ -17387,14 +17384,16 @@ class NovoControlElement extends OutsideClick {
      * @param {?} fieldInteractionApi
      * @param {?} templateService
      * @param {?} changeDetectorRef
+     * @param {?=} locale
      */
-    constructor(element, labels, dateFormatService, fieldInteractionApi, templateService, changeDetectorRef) {
+    constructor(element, labels, dateFormatService, fieldInteractionApi, templateService, changeDetectorRef, locale = 'en-US') {
         super(element);
         this.labels = labels;
         this.dateFormatService = dateFormatService;
         this.fieldInteractionApi = fieldInteractionApi;
         this.templateService = templateService;
         this.changeDetectorRef = changeDetectorRef;
+        this.locale = locale;
         this.condensed = false;
         this.autoFocus = false;
         this.change = new EventEmitter();
@@ -17413,6 +17412,7 @@ class NovoControlElement extends OutsideClick {
         this.maxLengthMetErrorfields = [];
         this.templates = {};
         this.loading = false;
+        this.decimalSeparator = '.';
     }
     /**
      * @return {?}
@@ -17457,19 +17457,9 @@ class NovoControlElement extends OutsideClick {
     /**
      * @return {?}
      */
-    get showMaxLengthMetMessage() {
-        return ((this.isDirty && this.maxLengthMet && this.focused && (!this.errors || (this.errors && !this.errors.maxlength))) ||
-            (this.isDirty &&
-                this.maxlengthMetField &&
-                this.focused &&
-                (!this.errors || (this.errors && !this.errors.maxlengthFields.includes(this.maxlengthMetField)))));
-    }
-    /**
-     * @return {?}
-     */
     get showErrorState() {
         return ((this.isDirty && this.errors) ||
-            (this.focused && this.errors && this.errors.maxlength && this.errors.maxlengthFields) ||
+            (this.maxLengthMet && this.focused && this.errors && !this.errors.maxlengthFields) ||
             (this.focused && this.errors && this.errors.maxlength && this.errors.maxlengthFields && this.maxlengthErrorField));
     }
     /**
@@ -17617,6 +17607,14 @@ class NovoControlElement extends OutsideClick {
                 }
             });
         }
+        this.decimalSeparator = this.getDecimalSeparator();
+    }
+    /**
+     * @return {?}
+     */
+    getDecimalSeparator() {
+        let /** @type {?} */ result = new Intl.NumberFormat(this.locale).format(1.2)[1];
+        return result;
     }
     /**
      * @return {?}
@@ -17853,7 +17851,8 @@ class NovoControlElement extends OutsideClick {
      */
     restrictKeys(event) {
         const /** @type {?} */ NUMBERS_ONLY = /[0-9\-]/;
-        const /** @type {?} */ NUMBERS_WITH_DECIMAL = /[0-9\.\-]/;
+        const /** @type {?} */ NUMBERS_WITH_DECIMAL_DOT = /[0-9\.\-]/;
+        const /** @type {?} */ NUMBERS_WITH_DECIMAL_COMMA = /[0-9\,\-]/;
         const /** @type {?} */ UTILITY_KEYS = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
         let /** @type {?} */ key = event.key;
         // Types
@@ -17861,7 +17860,9 @@ class NovoControlElement extends OutsideClick {
             event.preventDefault();
         }
         else if (~['currency', 'float', 'percentage'].indexOf(this.form.controls[this.control.key].subType) &&
-            !(NUMBERS_WITH_DECIMAL.test(key) || UTILITY_KEYS.includes(key))) {
+            !((this.decimalSeparator === '.' && NUMBERS_WITH_DECIMAL_DOT.test(key)) ||
+                (this.decimalSeparator === ',' && NUMBERS_WITH_DECIMAL_COMMA.test(key)) ||
+                UTILITY_KEYS.includes(key))) {
             event.preventDefault();
         }
         // Max Length
@@ -18009,8 +18010,8 @@ NovoControlElement.decorators = [
                         </div>
                     </div>
                     <!--Error Message-->
-                    <div class="field-message {{ form.controls[control.key].controlType }}" *ngIf="!condensed" [class.has-tip]="form.controls[control.key].tipWell" [ngClass]="showErrorState || showMaxLengthMetMessage ? 'error-shown' : 'error-hidden'">
-                        <div class="messages" [ngClass]="showCount ? 'count-shown' : 'count-hidden'">
+                    <div class="field-message {{ form.controls[control.key].controlType }}" *ngIf="!condensed" [class.has-tip]="form.controls[control.key].tipWell" [ngClass]="showErrorState ? 'error-shown' : 'error-hidden'">
+                        <div class="messages">
                             <span class="error-text" *ngIf="showFieldMessage"></span>
                             <span class="error-text" *ngIf="isDirty && errors?.required && form.controls[control.key].controlType !== 'address'">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>
                             <span class="error-text" *ngIf="isDirty && errors?.minlength">{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span>
@@ -18074,6 +18075,7 @@ NovoControlElement.ctorParameters = () => [
     { type: FieldInteractionApi, },
     { type: NovoTemplateService, },
     { type: ChangeDetectorRef, },
+    { type: undefined, decorators: [{ type: Inject, args: [LOCALE_ID,] },] },
 ];
 NovoControlElement.propDecorators = {
     'control': [{ type: Input },],
