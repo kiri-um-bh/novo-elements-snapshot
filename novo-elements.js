@@ -5513,9 +5513,8 @@ class BasePickerResults {
      * @return {?}
      */
     highlight(match, query$$1) {
-        query$$1 = query$$1.trim();
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query$$1 ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 ? match.replace(new RegExp(this.escapeRegexp(query$$1.trim()), 'gi'), '<strong>$&</strong>') : match;
     }
     /**
      * @param {?} match
@@ -9756,9 +9755,8 @@ class EntityPickerResult {
      * @return {?}
      */
     highlight(match, query$$1) {
-        query$$1 = query$$1.trim();
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query$$1 && match ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 && match ? match.replace(new RegExp(this.escapeRegexp(query$$1.trim()), 'gi'), '<strong>$&</strong>') : match;
     }
     /**
      * @param {?=} result
