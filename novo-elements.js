@@ -17387,14 +17387,16 @@ class NovoControlElement extends OutsideClick {
      * @param {?} fieldInteractionApi
      * @param {?} templateService
      * @param {?} changeDetectorRef
+     * @param {?=} locale
      */
-    constructor(element, labels, dateFormatService, fieldInteractionApi, templateService, changeDetectorRef) {
+    constructor(element, labels, dateFormatService, fieldInteractionApi, templateService, changeDetectorRef, locale = 'en-US') {
         super(element);
         this.labels = labels;
         this.dateFormatService = dateFormatService;
         this.fieldInteractionApi = fieldInteractionApi;
         this.templateService = templateService;
         this.changeDetectorRef = changeDetectorRef;
+        this.locale = locale;
         this.condensed = false;
         this.autoFocus = false;
         this.change = new EventEmitter();
@@ -17413,6 +17415,7 @@ class NovoControlElement extends OutsideClick {
         this.maxLengthMetErrorfields = [];
         this.templates = {};
         this.loading = false;
+        this.decimalSeparator = '.';
     }
     /**
      * @return {?}
@@ -17617,6 +17620,14 @@ class NovoControlElement extends OutsideClick {
                 }
             });
         }
+        this.decimalSeparator = this.getDecimalSeparator();
+    }
+    /**
+     * @return {?}
+     */
+    getDecimalSeparator() {
+        let /** @type {?} */ result = new Intl.NumberFormat(this.locale).format(1.2)[1];
+        return result;
     }
     /**
      * @return {?}
@@ -17853,7 +17864,8 @@ class NovoControlElement extends OutsideClick {
      */
     restrictKeys(event) {
         const /** @type {?} */ NUMBERS_ONLY = /[0-9\-]/;
-        const /** @type {?} */ NUMBERS_WITH_DECIMAL = /[0-9\.\-]/;
+        const /** @type {?} */ NUMBERS_WITH_DECIMAL_DOT = /[0-9\.\-]/;
+        const /** @type {?} */ NUMBERS_WITH_DECIMAL_COMMA = /[0-9\,\-]/;
         const /** @type {?} */ UTILITY_KEYS = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
         let /** @type {?} */ key = event.key;
         // Types
@@ -17861,7 +17873,9 @@ class NovoControlElement extends OutsideClick {
             event.preventDefault();
         }
         else if (~['currency', 'float', 'percentage'].indexOf(this.form.controls[this.control.key].subType) &&
-            !(NUMBERS_WITH_DECIMAL.test(key) || UTILITY_KEYS.includes(key))) {
+            !((this.decimalSeparator === '.' && NUMBERS_WITH_DECIMAL_DOT.test(key)) ||
+                (this.decimalSeparator === ',' && NUMBERS_WITH_DECIMAL_COMMA.test(key)) ||
+                UTILITY_KEYS.includes(key))) {
             event.preventDefault();
         }
         // Max Length
@@ -18074,6 +18088,7 @@ NovoControlElement.ctorParameters = () => [
     { type: FieldInteractionApi, },
     { type: NovoTemplateService, },
     { type: ChangeDetectorRef, },
+    { type: undefined, decorators: [{ type: Inject, args: [LOCALE_ID,] },] },
 ];
 NovoControlElement.propDecorators = {
     'control': [{ type: Input },],

@@ -16772,14 +16772,17 @@ var NovoControlElement = /** @class */ (function (_super) {
      * @param {?} fieldInteractionApi
      * @param {?} templateService
      * @param {?} changeDetectorRef
+     * @param {?=} locale
      */
-    function NovoControlElement(element, labels, dateFormatService, fieldInteractionApi, templateService, changeDetectorRef) {
+    function NovoControlElement(element, labels, dateFormatService, fieldInteractionApi, templateService, changeDetectorRef, locale) {
+        if (locale === void 0) { locale = 'en-US'; }
         var _this = _super.call(this, element) || this;
         _this.labels = labels;
         _this.dateFormatService = dateFormatService;
         _this.fieldInteractionApi = fieldInteractionApi;
         _this.templateService = templateService;
         _this.changeDetectorRef = changeDetectorRef;
+        _this.locale = locale;
         _this.condensed = false;
         _this.autoFocus = false;
         _this.change = new EventEmitter();
@@ -16798,6 +16801,7 @@ var NovoControlElement = /** @class */ (function (_super) {
         _this.maxLengthMetErrorfields = [];
         _this.templates = {};
         _this.loading = false;
+        _this.decimalSeparator = '.';
         return _this;
     }
     Object.defineProperty(NovoControlElement.prototype, "onBlur", {
@@ -17045,6 +17049,14 @@ var NovoControlElement = /** @class */ (function (_super) {
                 }
             });
         }
+        this.decimalSeparator = this.getDecimalSeparator();
+    };
+    /**
+     * @return {?}
+     */
+    NovoControlElement.prototype.getDecimalSeparator = function () {
+        var /** @type {?} */ result = new Intl.NumberFormat(this.locale).format(1.2)[1];
+        return result;
     };
     /**
      * @return {?}
@@ -17326,7 +17338,8 @@ var NovoControlElement = /** @class */ (function (_super) {
      */
     NovoControlElement.prototype.restrictKeys = function (event) {
         var /** @type {?} */ NUMBERS_ONLY = /[0-9\-]/;
-        var /** @type {?} */ NUMBERS_WITH_DECIMAL = /[0-9\.\-]/;
+        var /** @type {?} */ NUMBERS_WITH_DECIMAL_DOT = /[0-9\.\-]/;
+        var /** @type {?} */ NUMBERS_WITH_DECIMAL_COMMA = /[0-9\,\-]/;
         var /** @type {?} */ UTILITY_KEYS = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
         var /** @type {?} */ key = event.key;
         // Types
@@ -17334,7 +17347,9 @@ var NovoControlElement = /** @class */ (function (_super) {
             event.preventDefault();
         }
         else if (~['currency', 'float', 'percentage'].indexOf(this.form.controls[this.control.key].subType) &&
-            !(NUMBERS_WITH_DECIMAL.test(key) || UTILITY_KEYS.includes(key))) {
+            !((this.decimalSeparator === '.' && NUMBERS_WITH_DECIMAL_DOT.test(key)) ||
+                (this.decimalSeparator === ',' && NUMBERS_WITH_DECIMAL_COMMA.test(key)) ||
+                UTILITY_KEYS.includes(key))) {
             event.preventDefault();
         }
         // Max Length
@@ -17460,6 +17475,7 @@ NovoControlElement.ctorParameters = function () { return [
     { type: FieldInteractionApi, },
     { type: NovoTemplateService, },
     { type: ChangeDetectorRef, },
+    { type: undefined, decorators: [{ type: Inject, args: [LOCALE_ID,] },] },
 ]; };
 NovoControlElement.propDecorators = {
     'control': [{ type: Input },],
