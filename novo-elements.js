@@ -11824,9 +11824,8 @@ NovoChipsModule.ctorParameters = () => [];
 const DATE_PICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NovoDatePickerElement),
-    multi: true
+    multi: true,
 };
-
 class NovoDatePickerElement {
     /**
      * @param {?} labels
@@ -11875,7 +11874,9 @@ class NovoDatePickerElement {
      */
     ngOnChanges(changes) {
         let /** @type {?} */ weekRangeSelectChange = changes['weekRangeSelect'];
-        if (weekRangeSelectChange && weekRangeSelectChange.currentValue !== weekRangeSelectChange.previousValue && !weekRangeSelectChange.firstChange) {
+        if (weekRangeSelectChange &&
+            weekRangeSelectChange.currentValue !== weekRangeSelectChange.previousValue &&
+            !weekRangeSelectChange.firstChange) {
             this.clearRange();
         }
         let /** @type {?} */ weekStartChanges = changes['weekStart'];
@@ -11951,7 +11952,9 @@ class NovoDatePickerElement {
      */
     isFiller(range, day, selected, selected2) {
         if (range && selected2 && selected) {
-            return (isAfter(day, selected) && isBefore(day, selected2)) || isSameDay(day, selected) || isSameDay(day, selected2);
+            return ((isAfter(day, selected) && isBefore(day, selected2)) ||
+                isSameDay(day, selected) ||
+                isSameDay(day, selected2));
         }
         return false;
     }
@@ -11964,7 +11967,15 @@ class NovoDatePickerElement {
      */
     isSelected(range, day, selected, selected2) {
         if (range) {
-            return day && (selected && (day.getDate() === selected.getDate() && day.getMonth() === selected.getMonth() && day.getFullYear() === selected.getFullYear()) || (selected2 && (day.getDate() === selected2.getDate() && day.getMonth() === selected2.getMonth() && day.getFullYear() === selected2.getFullYear())));
+            return (day &&
+                ((selected &&
+                    (day.getDate() === selected.getDate() &&
+                        day.getMonth() === selected.getMonth() &&
+                        day.getFullYear() === selected.getFullYear())) ||
+                    (selected2 &&
+                        (day.getDate() === selected2.getDate() &&
+                            day.getMonth() === selected2.getMonth() &&
+                            day.getFullYear() === selected2.getFullYear()))));
         }
         return day.getDate() === selected.getDate() && day.getMonth() === selected.getMonth() && day.getFullYear() === selected.getFullYear();
     }
@@ -12059,12 +12070,12 @@ class NovoDatePickerElement {
                 this.selectedLabel = this.labels.formatDateWithFormat(this.selected, {
                     month: 'short',
                     day: '2-digit',
-                    year: 'numeric'
+                    year: 'numeric',
                 });
                 this.selected2Label = this.labels.formatDateWithFormat(this.selected2, {
                     month: 'short',
                     day: '2-digit',
-                    year: 'numeric'
+                    year: 'numeric',
                 });
                 // Make sure to fire this, since we default to the current week selected!
                 if (!fireEvents && this.weekRangeSelect) {
@@ -12077,7 +12088,7 @@ class NovoDatePickerElement {
                 this.selectedLabel = this.labels.formatDateWithFormat(this.selected, {
                     month: 'short',
                     day: '2-digit',
-                    year: 'numeric'
+                    year: 'numeric',
                 });
                 if (this.selected2 && isAfter(day.date, this.selected2)) {
                     // CLEAR END DATE
@@ -12094,7 +12105,7 @@ class NovoDatePickerElement {
                 this.selected2Label = this.labels.formatDateWithFormat(this.selected2, {
                     month: 'short',
                     day: '2-digit',
-                    year: 'numeric'
+                    year: 'numeric',
                 });
                 if (this.selected && isBefore(day.date, this.selected)) {
                     // CLEAR START DATE
@@ -12111,7 +12122,7 @@ class NovoDatePickerElement {
             this.selectedLabel = this.labels.formatDateWithFormat(this.selected, {
                 month: 'short',
                 day: '2-digit',
-                year: 'numeric'
+                year: 'numeric',
             });
             this.updateHeading();
         }
@@ -12122,11 +12133,11 @@ class NovoDatePickerElement {
                 // Also, update the ngModel
                 this._onChange({
                     startDate: this.selected,
-                    endDate: this.selected2 ? this.selected2 : null
+                    endDate: this.selected2 ? this.selected2 : null,
                 });
                 this.model = {
                     startDate: this.selected,
-                    endDate: this.selected2 ? this.selected2 : null
+                    endDate: this.selected2 ? this.selected2 : null,
                 };
             }
             if (!this.range) {
@@ -12134,7 +12145,7 @@ class NovoDatePickerElement {
                     month: this.labels.formatDateWithFormat(this.selected, { month: 'long' }),
                     year: this.selected.getFullYear(),
                     day: this.labels.formatDateWithFormat(this.selected, { weekday: 'long' }),
-                    date: this.selected
+                    date: this.selected,
                 });
                 // Also, update the ngModel
                 this._onChange(this.selected);
@@ -12153,14 +12164,14 @@ class NovoDatePickerElement {
                     month: this.labels.formatDateWithFormat(this.selected, { month: 'long' }),
                     year: this.selected.getFullYear(),
                     day: this.labels.formatDateWithFormat(this.selected, { weekday: 'long' }),
-                    date: this.selected
+                    date: this.selected,
                 },
                 endDate: {
                     month: this.labels.formatDateWithFormat(this.selected2, { month: 'long' }),
                     year: this.selected2.getFullYear(),
                     day: this.labels.formatDateWithFormat(this.selected2, { weekday: 'long' }),
-                    date: this.selected2
-                }
+                    date: this.selected2,
+                },
             });
         }
     }
@@ -12219,7 +12230,7 @@ class NovoDatePickerElement {
             month: this.labels.formatDateWithFormat(this.selected, { month: 'long' }),
             year: this.selected.getFullYear(),
             day: this.labels.formatDateWithFormat(this.selected, { weekday: 'long' }),
-            date: this.selected.getDate()
+            date: this.selected.getDate(),
         };
     }
     /**
@@ -12268,7 +12279,7 @@ class NovoDatePickerElement {
                 name: this.weekdays[i],
                 number: date.getDate(),
                 isToday: isToday(date),
-                date: date
+                date: date,
             });
             // Increment for the next iteration
             date = addDays(date, 1);
@@ -12322,31 +12333,31 @@ NovoDatePickerElement.decorators = [
                 animations: [
                     trigger('startDateTextState', [
                         state('startDate', style({
-                            'opacity': '1.0'
+                            opacity: '1.0',
                         })),
                         state('endDate', style({
-                            'opacity': '0.6'
+                            opacity: '0.6',
                         })),
-                        transition('startDate <=> endDate', animate('200ms ease-in'))
+                        transition('startDate <=> endDate', animate('200ms ease-in')),
                     ]),
                     trigger('endDateTextState', [
                         state('startDate', style({
-                            'opacity': '0.6'
+                            opacity: '0.6',
                         })),
                         state('endDate', style({
-                            'opacity': '1.0'
+                            opacity: '1.0',
                         })),
-                        transition('startDate <=> endDate', animate('200ms ease-in'))
+                        transition('startDate <=> endDate', animate('200ms ease-in')),
                     ]),
                     trigger('indicatorState', [
                         state('startDate', style({
-                            'transform': 'translateX(0%)'
+                            transform: 'translateX(0%)',
                         })),
                         state('endDate', style({
-                            'transform': 'translateX(100%)'
+                            transform: 'translateX(100%)',
                         })),
-                        transition('startDate <=> endDate', animate('200ms ease-in'))
-                    ])
+                        transition('startDate <=> endDate', animate('200ms ease-in')),
+                    ]),
                 ],
                 template: `
         <div class="calendar">
@@ -12385,8 +12396,8 @@ NovoDatePickerElement.decorators = [
                             startfill: isStartFill(range, day.date, selected, selected2),
                             endfill: isEndFill(range, day.date, selected, selected2),
                             'selecting-range': isSelectingRange(range, day.date, selected, selected2, hoverDay, rangeSelectMode, weekRangeSelect)
-                           }" (click)="select($event, day, true)" (mouseover)="rangeHover($event, day)" [attr.data-automation-id]="day.number">
-                            <button class="day" [attr.data-automation-id]="day.number" [disabled]="isDisabled(day.date, start, end)">{{day.number}}</button>
+                           }" (mouseover)="rangeHover($event, day)" [attr.data-automation-id]="day.number">
+                            <button class="day" [attr.data-automation-id]="day.number" [disabled]="isDisabled(day.date, start, end)" (click)="select($event, day, true)">{{day.number}}</button>
                         </td>
                     </tr>
                 </tbody>
@@ -12405,7 +12416,7 @@ NovoDatePickerElement.decorators = [
                 <span (click)="setToday()" class="today" data-automation-id="calendar-today">{{ labels.today }}</span>
             </div>
         </div>
-    `
+    `,
             },] },
 ];
 /**
@@ -18115,7 +18126,7 @@ NovoControlElement.propDecorators = {
 /**
  * AUTOGENERATED FILE - DO NOT EDIT
  * Generated by: https://bhsource.bullhorn.com/DEV_WORKSPACE/country-state-parser
- * Last generated on: Wed Sep 26 2018 08:38:44 GMT-0500 (CDT)
+ * Last generated on: Wed Sep 12 2018 10:22:49 GMT-0500 (CDT)
  */
 const COUNTRIES = [
     {
@@ -20371,20 +20382,7 @@ const COUNTRIES = [
         code: 'BQ',
         id: 2449,
         name: 'Bonaire',
-        states: [
-            {
-                code: 'BQ.BO',
-                name: 'Bonaire',
-            },
-            {
-                code: 'BQ.SB',
-                name: 'Saba',
-            },
-            {
-                code: 'BQ.SE',
-                name: 'Sint Eustatius',
-            },
-        ],
+        states: [],
     },
     {
         code: 'BA',
@@ -31466,12 +31464,7 @@ const COUNTRIES = [
         code: 'SX',
         id: 2448,
         name: 'Sint Maarten',
-        states: [
-            {
-                code: 'SX.SM',
-                name: 'Sint Maarten',
-            },
-        ],
+        states: [],
     },
     {
         code: 'SK',

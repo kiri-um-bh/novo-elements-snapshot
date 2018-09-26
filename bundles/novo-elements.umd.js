@@ -11156,7 +11156,7 @@ NovoChipsModule.ctorParameters = function () { return []; };
 var DATE_PICKER_VALUE_ACCESSOR = {
     provide: forms.NG_VALUE_ACCESSOR,
     useExisting: core.forwardRef(function () { return NovoDatePickerElement; }),
-    multi: true
+    multi: true,
 };
 var NovoDatePickerElement = /** @class */ (function () {
     /**
@@ -11206,7 +11206,9 @@ var NovoDatePickerElement = /** @class */ (function () {
      */
     NovoDatePickerElement.prototype.ngOnChanges = function (changes) {
         var /** @type {?} */ weekRangeSelectChange = changes['weekRangeSelect'];
-        if (weekRangeSelectChange && weekRangeSelectChange.currentValue !== weekRangeSelectChange.previousValue && !weekRangeSelectChange.firstChange) {
+        if (weekRangeSelectChange &&
+            weekRangeSelectChange.currentValue !== weekRangeSelectChange.previousValue &&
+            !weekRangeSelectChange.firstChange) {
             this.clearRange();
         }
         var /** @type {?} */ weekStartChanges = changes['weekStart'];
@@ -11282,7 +11284,9 @@ var NovoDatePickerElement = /** @class */ (function () {
      */
     NovoDatePickerElement.prototype.isFiller = function (range, day, selected, selected2) {
         if (range && selected2 && selected) {
-            return (dateFns.isAfter(day, selected) && dateFns.isBefore(day, selected2)) || dateFns.isSameDay(day, selected) || dateFns.isSameDay(day, selected2);
+            return ((dateFns.isAfter(day, selected) && dateFns.isBefore(day, selected2)) ||
+                dateFns.isSameDay(day, selected) ||
+                dateFns.isSameDay(day, selected2));
         }
         return false;
     };
@@ -11295,7 +11299,15 @@ var NovoDatePickerElement = /** @class */ (function () {
      */
     NovoDatePickerElement.prototype.isSelected = function (range, day, selected, selected2) {
         if (range) {
-            return day && (selected && (day.getDate() === selected.getDate() && day.getMonth() === selected.getMonth() && day.getFullYear() === selected.getFullYear()) || (selected2 && (day.getDate() === selected2.getDate() && day.getMonth() === selected2.getMonth() && day.getFullYear() === selected2.getFullYear())));
+            return (day &&
+                ((selected &&
+                    (day.getDate() === selected.getDate() &&
+                        day.getMonth() === selected.getMonth() &&
+                        day.getFullYear() === selected.getFullYear())) ||
+                    (selected2 &&
+                        (day.getDate() === selected2.getDate() &&
+                            day.getMonth() === selected2.getMonth() &&
+                            day.getFullYear() === selected2.getFullYear()))));
         }
         return day.getDate() === selected.getDate() && day.getMonth() === selected.getMonth() && day.getFullYear() === selected.getFullYear();
     };
@@ -11390,12 +11402,12 @@ var NovoDatePickerElement = /** @class */ (function () {
                 this.selectedLabel = this.labels.formatDateWithFormat(this.selected, {
                     month: 'short',
                     day: '2-digit',
-                    year: 'numeric'
+                    year: 'numeric',
                 });
                 this.selected2Label = this.labels.formatDateWithFormat(this.selected2, {
                     month: 'short',
                     day: '2-digit',
-                    year: 'numeric'
+                    year: 'numeric',
                 });
                 // Make sure to fire this, since we default to the current week selected!
                 if (!fireEvents && this.weekRangeSelect) {
@@ -11408,7 +11420,7 @@ var NovoDatePickerElement = /** @class */ (function () {
                 this.selectedLabel = this.labels.formatDateWithFormat(this.selected, {
                     month: 'short',
                     day: '2-digit',
-                    year: 'numeric'
+                    year: 'numeric',
                 });
                 if (this.selected2 && dateFns.isAfter(day.date, this.selected2)) {
                     // CLEAR END DATE
@@ -11425,7 +11437,7 @@ var NovoDatePickerElement = /** @class */ (function () {
                 this.selected2Label = this.labels.formatDateWithFormat(this.selected2, {
                     month: 'short',
                     day: '2-digit',
-                    year: 'numeric'
+                    year: 'numeric',
                 });
                 if (this.selected && dateFns.isBefore(day.date, this.selected)) {
                     // CLEAR START DATE
@@ -11442,7 +11454,7 @@ var NovoDatePickerElement = /** @class */ (function () {
             this.selectedLabel = this.labels.formatDateWithFormat(this.selected, {
                 month: 'short',
                 day: '2-digit',
-                year: 'numeric'
+                year: 'numeric',
             });
             this.updateHeading();
         }
@@ -11453,11 +11465,11 @@ var NovoDatePickerElement = /** @class */ (function () {
                 // Also, update the ngModel
                 this._onChange({
                     startDate: this.selected,
-                    endDate: this.selected2 ? this.selected2 : null
+                    endDate: this.selected2 ? this.selected2 : null,
                 });
                 this.model = {
                     startDate: this.selected,
-                    endDate: this.selected2 ? this.selected2 : null
+                    endDate: this.selected2 ? this.selected2 : null,
                 };
             }
             if (!this.range) {
@@ -11465,7 +11477,7 @@ var NovoDatePickerElement = /** @class */ (function () {
                     month: this.labels.formatDateWithFormat(this.selected, { month: 'long' }),
                     year: this.selected.getFullYear(),
                     day: this.labels.formatDateWithFormat(this.selected, { weekday: 'long' }),
-                    date: this.selected
+                    date: this.selected,
                 });
                 // Also, update the ngModel
                 this._onChange(this.selected);
@@ -11484,14 +11496,14 @@ var NovoDatePickerElement = /** @class */ (function () {
                     month: this.labels.formatDateWithFormat(this.selected, { month: 'long' }),
                     year: this.selected.getFullYear(),
                     day: this.labels.formatDateWithFormat(this.selected, { weekday: 'long' }),
-                    date: this.selected
+                    date: this.selected,
                 },
                 endDate: {
                     month: this.labels.formatDateWithFormat(this.selected2, { month: 'long' }),
                     year: this.selected2.getFullYear(),
                     day: this.labels.formatDateWithFormat(this.selected2, { weekday: 'long' }),
-                    date: this.selected2
-                }
+                    date: this.selected2,
+                },
             });
         }
     };
@@ -11551,7 +11563,7 @@ var NovoDatePickerElement = /** @class */ (function () {
             month: this.labels.formatDateWithFormat(this.selected, { month: 'long' }),
             year: this.selected.getFullYear(),
             day: this.labels.formatDateWithFormat(this.selected, { weekday: 'long' }),
-            date: this.selected.getDate()
+            date: this.selected.getDate(),
         };
     };
     /**
@@ -11600,7 +11612,7 @@ var NovoDatePickerElement = /** @class */ (function () {
                 name: this.weekdays[i],
                 number: date.getDate(),
                 isToday: dateFns.isToday(date),
-                date: date
+                date: date,
             });
             // Increment for the next iteration
             date = dateFns.addDays(date, 1);
@@ -11655,33 +11667,33 @@ NovoDatePickerElement.decorators = [
                 animations: [
                     animations.trigger('startDateTextState', [
                         animations.state('startDate', animations.style({
-                            'opacity': '1.0'
+                            opacity: '1.0',
                         })),
                         animations.state('endDate', animations.style({
-                            'opacity': '0.6'
+                            opacity: '0.6',
                         })),
-                        animations.transition('startDate <=> endDate', animations.animate('200ms ease-in'))
+                        animations.transition('startDate <=> endDate', animations.animate('200ms ease-in')),
                     ]),
                     animations.trigger('endDateTextState', [
                         animations.state('startDate', animations.style({
-                            'opacity': '0.6'
+                            opacity: '0.6',
                         })),
                         animations.state('endDate', animations.style({
-                            'opacity': '1.0'
+                            opacity: '1.0',
                         })),
-                        animations.transition('startDate <=> endDate', animations.animate('200ms ease-in'))
+                        animations.transition('startDate <=> endDate', animations.animate('200ms ease-in')),
                     ]),
                     animations.trigger('indicatorState', [
                         animations.state('startDate', animations.style({
-                            'transform': 'translateX(0%)'
+                            transform: 'translateX(0%)',
                         })),
                         animations.state('endDate', animations.style({
-                            'transform': 'translateX(100%)'
+                            transform: 'translateX(100%)',
                         })),
-                        animations.transition('startDate <=> endDate', animations.animate('200ms ease-in'))
-                    ])
+                        animations.transition('startDate <=> endDate', animations.animate('200ms ease-in')),
+                    ]),
                 ],
-                template: "\n        <div class=\"calendar\">\n            <div class=\"calendar-top\" *ngIf=\"!inline && !range\">\n                <h4 class=\"day\" [attr.data-automation-id]=\"heading?.day\">{{heading?.day}}</h4>\n                <h2 class=\"month\" [attr.data-automation-id]=\"heading?.month\">{{heading?.month}}</h2>\n                <h1 class=\"date\" [attr.data-automation-id]=\"heading?.date\">{{heading?.date}}</h1>\n                <h3 class=\"year\" [attr.data-automation-id]=\"heading?.year\">{{heading?.year}}</h3>\n            </div>\n            <div class=\"date-range-tabs\" *ngIf=\"range\" [class.week-select-mode]=\"weekRangeSelect\">\n                <span class=\"range-tab\" (click)=\"toggleRangeSelect('startDate')\" [@startDateTextState]=\"rangeSelectMode\" data-automation-id=\"calendar-start-date\">{{selectedLabel}}</span>\n                <span class=\"range-tab\" (click)=\"toggleRangeSelect('endDate')\" [@endDateTextState]=\"rangeSelectMode\" data-automation-id=\"calendar-end-date\">{{selected2Label}}</span>\n                <i class=\"indicator\" [@indicatorState]=\"rangeSelectMode\"></i>\n            </div>\n            <div class=\"calendar-header\">\n                <span class=\"previous\" (click)=\"prevMonth($event)\" data-automation-id=\"calendar-previous\"></span>\n                <span class=\"heading\">\n                    <span class=\"month\" (click)=\"open($event, 'months')\" data-automation-id=\"header-month\">{{monthLabel}}</span>\n                    <span class=\"year\" (click)=\"open($event, 'years')\" data-automation-id=\"header-year\">{{month?.getFullYear()}}</span>\n                </span>\n                <span class=\"next\" (click)=\"nextMonth($event)\" data-automation-id=\"calendar-next\"></span>\n            </div>\n            <table class=\"calendar-content days\" cellspacing=\"0\" cellpadding=\"0\" [hidden]=\"!(view=='days')\">\n                <thead>\n                    <tr>\n                        <th *ngFor=\"let day of weekdays\" title=\"{{day}}\" class=\"weekday\" [attr.data-automation-id]=\"day.substr(0, 2)\">{{day.substr(0, 2)}}</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let week of weeks\">\n                        <td *ngFor=\"let day of week.days\" [ngClass]=\"{\n                            today: day.isToday,\n                            'notinmonth': day.date.getMonth() !== this.month.getMonth(),\n                            selected: isSelected(range, day.date, selected, selected2),\n                            filler: isFiller(range, day.date, selected, selected2),\n                            startfill: isStartFill(range, day.date, selected, selected2),\n                            endfill: isEndFill(range, day.date, selected, selected2),\n                            'selecting-range': isSelectingRange(range, day.date, selected, selected2, hoverDay, rangeSelectMode, weekRangeSelect)\n                           }\" (click)=\"select($event, day, true)\" (mouseover)=\"rangeHover($event, day)\" [attr.data-automation-id]=\"day.number\">\n                            <button class=\"day\" [attr.data-automation-id]=\"day.number\" [disabled]=\"isDisabled(day.date, start, end)\">{{day.number}}</button>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n            <section class=\"calendar-content months\" [hidden]=\"view !== 'months'\">\n                <div *ngFor=\"let month of months;let i = index\" (click)=\"setMonth(i)\">\n                    <div class=\"month\" [ngClass]=\"{selected: i === selected?.getMonth()}\" [attr.data-automation-id]=\"month\">{{month}}</div>\n                </div>\n            </section>\n            <section class=\"calendar-content years\" [hidden]=\"view !== 'years'\">\n                <div *ngFor=\"let year of years\" (click)=\"setYear(year)\">\n                    <div class=\"year\" [ngClass]=\"{selected: year == selected?.getFullYear()}\" [attr.data-automation-id]=\"year\">{{year}}</div>\n                </div>\n            </section>\n            <div class=\"calendar-footer\">\n                <span (click)=\"setToday()\" class=\"today\" data-automation-id=\"calendar-today\">{{ labels.today }}</span>\n            </div>\n        </div>\n    "
+                template: "\n        <div class=\"calendar\">\n            <div class=\"calendar-top\" *ngIf=\"!inline && !range\">\n                <h4 class=\"day\" [attr.data-automation-id]=\"heading?.day\">{{heading?.day}}</h4>\n                <h2 class=\"month\" [attr.data-automation-id]=\"heading?.month\">{{heading?.month}}</h2>\n                <h1 class=\"date\" [attr.data-automation-id]=\"heading?.date\">{{heading?.date}}</h1>\n                <h3 class=\"year\" [attr.data-automation-id]=\"heading?.year\">{{heading?.year}}</h3>\n            </div>\n            <div class=\"date-range-tabs\" *ngIf=\"range\" [class.week-select-mode]=\"weekRangeSelect\">\n                <span class=\"range-tab\" (click)=\"toggleRangeSelect('startDate')\" [@startDateTextState]=\"rangeSelectMode\" data-automation-id=\"calendar-start-date\">{{selectedLabel}}</span>\n                <span class=\"range-tab\" (click)=\"toggleRangeSelect('endDate')\" [@endDateTextState]=\"rangeSelectMode\" data-automation-id=\"calendar-end-date\">{{selected2Label}}</span>\n                <i class=\"indicator\" [@indicatorState]=\"rangeSelectMode\"></i>\n            </div>\n            <div class=\"calendar-header\">\n                <span class=\"previous\" (click)=\"prevMonth($event)\" data-automation-id=\"calendar-previous\"></span>\n                <span class=\"heading\">\n                    <span class=\"month\" (click)=\"open($event, 'months')\" data-automation-id=\"header-month\">{{monthLabel}}</span>\n                    <span class=\"year\" (click)=\"open($event, 'years')\" data-automation-id=\"header-year\">{{month?.getFullYear()}}</span>\n                </span>\n                <span class=\"next\" (click)=\"nextMonth($event)\" data-automation-id=\"calendar-next\"></span>\n            </div>\n            <table class=\"calendar-content days\" cellspacing=\"0\" cellpadding=\"0\" [hidden]=\"!(view=='days')\">\n                <thead>\n                    <tr>\n                        <th *ngFor=\"let day of weekdays\" title=\"{{day}}\" class=\"weekday\" [attr.data-automation-id]=\"day.substr(0, 2)\">{{day.substr(0, 2)}}</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let week of weeks\">\n                        <td *ngFor=\"let day of week.days\" [ngClass]=\"{\n                            today: day.isToday,\n                            'notinmonth': day.date.getMonth() !== this.month.getMonth(),\n                            selected: isSelected(range, day.date, selected, selected2),\n                            filler: isFiller(range, day.date, selected, selected2),\n                            startfill: isStartFill(range, day.date, selected, selected2),\n                            endfill: isEndFill(range, day.date, selected, selected2),\n                            'selecting-range': isSelectingRange(range, day.date, selected, selected2, hoverDay, rangeSelectMode, weekRangeSelect)\n                           }\" (mouseover)=\"rangeHover($event, day)\" [attr.data-automation-id]=\"day.number\">\n                            <button class=\"day\" [attr.data-automation-id]=\"day.number\" [disabled]=\"isDisabled(day.date, start, end)\" (click)=\"select($event, day, true)\">{{day.number}}</button>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n            <section class=\"calendar-content months\" [hidden]=\"view !== 'months'\">\n                <div *ngFor=\"let month of months;let i = index\" (click)=\"setMonth(i)\">\n                    <div class=\"month\" [ngClass]=\"{selected: i === selected?.getMonth()}\" [attr.data-automation-id]=\"month\">{{month}}</div>\n                </div>\n            </section>\n            <section class=\"calendar-content years\" [hidden]=\"view !== 'years'\">\n                <div *ngFor=\"let year of years\" (click)=\"setYear(year)\">\n                    <div class=\"year\" [ngClass]=\"{selected: year == selected?.getFullYear()}\" [attr.data-automation-id]=\"year\">{{year}}</div>\n                </div>\n            </section>\n            <div class=\"calendar-footer\">\n                <span (click)=\"setToday()\" class=\"today\" data-automation-id=\"calendar-today\">{{ labels.today }}</span>\n            </div>\n        </div>\n    ",
             },] },
 ];
 /**
@@ -17464,7 +17476,7 @@ NovoControlElement.propDecorators = {
 /**
  * AUTOGENERATED FILE - DO NOT EDIT
  * Generated by: https://bhsource.bullhorn.com/DEV_WORKSPACE/country-state-parser
- * Last generated on: Wed Sep 26 2018 08:38:44 GMT-0500 (CDT)
+ * Last generated on: Wed Sep 12 2018 10:22:49 GMT-0500 (CDT)
  */
 var COUNTRIES = [
     {
@@ -19720,20 +19732,7 @@ var COUNTRIES = [
         code: 'BQ',
         id: 2449,
         name: 'Bonaire',
-        states: [
-            {
-                code: 'BQ.BO',
-                name: 'Bonaire',
-            },
-            {
-                code: 'BQ.SB',
-                name: 'Saba',
-            },
-            {
-                code: 'BQ.SE',
-                name: 'Sint Eustatius',
-            },
-        ],
+        states: [],
     },
     {
         code: 'BA',
@@ -30815,12 +30814,7 @@ var COUNTRIES = [
         code: 'SX',
         id: 2448,
         name: 'Sint Maarten',
-        states: [
-            {
-                code: 'SX.SM',
-                name: 'Sint Maarten',
-            },
-        ],
+        states: [],
     },
     {
         code: 'SK',
