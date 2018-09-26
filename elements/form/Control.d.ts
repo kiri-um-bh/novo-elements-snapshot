@@ -79,6 +79,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     readonly tooltipPosition: any;
     readonly tooltipSize: any;
     readonly tooltipPreline: any;
+    readonly removeTooltipArrow: any;
     readonly alwaysActive: boolean;
     readonly requiresExtraSpacing: boolean;
     executeInteraction(interaction: any): void;
