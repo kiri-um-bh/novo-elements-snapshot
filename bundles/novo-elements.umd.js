@@ -49663,6 +49663,7 @@ var DataTableSource = /** @class */ (function (_super) {
                 _this.ref.markForCheck();
                 setTimeout(function () {
                     _this.loading = false;
+                    _this.state.dataLoaded.next();
                     _this.ref.markForCheck();
                 });
             });
@@ -49686,6 +49687,7 @@ var DataTableState = /** @class */ (function () {
         this.sortFilterSource = new Subject.Subject();
         this.resetSource = new Subject.Subject();
         this.expandSource = new Subject.Subject();
+        this.dataLoaded = new Subject.Subject();
         this.sort = undefined;
         this.filter = undefined;
         this.page = 0;

@@ -52141,6 +52141,7 @@ class DataTableSource extends DataSource {
                 this.ref.markForCheck();
                 setTimeout(() => {
                     this.loading = false;
+                    this.state.dataLoaded.next();
                     this.ref.markForCheck();
                 });
             });
@@ -52164,6 +52165,7 @@ class DataTableState {
         this.sortFilterSource = new Subject$1();
         this.resetSource = new Subject$1();
         this.expandSource = new Subject$1();
+        this.dataLoaded = new Subject$1();
         this.sort = undefined;
         this.filter = undefined;
         this.page = 0;
