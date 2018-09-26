@@ -1633,6 +1633,7 @@ var NovoLabelService = /** @class */ (function () {
         this.encryptedFieldTooltip = 'This data has been stored at the highest level of security';
         this.noStatesForCountry = 'No states available for the selected country';
         this.selectCountryFirst = 'Please select a country before selecting a state';
+        this.invalidIntegerInput = 'Special characters are not allowed for';
     }
     /**
      * @param {?} field
@@ -17215,6 +17216,8 @@ var NovoControlElement = /** @class */ (function (_super) {
                 handleTyping: this.handleTyping.bind(this),
                 updateValidity: this.updateValidity.bind(this),
                 toggleActive: this.toggleActive.bind(this),
+                validateIntegerInput: this.validateIntegerInput.bind(this),
+                validateNumberOnBlur: this.validateNumberOnBlur.bind(this),
             },
             form: this.form,
         };
@@ -17534,6 +17537,28 @@ var NovoControlElement = /** @class */ (function (_super) {
             this._enteredText = '';
         }
         this.change.emit(value);
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoControlElement.prototype.validateNumberOnBlur = function (event) {
+        this._focused = false;
+        this.focusedField = '';
+        this.showCount = false;
+        if (this.form.controls[this.control.key].subType === 'number') {
+            this.validateIntegerInput();
+        }
+        this._blurEmitter.emit(event);
+    };
+    /**
+     * @return {?}
+     */
+    NovoControlElement.prototype.validateIntegerInput = function () {
+        var /** @type {?} */ NUMBERS_ONLY = /^[\d\-]\d*$/;
+        if (this.form.controls[this.control.key].value && !NUMBERS_ONLY.test(this.form.controls[this.control.key].value)) {
+            this.form.controls[this.control.key].markAsInvalid(this.labels.invalidIntegerInput + " " + this.form.controls[this.control.key].label.toUpperCase());
+        }
     };
     /**
      * @param {?} event

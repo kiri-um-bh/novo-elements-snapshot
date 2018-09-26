@@ -91,6 +91,8 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     checkMaxLength(event: any): void;
     modelChangeWithRaw(event: any): void;
     modelChange(value: any): void;
+    validateNumberOnBlur(event: FocusEvent): void;
+    validateIntegerInput(): void;
     restrictKeys(event: any): void;
     handlePercentChange(event: KeyboardEvent): void;
     handleTabForPickers(event: any): void;
