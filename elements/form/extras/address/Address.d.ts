@@ -8,11 +8,9 @@ export interface NovoAddressSubfieldConfig {
     pickerConfig?: any;
     hidden: boolean;
     updated?: boolean;
-    readOnly?: boolean;
 }
 export interface NovoAddressConfig {
     required?: boolean;
-    readOnly?: boolean;
     address1?: NovoAddressSubfieldConfig;
     address2?: NovoAddressSubfieldConfig;
     city?: NovoAddressSubfieldConfig;

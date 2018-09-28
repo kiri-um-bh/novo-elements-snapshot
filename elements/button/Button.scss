@@ -1,4 +1,9 @@
 button {
+  &[class*='hint--']:before,
+  &[class*='hint--']:after {
+    text-transform: initial;
+    word-wrap: break-word;
+  }
   > div.flex-wrapper {
     display: flex;
     flex-direction: row;

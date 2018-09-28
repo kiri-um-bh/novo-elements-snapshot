@@ -30,8 +30,7 @@ novo-tiles {
       position: relative;
       cursor: pointer;
       &:not(.disabled) {
-        &.active,
-        &:hover {
+        &.active, &:hover {
           color: $positive;
         }
         label {
@@ -39,7 +38,7 @@ novo-tiles {
         }
       }
       &.disabled {
-        color: $positive;
+        color: $disabled-color;
         cursor: not-allowed;
         label {
           cursor: not-allowed;
