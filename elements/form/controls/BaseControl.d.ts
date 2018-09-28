@@ -50,6 +50,7 @@ export interface NovoControlConfig {
     tooltipSize?: string;
     tooltipPreline?: boolean;
     removeTooltipArrow?: boolean;
+    tooltipAutoPosition?: boolean;
     layoutOptions?: {
         order?: string;
         download?: boolean;
@@ -122,6 +123,7 @@ export declare class BaseControl {
     tooltipSize?: string;
     tooltipPreline?: boolean;
     removeTooltipArrow?: boolean;
+    tooltipAutoPosition?: boolean;
     layoutOptions?: {
         order?: string;
         download?: boolean;
