@@ -122,34 +122,21 @@ novo-form {
             opacity: 0;
             display: none;
           }
-          &.disabled:not(.file):not(.editor) {
-            pointer-events: none;
-          }
           &.disabled {
-            input {
-              -webkit-text-fill-color: $dark;
-            }
+            pointer-events: none;
             input:not(.picker-input):not(.tiles-input) {
               &::-webkit-input-placeholder {
                 color: lighten($dark, 30%) !important;
               }
               border-bottom-style: dashed !important;
-            }
-            input[type='checkbox']:not(.picker-input):not(.tiles-input) {
-              border-bottom-style: none !important;
-            }
-            textarea {
-              border-bottom-style: dashed !important;
-              -webkit-text-fill-color: $dark;
+              color: darken(#d9dadc, 10%) !important;
             }
             div[type='button'] {
+              color: lighten($dark, 30%) !important;
               border-bottom-style: dashed !important;
-              i.bhi-collapse {
-                top: auto;
-                color: lighten($dark, 30%) !important;
-              }
             }
             label {
+              color: lighten($dark, 30%) !important;
               &.clear-all {
                 display: none;
               }
@@ -174,7 +161,7 @@ novo-form {
               }
             }
             novo-tiles {
-              opacity: 0.7 !important;
+              opacity: 0.4 !important;
               label {
                 color: inherit !important;
               }
@@ -191,6 +178,7 @@ novo-form {
             i.bhi-checkbox-filled,
             i.bhi-checkbox-empty,
             i.bhi-calendar {
+              color: lighten($dark, 30%) !important;
               top: -5px;
             }
           }
@@ -333,7 +321,7 @@ novo-form {
                     .textarea-container {
                       display: flex;
                     }
-                    &.control-disabled:not(.file):not(.editor) {
+                    &.control-disabled {
                       pointer-events: none;
                     }
                     &[type='picker'] {
@@ -614,30 +602,21 @@ novo-form {
           novo-control,
           novo-custom-control-container {
             margin-top: 0;
-            &.disabled:not(.file):not(.editor) {
-              pointer-events: none;
-            }
             &.disabled {
+              pointer-events: none;
               input:not(.picker-input):not(.tiles-input) {
                 &::-webkit-input-placeholder {
                   color: lighten($dark, 30%) !important;
                 }
                 border-bottom-style: dashed !important;
-              }
-              input[type='checkbox']:not(.picker-input):not(.tiles-input) {
-                border-bottom-style: none !important;
-              }
-              textarea {
-                border-bottom-style: dashed !important;
+                color: darken(#d9dadc, 10%) !important;
               }
               div[type='button'] {
+                color: lighten($dark, 30%) !important;
                 border-bottom-style: dashed !important;
-                i.bhi-collapse {
-                  top: auto;
-                  color: lighten($dark, 30%) !important;
-                }
               }
               label {
+                color: lighten($dark, 30%) !important;
                 &.clear-all {
                   display: none;
                 }
@@ -648,7 +627,7 @@ novo-form {
                   border: none !important;
                 }
                 novo-picker {
-                  border: none;
+                  border-bottom: none;
                   > input.picker-input {
                     border: none !important;
                   }
@@ -662,7 +641,7 @@ novo-form {
                 }
               }
               novo-tiles {
-                opacity: 0.7 !important;
+                opacity: 0.4 !important;
                 label {
                   color: inherit !important;
                 }
@@ -679,6 +658,7 @@ novo-form {
               i.bhi-checkbox-filled,
               i.bhi-checkbox-empty,
               i.bhi-calendar {
+                color: lighten($dark, 30%) !important;
                 top: -5px;
               }
             }

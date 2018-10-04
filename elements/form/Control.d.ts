@@ -23,7 +23,6 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     private fieldInteractionApi;
     private templateService;
     private changeDetectorRef;
-    private locale;
     control: any;
     form: any;
     condensed: boolean;
@@ -57,8 +56,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     templates: any;
     templateContext: any;
     loading: boolean;
-    decimalSeparator: string;
-    constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, fieldInteractionApi: FieldInteractionApi, templateService: NovoTemplateService, changeDetectorRef: ChangeDetectorRef, locale?: string);
+    constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, fieldInteractionApi: FieldInteractionApi, templateService: NovoTemplateService, changeDetectorRef: ChangeDetectorRef);
     readonly maxlengthMetField: string;
     readonly maxlengthErrorField: string;
     readonly showFieldMessage: boolean;
@@ -68,7 +66,6 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     ngAfterViewInit(): void;
     ngAfterContentInit(): void;
     ngOnInit(): void;
-    getDecimalSeparator(): string;
     ngOnDestroy(): void;
     readonly errors: any;
     readonly isValid: any;
@@ -79,7 +76,6 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     readonly tooltipPosition: any;
     readonly tooltipSize: any;
     readonly tooltipPreline: any;
-    readonly removeTooltipArrow: any;
     readonly alwaysActive: boolean;
     readonly requiresExtraSpacing: boolean;
     executeInteraction(interaction: any): void;
@@ -91,8 +87,6 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     checkMaxLength(event: any): void;
     modelChangeWithRaw(event: any): void;
     modelChange(value: any): void;
-    validateNumberOnBlur(event: FocusEvent): void;
-    validateIntegerInput(): void;
     restrictKeys(event: any): void;
     handlePercentChange(event: KeyboardEvent): void;
     handleTabForPickers(event: any): void;

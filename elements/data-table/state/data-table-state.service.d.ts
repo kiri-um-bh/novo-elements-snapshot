@@ -7,7 +7,6 @@ export declare class DataTableState<T> {
     sortFilterSource: Subject<{}>;
     resetSource: Subject<{}>;
     expandSource: Subject<{}>;
-    dataLoaded: Subject<{}>;
     sort: {
         id: string;
         value: string;

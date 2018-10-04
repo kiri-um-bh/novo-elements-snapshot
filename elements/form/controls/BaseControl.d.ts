@@ -41,7 +41,6 @@ export interface NovoControlConfig {
     closeOnSelect?: boolean;
     interactions?: Array<Object>;
     dataSpecialization?: string;
-    dataType?: string;
     appendToBody?: boolean;
     parentScrollSelector?: string;
     description?: string;
@@ -49,8 +48,6 @@ export interface NovoControlConfig {
     tooltipPosition?: string;
     tooltipSize?: string;
     tooltipPreline?: boolean;
-    removeTooltipArrow?: boolean;
-    tooltipAutoPosition?: boolean;
     layoutOptions?: {
         order?: string;
         download?: boolean;
@@ -114,7 +111,6 @@ export declare class BaseControl {
     closeOnSelect: boolean;
     interactions: Array<Object>;
     dataSpecialization: string;
-    dataType: string;
     appendToBody: boolean;
     parentScrollSelector: string;
     description?: string;
@@ -122,8 +118,6 @@ export declare class BaseControl {
     tooltipPosition?: string;
     tooltipSize?: string;
     tooltipPreline?: boolean;
-    removeTooltipArrow?: boolean;
-    tooltipAutoPosition?: boolean;
     layoutOptions?: {
         order?: string;
         download?: boolean;
