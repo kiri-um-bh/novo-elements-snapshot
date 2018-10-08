@@ -39202,6 +39202,7 @@ var NovoValueElement = /** @class */ (function () {
                 case 'Opportunity':
                 case 'JobOrder':
                 case 'Placement':
+                case 'Person':
                     this.type = NOVO_VALUE_TYPE.INTERNAL_LINK;
                     break;
                 default:
