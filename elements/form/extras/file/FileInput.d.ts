@@ -16,6 +16,7 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
     layoutOptions: {
         order?: string;
         download?: boolean;
+        removable?: boolean;
         edit?: boolean;
         labelStyle?: string;
         draggable?: boolean;

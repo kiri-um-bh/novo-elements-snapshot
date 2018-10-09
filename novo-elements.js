@@ -36796,7 +36796,7 @@ const FILE_VALUE_ACCESSOR = {
     useExisting: forwardRef(() => NovoFileInputElement),
     multi: true
 };
-const LAYOUT_DEFAULTS$1 = { order: 'default', download: true, labelStyle: 'default', draggable: false };
+const LAYOUT_DEFAULTS$1 = { order: 'default', download: true, removable: true, labelStyle: 'default', draggable: false };
 class NovoFileInputElement {
     /**
      * @param {?} element
@@ -37080,7 +37080,7 @@ NovoFileInputElement.decorators = [
                   <div class="actions" [attr.data-automation-id]="'file-actions'" *ngIf="file.loaded">
                     <div *ngIf="!layoutOptions.customActions">
                       <button *ngIf="layoutOptions.download" type="button" theme="icon" icon="save" (click)="download(file)" [attr.data-automation-id]="'file-download'" tabindex="-1"></button>
-                      <button *ngIf="!disabled" type="button" theme="icon" icon="close" (click)="remove(file)" [attr.data-automation-id]="'file-remove'" tabindex="-1"></button>
+                      <button *ngIf="!disabled && layoutOptions.removable" type="button" theme="icon" icon="close" (click)="remove(file)" [attr.data-automation-id]="'file-remove'" tabindex="-1"></button>
                     </div>
                     <div *ngIf="layoutOptions.customActions">
                       <button *ngIf="layoutOptions.edit && !disabled" type="button" theme="icon" icon="edit" (click)="customEdit(file)" [attr.data-automation-id]="'file-edit'" tabindex="-1"></button>
