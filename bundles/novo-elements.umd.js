@@ -49445,7 +49445,7 @@ var Security = /** @class */ (function () {
      * @return {?}
      */
     Security.prototype.has = function (value) {
-        return this.credentials.indexOf(value) > -1;
+        return value.startsWith('InvoiceTermVersion.') || this.credentials.indexOf(value) > -1;
     };
     /**
      * @param {?} value
