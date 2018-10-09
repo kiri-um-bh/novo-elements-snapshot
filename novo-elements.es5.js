@@ -39123,6 +39123,37 @@ var NovoValueElement = /** @class */ (function () {
         this.NOVO_VALUE_TYPE = NOVO_VALUE_TYPE;
         this.NOVO_VALUE_THEME = NOVO_VALUE_THEME;
         this.customClass = '';
+        this.ENTITY_SHORT_NAMES = {
+            Lead: 'lead',
+            ClientContact: 'contact',
+            ClientContact1: 'contact',
+            ClientContact2: 'contact',
+            ClientContact3: 'contact',
+            ClientContact4: 'contact',
+            ClientContact5: 'contact',
+            ClientCorporation: 'company',
+            ClientCorporation1: 'company',
+            ClientCorporation2: 'company',
+            ClientCorporation3: 'company',
+            ClientCorporation4: 'company',
+            ClientCorporation5: 'company',
+            Opportunity: 'opportunity',
+            Task: 'task',
+            Note: 'note',
+            CorporateUser: 'user',
+            Candidate: 'candidate',
+            JobOrder: 'job',
+            JobOrder1: 'job',
+            JobOrder2: 'job',
+            JobOrder3: 'job',
+            JobOrder4: 'job',
+            JobOrder5: 'job',
+            Placement: 'placement',
+            JobSubmission: 'submission',
+            CandidateReference: 'references',
+            DistributionList: 'distributionList',
+            Appointment: 'appointment',
+        };
     }
     /**
      * @return {?}
@@ -39271,12 +39302,18 @@ var NovoValueElement = /** @class */ (function () {
     NovoValueElement.prototype.isHTMLField = function (meta) {
         return meta.dataSpecialization === 'HTML' || meta.inputType === 'TEXTAREA';
     };
+    /**
+     * @return {?}
+     */
+    NovoValueElement.prototype.getPersonClass = function () {
+        return this.ENTITY_SHORT_NAMES[this.data.personSubtype];
+    };
     return NovoValueElement;
 }());
 NovoValueElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-value',
-                template: "\n        <ng-container [ngSwitch]=\"type\">\n            <div class=\"value-outer\" *ngIf=\"showLabel\">\n                <label>{{ meta.label }}</label>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" class=\"value\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n                <novo-entity-list *ngSwitchCase=\"NOVO_VALUE_TYPE.ENTITY_LIST\" [data]='data' [meta]=\"meta\"></novo-entity-list>\n            </div>\n            <div *ngSwitchDefault class=\"value-outer\" [ngClass]=\"customClass\">\n                <label>{{ meta.label }}</label>\n                <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n            </div>\n            <div class=\"actions\" *ngIf=\"showIcon\">\n                <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n            </div>\n        </ng-container>\n    ",
+                template: "\n        <ng-container [ngSwitch]=\"type\">\n            <div class=\"value-outer\" *ngIf=\"showLabel\">\n              <label>{{ meta.label }}</label>\n              <span class=\"value\">\n                <i *ngIf=\"meta.showPersonIcon\" class=\"bhi-circle this.getPersonClass()\"></i>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n              </span>\n              <novo-entity-list *ngSwitchCase=\"NOVO_VALUE_TYPE.ENTITY_LIST\" [data]='data' [meta]=\"meta\"></novo-entity-list>\n            </div>\n            <div *ngSwitchDefault class=\"value-outer\" [ngClass]=\"customClass\">\n              <label>{{ meta.label }}</label>\n              <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n            </div>\n            <div class=\"actions\" *ngIf=\"showIcon\">\n              <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n            </div>\n        </ng-container>\n    ",
             },] },
 ];
 /**
