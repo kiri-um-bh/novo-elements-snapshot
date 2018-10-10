@@ -40340,7 +40340,7 @@ class NovoValueElement {
         else if (this.isHTMLField(this.meta)) {
             this.customClass = this.meta.customClass ? this.meta.customClass : '';
             if (this.meta.stripHTML && this.data && this.data.replace) {
-                this.data = this.data.replace(/<(?!style|\/style).+?>/gi, '');
+                this.data = this.data.replace(/<(?!style|\/style).+?>/gi, '').trim();
             }
         }
         else if (this.meta && this.meta.associatedEntity) {
