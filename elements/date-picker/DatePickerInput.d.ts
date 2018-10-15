@@ -46,9 +46,9 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     registerOnTouched(fn: () => {}): void;
     setDisabledState(disabled: boolean): void;
     dispatchOnChange(newValue?: any, blur?: boolean, skip?: boolean): void;
-    private _setTriggerValue(value);
-    private _setCalendarValue(value);
-    private _setFormValue(value);
+    private _setTriggerValue;
+    private _setCalendarValue;
+    private _setFormValue;
     /**
      * This method closes the panel, and if a value is specified, also sets the associated
      * control to that value. It will also mark the control as dirty if this interaction

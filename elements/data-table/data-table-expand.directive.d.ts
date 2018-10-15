@@ -11,6 +11,6 @@ export declare class NovoDataTableExpandDirective<T> implements OnDestroy {
     constructor(vcRef: ViewContainerRef, state: DataTableState<T>, dataTable: NovoDataTable<T>);
     ngOnDestroy(): void;
     onClick(event: MouseEvent): void;
-    private clear();
-    private render();
+    private clear;
+    private render;
 }

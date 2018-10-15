@@ -17,13 +17,11 @@ export declare class NovoDragulaService {
      * @name add
      * @param name
      * @param drake
-     * @returns {*}
      */
     add(name: any, drake: any): any;
     /**
      * @name find
      * @param name
-     * @returns {*}
      */
     find(name: any): any;
     /**
@@ -52,7 +50,6 @@ export declare class NovoDragulaService {
      * @name domIndexOf
      * @param child
      * @param parent
-     * @returns {*}
      */
     domIndexOf(child: any, parent: any): any;
 }

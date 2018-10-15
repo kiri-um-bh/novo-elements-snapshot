@@ -1,9 +1,7 @@
-@import "../../styles/global/variables";
-@import "../../styles/global/functions";
-
+@import '../../styles/global/variables';
+@import '../../styles/global/functions';
 
 @mixin novo-expansion-panel-theme() {
-
   .novo-expansion-panel {
     background: $white;
     color: $dark;
@@ -45,7 +43,7 @@
   .novo-expansion-panel.novo-expanded {
     @each $basic, $color in $all-colors {
       &[theme='#{$basic}'] {
-          border-top: 3px solid $color;  
+        border-top: 3px solid $color;
       }
     }
   }

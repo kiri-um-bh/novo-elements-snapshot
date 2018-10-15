@@ -64,7 +64,7 @@ export declare class NovoSimpleCheckboxCell extends _NovoCell implements OnDestr
 export declare class NovoSimpleActionCell<T> extends _NovoCell implements OnInit {
     private elementRef;
     private renderer;
-    private labels;
+    labels: NovoLabelService;
     role: string;
     row: T;
     column: SimpleTableActionColumn<T>;

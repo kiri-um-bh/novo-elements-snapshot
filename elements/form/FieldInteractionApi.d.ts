@@ -1,5 +1,4 @@
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/operator/map';
 import { NovoFormControl } from './NovoFormControl';
 import { FormUtils } from '../../utils/form-utils/FormUtils';
 import { NovoToastService } from '../toast/ToastService';
@@ -118,5 +117,5 @@ export declare class FieldInteractionApi {
     addControl(key: string, metaForNewField: any, position?: string, initialValue?: any): void;
     removeControl(key: string): void;
     debounce(func: () => void, wait?: number): void;
-    private triggerEvent(event);
+    private triggerEvent;
 }
