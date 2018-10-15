@@ -49299,7 +49299,7 @@ NovoExpansionPanel.decorators = [
     .novo-expansion-panel.novo-expanded[theme='user'] {
       border-top: 3px solid #4f5361; }
 
-    .novo-expansion-panel.novo-expanded[theme='corporateuser'] {
+    .novo-expansion-panel.novo-expanded[theme='corporateUser'] {
       border-top: 3px solid #4f5361; }
 
     .novo-expansion-panel.novo-expanded[theme='aqua'] {
