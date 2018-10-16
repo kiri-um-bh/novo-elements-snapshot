@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, ElementRef, OnDestroy } from '@angular/core';
-import 'rxjs/add/operator/filter';
 import { NovoExpansionPanel } from './expansion-panel';
 /**
  * `<novo-expansion-panel-header>`

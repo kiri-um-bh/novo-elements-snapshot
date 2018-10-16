@@ -1,8 +1,7 @@
 import { ElementRef, ChangeDetectorRef } from '@angular/core';
 import { BasePickerResults } from '../base-picker-results/BasePickerResults';
 import { NovoLabelService } from '../../../../services/novo-label-service';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromPromise';
+import { Observable } from 'rxjs';
 /**
  * @name: ChecklistPickerResults
  *
@@ -12,7 +11,7 @@ export declare class ChecklistPickerResults extends BasePickerResults {
     labels: NovoLabelService;
     filteredMatches: any;
     constructor(element: ElementRef, labels: NovoLabelService, ref: ChangeDetectorRef);
-    search(): Observable<{}>;
+    search(): Observable<any>;
     /**
      * @name filterData=
      * @param matches - Collection of objects=

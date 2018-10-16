@@ -51,7 +51,7 @@ export declare class NovoSelectElement implements OnInit, OnChanges, OnDestroy, 
     onKeyDown(event: KeyboardEvent): void;
     scrollToSelected(): void;
     scrollToIndex(index: number): void;
-    toggleHeader(event: any, forceValue: any): void;
+    toggleHeader(event: any, forceValue?: boolean): void;
     highlight(match: any, query: any): any;
     escapeRegexp(queryToEscape: any): any;
     saveHeader(): void;

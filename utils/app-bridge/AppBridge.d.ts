@@ -1,5 +1,4 @@
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/operator/toPromise';
 export declare enum AppBridgeHandler {
     HTTP = 0,
     OPEN = 1,
@@ -10,7 +9,7 @@ export declare enum AppBridgeHandler {
     REGISTER = 6,
     UPDATE = 7,
     REQUEST_DATA = 8,
-    CALLBACK = 9,
+    CALLBACK = 9
 }
 export declare type NovoApps = 'record' | 'add' | 'fast-add' | 'custom';
 export interface IAppBridgeOpenEvent {
@@ -50,7 +49,7 @@ export declare class AppBridge {
     constructor(traceName?: string);
     tracing: boolean;
     handle(type: AppBridgeHandler, handler: Function): void;
-    private _trace(eventType, event);
+    private _trace;
     protected _setupHandlers(): void;
     /**
      * Fires or responds to an open event
@@ -174,5 +173,5 @@ export declare class DevAppBridge extends AppBridge {
      * @param packet any - packet of data to send with the event
      */
     httpDELETE(relativeURL: string): Promise<any>;
-    private getCookie(cname);
+    private getCookie;
 }

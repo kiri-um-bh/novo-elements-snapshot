@@ -39,7 +39,7 @@ export declare class NovoTimePickerInputElement implements OnInit, ControlValueA
     registerOnTouched(fn: () => {}): void;
     setDisabledState(disabled: boolean): void;
     dispatchOnChange(newValue?: any, skip?: boolean): void;
-    private _setTriggerValue(value);
+    private _setTriggerValue;
     setValue(event: any | null): void;
     setValueAndClose(event: any | null): void;
     /**

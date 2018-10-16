@@ -14,7 +14,7 @@ import { NovoTemplateService } from './services/template/NovoTemplateService';
 export declare class NovoElementProviders {
     static forRoot(): {
         ngModule: typeof NovoElementProviders;
-        providers: (typeof DateFormatService | typeof NovoTemplateService | typeof FieldInteractionApi | typeof Security | {
+        providers: (typeof DateFormatService | typeof FieldInteractionApi | typeof NovoTemplateService | typeof Security | {
             provide: typeof NovoDragulaService;
             useClass: typeof NovoDragulaService;
         } | {

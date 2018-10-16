@@ -34,7 +34,7 @@ export declare class NovoDropdownElement implements OnInit, OnDestroy {
     /** END: Convenient Panel Methods. */
     onKeyDown(event: KeyboardEvent): void;
     onOverlayKeyDown(event: KeyboardEvent): void;
-    private scrollToActive();
+    private scrollToActive;
 }
 export declare class NovoItemElement {
     private dropdown;

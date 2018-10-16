@@ -2,7 +2,6 @@ import { ChangeDetectorRef, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NovoLabelService } from '../../services/novo-label-service';
 /**
- * @class RenderPipe
  * @classdesc
  * Renders data appropriately based on the data type found in Meta
  * All data types defined by bullhorn should be supported:
@@ -44,7 +43,7 @@ export declare class RenderPipe implements PipeTransform {
      * @name fields
      * @memberOf Entity#
      * @param value
-     * @param {args} args - fields can either be sent as a list of arguments or as an Array
+     * @param args - fields can either be sent as a list of arguments or as an Array
      * @return text
      */
     render(value: any, args: any): any;
@@ -53,24 +52,21 @@ export declare class RenderPipe implements PipeTransform {
     /**
      * Simple function concat a list of fields from a list of objects
      * @name options
-     * @param {Array} list - the list of values to use
-     * @param {Array} fields - list of fields to extract
-     * @return {String}
+     * @param list - the list of values to use
+     * @param fields - list of fields to extract
      */
     concat(list: any, ...fields: any[]): any;
     /**
      * Simple function to look up the **label** to display from options
      * @name options
-     * @param {Object} value - the value to find
-     * @param {Array} list - list of options (label/value pairs)
-     * @return {String}
+     * @param value - the value to find
+     * @param list - list of options (label/value pairs)
      */
     options(value: any, list: any): any;
     getNumberDecimalPlaces(value: any): any;
     /**
      * Capitalizes the first letter
-     * @param string
-     * @returns {string}
+     * @param value
      */
     capitalize(value: any): string;
 }

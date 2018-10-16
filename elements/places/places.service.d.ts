@@ -17,6 +17,6 @@ export declare class GooglePlacesService {
     getGeoPaceDetailByReferance(referance: string): Promise<any>;
     addRecentList(localStorageName: string, result: any, itemSavedLength: number): any;
     getRecentList(localStorageName: string): Promise<any>;
-    private getUniqueResults(arr);
-    private geoPredictionCall(placesService, queryInput);
+    private getUniqueResults;
+    private geoPredictionCall;
 }

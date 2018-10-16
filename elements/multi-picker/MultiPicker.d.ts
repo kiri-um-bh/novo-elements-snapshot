@@ -1,6 +1,6 @@
 import { OnInit, EventEmitter, ElementRef } from '@angular/core';
 import { NovoLabelService } from '../../services/novo-label-service';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { ReplaySubject } from 'rxjs';
 export declare class NovoMultiPickerElement implements OnInit {
     element: ElementRef;
     labels: NovoLabelService;

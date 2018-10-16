@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, EventEmitter, OnChanges, OnDestroy, OnInit, TemplateRef } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject, Subscription } from 'rxjs';
 import { CalendarEvent, CalendarEventTimesChangedEvent, DayViewHour, WeekDay, WeekViewEventRow } from '../../../utils/calendar-utils/CalendarUtils';
 /**
  * Shows all events on a given week. Example usage:
@@ -150,8 +149,8 @@ export declare class NovoCalendarWeekViewElement implements OnChanges, OnInit, O
      */
     ngOnDestroy(): void;
     getDayColumnWidth(eventRowContainer: HTMLElement): number;
-    private refreshHeader();
-    private refreshBody();
-    private refreshHourGrid();
-    private refreshAll();
+    private refreshHeader;
+    private refreshBody;
+    private refreshHourGrid;
+    private refreshAll;
 }

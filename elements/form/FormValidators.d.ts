@@ -1,16 +1,16 @@
 export declare class FormValidators {
-    private showStateRequiredFlag(subfield, control);
+    private showStateRequiredFlag;
     static maxInteger(control: any): {
-        'integerTooLarge': boolean;
+        integerTooLarge: boolean;
     };
     static minYear(control: any): {
-        'minYear': boolean;
+        minYear: boolean;
     };
     static maxDouble(control: any): {
-        'doubleTooLarge': boolean;
+        doubleTooLarge: boolean;
     };
     static isEmail(control: any): {
-        'invalidEmail': boolean;
+        invalidEmail: boolean;
     };
     static isValidAddress(control: any): {
         invalidAddress?: boolean;

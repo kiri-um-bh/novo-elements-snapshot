@@ -58,6 +58,6 @@ export declare class NovoAddressElement implements ControlValueAccessor, OnInit 
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
-    private getDefaultStateConfig();
-    private getDefaultCountryConfig();
+    private getDefaultStateConfig;
+    private getDefaultCountryConfig;
 }

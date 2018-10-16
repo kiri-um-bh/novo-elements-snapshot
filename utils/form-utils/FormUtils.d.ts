@@ -15,13 +15,11 @@ export declare class FormUtils {
     /**
      * @name toFormGroupFromFieldset
      * @param fieldsets
-     * @returns {NovoFormGroup}
      */
     toFormGroupFromFieldset(fieldsets: Array<NovoFieldset>): NovoFormGroup;
     /**
      * @name determineInputType
      * @param field
-     * @returns {string}
      */
     determineInputType(field: {
         dataSpecialization: string;
