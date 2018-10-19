@@ -48,6 +48,6 @@ export declare class NovoSimpleCellHeader implements NovoSimpleSortFilter, OnIni
     toggleCustomRange(event: Event, value: boolean): void;
     filterData(filter?: any): void;
     clearFilter(): void;
-    private getNextSortDirection;
-    private getDefaultDateFilterOptions;
+    private getNextSortDirection(direction);
+    private getDefaultDateFilterOptions();
 }
