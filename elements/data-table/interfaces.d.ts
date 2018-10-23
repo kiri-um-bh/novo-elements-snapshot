@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 export interface IDataTablePreferences {
     name: string;
     pageSize?: number;
@@ -16,10 +16,7 @@ export interface IDataTableColumn<T> {
     cellClass?: (row: T) => string;
     disabledFunc?: (row: T) => boolean;
     handlers?: {
-        click?({ originalEvent: MouseEvent, row: T }: {
-            originalEvent: any;
-            row: any;
-        }): void;
+        click?({originalEvent: MouseEvent, row: T}): void;
     };
     width?: number;
     sortable?: boolean | IDataTableColumnSortConfig;
@@ -30,10 +27,7 @@ export interface IDataTableColumn<T> {
         options?: {
             label: string;
             handlers: {
-                click({ originalEvent: MouseEvent, row: T }: {
-                    originalEvent: any;
-                    row: any;
-                }): void;
+                click({originalEvent: MouseEvent, row: T}): void;
             };
             disabled?: boolean;
             disabledFunc?: (row: T) => boolean;

@@ -63,7 +63,6 @@ export interface NovoControlConfig {
     };
     template?: any;
     customControlConfig?: any;
-    customControl?: any;
     military?: boolean;
     dateFormat?: string;
     textMaskEnabled?: boolean;

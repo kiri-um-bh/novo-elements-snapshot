@@ -1,4 +1,5 @@
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { IDataTableService } from '../interfaces';
 export declare class StaticDataTableService<T> implements IDataTableService<T> {
     private currentData;
