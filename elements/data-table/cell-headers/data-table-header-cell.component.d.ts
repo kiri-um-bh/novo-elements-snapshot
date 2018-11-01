@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, OnDestroy, OnInit, ElementRef } from '@angular/core';
+import { ChangeDetectorRef, OnDestroy, OnInit, ElementRef, Renderer2, EventEmitter } from '@angular/core';
 import { CdkColumnDef } from '@angular/cdk/table';
 import { IDataTableSortFilter, IDataTableColumn, IDataTableColumnFilterConfig } from '../interfaces';
 import { NovoDataTableSortFilter } from '../sort-filter/sort-filter.directive';
@@ -9,6 +9,8 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
     private changeDetectorRef;
     labels: NovoLabelService;
     private state;
+    private renderer;
+    private elementRef;
     _sort: NovoDataTableSortFilter<T>;
     _cdkColumnDef: CdkColumnDef;
     filterInput: ElementRef;
@@ -17,6 +19,7 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
         id: string;
         value: string;
     };
+    resized: EventEmitter<IDataTableColumn<T>>;
     column: IDataTableColumn<T>;
     private _rerenderSubscription;
     private changeTimeout;
@@ -33,15 +36,19 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
     config: {
         sortable: boolean;
         filterable: boolean;
+        resizable: boolean;
         transforms?: {
             filter?: Function;
             sort?: Function;
         };
         filterConfig?: IDataTableColumnFilterConfig;
     };
-    constructor(changeDetectorRef: ChangeDetectorRef, labels: NovoLabelService, state: DataTableState<T>, _sort: NovoDataTableSortFilter<T>, _cdkColumnDef: CdkColumnDef);
+    private subscriptions;
+    private _column;
+    constructor(changeDetectorRef: ChangeDetectorRef, labels: NovoLabelService, state: DataTableState<T>, renderer: Renderer2, elementRef: ElementRef, _sort: NovoDataTableSortFilter<T>, _cdkColumnDef: CdkColumnDef);
     ngOnInit(): void;
     ngOnDestroy(): void;
+    startResize(mouseDownEvent: MouseEvent): void;
     toggleCustomRange(event: Event, value: boolean): void;
     focusInput(): void;
     sort(): void;
