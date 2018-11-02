@@ -20,6 +20,7 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
         value: string;
     };
     resized: EventEmitter<IDataTableColumn<T>>;
+    resizable: boolean;
     column: IDataTableColumn<T>;
     private _rerenderSubscription;
     private changeTimeout;
