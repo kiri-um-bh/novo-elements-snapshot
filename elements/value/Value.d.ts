@@ -13,7 +13,7 @@ export declare class NovoValueElement implements OnInit, OnChanges {
     data: any;
     meta: any;
     theme: NOVO_VALUE_THEME;
-    private _type;
+    _type: NOVO_VALUE_TYPE;
     NOVO_VALUE_TYPE: typeof NOVO_VALUE_TYPE;
     NOVO_VALUE_THEME: typeof NOVO_VALUE_THEME;
     url: string;
