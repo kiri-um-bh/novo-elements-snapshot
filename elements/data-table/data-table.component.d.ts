@@ -74,6 +74,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     selectRow(row: T): void;
     selectRows(selected: boolean): void;
     allCurrentRowsSelected(): boolean;
+    private configureLastDisplayedColumn;
     private configureColumns;
     private scrollListener;
 }

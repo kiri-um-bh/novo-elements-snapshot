@@ -43,6 +43,10 @@ export interface IDataTableColumn<T> {
     attributes?: {
         [key: string]: any;
     };
+    initialResizable?: {
+        resizable: boolean;
+        width: number;
+    };
 }
 export interface IDataTablePaginationOptions {
     theme: 'basic' | 'standard' | 'basic-wide';
