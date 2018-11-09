@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 export interface IDataTablePreferences {
     name: string;
     pageSize?: number;
@@ -16,25 +16,18 @@ export interface IDataTableColumn<T> {
     cellClass?: (row: T) => string;
     disabledFunc?: (row: T) => boolean;
     handlers?: {
-        click?({ originalEvent: MouseEvent, row: T }: {
-            originalEvent: any;
-            row: any;
-        }): void;
+        click?({originalEvent: MouseEvent, row: T}): void;
     };
     width?: number;
     sortable?: boolean | IDataTableColumnSortConfig;
     filterable?: boolean | IDataTableColumnFilterConfig;
-    resizable?: boolean;
     action?: {
         icon?: string;
         tooltip?: string;
         options?: {
             label: string;
             handlers: {
-                click({ originalEvent: MouseEvent, row: T }: {
-                    originalEvent: any;
-                    row: any;
-                }): void;
+                click({originalEvent: MouseEvent, row: T}): void;
             };
             disabled?: boolean;
             disabledFunc?: (row: T) => boolean;
@@ -42,10 +35,6 @@ export interface IDataTableColumn<T> {
     };
     attributes?: {
         [key: string]: any;
-    };
-    initialResizable?: {
-        resizable: boolean;
-        width: number;
     };
 }
 export interface IDataTablePaginationOptions {

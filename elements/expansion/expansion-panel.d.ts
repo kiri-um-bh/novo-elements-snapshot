@@ -3,7 +3,7 @@ import { CdkAccordionItem } from '@angular/cdk/accordion';
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { AfterContentInit, ChangeDetectorRef, EventEmitter, OnChanges, OnDestroy, SimpleChanges, ViewContainerRef } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
 import { NovoAccordion } from './accordion';
 import { NovoExpansionPanelContent } from './expansion-panel-content';
 /** NovoExpansionPanel's states. */
