@@ -23,8 +23,6 @@ export interface NovoAddressConfig {
 export declare class NovoAddressElement implements ControlValueAccessor, OnInit {
     labels: NovoLabelService;
     config: NovoAddressConfig;
-    private _readOnly;
-    readOnly: boolean;
     states: Array<any>;
     countries: Array<any>;
     fieldList: Array<string>;
