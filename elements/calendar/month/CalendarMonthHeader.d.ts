@@ -9,6 +9,6 @@ export declare class NovoCalendarMonthHeaderElement {
      * Called when the view date is changed
      */
     viewDateChange: EventEmitter<Date>;
-    prevMonth(event: Event): void;
-    nextMonth(event: Event): void;
+    prevMonth(): void;
+    nextMonth(): void;
 }

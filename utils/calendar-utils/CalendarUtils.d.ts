@@ -1,7 +1,7 @@
 export declare enum CalendarEventResponse {
     Maybe = 0,
     Accepted = 1,
-    Rejected = 2
+    Rejected = 2,
 }
 export interface CalendarEventTimesChangedEvent {
     event: CalendarEvent;
@@ -22,7 +22,7 @@ export interface EventColor {
 export interface EventAction {
     label: string;
     cssClass?: string;
-    onClick({ event }: {
+    onClick({event}: {
         event: CalendarEvent;
     }): any;
 }
@@ -115,17 +115,17 @@ export interface GetDayViewArgs {
     eventWidth: number;
     segmentHeight: number;
 }
-export declare function getWeekViewEventOffset({ event, startOfWeek, excluded, }: {
+export declare function getWeekViewEventOffset({event, startOfWeek, excluded}: {
     event: CalendarEvent;
     startOfWeek: Date;
     excluded?: number[];
 }): number;
-export declare function getWeekViewHeader({ viewDate, weekStartsOn, excluded, }: {
+export declare function getWeekViewHeader({viewDate, weekStartsOn, excluded}: {
     viewDate: Date;
     weekStartsOn: number;
     excluded?: number[];
 }): WeekDay[];
-export declare function getWeekView({ events, viewDate, weekStartsOn, excluded, hourSegments, segmentHeight, dayStart, dayEnd, }: {
+export declare function getWeekView({events, viewDate, weekStartsOn, excluded, hourSegments, segmentHeight, dayStart, dayEnd}: {
     events?: CalendarEvent[];
     viewDate: Date;
     weekStartsOn: number;
@@ -135,14 +135,14 @@ export declare function getWeekView({ events, viewDate, weekStartsOn, excluded, 
     dayStart: any;
     dayEnd: any;
 }): WeekViewEventRow[];
-export declare function getMonthView({ events, viewDate, weekStartsOn, excluded, }: {
+export declare function getMonthView({events, viewDate, weekStartsOn, excluded}: {
     events?: CalendarEvent[];
     viewDate: Date;
     weekStartsOn: number;
     excluded?: number[];
 }): MonthView;
-export declare function getDayView({ events, viewDate, hourSegments, dayStart, dayEnd, eventWidth, segmentHeight }: GetDayViewArgs): DayView;
-export declare function getDayViewHourGrid({ viewDate, hourSegments, dayStart, dayEnd, }: {
+export declare function getDayView({events, viewDate, hourSegments, dayStart, dayEnd, eventWidth, segmentHeight}: GetDayViewArgs): DayView;
+export declare function getDayViewHourGrid({viewDate, hourSegments, dayStart, dayEnd}: {
     viewDate: Date;
     hourSegments: number;
     dayStart: any;

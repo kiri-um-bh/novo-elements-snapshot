@@ -37,6 +37,6 @@ export declare class GroupedMultiPickerResults extends BasePickerResults impleme
         value: string;
         label: string;
     }[];
-    private getNewMatches;
-    private filter;
+    private getNewMatches(category, key);
+    private filter(array, ignoreCustomFilter?);
 }
