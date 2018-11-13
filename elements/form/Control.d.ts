@@ -65,6 +65,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     readonly showMaxLengthMetMessage: boolean;
     readonly showErrorState: any;
     showCount: boolean;
+    readonly showMessages: boolean;
     ngAfterViewInit(): void;
     ngAfterContentInit(): void;
     ngOnInit(): void;
