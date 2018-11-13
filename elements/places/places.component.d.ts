@@ -57,15 +57,15 @@ export declare class PlacesListComponent implements OnInit, OnChanges {
     closeAutocomplete(event: any): any;
     userQuerySubmit(selectedOption?: any): any;
     currentLocationSelected(): any;
-    private moduleInit;
-    private processSearchQuery;
-    private setUserSettings;
-    private getListQuery;
-    private extractServerList;
-    private updateListItem;
-    private showRecentSearch;
-    private getCurrentLocationInfo;
-    private getPlaceLocationInfo;
-    private setRecentLocation;
-    private getRecentLocations;
+    private moduleInit();
+    private processSearchQuery();
+    private setUserSettings();
+    private getListQuery(value);
+    private extractServerList(arrayList, data);
+    private updateListItem(listData);
+    private showRecentSearch();
+    private getCurrentLocationInfo(latlng);
+    private getPlaceLocationInfo(selectedData);
+    private setRecentLocation(data);
+    private getRecentLocations();
 }

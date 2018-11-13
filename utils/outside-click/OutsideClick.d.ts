@@ -10,8 +10,8 @@ export declare class OutsideClick implements OnDestroy {
     onActiveChange: EventEmitter<boolean>;
     constructor(element: ElementRef);
     /**
-     * When the element is destroyed, make sure to remove the handler
-     */
+    * When the element is destroyed, make sure to remove the handler
+    */
     ngOnDestroy(): void;
     /**
      * Toggles the element as active and adds/removes the outside click handler
