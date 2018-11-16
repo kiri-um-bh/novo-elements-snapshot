@@ -63,7 +63,6 @@ export interface NovoControlConfig {
     };
     template?: any;
     customControlConfig?: any;
-    customControl?: any;
     military?: boolean;
     dateFormat?: string;
     textMaskEnabled?: boolean;
@@ -82,6 +81,7 @@ export interface NovoControlConfig {
     endDate?: Date | Number;
     restrictFieldInteractions?: boolean;
     warning?: string;
+    onClickAction?: Function;
 }
 export declare class BaseControl {
     __type: string;
@@ -155,5 +155,6 @@ export declare class BaseControl {
     endDate?: Date | Number;
     restrictFieldInteractions?: boolean;
     warning?: string;
+    onClickAction?: Function;
     constructor(type?: string, config?: NovoControlConfig);
 }

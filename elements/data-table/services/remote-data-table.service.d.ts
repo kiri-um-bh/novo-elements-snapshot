@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { IDataTableService } from '../interfaces';
 export declare abstract class RemoteDataTableService<T> implements IDataTableService<T> {
     abstract getTableResults(sort: {

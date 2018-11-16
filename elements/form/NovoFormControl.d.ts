@@ -65,6 +65,7 @@ export declare class NovoFormControl extends FormControl {
     restrictFieldInteractions?: boolean;
     warning?: string;
     private historyTimeout;
+    onClickAction?: Function;
     constructor(value: any, control: NovoControlConfig);
     /**
      * @name hide
@@ -90,7 +91,7 @@ export declare class NovoFormControl extends FormControl {
      * @param emitViewToModelChange
      *
      */
-    setValue(value: any, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange, }?: {
+    setValue(value: any, {onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange}?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
         emitModelToViewChange?: boolean;

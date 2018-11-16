@@ -61,7 +61,7 @@ $analytics-colors: (
   grapefruit: $grapefruit,
   carnation: $carnation,
   lavender: $lavender,
-  mountain: $mountain,
+  mountain: $mountain
 );
 // Entity Color Map
 $entity-colors: (
@@ -85,7 +85,7 @@ $entity-colors: (
   corporateuser: $neutral,
   contract: $contract,
   jobCode: $jobCode,
-  earnCode: $earnCode,
+  earnCode: $earnCode
 );
 // Generic Color Map
 $app-colors: (
@@ -101,7 +101,7 @@ $app-colors: (
   dark: $dark,
   light: $light,
   pulse: $pulse,
-  neutral: $neutral,
+  neutral: $neutral
 );
 // Loading Dot Color Map
 $dot-colors: (
@@ -109,7 +109,7 @@ $dot-colors: (
   lavender: $lavender,
   grapefruit: $grapefruit,
   sunflower: $sunflower,
-  mint: $mint,
+  mint: $mint
 );
 // Dark map
 $dark-colors: (
@@ -148,7 +148,7 @@ $dark-colors: (
   neutral: $neutral,
   navy: $navy,
   contract: $contact,
-  mountain: $mountain,
+  mountain: $mountain
 );
 // Light map
 $light-colors: (
@@ -158,7 +158,7 @@ $light-colors: (
   white: $white,
   grey: $grey,
   off-white: $off-white,
-  light: $light,
+  light: $light
 );
 // All colors
 $all-colors: map-merge($dark-colors, $light-colors);
@@ -201,7 +201,7 @@ $whiteframe-zindex-z5: 5 !default;
     'fab': 20,
     'default': 1,
     'below': -1,
-    'bottomless-pit': -9000,
+    'bottomless-pit': -9000
   );
   @if not map-has-key($z-layers, $layer) {
     @warn 'No layer found for `#{$layer}` in $z-layers map. Property omitted.';
@@ -213,18 +213,9 @@ $whiteframe-zindex-z5: 5 !default;
 // -------------------------
 // Usage: html-tag { @include ease('all', 'swift-ease-in-out'); }
 $easing-curves: (
-  'swift-ease-out': (
-    'duration': 400ms,
-    'curve': 'cubic-bezier(0.25, 0.8, 0.25, 1)',
-  ),
-  'swift-ease-in': (
-    'duration': 300ms,
-    'curve': 'cubic-bezier(0.55, 0, 0.55, 0.2)',
-  ),
-  'swift-ease-in-out': (
-    'duration': 500ms,
-    'curve': 'cubic-bezier(0.35, 0, 0.25, 1)',
-  ),
+  'swift-ease-out': ('duration': 400ms, 'curve': 'cubic-bezier(0.25, 0.8, 0.25, 1)'),
+  'swift-ease-in': ('duration': 300ms, 'curve': 'cubic-bezier(0.55, 0, 0.55, 0.2)'),
+  'swift-ease-in-out': ('duration': 500ms, 'curve': 'cubic-bezier(0.35, 0, 0.25, 1)')
 );
 @function map-deep-get($map, $keys...) {
   @each $key in $keys {
