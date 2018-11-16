@@ -24,7 +24,6 @@ export interface IDataTableColumn<T> {
     width?: number;
     sortable?: boolean | IDataTableColumnSortConfig;
     filterable?: boolean | IDataTableColumnFilterConfig;
-    resizable?: boolean;
     action?: {
         icon?: string;
         tooltip?: string;
@@ -42,10 +41,6 @@ export interface IDataTableColumn<T> {
     };
     attributes?: {
         [key: string]: any;
-    };
-    initialResizable?: {
-        resizable: boolean;
-        width: number;
     };
 }
 export interface IDataTablePaginationOptions {

@@ -64,12 +64,6 @@ cdk-table {
   }
 }
 
-.novo-data-table-header-row,
-.novo-data-table-header-cell {
-  position: relative;
-  z-index: 1;
-}
-
 .novo-data-table-row,
 .novo-data-table-header-row {
   display: flex;
@@ -92,24 +86,9 @@ cdk-table {
 }
 
 .novo-data-table-header-cell {
-  &.resizable {
-    padding-right: 0;
-    .data-table-header-resizable {
-      height: 100%;
-
-      span {
-        cursor: ew-resize;
-        width: 8px;
-        display: block;
-      }
-    }
-  }
   > div {
     > button {
       margin-right: 2px;
-    }
-    &.spacer {
-      flex-grow: 100;
     }
   }
 }

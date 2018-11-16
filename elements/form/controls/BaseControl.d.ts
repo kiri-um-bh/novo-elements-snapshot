@@ -42,6 +42,7 @@ export interface NovoControlConfig {
     interactions?: Array<Object>;
     dataSpecialization?: string;
     dataType?: string;
+    metaType?: string;
     appendToBody?: boolean;
     parentScrollSelector?: string;
     description?: string;
@@ -81,7 +82,6 @@ export interface NovoControlConfig {
     startDate?: Date | Number;
     endDate?: Date | Number;
     restrictFieldInteractions?: boolean;
-    warning?: string;
 }
 export declare class BaseControl {
     __type: string;
@@ -97,6 +97,7 @@ export declare class BaseControl {
     encrypted: boolean;
     sortOrder: number;
     controlType: string;
+    metaType: string;
     placeholder: string;
     config: any;
     dirty: boolean;
@@ -154,6 +155,5 @@ export declare class BaseControl {
     startDate?: Date | Number;
     endDate?: Date | Number;
     restrictFieldInteractions?: boolean;
-    warning?: string;
     constructor(type?: string, config?: NovoControlConfig);
 }
