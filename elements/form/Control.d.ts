@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, ElementRef, EventEmitter, OnInit, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectorRef, ElementRef, EventEmitter, OnInit, OnChanges, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { OutsideClick } from '../../utils/outside-click/OutsideClick';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { DateFormatService } from '../../services/date-format/DateFormat';
@@ -17,7 +17,7 @@ export declare class NovoAutoSize implements AfterContentInit {
     ngAfterContentInit(): void;
     adjust(): void;
 }
-export declare class NovoControlElement extends OutsideClick implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
+export declare class NovoControlElement extends OutsideClick implements OnInit, OnChanges, OnDestroy, AfterViewInit, AfterContentInit {
     labels: NovoLabelService;
     private dateFormatService;
     private fieldInteractionApi;
@@ -35,25 +35,25 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     upload: EventEmitter<any>;
     readonly onBlur: Observable<FocusEvent>;
     readonly onFocus: Observable<FocusEvent>;
-    maxLength: number;
-    focusedField: string;
-    formattedValue: string;
-    percentValue: number;
-    maxLengthMet: boolean;
-    characterCount: number;
-    maskOptions: IMaskOptions;
     private _blurEmitter;
     private _focusEmitter;
     private _focused;
     private _enteredText;
+    formattedValue: string;
+    percentValue: number;
+    maxLengthMet: boolean;
+    characterCount: number;
     private forceClearSubscription;
     private percentChangeSubscription;
     private valueChangeSubscription;
     private dateChangeSubscription;
     private _showCount;
+    private maxLength;
+    private focusedField;
     private characterCountField;
     private maxLengthMetErrorfields;
     private statusChangeSubscription;
+    maskOptions: IMaskOptions;
     templates: any;
     templateContext: any;
     loading: boolean;
@@ -63,12 +63,13 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     readonly maxlengthErrorField: string;
     readonly showFieldMessage: boolean;
     readonly showMaxLengthMetMessage: boolean;
+    readonly showMessages: boolean;
     readonly showErrorState: any;
     showCount: boolean;
-    readonly showMessages: boolean;
     ngAfterViewInit(): void;
     ngAfterContentInit(): void;
     ngOnInit(): void;
+    ngOnChanges(): void;
     getDecimalSeparator(): string;
     ngOnDestroy(): void;
     readonly errors: any;
@@ -85,7 +86,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     readonly requiresExtraSpacing: boolean;
     executeInteraction(interaction: any): void;
     handleTyping(event: any): void;
-    handleFocus(event: FocusEvent, field?: any): void;
+    handleFocus(event: FocusEvent, field: any): void;
     handleBlur(event: FocusEvent): void;
     clearValue(): void;
     handleTextAreaInput(event: any): void;

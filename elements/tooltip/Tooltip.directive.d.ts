@@ -27,8 +27,8 @@ export declare class TooltipDirective implements OnDestroy, OnInit {
     onMouseLeave(): void;
     ngOnInit(): void;
     ngOnDestroy(): void;
-    private show;
-    private hide;
-    private getPosition;
-    private withFallbackStrategy;
+    private show();
+    private hide();
+    private getPosition();
+    private withFallbackStrategy(strategy);
 }

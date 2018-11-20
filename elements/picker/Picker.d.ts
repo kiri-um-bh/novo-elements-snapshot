@@ -1,4 +1,7 @@
 import { ChangeDetectorRef, ElementRef, EventEmitter, OnInit, ViewContainerRef } from '@angular/core';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 /**
@@ -45,14 +48,14 @@ export declare class NovoPickerElement implements OnInit {
     onModelTouched: Function;
     constructor(element: ElementRef, componentUtils: ComponentUtils, ref: ChangeDetectorRef);
     ngOnInit(): void;
-    private onDebouncedKeyup;
+    private onDebouncedKeyup(event);
     /** BEGIN: Convenient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
     readonly panelOpen: boolean;
     /** END: Convenient Panel Methods. */
-    private show;
-    private hide;
+    private show(term?);
+    private hide();
     onKeyDown(event: KeyboardEvent): void;
     clearValue(wipeTerm: any): void;
     /**
