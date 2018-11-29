@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, OnDestroy, OnInit, ElementRef, Renderer2, EventEmitter } from '@angular/core';
+import { ChangeDetectorRef, OnDestroy, OnInit, ElementRef, Renderer2, EventEmitter, TemplateRef } from '@angular/core';
 import { CdkColumnDef } from '@angular/cdk/table';
 import { IDataTableSortFilter, IDataTableColumn, IDataTableColumnFilterConfig } from '../interfaces';
 import { NovoDataTableSortFilter } from '../sort-filter/sort-filter.directive';
@@ -20,6 +20,7 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
         value: string;
     };
     resized: EventEmitter<IDataTableColumn<T>>;
+    filterTemplate: TemplateRef<any>;
     resizable: boolean;
     column: IDataTableColumn<T>;
     private _rerenderSubscription;
