@@ -57,6 +57,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     templates: any;
     templateContext: any;
     loading: boolean;
+    decimalSeparator: string;
     constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, fieldInteractionApi: FieldInteractionApi, templateService: NovoTemplateService, changeDetectorRef: ChangeDetectorRef, locale?: string);
     readonly maxlengthMetField: string;
     readonly maxlengthErrorField: string;
@@ -65,10 +66,10 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     readonly showErrorState: any;
     showCount: boolean;
     readonly showMessages: boolean;
-    readonly decimalSeparator: string;
     ngAfterViewInit(): void;
     ngAfterContentInit(): void;
     ngOnInit(): void;
+    getDecimalSeparator(): string;
     ngOnDestroy(): void;
     readonly errors: any;
     readonly isValid: any;
