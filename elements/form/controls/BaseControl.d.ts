@@ -42,7 +42,6 @@ export interface NovoControlConfig {
     interactions?: Array<Object>;
     dataSpecialization?: string;
     dataType?: string;
-    metaType?: string;
     appendToBody?: boolean;
     parentScrollSelector?: string;
     description?: string;
@@ -98,7 +97,6 @@ export declare class BaseControl {
     encrypted: boolean;
     sortOrder: number;
     controlType: string;
-    metaType: string;
     placeholder: string;
     config: any;
     dirty: boolean;
