@@ -20,7 +20,7 @@ import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
-import { startOfDay, addDays, startOfToday, endOfToday, isValid, format, isDate, parse, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, subMonths, addMonths, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isAfter, isBefore, isSameDay, startOfWeek, endOfWeek, endOfDay, isToday, startOfTomorrow, addWeeks, differenceInDays, addMinutes, isSameSecond, startOfMinute, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours } from 'date-fns';
+import { startOfDay, addDays, startOfToday, endOfToday, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isDate, parse, subMonths, addMonths, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isAfter, isBefore, isSameDay, startOfWeek, endOfWeek, endOfDay, isToday, startOfTomorrow, addWeeks, differenceInDays, addMinutes, isSameSecond, startOfMinute, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { __extends, __values, __read, __spread, __assign } from 'tslib';
@@ -16432,6 +16432,7 @@ var BaseControl = /** @class */ (function () {
         this.encrypted = !!config.encrypted;
         this.sortOrder = config.sortOrder === undefined ? 1 : config.sortOrder;
         this.controlType = config.controlType || '';
+        this.metaType = config.metaType;
         this.placeholder = config.placeholder || '';
         this.config = config.config || null;
         this.dirty = !!config.value;
@@ -17195,7 +17196,7 @@ var FormUtils = /** @class */ (function () {
             'Person',
             'Placement',
         ];
-        this.PICKER_TEST_LIST = [
+        this.PICKER_TEXT_LIST = [
             'CandidateText',
             'ClientText',
             'ClientContactText',
@@ -17276,6 +17277,23 @@ var FormUtils = /** @class */ (function () {
         return this.toFormGroup(controls);
     };
     /**
+     * @name hasAssociatedEntity
+     * @param field
+     */
+    /**
+     * \@name hasAssociatedEntity
+     * @param {?} field
+     * @return {?}
+     */
+    FormUtils.prototype.hasAssociatedEntity = /**
+     * \@name hasAssociatedEntity
+     * @param {?} field
+     * @return {?}
+     */
+    function (field) {
+        return !!(field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity));
+    };
+    /**
      * @name determineInputType
      * @param field
      */
@@ -17333,15 +17351,25 @@ var FormUtils = /** @class */ (function () {
             Integer: 'number',
         };
         if (field.type === 'TO_MANY') {
-            if (field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity)) {
-                type = 'entitychips'; // TODO!
+            if (this.hasAssociatedEntity(field)) {
+                if (field.multiValue === false) {
+                    type = 'entitypicker';
+                }
+                else {
+                    type = 'entitychips';
+                }
             }
             else {
-                type = 'chips';
+                if (field.multiValue === false) {
+                    type = 'picker';
+                }
+                else {
+                    type = 'chips';
+                }
             }
         }
         else if (field.type === 'TO_ONE') {
-            if (field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity)) {
+            if (this.hasAssociatedEntity(field)) {
                 type = 'entitypicker'; // TODO!
             }
             else {
@@ -17349,7 +17377,7 @@ var FormUtils = /** @class */ (function () {
             }
         }
         else if (field.optionsUrl && field.inputType === 'SELECT') {
-            if (field.optionsType && ~this.PICKER_TEST_LIST.indexOf(field.optionsType)) {
+            if (field.optionsType && ~this.PICKER_TEXT_LIST.indexOf(field.optionsType)) {
                 type = 'entitypicker'; // TODO!
             }
             else {
@@ -17419,6 +17447,7 @@ var FormUtils = /** @class */ (function () {
         var control;
         /** @type {?} */
         var controlConfig = {
+            metaType: field.type,
             type: type,
             key: field.name,
             label: field.label,
