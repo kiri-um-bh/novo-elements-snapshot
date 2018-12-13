@@ -1,5 +1,5 @@
 import { NovoControlConfig } from '../../elements/form/FormControls';
-import { NovoFieldset } from '../../elements/form/FormInterfaces';
+import { NovoFieldset, FormField } from '../../elements/form/FormInterfaces';
 import { NovoFormGroup } from '../../elements/form/NovoFormControl';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { OptionsService } from './../../services/options/OptionsService';
@@ -7,7 +7,7 @@ export declare class FormUtils {
     labels: NovoLabelService;
     optionsService: OptionsService;
     ASSOCIATED_ENTITY_LIST: string[];
-    PICKER_TEST_LIST: string[];
+    PICKER_TEXT_LIST: string[];
     constructor(labels: NovoLabelService, optionsService: OptionsService);
     toFormGroup(controls: Array<any>): NovoFormGroup;
     emptyFormGroup(): NovoFormGroup;
@@ -18,20 +18,15 @@ export declare class FormUtils {
      */
     toFormGroupFromFieldset(fieldsets: Array<NovoFieldset>): NovoFormGroup;
     /**
+     * @name hasAssociatedEntity
+     * @param field
+     */
+    hasAssociatedEntity(field: FormField): boolean;
+    /**
      * @name determineInputType
      * @param field
      */
-    determineInputType(field: {
-        dataSpecialization: string;
-        inputType: string;
-        options: string;
-        multiValue: boolean;
-        dataType: string;
-        type: string;
-        associatedEntity?: any;
-        optionsUrl?: string;
-        optionsType?: string;
-    }): string;
+    determineInputType(field: FormField): string;
     isFieldEncrypted(key: string): boolean;
     getControlForField(field: any, http: any, config: {
         token?: string;

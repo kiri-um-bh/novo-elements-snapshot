@@ -23,6 +23,9 @@ export declare class BasePickerResults {
     lastPage: boolean;
     autoSelectFirstOption: boolean;
     overlay: OverlayRef;
+    statusDisplayValueMap: {
+        [status: string]: string;
+    };
     private selectingMatches;
     private scrollHandler;
     constructor(element: ElementRef, ref: ChangeDetectorRef);
@@ -30,6 +33,20 @@ export declare class BasePickerResults {
     onScrollDown(event: MouseWheelEvent): void;
     term: string;
     addScrollListener(): void;
+    resultsHaveStatus(results: {
+        data?: {
+            status?: string;
+        };
+    }[]): boolean;
+    mapStatusToDisplayValue(results: {
+        data?: {
+            status?: string;
+        };
+    }[]): {
+        data?: {
+            status?: string;
+        };
+    }[];
     processSearch(shouldReset?: boolean): void;
     search(term: any, mode?: any): Observable<any>;
     /**

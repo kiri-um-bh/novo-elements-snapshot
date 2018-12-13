@@ -6532,6 +6532,15 @@
             this.page = 0;
             this.lastPage = false;
             this.autoSelectFirstOption = true;
+            this.statusDisplayValueMap = {
+                blah332V: 'blah332DV,',
+                testV: 'testDV,',
+                'New LeadV': 'New LeadDV',
+                InterviewingV: 'InterviewingDV',
+                AcceptedV: 'AcceptedDV',
+                RejectedV: 'RejectedDV',
+                Archive: 'ArchiveDV',
+            };
             this.selectingMatches = false;
             this.element = element;
             this.ref = ref;
@@ -6614,6 +6623,47 @@
                     }
                 }
             };
+        /*
+         * status can have a display value as well as an actual value per fieldmaps
+         */
+        /*
+           * status can have a display value as well as an actual value per fieldmaps
+           */
+        /**
+         * @param {?} results
+         * @return {?}
+         */
+        BasePickerResults.prototype.resultsHaveStatus = /*
+           * status can have a display value as well as an actual value per fieldmaps
+           */
+            /**
+             * @param {?} results
+             * @return {?}
+             */
+            function (results) {
+                return this.statusDisplayValueMap && results.some(function (_a) {
+                    var data = _a.data;
+                    return data && !!data.status;
+                });
+            };
+        /**
+         * @param {?} results
+         * @return {?}
+         */
+        BasePickerResults.prototype.mapStatusToDisplayValue = /**
+         * @param {?} results
+         * @return {?}
+         */
+            function (results) {
+                var _this = this;
+                return results.map(function (result) {
+                    return (__assign({}, result, (result.data
+                        ? {
+                            data: __assign({}, result.data, (result.data.status ? { status: _this.statusDisplayValueMap[result.data.status] } : {})),
+                        }
+                        : {})));
+                });
+            };
         /**
          * @param {?=} shouldReset
          * @return {?}
@@ -6628,6 +6678,9 @@
                 this.isLoading = true;
                 this.ref.markForCheck();
                 this.search(this.term).subscribe(function (results) {
+                    if (_this.resultsHaveStatus(results)) {
+                        results = _this.mapStatusToDisplayValue(results);
+                    }
                     if (shouldReset) {
                         _this.matches = [];
                     }
@@ -16680,6 +16733,7 @@
             this.encrypted = !!config.encrypted;
             this.sortOrder = config.sortOrder === undefined ? 1 : config.sortOrder;
             this.controlType = config.controlType || '';
+            this.metaType = config.metaType;
             this.placeholder = config.placeholder || '';
             this.config = config.config || null;
             this.dirty = !!config.value;
@@ -17443,7 +17497,7 @@
                 'Person',
                 'Placement',
             ];
-            this.PICKER_TEST_LIST = [
+            this.PICKER_TEXT_LIST = [
                 'CandidateText',
                 'ClientText',
                 'ClientContactText',
@@ -17524,6 +17578,23 @@
                 return this.toFormGroup(controls);
             };
         /**
+         * @name hasAssociatedEntity
+         * @param field
+         */
+        /**
+         * \@name hasAssociatedEntity
+         * @param {?} field
+         * @return {?}
+         */
+        FormUtils.prototype.hasAssociatedEntity = /**
+         * \@name hasAssociatedEntity
+         * @param {?} field
+         * @return {?}
+         */
+            function (field) {
+                return !!(field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity));
+            };
+        /**
          * @name determineInputType
          * @param field
          */
@@ -17581,15 +17652,25 @@
                     Integer: 'number',
                 };
                 if (field.type === 'TO_MANY') {
-                    if (field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity)) {
-                        type = 'entitychips'; // TODO!
+                    if (this.hasAssociatedEntity(field)) {
+                        if (field.multiValue === false) {
+                            type = 'entitypicker';
+                        }
+                        else {
+                            type = 'entitychips';
+                        }
                     }
                     else {
-                        type = 'chips';
+                        if (field.multiValue === false) {
+                            type = 'picker';
+                        }
+                        else {
+                            type = 'chips';
+                        }
                     }
                 }
                 else if (field.type === 'TO_ONE') {
-                    if (field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity)) {
+                    if (this.hasAssociatedEntity(field)) {
                         type = 'entitypicker'; // TODO!
                     }
                     else {
@@ -17597,7 +17678,7 @@
                     }
                 }
                 else if (field.optionsUrl && field.inputType === 'SELECT') {
-                    if (field.optionsType && ~this.PICKER_TEST_LIST.indexOf(field.optionsType)) {
+                    if (field.optionsType && ~this.PICKER_TEXT_LIST.indexOf(field.optionsType)) {
                         type = 'entitypicker'; // TODO!
                     }
                     else {
@@ -17669,6 +17750,7 @@
                 var control;
                 /** @type {?} */
                 var controlConfig = {
+                    metaType: field.type,
                     type: type,
                     key: field.name,
                     label: field.label,
