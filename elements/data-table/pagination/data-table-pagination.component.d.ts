@@ -28,7 +28,7 @@ export declare class NovoDataTablePagination<T> implements OnInit, OnDestroy {
         active: boolean;
     }[];
     private resetSubscription;
-    totalPages: number;
+    private totalPages;
     private _initialized;
     constructor(changeDetectorRef: ChangeDetectorRef, labels: NovoLabelService, state: DataTableState<T>);
     ngOnInit(): void;
@@ -39,9 +39,9 @@ export declare class NovoDataTablePagination<T> implements OnInit, OnDestroy {
     hasPreviousPage(): boolean;
     hasNextPage(): boolean;
     changePageSize(pageSize: number): void;
-    private updateDisplayedPageSizeOptions;
-    private emitPageEvent;
-    private calculateTotalPages;
-    private makePage;
-    private getPages;
+    private updateDisplayedPageSizeOptions();
+    private emitPageEvent(isPageSizeChange?);
+    private calculateTotalPages();
+    private makePage(number, text, isActive);
+    private getPages(currentPage, totalPages);
 }

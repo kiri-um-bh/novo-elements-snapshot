@@ -54,8 +54,8 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges {
     removeControl(index: number, emitEvent?: boolean): void;
     editControl(index: number): void;
     toggle(event: MouseEvent): void;
-    private clearControls;
-    private checkCanEdit;
-    private checkCanRemove;
-    private getNewControls;
+    private clearControls();
+    private checkCanEdit(index);
+    private checkCanRemove(index);
+    private getNewControls(controls);
 }
