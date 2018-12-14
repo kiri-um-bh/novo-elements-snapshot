@@ -16680,6 +16680,7 @@
             this.encrypted = !!config.encrypted;
             this.sortOrder = config.sortOrder === undefined ? 1 : config.sortOrder;
             this.controlType = config.controlType || '';
+            this.metaType = config.metaType;
             this.placeholder = config.placeholder || '';
             this.config = config.config || null;
             this.dirty = !!config.value;
@@ -17443,7 +17444,7 @@
                 'Person',
                 'Placement',
             ];
-            this.PICKER_TEST_LIST = [
+            this.PICKER_TEXT_LIST = [
                 'CandidateText',
                 'ClientText',
                 'ClientContactText',
@@ -17524,6 +17525,23 @@
                 return this.toFormGroup(controls);
             };
         /**
+         * @name hasAssociatedEntity
+         * @param field
+         */
+        /**
+         * \@name hasAssociatedEntity
+         * @param {?} field
+         * @return {?}
+         */
+        FormUtils.prototype.hasAssociatedEntity = /**
+         * \@name hasAssociatedEntity
+         * @param {?} field
+         * @return {?}
+         */
+            function (field) {
+                return !!(field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity));
+            };
+        /**
          * @name determineInputType
          * @param field
          */
@@ -17581,15 +17599,25 @@
                     Integer: 'number',
                 };
                 if (field.type === 'TO_MANY') {
-                    if (field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity)) {
-                        type = 'entitychips'; // TODO!
+                    if (this.hasAssociatedEntity(field)) {
+                        if (field.multiValue === false) {
+                            type = 'entitypicker';
+                        }
+                        else {
+                            type = 'entitychips';
+                        }
                     }
                     else {
-                        type = 'chips';
+                        if (field.multiValue === false) {
+                            type = 'picker';
+                        }
+                        else {
+                            type = 'chips';
+                        }
                     }
                 }
                 else if (field.type === 'TO_ONE') {
-                    if (field.associatedEntity && ~this.ASSOCIATED_ENTITY_LIST.indexOf(field.associatedEntity.entity)) {
+                    if (this.hasAssociatedEntity(field)) {
                         type = 'entitypicker'; // TODO!
                     }
                     else {
@@ -17597,7 +17625,7 @@
                     }
                 }
                 else if (field.optionsUrl && field.inputType === 'SELECT') {
-                    if (field.optionsType && ~this.PICKER_TEST_LIST.indexOf(field.optionsType)) {
+                    if (field.optionsType && ~this.PICKER_TEXT_LIST.indexOf(field.optionsType)) {
                         type = 'entitypicker'; // TODO!
                     }
                     else {
@@ -17669,6 +17697,7 @@
                 var control;
                 /** @type {?} */
                 var controlConfig = {
+                    metaType: field.type,
                     type: type,
                     key: field.name,
                     label: field.label,
