@@ -47816,7 +47816,6 @@ var NovoDataTableCell = /** @class */ (function (_super) {
      */
     function () {
         if (this.column.width) {
-            this.renderer.setStyle(this.elementRef.nativeElement, 'min-width', this.column.width + "px");
             this.renderer.setStyle(this.elementRef.nativeElement, 'max-width', this.column.width + "px");
             this.renderer.setStyle(this.elementRef.nativeElement, 'width', this.column.width + "px");
         }
