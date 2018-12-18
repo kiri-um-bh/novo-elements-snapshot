@@ -20,7 +20,7 @@ import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
-import { startOfDay, addDays, startOfToday, endOfToday, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isDate, parse, subMonths, addMonths, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isAfter, isBefore, isSameDay, startOfWeek, endOfWeek, endOfDay, isToday, startOfTomorrow, addWeeks, differenceInDays, addMinutes, isSameSecond, startOfMinute, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours } from 'date-fns';
+import { startOfDay, addDays, startOfToday, endOfToday, isValid, format, isDate, parse, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, subMonths, addMonths, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isAfter, isBefore, isSameDay, startOfWeek, endOfWeek, endOfDay, isToday, startOfTomorrow, addWeeks, differenceInDays, addMinutes, isSameSecond, startOfMinute, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
@@ -10770,16 +10770,18 @@ NovoChipsElement.decorators = [
                 selector: 'chips,novo-chips',
                 providers: [CHIPS_VALUE_ACCESSOR],
                 template: `
-        <novo-chip
-            *ngFor="let item of _items | async"
-            [type]="type || item?.value?.searchEntity"
-            [class.selected]="item == selected"
-            [disabled]="disablePickerInput"
-            (remove)="remove($event, item)"
-            (select)="select($event, item)"
-            (deselect)="deselect($event, item)">
-            {{ item.label }}
-        </novo-chip>
+        <div class="novo-chips-scroll-container">
+          <novo-chip
+              *ngFor="let item of _items | async"
+              [type]="type || item?.value?.searchEntity"
+              [class.selected]="item == selected"
+              [disabled]="disablePickerInput"
+              (remove)="remove($event, item)"
+              (select)="select($event, item)"
+              (deselect)="deselect($event, item)">
+              {{ item.label }}
+          </novo-chip>
+        </div>
         <div class="chip-input-container">
             <novo-picker
                 clearValueOnSelect="true"
