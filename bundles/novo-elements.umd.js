@@ -1500,7 +1500,9 @@
              * @param {?} icon
              * @return {?}
              */ function (icon) {
-                this._icon = "bhi-" + icon;
+                if (icon) {
+                    this._icon = "bhi-" + icon;
+                }
             },
             enumerable: true,
             configurable: true

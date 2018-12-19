@@ -1148,7 +1148,9 @@ class NovoButtonElement {
      * @return {?}
      */
     set icon(icon) {
-        this._icon = `bhi-${icon}`;
+        if (icon) {
+            this._icon = `bhi-${icon}`;
+        }
     }
     /**
      * @return {?}
