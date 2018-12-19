@@ -1148,9 +1148,7 @@ class NovoButtonElement {
      * @return {?}
      */
     set icon(icon) {
-        if (icon) {
-            this._icon = `bhi-${icon}`;
-        }
+        this._icon = `bhi-${icon}`;
     }
     /**
      * @return {?}
@@ -8926,15 +8924,20 @@ class EntityPickerResult {
                     return `${result.name || ''}`.trim();
                 case 'Opportunity':
                 case 'JobOrder':
-                    return `${result.title || ''}`.trim();
+                    return `${result.id} | ${result.title || ''}`.trim();
                 case 'Placement':
                     /** @type {?} */
-                    let label = '';
-                    if (result.candidate) {
-                        label = `${result.candidate.firstName} ${result.candidate.lastName}`.trim();
-                    }
-                    if (result.jobOrder) {
-                        label = `${label} - ${result.jobOrder.title}`.trim();
+                    let label = `${result.id}`;
+                    if (result.candidate || result.jobOrder) {
+                        if (result.candidate && result.jobOrder) {
+                            label = `${label} | ${result.candidate.firstName} ${result.candidate.lastName} - ${result.jobOrder.title}`.trim();
+                        }
+                        else if (result.jobOrder) {
+                            label = `${label} | ${result.jobOrder.title}`.trim();
+                        }
+                        else {
+                            label = `${label} | ${result.candidate.firstName} ${result.candidate.lastName}`.trim();
+                        }
                     }
                     return label;
                 default:
@@ -10772,8 +10775,7 @@ NovoChipsElement.decorators = [
                 selector: 'chips,novo-chips',
                 providers: [CHIPS_VALUE_ACCESSOR],
                 template: `
-        <div class="novo-chip-container">
-          <novo-chip
+        <novo-chip
             *ngFor="let item of _items | async"
             [type]="type || item?.value?.searchEntity"
             [class.selected]="item == selected"
@@ -10782,8 +10784,7 @@ NovoChipsElement.decorators = [
             (select)="select($event, item)"
             (deselect)="deselect($event, item)">
             {{ item.label }}
-          </novo-chip>
-        </div>
+        </novo-chip>
         <div class="chip-input-container">
             <novo-picker
                 clearValueOnSelect="true"
