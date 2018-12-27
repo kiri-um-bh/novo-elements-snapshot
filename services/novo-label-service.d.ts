@@ -88,6 +88,7 @@ export declare class NovoLabelService {
     noStatesForCountry: string;
     selectCountryFirst: string;
     invalidIntegerInput: string;
+    maxRecordsReached: string;
     constructor(userLocale?: string);
     maxlengthMetWithField(field: string, maxlength: number): string;
     maxlengthMet(maxlength: number): string;

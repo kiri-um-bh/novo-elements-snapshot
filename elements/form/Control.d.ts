@@ -40,7 +40,7 @@ export declare class NovoControlElement extends OutsideClick implements OnInit, 
     formattedValue: string;
     percentValue: number;
     maxLengthMet: boolean;
-    characterCount: number;
+    itemCount: number;
     maskOptions: IMaskOptions;
     private _blurEmitter;
     private _focusEmitter;
