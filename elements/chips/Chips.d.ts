@@ -22,6 +22,7 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     closeOnSelect: boolean;
     placeholder: string;
     source: any;
+    maxlength: any;
     type: any;
     disablePickerInput: boolean;
     private _disablePickerInput;
