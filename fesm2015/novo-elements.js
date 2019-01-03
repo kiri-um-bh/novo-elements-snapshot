@@ -1148,9 +1148,7 @@ class NovoButtonElement {
      * @return {?}
      */
     set icon(icon) {
-        if (icon) {
-            this._icon = `bhi-${icon}`;
-        }
+        this._icon = `bhi-${icon}`;
     }
     /**
      * @return {?}
@@ -1813,7 +1811,6 @@ class NovoLabelService {
         this.noStatesForCountry = 'No states available for the selected country';
         this.selectCountryFirst = 'Please select a country before selecting a state';
         this.invalidIntegerInput = 'Special characters are not allowed for';
-        this.maxRecordsReached = 'Sorry, you have reached the maximum number of records allowed for this field';
     }
     /**
      * @param {?} field
@@ -8927,20 +8924,15 @@ class EntityPickerResult {
                     return `${result.name || ''}`.trim();
                 case 'Opportunity':
                 case 'JobOrder':
-                    return `${result.id} | ${result.title || ''}`.trim();
+                    return `${result.title || ''}`.trim();
                 case 'Placement':
                     /** @type {?} */
-                    let label = `${result.id}`;
-                    if (result.candidate || result.jobOrder) {
-                        if (result.candidate && result.jobOrder) {
-                            label = `${label} | ${result.candidate.firstName} ${result.candidate.lastName} - ${result.jobOrder.title}`.trim();
-                        }
-                        else if (result.jobOrder) {
-                            label = `${label} | ${result.jobOrder.title}`.trim();
-                        }
-                        else {
-                            label = `${label} | ${result.candidate.firstName} ${result.candidate.lastName}`.trim();
-                        }
+                    let label = '';
+                    if (result.candidate) {
+                        label = `${result.candidate.firstName} ${result.candidate.lastName}`.trim();
+                    }
+                    if (result.jobOrder) {
+                        label = `${label} - ${result.jobOrder.title}`.trim();
                     }
                     return label;
                 default:
@@ -10788,7 +10780,7 @@ NovoChipsElement.decorators = [
             (deselect)="deselect($event, item)">
             {{ item.label }}
         </novo-chip>
-        <div class="chip-input-container" *ngIf="!maxlength || (maxlength && items.length < maxlength)">
+        <div class="chip-input-container">
             <novo-picker
                 clearValueOnSelect="true"
                 [closeOnSelect]="closeOnSelect"
@@ -10827,7 +10819,6 @@ NovoChipsElement.propDecorators = {
     closeOnSelect: [{ type: Input }],
     placeholder: [{ type: Input }],
     source: [{ type: Input }],
-    maxlength: [{ type: Input }],
     type: [{ type: Input }],
     disablePickerInput: [{ type: Input }],
     changed: [{ type: Output }],
@@ -10917,8 +10908,7 @@ NovoRowChipsElement.decorators = [
             (typing)="onTyping($event)"
             (blur)="onTouched($event)"
             [selected]="items"
-            [overrideElement]="element"
-            *ngIf="!maxlength || (maxlength && items.length < maxlength)">
+            [overrideElement]="element">
         </novo-picker>
         <div class="preview-container">
             <span #preview></span>
@@ -14243,12 +14233,15 @@ class NovoFormGroup extends FormGroup {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class BaseControl {
+class ControlConfig {
+}
+class BaseControl extends ControlConfig {
     /**
      * @param {?=} type
      * @param {?=} config
      */
     constructor(type = 'BaseControl', config = {}) {
+        super();
         this.__type = 'BaseControl';
         this.__type = type;
         this.__config = config;
@@ -16930,7 +16923,7 @@ class NovoControlElement extends OutsideClick {
         this.upload = new EventEmitter();
         this.formattedValue = '';
         this.maxLengthMet = false;
-        this.itemCount = 0;
+        this.characterCount = 0;
         this._blurEmitter = new EventEmitter();
         this._focusEmitter = new EventEmitter();
         this._focused = false;
@@ -17003,11 +16996,9 @@ class NovoControlElement extends OutsideClick {
      */
     get showCount() {
         /** @type {?} */
-        let charCount = (this.form.controls[this.control.key].maxlength &&
+        let charCount = this.form.controls[this.control.key].maxlength &&
             this.focused &&
-            (this.form.controls[this.control.key].controlType === 'text-area' ||
-                this.form.controls[this.control.key].controlType === 'textbox')) ||
-            (this.form.controls[this.control.key].maxlength && this.form.controls[this.control.key].controlType === 'picker');
+            (this.form.controls[this.control.key].controlType === 'text-area' || this.form.controls[this.control.key].controlType === 'textbox');
         return this._showCount || charCount;
     }
     /**
@@ -17104,7 +17095,7 @@ class NovoControlElement extends OutsideClick {
         if (this.control && this.form.controls[this.control.key].value) {
             if (this.form.controls[this.control.key].controlType === 'textbox' ||
                 this.form.controls[this.control.key].controlType === 'text-area') {
-                this.itemCount = this.form.controls[this.control.key].value.length;
+                this.characterCount = this.form.controls[this.control.key].value.length;
             }
         }
         if (this.control) {
@@ -17377,7 +17368,7 @@ class NovoControlElement extends OutsideClick {
      */
     checkMaxLength(event) {
         if (this.control && this.form.controls[this.control.key].maxlength) {
-            this.itemCount = event.target.value.length;
+            this.characterCount = event.target.value.length;
             this.maxLengthMet = event.target.value.length >= this.form.controls[this.control.key].maxlength;
         }
     }
@@ -17389,10 +17380,6 @@ class NovoControlElement extends OutsideClick {
         if (Helpers.isEmpty(event.value)) {
             this._focused = false;
             this._enteredText = '';
-        }
-        if (this.form.controls[this.control.key].controlType === 'picker' && this.form.controls[this.control.key].maxlength) {
-            this.itemCount = event.value ? event.value.length : 0;
-            this.maxLengthMet = this.itemCount >= this.form.controls[this.control.key].maxlength ? true : false;
         }
         this.form.controls[this.control.key].rawValue = event.rawValue;
         this.change.emit(event.value);
@@ -17536,11 +17523,11 @@ class NovoControlElement extends OutsideClick {
             data.field &&
             this.control.config[data.field] &&
             !Helpers.isEmpty(this.control.config[data.field].maxlength)) {
-            this.itemCount = data.value.length;
+            this.characterCount = data.value.length;
             this.characterCountField = data.field;
             this.maxLength = this.control.config[data.field].maxlength;
             this.showCount = true;
-            if (this.maxLength === this.itemCount) {
+            if (this.maxLength === this.characterCount) {
                 this.maxLengthMetErrorfields.push(data.field);
             }
             else {
@@ -17609,9 +17596,8 @@ NovoControlElement.decorators = [
                             <span class="error-text" *ngIf="showFieldMessage"></span>
                             <span class="error-text" *ngIf="isDirty && errors?.required && form.controls[control.key].controlType !== 'address'">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>
                             <span class="error-text" *ngIf="isDirty && errors?.minlength">{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span>
-                            <span class="error-text" *ngIf="isDirty && maxLengthMet && focused && !errors?.maxlength && form.controls[control.key].controlType !== 'picker'">{{ labels.maxlengthMet(form.controls[control.key].maxlength) }}</span>
+                            <span class="error-text" *ngIf="isDirty && maxLengthMet && focused && !errors?.maxlength">{{ labels.maxlengthMet(form.controls[control.key].maxlength) }}</span>
                             <span class="error-text" *ngIf="errors?.maxlength && focused && !errors?.maxlengthFields">{{ labels.invalidMaxlength(form.controls[control.key].maxlength) }}</span>
-                            <span class="error-text" *ngIf="maxLengthMet && form.controls[control.key].controlType === 'picker'">{{ labels.maxRecordsReached }}</span>
                             <span class="error-text" *ngIf="isDirty && errors?.invalidEmail">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidEmail }}</span>
                             <span class="error-text" *ngIf="isDirty && (errors?.integerTooLarge || errors?.doubleTooLarge)">{{ form.controls[control.key].label | uppercase }} {{ labels.isTooLarge }}</span>
                             <span *ngIf="isDirty && errors?.minYear">{{ form.controls[control.key].label | uppercase }} {{ labels.notValidYear }}</span>
@@ -17632,8 +17618,7 @@ NovoControlElement.decorators = [
                             <span class="warning-text" *ngIf="form.controls[control.key].warning">{{ form.controls[control.key].warning }}</span>
 
                         </div>
-                        <span class="character-count" [class.error]="((errors?.maxlength && !errors?.maxlengthFields) || (errors?.maxlength && errors?.maxlengthFields && errors.maxlengthFields.includes(focusedField)))" *ngIf="showCount && form.controls[control.key].controlType !== 'picker'">{{ itemCount }}/{{ maxLength || form.controls[control.key].maxlength }}</span>
-                        <span class="record-count" [class.zero-count]="itemCount === 0" [class.row-picker]="form.controls[this.control.key].config.columns" *ngIf="showCount && form.controls[control.key].controlType === 'picker'">{{ itemCount }}/{{ maxLength || form.controls[control.key].maxlength }}</span>
+                        <span class="character-count" [class.error]="((errors?.maxlength && !errors?.maxlengthFields) || (errors?.maxlength && errors?.maxlengthFields && errors.maxlengthFields.includes(focusedField)))" *ngIf="showCount">{{ characterCount }}/{{ maxLength || form.controls[control.key].maxlength }}</span>
                     </div>
                     <!--Tip Wel-->
                     <novo-tip-well *ngIf="form.controls[control.key].tipWell" [name]="control.key" [tip]="form.controls[control.key]?.tipWell?.tip" [icon]="form.controls[control.key]?.tipWell?.icon" [button]="form.controls[control.key]?.tipWell?.button"></novo-tip-well>
@@ -36832,7 +36817,7 @@ NovoControlTemplates.decorators = [
         <ng-template novoTemplate="picker" let-control let-form="form" let-errors="errors" let-methods="methods">
           <div [formGroup]="form" class="novo-control-input-container">
             <novo-picker [config]="control.config" [formControlName]="control.key" [placeholder]="control.placeholder" [parentScrollSelector]="control.parentScrollSelector" *ngIf="!control.multiple" (select)="methods.modelChange($event);" (changed)="methods.modelChangeWithRaw($event)" (typing)="methods.handleTyping($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition"></novo-picker>
-            <novo-chips [source]="control.config" [type]="control.config.type" [formControlName]="control.key" [placeholder]="control.placeholder" [maxlength]="control?.maxlength" *ngIf="control.multiple && !control.config.columns" [closeOnSelect]="control.closeOnSelect" (changed)="methods.modelChangeWithRaw($event)" (typing)="methods.handleTyping($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition"></novo-chips>
+            <novo-chips [source]="control.config" [type]="control.config.type" [formControlName]="control.key" [placeholder]="control.placeholder" *ngIf="control.multiple && !control.config.columns" [closeOnSelect]="control.closeOnSelect" (changed)="methods.modelChangeWithRaw($event)" (typing)="methods.handleTyping($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition"></novo-chips>
             <novo-row-chips [source]="control.config" [type]="control.config.type" [formControlName]="control.key" [placeholder]="control.placeholder" *ngIf="control.multiple && control.config.columns" [closeOnSelect]="control.closeOnSelect" (changed)="methods.modelChangeWithRaw($event)" (typing)="methods.handleTyping($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition"></novo-row-chips>
           </div>
         </ng-template>
