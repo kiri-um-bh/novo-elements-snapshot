@@ -15,6 +15,7 @@ export declare class FormUtils {
     /**
      * @name toFormGroupFromFieldset
      * @param fieldsets
+     * @returns {NovoFormGroup}
      */
     toFormGroupFromFieldset(fieldsets: Array<NovoFieldset>): NovoFormGroup;
     /**
@@ -25,6 +26,7 @@ export declare class FormUtils {
     /**
      * @name determineInputType
      * @param field
+     * @returns {string}
      */
     determineInputType(field: FormField): string;
     isFieldEncrypted(key: string): boolean;
