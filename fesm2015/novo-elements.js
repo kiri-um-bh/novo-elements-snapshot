@@ -14243,12 +14243,15 @@ class NovoFormGroup extends FormGroup {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class BaseControl {
+class ControlConfig {
+}
+class BaseControl extends ControlConfig {
     /**
      * @param {?=} type
      * @param {?=} config
      */
     constructor(type = 'BaseControl', config = {}) {
+        super();
         this.__type = 'BaseControl';
         this.__type = type;
         this.__config = config;
