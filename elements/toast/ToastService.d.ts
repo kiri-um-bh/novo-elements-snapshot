@@ -8,7 +8,7 @@ export declare class NovoToastService {
     defaults: any;
     constructor(componentUtils: ComponentUtils);
     parentViewContainer: any;
-    alert(options: any): Promise<{}>;
+    alert(options: any, toastElement?: any): Promise<{}>;
     isVisible(toast: any): any;
     hide(toast: any): void;
     handleAlert(toast: any, options: any): void;

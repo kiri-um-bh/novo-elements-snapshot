@@ -15730,16 +15730,17 @@ class NovoToastService {
     }
     /**
      * @param {?} options
+     * @param {?=} toastElement
      * @return {?}
      */
-    alert(options) {
+    alert(options, toastElement = NovoToastElement) {
         return new Promise((resolve) => {
             if (!this._parentViewContainer) {
                 console.error('No parent view container specified for the ToastService. Set it inside your main application. \nthis.toastService.parentViewContainer = view (ViewContainerRef)');
                 return;
             }
             /** @type {?} */
-            let toast = this.componentUtils.appendNextToLocation(NovoToastElement, this._parentViewContainer);
+            let toast = this.componentUtils.appendNextToLocation(toastElement, this._parentViewContainer);
             this.references.push(toast);
             this.handleAlert(toast.instance, options);
             resolve(toast);
