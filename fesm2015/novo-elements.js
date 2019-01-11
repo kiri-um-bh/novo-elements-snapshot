@@ -10778,18 +10778,16 @@ NovoChipsElement.decorators = [
                 selector: 'chips,novo-chips',
                 providers: [CHIPS_VALUE_ACCESSOR],
                 template: `
-        <div class="novo-chip-container">
-          <novo-chip
-              *ngFor="let item of _items | async"
-              [type]="type || item?.value?.searchEntity"
-              [class.selected]="item == selected"
-              [disabled]="disablePickerInput"
-              (remove)="remove($event, item)"
-              (select)="select($event, item)"
-              (deselect)="deselect($event, item)">
-              {{ item.label }}
-          </novo-chip>
-        </div>
+        <novo-chip
+            *ngFor="let item of _items | async"
+            [type]="type || item?.value?.searchEntity"
+            [class.selected]="item == selected"
+            [disabled]="disablePickerInput"
+            (remove)="remove($event, item)"
+            (select)="select($event, item)"
+            (deselect)="deselect($event, item)">
+            {{ item.label }}
+        </novo-chip>
         <div class="chip-input-container" *ngIf="!maxlength || (maxlength && items.length < maxlength)">
             <novo-picker
                 clearValueOnSelect="true"
@@ -14245,15 +14243,12 @@ class NovoFormGroup extends FormGroup {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class ControlConfig {
-}
-class BaseControl extends ControlConfig {
+class BaseControl {
     /**
      * @param {?=} type
      * @param {?=} config
      */
     constructor(type = 'BaseControl', config = {}) {
-        super();
         this.__type = 'BaseControl';
         this.__type = type;
         this.__config = config;
