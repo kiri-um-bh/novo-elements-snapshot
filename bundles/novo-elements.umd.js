@@ -9908,7 +9908,6 @@
             this.focus = new core.EventEmitter();
             this.blur = new core.EventEmitter();
             this.typing = new core.EventEmitter();
-            this.isStatic = true;
             this.term = '';
             this.onModelChange = function () { };
             this.onModelTouched = function () { };
@@ -9973,13 +9972,10 @@
                 }
                 this.show((( /** @type {?} */(event.target))).value);
             };
-        /** BEGIN: Convenient Panel Methods. */
         /**
-         * BEGIN: Convenient Panel Methods.
          * @return {?}
          */
         NovoPickerElement.prototype.openPanel = /**
-         * BEGIN: Convenient Panel Methods.
          * @return {?}
          */
             function () {
@@ -10003,15 +9999,12 @@
             enumerable: true,
             configurable: true
         });
-        /** END: Convenient Panel Methods. */
         /**
-         * END: Convenient Panel Methods.
          * @private
          * @param {?=} term
          * @return {?}
          */
         NovoPickerElement.prototype.show = /**
-         * END: Convenient Panel Methods.
          * @private
          * @param {?=} term
          * @return {?}
@@ -10020,18 +10013,6 @@
                 this.openPanel();
                 // Show the results inside
                 this.showResults(term);
-            };
-        /**
-         * @private
-         * @return {?}
-         */
-        NovoPickerElement.prototype.hide = /**
-         * @private
-         * @return {?}
-         */
-            function () {
-                this.closePanel();
-                this.ref.markForCheck();
             };
         /**
          * @param {?} event
@@ -10119,28 +10100,18 @@
                 }
                 this.focus.emit(event);
             };
+        // Creates an instance of the results (called popup) and adds all the bindings to that instance.
+        // Creates an instance of the results (called popup) and adds all the bindings to that instance.
         /**
-         * @name showResults
-         *
-         * @description This method creates an instance of the results (called popup) and adds all the bindings to that
-         * instance.
-         */
-        /**
-         * \@name showResults
-         *
-         * \@description This method creates an instance of the results (called popup) and adds all the bindings to that
-         * instance.
          * @param {?=} term
          * @return {?}
          */
-        NovoPickerElement.prototype.showResults = /**
-         * \@name showResults
-         *
-         * \@description This method creates an instance of the results (called popup) and adds all the bindings to that
-         * instance.
-         * @param {?=} term
-         * @return {?}
-         */
+        NovoPickerElement.prototype.showResults =
+            // Creates an instance of the results (called popup) and adds all the bindings to that instance.
+            /**
+             * @param {?=} term
+             * @return {?}
+             */
             function (term) {
                 // Update Matches
                 if (this.popup) {
@@ -10162,38 +10133,35 @@
                     this.ref.markForCheck();
                 }
             };
+        // Tells the overlay component to hide the picker results from the DOM without deleting the dynamically allocated popup instance created in
+        // showResults. The popup instance will remain in memory from the first time the results are shown until this component is destroyed.
+        // Tells the overlay component to hide the picker results from the DOM without deleting the dynamically allocated popup instance created in
+        // showResults. The popup instance will remain in memory from the first time the results are shown until this component is destroyed.
         /**
-         * @name hideResults
-         *
-         * @description - This method deletes the picker results from the DOM.
-         */
-        /**
-         * \@name hideResults
-         *
-         * \@description - This method deletes the picker results from the DOM.
          * @param {?=} err
          * @return {?}
          */
-        NovoPickerElement.prototype.hideResults = /**
-         * \@name hideResults
-         *
-         * \@description - This method deletes the picker results from the DOM.
-         * @param {?=} err
-         * @return {?}
-         */
+        NovoPickerElement.prototype.hideResults =
+            // Tells the overlay component to hide the picker results from the DOM without deleting the dynamically allocated popup instance created in
+            // showResults. The popup instance will remain in memory from the first time the results are shown until this component is destroyed.
+            /**
+             * @param {?=} err
+             * @return {?}
+             */
             function (err) {
-                if (this.popup) {
-                    this.popup.destroy();
-                    this.popup = null;
-                }
-                this.hide();
+                this.closePanel();
+                this.ref.markForCheck();
             };
+        // Cleans up listeners for the popup - will get executed no matter how the popup is closed.
+        // Cleans up listeners for the popup - will get executed no matter how the popup is closed.
         /**
          * @return {?}
          */
-        NovoPickerElement.prototype.onOverlayClosed = /**
-         * @return {?}
-         */
+        NovoPickerElement.prototype.onOverlayClosed =
+            // Cleans up listeners for the popup - will get executed no matter how the popup is closed.
+            /**
+             * @return {?}
+             */
             function () {
                 if (this.popup && this.popup.instance && this.popup.instance.cleanUp) {
                     this.popup.instance.cleanUp();
@@ -10362,7 +10330,7 @@
             { type: core.Component, args: [{
                         selector: 'novo-picker',
                         providers: [PICKER_VALUE_ACCESSOR],
-                        template: "\n        <i class=\"bhi-more\" *ngIf=\"config?.entityIcon && !_value\"></i>\n        <i class=\"bhi-{{ config?.entityIcon }} entity-icon {{ config?.entityIcon }}\" *ngIf=\"config?.entityIcon && _value\"></i>\n        <input\n            type=\"text\"\n            class=\"picker-input\"\n            [(ngModel)]=\"term\"\n            [class.entity-picker]=\"config?.entityIcon\"\n            [class.entity-selected]=\"config?.entityIcon && _value\"\n            (ngModelChange)=\"checkTerm($event)\"\n            [placeholder]=\"placeholder\"\n            (keydown)=\"onKeyDown($event)\"\n            (focus)=\"onFocus($event)\"\n            (click)=\"onFocus($event)\"\n            (blur)=\"onTouched($event)\"\n            autocomplete=\"off\" #input\n            [disabled]=\"disablePickerInput\"/>\n        <i class=\"bhi-search\" *ngIf=\"(!_value || clearValueOnSelect) && !disablePickerInput\"></i>\n        <i class=\"bhi-times\" [class.entity-selected]=\"config?.entityIcon && _value\" *ngIf=\"_value && !clearValueOnSelect && !disablePickerInput\" (click)=\"clearValue(true)\"></i>\n        <novo-overlay-template class=\"picker-results-container\" [parent]=\"element\" position=\"above-below\" (closing)=\"onOverlayClosed()\">\n            <span #results></span>\n            <ng-content></ng-content>\n        </novo-overlay-template>\n    "
+                        template: "\n    <i class=\"bhi-more\" *ngIf=\"config?.entityIcon && !_value\"></i>\n    <i class=\"bhi-{{ config?.entityIcon }} entity-icon {{ config?.entityIcon }}\" *ngIf=\"config?.entityIcon && _value\"></i>\n    <input\n      type=\"text\"\n      class=\"picker-input\"\n      [(ngModel)]=\"term\"\n      [class.entity-picker]=\"config?.entityIcon\"\n      [class.entity-selected]=\"config?.entityIcon && _value\"\n      (ngModelChange)=\"checkTerm($event)\"\n      [placeholder]=\"placeholder\"\n      (keydown)=\"onKeyDown($event)\"\n      (focus)=\"onFocus($event)\"\n      (click)=\"onFocus($event)\"\n      (blur)=\"onTouched($event)\"\n      autocomplete=\"off\"\n      #input\n      [disabled]=\"disablePickerInput\"\n    />\n    <i class=\"bhi-search\" *ngIf=\"(!_value || clearValueOnSelect) && !disablePickerInput\"></i>\n    <i\n      class=\"bhi-times\"\n      [class.entity-selected]=\"config?.entityIcon && _value\"\n      *ngIf=\"_value && !clearValueOnSelect && !disablePickerInput\"\n      (click)=\"clearValue(true)\"\n    ></i>\n    <novo-overlay-template class=\"picker-results-container\" [parent]=\"element\" position=\"above-below\" (closing)=\"onOverlayClosed()\">\n      <span #results></span>\n      <ng-content></ng-content>\n    </novo-overlay-template>\n  "
                     }] }
         ];
         /** @nocollapse */
