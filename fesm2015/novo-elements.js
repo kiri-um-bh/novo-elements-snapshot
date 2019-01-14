@@ -20,7 +20,7 @@ import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
-import { startOfDay, addDays, startOfToday, endOfToday, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, subMonths, addMonths, isAfter, isBefore, isSameDay, startOfWeek, endOfWeek, endOfDay, isToday, startOfTomorrow, addWeeks, differenceInDays, addMinutes, isSameSecond, startOfMinute, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours } from 'date-fns';
+import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
@@ -8447,7 +8447,6 @@ class NovoPickerElement {
         this.focus = new EventEmitter();
         this.blur = new EventEmitter();
         this.typing = new EventEmitter();
-        this.isStatic = true;
         this.term = '';
         this.onModelChange = () => { };
         this.onModelTouched = () => { };
@@ -8499,7 +8498,6 @@ class NovoPickerElement {
         this.show(((/** @type {?} */ (event.target))).value);
     }
     /**
-     * BEGIN: Convenient Panel Methods.
      * @return {?}
      */
     openPanel() {
@@ -8518,7 +8516,6 @@ class NovoPickerElement {
         return this.container && this.container.panelOpen;
     }
     /**
-     * END: Convenient Panel Methods.
      * @private
      * @param {?=} term
      * @return {?}
@@ -8527,14 +8524,6 @@ class NovoPickerElement {
         this.openPanel();
         // Show the results inside
         this.showResults(term);
-    }
-    /**
-     * @private
-     * @return {?}
-     */
-    hide() {
-        this.closePanel();
-        this.ref.markForCheck();
     }
     /**
      * @param {?} event
@@ -8602,11 +8591,8 @@ class NovoPickerElement {
         }
         this.focus.emit(event);
     }
+    // Creates an instance of the results (called popup) and adds all the bindings to that instance.
     /**
-     * \@name showResults
-     *
-     * \@description This method creates an instance of the results (called popup) and adds all the bindings to that
-     * instance.
      * @param {?=} term
      * @return {?}
      */
@@ -8631,20 +8617,17 @@ class NovoPickerElement {
             this.ref.markForCheck();
         }
     }
+    // Tells the overlay component to hide the picker results from the DOM without deleting the dynamically allocated popup instance created in
+    // showResults. The popup instance will remain in memory from the first time the results are shown until this component is destroyed.
     /**
-     * \@name hideResults
-     *
-     * \@description - This method deletes the picker results from the DOM.
      * @param {?=} err
      * @return {?}
      */
     hideResults(err) {
-        if (this.popup) {
-            this.popup.destroy();
-            this.popup = null;
-        }
-        this.hide();
+        this.closePanel();
+        this.ref.markForCheck();
     }
+    // Cleans up listeners for the popup - will get executed no matter how the popup is closed.
     /**
      * @return {?}
      */
@@ -8776,29 +8759,36 @@ NovoPickerElement.decorators = [
                 selector: 'novo-picker',
                 providers: [PICKER_VALUE_ACCESSOR],
                 template: `
-        <i class="bhi-more" *ngIf="config?.entityIcon && !_value"></i>
-        <i class="bhi-{{ config?.entityIcon }} entity-icon {{ config?.entityIcon }}" *ngIf="config?.entityIcon && _value"></i>
-        <input
-            type="text"
-            class="picker-input"
-            [(ngModel)]="term"
-            [class.entity-picker]="config?.entityIcon"
-            [class.entity-selected]="config?.entityIcon && _value"
-            (ngModelChange)="checkTerm($event)"
-            [placeholder]="placeholder"
-            (keydown)="onKeyDown($event)"
-            (focus)="onFocus($event)"
-            (click)="onFocus($event)"
-            (blur)="onTouched($event)"
-            autocomplete="off" #input
-            [disabled]="disablePickerInput"/>
-        <i class="bhi-search" *ngIf="(!_value || clearValueOnSelect) && !disablePickerInput"></i>
-        <i class="bhi-times" [class.entity-selected]="config?.entityIcon && _value" *ngIf="_value && !clearValueOnSelect && !disablePickerInput" (click)="clearValue(true)"></i>
-        <novo-overlay-template class="picker-results-container" [parent]="element" position="above-below" (closing)="onOverlayClosed()">
-            <span #results></span>
-            <ng-content></ng-content>
-        </novo-overlay-template>
-    `
+    <i class="bhi-more" *ngIf="config?.entityIcon && !_value"></i>
+    <i class="bhi-{{ config?.entityIcon }} entity-icon {{ config?.entityIcon }}" *ngIf="config?.entityIcon && _value"></i>
+    <input
+      type="text"
+      class="picker-input"
+      [(ngModel)]="term"
+      [class.entity-picker]="config?.entityIcon"
+      [class.entity-selected]="config?.entityIcon && _value"
+      (ngModelChange)="checkTerm($event)"
+      [placeholder]="placeholder"
+      (keydown)="onKeyDown($event)"
+      (focus)="onFocus($event)"
+      (click)="onFocus($event)"
+      (blur)="onTouched($event)"
+      autocomplete="off"
+      #input
+      [disabled]="disablePickerInput"
+    />
+    <i class="bhi-search" *ngIf="(!_value || clearValueOnSelect) && !disablePickerInput"></i>
+    <i
+      class="bhi-times"
+      [class.entity-selected]="config?.entityIcon && _value"
+      *ngIf="_value && !clearValueOnSelect && !disablePickerInput"
+      (click)="clearValue(true)"
+    ></i>
+    <novo-overlay-template class="picker-results-container" [parent]="element" position="above-below" (closing)="onOverlayClosed()">
+      <span #results></span>
+      <ng-content></ng-content>
+    </novo-overlay-template>
+  `
             }] }
 ];
 /** @nocollapse */
