@@ -42761,10 +42761,11 @@ class DataTableState {
         this.selectionSource.next();
     }
     /**
+     * @param {?=} targetId
      * @return {?}
      */
-    onExpandChange() {
-        this.expandSource.next();
+    onExpandChange(targetId) {
+        this.expandSource.next(targetId);
     }
     /**
      * @param {?} isPageSizeChange
@@ -43164,7 +43165,7 @@ class NovoDataTable {
         else {
             this.state.expandedRows.add(`${row[this.rowIdentifier]}`);
         }
-        this.state.onExpandChange();
+        this.state.onExpandChange(((/** @type {?} */ (((/** @type {?} */ (row)))))).id);
     }
     /**
      * @param {?} expand
@@ -44996,12 +44997,16 @@ class NovoDataTableExpandDirective {
         this.vcRef = vcRef;
         this.state = state$$1;
         this.dataTable = dataTable;
-        this.subscription = this.state.expandSource.subscribe(() => {
-            if (dataTable.isExpanded(this.row)) {
-                this.render();
-            }
-            else {
-                this.clear();
+        this.shouldExpandAllRows = (targetId) => targetId === undefined;
+        this.shouldExpandOneRow = (targetId) => targetId === ((/** @type {?} */ (((/** @type {?} */ (this.row)))))).id;
+        this.subscription = this.state.expandSource.subscribe((targetId) => {
+            if (this.shouldExpandAllRows(targetId) || this.shouldExpandOneRow(targetId)) {
+                if (dataTable.isExpanded(this.row)) {
+                    this.render();
+                }
+                else {
+                    this.clear();
+                }
             }
         });
     }

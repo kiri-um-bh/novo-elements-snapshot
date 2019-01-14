@@ -47336,13 +47336,15 @@
                 this.selectionSource.next();
             };
         /**
+         * @param {?=} targetId
          * @return {?}
          */
         DataTableState.prototype.onExpandChange = /**
+         * @param {?=} targetId
          * @return {?}
          */
-            function () {
-                this.expandSource.next();
+            function (targetId) {
+                this.expandSource.next(targetId);
             };
         /**
          * @param {?} isPageSizeChange
@@ -47826,7 +47828,7 @@
                 else {
                     this.state.expandedRows.add("" + row[this.rowIdentifier]);
                 }
-                this.state.onExpandChange();
+                this.state.onExpandChange((( /** @type {?} */((( /** @type {?} */(row)))))).id);
             };
         /**
          * @param {?} expand
@@ -49620,12 +49622,16 @@
             this.vcRef = vcRef;
             this.state = state;
             this.dataTable = dataTable;
-            this.subscription = this.state.expandSource.subscribe(function () {
-                if (dataTable.isExpanded(_this.row)) {
-                    _this.render();
-                }
-                else {
-                    _this.clear();
+            this.shouldExpandAllRows = function (targetId) { return targetId === undefined; };
+            this.shouldExpandOneRow = function (targetId) { return targetId === (( /** @type {?} */((( /** @type {?} */(_this.row)))))).id; };
+            this.subscription = this.state.expandSource.subscribe(function (targetId) {
+                if (_this.shouldExpandAllRows(targetId) || _this.shouldExpandOneRow(targetId)) {
+                    if (dataTable.isExpanded(_this.row)) {
+                        _this.render();
+                    }
+                    else {
+                        _this.clear();
+                    }
                 }
             });
         }
