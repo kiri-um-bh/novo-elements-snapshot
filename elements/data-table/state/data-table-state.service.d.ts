@@ -30,7 +30,7 @@ export declare class DataTableState<T> {
     clearSort(fireUpdate?: boolean): void;
     clearFilter(fireUpdate?: boolean): void;
     onSelectionChange(): void;
-    onExpandChange(): void;
+    onExpandChange(targetId?: number): void;
     onPaginationChange(isPageSizeChange: boolean, pageSize: number): void;
     onSortFilterChange(): void;
 }
