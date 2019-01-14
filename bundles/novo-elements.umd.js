@@ -9908,6 +9908,7 @@
             this.focus = new core.EventEmitter();
             this.blur = new core.EventEmitter();
             this.typing = new core.EventEmitter();
+            this.isStatic = true;
             this.term = '';
             this.onModelChange = function () { };
             this.onModelTouched = function () { };
@@ -9972,10 +9973,13 @@
                 }
                 this.show((( /** @type {?} */(event.target))).value);
             };
+        /** BEGIN: Convenient Panel Methods. */
         /**
+         * BEGIN: Convenient Panel Methods.
          * @return {?}
          */
         NovoPickerElement.prototype.openPanel = /**
+         * BEGIN: Convenient Panel Methods.
          * @return {?}
          */
             function () {
@@ -9999,12 +10003,15 @@
             enumerable: true,
             configurable: true
         });
+        /** END: Convenient Panel Methods. */
         /**
+         * END: Convenient Panel Methods.
          * @private
          * @param {?=} term
          * @return {?}
          */
         NovoPickerElement.prototype.show = /**
+         * END: Convenient Panel Methods.
          * @private
          * @param {?=} term
          * @return {?}
@@ -10013,6 +10020,18 @@
                 this.openPanel();
                 // Show the results inside
                 this.showResults(term);
+            };
+        /**
+         * @private
+         * @return {?}
+         */
+        NovoPickerElement.prototype.hide = /**
+         * @private
+         * @return {?}
+         */
+            function () {
+                this.closePanel();
+                this.ref.markForCheck();
             };
         /**
          * @param {?} event
@@ -10100,18 +10119,28 @@
                 }
                 this.focus.emit(event);
             };
-        // Creates an instance of the results (called popup) and adds all the bindings to that instance.
-        // Creates an instance of the results (called popup) and adds all the bindings to that instance.
         /**
+         * @name showResults
+         *
+         * @description This method creates an instance of the results (called popup) and adds all the bindings to that
+         * instance.
+         */
+        /**
+         * \@name showResults
+         *
+         * \@description This method creates an instance of the results (called popup) and adds all the bindings to that
+         * instance.
          * @param {?=} term
          * @return {?}
          */
-        NovoPickerElement.prototype.showResults =
-            // Creates an instance of the results (called popup) and adds all the bindings to that instance.
-            /**
-             * @param {?=} term
-             * @return {?}
-             */
+        NovoPickerElement.prototype.showResults = /**
+         * \@name showResults
+         *
+         * \@description This method creates an instance of the results (called popup) and adds all the bindings to that
+         * instance.
+         * @param {?=} term
+         * @return {?}
+         */
             function (term) {
                 // Update Matches
                 if (this.popup) {
@@ -10133,35 +10162,38 @@
                     this.ref.markForCheck();
                 }
             };
-        // Tells the overlay component to hide the picker results from the DOM without deleting the dynamically allocated popup instance created in
-        // showResults. The popup instance will remain in memory from the first time the results are shown until this component is destroyed.
-        // Tells the overlay component to hide the picker results from the DOM without deleting the dynamically allocated popup instance created in
-        // showResults. The popup instance will remain in memory from the first time the results are shown until this component is destroyed.
         /**
+         * @name hideResults
+         *
+         * @description - This method deletes the picker results from the DOM.
+         */
+        /**
+         * \@name hideResults
+         *
+         * \@description - This method deletes the picker results from the DOM.
          * @param {?=} err
          * @return {?}
          */
-        NovoPickerElement.prototype.hideResults =
-            // Tells the overlay component to hide the picker results from the DOM without deleting the dynamically allocated popup instance created in
-            // showResults. The popup instance will remain in memory from the first time the results are shown until this component is destroyed.
-            /**
-             * @param {?=} err
-             * @return {?}
-             */
+        NovoPickerElement.prototype.hideResults = /**
+         * \@name hideResults
+         *
+         * \@description - This method deletes the picker results from the DOM.
+         * @param {?=} err
+         * @return {?}
+         */
             function (err) {
-                this.closePanel();
-                this.ref.markForCheck();
+                if (this.popup) {
+                    this.popup.destroy();
+                    this.popup = null;
+                }
+                this.hide();
             };
-        // Cleans up listeners for the popup - will get executed no matter how the popup is closed.
-        // Cleans up listeners for the popup - will get executed no matter how the popup is closed.
         /**
          * @return {?}
          */
-        NovoPickerElement.prototype.onOverlayClosed =
-            // Cleans up listeners for the popup - will get executed no matter how the popup is closed.
-            /**
-             * @return {?}
-             */
+        NovoPickerElement.prototype.onOverlayClosed = /**
+         * @return {?}
+         */
             function () {
                 if (this.popup && this.popup.instance && this.popup.instance.cleanUp) {
                     this.popup.instance.cleanUp();
@@ -10330,7 +10362,7 @@
             { type: core.Component, args: [{
                         selector: 'novo-picker',
                         providers: [PICKER_VALUE_ACCESSOR],
-                        template: "\n    <i class=\"bhi-more\" *ngIf=\"config?.entityIcon && !_value\"></i>\n    <i class=\"bhi-{{ config?.entityIcon }} entity-icon {{ config?.entityIcon }}\" *ngIf=\"config?.entityIcon && _value\"></i>\n    <input\n      type=\"text\"\n      class=\"picker-input\"\n      [(ngModel)]=\"term\"\n      [class.entity-picker]=\"config?.entityIcon\"\n      [class.entity-selected]=\"config?.entityIcon && _value\"\n      (ngModelChange)=\"checkTerm($event)\"\n      [placeholder]=\"placeholder\"\n      (keydown)=\"onKeyDown($event)\"\n      (focus)=\"onFocus($event)\"\n      (click)=\"onFocus($event)\"\n      (blur)=\"onTouched($event)\"\n      autocomplete=\"off\"\n      #input\n      [disabled]=\"disablePickerInput\"\n    />\n    <i class=\"bhi-search\" *ngIf=\"(!_value || clearValueOnSelect) && !disablePickerInput\"></i>\n    <i\n      class=\"bhi-times\"\n      [class.entity-selected]=\"config?.entityIcon && _value\"\n      *ngIf=\"_value && !clearValueOnSelect && !disablePickerInput\"\n      (click)=\"clearValue(true)\"\n    ></i>\n    <novo-overlay-template class=\"picker-results-container\" [parent]=\"element\" position=\"above-below\" (closing)=\"onOverlayClosed()\">\n      <span #results></span>\n      <ng-content></ng-content>\n    </novo-overlay-template>\n  "
+                        template: "\n        <i class=\"bhi-more\" *ngIf=\"config?.entityIcon && !_value\"></i>\n        <i class=\"bhi-{{ config?.entityIcon }} entity-icon {{ config?.entityIcon }}\" *ngIf=\"config?.entityIcon && _value\"></i>\n        <input\n            type=\"text\"\n            class=\"picker-input\"\n            [(ngModel)]=\"term\"\n            [class.entity-picker]=\"config?.entityIcon\"\n            [class.entity-selected]=\"config?.entityIcon && _value\"\n            (ngModelChange)=\"checkTerm($event)\"\n            [placeholder]=\"placeholder\"\n            (keydown)=\"onKeyDown($event)\"\n            (focus)=\"onFocus($event)\"\n            (click)=\"onFocus($event)\"\n            (blur)=\"onTouched($event)\"\n            autocomplete=\"off\" #input\n            [disabled]=\"disablePickerInput\"/>\n        <i class=\"bhi-search\" *ngIf=\"(!_value || clearValueOnSelect) && !disablePickerInput\"></i>\n        <i class=\"bhi-times\" [class.entity-selected]=\"config?.entityIcon && _value\" *ngIf=\"_value && !clearValueOnSelect && !disablePickerInput\" (click)=\"clearValue(true)\"></i>\n        <novo-overlay-template class=\"picker-results-container\" [parent]=\"element\" position=\"above-below\" (closing)=\"onOverlayClosed()\">\n            <span #results></span>\n            <ng-content></ng-content>\n        </novo-overlay-template>\n    "
                     }] }
         ];
         /** @nocollapse */
@@ -12573,7 +12605,7 @@
             { type: core.Component, args: [{
                         selector: 'chips,novo-chips',
                         providers: [CHIPS_VALUE_ACCESSOR],
-                        template: "\n        <div class=\"novo-chip-container\">\n          <novo-chip\n              *ngFor=\"let item of _items | async\"\n              [type]=\"type || item?.value?.searchEntity\"\n              [class.selected]=\"item == selected\"\n              [disabled]=\"disablePickerInput\"\n              (remove)=\"remove($event, item)\"\n              (select)=\"select($event, item)\"\n              (deselect)=\"deselect($event, item)\">\n              {{ item.label }}\n          </novo-chip>\n        </div>\n        <div class=\"chip-input-container\" *ngIf=\"!maxlength || (maxlength && items.length < maxlength)\">\n            <novo-picker\n                clearValueOnSelect=\"true\"\n                [closeOnSelect]=\"closeOnSelect\"\n                [config]=\"source\"\n                [disablePickerInput]=\"disablePickerInput\"\n                [placeholder]=\"placeholder\"\n                [(ngModel)]=\"itemToAdd\"\n                (select)=\"add($event)\"\n                (keydown)=\"onKeyDown($event)\"\n                (focus)=\"onFocus($event)\"\n                (typing)=\"onTyping($event)\"\n                (blur)=\"onTouched($event)\"\n                [selected]=\"items\"\n                [overrideElement]=\"element\">\n            </novo-picker>\n        </div>\n        <div class=\"preview-container\">\n            <span #preview></span>\n        </div>\n        <i class=\"bhi-search\" [class.has-value]=\"items.length\" *ngIf=\"!disablePickerInput\"></i>\n        <label class=\"clear-all\" *ngIf=\"items.length && !disablePickerInput\" (click)=\"clearValue()\">{{ labels.clearAll }} <i class=\"bhi-times\"></i></label>\n   ",
+                        template: "\n        <novo-chip\n            *ngFor=\"let item of _items | async\"\n            [type]=\"type || item?.value?.searchEntity\"\n            [class.selected]=\"item == selected\"\n            [disabled]=\"disablePickerInput\"\n            (remove)=\"remove($event, item)\"\n            (select)=\"select($event, item)\"\n            (deselect)=\"deselect($event, item)\">\n            {{ item.label }}\n        </novo-chip>\n        <div class=\"chip-input-container\" *ngIf=\"!maxlength || (maxlength && items.length < maxlength)\">\n            <novo-picker\n                clearValueOnSelect=\"true\"\n                [closeOnSelect]=\"closeOnSelect\"\n                [config]=\"source\"\n                [disablePickerInput]=\"disablePickerInput\"\n                [placeholder]=\"placeholder\"\n                [(ngModel)]=\"itemToAdd\"\n                (select)=\"add($event)\"\n                (keydown)=\"onKeyDown($event)\"\n                (focus)=\"onFocus($event)\"\n                (typing)=\"onTyping($event)\"\n                (blur)=\"onTouched($event)\"\n                [selected]=\"items\"\n                [overrideElement]=\"element\">\n            </novo-picker>\n        </div>\n        <div class=\"preview-container\">\n            <span #preview></span>\n        </div>\n        <i class=\"bhi-search\" [class.has-value]=\"items.length\" *ngIf=\"!disablePickerInput\"></i>\n        <label class=\"clear-all\" *ngIf=\"items.length && !disablePickerInput\" (click)=\"clearValue()\">{{ labels.clearAll }} <i class=\"bhi-times\"></i></label>\n   ",
                         host: {
                             '[class.with-value]': 'items.length > 0',
                             '[class.disabled]': 'disablePickerInput',
@@ -17876,10 +17908,7 @@
                                         controlConfig.value[subfield.name] = 1;
                                     }
                                     if (subfield.name === 'state' || subfield.name === 'countryID') {
-                                        if (subfield.name === 'state') {
-                                            subfield.optionsType = 'State';
-                                        }
-                                        else if (subfield.name === 'countryID') {
+                                        if (subfield.name === 'countryID') {
                                             subfield.optionsType = 'Country';
                                         }
                                         if (!subfield.optionsUrl) {
@@ -47336,15 +47365,13 @@
                 this.selectionSource.next();
             };
         /**
-         * @param {?=} targetId
          * @return {?}
          */
         DataTableState.prototype.onExpandChange = /**
-         * @param {?=} targetId
          * @return {?}
          */
-            function (targetId) {
-                this.expandSource.next(targetId);
+            function () {
+                this.expandSource.next();
             };
         /**
          * @param {?} isPageSizeChange
@@ -47828,7 +47855,7 @@
                 else {
                     this.state.expandedRows.add("" + row[this.rowIdentifier]);
                 }
-                this.state.onExpandChange((( /** @type {?} */((( /** @type {?} */(row)))))).id);
+                this.state.onExpandChange();
             };
         /**
          * @param {?} expand
@@ -49622,16 +49649,12 @@
             this.vcRef = vcRef;
             this.state = state;
             this.dataTable = dataTable;
-            this.shouldExpandAllRows = function (targetId) { return targetId === undefined; };
-            this.shouldExpandOneRow = function (targetId) { return targetId === (( /** @type {?} */((( /** @type {?} */(_this.row)))))).id; };
-            this.subscription = this.state.expandSource.subscribe(function (targetId) {
-                if (_this.shouldExpandAllRows(targetId) || _this.shouldExpandOneRow(targetId)) {
-                    if (dataTable.isExpanded(_this.row)) {
-                        _this.render();
-                    }
-                    else {
-                        _this.clear();
-                    }
+            this.subscription = this.state.expandSource.subscribe(function () {
+                if (dataTable.isExpanded(_this.row)) {
+                    _this.render();
+                }
+                else {
+                    _this.clear();
                 }
             });
         }
