@@ -13892,6 +13892,10 @@ var NovoDatePickerInputElement = /** @class */ (function () {
             if (!value) {
                 return '';
             }
+            // Handle dates stored as string values
+            if (/\d{4}-\d{2}-\d{2}/.test(value)) {
+                return value;
+            }
             if (this.userDefinedFormat && isValid(value)) {
                 return format(value, this.format);
             }
