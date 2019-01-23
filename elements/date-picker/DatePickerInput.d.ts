@@ -11,6 +11,8 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     value: any;
     formattedValue: string;
     private userDefinedFormat;
+    private currentValue;
+    private valueChanged;
     /** View -> model callback called when value changes */
     _onChange: (value: any) => void;
     /** View -> model callback called when autocomplete has been touched */
@@ -35,11 +37,10 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     closePanel(): void;
     readonly panelOpen: boolean;
     /** END: Convenient Panel Methods. */
-    _handleKeydown(event: KeyboardEvent): void;
-    _handleInput(event: KeyboardEvent): void;
+    _handleKeydown({ keyCode, target, stopPropagation }: Pick<KeyboardEvent, 'keyCode' | 'target' | 'stopPropagation'>): void;
+    _getHTMLInputElementValue(target: EventTarget): string;
     _handleBlur(event: FocusEvent): void;
     _handleFocus(event: FocusEvent): void;
-    _handleEvent(event: Event, blur: boolean): void;
     protected formatDate(value: string, blur: boolean): void;
     writeValue(value: any): void;
     registerOnChange(fn: (value: any) => {}): void;
