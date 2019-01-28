@@ -14959,15 +14959,24 @@ class FormUtils {
             'Person',
             'Placement',
         ];
-        this.PICKER_TEXT_LIST = [
+        this.ENTITY_PICKER_LIST = [
+            'Candidate',
             'CandidateText',
+            'Client',
             'ClientText',
+            'ClientContact',
             'ClientContactText',
+            'ClientCorporation',
             'ClientCorporationText',
+            'Lead',
             'LeadText',
+            'Opportunity',
             'OpportunityText',
+            'JobOrder',
             'JobOrderText',
+            'CorporateUser',
             'CorporateUserText',
+            'Person',
             'PersonText',
         ];
     }
@@ -15101,7 +15110,7 @@ class FormUtils {
             }
         }
         else if (field.optionsUrl && field.inputType === 'SELECT') {
-            if (field.optionsType && ~this.PICKER_TEXT_LIST.indexOf(field.optionsType)) {
+            if (field.optionsType && ~this.ENTITY_PICKER_LIST.indexOf(field.optionsType)) {
                 type = 'entitypicker'; // TODO!
             }
             else {

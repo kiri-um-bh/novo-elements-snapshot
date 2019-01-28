@@ -7,7 +7,7 @@ export declare class FormUtils {
     labels: NovoLabelService;
     optionsService: OptionsService;
     ASSOCIATED_ENTITY_LIST: string[];
-    PICKER_TEXT_LIST: string[];
+    ENTITY_PICKER_LIST: string[];
     constructor(labels: NovoLabelService, optionsService: OptionsService);
     toFormGroup(controls: Array<any>): NovoFormGroup;
     emptyFormGroup(): NovoFormGroup;
