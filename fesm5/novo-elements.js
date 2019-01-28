@@ -19240,7 +19240,6 @@ var FieldInteractionApi = /** @class */ (function () {
             };
             if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
                 newConfig = Object.assign(newConfig, {
-                    format: config.format,
                     options: function (query$$1) {
                         if (config.optionsPromise) {
                             return config.optionsPromise(query$$1, new CustomHttp(_this.http));
@@ -19265,6 +19264,9 @@ var FieldInteractionApi = /** @class */ (function () {
                         });
                     },
                 });
+                if (config.hasOwnProperty('format')) {
+                    newConfig.format = config.format;
+                }
             }
             else if (config.options) {
                 newConfig.options = __spread(config.options);
