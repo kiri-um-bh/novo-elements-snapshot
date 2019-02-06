@@ -17448,6 +17448,7 @@
                 'CorporateUserText',
                 'Person',
                 'PersonText',
+                'Placement',
             ];
         }
         /**
