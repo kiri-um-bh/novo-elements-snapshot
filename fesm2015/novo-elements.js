@@ -13672,8 +13672,8 @@ NovoFieldsetHeaderElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-fieldset-header',
                 template: `
-        <h6><i [class]="icon || 'bhi-section'"></i>{{title}}</h6>
-    `
+    <h6><i [class]="icon || 'bhi-section'"></i>{{ title }}</h6>
+  `
             }] }
 ];
 NovoFieldsetHeaderElement.propDecorators = {
@@ -13689,16 +13689,15 @@ NovoFieldsetElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-fieldset',
                 template: `
-        <div class="novo-fieldset-container">
-            <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title"></novo-fieldset-header>
-            <ng-container *ngFor="let control of controls;let controlIndex = index;">
-                <div class="novo-form-row" [class.disabled]="control.disabled" *ngIf="control.__type !== 'GroupedControl'">
-                    <novo-control [autoFocus]="autoFocus && index === 0 && controlIndex === 0" [control]="control" [form]="form"></novo-control>
-                </div>
-                <div *ngIf="control.__type === 'GroupedControl'">TODO - GroupedControl</div>
-            </ng-container>
+    <div class="novo-fieldset-container">
+      <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title"></novo-fieldset-header>
+      <ng-container *ngFor="let control of controls; let controlIndex = index">
+        <div class="novo-form-row" [class.disabled]="control.disabled">
+          <novo-control [autoFocus]="autoFocus && index === 0 && controlIndex === 0" [control]="control" [form]="form"></novo-control>
         </div>
-    `
+      </ng-container>
+    </div>
+  `
             }] }
 ];
 NovoFieldsetElement.propDecorators = {
@@ -13874,19 +13873,27 @@ NovoDynamicFormElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-dynamic-form',
                 template: `
-        <novo-control-templates></novo-control-templates>
-        <div class="novo-form-container">
-            <header>
-                <ng-content select="form-title"></ng-content>
-                <ng-content select="form-subtitle"></ng-content>
-            </header>
-            <form class="novo-form" [formGroup]="form">
-                <ng-container *ngFor="let fieldset of form.fieldsets;let i = index">
-                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form"></novo-fieldset>
-                </ng-container>
-            </form>
-        </div>
-    `,
+    <novo-control-templates></novo-control-templates>
+    <div class="novo-form-container">
+      <header>
+        <ng-content select="form-title"></ng-content>
+        <ng-content select="form-subtitle"></ng-content>
+      </header>
+      <form class="novo-form" [formGroup]="form">
+        <ng-container *ngFor="let fieldset of form.fieldsets; let i = index">
+          <novo-fieldset
+            *ngIf="fieldset.controls.length"
+            [index]="i"
+            [autoFocus]="autoFocusFirstField"
+            [icon]="fieldset.icon"
+            [controls]="fieldset.controls"
+            [title]="fieldset.title"
+            [form]="form"
+          ></novo-fieldset>
+        </ng-container>
+      </form>
+    </div>
+  `,
                 providers: [NovoTemplateService]
             }] }
 ];
@@ -14810,13 +14817,22 @@ class TimeControl extends BaseControl {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class GroupedControl {
+// export class GroupedControl implements NovoGroupedControlConfig {
+//   public __type: string;
+//   key: string;
+//   constructor(config: NovoGroupedControlConfig) {
+//     this.__type = 'GroupedControl';
+//     Object.keys(config).forEach((key) => (this[key] = config[key]));
+//   }
+// }
+class GroupedControl extends BaseControl {
     /**
      * @param {?} config
      */
     constructor(config) {
-        this.__type = 'GroupedControl';
-        Object.keys(config).forEach((key) => (this[key] = config[key]));
+        super('GroupedControl', config);
+        this.controlType = 'grouped';
+        this.key = config.key || '';
     }
 }
 
@@ -15126,6 +15142,9 @@ class FormUtils {
         else if (field.inputType === 'TEXTAREA') {
             type = 'textarea';
         }
+        else if (field.inputType === 'CONTROL_GROUP') {
+            type = 'grouped';
+        }
         else if (field.options && Object.keys(inputTypeToTypeMap).indexOf(field.inputType) > -1 && !field.multiValue) {
             type = inputTypeToTypeMap[field.inputType];
         }
@@ -15376,6 +15395,9 @@ class FormUtils {
                 break;
             case 'custom':
                 control = new CustomControl(controlConfig);
+                break;
+            case 'grouped':
+                control = new GroupedControl((/** @type {?} */ (controlConfig)));
                 break;
             default:
                 control = new TextBoxControl(controlConfig);
@@ -17564,98 +17586,183 @@ NovoControlElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-control',
                 template: `
-        <div class="novo-control-container" [hidden]="form.controls[control.key].hidden || form.controls[control.key].type === 'hidden' || form.controls[control.key].controlType === 'hidden'">
-            <!--Encrypted Field-->
-            <span [tooltip]="labels.encryptedFieldTooltip" [tooltipPosition]="'right'"><i [hidden]="!form.controls[control.key].encrypted"
-            class="bhi-lock"></i></span>
-            <!--Label (for horizontal)-->
-            <label [attr.for]="control.key" *ngIf="form.layout !== 'vertical' && form.controls[control.key].label && !condensed" [ngClass]="{'encrypted': form.controls[control.key].encrypted }">
-                {{ form.controls[control.key].label }}
-            </label>
-            <div class="novo-control-outer-container">
-                <!--Label (for vertical)-->
-                <label
-                    *ngIf="form.layout === 'vertical' && form.controls[control.key].label && !condensed"
-                    class="novo-control-label"
-                    [attr.for]="control.key"
-                    [class.novo-control-empty]="!hasValue"
-                    [class.novo-control-focused]="focused"
-                    [class.novo-control-filled]="hasValue"
-                    [class.novo-control-always-active]="alwaysActive || form.controls[control.key].placeholder"
-                    [class.novo-control-extra-spacing]="requiresExtraSpacing">
-                    {{ form.controls[control.key].label }}
-                </label>
-                <div class="novo-control-inner-container" [class.required]="form.controls[control.key].required && !form.controls[control.key].readOnly">
-                    <div class="novo-control-inner-input-container" [class.novo-control-filled]="hasValue" [class.novo-control-empty]="!hasValue">
-                      <!--Required Indicator-->
-                        <i [hidden]="!form.controls[control.key].required || form.controls[control.key].readOnly"
-                            class="required-indicator {{ form.controls[control.key].controlType }}"
-                            [ngClass]="{'bhi-circle': !isValid, 'bhi-check': isValid}" *ngIf="!condensed || form.controls[control.key].required">
-                        </i>
-                        <!--Form Controls-->
-                        <div class="novo-control-input {{ form.controls[control.key].controlType }}" [attr.data-automation-id]="control.key" [class.control-disabled]="form.controls[control.key].disabled">
-                            <!--TODO prefix/suffix on the control-->
-                            <ng-container *ngIf="templates">
-                              <ng-container *ngTemplateOutlet="templates[form.controls[control.key].controlType]; context: templateContext"></ng-container>
-                            </ng-container>
-                            <ng-container *ngIf="!templates || loading">
-                                <div class="novo-control-input-container novo-control-input-with-label">
-                                  <input type="text"/>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </div>
-                    <!--Error Message-->
-                    <div class="field-message {{ form.controls[control.key].controlType }}" *ngIf="!condensed" [class.has-tip]="form.controls[control.key].tipWell" [ngClass]="showErrorState || showMaxLengthMetMessage ? 'error-shown' : 'error-hidden'">
-                        <div class="messages" [ngClass]="showMessages ? 'count-shown messages-shown' : 'count-hidden messages-hidden'">
-                            <span class="error-text" *ngIf="showFieldMessage"></span>
-                            <span class="error-text" *ngIf="isDirty && errors?.required && form.controls[control.key].controlType !== 'address'">{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span>
-                            <span class="error-text" *ngIf="isDirty && errors?.minlength">{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span>
-                            <span class="error-text" *ngIf="isDirty && maxLengthMet && focused && !errors?.maxlength && form.controls[control.key].controlType !== 'picker'">{{ labels.maxlengthMet(form.controls[control.key].maxlength) }}</span>
-                            <span class="error-text" *ngIf="errors?.maxlength && focused && !errors?.maxlengthFields">{{ labels.invalidMaxlength(form.controls[control.key].maxlength) }}</span>
-                            <span class="error-text" *ngIf="maxLengthMet && form.controls[control.key].controlType === 'picker'">{{ labels.maxRecordsReached }}</span>
-                            <span class="error-text" *ngIf="isDirty && errors?.invalidEmail">{{ form.controls[control.key].label | uppercase }} {{ labels.invalidEmail }}</span>
-                            <span class="error-text" *ngIf="isDirty && (errors?.integerTooLarge || errors?.doubleTooLarge)">{{ form.controls[control.key].label | uppercase }} {{ labels.isTooLarge }}</span>
-                            <span *ngIf="isDirty && errors?.minYear">{{ form.controls[control.key].label | uppercase }} {{ labels.notValidYear }}</span>
-                            <span class="error-text" *ngIf="isDirty && (errors?.custom)">{{ errors.custom }}</span>
-                            <span class="error-text" *ngIf="errors?.maxlength && errors?.maxlengthFields && maxlengthErrorField && focused">
-                                {{ labels.invalidMaxlengthWithField(control.config[maxlengthErrorField]?.label, control.config[maxlengthErrorField]?.maxlength) }}
-                            </span>
-                            <span class="error-text" *ngIf="isDirty && maxlengthMetField && focused && !errors?.maxlengthFields?.includes(maxlengthMetField)">
-                              {{ labels.maxlengthMetWithField(control.config[maxlengthMetField]?.label, control.config[maxlengthMetField]?.maxlength) }}
-                            </span>
-                            <span *ngIf="isDirty && errors?.invalidAddress">
-                                <span class="error-text" *ngFor="let invalidAddressField of errors?.invalidAddressFields">{{ invalidAddressField | uppercase }} {{ labels.isRequired }} </span>
-                            </span>
-                            <!--Field Hint-->
-                            <span class="description" *ngIf="form.controls[control.key].description">
-                                {{ form.controls[control.key].description }}
-                            </span>
-                            <span class="warning-text" *ngIf="form.controls[control.key].warning">{{ form.controls[control.key].warning }}</span>
-
-                        </div>
-                        <span class="character-count" [class.error]="((errors?.maxlength && !errors?.maxlengthFields) || (errors?.maxlength && errors?.maxlengthFields && errors.maxlengthFields.includes(focusedField)))" *ngIf="showCount && form.controls[control.key].controlType !== 'picker'">{{ itemCount }}/{{ maxLength || form.controls[control.key].maxlength }}</span>
-                        <span class="record-count" [class.zero-count]="itemCount === 0" [class.row-picker]="form.controls[this.control.key].config.columns" *ngIf="showCount && form.controls[control.key].controlType === 'picker'">{{ itemCount }}/{{ maxLength || form.controls[control.key].maxlength }}</span>
-                    </div>
-                    <!--Tip Wel-->
-                    <novo-tip-well *ngIf="form.controls[control.key].tipWell" [name]="control.key" [tip]="form.controls[control.key]?.tipWell?.tip" [icon]="form.controls[control.key]?.tipWell?.icon" [button]="form.controls[control.key]?.tipWell?.button"></novo-tip-well>
-                </div>
-                <i *ngIf="form.controls[control.key].fieldInteractionloading" class="loading">
-                    <svg version="1.1"
-                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
-                     x="0px" y="0px" width="18.2px" height="18.5px" viewBox="0 0 18.2 18.5" style="enable-background:new 0 0 18.2 18.5;"
-                     xml:space="preserve">
-                    <style type="text/css">
-                        .spinner { fill:#FFFFFF; }
-                    </style>
-                        <path class="spinner" d="M9.2,18.5C4.1,18.5,0,14.4,0,9.2S4.1,0,9.2,0c0.9,0,1.9,0.1,2.7,0.4c0.8,0.2,1.2,1.1,1,1.9
-                            c-0.2,0.8-1.1,1.2-1.9,1C10.5,3.1,9.9,3,9.2,3C5.8,3,3,5.8,3,9.2s2.8,6.2,6.2,6.2c2.8,0,5.3-1.9,6-4.7c0.2-0.8,1-1.3,1.8-1.1
-                            c0.8,0.2,1.3,1,1.1,1.8C17.1,15.7,13.4,18.5,9.2,18.5z"/>
-                    </svg>
-                </i>
+    <div
+      class="novo-control-container"
+      [hidden]="
+        form.controls[control.key].hidden ||
+        form.controls[control.key].type === 'hidden' ||
+        form.controls[control.key].controlType === 'hidden'
+      "
+    >
+      <!--Encrypted Field-->
+      <span [tooltip]="labels.encryptedFieldTooltip" [tooltipPosition]="'right'"
+        ><i [hidden]="!form.controls[control.key].encrypted" class="bhi-lock"></i
+      ></span>
+      <!--Label (for horizontal)-->
+      <label
+        [attr.for]="control.key"
+        *ngIf="form.layout !== 'vertical' && form.controls[control.key].label && !condensed"
+        [ngClass]="{ encrypted: form.controls[control.key].encrypted }"
+      >
+        {{ form.controls[control.key].label }}
+      </label>
+      <div class="novo-control-outer-container">
+        <!--Label (for vertical)-->
+        <label
+          *ngIf="form.layout === 'vertical' && form.controls[control.key].label && !condensed"
+          class="novo-control-label"
+          [attr.for]="control.key"
+          [class.novo-control-empty]="!hasValue"
+          [class.novo-control-focused]="focused"
+          [class.novo-control-filled]="hasValue"
+          [class.novo-control-always-active]="alwaysActive || form.controls[control.key].placeholder"
+          [class.novo-control-extra-spacing]="requiresExtraSpacing"
+        >
+          {{ form.controls[control.key].label }}
+        </label>
+        <div
+          class="novo-control-inner-container"
+          [class.required]="form.controls[control.key].required && !form.controls[control.key].readOnly"
+        >
+          <div class="novo-control-inner-input-container" [class.novo-control-filled]="hasValue" [class.novo-control-empty]="!hasValue">
+            <!--Required Indicator-->
+            <i
+              [hidden]="!form.controls[control.key].required || form.controls[control.key].readOnly"
+              class="required-indicator {{ form.controls[control.key].controlType }}"
+              [ngClass]="{ 'bhi-circle': !isValid, 'bhi-check': isValid }"
+              *ngIf="!condensed || form.controls[control.key].required"
+            >
+            </i>
+            <!--Form Controls-->
+            <div
+              class="novo-control-input {{ form.controls[control.key].controlType }}"
+              [attr.data-automation-id]="control.key"
+              [class.control-disabled]="form.controls[control.key].disabled"
+            >
+              <!--TODO prefix/suffix on the control-->
+              <ng-container *ngIf="templates">
+                <ng-container
+                  *ngTemplateOutlet="templates[form.controls[control.key].controlType]; context: templateContext"
+                ></ng-container>
+              </ng-container>
+              <ng-container *ngIf="!templates || loading">
+                <div class="novo-control-input-container novo-control-input-with-label"><input type="text" /></div>
+              </ng-container>
             </div>
+          </div>
+          <!--Error Message-->
+          <div
+            class="field-message {{ form.controls[control.key].controlType }}"
+            *ngIf="!condensed"
+            [class.has-tip]="form.controls[control.key].tipWell"
+            [ngClass]="showErrorState || showMaxLengthMetMessage ? 'error-shown' : 'error-hidden'"
+          >
+            <div class="messages" [ngClass]="showMessages ? 'count-shown messages-shown' : 'count-hidden messages-hidden'">
+              <span class="error-text" *ngIf="showFieldMessage"></span>
+              <span class="error-text" *ngIf="isDirty && errors?.required && form.controls[control.key].controlType !== 'address'"
+                >{{ form.controls[control.key].label | uppercase }} {{ labels.isRequired }}</span
+              >
+              <span class="error-text" *ngIf="isDirty && errors?.minlength"
+                >{{ form.controls[control.key].label | uppercase }} {{ labels.minLength }} {{ form.controls[control.key].minlength }}</span
+              >
+              <span
+                class="error-text"
+                *ngIf="isDirty && maxLengthMet && focused && !errors?.maxlength && form.controls[control.key].controlType !== 'picker'"
+                >{{ labels.maxlengthMet(form.controls[control.key].maxlength) }}</span
+              >
+              <span class="error-text" *ngIf="errors?.maxlength && focused && !errors?.maxlengthFields">{{
+                labels.invalidMaxlength(form.controls[control.key].maxlength)
+              }}</span>
+              <span class="error-text" *ngIf="maxLengthMet && form.controls[control.key].controlType === 'picker'">{{
+                labels.maxRecordsReached
+              }}</span>
+              <span class="error-text" *ngIf="isDirty && errors?.invalidEmail"
+                >{{ form.controls[control.key].label | uppercase }} {{ labels.invalidEmail }}</span
+              >
+              <span class="error-text" *ngIf="isDirty && (errors?.integerTooLarge || errors?.doubleTooLarge)"
+                >{{ form.controls[control.key].label | uppercase }} {{ labels.isTooLarge }}</span
+              >
+              <span *ngIf="isDirty && errors?.minYear">{{ form.controls[control.key].label | uppercase }} {{ labels.notValidYear }}</span>
+              <span class="error-text" *ngIf="isDirty && errors?.custom">{{ errors.custom }}</span>
+              <span class="error-text" *ngIf="errors?.maxlength && errors?.maxlengthFields && maxlengthErrorField && focused">
+                {{
+                  labels.invalidMaxlengthWithField(
+                    control.config[maxlengthErrorField]?.label,
+                    control.config[maxlengthErrorField]?.maxlength
+                  )
+                }}
+              </span>
+              <span
+                class="error-text"
+                *ngIf="isDirty && maxlengthMetField && focused && !errors?.maxlengthFields?.includes(maxlengthMetField)"
+              >
+                {{ labels.maxlengthMetWithField(control.config[maxlengthMetField]?.label, control.config[maxlengthMetField]?.maxlength) }}
+              </span>
+              <span *ngIf="isDirty && errors?.invalidAddress">
+                <span class="error-text" *ngFor="let invalidAddressField of errors?.invalidAddressFields"
+                  >{{ invalidAddressField | uppercase }} {{ labels.isRequired }}
+                </span>
+              </span>
+              <!--Field Hint-->
+              <span class="description" *ngIf="form.controls[control.key].description"> {{ form.controls[control.key].description }} </span>
+              <span class="warning-text" *ngIf="form.controls[control.key].warning">{{ form.controls[control.key].warning }}</span>
+            </div>
+            <span
+              class="character-count"
+              [class.error]="
+                (errors?.maxlength && !errors?.maxlengthFields) ||
+                (errors?.maxlength && errors?.maxlengthFields && errors.maxlengthFields.includes(focusedField))
+              "
+              *ngIf="showCount && form.controls[control.key].controlType !== 'picker'"
+              >{{ itemCount }}/{{ maxLength || form.controls[control.key].maxlength }}</span
+            >
+            <span
+              class="record-count"
+              [class.zero-count]="itemCount === 0"
+              [class.row-picker]="form.controls[this.control.key].config.columns"
+              *ngIf="showCount && form.controls[control.key].controlType === 'picker'"
+              >{{ itemCount }}/{{ maxLength || form.controls[control.key].maxlength }}</span
+            >
+          </div>
+          <!--Tip Wel-->
+          <novo-tip-well
+            *ngIf="form.controls[control.key].tipWell"
+            [name]="control.key"
+            [tip]="form.controls[control.key]?.tipWell?.tip"
+            [icon]="form.controls[control.key]?.tipWell?.icon"
+            [button]="form.controls[control.key]?.tipWell?.button"
+          ></novo-tip-well>
         </div>
-    `,
+        <i *ngIf="form.controls[control.key].fieldInteractionloading" class="loading">
+          <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+            x="0px"
+            y="0px"
+            width="18.2px"
+            height="18.5px"
+            viewBox="0 0 18.2 18.5"
+            style="enable-background:new 0 0 18.2 18.5;"
+            xml:space="preserve"
+          >
+            <style type="text/css">
+              .spinner {
+                fill: #ffffff;
+              }
+            </style>
+            <path
+              class="spinner"
+              d="M9.2,18.5C4.1,18.5,0,14.4,0,9.2S4.1,0,9.2,0c0.9,0,1.9,0.1,2.7,0.4c0.8,0.2,1.2,1.1,1,1.9
+                            c-0.2,0.8-1.1,1.2-1.9,1C10.5,3.1,9.9,3,9.2,3C5.8,3,3,5.8,3,9.2s2.8,6.2,6.2,6.2c2.8,0,5.3-1.9,6-4.7c0.2-0.8,1-1.3,1.8-1.1
+                            c0.8,0.2,1.3,1,1.1,1.8C17.1,15.7,13.4,18.5,9.2,18.5z"
+            />
+          </svg>
+        </i>
+      </div>
+    </div>
+  `,
                 host: {
                     '[class]': 'form.controls[control.key].controlType',
                     '[attr.data-control-type]': 'form.controls[control.key].controlType',
@@ -36664,53 +36771,131 @@ NovoControlGroup.decorators = [
     { type: Component, args: [{
                 selector: 'novo-control-group',
                 template: `
-        <h6 class="novo-section-header" *ngIf="label">
-            <span (click)="toggle($event)" [class.clickable]="collapsible">
-                <i *ngIf="icon && !collapsible" [ngClass]="icon" [attr.data-automation-id]="'novo-control-group-icon-' + key"></i>
-                <i *ngIf="collapsible" class="bhi-next" [class.toggled]="toggled" [attr.data-automation-id]="'novo-control-group-collapse-' + key"></i>
-                <span [attr.data-automation-id]="'novo-control-group-label-' + key">{{ label }}</span>
-            </span>
-            <label class="novo-control-group-description" *ngIf="description" [attr.data-automation-id]="'novo-control-group-description-' + key">{{ description }}</label>
-        </h6>
-        <div class="novo-control-group-controls" [class.vertical]="vertical" [class.horizontal]="!vertical" [class.hidden]="collapsible && !toggled">
-            <ng-template #defaultTemplate let-index="index" let-form="form" let-key="key">
-                <div class="novo-control-group-control">
-                    <div *ngFor="let c of controls" class="novo-control-container" [class.is-label]="c.controlType === 'read-only'" [style.max-width.px]="c.width">
-                        <novo-control [form]="form?.controls[key]['controls'][index]" [control]="c" [condensed]="!vertical || c.controlType === 'read-only'"></novo-control>
-                    </div>
-                    <div class="novo-control-container last" *ngIf="edit && !vertical">
-                        <button [disabled]="!disabledArray[index].edit" type="button" *ngIf="edit && !vertical" theme="icon" icon="edit" (click)="editControl(index)" [attr.data-automation-id]="'novo-control-group-edit-' + key" index="-1"></button>
-                    </div>
-                    <div class="novo-control-container last" *ngIf="remove && !vertical">
-                        <button [disabled]="!disabledArray[index].remove" type="button" *ngIf="remove && !vertical" theme="icon" icon="delete-o" (click)="removeControl(index)" [attr.data-automation-id]="'novo-control-group-delete-' + key" index="-1"></button>
-                    </div>
-                </div>
-                <button [disabled]="!disabledArray[index].edit" type="button" *ngIf="edit && vertical" theme="icon" icon="edit" (click)="editControl(index)" [attr.data-automation-id]="'novo-control-group-edit-' + key" index="-1"></button>
-                <button [disabled]="!disabledArray[index].remove" type="button" *ngIf="remove && vertical" theme="icon" icon="delete-o" (click)="removeControl(index)" [attr.data-automation-id]="'novo-control-group-delete-' + key" index="-1"></button>
-            </ng-template>
-            <div class="novo-control-group-labels" *ngIf="!vertical && form?.controls[key] && form?.controls[key]['controls'].length !== 0">
-                <div class="novo-control-group-control-label" *ngFor="let label of controlLabels" [style.max-width.px]="label.width">
-                    <span [attr.data-automation-id]="'novo-control-group-label-' + label.value">{{ label.value }}</span>
-                </div>
-                <div class="novo-control-group-control-label last" *ngIf="edit" [attr.data-automation-id]="'novo-control-group-edit-' + key"></div>
-                <div class="novo-control-group-control-label last" *ngIf="remove" [attr.data-automation-id]="'novo-control-group-delete-' + key"></div>
-            </div>
-            <ng-container *ngIf="form?.controls[key]">
-                <div class="novo-control-group-row" *ngFor="let control of form?.controls[key]['controls']; let index = index;">
-                    <ng-template
-                        [ngTemplateOutlet]="rowTemplate || defaultTemplate"
-                        [ngTemplateOutletContext]="{form: form, index: index, key: key, controls: controls}">
-                    </ng-template>
-                </div>
-            </ng-container>
-            <div class="novo-control-group-empty" *ngIf="form?.controls[key] && form?.controls[key]['controls'].length === 0" [attr.data-automation-id]="'novo-control-group-empty-' + key">
-                {{ emptyMessage }}
-            </div>
-            <p *ngIf="add">
-                <button type="button" theme="dialogue" icon="add-thin" (click)="addNewControl()" [attr.data-automation-id]="'novo-control-group-bottom-add-' + key" index="-1">{{ add?.label }}</button>
-            </p>
+    <h6 class="novo-section-header" *ngIf="label">
+      <span (click)="toggle($event)" [class.clickable]="collapsible">
+        <i *ngIf="icon && !collapsible" [ngClass]="icon" [attr.data-automation-id]="'novo-control-group-icon-' + key"></i>
+        <i
+          *ngIf="collapsible"
+          class="bhi-next"
+          [class.toggled]="toggled"
+          [attr.data-automation-id]="'novo-control-group-collapse-' + key"
+        ></i>
+        <span [attr.data-automation-id]="'novo-control-group-label-' + key">{{ label }}</span>
+      </span>
+      <label
+        class="novo-control-group-description"
+        *ngIf="description"
+        [attr.data-automation-id]="'novo-control-group-description-' + key"
+        >{{ description }}</label
+      >
+    </h6>
+    <div
+      class="novo-control-group-controls"
+      [class.vertical]="vertical"
+      [class.horizontal]="!vertical"
+      [class.hidden]="collapsible && !toggled"
+    >
+      <ng-template #defaultTemplate let-index="index" let-form="form" let-key="key">
+        <div class="novo-control-group-control">
+          <div
+            *ngFor="let c of controls"
+            class="novo-control-container"
+            [class.is-label]="c.controlType === 'read-only'"
+            [style.max-width.px]="c.width"
+          >
+            <novo-control
+              [form]="(form?.controls)[key]['controls'][index]"
+              [control]="c"
+              [condensed]="!vertical || c.controlType === 'read-only'"
+            ></novo-control>
+          </div>
+          <div class="novo-control-container last" *ngIf="edit && !vertical">
+            <button
+              [disabled]="!disabledArray[index].edit"
+              type="button"
+              *ngIf="edit && !vertical"
+              theme="icon"
+              icon="edit"
+              (click)="editControl(index)"
+              [attr.data-automation-id]="'novo-control-group-edit-' + key"
+              index="-1"
+            ></button>
+          </div>
+          <div class="novo-control-container last" *ngIf="remove && !vertical">
+            <button
+              [disabled]="!disabledArray[index].remove"
+              type="button"
+              *ngIf="remove && !vertical"
+              theme="icon"
+              icon="delete-o"
+              (click)="removeControl(index)"
+              [attr.data-automation-id]="'novo-control-group-delete-' + key"
+              index="-1"
+            ></button>
+          </div>
         </div>
-   `,
+        <button
+          [disabled]="!disabledArray[index].edit"
+          type="button"
+          *ngIf="edit && vertical"
+          theme="icon"
+          icon="edit"
+          (click)="editControl(index)"
+          [attr.data-automation-id]="'novo-control-group-edit-' + key"
+          index="-1"
+        ></button>
+        <button
+          [disabled]="!disabledArray[index].remove"
+          type="button"
+          *ngIf="remove && vertical"
+          theme="icon"
+          icon="delete-o"
+          (click)="removeControl(index)"
+          [attr.data-automation-id]="'novo-control-group-delete-' + key"
+          index="-1"
+        ></button>
+      </ng-template>
+      <div class="novo-control-group-labels" *ngIf="!vertical && (form?.controls)[key] && (form?.controls)[key]['controls'].length !== 0">
+        <div class="novo-control-group-control-label" *ngFor="let label of controlLabels" [style.max-width.px]="label.width">
+          <span [attr.data-automation-id]="'novo-control-group-label-' + label.value">{{ label.value }}</span>
+        </div>
+        <div class="novo-control-group-control-label last" *ngIf="edit" [attr.data-automation-id]="'novo-control-group-edit-' + key"></div>
+        <div
+          class="novo-control-group-control-label last"
+          *ngIf="remove"
+          [attr.data-automation-id]="'novo-control-group-delete-' + key"
+        ></div>
+      </div>
+      <ng-container *ngIf="(form?.controls)[key]">
+        <div class="novo-control-group-row" *ngFor="let control of (form?.controls)[key]['controls']; let index = index">
+          <ng-template
+            [ngTemplateOutlet]="rowTemplate || defaultTemplate"
+            [ngTemplateOutletContext]="{ form: form, index: index, key: key, controls: controls }"
+          >
+          </ng-template>
+        </div>
+      </ng-container>
+      <div
+        class="novo-control-group-empty"
+        *ngIf="(form?.controls)[key] && (form?.controls)[key]['controls'].length === 0"
+        [attr.data-automation-id]="'novo-control-group-empty-' + key"
+      >
+        {{ emptyMessage }}
+      </div>
+      <p *ngIf="add">
+        <button
+          type="button"
+          theme="dialogue"
+          icon="add-thin"
+          (click)="addNewControl()"
+          [attr.data-automation-id]="'novo-control-group-bottom-add-' + key"
+          index="-1"
+        >
+          {{ add?.label }}
+        </button>
+      </p>
+    </div>
+  `,
                 changeDetection: ChangeDetectionStrategy.OnPush
             }] }
 ];
