@@ -20,7 +20,7 @@ import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
-import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, startOfTomorrow, isToday } from 'date-fns';
+import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { __extends, __values, __spread, __read, __assign } from 'tslib';
@@ -19249,7 +19249,6 @@ var FieldInteractionApi = /** @class */ (function () {
             };
             if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
                 newConfig = Object.assign(newConfig, {
-                    format: config.format,
                     options: function (query$$1) {
                         if (config.optionsPromise) {
                             return config.optionsPromise(query$$1, new CustomHttp(_this.http));
@@ -19274,6 +19273,9 @@ var FieldInteractionApi = /** @class */ (function () {
                         });
                     },
                 });
+                if (config.hasOwnProperty('format')) {
+                    newConfig.format = config.format;
+                }
             }
             else if (config.options) {
                 newConfig.options = __spread(config.options);

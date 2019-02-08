@@ -19508,7 +19508,6 @@
                     };
                     if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
                         newConfig = Object.assign(newConfig, {
-                            format: config.format,
                             options: function (query) {
                                 if (config.optionsPromise) {
                                     return config.optionsPromise(query, new CustomHttp(_this.http));
@@ -19533,6 +19532,9 @@
                                 });
                             },
                         });
+                        if (config.hasOwnProperty('format')) {
+                            newConfig.format = config.format;
+                        }
                     }
                     else if (config.options) {
                         newConfig.options = __spread(config.options);
