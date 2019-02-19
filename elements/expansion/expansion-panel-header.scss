@@ -1,3 +1,4 @@
+
 .novo-expansion-panel-header {
   display: flex;
   flex-direction: row;
@@ -10,7 +11,7 @@
   }
 
   &.novo-expanded:focus,
-  &.novo-expanded:hover {
+  &.novo-expanded:hover, {
     background: inherit;
   }
 

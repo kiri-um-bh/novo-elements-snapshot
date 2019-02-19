@@ -12,7 +12,6 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     customTemplates: QueryList<NovoTemplate>;
     defaultTemplates: QueryList<NovoTemplate>;
     novoDataTableContainer: ElementRef;
-    resized: EventEmitter<IDataTableColumn<T>>;
     displayedColumns: string[];
     private _disabledColumns;
     paginationOptions: IDataTablePaginationOptions;
@@ -27,7 +26,6 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     templates: {
         [key: string]: TemplateRef<any>;
     };
-    fixedHeader: boolean;
     dataTableService: IDataTableService<T>;
     rows: T[];
     outsideFilter: EventEmitter<any>;
@@ -57,7 +55,6 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     private paginationSubscription;
     private _columns;
     private scrollListenerHandler;
-    private initialized;
     readonly empty: boolean;
     readonly loadingClass: boolean;
     constructor(labels: NovoLabelService, ref: ChangeDetectorRef, state: DataTableState<T>);
@@ -74,7 +71,6 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     selectRow(row: T): void;
     selectRows(selected: boolean): void;
     allCurrentRowsSelected(): boolean;
-    private configureLastDisplayedColumn;
-    private configureColumns;
-    private scrollListener;
+    private configureColumns();
+    private scrollListener(event);
 }

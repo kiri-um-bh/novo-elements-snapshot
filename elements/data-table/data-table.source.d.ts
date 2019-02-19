@@ -1,6 +1,7 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { DataSource } from '@angular/cdk/table';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { DataTableState } from './state/data-table-state.service';
 import { IDataTableService } from './interfaces';
 export declare class DataTableSource<T> extends DataSource<T> {
@@ -17,6 +18,6 @@ export declare class DataTableSource<T> extends DataSource<T> {
     readonly totallyEmpty: boolean;
     readonly currentlyEmpty: boolean;
     constructor(tableService: IDataTableService<T>, state: DataTableState<T>, ref: ChangeDetectorRef);
-    connect(): Observable<any>;
+    connect(): Observable<any[]>;
     disconnect(): void;
 }
