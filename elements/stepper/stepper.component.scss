@@ -48,19 +48,19 @@ $novo-stepper-line-gap: 8px !default;
     position: absolute;
     height: 1px;
     bottom: 0px;
-
+    
     .novo-stepper-status-line {
       width: 100%;
       position: absolute;
       &:before {
-        content: '';
+        content: "";
         display: block;
         width: calc(50% - 8px);
         margin-right: 8px;
         border-bottom: 1px solid $light;
       }
       &:after {
-        content: '';
+        content: "";
         display: block;
         width: calc(50% - 8px);
         margin-left: calc(50% + 8px);
@@ -84,7 +84,7 @@ $novo-stepper-line-gap: 8px !default;
     .novo-stepper-status-icon {
       position: relative;
       &:before {
-        content: '';
+        content: "";
         display: block;
         background: $white;
         border-radius: 50%;
@@ -95,7 +95,7 @@ $novo-stepper-line-gap: 8px !default;
         bottom: 1px;
         right: 1px;
       }
-      & > * {
+      & > *  {
         position: relative;
         z-index: 1;
       }
@@ -181,7 +181,7 @@ $novo-stepper-line-gap: 8px !default;
     position: absolute;
     left: 35px;
     top: 25px;
-    transform: scale(0.8);
+    transform: scale(.8);
   }
 }
 

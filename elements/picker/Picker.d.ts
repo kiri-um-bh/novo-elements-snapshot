@@ -1,4 +1,7 @@
-import { ChangeDetectorRef, ComponentRef, ElementRef, EventEmitter, OnInit, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, EventEmitter, OnInit, ViewContainerRef } from '@angular/core';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 /**
@@ -35,19 +38,24 @@ export declare class NovoPickerElement implements OnInit {
     typing: EventEmitter<any>;
     container: NovoOverlayTemplateComponent;
     private input;
+    closeHandler: any;
+    isStatic: boolean;
     term: string;
     resultsComponent: any;
-    popup: ComponentRef<any>;
+    popup: any;
     _value: any;
     onModelChange: Function;
     onModelTouched: Function;
     constructor(element: ElementRef, componentUtils: ComponentUtils, ref: ChangeDetectorRef);
     ngOnInit(): void;
-    private onDebouncedKeyup;
+    private onDebouncedKeyup(event);
+    /** BEGIN: Convenient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
     readonly panelOpen: boolean;
-    private show;
+    /** END: Convenient Panel Methods. */
+    private show(term?);
+    private hide();
     onKeyDown(event: KeyboardEvent): void;
     clearValue(wipeTerm: any): void;
     /**
@@ -56,7 +64,18 @@ export declare class NovoPickerElement implements OnInit {
      * results.
      */
     onFocus(event: any): void;
+    /**
+     * @name showResults
+     *
+     * @description This method creates an instance of the results (called popup) and adds all the bindings to that
+     * instance.
+     */
     showResults(term?: any): void;
+    /**
+     * @name hideResults
+     *
+     * @description - This method deletes the picker results from the DOM.
+     */
     hideResults(err?: any): void;
     onOverlayClosed(): void;
     value: any;

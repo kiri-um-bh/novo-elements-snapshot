@@ -1,7 +1,7 @@
-@import '../../styles/global/variables';
-@import '../../styles/global/functions';
+@import "../../styles/global/variables";
+@import "../../styles/global/functions";
 
-@import './_expansion-theme';
+@import "./_expansion-theme";
 
 @include novo-expansion-panel-theme();
 
@@ -40,6 +40,7 @@
 }
 
 .novo-expansion-panel-spacing {
+
   .novo-accordion &:first-child {
     margin-top: 0;
   }
