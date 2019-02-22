@@ -12,6 +12,7 @@ export declare class FormUtils {
     toFormGroup(controls: Array<any>): NovoFormGroup;
     emptyFormGroup(): NovoFormGroup;
     addControls(formGroup: NovoFormGroup, controls: Array<NovoControlConfig>): void;
+    removeControls(formGroup: NovoFormGroup, controls: Array<NovoControlConfig>): void;
     /**
      * @name toFormGroupFromFieldset
      * @param fieldsets

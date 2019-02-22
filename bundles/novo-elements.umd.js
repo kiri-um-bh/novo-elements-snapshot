@@ -17498,6 +17498,21 @@
                 });
             };
         /**
+         * @param {?} formGroup
+         * @param {?} controls
+         * @return {?}
+         */
+        FormUtils.prototype.removeControls = /**
+         * @param {?} formGroup
+         * @param {?} controls
+         * @return {?}
+         */
+            function (formGroup, controls) {
+                controls.forEach(function (control) {
+                    formGroup.removeControl(control.key);
+                });
+            };
+        /**
          * @name toFormGroupFromFieldset
          * @param fieldsets
          */
