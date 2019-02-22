@@ -15016,6 +15016,16 @@ class FormUtils {
         });
     }
     /**
+     * @param {?} formGroup
+     * @param {?} controls
+     * @return {?}
+     */
+    removeControls(formGroup, controls) {
+        controls.forEach((control) => {
+            formGroup.removeControl(control.key);
+        });
+    }
+    /**
      * \@name toFormGroupFromFieldset
      * @param {?} fieldsets
      * @return {?}
