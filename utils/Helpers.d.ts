@@ -17,7 +17,7 @@ export declare class Helpers {
      * Checks to see if the object is a string
      */
     static isString(obj: any): boolean;
-    static isNumber(obj: any): boolean;
+    static isNumber(val: any): boolean;
     /**
      * Checks to see if the object is a undefined or null
      */
