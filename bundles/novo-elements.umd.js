@@ -162,15 +162,15 @@
                 return typeof obj === 'string';
             };
         /**
-         * @param {?} obj
+         * @param {?} val
          * @return {?}
          */
         Helpers.isNumber = /**
-         * @param {?} obj
+         * @param {?} val
          * @return {?}
          */
-            function (obj) {
-                return obj && !isNaN(parseInt(obj, 10));
+            function (val) {
+                return !isNaN(parseFloat(val));
             };
         /**
          * Checks to see if the object is a undefined or null

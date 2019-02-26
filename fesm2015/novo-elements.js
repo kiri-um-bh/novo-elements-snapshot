@@ -136,11 +136,11 @@ class Helpers {
         return typeof obj === 'string';
     }
     /**
-     * @param {?} obj
+     * @param {?} val
      * @return {?}
      */
-    static isNumber(obj) {
-        return obj && !isNaN(parseInt(obj, 10));
+    static isNumber(val) {
+        return !isNaN(parseFloat(val));
     }
     /**
      * Checks to see if the object is a undefined or null
