@@ -33,7 +33,7 @@ export declare class NovoDateTimePickerInputElement implements ControlValueAcces
     registerOnTouched(fn: () => {}): void;
     setDisabledState(disabled: boolean): void;
     dispatchOnChange(newValue?: any): void;
-    private _setTriggerValue;
+    private _setTriggerValue(value);
     setValue(event: any | null): void;
     setValueAndClose(event: any | null): void;
     /**

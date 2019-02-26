@@ -3,8 +3,6 @@ export declare class NovoLabelService {
     filters: string;
     clear: string;
     sort: string;
-    distributionListOwner: string;
-    dateAdded: string;
     emptyTableMessage: string;
     noMatchingRecordsMessage: string;
     erroredTableMessage: string;
@@ -88,7 +86,6 @@ export declare class NovoLabelService {
     noStatesForCountry: string;
     selectCountryFirst: string;
     invalidIntegerInput: string;
-    maxRecordsReached: string;
     constructor(userLocale?: string);
     maxlengthMetWithField(field: string, maxlength: number): string;
     maxlengthMet(maxlength: number): string;
@@ -99,7 +96,7 @@ export declare class NovoLabelService {
     }): string;
     selectedRecords(selected: number): string;
     showingXofXResults(shown: number, total: number): string;
-    totalRecords(total: number, select?: boolean): string;
+    totalRecords(total: number, select: boolean): string;
     formatDateWithFormat(value: any, format: Intl.DateTimeFormatOptions): any;
     getWeekdays(): string[];
     getMonths(): string[];

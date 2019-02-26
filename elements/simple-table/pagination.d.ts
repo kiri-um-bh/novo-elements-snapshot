@@ -28,6 +28,6 @@ export declare class NovoSimpleTablePagination implements OnInit, OnDestroy {
     hasPreviousPage(): boolean;
     hasNextPage(): boolean;
     changePageSize(pageSize: number): void;
-    private updateDisplayedPageSizeOptions;
-    private emitPageEvent;
+    private updateDisplayedPageSizeOptions();
+    private emitPageEvent();
 }
