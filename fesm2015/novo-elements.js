@@ -42964,6 +42964,7 @@ class NovoDataTable {
         this.resized = new EventEmitter();
         this.name = 'novo-data-table';
         this.rowIdentifier = 'id';
+        this.activeRowIdentifier = '';
         // prettier-ignore
         this.trackByFn = (index, item) => item.id;
         this.templates = {};
@@ -43507,7 +43508,7 @@ NovoDataTable.decorators = [
             <novo-data-table-cell *cdkCellDef="let row" [resized]="resized" [column]="column" [row]="row" [template]="columnToTemplate[column.id]" [class.empty]="column?.type === 'action' && !column?.label" [class.button-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)" [class.dropdown-cell]="column?.type === 'action' && column?.action?.options"></novo-data-table-cell>
           </ng-container>
           <novo-data-table-header-row *cdkHeaderRowDef="displayedColumns" data-automation-id="novo-data-table-header-row"></novo-data-table-header-row>
-          <novo-data-table-row *cdkRowDef="let row; columns: displayedColumns" [novoDataTableExpand]="detailRowTemplate" [row]="row" [id]="name + '-' + row[rowIdentifier]" [dataAutomationId]="row[rowIdentifier]"></novo-data-table-row>
+          <novo-data-table-row *cdkRowDef="let row; columns: displayedColumns" [ngClass]="{ 'active': row[rowIdentifier] == activeRowIdentifier }" [novoDataTableExpand]="detailRowTemplate" [row]="row" [id]="name + '-' + row[rowIdentifier]" [dataAutomationId]="row[rowIdentifier]"></novo-data-table-row>
         </cdk-table>
         <div class="novo-data-table-footer" *ngIf="templates['footer']">
           <ng-container *ngTemplateOutlet="templates['footer']; context: {$implicit: columns, data: dataSource.data}"></ng-container>
@@ -43524,7 +43525,6 @@ NovoDataTable.decorators = [
         </div>
       </div>
     </div>
-
     <!-- DEFAULT CELL TEMPLATE -->
     <ng-template novoTemplate="textCellTemplate"
                  let-row
@@ -43634,6 +43634,7 @@ NovoDataTable.propDecorators = {
     defaultSort: [{ type: Input }],
     name: [{ type: Input }],
     rowIdentifier: [{ type: Input }],
+    activeRowIdentifier: [{ type: Input }],
     trackByFn: [{ type: Input }],
     templates: [{ type: Input }],
     fixedHeader: [{ type: Input }],
