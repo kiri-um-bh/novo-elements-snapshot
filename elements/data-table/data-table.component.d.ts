@@ -23,6 +23,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     };
     name: string;
     rowIdentifier: string;
+    activeRowIdentifier: string;
     trackByFn: Function;
     templates: {
         [key: string]: TemplateRef<any>;
