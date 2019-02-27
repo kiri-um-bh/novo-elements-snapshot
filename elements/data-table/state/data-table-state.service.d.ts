@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
 import { IDataTableChangeEvent } from '../interfaces';
 export declare class DataTableState<T> {
     selectionSource: Subject<{}>;
@@ -30,7 +30,7 @@ export declare class DataTableState<T> {
     clearSort(fireUpdate?: boolean): void;
     clearFilter(fireUpdate?: boolean): void;
     onSelectionChange(): void;
-    onExpandChange(targetId?: number): void;
+    onExpandChange(): void;
     onPaginationChange(isPageSizeChange: boolean, pageSize: number): void;
     onSortFilterChange(): void;
 }

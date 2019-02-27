@@ -1,5 +1,6 @@
 import { ElementRef, ChangeDetectorRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromPromise';
 import { OverlayRef } from '@angular/cdk/overlay';
 /**
  * @name: PickerResults
@@ -31,10 +32,11 @@ export declare class BasePickerResults {
     term: string;
     addScrollListener(): void;
     processSearch(shouldReset?: boolean): void;
-    search(term: any, mode?: any): Observable<any>;
+    search(term: any, mode?: any): Observable<{}>;
     /**
      * @name structureArray
      * @param collection - the data once getData resolves it
+     * @returns { Array }
      *
      * @description This function structures an array of nodes into an array of objects with a
      * 'name' field by default.
