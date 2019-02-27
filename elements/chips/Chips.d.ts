@@ -1,6 +1,6 @@
 import { EventEmitter, ElementRef, OnInit, ViewContainerRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
 export declare class NovoChipElement {
@@ -22,7 +22,6 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     closeOnSelect: boolean;
     placeholder: string;
     source: any;
-    maxlength: any;
     type: any;
     disablePickerInput: boolean;
     private _disablePickerInput;

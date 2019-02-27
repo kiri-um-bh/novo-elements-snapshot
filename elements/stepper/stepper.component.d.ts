@@ -1,7 +1,6 @@
 import { CdkStep, CdkStepper } from '@angular/cdk/stepper';
 import { Directionality } from '@angular/cdk/bidi';
-import { FocusableOption } from '@angular/cdk/a11y';
-import { AfterContentInit, QueryList, ChangeDetectorRef, TemplateRef } from '@angular/core';
+import { AfterContentInit, ElementRef, QueryList, ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { NovoStepLabel } from './step-label.component';
 import { NovoIconComponent } from '../icon/Icon';
 export declare const _NovoStep: typeof CdkStep;
@@ -12,11 +11,11 @@ export declare class NovoStep extends CdkStep {
     theme: string;
     color: string;
     icon: string;
-    constructor(stepper: CdkStepper);
+    constructor(stepper: NovoStepper);
 }
 export declare class NovoStepper extends CdkStepper implements AfterContentInit {
     /** The list of step headers of the steps in the stepper. */
-    _stepHeader: QueryList<FocusableOption>;
+    _stepHeader: QueryList<ElementRef>;
     /** Steps that the stepper holds. */
     _steps: QueryList<NovoStep>;
     /** Custom icon overrides passed in by the consumer. */

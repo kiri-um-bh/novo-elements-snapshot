@@ -8,6 +8,7 @@ $black: #000000;
 $white: #ffffff;
 $grey: #999999;
 $off-white: #f4f4f4;
+$dark: #3d464d;
 $light: #d9dadc;
 $navy: #0d2d42;
 $pulse: #3bafda;
@@ -25,6 +26,7 @@ $mountain: #9678b6;
 // Entity Colors
 $company: #3399dd;
 $candidate: #44bb77;
+$navigation: #2f384f;
 $lead: #aa6699;
 $contact: #ffaa44;
 $opportunity: #662255;
@@ -36,11 +38,7 @@ $note: #747884;
 $contract: #454ea0;
 $jobCode: #696d79;
 $earnCode: #696d79;
-$invoiceStatement: #696d79;
-$billableCharge: #696d79;
 // Color Applications
-$dark: #3d464d;
-$navigation: #2f384f;
 $positive: $ocean;
 $success: $grass;
 $negative: $grapefruit;
@@ -63,7 +61,7 @@ $analytics-colors: (
   grapefruit: $grapefruit,
   carnation: $carnation,
   lavender: $lavender,
-  mountain: $mountain,
+  mountain: $mountain
 );
 // Entity Color Map
 $entity-colors: (
@@ -87,9 +85,7 @@ $entity-colors: (
   corporateuser: $neutral,
   contract: $contract,
   jobCode: $jobCode,
-  earnCode: $earnCode,
-  billableCharge: $billableCharge,
-  invoiceStatement: $invoiceStatement,
+  earnCode: $earnCode
 );
 // Generic Color Map
 $app-colors: (
@@ -105,8 +101,7 @@ $app-colors: (
   dark: $dark,
   light: $light,
   pulse: $pulse,
-  neutral: $neutral,
-  empty: $empty,
+  neutral: $neutral
 );
 // Loading Dot Color Map
 $dot-colors: (
@@ -114,7 +109,7 @@ $dot-colors: (
   lavender: $lavender,
   grapefruit: $grapefruit,
   sunflower: $sunflower,
-  mint: $mint,
+  mint: $mint
 );
 // Dark map
 $dark-colors: (
@@ -152,21 +147,18 @@ $dark-colors: (
   pulse: $pulse,
   neutral: $neutral,
   navy: $navy,
-  contract: $contract,
-  mountain: $mountain,
-  billableCharge: $billableCharge,
-  invoiceStatement: $invoiceStatement,
-  submission: $submission,
-  note: $note,
-  empty: $empty,
+  contract: $contact,
+  mountain: $mountain
 );
 // Light map
 $light-colors: (
+  submission: $submission,
+  note: $note,
   background: $off-white,
   white: $white,
   grey: $grey,
   off-white: $off-white,
-  light: $light,
+  light: $light
 );
 // All colors
 $all-colors: map-merge($dark-colors, $light-colors);
@@ -209,7 +201,7 @@ $whiteframe-zindex-z5: 5 !default;
     'fab': 20,
     'default': 1,
     'below': -1,
-    'bottomless-pit': -9000,
+    'bottomless-pit': -9000
   );
   @if not map-has-key($z-layers, $layer) {
     @warn 'No layer found for `#{$layer}` in $z-layers map. Property omitted.';
@@ -221,18 +213,9 @@ $whiteframe-zindex-z5: 5 !default;
 // -------------------------
 // Usage: html-tag { @include ease('all', 'swift-ease-in-out'); }
 $easing-curves: (
-  'swift-ease-out': (
-    'duration': 400ms,
-    'curve': 'cubic-bezier(0.25, 0.8, 0.25, 1)',
-  ),
-  'swift-ease-in': (
-    'duration': 300ms,
-    'curve': 'cubic-bezier(0.55, 0, 0.55, 0.2)',
-  ),
-  'swift-ease-in-out': (
-    'duration': 500ms,
-    'curve': 'cubic-bezier(0.35, 0, 0.25, 1)',
-  ),
+  'swift-ease-out': ('duration': 400ms, 'curve': 'cubic-bezier(0.25, 0.8, 0.25, 1)'),
+  'swift-ease-in': ('duration': 300ms, 'curve': 'cubic-bezier(0.55, 0, 0.55, 0.2)'),
+  'swift-ease-in-out': ('duration': 500ms, 'curve': 'cubic-bezier(0.35, 0, 0.25, 1)')
 );
 @function map-deep-get($map, $keys...) {
   @each $key in $keys {

@@ -45,7 +45,7 @@ export declare class NovoSearchBoxElement implements ControlValueAccessor {
     writeValue(value: any): void;
     registerOnChange(fn: (value: any) => {}): void;
     registerOnTouched(fn: () => {}): void;
-    private _setValue;
+    private _setValue(value);
     /**
      * This method closes the panel, and if a value is specified, also sets the associated
      * control to that value. It will also mark the control as dirty if this interaction
