@@ -43979,7 +43979,7 @@
                 else if (args.optionsType === 'SkillText') {
                     type = 'SkillText';
                 }
-                else if (args.options || args.inputType === 'SELECT') {
+                else if (args.options || args.inputType === 'SELECT' || args.inputType === 'CHECKBOX') {
                     type = 'Options';
                 }
                 else if (['MONEY', 'PERCENTAGE', 'HTML', 'SSN'].indexOf(args.dataSpecialization) > -1) {
@@ -44243,13 +44243,16 @@
          * @return {?}
          */
             function (value, list) {
-                var e_3, _a;
-                try {
+                if (!Array.isArray(value)) {
+                    value = [value];
+                }
+                return value.map(function (item) {
+                    var e_3, _a;
                     try {
                         for (var list_2 = __values(list), list_2_1 = list_2.next(); !list_2_1.done; list_2_1 = list_2.next()) {
-                            var item = list_2_1.value;
-                            if (item.value === value) {
-                                return item.label;
+                            var option = list_2_1.value;
+                            if (option.value === item) {
+                                return option.label;
                             }
                         }
                     }
@@ -44266,11 +44269,8 @@
                                 throw e_3.error;
                         }
                     }
-                }
-                catch (e) {
-                    // do nothing
-                }
-                return value;
+                    return item;
+                });
             };
         /**
          * @param {?} value
