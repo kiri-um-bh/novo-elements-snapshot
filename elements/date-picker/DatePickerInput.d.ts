@@ -10,7 +10,6 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     dateFormatService: DateFormatService;
     value: any;
     formattedValue: string;
-    private userDefinedFormat;
     /** View -> model callback called when value changes */
     _onChange: (value: any) => void;
     /** View -> model callback called when autocomplete has been touched */
@@ -24,6 +23,7 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     textMaskEnabled: boolean;
     allowInvalidDate: boolean;
     disabled: boolean;
+    userDefinedFormat: boolean;
     blurEvent: EventEmitter<FocusEvent>;
     focusEvent: EventEmitter<FocusEvent>;
     /** Element for the panel containing the autocomplete options. */
