@@ -8,6 +8,7 @@ $black: #000000;
 $white: #ffffff;
 $grey: #999999;
 $off-white: #f4f4f4;
+$dark: #3d464d;
 $light: #d9dadc;
 $navy: #0d2d42;
 $pulse: #3bafda;
@@ -25,6 +26,7 @@ $mountain: #9678b6;
 // Entity Colors
 $company: #3399dd;
 $candidate: #44bb77;
+$navigation: #2f384f;
 $lead: #aa6699;
 $contact: #ffaa44;
 $opportunity: #662255;
@@ -36,11 +38,7 @@ $note: #747884;
 $contract: #454ea0;
 $jobCode: #696d79;
 $earnCode: #696d79;
-$invoiceStatement: #696d79;
-$billableCharge: #696d79;
 // Color Applications
-$dark: #3d464d;
-$navigation: #2f384f;
 $positive: $ocean;
 $success: $grass;
 $negative: $grapefruit;
@@ -88,8 +86,6 @@ $entity-colors: (
   contract: $contract,
   jobCode: $jobCode,
   earnCode: $earnCode,
-  billableCharge: $billableCharge,
-  invoiceStatement: $invoiceStatement,
 );
 // Generic Color Map
 $app-colors: (
@@ -106,7 +102,6 @@ $app-colors: (
   light: $light,
   pulse: $pulse,
   neutral: $neutral,
-  empty: $empty,
 );
 // Loading Dot Color Map
 $dot-colors: (
@@ -152,16 +147,13 @@ $dark-colors: (
   pulse: $pulse,
   neutral: $neutral,
   navy: $navy,
-  contract: $contract,
+  contract: $contact,
   mountain: $mountain,
-  billableCharge: $billableCharge,
-  invoiceStatement: $invoiceStatement,
-  submission: $submission,
-  note: $note,
-  empty: $empty,
 );
 // Light map
 $light-colors: (
+  submission: $submission,
+  note: $note,
   background: $off-white,
   white: $white,
   grey: $grey,

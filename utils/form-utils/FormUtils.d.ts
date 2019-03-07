@@ -1,5 +1,5 @@
 import { NovoControlConfig } from '../../elements/form/FormControls';
-import { NovoFieldset, FormField } from '../../elements/form/FormInterfaces';
+import { NovoFieldset } from '../../elements/form/FormInterfaces';
 import { NovoFormGroup } from '../../elements/form/NovoFormControl';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { OptionsService } from './../../services/options/OptionsService';
@@ -7,27 +7,31 @@ export declare class FormUtils {
     labels: NovoLabelService;
     optionsService: OptionsService;
     ASSOCIATED_ENTITY_LIST: string[];
-    ENTITY_PICKER_LIST: string[];
+    PICKER_TEST_LIST: string[];
     constructor(labels: NovoLabelService, optionsService: OptionsService);
     toFormGroup(controls: Array<any>): NovoFormGroup;
     emptyFormGroup(): NovoFormGroup;
     addControls(formGroup: NovoFormGroup, controls: Array<NovoControlConfig>): void;
-    removeControls(formGroup: NovoFormGroup, controls: Array<NovoControlConfig>): void;
     /**
      * @name toFormGroupFromFieldset
      * @param fieldsets
      */
     toFormGroupFromFieldset(fieldsets: Array<NovoFieldset>): NovoFormGroup;
     /**
-     * @name hasAssociatedEntity
-     * @param field
-     */
-    hasAssociatedEntity(field: FormField): boolean;
-    /**
      * @name determineInputType
      * @param field
      */
-    determineInputType(field: FormField): string;
+    determineInputType(field: {
+        dataSpecialization: string;
+        inputType: string;
+        options: string;
+        multiValue: boolean;
+        dataType: string;
+        type: string;
+        associatedEntity?: any;
+        optionsUrl?: string;
+        optionsType?: string;
+    }): string;
     isFieldEncrypted(key: string): boolean;
     getControlForField(field: any, http: any, config: {
         token?: string;
