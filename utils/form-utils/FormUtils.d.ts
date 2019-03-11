@@ -1,6 +1,6 @@
 import { NovoControlConfig } from '../../elements/form/FormControls';
 import { NovoFieldset, FormField } from '../../elements/form/FormInterfaces';
-import { NovoFormGroup } from '../../elements/form/NovoFormControl';
+import { NovoFormGroup } from '../../elements/form/NovoFormGroup';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { OptionsService } from './../../services/options/OptionsService';
 export declare class FormUtils {

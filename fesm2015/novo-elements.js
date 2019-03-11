@@ -22,7 +22,7 @@ import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coerci
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
 import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 
@@ -14216,25 +14216,6 @@ class NovoFormControl extends FormControl {
         this.setErrors(Object.assign({}, this.errors, { custom: message }));
     }
 }
-class NovoFormGroup extends FormGroup {
-    constructor() {
-        super(...arguments);
-        this.fieldInteractionEvents = new EventEmitter();
-    }
-    /**
-     * @return {?}
-     */
-    get value() {
-        return this.getRawValue();
-    }
-    /**
-     * @param {?} v
-     * @return {?}
-     */
-    set value(v) {
-        this._value = v;
-    }
-}
 
 /**
  * @fileoverview added by tsickle
@@ -14904,6 +14885,52 @@ class CustomControl extends BaseControl {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class NovoFormGroup extends FormGroup {
+    constructor() {
+        super(...arguments);
+        this.fieldInteractionEvents = new EventEmitter();
+    }
+    /**
+     * @return {?}
+     */
+    get value() {
+        return this.getRawValue();
+    }
+    /**
+     * @param {?} v
+     * @return {?}
+     */
+    set value(v) {
+        this._value = v;
+    }
+    /**
+     * @return {?}
+     */
+    enableAllControls() {
+        for (let key in this.controls) {
+            if (((/** @type {?} */ (this.controls[key]))).readOnly) {
+                ((/** @type {?} */ (this.controls[key]))).readOnly = false;
+                this.controls[key].enable();
+            }
+        }
+    }
+    /**
+     * @return {?}
+     */
+    disableAllControls() {
+        for (let key in this.controls) {
+            if (!((/** @type {?} */ (this.controls[key]))).readOnly) {
+                ((/** @type {?} */ (this.controls[key]))).readOnly = true;
+                this.controls[key].disable();
+            }
+        }
+    }
+}
 
 /**
  * @fileoverview added by tsickle

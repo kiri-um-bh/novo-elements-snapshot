@@ -16610,30 +16610,6 @@
             };
         return NovoFormControl;
     }(forms.FormControl));
-    var NovoFormGroup = /** @class */ (function (_super) {
-        __extends(NovoFormGroup, _super);
-        function NovoFormGroup() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.fieldInteractionEvents = new core.EventEmitter();
-            return _this;
-        }
-        Object.defineProperty(NovoFormGroup.prototype, "value", {
-            get: /**
-             * @return {?}
-             */ function () {
-                return this.getRawValue();
-            },
-            set: /**
-             * @param {?} v
-             * @return {?}
-             */ function (v) {
-                this._value = v;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return NovoFormGroup;
-    }(forms.FormGroup));
 
     /**
      * @fileoverview added by tsickle
@@ -17370,6 +17346,63 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var NovoFormGroup = /** @class */ (function (_super) {
+        __extends(NovoFormGroup, _super);
+        function NovoFormGroup() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.fieldInteractionEvents = new core.EventEmitter();
+            return _this;
+        }
+        Object.defineProperty(NovoFormGroup.prototype, "value", {
+            get: /**
+             * @return {?}
+             */ function () {
+                return this.getRawValue();
+            },
+            set: /**
+             * @param {?} v
+             * @return {?}
+             */ function (v) {
+                this._value = v;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @return {?}
+         */
+        NovoFormGroup.prototype.enableAllControls = /**
+         * @return {?}
+         */
+            function () {
+                for (var key in this.controls) {
+                    if ((( /** @type {?} */(this.controls[key]))).readOnly) {
+                        (( /** @type {?} */(this.controls[key]))).readOnly = false;
+                        this.controls[key].enable();
+                    }
+                }
+            };
+        /**
+         * @return {?}
+         */
+        NovoFormGroup.prototype.disableAllControls = /**
+         * @return {?}
+         */
+            function () {
+                for (var key in this.controls) {
+                    if (!(( /** @type {?} */(this.controls[key]))).readOnly) {
+                        (( /** @type {?} */(this.controls[key]))).readOnly = true;
+                        this.controls[key].disable();
+                    }
+                }
+            };
+        return NovoFormGroup;
+    }(forms.FormGroup));
 
     /**
      * @fileoverview added by tsickle
