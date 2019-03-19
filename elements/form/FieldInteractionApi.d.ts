@@ -66,6 +66,7 @@ export declare class FieldInteractionApi {
         emitEvent?: boolean;
     }): void;
     markAsInvalid(key: string, validationMessage?: string): void;
+    markAsValid(key: string): void;
     markAsDirty(key: string, options?: {
         onlySelf?: boolean;
     }): void;

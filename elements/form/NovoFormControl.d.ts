@@ -119,4 +119,9 @@ export declare class NovoFormControl extends FormControl {
      * @param message
      */
     markAsInvalid(message: string): void;
+    /**
+     * @name markAsValid
+     * @param message
+     */
+    markAsValid(): void;
 }

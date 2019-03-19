@@ -14215,6 +14215,15 @@ class NovoFormControl extends FormControl {
         this.markAsTouched();
         this.setErrors(Object.assign({}, this.errors, { custom: message }));
     }
+    /**
+     * \@name markAsValid
+     * @return {?}
+     */
+    markAsValid() {
+        this.markAsDirty();
+        this.markAsTouched();
+        this.setErrors(null);
+    }
 }
 
 /**
@@ -16360,6 +16369,19 @@ class FieldInteractionApi {
         if (control) {
             if (control && !control.restrictFieldInteractions) {
                 control.markAsInvalid(validationMessage);
+            }
+        }
+    }
+    /**
+     * @param {?} key
+     * @return {?}
+     */
+    markAsValid(key) {
+        /** @type {?} */
+        let control = this.getControl(key);
+        if (control) {
+            if (control && !control.restrictFieldInteractions) {
+                control.markAsValid();
             }
         }
     }

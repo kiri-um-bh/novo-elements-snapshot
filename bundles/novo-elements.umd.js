@@ -16608,6 +16608,23 @@
                 this.markAsTouched();
                 this.setErrors(Object.assign({}, this.errors, { custom: message }));
             };
+        /**
+         * @name markAsValid
+         * @param message
+         */
+        /**
+         * \@name markAsValid
+         * @return {?}
+         */
+        NovoFormControl.prototype.markAsValid = /**
+         * \@name markAsValid
+         * @return {?}
+         */
+            function () {
+                this.markAsDirty();
+                this.markAsTouched();
+                this.setErrors(null);
+            };
         return NovoFormControl;
     }(forms.FormControl));
 
@@ -19134,6 +19151,23 @@
                 if (control) {
                     if (control && !control.restrictFieldInteractions) {
                         control.markAsInvalid(validationMessage);
+                    }
+                }
+            };
+        /**
+         * @param {?} key
+         * @return {?}
+         */
+        FieldInteractionApi.prototype.markAsValid = /**
+         * @param {?} key
+         * @return {?}
+         */
+            function (key) {
+                /** @type {?} */
+                var control = this.getControl(key);
+                if (control) {
+                    if (control && !control.restrictFieldInteractions) {
+                        control.markAsValid();
                     }
                 }
             };
