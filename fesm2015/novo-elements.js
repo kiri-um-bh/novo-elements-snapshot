@@ -14242,6 +14242,7 @@ class BaseControl extends ControlConfig {
         this.name = config.name || '';
         this.required = !!config.required;
         this.hidden = !!config.hidden;
+        this.hiddenButPresent = !!config.hiddenButPresent;
         this.encrypted = !!config.encrypted;
         this.sortOrder = config.sortOrder === undefined ? 1 : config.sortOrder;
         this.controlType = config.controlType || '';
@@ -15215,7 +15216,8 @@ class FormUtils {
             label: field.label,
             placeholder: field.hint || '',
             required: field.required,
-            hidden: !field.required,
+            hidden: !field.required || field.hiddenButPresent,
+            hiddenButPresent: field.hiddenButPresent || false,
             encrypted: this.isFieldEncrypted(field.name ? field.name.toString() : ''),
             value: field.value || field.defaultValue,
             sortOrder: field.sortOrder,
@@ -15444,7 +15446,7 @@ class FormUtils {
             fields.forEach((field) => {
                 if (field.name !== 'id' &&
                     (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
-                    !field.readOnly) {
+                    (!field.readOnly || field.hiddenButPresent)) {
                     /** @type {?} */
                     let control = this.getControlForField(field, http, config, overrides, forTable);
                     // Set currency format
@@ -15669,7 +15671,9 @@ class FormUtils {
      */
     forceShowAllControls(controls) {
         controls.forEach((control) => {
-            control.hidden = false;
+            if (!control.hiddenButPresent) {
+                control.hidden = false;
+            }
         });
     }
     /**
@@ -15679,7 +15683,9 @@ class FormUtils {
     forceShowAllControlsInFieldsets(fieldsets) {
         fieldsets.forEach((fieldset) => {
             fieldset.controls.forEach((control) => {
-                control.hidden = false;
+                if (!control.hiddenButPresent) {
+                    control.hidden = false;
+                }
             });
         });
     }

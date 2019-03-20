@@ -16392,6 +16392,7 @@ var BaseControl = /** @class */ (function (_super) {
         _this.name = config.name || '';
         _this.required = !!config.required;
         _this.hidden = !!config.hidden;
+        _this.hiddenButPresent = !!config.hiddenButPresent;
         _this.encrypted = !!config.encrypted;
         _this.sortOrder = config.sortOrder === undefined ? 1 : config.sortOrder;
         _this.controlType = config.controlType || '';
@@ -17501,7 +17502,8 @@ var FormUtils = /** @class */ (function () {
             label: field.label,
             placeholder: field.hint || '',
             required: field.required,
-            hidden: !field.required,
+            hidden: !field.required || field.hiddenButPresent,
+            hiddenButPresent: field.hiddenButPresent || false,
             encrypted: this.isFieldEncrypted(field.name ? field.name.toString() : ''),
             value: field.value || field.defaultValue,
             sortOrder: field.sortOrder,
@@ -17751,7 +17753,7 @@ var FormUtils = /** @class */ (function () {
             fields.forEach(function (field) {
                 if (field.name !== 'id' &&
                     (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
-                    !field.readOnly) {
+                    (!field.readOnly || field.hiddenButPresent)) {
                     /** @type {?} */
                     var control = _this.getControlForField(field, http, config, overrides, forTable);
                     // Set currency format
@@ -18017,7 +18019,9 @@ var FormUtils = /** @class */ (function () {
      */
     function (controls) {
         controls.forEach(function (control) {
-            control.hidden = false;
+            if (!control.hiddenButPresent) {
+                control.hidden = false;
+            }
         });
     };
     /**
@@ -18031,7 +18035,9 @@ var FormUtils = /** @class */ (function () {
     function (fieldsets) {
         fieldsets.forEach(function (fieldset) {
             fieldset.controls.forEach(function (control) {
-                control.hidden = false;
+                if (!control.hiddenButPresent) {
+                    control.hidden = false;
+                }
             });
         });
     };
