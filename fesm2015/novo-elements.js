@@ -13672,18 +13672,32 @@ NovoTemplate.propDecorators = {
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoFieldsetHeaderElement {
+    constructor() {
+        this.title = '';
+        this.useCustomHeading = false;
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterContentInit() {
+        this.useCustomHeading = this.customHeadingWrapper.elementRef.nativeElement.childNodes.length > 0;
+    }
 }
 NovoFieldsetHeaderElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-fieldset-header',
                 template: `
-        <h6><i [class]="icon || 'bhi-section'"></i>{{title}}</h6>
-    `
+    <h6>
+      <div *ngIf="title; else customHeadingWrapper"><i [class]="icon || 'bhi-section'"></i>{{ title }}</div>
+      <ng-template #customHeadingWrapper> <ng-content></ng-content> </ng-template>
+    </h6>
+  `
             }] }
 ];
 NovoFieldsetHeaderElement.propDecorators = {
     title: [{ type: Input }],
-    icon: [{ type: Input }]
+    icon: [{ type: Input }],
+    customHeadingWrapper: [{ type: ViewChild, args: ['customHeadingWrapper',] }]
 };
 class NovoFieldsetElement {
     constructor() {
@@ -13694,16 +13708,16 @@ NovoFieldsetElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-fieldset',
                 template: `
-        <div class="novo-fieldset-container">
-            <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title"></novo-fieldset-header>
-            <ng-container *ngFor="let control of controls;let controlIndex = index;">
-                <div class="novo-form-row" [class.disabled]="control.disabled" *ngIf="control.__type !== 'GroupedControl'">
-                    <novo-control [autoFocus]="autoFocus && index === 0 && controlIndex === 0" [control]="control" [form]="form"></novo-control>
-                </div>
-                <div *ngIf="control.__type === 'GroupedControl'">TODO - GroupedControl</div>
-            </ng-container>
+    <div class="novo-fieldset-container">
+      <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title"></novo-fieldset-header>
+      <ng-container *ngFor="let control of controls; let controlIndex = index">
+        <div class="novo-form-row" [class.disabled]="control.disabled" *ngIf="control.__type !== 'GroupedControl'">
+          <novo-control [autoFocus]="autoFocus && index === 0 && controlIndex === 0" [control]="control" [form]="form"></novo-control>
         </div>
-    `
+        <div *ngIf="control.__type === 'GroupedControl'">TODO - GroupedControl</div>
+      </ng-container>
+    </div>
+  `
             }] }
 ];
 NovoFieldsetElement.propDecorators = {
@@ -13879,19 +13893,27 @@ NovoDynamicFormElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-dynamic-form',
                 template: `
-        <novo-control-templates></novo-control-templates>
-        <div class="novo-form-container">
-            <header>
-                <ng-content select="form-title"></ng-content>
-                <ng-content select="form-subtitle"></ng-content>
-            </header>
-            <form class="novo-form" [formGroup]="form">
-                <ng-container *ngFor="let fieldset of form.fieldsets;let i = index">
-                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form"></novo-fieldset>
-                </ng-container>
-            </form>
-        </div>
-    `,
+    <novo-control-templates></novo-control-templates>
+    <div class="novo-form-container">
+      <header>
+        <ng-content select="form-title"></ng-content>
+        <ng-content select="form-subtitle"></ng-content>
+      </header>
+      <form class="novo-form" [formGroup]="form">
+        <ng-container *ngFor="let fieldset of form.fieldsets; let i = index">
+          <novo-fieldset
+            *ngIf="fieldset.controls.length"
+            [index]="i"
+            [autoFocus]="autoFocusFirstField"
+            [icon]="fieldset.icon"
+            [controls]="fieldset.controls"
+            [title]="fieldset.title"
+            [form]="form"
+          ></novo-fieldset>
+        </ng-container>
+      </form>
+    </div>
+  `,
                 providers: [NovoTemplateService]
             }] }
 ];

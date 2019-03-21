@@ -15711,16 +15711,28 @@ var NovoTemplate = /** @class */ (function () {
  */
 var NovoFieldsetHeaderElement = /** @class */ (function () {
     function NovoFieldsetHeaderElement() {
+        this.title = '';
+        this.useCustomHeading = false;
     }
+    /**
+     * @return {?}
+     */
+    NovoFieldsetHeaderElement.prototype.ngAfterContentInit = /**
+     * @return {?}
+     */
+    function () {
+        this.useCustomHeading = this.customHeadingWrapper.elementRef.nativeElement.childNodes.length > 0;
+    };
     NovoFieldsetHeaderElement.decorators = [
         { type: Component, args: [{
                     selector: 'novo-fieldset-header',
-                    template: "\n        <h6><i [class]=\"icon || 'bhi-section'\"></i>{{title}}</h6>\n    "
+                    template: "\n    <h6>\n      <div *ngIf=\"title; else customHeadingWrapper\"><i [class]=\"icon || 'bhi-section'\"></i>{{ title }}</div>\n      <ng-template #customHeadingWrapper> <ng-content></ng-content> </ng-template>\n    </h6>\n  "
                 }] }
     ];
     NovoFieldsetHeaderElement.propDecorators = {
         title: [{ type: Input }],
-        icon: [{ type: Input }]
+        icon: [{ type: Input }],
+        customHeadingWrapper: [{ type: ViewChild, args: ['customHeadingWrapper',] }]
     };
     return NovoFieldsetHeaderElement;
 }());
@@ -15731,7 +15743,7 @@ var NovoFieldsetElement = /** @class */ (function () {
     NovoFieldsetElement.decorators = [
         { type: Component, args: [{
                     selector: 'novo-fieldset',
-                    template: "\n        <div class=\"novo-fieldset-container\">\n            <novo-fieldset-header [icon]=\"icon\" [title]=\"title\" *ngIf=\"title\"></novo-fieldset-header>\n            <ng-container *ngFor=\"let control of controls;let controlIndex = index;\">\n                <div class=\"novo-form-row\" [class.disabled]=\"control.disabled\" *ngIf=\"control.__type !== 'GroupedControl'\">\n                    <novo-control [autoFocus]=\"autoFocus && index === 0 && controlIndex === 0\" [control]=\"control\" [form]=\"form\"></novo-control>\n                </div>\n                <div *ngIf=\"control.__type === 'GroupedControl'\">TODO - GroupedControl</div>\n            </ng-container>\n        </div>\n    "
+                    template: "\n    <div class=\"novo-fieldset-container\">\n      <novo-fieldset-header [icon]=\"icon\" [title]=\"title\" *ngIf=\"title\"></novo-fieldset-header>\n      <ng-container *ngFor=\"let control of controls; let controlIndex = index\">\n        <div class=\"novo-form-row\" [class.disabled]=\"control.disabled\" *ngIf=\"control.__type !== 'GroupedControl'\">\n          <novo-control [autoFocus]=\"autoFocus && index === 0 && controlIndex === 0\" [control]=\"control\" [form]=\"form\"></novo-control>\n        </div>\n        <div *ngIf=\"control.__type === 'GroupedControl'\">TODO - GroupedControl</div>\n      </ng-container>\n    </div>\n  "
                 }] }
     ];
     NovoFieldsetElement.propDecorators = {
@@ -15940,7 +15952,7 @@ var NovoDynamicFormElement = /** @class */ (function () {
     NovoDynamicFormElement.decorators = [
         { type: Component, args: [{
                     selector: 'novo-dynamic-form',
-                    template: "\n        <novo-control-templates></novo-control-templates>\n        <div class=\"novo-form-container\">\n            <header>\n                <ng-content select=\"form-title\"></ng-content>\n                <ng-content select=\"form-subtitle\"></ng-content>\n            </header>\n            <form class=\"novo-form\" [formGroup]=\"form\">\n                <ng-container *ngFor=\"let fieldset of form.fieldsets;let i = index\">\n                    <novo-fieldset *ngIf=\"fieldset.controls.length\" [index]=\"i\" [autoFocus]=\"autoFocusFirstField\" [icon]=\"fieldset.icon\" [controls]=\"fieldset.controls\" [title]=\"fieldset.title\" [form]=\"form\"></novo-fieldset>\n                </ng-container>\n            </form>\n        </div>\n    ",
+                    template: "\n    <novo-control-templates></novo-control-templates>\n    <div class=\"novo-form-container\">\n      <header>\n        <ng-content select=\"form-title\"></ng-content>\n        <ng-content select=\"form-subtitle\"></ng-content>\n      </header>\n      <form class=\"novo-form\" [formGroup]=\"form\">\n        <ng-container *ngFor=\"let fieldset of form.fieldsets; let i = index\">\n          <novo-fieldset\n            *ngIf=\"fieldset.controls.length\"\n            [index]=\"i\"\n            [autoFocus]=\"autoFocusFirstField\"\n            [icon]=\"fieldset.icon\"\n            [controls]=\"fieldset.controls\"\n            [title]=\"fieldset.title\"\n            [form]=\"form\"\n          ></novo-fieldset>\n        </ng-container>\n      </form>\n    </div>\n  ",
                     providers: [NovoTemplateService]
                 }] }
     ];

@@ -2,9 +2,12 @@ import { OnInit, OnChanges, SimpleChanges, ElementRef, QueryList, AfterContentIn
 import { NovoFieldset, NovoFormGroup } from './FormInterfaces';
 import { NovoTemplateService } from '../../services/template/NovoTemplateService';
 import { NovoTemplate } from '../common/novo-template/novo-template.directive';
-export declare class NovoFieldsetHeaderElement {
-    title: string;
+export declare class NovoFieldsetHeaderElement implements AfterContentInit {
+    title?: string;
     icon: string;
+    customHeadingWrapper: any;
+    useCustomHeading: boolean;
+    ngAfterContentInit(): void;
 }
 export declare class NovoFieldsetElement {
     controls: Array<any>;
