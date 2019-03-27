@@ -39837,6 +39837,7 @@ class NovoValueElement {
                 case 'Opportunity':
                 case 'JobOrder':
                 case 'Placement':
+                case 'Lead':
                     this._type = NOVO_VALUE_TYPE.INTERNAL_LINK;
                     break;
                 default:
@@ -39877,25 +39878,25 @@ NovoValueElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-value',
                 template: `
-      <ng-container [ngSwitch]="_type">
-          <div class="value-outer" *ngIf="showLabel">
-              <label>{{ meta.label }}</label>
-              <span class="value">
-                <i *ngIf="meta.showEntityIcon" class="bhi-circle {{meta.entityIconClass}}"></i>
-                <a *ngSwitchCase="NOVO_VALUE_TYPE.INTERNAL_LINK" (click)="openLink()" [innerHTML]="data | render : meta"></a>
-                <a *ngSwitchCase="NOVO_VALUE_TYPE.LINK" class="value" [href]="url" target="_blank" [innerHTML]="data | render : meta"></a>
-              </span>
-              <novo-entity-list *ngSwitchCase="NOVO_VALUE_TYPE.ENTITY_LIST" [data]='data' [meta]="meta"></novo-entity-list>
-          </div>
-          <div *ngSwitchDefault class="value-outer" [ngClass]="customClass">
-              <label>{{ meta.label }}</label>
-              <div *ngIf="isDefault" class="value" [innerHTML]="data | render : meta"></div>
-          </div>
-          <div class="actions" *ngIf="showIcon">
-              <i *ngFor="let icon of meta.icons" [class]="iconClass(icon)" (click)="onValueClick(icon)"></i>
-          </div>
-      </ng-container>
-    `
+    <ng-container [ngSwitch]="_type">
+      <div class="value-outer" *ngIf="showLabel">
+        <label>{{ meta.label }}</label>
+        <span class="value">
+          <i *ngIf="meta.showEntityIcon" class="bhi-circle {{ meta.entityIconClass }}"></i>
+          <a *ngSwitchCase="NOVO_VALUE_TYPE.INTERNAL_LINK" (click)="openLink()" [innerHTML]="data | render: meta"></a>
+          <a *ngSwitchCase="NOVO_VALUE_TYPE.LINK" class="value" [href]="url" target="_blank" [innerHTML]="data | render: meta"></a>
+        </span>
+        <novo-entity-list *ngSwitchCase="NOVO_VALUE_TYPE.ENTITY_LIST" [data]="data" [meta]="meta"></novo-entity-list>
+      </div>
+      <div *ngSwitchDefault class="value-outer" [ngClass]="customClass">
+        <label>{{ meta.label }}</label>
+        <div *ngIf="isDefault" class="value" [innerHTML]="data | render: meta"></div>
+      </div>
+      <div class="actions" *ngIf="showIcon">
+        <i *ngFor="let icon of meta.icons" [class]="iconClass(icon)" (click)="onValueClick(icon)"></i>
+      </div>
+    </ng-container>
+  `
             }] }
 ];
 NovoValueElement.propDecorators = {
