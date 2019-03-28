@@ -1,6 +1,7 @@
 import { OnChanges, EventEmitter, ChangeDetectorRef, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { CalendarEvent, DayView, DayViewHour, CalendarEventTimesChangedEvent } from '../../../utils/calendar-utils/CalendarUtils';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 /**
  * Shows all events on a given day. Example usage:
  *
@@ -142,7 +143,7 @@ export declare class NovoCalendarDayViewElement implements OnChanges, OnInit, On
      * @hidden
      */
     ngOnChanges(changes: any): void;
-    private refreshHourGrid;
-    private refreshView;
-    private refreshAll;
+    private refreshHourGrid();
+    private refreshView();
+    private refreshAll();
 }

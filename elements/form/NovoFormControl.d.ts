@@ -1,6 +1,7 @@
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
 import { NovoControlConfig } from './FormControls';
+import { IFieldInteractionEvent } from './FormInterfaces';
 import { IMaskOptions } from './Control';
 export declare class NovoFormControl extends FormControl {
     displayValueChanges: EventEmitter<any>;
@@ -89,7 +90,7 @@ export declare class NovoFormControl extends FormControl {
      * @param emitViewToModelChange
      *
      */
-    setValue(value: any, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange, }?: {
+    setValue(value: any, {onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange}?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
         emitModelToViewChange?: boolean;
@@ -119,4 +120,14 @@ export declare class NovoFormControl extends FormControl {
      * @param message
      */
     markAsInvalid(message: string): void;
+}
+export declare class NovoFormGroup extends FormGroup {
+    fieldInteractionEvents: EventEmitter<IFieldInteractionEvent>;
+    layout: string;
+    edit: boolean;
+    currentEntity: string;
+    currentEntityId: string;
+    associations: object;
+    _value: any;
+    value: any;
 }
