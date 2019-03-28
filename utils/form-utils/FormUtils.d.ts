@@ -1,21 +1,21 @@
 import { NovoControlConfig } from '../../elements/form/FormControls';
 import { NovoFieldset, FormField } from '../../elements/form/FormInterfaces';
-import { NovoFormGroup } from '../../elements/form/NovoFormGroup';
+import { NovoFormGroup } from '../../elements/form/NovoFormControl';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { OptionsService } from './../../services/options/OptionsService';
 export declare class FormUtils {
     labels: NovoLabelService;
     optionsService: OptionsService;
     ASSOCIATED_ENTITY_LIST: string[];
-    ENTITY_PICKER_LIST: string[];
+    PICKER_TEXT_LIST: string[];
     constructor(labels: NovoLabelService, optionsService: OptionsService);
     toFormGroup(controls: Array<any>): NovoFormGroup;
     emptyFormGroup(): NovoFormGroup;
     addControls(formGroup: NovoFormGroup, controls: Array<NovoControlConfig>): void;
-    removeControls(formGroup: NovoFormGroup, controls: Array<NovoControlConfig>): void;
     /**
      * @name toFormGroupFromFieldset
      * @param fieldsets
+     * @returns {NovoFormGroup}
      */
     toFormGroupFromFieldset(fieldsets: Array<NovoFieldset>): NovoFormGroup;
     /**
@@ -26,6 +26,7 @@ export declare class FormUtils {
     /**
      * @name determineInputType
      * @param field
+     * @returns {string}
      */
     determineInputType(field: FormField): string;
     isFieldEncrypted(key: string): boolean;
