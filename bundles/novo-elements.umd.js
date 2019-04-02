@@ -12121,7 +12121,7 @@
         NovoChipElement.decorators = [
             { type: core.Component, args: [{
                         selector: 'chip,novo-chip',
-                        template: "\n        <span (click)=\"onSelect($event)\" (mouseenter)=\"onSelect($event)\" (mouseleave)=\"onDeselect($event)\" [ngClass]=\"_type\">\n            <i *ngIf=\"_type\" class=\"bhi-circle\"></i>\n            <span><ng-content></ng-content></span>\n        </span>\n        <i class=\"bhi-close\" *ngIf=\"!disabled\" (click)=\"onRemove($event)\"></i>\n    "
+                        template: "\n    <span (click)=\"onSelect($event)\" (mouseenter)=\"onSelect($event)\" (mouseleave)=\"onDeselect($event)\" [ngClass]=\"_type\">\n      <i *ngIf=\"_type\" class=\"bhi-circle\"></i>\n      <span><ng-content></ng-content></span>\n    </span>\n    <i class=\"bhi-close\" *ngIf=\"!disabled\" (click)=\"onRemove($event)\"></i>\n  "
                     }] }
         ];
         NovoChipElement.propDecorators = {
@@ -12275,9 +12275,9 @@
                             try {
                                 for (var result_1 = __values(result), result_1_1 = result_1.next(); !result_1_1.done; result_1_1 = result_1.next()) {
                                     var value = result_1_1.value;
-                                    if (value.hasOwnProperty('label')) {
+                                    if (value.hasOwnProperty('label') && value.hasOwnProperty('value')) {
                                         _this.items.push({
-                                            value: value,
+                                            value: value.value,
                                             label: value.label,
                                         });
                                     }
@@ -12578,7 +12578,7 @@
             { type: core.Component, args: [{
                         selector: 'chips,novo-chips',
                         providers: [CHIPS_VALUE_ACCESSOR],
-                        template: "\n        <div class=\"novo-chip-container\">\n          <novo-chip\n              *ngFor=\"let item of _items | async\"\n              [type]=\"type || item?.value?.searchEntity\"\n              [class.selected]=\"item == selected\"\n              [disabled]=\"disablePickerInput\"\n              (remove)=\"remove($event, item)\"\n              (select)=\"select($event, item)\"\n              (deselect)=\"deselect($event, item)\">\n              {{ item.label }}\n          </novo-chip>\n        </div>\n        <div class=\"chip-input-container\" *ngIf=\"!maxlength || (maxlength && items.length < maxlength)\">\n            <novo-picker\n                clearValueOnSelect=\"true\"\n                [closeOnSelect]=\"closeOnSelect\"\n                [config]=\"source\"\n                [disablePickerInput]=\"disablePickerInput\"\n                [placeholder]=\"placeholder\"\n                [(ngModel)]=\"itemToAdd\"\n                (select)=\"add($event)\"\n                (keydown)=\"onKeyDown($event)\"\n                (focus)=\"onFocus($event)\"\n                (typing)=\"onTyping($event)\"\n                (blur)=\"onTouched($event)\"\n                [selected]=\"items\"\n                [overrideElement]=\"element\">\n            </novo-picker>\n        </div>\n        <div class=\"preview-container\">\n            <span #preview></span>\n        </div>\n        <i class=\"bhi-search\" [class.has-value]=\"items.length\" *ngIf=\"!disablePickerInput\"></i>\n        <label class=\"clear-all\" *ngIf=\"items.length && !disablePickerInput\" (click)=\"clearValue()\">{{ labels.clearAll }} <i class=\"bhi-times\"></i></label>\n   ",
+                        template: "\n    <div class=\"novo-chip-container\">\n      <novo-chip\n        *ngFor=\"let item of (_items | async)\"\n        [type]=\"type || item?.value?.searchEntity\"\n        [class.selected]=\"item == selected\"\n        [disabled]=\"disablePickerInput\"\n        (remove)=\"remove($event, item)\"\n        (select)=\"select($event, item)\"\n        (deselect)=\"deselect($event, item)\"\n      >\n        {{ item.label }}\n      </novo-chip>\n    </div>\n    <div class=\"chip-input-container\" *ngIf=\"!maxlength || (maxlength && items.length < maxlength)\">\n      <novo-picker\n        clearValueOnSelect=\"true\"\n        [closeOnSelect]=\"closeOnSelect\"\n        [config]=\"source\"\n        [disablePickerInput]=\"disablePickerInput\"\n        [placeholder]=\"placeholder\"\n        [(ngModel)]=\"itemToAdd\"\n        (select)=\"add($event)\"\n        (keydown)=\"onKeyDown($event)\"\n        (focus)=\"onFocus($event)\"\n        (typing)=\"onTyping($event)\"\n        (blur)=\"onTouched($event)\"\n        [selected]=\"items\"\n        [overrideElement]=\"element\"\n      >\n      </novo-picker>\n    </div>\n    <div class=\"preview-container\">\n      <span #preview></span>\n    </div>\n    <i class=\"bhi-search\" [class.has-value]=\"items.length\" *ngIf=\"!disablePickerInput\"></i>\n    <label class=\"clear-all\" *ngIf=\"items.length && !disablePickerInput\" (click)=\"clearValue()\"\n      >{{ labels.clearAll }} <i class=\"bhi-times\"></i\n    ></label>\n  ",
                         host: {
                             '[class.with-value]': 'items.length > 0',
                             '[class.disabled]': 'disablePickerInput',
