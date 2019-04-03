@@ -6908,7 +6908,8 @@ var BasePickerResults = /** @class */ (function () {
      * @return {?}
      */
     function (match) {
-        return (this.selected.findIndex(function (item) {
+        /** @type {?} */
+        var b = this.selected.findIndex(function (item) {
             /** @type {?} */
             var isPreselected = false;
             if (item && item.value && match && match.value) {
@@ -6920,7 +6921,8 @@ var BasePickerResults = /** @class */ (function () {
                 }
             }
             return isPreselected;
-        }) !== -1);
+        });
+        return b !== -1;
     };
     BasePickerResults.propDecorators = {
         matches: [{ type: Input }]
@@ -10022,6 +10024,9 @@ var NovoPickerElement = /** @class */ (function () {
                 this.changed.emit({ value: selected.value, rawValue: { label: this.term, value: selected.value } });
                 this.select.emit(selected);
                 this.onModelChange(selected.value);
+                if (this.popup) {
+                    this.popup.instance.selected = this.selected;
+                }
             }
             else {
                 this.changed.emit({ value: selected.value, rawValue: { label: this.term, value: this._value } });

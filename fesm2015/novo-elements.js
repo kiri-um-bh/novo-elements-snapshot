@@ -6079,7 +6079,8 @@ class BasePickerResults {
      * @return {?}
      */
     preselected(match) {
-        return (this.selected.findIndex((item) => {
+        /** @type {?} */
+        let b = this.selected.findIndex((item) => {
             /** @type {?} */
             let isPreselected = false;
             if (item && item.value && match && match.value) {
@@ -6091,7 +6092,8 @@ class BasePickerResults {
                 }
             }
             return isPreselected;
-        }) !== -1);
+        });
+        return b !== -1;
     }
 }
 BasePickerResults.propDecorators = {
@@ -8665,6 +8667,9 @@ class NovoPickerElement {
             this.changed.emit({ value: selected.value, rawValue: { label: this.term, value: selected.value } });
             this.select.emit(selected);
             this.onModelChange(selected.value);
+            if (this.popup) {
+                this.popup.instance.selected = this.selected;
+            }
         }
         else {
             this.changed.emit({ value: selected.value, rawValue: { label: this.term, value: this._value } });
