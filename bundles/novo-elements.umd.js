@@ -51105,7 +51105,7 @@
                         })
                             .catch(function (err) {
                             _this._trace(MESSAGE_TYPES.REGISTER + " - FAILED - (no parent)", err);
-                            resolve(null);
+                            reject(err);
                         });
                     }
                 });
