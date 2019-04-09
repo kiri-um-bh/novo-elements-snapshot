@@ -10204,9 +10204,6 @@
                     this.changed.emit({ value: selected.value, rawValue: { label: this.term, value: selected.value } });
                     this.select.emit(selected);
                     this.onModelChange(selected.value);
-                    if (this.popup) {
-                        this.popup.instance.selected = this.selected;
-                    }
                 }
                 else {
                     this.changed.emit({ value: selected.value, rawValue: { label: this.term, value: this._value } });
@@ -51111,7 +51108,7 @@
                         })
                             .catch(function (err) {
                             _this._trace(MESSAGE_TYPES.REGISTER + " - FAILED - (no parent)", err);
-                            reject(err);
+                            resolve(null);
                         });
                     }
                 });

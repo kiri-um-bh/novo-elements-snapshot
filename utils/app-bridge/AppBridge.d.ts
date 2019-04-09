@@ -11,7 +11,7 @@ export declare enum AppBridgeHandler {
     REQUEST_DATA = 8,
     CALLBACK = 9
 }
-export declare type NovoApps = 'record' | 'add' | 'fast-add' | 'custom' | 'preview';
+export declare type NovoApps = 'record' | 'add' | 'fast-add' | 'custom';
 export interface IAppBridgeOpenEvent {
     type: NovoApps;
     entityType: string;
