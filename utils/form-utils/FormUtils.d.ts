@@ -33,7 +33,7 @@ export declare class FormUtils {
         token?: string;
         restUrl?: string;
         military?: boolean;
-    }, overrides?: any, forTable?: boolean): any;
+    }, overrides?: any, forTable?: boolean, fieldData?: any): any;
     toControls(meta: any, currencyFormat: any, http: any, config: {
         token?: string;
         restUrl?: string;
@@ -48,12 +48,15 @@ export declare class FormUtils {
         token?: string;
         restUrl?: string;
         military?: boolean;
-    }, overrides?: any): NovoFieldset[];
+    }, overrides?: any, data?: {
+        [key: string]: any;
+    }): NovoFieldset[];
     getControlOptions(field: any, http: any, config: {
         token?: string;
         restUrl?: string;
         military?: boolean;
-    }): any;
+    }, fieldData?: any): any;
+    private getWorkflowOptions;
     setInitialValues(controls: Array<NovoControlConfig>, values: any, keepClean?: boolean, keyOverride?: string): void;
     setInitialValuesFieldsets(fieldsets: Array<NovoFieldset>, values: any, keepClean?: boolean): void;
     forceShowAllControls(controls: Array<NovoControlConfig>): void;
