@@ -6086,9 +6086,6 @@ class BasePickerResults {
                 if (item.value.id && match.value.id) {
                     isPreselected = item.value.id === match.value.id;
                 }
-                else if (item.value instanceof Object && item.value.hasOwnProperty('value')) {
-                    isPreselected = item.value.value === match.value;
-                }
                 else {
                     isPreselected = item.value === match.value;
                 }
@@ -8168,7 +8165,7 @@ class NovoSelectElement {
         this.model = model;
         if (this.options) {
             /** @type {?} */
-            let item = this.filteredOptions.find((i) => i.value === model);
+            let item = this.filteredOptions.find((i) => i.value === model || (model && i.value === model.id));
             if (!item && !Helpers.isEmpty(model)) {
                 item = {
                     label: model,
@@ -8215,22 +8212,38 @@ NovoSelectElement.decorators = [
                 selector: 'novo-select',
                 providers: [SELECT_VALUE_ACCESSOR],
                 template: `
-    <div #dropdownElement (click)="togglePanel(); false" tabIndex="{{ disabled ? -1 : 0 }}" type="button" [class.empty]="empty">{{selected.label}}<i class="bhi-collapse"></i></div>
+    <div #dropdownElement (click)="togglePanel(); (false)" tabIndex="{{ disabled ? -1 : 0 }}" type="button" [class.empty]="empty">
+      {{ selected.label }}<i class="bhi-collapse"></i>
+    </div>
     <novo-overlay-template [parent]="element" position="center" (closing)="dropdown.nativeElement.focus()">
       <ul class="novo-select-list" tabIndex="-1" [class.header]="headerConfig" [class.active]="panelOpen">
         <ng-content></ng-content>
         <li *ngIf="headerConfig" class="select-header" [class.open]="header.open">
-          <button *ngIf="!header.open" (click)="toggleHeader($event); false" tabIndex="-1" type="button" class="header"><i class="bhi-add-thin"></i>&nbsp;{{headerConfig.label}}
+          <button *ngIf="!header.open" (click)="toggleHeader($event); (false)" tabIndex="-1" type="button" class="header">
+            <i class="bhi-add-thin"></i>&nbsp;{{ headerConfig.label }}
           </button>
-          <div *ngIf="header.open" [ngClass]="{active: header.open}">
-            <input autofocus type="text" [placeholder]="headerConfig.placeholder" [attr.id]="name" autocomplete="false" [(ngModel)]="header.value" [ngClass]="{invalid: !header.valid}" />
+          <div *ngIf="header.open" [ngClass]="{ active: header.open }">
+            <input
+              autofocus
+              type="text"
+              [placeholder]="headerConfig.placeholder"
+              [attr.id]="name"
+              autocomplete="false"
+              [(ngModel)]="header.value"
+              [ngClass]="{ invalid: !header.valid }"
+            />
             <footer>
-              <button (click)="toggleHeader($event, false)">{{labels.cancel}}</button>
-              <button (click)="saveHeader()" class="primary">{{labels.save}}</button>
+              <button (click)="toggleHeader($event, false)">{{ labels.cancel }}</button>
+              <button (click)="saveHeader()" class="primary">{{ labels.save }}</button>
             </footer>
           </div>
         </li>
-        <li *ngFor="let option of filteredOptions; let i = index" [ngClass]="{active: option.active}" (click)="setValueAndClose({value: option, index: i})" [attr.data-automation-value]="option.label">
+        <li
+          *ngFor="let option of filteredOptions; let i = index"
+          [ngClass]="{ active: option.active }"
+          (click)="setValueAndClose({ value: option, index: i })"
+          [attr.data-automation-value]="option.label"
+        >
           <span [innerHtml]="highlight(option.label, filterTerm)"></span>
           <i *ngIf="option.active" class="bhi-check"></i>
         </li>
@@ -8668,9 +8681,6 @@ class NovoPickerElement {
             this.changed.emit({ value: selected.value, rawValue: { label: this.term, value: selected.value } });
             this.select.emit(selected);
             this.onModelChange(selected.value);
-            if (this.popup) {
-                this.popup.instance.selected = this.selected;
-            }
         }
         else {
             this.changed.emit({ value: selected.value, rawValue: { label: this.term, value: this._value } });
@@ -15101,6 +15111,7 @@ class FormUtils {
             HTML: 'editor',
             'HTML-MINIMAL': 'editor-minimal',
             YEAR: 'year',
+            WORKFLOW_OPTIONS: 'select',
         };
         /** @type {?} */
         let dataTypeToTypeMap = {
@@ -15151,7 +15162,10 @@ class FormUtils {
             }
         }
         else if (field.type === 'TO_ONE') {
-            if (this.hasAssociatedEntity(field)) {
+            if (field.dataSpecialization === 'WORKFLOW_OPTIONS') {
+                type = dataSpecializationTypeMap[field.dataSpecialization];
+            }
+            else if (this.hasAssociatedEntity(field)) {
                 type = 'entitypicker'; // TODO!
             }
             else {
@@ -15204,9 +15218,10 @@ class FormUtils {
      * @param {?} config
      * @param {?=} overrides
      * @param {?=} forTable
+     * @param {?=} fieldData
      * @return {?}
      */
-    getControlForField(field, http, config, overrides, forTable = false) {
+    getControlForField(field, http, config, overrides, forTable = false, fieldData) {
         // TODO: if field.type overrides `determineInputType` we should use it in that method or use this method
         // TODO: (cont.) as the setter of the field argument
         /** @type {?} */
@@ -15247,7 +15262,7 @@ class FormUtils {
         };
         // TODO: getControlOptions should always return the correct format
         /** @type {?} */
-        let optionsConfig = this.getControlOptions(field, http, config);
+        const optionsConfig = this.getControlOptions(field, http, config, fieldData);
         if (Array.isArray(optionsConfig) && !(type === 'chips' || type === 'picker')) {
             controlConfig.options = optionsConfig;
         }
@@ -15413,7 +15428,7 @@ class FormUtils {
                             if (!subfield.optionsUrl) {
                                 subfield.optionsUrl = `options/${subfield.optionsType}`;
                             }
-                            controlConfig.config[subfield.name].pickerConfig = this.getControlOptions(subfield, http, config);
+                            controlConfig.config[subfield.name].pickerConfig = this.getControlOptions(subfield, http, config, fieldData);
                         }
                     }
                 }
@@ -15491,9 +15506,10 @@ class FormUtils {
      * @param {?} http
      * @param {?} config
      * @param {?=} overrides
+     * @param {?=} data
      * @return {?}
      */
-    toFieldSets(meta, currencyFormat, http, config, overrides) {
+    toFieldSets(meta, currencyFormat, http, config, overrides, data) {
         /** @type {?} */
         let fieldsets = [];
         /** @type {?} */
@@ -15563,7 +15579,9 @@ class FormUtils {
                     (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
                     !field.readOnly) {
                     /** @type {?} */
-                    let control = this.getControlForField(field, http, config, overrides);
+                    const fieldData = data && data[field.name] ? data[field.name] : null;
+                    /** @type {?} */
+                    let control = this.getControlForField(field, http, config, overrides, undefined, fieldData);
                     // Set currency format
                     if (control.subType === 'currency') {
                         control.currencyFormat = currencyFormat;
@@ -15594,14 +15612,18 @@ class FormUtils {
      * @param {?} field
      * @param {?} http
      * @param {?} config
+     * @param {?=} fieldData
      * @return {?}
      */
-    getControlOptions(field, http, config) {
+    getControlOptions(field, http, config, fieldData) {
         // TODO: The token property of config is the only property used; just pass in `token: string`
         if (field.dataType === 'Boolean' && !field.options) {
             // TODO: dataType should only be determined by `determineInputType` which doesn't ever return 'Boolean' it
             // TODO: (cont.) returns `tiles`
             return [{ value: false, label: this.labels.no }, { value: true, label: this.labels.yes }];
+        }
+        else if (field.workflowOptions && fieldData) {
+            return this.getWorkflowOptions(field.workflowOptions, fieldData);
         }
         else if (field.optionsUrl) {
             return this.optionsService.getOptionsConfig(http, field, config);
@@ -15619,6 +15641,27 @@ class FormUtils {
             return field.options;
         }
         return null;
+    }
+    /**
+     * @private
+     * @param {?} workflowOptions
+     * @param {?} fieldData
+     * @return {?}
+     */
+    getWorkflowOptions(workflowOptions, fieldData) {
+        /** @type {?} */
+        let currentValue;
+        if (fieldData.id) {
+            currentValue = { value: fieldData.id, label: fieldData.label ? fieldData.label : fieldData.id };
+        }
+        /** @type {?} */
+        const currentWorkflowOption = fieldData.id ? fieldData.id : 'initial';
+        /** @type {?} */
+        let updateWorkflowOptions = workflowOptions[currentWorkflowOption] || [];
+        if (currentValue && !updateWorkflowOptions.find((option) => option.value === currentValue.value)) {
+            updateWorkflowOptions.unshift(currentValue);
+        }
+        return updateWorkflowOptions;
     }
     /**
      * @param {?} controls
@@ -46296,7 +46339,7 @@ class AppBridge {
                 })
                     .catch((err) => {
                     this._trace(`${MESSAGE_TYPES.REGISTER} - FAILED - (no parent)`, err);
-                    reject(err);
+                    resolve(null);
                 });
             }
         });
