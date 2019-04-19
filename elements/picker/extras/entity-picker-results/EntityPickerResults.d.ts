@@ -30,6 +30,7 @@ export declare class EntityPickerResults extends BasePickerResults {
     labels: NovoLabelService;
     select: EventEmitter<any>;
     constructor(element: ElementRef, labels: NovoLabelService, ref: ChangeDetectorRef);
+    readonly hasNonErrorMessage: boolean;
     getListElement(): any;
     selectMatch(event?: any, item?: any): boolean;
 }

@@ -20,7 +20,7 @@ import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
-import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
+import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
@@ -1737,6 +1737,7 @@ class NovoLabelService {
         this.noMatchingRecordsMessage = 'No Matching Records';
         this.erroredTableMessage = 'Oops! An error occurred.';
         this.pickerError = 'Oops! An error occurred.';
+        this.pickerTextFieldEmpty = 'Begin typing to see results.';
         this.pickerEmpty = 'No results to display...';
         this.quickNoteError = 'Oops! An error occurred.';
         this.quickNoteEmpty = 'No results to display...';
@@ -6118,6 +6119,12 @@ class PickerResults extends BasePickerResults {
     /**
      * @return {?}
      */
+    get hasNonErrorMessage() {
+        return !this.isLoading && !this.matches.length && !this.hasError;
+    }
+    /**
+     * @return {?}
+     */
     getListElement() {
         return this.element.nativeElement.querySelector('novo-list');
     }
@@ -6129,25 +6136,23 @@ PickerResults.decorators = [
                     class: 'active',
                 },
                 template: `
-        <novo-list *ngIf="matches.length > 0" direction="vertical">
-            <novo-list-item
-                *ngFor="let match of matches"
-                (click)="selectMatch($event)"
-                [class.active]="match === activeMatch"
-                (mouseenter)="selectActive(match)"
-                [class.disabled]="preselected(match)">
-                <item-content>
-                    <span [innerHtml]="highlight(match.label, term)"></span>
-                </item-content>
-            </novo-list-item>
-            <novo-loading *ngIf="isLoading && matches.length > 0" theme="line"></novo-loading>
-        </novo-list>
-        <div class="picker-loader" *ngIf="isLoading && matches.length === 0">
-            <novo-loading theme="line"></novo-loading>
-        </div>
-        <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
-        <p class="picker-null-results" *ngIf="!isLoading && !matches.length && !hasError">{{ labels.pickerEmpty }}</p>
-    `
+    <novo-list *ngIf="matches.length > 0" direction="vertical">
+      <novo-list-item
+        *ngFor="let match of matches"
+        (click)="selectMatch($event)"
+        [class.active]="match === activeMatch"
+        (mouseenter)="selectActive(match)"
+        [class.disabled]="preselected(match)"
+      >
+        <item-content> <span [innerHtml]="highlight(match.label, term)"></span> </item-content>
+      </novo-list-item>
+      <novo-loading *ngIf="isLoading && matches.length > 0" theme="line"></novo-loading>
+    </novo-list>
+    <div class="picker-loader" *ngIf="isLoading && matches.length === 0"><novo-loading theme="line"></novo-loading></div>
+    <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
+    <p class="picker-null-results" *ngIf="hasNonErrorMessage && term !== ''">{{ labels.pickerEmpty }}</p>
+    <p class="picker-null-results" *ngIf="hasNonErrorMessage && term === ''">{{ labels.pickerTextFieldEmpty }}</p>
+  `
             }] }
 ];
 /** @nocollapse */
@@ -8597,7 +8602,7 @@ class NovoPickerElement {
         this.changed.emit({ value: this._value, rawValue: { label: '', value: this._value } });
         this.onModelChange(this._value);
         if (wipeTerm) {
-            this.term = null;
+            this.term = '';
             this.hideResults();
         }
         this.ref.markForCheck();
@@ -8971,74 +8976,68 @@ EntityPickerResult.decorators = [
     { type: Component, args: [{
                 selector: 'entity-picker-result',
                 template: `
-        <novo-list-item *ngIf="match.data">
-            <item-header>
-                <item-avatar [icon]="getIconForResult(match.data)"></item-avatar>
-                <item-title>
-                    <span [innerHtml]="highlight(getNameForResult(match.data), term)"></span>
-                </item-title>
-            </item-header>
-            <item-content direction="horizontal">
-                <!-- COMPANY 1 -->
-                <p class="company" *ngIf="match.data.companyName || match.data?.clientCorporation?.name">
-                    <i class="bhi-company"></i>
-                    <span [innerHtml]="highlight(match.data.companyName || match.data?.clientCorporation?.name, term)"></span>
-                </p>
-                <!-- CLIENT CONTACT -->
-                <p class="contact" *ngIf="match.data?.clientContact?.firstName">
-                    <i class="bhi-person contact person"></i>
-                    <span [innerHtml]="highlight(match.data.clientContact.firstName + ' ' + match.data.clientContact.lastName, term)"></span>
-                </p>
-                <!-- CANDIDATE -->
-                <p class="candidate" *ngIf="match.data.candidate && match.data.searchEntity === 'Placement'">
-                    <i class="bhi-candidate"></i>
-                    <span [innerHtml]="highlight((match.data.candidate.firstName + ' ' + match.data.candidate.lastName), term)"></span>
-                </p>
-                <!-- START & END DATE -->
-                <p class="start-date" *ngIf="match.data.dateBegin && match.data.searchEntity === 'Placement'">
-                    <i class="bhi-calendar"></i>
-                    <span [innerHtml]="renderTimestamp(match.data.dateBegin) + ' - ' + renderTimestamp(match.data.dateEnd)"></span>
-                </p>
-                <!-- EMAIL -->
-                <p class="email" *ngIf="match.data.email">
-                    <i class="bhi-email"></i>
-                    <span [innerHtml]="highlight(match.data.email, term)"></span>
-                </p>
-                <!-- PHONE -->
-                <p class="phone" *ngIf="match.data.phone">
-                    <i class="bhi-phone"></i>
-                    <span [innerHtml]="highlight(match.data.phone, term)"></span>
-                </p>
-                <!-- ADDRESS -->
-                <p class="location" *ngIf="match.data.address && (match.data.address.city || match.data.address.state)">
-                    <i class="bhi-location"></i>
-                    <span *ngIf="match.data.address.city" [innerHtml]="highlight(match.data.address.city, term)"></span>
-                    <span *ngIf="match.data.address.city && match.data.address.state">, </span>
-                    <span *ngIf="match.data.address.state" [innerHtml]="highlight(match.data.address.state, term)"></span>
-                </p>
-                <!-- STATUS -->
-                <p class="status" *ngIf="match.data.status">
-                    <i class="bhi-info"></i>
-                    <span [innerHtml]="highlight(match.data.status, term)"></span>
-                </p>
-                <!-- OWNER -->
-                <p class="owner" *ngIf="match.data.owner && match.data.owner.name && match.data.searchEntity === 'Candidate'">
-                    <i class="bhi-person"></i>
-                    <span [innerHtml]="highlight(match.data.owner.name, term)"></span>
-                </p>
-                <!-- PRIMARY DEPARTMENT -->
-                <p class="primary-department" *ngIf="match.data.primaryDepartment && match.data.primaryDepartment.name && match.data.searchEntity === 'CorporateUser'">
-                    <i class="bhi-department"></i>
-                    <span [innerHtml]="highlight(match.data.primaryDepartment.name, term)"></span>
-                </p>
-                <!-- OCCUPATION -->
-                <p class="occupation" *ngIf="match.data.occupation && match.data.searchEntity === 'CorporateUser'">
-                    <i class="bhi-occupation"></i>
-                    <span [innerHtml]="highlight(match.data.occupation, term)"></span>
-                </p>
-            </item-content>
-        </novo-list-item>
-    `
+    <novo-list-item *ngIf="match.data">
+      <item-header>
+        <item-avatar [icon]="getIconForResult(match.data)"></item-avatar>
+        <item-title> <span [innerHtml]="highlight(getNameForResult(match.data), term)"></span> </item-title>
+      </item-header>
+      <item-content direction="horizontal">
+        <!-- COMPANY 1 -->
+        <p class="company" *ngIf="match.data.companyName || match.data?.clientCorporation?.name">
+          <i class="bhi-company"></i>
+          <span [innerHtml]="highlight(match.data.companyName || match.data?.clientCorporation?.name, term)"></span>
+        </p>
+        <!-- CLIENT CONTACT -->
+        <p class="contact" *ngIf="match.data?.clientContact?.firstName">
+          <i class="bhi-person contact person"></i>
+          <span [innerHtml]="highlight(match.data.clientContact.firstName + ' ' + match.data.clientContact.lastName, term)"></span>
+        </p>
+        <!-- CANDIDATE -->
+        <p class="candidate" *ngIf="match.data.candidate && match.data.searchEntity === 'Placement'">
+          <i class="bhi-candidate"></i>
+          <span [innerHtml]="highlight(match.data.candidate.firstName + ' ' + match.data.candidate.lastName, term)"></span>
+        </p>
+        <!-- START & END DATE -->
+        <p class="start-date" *ngIf="match.data.dateBegin && match.data.searchEntity === 'Placement'">
+          <i class="bhi-calendar"></i>
+          <span [innerHtml]="renderTimestamp(match.data.dateBegin) + ' - ' + renderTimestamp(match.data.dateEnd)"></span>
+        </p>
+        <!-- EMAIL -->
+        <p class="email" *ngIf="match.data.email">
+          <i class="bhi-email"></i> <span [innerHtml]="highlight(match.data.email, term)"></span>
+        </p>
+        <!-- PHONE -->
+        <p class="phone" *ngIf="match.data.phone">
+          <i class="bhi-phone"></i> <span [innerHtml]="highlight(match.data.phone, term)"></span>
+        </p>
+        <!-- ADDRESS -->
+        <p class="location" *ngIf="match.data.address && (match.data.address.city || match.data.address.state)">
+          <i class="bhi-location"></i> <span *ngIf="match.data.address.city" [innerHtml]="highlight(match.data.address.city, term)"></span>
+          <span *ngIf="match.data.address.city && match.data.address.state">, </span>
+          <span *ngIf="match.data.address.state" [innerHtml]="highlight(match.data.address.state, term)"></span>
+        </p>
+        <!-- STATUS -->
+        <p class="status" *ngIf="match.data.status">
+          <i class="bhi-info"></i> <span [innerHtml]="highlight(match.data.status, term)"></span>
+        </p>
+        <!-- OWNER -->
+        <p class="owner" *ngIf="match.data.owner && match.data.owner.name && match.data.searchEntity === 'Candidate'">
+          <i class="bhi-person"></i> <span [innerHtml]="highlight(match.data.owner.name, term)"></span>
+        </p>
+        <!-- PRIMARY DEPARTMENT -->
+        <p
+          class="primary-department"
+          *ngIf="match.data.primaryDepartment && match.data.primaryDepartment.name && match.data.searchEntity === 'CorporateUser'"
+        >
+          <i class="bhi-department"></i> <span [innerHtml]="highlight(match.data.primaryDepartment.name, term)"></span>
+        </p>
+        <!-- OCCUPATION -->
+        <p class="occupation" *ngIf="match.data.occupation && match.data.searchEntity === 'CorporateUser'">
+          <i class="bhi-occupation"></i> <span [innerHtml]="highlight(match.data.occupation, term)"></span>
+        </p>
+      </item-content>
+    </novo-list-item>
+  `
             }] }
 ];
 /** @nocollapse */
@@ -9063,6 +9062,12 @@ class EntityPickerResults extends BasePickerResults {
     /**
      * @return {?}
      */
+    get hasNonErrorMessage() {
+        return !this.isLoading && !this.matches.length && !this.hasError;
+    }
+    /**
+     * @return {?}
+     */
     getListElement() {
         return this.element.nativeElement.querySelector('novo-list');
     }
@@ -9080,20 +9085,23 @@ EntityPickerResults.decorators = [
     { type: Component, args: [{
                 selector: 'entity-picker-results',
                 template: `
-        <novo-list *ngIf="matches.length > 0" direction="vertical">
-            <entity-picker-result *ngFor="let match of matches"
-                    [match]="match"
-                    [term]="term"
-                    (click)="selectMatch($event, match)"
-                    [ngClass]="{active: isActive(match)}"
-                    (mouseenter)="selectActive(match)"
-                    [class.disabled]="preselected(match)">
-            </entity-picker-result>
-            <novo-loading theme="line" *ngIf="isLoading && matches.length > 0"></novo-loading>
-        </novo-list>
-        <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
-        <p class="picker-null-results" *ngIf="!isLoading && !matches.length && !hasError">{{ labels.pickerEmpty }}</p>
-    `
+    <novo-list *ngIf="matches.length > 0" direction="vertical">
+      <entity-picker-result
+        *ngFor="let match of matches"
+        [match]="match"
+        [term]="term"
+        (click)="selectMatch($event, match)"
+        [ngClass]="{ active: isActive(match) }"
+        (mouseenter)="selectActive(match)"
+        [class.disabled]="preselected(match)"
+      >
+      </entity-picker-result>
+      <novo-loading theme="line" *ngIf="isLoading && matches.length > 0"></novo-loading>
+    </novo-list>
+    <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
+    <p class="picker-null-results" *ngIf="hasNonErrorMessage && term !== ''">{{ labels.pickerEmpty }}</p>
+    <p class="picker-null-results" *ngIf="hasNonErrorMessage && term === ''">{{ labels.pickerTextFieldEmpty }}</p>
+  `
             }] }
 ];
 /** @nocollapse */
@@ -9217,25 +9225,33 @@ ChecklistPickerResults.decorators = [
                     class: 'active picker-results',
                 },
                 template: `
-        <novo-loading theme="line" *ngIf="isLoading && !matches.length"></novo-loading>
-        <ul *ngIf="matches.length > 0">
-            <span *ngFor="let section of matches; let i = index">
-                <li class="header caption" *ngIf="section.data.length > 0">{{ section.label || section.type }}</li>
-                <li
-                    *ngFor="let match of section.data; let i = index" [ngClass]="{checked: match.checked}"
-                    (click)="selectMatch($event, match)"
-                    [class.active]="match === activeMatch"
-                    (mouseenter)="selectActive(match)">
-                    <label>
-                        <i [ngClass]="{'bhi-checkbox-empty': !match.checked, 'bhi-checkbox-filled': match.checked, 'bhi-checkbox-indeterminate': match.indeterminate }"></i>
-                        {{match.label}}
-                    </label>
-                </li>
-            </span>
-        </ul>
-        <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
-        <p class="picker-null-results" *ngIf="!isLoading && !matches.length && !hasError">{{ labels.pickerEmpty }}</p>
-    `
+    <novo-loading theme="line" *ngIf="isLoading && !matches.length"></novo-loading>
+    <ul *ngIf="matches.length > 0">
+      <span *ngFor="let section of matches; let i = index">
+        <li class="header caption" *ngIf="section.data.length > 0">{{ section.label || section.type }}</li>
+        <li
+          *ngFor="let match of section.data; let i = index"
+          [ngClass]="{ checked: match.checked }"
+          (click)="selectMatch($event, match)"
+          [class.active]="match === activeMatch"
+          (mouseenter)="selectActive(match)"
+        >
+          <label>
+            <i
+              [ngClass]="{
+                'bhi-checkbox-empty': !match.checked,
+                'bhi-checkbox-filled': match.checked,
+                'bhi-checkbox-indeterminate': match.indeterminate
+              }"
+            ></i>
+            {{ match.label }}
+          </label>
+        </li>
+      </span>
+    </ul>
+    <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
+    <p class="picker-null-results" *ngIf="!isLoading && !matches.length && !hasError && term !== ''">{{ labels.pickerEmpty }}</p>
+  `
             }] }
 ];
 /** @nocollapse */
@@ -9618,29 +9634,31 @@ SkillsSpecialtyPickerResults.decorators = [
     { type: Component, args: [{
                 selector: 'skill-specialty-picker-results',
                 template: `
-        <section class="picker-loading" *ngIf="isLoading && !matches?.length">
-            <novo-loading theme="line"></novo-loading>
-        </section>
-        <novo-list *ngIf="matches.length > 0" direction="vertical">
-            <novo-list-item
-                *ngFor="let match of matches"
-                (click)="selectMatch($event)"
-                [class.active]="match === activeMatch"
-                (mouseenter)="selectActive(match)"
-                [class.disabled]="preselected(match)">
-                <item-content>
-                    <h6><span [innerHtml]="highlight(match.label, term)"></span></h6>
-                    <div class="category">
-                        <i class="bhi-category-tags"></i><span [innerHtml]="highlight(match.data.categories || match.data.parentCategory.name, term)"></span>
-                    </div>
-                </item-content>
-            </novo-list-item>
-            <novo-list-item *ngIf="limitedTo"><div>{{labels.showingXofXResults(limit, total)}}</div></novo-list-item>
-            <novo-loading theme="line" *ngIf="isLoading && matches.length > 0"></novo-loading>
-        </novo-list>
-        <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
-        <p class="picker-null" *ngIf="!isLoading && !matches.length && !hasError">{{ labels.pickerEmpty }}</p>
-    `
+    <section class="picker-loading" *ngIf="isLoading && !matches?.length"><novo-loading theme="line"></novo-loading></section>
+    <novo-list *ngIf="matches.length > 0" direction="vertical">
+      <novo-list-item
+        *ngFor="let match of matches"
+        (click)="selectMatch($event)"
+        [class.active]="match === activeMatch"
+        (mouseenter)="selectActive(match)"
+        [class.disabled]="preselected(match)"
+      >
+        <item-content>
+          <h6><span [innerHtml]="highlight(match.label, term)"></span></h6>
+          <div class="category">
+            <i class="bhi-category-tags"></i
+            ><span [innerHtml]="highlight(match.data.categories || match.data.parentCategory.name, term)"></span>
+          </div>
+        </item-content>
+      </novo-list-item>
+      <novo-list-item *ngIf="limitedTo"
+        ><div>{{ labels.showingXofXResults(limit, total) }}</div></novo-list-item
+      >
+      <novo-loading theme="line" *ngIf="isLoading && matches.length > 0"></novo-loading>
+    </novo-list>
+    <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
+    <p class="picker-null" *ngIf="!isLoading && !matches.length && !hasError">{{ labels.pickerEmpty }}</p>
+  `
             }] }
 ];
 /** @nocollapse */
