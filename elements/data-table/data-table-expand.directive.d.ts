@@ -9,10 +9,8 @@ export declare class NovoDataTableExpandDirective<T> implements OnDestroy {
     template: TemplateRef<any>;
     private subscription;
     constructor(vcRef: ViewContainerRef, state: DataTableState<T>, dataTable: NovoDataTable<T>);
-    shouldExpandAllRows: (targetId: number) => boolean;
-    shouldExpandOneRow: (targetId: number) => boolean;
     ngOnDestroy(): void;
     onClick(event: MouseEvent): void;
-    private clear;
-    private render;
+    private clear();
+    private render();
 }
