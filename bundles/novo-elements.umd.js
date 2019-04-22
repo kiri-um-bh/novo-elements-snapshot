@@ -44161,7 +44161,7 @@
                         text = (value.compensation ? value.compensation.code + " - " : '') + " " + (value.compensation ? value.compensation.name : '');
                         break;
                     case 'Options':
-                        text = this.options(value, args.options);
+                        text = this.options(value, args.options, args);
                         break;
                     case 'ToMany':
                         if (['Candidate', 'CorporateUser', 'Person'].indexOf(args.associatedEntity.entity) > -1) {
@@ -44322,6 +44322,7 @@
          * \@name options
          * @param {?} value - the value to find
          * @param {?} list - list of options (label/value pairs)
+         * @param {?} args
          * @return {?}
          */
         RenderPipe.prototype.options = /**
@@ -44329,37 +44330,46 @@
          * \@name options
          * @param {?} value - the value to find
          * @param {?} list - list of options (label/value pairs)
+         * @param {?} args
          * @return {?}
          */
-            function (value, list) {
+            function (value, list, args) {
                 if (!Array.isArray(value)) {
                     value = [value];
                 }
-                return value.map(function (item) {
-                    var e_3, _a;
-                    try {
-                        for (var list_2 = __values(list), list_2_1 = list_2.next(); !list_2_1.done; list_2_1 = list_2.next()) {
-                            var option = list_2_1.value;
-                            if (option.value === item) {
-                                return option.label;
+                try {
+                    return value.map(function (item) {
+                        var e_3, _a;
+                        try {
+                            for (var list_2 = __values(list), list_2_1 = list_2.next(); !list_2_1.done; list_2_1 = list_2.next()) {
+                                var option = list_2_1.value;
+                                if (option.value === item) {
+                                    return option.label;
+                                }
                             }
                         }
-                    }
-                    catch (e_3_1) {
-                        e_3 = { error: e_3_1 };
-                    }
-                    finally {
-                        try {
-                            if (list_2_1 && !list_2_1.done && (_a = list_2.return))
-                                _a.call(list_2);
+                        catch (e_3_1) {
+                            e_3 = { error: e_3_1 };
                         }
                         finally {
-                            if (e_3)
-                                throw e_3.error;
+                            try {
+                                if (list_2_1 && !list_2_1.done && (_a = list_2.return))
+                                    _a.call(list_2);
+                            }
+                            finally {
+                                if (e_3)
+                                    throw e_3.error;
+                            }
                         }
+                        return item;
+                    });
+                }
+                catch (e) {
+                    if (!args.optionsType) {
+                        console.error("WARNING: There are no options configured for the field: " + args.label);
                     }
-                    return item;
-                });
+                    return value;
+                }
             };
         /**
          * @param {?} value
