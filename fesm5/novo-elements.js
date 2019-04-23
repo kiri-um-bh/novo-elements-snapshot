@@ -48259,6 +48259,8 @@ var NovoDataTableCellHeader = /** @class */ (function () {
         this.filterActive = false;
         this.sortActive = false;
         this.showCustomRange = false;
+        this.multiSelect = false;
+        this.multiSelectedOptions = [];
         this.subscriptions = [];
         this._rerenderSubscription = state$$1.updates.subscribe(function (change) {
             if (change.sort && change.sort.id === _this.id) {
@@ -48276,6 +48278,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
             else {
                 _this.filterActive = false;
                 _this.filter = undefined;
+                _this.multiSelectedOptions = [];
             }
             changeDetectorRef.markForCheck();
         });
@@ -48337,6 +48340,10 @@ var NovoDataTableCellHeader = /** @class */ (function () {
             this.sortActive = true;
             this.changeDetectorRef.markForCheck();
         }
+        this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
+        if (this.multiSelect) {
+            this.multiSelectedOptions = this.filter ? __spread(this.filter) : [];
+        }
     };
     /**
      * @return {?}
@@ -48349,6 +48356,88 @@ var NovoDataTableCellHeader = /** @class */ (function () {
         this.subscriptions.forEach(function (subscription) {
             subscription.unsubscribe();
         });
+    };
+    /**
+     * @param {?} option
+     * @param {?} optionsList
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.isSelected = /**
+     * @param {?} option
+     * @param {?} optionsList
+     * @return {?}
+     */
+    function (option, optionsList) {
+        var _this = this;
+        if (optionsList) {
+            /** @type {?} */
+            var optionValue_1 = option.hasOwnProperty('value') ? option.value : option;
+            /** @type {?} */
+            var found = optionsList.find(function (item) { return _this.optionPresentCheck(item, optionValue_1); });
+            return found !== undefined;
+        }
+        return false;
+    };
+    /**
+     * @param {?} option
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.toggleSelection = /**
+     * @param {?} option
+     * @return {?}
+     */
+    function (option) {
+        var _this = this;
+        /** @type {?} */
+        var optionValue = option.value ? option.value : option;
+        /** @type {?} */
+        var optionIndex = this.multiSelectedOptions.findIndex(function (item) { return _this.optionPresentCheck(item, optionValue); });
+        if (optionIndex > -1) {
+            this.multiSelectedOptions.splice(optionIndex, 1);
+        }
+        else {
+            this.multiSelectedOptions.push(optionValue);
+        }
+    };
+    /**
+     * @param {?} item
+     * @param {?} optionValue
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.optionPresentCheck = /**
+     * @param {?} item
+     * @param {?} optionValue
+     * @return {?}
+     */
+    function (item, optionValue) {
+        if (item.hasOwnProperty('value')) {
+            return item.value === optionValue;
+        }
+        else {
+            return item === optionValue;
+        }
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.cancel = /**
+     * @return {?}
+     */
+    function () {
+        this.multiSelectedOptions = this.filter ? __spread(this.filter) : [];
+        this.dropdown.closePanel();
+    };
+    /**
+     * @return {?}
+     */
+    NovoDataTableCellHeader.prototype.filterMultiSelect = /**
+     * @return {?}
+     */
+    function () {
+        /** @type {?} */
+        var actualFilter = this.multiSelectedOptions.length > 0 ? __spread(this.multiSelectedOptions) : undefined;
+        this.filterData(actualFilter);
+        this.dropdown.closePanel();
     };
     /**
      * @param {?} mouseDownEvent
@@ -48462,7 +48551,15 @@ var NovoDataTableCellHeader = /** @class */ (function () {
                 };
             }
         }
-        if (actualFilter && actualFilter.hasOwnProperty('value')) {
+        if (this.multiSelect && Array.isArray(filter$$1)) {
+            actualFilter = filter$$1.map(function (filterItem) {
+                if (filterItem && filterItem.hasOwnProperty('value')) {
+                    return filterItem.value;
+                }
+                return filterItem;
+            });
+        }
+        else if (actualFilter && actualFilter.hasOwnProperty('value')) {
             actualFilter = filter$$1.value;
         }
         if (this.changeTimeout) {
@@ -48484,6 +48581,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
      */
     function () {
         this.filter = undefined;
+        this.multiSelectedOptions = [];
         this.activeDateFilter = undefined;
         this.filterData(undefined);
     };
@@ -48533,7 +48631,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
     NovoDataTableCellHeader.decorators = [
         { type: Component, args: [{
                     selector: '[novo-data-table-cell-config]',
-                    template: "\n        <i class=\"bhi-{{ labelIcon }} label-icon\" *ngIf=\"labelIcon\" data-automation-id=\"novo-data-table-header-icon\"></i>\n        <label data-automation-id=\"novo-data-table-label\">{{ label }}</label>\n        <div>\n            <button *ngIf=\"config.sortable\" tooltipPosition=\"right\" [tooltip]=\"labels.sort\" theme=\"icon\" [icon]=\"icon\" (click)=\"sort()\" [class.active]=\"sortActive\" data-automation-id=\"novo-data-table-sort\"></button>\n            <novo-dropdown *ngIf=\"config.filterable\" side=\"right\" parentScrollSelector=\".novo-data-table-container\" containerClass=\"data-table-dropdown\" data-automation-id=\"novo-data-table-filter\">\n                <button type=\"button\" theme=\"icon\" icon=\"filter\" [class.active]=\"filterActive\" (click)=\"focusInput()\" tooltipPosition=\"right\" [tooltip]=\"labels.filters\"></button>\n                <div class=\"header\">\n                    <span>{{ labels.filters }}</span>\n                    <button theme=\"dialogue\" color=\"negative\" icon=\"times\" (click)=\"clearFilter()\" *ngIf=\"filter !== null && filter !== undefined && filter !== ''\" data-automation-id=\"novo-data-table-filter-clear\">{{ labels.clear }}</button>\n                </div>\n                <ng-container [ngSwitch]=\"config.filterConfig.type\">\n                    <list *ngSwitchCase=\"'date'\">\n                        <ng-container *ngIf=\"!showCustomRange\">\n                            <item [class.active]=\"activeDateFilter === option.label\" *ngFor=\"let option of config.filterConfig.options\" (click)=\"filterData(option)\" [attr.data-automation-id]=\"'novo-data-table-filter-' + option.label\">\n                                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n                            </item>\n                        </ng-container>\n                        <item [class.active]=\"labels.customDateRange === activeDateFilter\" (click)=\"toggleCustomRange($event, true)\" *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\" [keepOpen]=\"true\">\n                            {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n                        </item>\n                        <div class=\"calendar-container\" *ngIf=\"showCustomRange\">\n                            <div (click)=\"toggleCustomRange($event, false)\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n                            <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n                        </div>\n                    </list>\n                    <list *ngSwitchCase=\"'select'\">\n                        <item [class.active]=\"filter === option\" *ngFor=\"let option of config.filterConfig.options\" (click)=\"filterData(option)\" [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\">\n                            <span>{{ option?.label || option }}</span> <i class=\"bhi-check\" *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n                        </item>\n                    </list>\n                    <list *ngSwitchCase=\"'custom'\">\n                        <item class=\"filter-search\" keepOpen=\"true\">\n                            <ng-container *ngTemplateOutlet=\"filterTemplate; context: {$implicit: config}\"></ng-container>\n                        </item>\n                    </list>\n                    <list *ngSwitchDefault>\n                        <item class=\"filter-search\" keepOpen=\"true\">\n                            <input [type]=\"config.filterConfig.type\" [(ngModel)]=\"filter\" (ngModelChange)=\"filterData($event)\" #filterInput data-automation-id=\"novo-data-table-filter-input\"/>\n                        </item>\n                    </list>\n                </ng-container>\n            </novo-dropdown>\n        </div>\n        <div class=\"spacer\"></div>\n        <div class=\"data-table-header-resizable\" *ngIf=\"config.resizable\">\n          <span (mousedown)=\"startResize($event)\" >&nbsp;</span>\n        </div>\n    ",
+                    template: "\n    <i class=\"bhi-{{ labelIcon }} label-icon\" *ngIf=\"labelIcon\" data-automation-id=\"novo-data-table-header-icon\"></i>\n    <label data-automation-id=\"novo-data-table-label\">{{ label }}</label>\n    <div>\n      <button\n        *ngIf=\"config.sortable\"\n        tooltipPosition=\"right\"\n        [tooltip]=\"labels.sort\"\n        theme=\"icon\"\n        [icon]=\"icon\"\n        (click)=\"sort()\"\n        [class.active]=\"sortActive\"\n        data-automation-id=\"novo-data-table-sort\"\n      ></button>\n      <novo-dropdown\n        *ngIf=\"config.filterable\"\n        side=\"right\"\n        parentScrollSelector=\".novo-data-table-container\"\n        containerClass=\"data-table-dropdown\"\n        data-automation-id=\"novo-data-table-filter\"\n      >\n        <button\n          type=\"button\"\n          theme=\"icon\"\n          icon=\"filter\"\n          [class.active]=\"filterActive\"\n          (click)=\"focusInput()\"\n          tooltipPosition=\"right\"\n          [tooltip]=\"labels.filters\"\n        ></button>\n        <div class=\"header\">\n          <span>{{ labels.filters }}</span>\n          <button\n            theme=\"dialogue\"\n            color=\"negative\"\n            icon=\"times\"\n            (click)=\"clearFilter()\"\n            *ngIf=\"filter !== null && filter !== undefined && filter !== ''\"\n            data-automation-id=\"novo-data-table-filter-clear\"\n          >\n            {{ labels.clear }}\n          </button>\n        </div>\n        <ng-container [ngSwitch]=\"config.filterConfig.type\">\n          <list *ngSwitchCase=\"'date'\">\n            <ng-container *ngIf=\"!showCustomRange\">\n              <item\n                [class.active]=\"activeDateFilter === option.label\"\n                *ngFor=\"let option of config.filterConfig.options\"\n                (click)=\"filterData(option)\"\n                [attr.data-automation-id]=\"'novo-data-table-filter-' + option.label\"\n              >\n                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n              </item>\n            </ng-container>\n            <item\n              [class.active]=\"labels.customDateRange === activeDateFilter\"\n              (click)=\"toggleCustomRange($event, true)\"\n              *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\"\n              [keepOpen]=\"true\"\n            >\n              {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n            </item>\n            <div class=\"calendar-container\" *ngIf=\"showCustomRange\">\n              <div (click)=\"toggleCustomRange($event, false)\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n              <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n            </div>\n          </list>\n          <list *ngSwitchCase=\"'select'\">\n            <item\n              [class.active]=\"filter === option\"\n              *ngFor=\"let option of config.filterConfig.options\"\n              (click)=\"filterData(option)\"\n              [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\"\n            >\n              <span>{{ option?.label || option }}</span>\n              <i class=\"bhi-check\" *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n            </item>\n          </list>\n          <list *ngSwitchCase=\"'multi-select'\">\n            <div class=\"dropdown-list-options\">\n              <item\n                *ngFor=\"let option of config.filterConfig.options\"\n                (click)=\"toggleSelection(option)\"\n                [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\"\n                [keepOpen]=\"true\"\n              >\n                <span>{{ option?.label || option }}</span>\n                <i\n                  [class.bhi-checkbox-empty]=\"!isSelected(option, multiSelectedOptions)\"\n                  [class.bhi-checkbox-filled]=\"isSelected(option, multiSelectedOptions)\"\n                ></i>\n              </item>\n            </div>\n          </list>\n          <list *ngSwitchCase=\"'custom'\">\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <ng-container *ngTemplateOutlet=\"filterTemplate; context: { $implicit: config }\"></ng-container>\n            </item>\n          </list>\n          <list *ngSwitchDefault>\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <input\n                [type]=\"config.filterConfig.type\"\n                [(ngModel)]=\"filter\"\n                (ngModelChange)=\"filterData($event)\"\n                #filterInput\n                data-automation-id=\"novo-data-table-filter-input\"\n              />\n            </item>\n          </list>\n        </ng-container>\n        <div class=\"footer\" *ngIf=\"multiSelect\">\n          <button theme=\"dialogue\" color=\"dark\" (click)=\"cancel()\" data-automation-id=\"novo-data-table-multi-select-cancel\">\n            {{ labels.cancel }}\n          </button>\n          <button theme=\"dialogue\" color=\"positive\" (click)=\"filterMultiSelect()\" data-automation-id=\"novo-data-table-multi-select-filter\">\n            {{ labels.filters }}\n          </button>\n        </div>\n      </novo-dropdown>\n    </div>\n    <div class=\"spacer\"></div>\n    <div class=\"data-table-header-resizable\" *ngIf=\"config.resizable\"><span (mousedown)=\"startResize($event)\">&nbsp;</span></div>\n  ",
                     changeDetection: ChangeDetectionStrategy.OnPush
                 }] }
     ];
