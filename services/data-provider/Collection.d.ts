@@ -31,9 +31,9 @@ export interface Collection<T> {
      */
     addItemAt(item: T, index: number): void;
     /**
-     *  Adds all of the items to the end of the list
-     *  @param items The items to place at the end of the list.
-     */
+    *  Adds all of the items to the end of the list
+    *  @param items The items to place at the end of the list.
+    */
     addItems(items: Array<T>): void;
     /**
      *  Gets the item at the specified index.

@@ -1,6 +1,6 @@
 import { TemplateRef, AfterContentInit, ChangeDetectorRef, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { NovoFormGroup } from './NovoFormGroup';
+import { NovoFormGroup } from './NovoFormControl';
 import { BaseControl } from './controls/BaseControl';
 import { FormUtils } from './../../utils/form-utils/FormUtils';
 import { NovoLabelService } from '../../services/novo-label-service';
@@ -54,8 +54,8 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges {
     removeControl(index: number, emitEvent?: boolean): void;
     editControl(index: number): void;
     toggle(event: MouseEvent): void;
-    private clearControls;
-    private checkCanEdit;
-    private checkCanRemove;
-    private getNewControls;
+    private clearControls();
+    private checkCanEdit(index);
+    private checkCanRemove(index);
+    private getNewControls(controls);
 }

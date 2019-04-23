@@ -1,4 +1,4 @@
-@import '../../styles/global/variables';
+@import "../../styles/global/variables";
 
 $novo-stepper-label-header-height: 24px !default;
 $novo-stepper-label-min-width: 50px !default;
@@ -28,7 +28,7 @@ $novo-step-header-icon-size: 1em !default;
   align-items: center;
   justify-content: center;
   display: flex;
-
+  
   .novo-step-number {
     font-size: $novo-step-header-icon-size;
     min-width: 1.6em;
