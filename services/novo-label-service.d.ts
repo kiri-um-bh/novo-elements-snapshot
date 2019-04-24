@@ -9,7 +9,6 @@ export declare class NovoLabelService {
     noMatchingRecordsMessage: string;
     erroredTableMessage: string;
     pickerError: string;
-    pickerTextFieldEmpty: string;
     pickerEmpty: string;
     quickNoteError: string;
     quickNoteEmpty: string;

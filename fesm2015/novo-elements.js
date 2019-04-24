@@ -20,7 +20,7 @@ import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
-import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
+import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, startOfTomorrow, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
@@ -137,14 +137,11 @@ class Helpers {
     }
     /**
      * @param {?} val
-     * @param {?=} includeNegatives
      * @return {?}
      */
-    static isNumber(val, includeNegatives = false) {
-        /** @type {?} */
-        const numberRegex = includeNegatives ? /^-{0,1}\d*\.?\d*$/ : /^\d*\.?\d*$/;
+    static isNumber(val) {
         if (typeof val === 'string') {
-            return val.length > 0 && val !== '.' && numberRegex.test(val);
+            return val.length > 0 && val !== '.' && /^\d*\.?\d*$/.test(val);
         }
         else {
             return !isNaN(parseFloat(val));
@@ -1740,7 +1737,6 @@ class NovoLabelService {
         this.noMatchingRecordsMessage = 'No Matching Records';
         this.erroredTableMessage = 'Oops! An error occurred.';
         this.pickerError = 'Oops! An error occurred.';
-        this.pickerTextFieldEmpty = 'Begin typing to see results.';
         this.pickerEmpty = 'No results to display...';
         this.quickNoteError = 'Oops! An error occurred.';
         this.quickNoteEmpty = 'No results to display...';
@@ -6122,12 +6118,6 @@ class PickerResults extends BasePickerResults {
     /**
      * @return {?}
      */
-    get hasNonErrorMessage() {
-        return !this.isLoading && !this.matches.length && !this.hasError;
-    }
-    /**
-     * @return {?}
-     */
     getListElement() {
         return this.element.nativeElement.querySelector('novo-list');
     }
@@ -6139,23 +6129,25 @@ PickerResults.decorators = [
                     class: 'active',
                 },
                 template: `
-    <novo-list *ngIf="matches.length > 0" direction="vertical">
-      <novo-list-item
-        *ngFor="let match of matches"
-        (click)="selectMatch($event)"
-        [class.active]="match === activeMatch"
-        (mouseenter)="selectActive(match)"
-        [class.disabled]="preselected(match)"
-      >
-        <item-content> <span [innerHtml]="highlight(match.label, term)"></span> </item-content>
-      </novo-list-item>
-      <novo-loading *ngIf="isLoading && matches.length > 0" theme="line"></novo-loading>
-    </novo-list>
-    <div class="picker-loader" *ngIf="isLoading && matches.length === 0"><novo-loading theme="line"></novo-loading></div>
-    <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
-    <p class="picker-null-results" *ngIf="hasNonErrorMessage && term !== ''">{{ labels.pickerEmpty }}</p>
-    <p class="picker-null-results" *ngIf="hasNonErrorMessage && term === ''">{{ labels.pickerTextFieldEmpty }}</p>
-  `
+        <novo-list *ngIf="matches.length > 0" direction="vertical">
+            <novo-list-item
+                *ngFor="let match of matches"
+                (click)="selectMatch($event)"
+                [class.active]="match === activeMatch"
+                (mouseenter)="selectActive(match)"
+                [class.disabled]="preselected(match)">
+                <item-content>
+                    <span [innerHtml]="highlight(match.label, term)"></span>
+                </item-content>
+            </novo-list-item>
+            <novo-loading *ngIf="isLoading && matches.length > 0" theme="line"></novo-loading>
+        </novo-list>
+        <div class="picker-loader" *ngIf="isLoading && matches.length === 0">
+            <novo-loading theme="line"></novo-loading>
+        </div>
+        <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
+        <p class="picker-null-results" *ngIf="!isLoading && !matches.length && !hasError">{{ labels.pickerEmpty }}</p>
+    `
             }] }
 ];
 /** @nocollapse */
@@ -8605,7 +8597,7 @@ class NovoPickerElement {
         this.changed.emit({ value: this._value, rawValue: { label: '', value: this._value } });
         this.onModelChange(this._value);
         if (wipeTerm) {
-            this.term = '';
+            this.term = null;
             this.hideResults();
         }
         this.ref.markForCheck();
@@ -8979,68 +8971,74 @@ EntityPickerResult.decorators = [
     { type: Component, args: [{
                 selector: 'entity-picker-result',
                 template: `
-    <novo-list-item *ngIf="match.data">
-      <item-header>
-        <item-avatar [icon]="getIconForResult(match.data)"></item-avatar>
-        <item-title> <span [innerHtml]="highlight(getNameForResult(match.data), term)"></span> </item-title>
-      </item-header>
-      <item-content direction="horizontal">
-        <!-- COMPANY 1 -->
-        <p class="company" *ngIf="match.data.companyName || match.data?.clientCorporation?.name">
-          <i class="bhi-company"></i>
-          <span [innerHtml]="highlight(match.data.companyName || match.data?.clientCorporation?.name, term)"></span>
-        </p>
-        <!-- CLIENT CONTACT -->
-        <p class="contact" *ngIf="match.data?.clientContact?.firstName">
-          <i class="bhi-person contact person"></i>
-          <span [innerHtml]="highlight(match.data.clientContact.firstName + ' ' + match.data.clientContact.lastName, term)"></span>
-        </p>
-        <!-- CANDIDATE -->
-        <p class="candidate" *ngIf="match.data.candidate && match.data.searchEntity === 'Placement'">
-          <i class="bhi-candidate"></i>
-          <span [innerHtml]="highlight(match.data.candidate.firstName + ' ' + match.data.candidate.lastName, term)"></span>
-        </p>
-        <!-- START & END DATE -->
-        <p class="start-date" *ngIf="match.data.dateBegin && match.data.searchEntity === 'Placement'">
-          <i class="bhi-calendar"></i>
-          <span [innerHtml]="renderTimestamp(match.data.dateBegin) + ' - ' + renderTimestamp(match.data.dateEnd)"></span>
-        </p>
-        <!-- EMAIL -->
-        <p class="email" *ngIf="match.data.email">
-          <i class="bhi-email"></i> <span [innerHtml]="highlight(match.data.email, term)"></span>
-        </p>
-        <!-- PHONE -->
-        <p class="phone" *ngIf="match.data.phone">
-          <i class="bhi-phone"></i> <span [innerHtml]="highlight(match.data.phone, term)"></span>
-        </p>
-        <!-- ADDRESS -->
-        <p class="location" *ngIf="match.data.address && (match.data.address.city || match.data.address.state)">
-          <i class="bhi-location"></i> <span *ngIf="match.data.address.city" [innerHtml]="highlight(match.data.address.city, term)"></span>
-          <span *ngIf="match.data.address.city && match.data.address.state">, </span>
-          <span *ngIf="match.data.address.state" [innerHtml]="highlight(match.data.address.state, term)"></span>
-        </p>
-        <!-- STATUS -->
-        <p class="status" *ngIf="match.data.status">
-          <i class="bhi-info"></i> <span [innerHtml]="highlight(match.data.status, term)"></span>
-        </p>
-        <!-- OWNER -->
-        <p class="owner" *ngIf="match.data.owner && match.data.owner.name && match.data.searchEntity === 'Candidate'">
-          <i class="bhi-person"></i> <span [innerHtml]="highlight(match.data.owner.name, term)"></span>
-        </p>
-        <!-- PRIMARY DEPARTMENT -->
-        <p
-          class="primary-department"
-          *ngIf="match.data.primaryDepartment && match.data.primaryDepartment.name && match.data.searchEntity === 'CorporateUser'"
-        >
-          <i class="bhi-department"></i> <span [innerHtml]="highlight(match.data.primaryDepartment.name, term)"></span>
-        </p>
-        <!-- OCCUPATION -->
-        <p class="occupation" *ngIf="match.data.occupation && match.data.searchEntity === 'CorporateUser'">
-          <i class="bhi-occupation"></i> <span [innerHtml]="highlight(match.data.occupation, term)"></span>
-        </p>
-      </item-content>
-    </novo-list-item>
-  `
+        <novo-list-item *ngIf="match.data">
+            <item-header>
+                <item-avatar [icon]="getIconForResult(match.data)"></item-avatar>
+                <item-title>
+                    <span [innerHtml]="highlight(getNameForResult(match.data), term)"></span>
+                </item-title>
+            </item-header>
+            <item-content direction="horizontal">
+                <!-- COMPANY 1 -->
+                <p class="company" *ngIf="match.data.companyName || match.data?.clientCorporation?.name">
+                    <i class="bhi-company"></i>
+                    <span [innerHtml]="highlight(match.data.companyName || match.data?.clientCorporation?.name, term)"></span>
+                </p>
+                <!-- CLIENT CONTACT -->
+                <p class="contact" *ngIf="match.data?.clientContact?.firstName">
+                    <i class="bhi-person contact person"></i>
+                    <span [innerHtml]="highlight(match.data.clientContact.firstName + ' ' + match.data.clientContact.lastName, term)"></span>
+                </p>
+                <!-- CANDIDATE -->
+                <p class="candidate" *ngIf="match.data.candidate && match.data.searchEntity === 'Placement'">
+                    <i class="bhi-candidate"></i>
+                    <span [innerHtml]="highlight((match.data.candidate.firstName + ' ' + match.data.candidate.lastName), term)"></span>
+                </p>
+                <!-- START & END DATE -->
+                <p class="start-date" *ngIf="match.data.dateBegin && match.data.searchEntity === 'Placement'">
+                    <i class="bhi-calendar"></i>
+                    <span [innerHtml]="renderTimestamp(match.data.dateBegin) + ' - ' + renderTimestamp(match.data.dateEnd)"></span>
+                </p>
+                <!-- EMAIL -->
+                <p class="email" *ngIf="match.data.email">
+                    <i class="bhi-email"></i>
+                    <span [innerHtml]="highlight(match.data.email, term)"></span>
+                </p>
+                <!-- PHONE -->
+                <p class="phone" *ngIf="match.data.phone">
+                    <i class="bhi-phone"></i>
+                    <span [innerHtml]="highlight(match.data.phone, term)"></span>
+                </p>
+                <!-- ADDRESS -->
+                <p class="location" *ngIf="match.data.address && (match.data.address.city || match.data.address.state)">
+                    <i class="bhi-location"></i>
+                    <span *ngIf="match.data.address.city" [innerHtml]="highlight(match.data.address.city, term)"></span>
+                    <span *ngIf="match.data.address.city && match.data.address.state">, </span>
+                    <span *ngIf="match.data.address.state" [innerHtml]="highlight(match.data.address.state, term)"></span>
+                </p>
+                <!-- STATUS -->
+                <p class="status" *ngIf="match.data.status">
+                    <i class="bhi-info"></i>
+                    <span [innerHtml]="highlight(match.data.status, term)"></span>
+                </p>
+                <!-- OWNER -->
+                <p class="owner" *ngIf="match.data.owner && match.data.owner.name && match.data.searchEntity === 'Candidate'">
+                    <i class="bhi-person"></i>
+                    <span [innerHtml]="highlight(match.data.owner.name, term)"></span>
+                </p>
+                <!-- PRIMARY DEPARTMENT -->
+                <p class="primary-department" *ngIf="match.data.primaryDepartment && match.data.primaryDepartment.name && match.data.searchEntity === 'CorporateUser'">
+                    <i class="bhi-department"></i>
+                    <span [innerHtml]="highlight(match.data.primaryDepartment.name, term)"></span>
+                </p>
+                <!-- OCCUPATION -->
+                <p class="occupation" *ngIf="match.data.occupation && match.data.searchEntity === 'CorporateUser'">
+                    <i class="bhi-occupation"></i>
+                    <span [innerHtml]="highlight(match.data.occupation, term)"></span>
+                </p>
+            </item-content>
+        </novo-list-item>
+    `
             }] }
 ];
 /** @nocollapse */
@@ -9065,12 +9063,6 @@ class EntityPickerResults extends BasePickerResults {
     /**
      * @return {?}
      */
-    get hasNonErrorMessage() {
-        return !this.isLoading && !this.matches.length && !this.hasError;
-    }
-    /**
-     * @return {?}
-     */
     getListElement() {
         return this.element.nativeElement.querySelector('novo-list');
     }
@@ -9088,23 +9080,20 @@ EntityPickerResults.decorators = [
     { type: Component, args: [{
                 selector: 'entity-picker-results',
                 template: `
-    <novo-list *ngIf="matches.length > 0" direction="vertical">
-      <entity-picker-result
-        *ngFor="let match of matches"
-        [match]="match"
-        [term]="term"
-        (click)="selectMatch($event, match)"
-        [ngClass]="{ active: isActive(match) }"
-        (mouseenter)="selectActive(match)"
-        [class.disabled]="preselected(match)"
-      >
-      </entity-picker-result>
-      <novo-loading theme="line" *ngIf="isLoading && matches.length > 0"></novo-loading>
-    </novo-list>
-    <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
-    <p class="picker-null-results" *ngIf="hasNonErrorMessage && term !== ''">{{ labels.pickerEmpty }}</p>
-    <p class="picker-null-results" *ngIf="hasNonErrorMessage && term === ''">{{ labels.pickerTextFieldEmpty }}</p>
-  `
+        <novo-list *ngIf="matches.length > 0" direction="vertical">
+            <entity-picker-result *ngFor="let match of matches"
+                    [match]="match"
+                    [term]="term"
+                    (click)="selectMatch($event, match)"
+                    [ngClass]="{active: isActive(match)}"
+                    (mouseenter)="selectActive(match)"
+                    [class.disabled]="preselected(match)">
+            </entity-picker-result>
+            <novo-loading theme="line" *ngIf="isLoading && matches.length > 0"></novo-loading>
+        </novo-list>
+        <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
+        <p class="picker-null-results" *ngIf="!isLoading && !matches.length && !hasError">{{ labels.pickerEmpty }}</p>
+    `
             }] }
 ];
 /** @nocollapse */
@@ -9228,33 +9217,25 @@ ChecklistPickerResults.decorators = [
                     class: 'active picker-results',
                 },
                 template: `
-    <novo-loading theme="line" *ngIf="isLoading && !matches.length"></novo-loading>
-    <ul *ngIf="matches.length > 0">
-      <span *ngFor="let section of matches; let i = index">
-        <li class="header caption" *ngIf="section.data.length > 0">{{ section.label || section.type }}</li>
-        <li
-          *ngFor="let match of section.data; let i = index"
-          [ngClass]="{ checked: match.checked }"
-          (click)="selectMatch($event, match)"
-          [class.active]="match === activeMatch"
-          (mouseenter)="selectActive(match)"
-        >
-          <label>
-            <i
-              [ngClass]="{
-                'bhi-checkbox-empty': !match.checked,
-                'bhi-checkbox-filled': match.checked,
-                'bhi-checkbox-indeterminate': match.indeterminate
-              }"
-            ></i>
-            {{ match.label }}
-          </label>
-        </li>
-      </span>
-    </ul>
-    <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
-    <p class="picker-null-results" *ngIf="!isLoading && !matches.length && !hasError && term !== ''">{{ labels.pickerEmpty }}</p>
-  `
+        <novo-loading theme="line" *ngIf="isLoading && !matches.length"></novo-loading>
+        <ul *ngIf="matches.length > 0">
+            <span *ngFor="let section of matches; let i = index">
+                <li class="header caption" *ngIf="section.data.length > 0">{{ section.label || section.type }}</li>
+                <li
+                    *ngFor="let match of section.data; let i = index" [ngClass]="{checked: match.checked}"
+                    (click)="selectMatch($event, match)"
+                    [class.active]="match === activeMatch"
+                    (mouseenter)="selectActive(match)">
+                    <label>
+                        <i [ngClass]="{'bhi-checkbox-empty': !match.checked, 'bhi-checkbox-filled': match.checked, 'bhi-checkbox-indeterminate': match.indeterminate }"></i>
+                        {{match.label}}
+                    </label>
+                </li>
+            </span>
+        </ul>
+        <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
+        <p class="picker-null-results" *ngIf="!isLoading && !matches.length && !hasError">{{ labels.pickerEmpty }}</p>
+    `
             }] }
 ];
 /** @nocollapse */
@@ -9637,31 +9618,29 @@ SkillsSpecialtyPickerResults.decorators = [
     { type: Component, args: [{
                 selector: 'skill-specialty-picker-results',
                 template: `
-    <section class="picker-loading" *ngIf="isLoading && !matches?.length"><novo-loading theme="line"></novo-loading></section>
-    <novo-list *ngIf="matches.length > 0" direction="vertical">
-      <novo-list-item
-        *ngFor="let match of matches"
-        (click)="selectMatch($event)"
-        [class.active]="match === activeMatch"
-        (mouseenter)="selectActive(match)"
-        [class.disabled]="preselected(match)"
-      >
-        <item-content>
-          <h6><span [innerHtml]="highlight(match.label, term)"></span></h6>
-          <div class="category">
-            <i class="bhi-category-tags"></i
-            ><span [innerHtml]="highlight(match.data.categories || match.data.parentCategory.name, term)"></span>
-          </div>
-        </item-content>
-      </novo-list-item>
-      <novo-list-item *ngIf="limitedTo"
-        ><div>{{ labels.showingXofXResults(limit, total) }}</div></novo-list-item
-      >
-      <novo-loading theme="line" *ngIf="isLoading && matches.length > 0"></novo-loading>
-    </novo-list>
-    <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
-    <p class="picker-null" *ngIf="!isLoading && !matches.length && !hasError">{{ labels.pickerEmpty }}</p>
-  `
+        <section class="picker-loading" *ngIf="isLoading && !matches?.length">
+            <novo-loading theme="line"></novo-loading>
+        </section>
+        <novo-list *ngIf="matches.length > 0" direction="vertical">
+            <novo-list-item
+                *ngFor="let match of matches"
+                (click)="selectMatch($event)"
+                [class.active]="match === activeMatch"
+                (mouseenter)="selectActive(match)"
+                [class.disabled]="preselected(match)">
+                <item-content>
+                    <h6><span [innerHtml]="highlight(match.label, term)"></span></h6>
+                    <div class="category">
+                        <i class="bhi-category-tags"></i><span [innerHtml]="highlight(match.data.categories || match.data.parentCategory.name, term)"></span>
+                    </div>
+                </item-content>
+            </novo-list-item>
+            <novo-list-item *ngIf="limitedTo"><div>{{labels.showingXofXResults(limit, total)}}</div></novo-list-item>
+            <novo-loading theme="line" *ngIf="isLoading && matches.length > 0"></novo-loading>
+        </novo-list>
+        <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
+        <p class="picker-null" *ngIf="!isLoading && !matches.length && !hasError">{{ labels.pickerEmpty }}</p>
+    `
             }] }
 ];
 /** @nocollapse */
@@ -14288,8 +14267,6 @@ class BaseControl extends ControlConfig {
         this.encrypted = !!config.encrypted;
         this.sortOrder = config.sortOrder === undefined ? 1 : config.sortOrder;
         this.controlType = config.controlType || '';
-        this.type = config.type;
-        this.subType = config.subType;
         this.metaType = config.metaType;
         this.placeholder = config.placeholder || '';
         this.config = config.config || null;
@@ -15289,6 +15266,7 @@ class FormUtils {
             config: field.config || {},
             closeOnSelect: field.closeOnSelect,
         };
+        this.inferStartDate(controlConfig, field);
         // TODO: getControlOptions should always return the correct format
         /** @type {?} */
         const optionsConfig = this.getControlOptions(field, http, config, fieldData);
@@ -15804,6 +15782,48 @@ class FormUtils {
             });
         }
         return valid;
+    }
+    /**
+     * @private
+     * @param {?} dateRange
+     * @return {?}
+     */
+    getStartDateFromRange(dateRange) {
+        if (dateRange.minDate) {
+            return parse(dateRange.minDate);
+        }
+        else if (dateRange.minOffset) {
+            return addDays(startOfToday(), dateRange.minOffset);
+        }
+    }
+    /**
+     * Get the min start date of a Date base on field data.
+     * @private
+     * @param {?} field
+     * @return {?}
+     */
+    getStartDate(field) {
+        if (field.allowedDateRange) {
+            return this.getStartDateFromRange(field.allowedDateRange);
+        }
+        // there is no restriction on the start date
+        return null;
+    }
+    /**
+     * @private
+     * @param {?} controlConfig
+     * @param {?} field
+     * @return {?}
+     */
+    inferStartDate(controlConfig, field) {
+        if (field.dataType === 'Date') {
+            /** @type {?} */
+            const startDate = this.getStartDate(field);
+            if (startDate) {
+                controlConfig.startDate = startDate;
+            }
+            return startDate;
+        }
     }
 }
 FormUtils.decorators = [
@@ -36651,21 +36671,10 @@ class NovoControlGroup {
                 return {
                     value: control.label,
                     width: control.width,
-                    required: control.required,
-                    key: control.key,
                 };
             });
             this.ref.markForCheck();
         }
-    }
-    /**
-     * @return {?}
-     */
-    resetAddRemove() {
-        this.disabledArray.forEach((item, idx) => {
-            item.edit = this.checkCanEdit(idx);
-            item.remove = this.checkCanRemove(idx);
-        });
     }
     /**
      * @param {?=} value
@@ -36683,10 +36692,9 @@ class NovoControlGroup {
             this.form.addControl(this.key, this.fb.array([newCtrl]));
         }
         this.disabledArray.push({
-            edit: true,
-            remove: true,
+            edit: this.checkCanEdit(this.currentIndex),
+            remove: this.checkCanRemove(this.currentIndex),
         });
-        this.resetAddRemove();
         if (!value) {
             this.onAdd.emit();
         }
@@ -36719,8 +36727,6 @@ class NovoControlGroup {
             this.onRemove.emit({ value: control.at(index).value, index: index });
         }
         control.removeAt(index);
-        this.disabledArray = this.disabledArray.filter((value, idx) => idx !== index);
-        this.resetAddRemove();
         this.currentIndex--;
         this.ref.markForCheck();
     }
@@ -36801,7 +36807,132 @@ class NovoControlGroup {
 NovoControlGroup.decorators = [
     { type: Component, args: [{
                 selector: 'novo-control-group',
-                template: "<h6 class=\"novo-section-header\" *ngIf=\"label\">\n  <span (click)=\"toggle($event)\" [class.clickable]=\"collapsible\">\n    <i *ngIf=\"icon && !collapsible\" [ngClass]=\"icon\" [attr.data-automation-id]=\"'novo-control-group-icon-' + key\"></i>\n    <i *ngIf=\"collapsible\" class=\"bhi-next\" [class.toggled]=\"toggled\" [attr.data-automation-id]=\"'novo-control-group-collapse-' + key\"></i>\n    <span [attr.data-automation-id]=\"'novo-control-group-label-' + key\">{{ label }}</span>\n  </span>\n  <label class=\"novo-control-group-description\" *ngIf=\"description\" [attr.data-automation-id]=\"'novo-control-group-description-' + key\">{{ description }}</label>\n</h6>\n<div class=\"novo-control-group-controls\" [class.vertical]=\"vertical\" [class.horizontal]=\"!vertical\" [class.hidden]=\"collapsible && !toggled\">\n  <ng-template #defaultTemplate let-index=\"index\" let-form=\"form\" let-key=\"key\">\n    <div class=\"novo-control-group-control\">\n      <div *ngFor=\"let c of controls\" class=\"novo-control-container {{c.key}}\" [class.is-label]=\"c.controlType === 'read-only'\" [style.max-width.px]=\"c.width\">\n        <novo-control [form]=\"(form?.controls)[key]['controls'][index]\" [control]=\"c\" [condensed]=\"!vertical || c.controlType === 'read-only'\"></novo-control>\n      </div>\n      <div class=\"novo-control-container last\" *ngIf=\"edit && !vertical\">\n        <button [disabled]=\"!disabledArray[index].edit\" type=\"button\" *ngIf=\"edit && !vertical\" theme=\"icon\" icon=\"edit\" (click)=\"editControl(index)\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\" index=\"-1\"></button>\n      </div>\n      <div class=\"novo-control-container last\" *ngIf=\"remove && !vertical\">\n        <button [disabled]=\"!disabledArray[index].remove\" type=\"button\" *ngIf=\"remove && !vertical\" theme=\"icon\" icon=\"delete-o\" (click)=\"removeControl(index)\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\" index=\"-1\"></button>\n      </div>\n    </div>\n    <button [disabled]=\"!disabledArray[index].edit\" type=\"button\" *ngIf=\"edit && vertical\" theme=\"icon\" icon=\"edit\" (click)=\"editControl(index)\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\" index=\"-1\"></button>\n    <button [disabled]=\"!disabledArray[index].remove\" type=\"button\" *ngIf=\"remove && vertical\" theme=\"icon\" icon=\"delete-o\" (click)=\"removeControl(index)\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\" index=\"-1\"></button>\n  </ng-template>\n  <div class=\"novo-control-group-labels\" *ngIf=\"!vertical && (form?.controls)[key] && (form?.controls)[key]['controls'].length !== 0\">\n    <div class=\"novo-control-group-control-label {{ label.key }}\" *ngFor=\"let label of controlLabels\" [style.max-width.px]=\"label.width\" [class.column-required]=\"label.required\">\n      <span [attr.data-automation-id]=\"'novo-control-group-label-' + label.value\">{{ label.value }}</span>\n    </div>\n    <div class=\"novo-control-group-control-label last\" *ngIf=\"edit\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\"></div>\n    <div class=\"novo-control-group-control-label last\" *ngIf=\"remove\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\"></div>\n  </div>\n  <ng-container *ngIf=\"(form?.controls)[key]\">\n    <div class=\"novo-control-group-row\" *ngFor=\"let control of (form?.controls)[key]['controls']; let index = index\">\n      <ng-template [ngTemplateOutlet]=\"rowTemplate || defaultTemplate\" [ngTemplateOutletContext]=\"{ form: form, index: index, key: key, controls: controls }\">\n      </ng-template>\n    </div>\n  </ng-container>\n  <div class=\"novo-control-group-empty\" *ngIf=\"(form?.controls)[key] && (form?.controls)[key]['controls'].length === 0\" [attr.data-automation-id]=\"'novo-control-group-empty-' + key\">\n    {{ emptyMessage }}\n  </div>\n  <p *ngIf=\"add\">\n    <button type=\"button\" theme=\"dialogue\" icon=\"add-thin\" (click)=\"addNewControl()\" [attr.data-automation-id]=\"'novo-control-group-bottom-add-' + key\" index=\"-1\">\n      {{ add?.label }}\n    </button>\n  </p>\n</div>\n",
+                template: `
+    <h6 class="novo-section-header" *ngIf="label">
+      <span (click)="toggle($event)" [class.clickable]="collapsible">
+        <i *ngIf="icon && !collapsible" [ngClass]="icon" [attr.data-automation-id]="'novo-control-group-icon-' + key"></i>
+        <i
+          *ngIf="collapsible"
+          class="bhi-next"
+          [class.toggled]="toggled"
+          [attr.data-automation-id]="'novo-control-group-collapse-' + key"
+        ></i>
+        <span [attr.data-automation-id]="'novo-control-group-label-' + key">{{ label }}</span>
+      </span>
+      <label
+        class="novo-control-group-description"
+        *ngIf="description"
+        [attr.data-automation-id]="'novo-control-group-description-' + key"
+        >{{ description }}</label
+      >
+    </h6>
+    <div
+      class="novo-control-group-controls"
+      [class.vertical]="vertical"
+      [class.horizontal]="!vertical"
+      [class.hidden]="collapsible && !toggled"
+    >
+      <ng-template #defaultTemplate let-index="index" let-form="form" let-key="key">
+        <div class="novo-control-group-control">
+          <div
+            *ngFor="let c of controls"
+            class="novo-control-container"
+            [class.is-label]="c.controlType === 'read-only'"
+            [style.max-width.px]="c.width"
+          >
+            <novo-control
+              [form]="(form?.controls)[key]['controls'][index]"
+              [control]="c"
+              [condensed]="!vertical || c.controlType === 'read-only'"
+            ></novo-control>
+          </div>
+          <div class="novo-control-container last" *ngIf="edit && !vertical">
+            <button
+              [disabled]="!disabledArray[index].edit"
+              type="button"
+              *ngIf="edit && !vertical"
+              theme="icon"
+              icon="edit"
+              (click)="editControl(index)"
+              [attr.data-automation-id]="'novo-control-group-edit-' + key"
+              index="-1"
+            ></button>
+          </div>
+          <div class="novo-control-container last" *ngIf="remove && !vertical">
+            <button
+              [disabled]="!disabledArray[index].remove"
+              type="button"
+              *ngIf="remove && !vertical"
+              theme="icon"
+              icon="delete-o"
+              (click)="removeControl(index)"
+              [attr.data-automation-id]="'novo-control-group-delete-' + key"
+              index="-1"
+            ></button>
+          </div>
+        </div>
+        <button
+          [disabled]="!disabledArray[index].edit"
+          type="button"
+          *ngIf="edit && vertical"
+          theme="icon"
+          icon="edit"
+          (click)="editControl(index)"
+          [attr.data-automation-id]="'novo-control-group-edit-' + key"
+          index="-1"
+        ></button>
+        <button
+          [disabled]="!disabledArray[index].remove"
+          type="button"
+          *ngIf="remove && vertical"
+          theme="icon"
+          icon="delete-o"
+          (click)="removeControl(index)"
+          [attr.data-automation-id]="'novo-control-group-delete-' + key"
+          index="-1"
+        ></button>
+      </ng-template>
+      <div class="novo-control-group-labels" *ngIf="!vertical && (form?.controls)[key] && (form?.controls)[key]['controls'].length !== 0">
+        <div class="novo-control-group-control-label" *ngFor="let label of controlLabels" [style.max-width.px]="label.width">
+          <span [attr.data-automation-id]="'novo-control-group-label-' + label.value">{{ label.value }}</span>
+        </div>
+        <div class="novo-control-group-control-label last" *ngIf="edit" [attr.data-automation-id]="'novo-control-group-edit-' + key"></div>
+        <div
+          class="novo-control-group-control-label last"
+          *ngIf="remove"
+          [attr.data-automation-id]="'novo-control-group-delete-' + key"
+        ></div>
+      </div>
+      <ng-container *ngIf="(form?.controls)[key]">
+        <div class="novo-control-group-row" *ngFor="let control of (form?.controls)[key]['controls']; let index = index">
+          <ng-template
+            [ngTemplateOutlet]="rowTemplate || defaultTemplate"
+            [ngTemplateOutletContext]="{ form: form, index: index, key: key, controls: controls }"
+          >
+          </ng-template>
+        </div>
+      </ng-container>
+      <div
+        class="novo-control-group-empty"
+        *ngIf="(form?.controls)[key] && (form?.controls)[key]['controls'].length === 0"
+        [attr.data-automation-id]="'novo-control-group-empty-' + key"
+      >
+        {{ emptyMessage }}
+      </div>
+      <p *ngIf="add">
+        <button
+          type="button"
+          theme="dialogue"
+          icon="add-thin"
+          (click)="addNewControl()"
+          [attr.data-automation-id]="'novo-control-group-bottom-add-' + key"
+          index="-1"
+        >
+          {{ add?.label }}
+        </button>
+      </p>
+    </div>
+  `,
                 changeDetection: ChangeDetectionStrategy.OnPush
             }] }
 ];
@@ -43439,7 +43570,7 @@ class NovoDataTable {
             /** @type {?} */
             const top = target.scrollTop;
             /** @type {?} */
-            const header = target.querySelector('cdk-table > novo-data-table-header-row');
+            const header = target.querySelector(':scope > cdk-table > novo-data-table-header-row');
             if (header) {
                 header.style.transform = `translateY(${top}px)`;
             }
@@ -43458,10 +43589,8 @@ NovoDataTable.decorators = [
                     ]),
                 ],
                 template: `
-    <header
-      *ngIf="(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader"
-      [class.empty]="hideGlobalSearch && !paginationOptions && !templates['customActions']"
-    >
+    <header *ngIf="(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader"
+            [class.empty]="hideGlobalSearch && !paginationOptions && !templates['customActions']">
       <ng-container *ngTemplateOutlet="templates['customHeader']"></ng-container>
       <novo-search
         alwaysOpen="true"
@@ -43469,8 +43598,7 @@ NovoDataTable.decorators = [
         [(ngModel)]="state.globalSearch"
         *ngIf="!hideGlobalSearch"
         [placeholder]="searchOptions?.placeholder"
-        [hint]="searchOptions?.tooltip"
-      >
+        [hint]="searchOptions?.tooltip">
       </novo-search>
       <novo-data-table-pagination
         *ngIf="paginationOptions"
@@ -43478,8 +43606,7 @@ NovoDataTable.decorators = [
         [length]="dataSource?.currentTotal"
         [page]="paginationOptions.page"
         [pageSize]="paginationOptions.pageSize"
-        [pageSizeOptions]="paginationOptions.pageSizeOptions"
-      >
+        [pageSizeOptions]="paginationOptions.pageSizeOptions">
       </novo-data-table-pagination>
       <div class="novo-data-table-actions" *ngIf="templates['customActions']">
         <ng-container *ngTemplateOutlet="templates['customActions']"></ng-container>
@@ -43488,26 +43615,12 @@ NovoDataTable.decorators = [
     <div class="novo-data-table-loading-mask" *ngIf="dataSource?.loading || loading" data-automation-id="novo-data-table-loading">
       <novo-loading></novo-loading>
     </div>
-    <div class="novo-data-table-outside-container" [ngClass]="{ 'novo-data-table-outside-container-fixed': fixedHeader }">
+    <div class="novo-data-table-outside-container">
       <div class="novo-data-table-custom-filter" *ngIf="customFilter">
         <ng-container *ngTemplateOutlet="templates['customFilter']"></ng-container>
       </div>
-      <div
-        #novoDataTableContainer
-        class="novo-data-table-container"
-        [ngClass]="{ 'novo-data-table-container-fixed': fixedHeader }"
-        [class.empty-user-filtered]="dataSource?.currentlyEmpty && state.userFiltered"
-        [class.empty]="dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine"
-      >
-        <cdk-table
-          *ngIf="columns?.length > 0 && columnsLoaded && dataSource"
-          [dataSource]="dataSource"
-          [trackBy]="trackByFn"
-          novoDataTableSortFilter
-          [class.expandable]="expandable"
-          [class.empty]="dataSource?.currentlyEmpty && state.userFiltered"
-          [hidden]="dataSource?.totallyEmpty && !state.userFiltered"
-        >
+      <div #novoDataTableContainer class="novo-data-table-container" [class.empty-user-filtered]="dataSource?.currentlyEmpty && state.userFiltered" [class.empty]="dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine">
+        <cdk-table *ngIf="(columns?.length > 0) && columnsLoaded && dataSource" [dataSource]="dataSource" [trackBy]="trackByFn" novoDataTableSortFilter [class.expandable]="expandable" [class.empty]="dataSource?.currentlyEmpty && state.userFiltered" [hidden]="dataSource?.totallyEmpty && !state.userFiltered">
           <ng-container cdkColumnDef="selection">
             <novo-data-table-checkbox-header-cell *cdkHeaderCellDef></novo-data-table-checkbox-header-cell>
             <novo-data-table-checkbox-cell *cdkCellDef="let row; let i = index" [row]="row"></novo-data-table-checkbox-cell>
@@ -43516,125 +43629,93 @@ NovoDataTable.decorators = [
             <novo-data-table-expand-header-cell *cdkHeaderCellDef></novo-data-table-expand-header-cell>
             <novo-data-table-expand-cell *cdkCellDef="let row; let i = index" [row]="row"></novo-data-table-expand-cell>
           </ng-container>
-          <ng-container *ngFor="let column of columns; trackBy: trackColumnsBy" [cdkColumnDef]="column.id">
-            <novo-data-table-header-cell
-              *cdkHeaderCellDef
-              [column]="column"
-              [filterTemplate]="templates['column-filter-' + column.id]"
-              [novo-data-table-cell-config]="column"
-              [resized]="resized"
-              [defaultSort]="defaultSort"
-              [class.empty]="column?.type === 'action' && !column?.label"
-              [class.button-header-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)"
-              [class.dropdown-header-cell]="column?.type === 'action' && column?.action?.options"
-            ></novo-data-table-header-cell>
-            <novo-data-table-cell
-              *cdkCellDef="let row"
-              [resized]="resized"
-              [column]="column"
-              [row]="row"
-              [template]="columnToTemplate[column.id]"
-              [class.empty]="column?.type === 'action' && !column?.label"
-              [class.button-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)"
-              [class.dropdown-cell]="column?.type === 'action' && column?.action?.options"
-            ></novo-data-table-cell>
+          <ng-container *ngFor="let column of columns;trackBy: trackColumnsBy" [cdkColumnDef]="column.id">
+            <novo-data-table-header-cell *cdkHeaderCellDef [column]="column" [filterTemplate]="templates['column-filter-'+column.id]" [novo-data-table-cell-config]="column" [resized]="resized" [defaultSort]="defaultSort" [class.empty]="column?.type === 'action' && !column?.label" [class.button-header-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)" [class.dropdown-header-cell]="column?.type === 'action' && column?.action?.options"></novo-data-table-header-cell>
+            <novo-data-table-cell *cdkCellDef="let row" [resized]="resized" [column]="column" [row]="row" [template]="columnToTemplate[column.id]" [class.empty]="column?.type === 'action' && !column?.label" [class.button-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)" [class.dropdown-cell]="column?.type === 'action' && column?.action?.options"></novo-data-table-cell>
           </ng-container>
-          <novo-data-table-header-row
-            *cdkHeaderRowDef="displayedColumns"
-            data-automation-id="novo-data-table-header-row"
-          ></novo-data-table-header-row>
-          <novo-data-table-row
-            *cdkRowDef="let row; columns: displayedColumns"
-            [ngClass]="{ active: row[rowIdentifier] == activeRowIdentifier }"
-            [novoDataTableExpand]="detailRowTemplate"
-            [row]="row"
-            [id]="name + '-' + row[rowIdentifier]"
-            [dataAutomationId]="row[rowIdentifier]"
-          ></novo-data-table-row>
+          <novo-data-table-header-row *cdkHeaderRowDef="displayedColumns" data-automation-id="novo-data-table-header-row"></novo-data-table-header-row>
+          <novo-data-table-row *cdkRowDef="let row; columns: displayedColumns" [ngClass]="{ 'active': row[rowIdentifier] == activeRowIdentifier }" [novoDataTableExpand]="detailRowTemplate" [row]="row" [id]="name + '-' + row[rowIdentifier]" [dataAutomationId]="row[rowIdentifier]"></novo-data-table-row>
         </cdk-table>
         <div class="novo-data-table-footer" *ngIf="templates['footer']">
-          <ng-container *ngTemplateOutlet="templates['footer']; context: { $implicit: columns, data: dataSource.data }"></ng-container>
+          <ng-container *ngTemplateOutlet="templates['footer']; context: {$implicit: columns, data: dataSource.data}"></ng-container>
         </div>
-        <div
-          class="novo-data-table-no-results-container"
-          [style.left.px]="scrollLeft"
-          *ngIf="dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine"
-        >
-          <div class="novo-data-table-empty-message">
+        <div class="novo-data-table-no-results-container" [style.left.px]="scrollLeft" *ngIf="dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine">
+          <div class="novo-data-table-empty-message" >
             <ng-container *ngTemplateOutlet="templates['noResultsMessage'] || templates['defaultNoResultsMessage']"></ng-container>
           </div>
         </div>
       </div>
-      <div
-        class="novo-data-table-empty-container"
-        *ngIf="dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine"
-      >
+      <div class="novo-data-table-empty-container" *ngIf="dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine">
         <div class="novo-data-table-empty-message">
           <ng-container *ngTemplateOutlet="templates['emptyMessage'] || templates['defaultNoResultsMessage']"></ng-container>
         </div>
       </div>
     </div>
     <!-- DEFAULT CELL TEMPLATE -->
-    <ng-template novoTemplate="textCellTemplate" let-row let-col="col">
-      <span [style.width.px]="col?.width" [style.min-width.px]="col?.width" [style.max-width.px]="col?.width">{{
-        row[col.id] | dataTableInterpolate: col
-      }}</span>
+    <ng-template novoTemplate="textCellTemplate"
+                 let-row
+                 let-col="col">
+      <span [style.width.px]="col?.width" [style.min-width.px]="col?.width" [style.max-width.px]="col?.width">{{ row[col.id] | dataTableInterpolate:col }}</span>
     </ng-template>
-    <ng-template novoTemplate="dateCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateRenderer: col }}</span>
+    <ng-template novoTemplate="dateCellTemplate"
+                 let-row
+                 let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateRenderer:col }}</span>
     </ng-template>
-    <ng-template novoTemplate="datetimeCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateTimeRenderer: col }}</span>
+    <ng-template novoTemplate="datetimeCellTemplate"
+                 let-row
+                 let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate:col | dataTableDateTimeRenderer:col }}</span>
     </ng-template>
-    <ng-template novoTemplate="timeCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableTimeRenderer: col }}</span>
+    <ng-template novoTemplate="timeCellTemplate"
+                 let-row
+                 let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate:col | dataTableTimeRenderer:col }}</span>
     </ng-template>
-    <ng-template novoTemplate="currencyCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableCurrencyRenderer: col }}</span>
+    <ng-template novoTemplate="currencyCellTemplate"
+                 let-row
+                 let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate:col | dataTableCurrencyRenderer:col }}</span>
     </ng-template>
-    <ng-template novoTemplate="numberCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col }}</span>
+    <ng-template novoTemplate="numberCellTemplate"
+                 let-row
+                 let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col }}</span>
     </ng-template>
-    <ng-template novoTemplate="percentCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col:true }}</span>
+    <ng-template novoTemplate="percentCellTemplate"
+                 let-row
+                 let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate:col | dataTableNumberRenderer:col:true }}</span>
     </ng-template>
-    <ng-template novoTemplate="linkCellTemplate" let-row let-col="col">
-      <a
-        (click)="col.handlers?.click({ originalEvent: $event, row: row })"
-        [style.width.px]="col?.width"
-        [style.min-width.px]="col?.width"
-        [style.max-width.px]="col?.width"
-        >{{ row[col.id] | dataTableInterpolate: col }}</a
-      >
+    <ng-template novoTemplate="linkCellTemplate"
+                 let-row
+                 let-col="col">
+      <a (click)="col.handlers?.click({originalEvent: $event, row: row})" [style.width.px]="col?.width" [style.min-width.px]="col?.width" [style.max-width.px]="col?.width">{{ row[col.id] | dataTableInterpolate:col }}</a>
     </ng-template>
-    <ng-template novoTemplate="telCellTemplate" let-row let-col="col">
-      <a href="tel:{{ row[col.id] | dataTableInterpolate: col }}" [target]="col?.attributes?.target">{{
-        row[col.id] | dataTableInterpolate: col
-      }}</a>
+    <ng-template novoTemplate="telCellTemplate"
+                 let-row
+                 let-col="col">
+      <a href="tel:{{ row[col.id] | dataTableInterpolate:col }}" [target]="col?.attributes?.target">{{ row[col.id] | dataTableInterpolate:col }}</a>
     </ng-template>
-    <ng-template novoTemplate="mailtoCellTemplate" let-row let-col="col">
-      <a href="mailto:{{ row[col.id] | dataTableInterpolate: col }}" [target]="col?.attributes?.target">{{
-        row[col.id] | dataTableInterpolate: col
-      }}</a>
+    <ng-template novoTemplate="mailtoCellTemplate"
+                 let-row
+                 let-col="col">
+      <a href="mailto:{{ row[col.id] | dataTableInterpolate:col }}" [target]="col?.attributes?.target">{{ row[col.id] | dataTableInterpolate:col }}</a>
     </ng-template>
-    <ng-template novoTemplate="buttonCellTemplate" let-row let-col="col">
+    <ng-template novoTemplate="buttonCellTemplate"
+                 let-row
+                 let-col="col">
       <p [tooltip]="col?.action?.tooltip" tooltipPosition="right">
-        <i
-          class="bhi-{{ col?.action?.icon }} data-table-icon"
-          (click)="col.handlers?.click({ originalEvent: $event, row: row })"
-          [class.disabled]="isDisabled(col, row)"
-        ></i>
+        <i class="bhi-{{ col?.action?.icon }} data-table-icon" (click)="col.handlers?.click({ originalEvent: $event, row: row })" [class.disabled]="isDisabled(col, row)"></i>
       </p>
     </ng-template>
-    <ng-template novoTemplate="dropdownCellTemplate" let-row let-col="col">
+    <ng-template novoTemplate="dropdownCellTemplate"
+                 let-row
+                 let-col="col">
       <novo-dropdown parentScrollSelector=".novo-data-table-container" containerClass="novo-data-table-dropdown">
         <button type="button" theme="dialogue" icon="collapse" inverse>{{ col.label }}</button>
         <list>
-          <item
-            *ngFor="let option of col?.action?.options"
-            (action)="option.handlers.click({ originalEvent: $event?.originalEvent, row: row })"
-            [disabled]="isDisabled(option, row)"
-          >
+          <item *ngFor="let option of col?.action?.options" (action)="option.handlers.click({ originalEvent: $event?.originalEvent, row: row })" [disabled]="isDisabled(option, row)">
             <span [attr.data-automation-id]="option.label">{{ option.label }}</span>
           </item>
         </list>
@@ -43646,10 +43727,12 @@ NovoDataTable.decorators = [
     <ng-template novoTemplate="defaultEmptyMessage">
       <h4><i class="bhi-search-question"></i> {{ labels.emptyTableMessage }}</h4>
     </ng-template>
-    <ng-template novoTemplate="expandedRow"> You did not provide an "expandedRow" template! </ng-template>
+    <ng-template novoTemplate="expandedRow">
+      You did not provide an "expandedRow" template!
+    </ng-template>
     <ng-template #detailRowTemplate let-row>
       <div class="novo-data-table-detail-row" [@expand] style="overflow: hidden">
-        <ng-container *ngTemplateOutlet="templates['expandedRow']; context: { $implicit: row }"></ng-container>
+        <ng-container *ngTemplateOutlet="templates['expandedRow']; context: {$implicit: row}"></ng-container>
       </div>
     </ng-template>
     <!-- CUSTOM CELLS PASSED IN -->
