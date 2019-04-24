@@ -8,16 +8,17 @@ export declare class Helpers {
     static interpolateWithFallback(formatString: string | string[], data: any): string;
     /**
      * Verifies that an object has every property expected by a string to interpolate
-     * @param str   The string to interpolate
-     * @param props The params to replace in string.
+     * @param  {String} str   The string to interpolate
+     * @param  {Object} props The params to replace in string.
+     * @return {Boolean}
      */
-    static validateInterpolationProps(str: string, props: any): boolean;
+    static validateInterpolationProps(str: any, props: any): any;
     static isObject(item: any): boolean;
     /**
      * Checks to see if the object is a string
      */
     static isString(obj: any): boolean;
-    static isNumber(val: any, includeNegatives?: boolean): boolean;
+    static isNumber(obj: any): boolean;
     /**
      * Checks to see if the object is a undefined or null
      */
@@ -53,6 +54,7 @@ export declare class Can {
     check(thing: any): boolean;
 }
 /**
- * @param obj
+ * @param {any} obj
+ * @returns
  */
 export declare function can(obj: any): Can;

@@ -29,6 +29,7 @@ export declare class ThOrderable implements OnInit {
     /**
      * @name onDragOver
      * @param event
+     * @returns {boolean}
      */
     onDragOver(event: {
         preventDefault: Function;
@@ -36,7 +37,7 @@ export declare class ThOrderable implements OnInit {
             dropEffect: string;
         };
         stopPropagation: Function;
-    }): boolean;
+    }): false;
     onDragEnter(event: any): void;
     onDragLeave(event?: any): void;
 }

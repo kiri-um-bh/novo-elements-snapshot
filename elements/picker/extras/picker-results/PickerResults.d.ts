@@ -4,6 +4,5 @@ import { BasePickerResults } from '../base-picker-results/BasePickerResults';
 export declare class PickerResults extends BasePickerResults {
     labels: NovoLabelService;
     constructor(element: ElementRef, labels: NovoLabelService, ref: ChangeDetectorRef);
-    readonly hasNonErrorMessage: boolean;
     getListElement(): any;
 }
