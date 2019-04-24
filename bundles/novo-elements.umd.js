@@ -17815,6 +17815,7 @@
                     config: field.config || {},
                     closeOnSelect: field.closeOnSelect,
                 };
+                this.inferStartDate(controlConfig, field);
                 // TODO: getControlOptions should always return the correct format
                 /** @type {?} */
                 var optionsConfig = this.getControlOptions(field, http$$1, config, fieldData);
@@ -18420,6 +18421,68 @@
                     });
                 }
                 return valid;
+            };
+        /**
+         * @private
+         * @param {?} dateRange
+         * @return {?}
+         */
+        FormUtils.prototype.getStartDateFromRange = /**
+         * @private
+         * @param {?} dateRange
+         * @return {?}
+         */
+            function (dateRange) {
+                if (dateRange.minDate) {
+                    return dateFns.parse(dateRange.minDate);
+                }
+                else if (dateRange.minOffset) {
+                    return dateFns.addDays(dateFns.startOfToday(), dateRange.minOffset);
+                }
+            };
+        /**
+         * Get the min start date of a Date base on field data.
+         */
+        /**
+         * Get the min start date of a Date base on field data.
+         * @private
+         * @param {?} field
+         * @return {?}
+         */
+        FormUtils.prototype.getStartDate = /**
+         * Get the min start date of a Date base on field data.
+         * @private
+         * @param {?} field
+         * @return {?}
+         */
+            function (field) {
+                if (field.allowedDateRange) {
+                    return this.getStartDateFromRange(field.allowedDateRange);
+                }
+                // there is no restriction on the start date
+                return null;
+            };
+        /**
+         * @private
+         * @param {?} controlConfig
+         * @param {?} field
+         * @return {?}
+         */
+        FormUtils.prototype.inferStartDate = /**
+         * @private
+         * @param {?} controlConfig
+         * @param {?} field
+         * @return {?}
+         */
+            function (controlConfig, field) {
+                if (field.dataType === 'Date') {
+                    /** @type {?} */
+                    var startDate = this.getStartDate(field);
+                    if (startDate) {
+                        controlConfig.startDate = startDate;
+                    }
+                    return startDate;
+                }
             };
         FormUtils.decorators = [
             { type: core.Injectable }

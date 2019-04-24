@@ -15289,6 +15289,7 @@ class FormUtils {
             config: field.config || {},
             closeOnSelect: field.closeOnSelect,
         };
+        this.inferStartDate(controlConfig, field);
         // TODO: getControlOptions should always return the correct format
         /** @type {?} */
         const optionsConfig = this.getControlOptions(field, http, config, fieldData);
@@ -15804,6 +15805,48 @@ class FormUtils {
             });
         }
         return valid;
+    }
+    /**
+     * @private
+     * @param {?} dateRange
+     * @return {?}
+     */
+    getStartDateFromRange(dateRange) {
+        if (dateRange.minDate) {
+            return parse(dateRange.minDate);
+        }
+        else if (dateRange.minOffset) {
+            return addDays(startOfToday(), dateRange.minOffset);
+        }
+    }
+    /**
+     * Get the min start date of a Date base on field data.
+     * @private
+     * @param {?} field
+     * @return {?}
+     */
+    getStartDate(field) {
+        if (field.allowedDateRange) {
+            return this.getStartDateFromRange(field.allowedDateRange);
+        }
+        // there is no restriction on the start date
+        return null;
+    }
+    /**
+     * @private
+     * @param {?} controlConfig
+     * @param {?} field
+     * @return {?}
+     */
+    inferStartDate(controlConfig, field) {
+        if (field.dataType === 'Date') {
+            /** @type {?} */
+            const startDate = this.getStartDate(field);
+            if (startDate) {
+                controlConfig.startDate = startDate;
+            }
+            return startDate;
+        }
     }
 }
 FormUtils.decorators = [

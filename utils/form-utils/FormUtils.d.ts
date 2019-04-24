@@ -63,4 +63,10 @@ export declare class FormUtils {
     forceShowAllControlsInFieldsets(fieldsets: Array<NovoFieldset>): void;
     forceValidation(form: NovoFormGroup): void;
     isAddressEmpty(control: any): boolean;
+    private getStartDateFromRange;
+    /**
+     * Get the min start date of a Date base on field data.
+     */
+    private getStartDate;
+    private inferStartDate;
 }
