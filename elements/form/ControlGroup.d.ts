@@ -7,6 +7,10 @@ import { NovoLabelService } from '../../services/novo-label-service';
 export interface NovoControlGroupAddConfig {
     label: string;
 }
+export interface NovoControlGroupRowConfig {
+    edit: boolean;
+    remove: boolean;
+}
 export declare class NovoControlGroup implements AfterContentInit, OnChanges {
     private formUtils;
     private fb;
@@ -39,6 +43,8 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges {
     controlLabels: {
         value: string;
         width: number;
+        required: boolean;
+        key: string;
     }[];
     toggled: boolean;
     disabledArray: {
@@ -49,6 +55,7 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges {
     constructor(formUtils: FormUtils, fb: FormBuilder, ref: ChangeDetectorRef, labels: NovoLabelService);
     ngAfterContentInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
+    resetAddRemove(): void;
     addNewControl(value?: {}): void;
     buildControl(value?: {}): NovoFormGroup;
     removeControl(index: number, emitEvent?: boolean): void;
