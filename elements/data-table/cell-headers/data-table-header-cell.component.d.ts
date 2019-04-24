@@ -45,11 +45,18 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
         };
         filterConfig?: IDataTableColumnFilterConfig;
     };
+    multiSelect: boolean;
+    multiSelectedOptions: Array<any>;
     private subscriptions;
     private _column;
     constructor(changeDetectorRef: ChangeDetectorRef, labels: NovoLabelService, state: DataTableState<T>, renderer: Renderer2, elementRef: ElementRef, _sort: NovoDataTableSortFilter<T>, _cdkColumnDef: CdkColumnDef);
     ngOnInit(): void;
     ngOnDestroy(): void;
+    isSelected(option: any, optionsList: any): boolean;
+    toggleSelection(option: any): void;
+    optionPresentCheck(item: any, optionValue: any): boolean;
+    cancel(): void;
+    filterMultiSelect(): void;
     startResize(mouseDownEvent: MouseEvent): void;
     toggleCustomRange(event: Event, value: boolean): void;
     focusInput(): void;

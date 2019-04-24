@@ -14,7 +14,7 @@ export declare class DataTableState<T> {
     };
     filter: {
         id: string;
-        value: string;
+        value: string | string[];
     };
     page: number;
     pageSize: number;
