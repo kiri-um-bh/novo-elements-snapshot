@@ -39304,6 +39304,26 @@ var NovoFileInputElement = /** @class */ (function () {
         this.process(Array.from(event.target.files));
     };
     /**
+     * @param {?} files
+     * @return {?}
+     */
+    NovoFileInputElement.prototype.validate = /**
+     * @param {?} files
+     * @return {?}
+     */
+    function (files) {
+        /** @type {?} */
+        var passedValidation = true;
+        if (this.layoutOptions.customValidation) {
+            this.layoutOptions.customValidation
+                .filter(function (validation) { return validation.action === 'upload'; })
+                .forEach(function (uploadValidation) {
+                passedValidation = uploadValidation.fn(files) && passedValidation;
+            });
+        }
+        return passedValidation;
+    };
+    /**
      * @param {?} filelist
      * @return {?}
      */
@@ -39313,17 +39333,19 @@ var NovoFileInputElement = /** @class */ (function () {
      */
     function (filelist) {
         var _this = this;
-        Promise.all(filelist.map(function (file) { return _this.readFile(file); })).then(function (files) {
-            var _a;
-            if (_this.multiple) {
-                (_a = _this.files).push.apply(_a, __spread(files));
-            }
-            else {
-                _this.files = files;
-            }
-            _this.model = _this.files;
-            _this.onModelChange(_this.model);
-        });
+        if (this.validate(filelist)) {
+            Promise.all(filelist.map(function (file) { return _this.readFile(file); })).then(function (files) {
+                var _a;
+                if (_this.multiple) {
+                    (_a = _this.files).push.apply(_a, __spread(files));
+                }
+                else {
+                    _this.files = files;
+                }
+                _this.model = _this.files;
+                _this.onModelChange(_this.model);
+            });
+        }
     };
     /**
      * @param {?} file
@@ -39419,7 +39441,7 @@ var NovoFileInputElement = /** @class */ (function () {
         { type: Component, args: [{
                     selector: 'novo-file-input',
                     providers: [FILE_VALUE_ACCESSOR],
-                    template: "\n        <div #container></div>\n        <ng-template #fileInput>\n            <div class=\"file-input-group\" [class.disabled]=\"disabled\" [class.active]=\"active\">\n                <input *ngIf=\"!layoutOptions.customActions\" type=\"file\" [name]=\"name\" [attr.id]=\"name\" (change)=\"check($event)\" [attr.multiple]=\"multiple\" tabindex=\"-1\"/>\n                <input *ngIf=\"layoutOptions.customActions\" type=\"file\" [name]=\"name\" [attr.id]=\"name\" (change)=\"customCheck($event)\" [attr.multiple]=\"multiple\" tabindex=\"-1\"/>\n                <section [ngSwitch]=\"layoutOptions.labelStyle\">\n                    <label *ngSwitchCase=\"'no-box'\" [attr.for]=\"name\" class=\"no-box\">\n                        <div><i class=\"bhi-dropzone\"></i>{{ placeholder || labels.chooseAFile }} {{ labels.or }} <strong class=\"link\">{{ labels.clickToBrowse }}</strong></div>\n                    </label>\n                    <label *ngSwitchDefault [attr.for]=\"name\" class=\"boxed\">\n                        <span>{{ placeholder || labels.chooseAFile }}</span>\n                        <small>{{ labels.or }} <strong class=\"link\">{{ labels.clickToBrowse }}</strong></small>\n                    </label>\n                </section>\n            </div>\n        </ng-template>\n        <ng-template #fileOutput>\n            <div class=\"file-output-group\" [dragula]=\"fileOutputBag\" [dragulaModel]=\"files\">\n                <div class=\"file-item\" *ngFor=\"let file of files\" [class.disabled]=\"disabled\">\n                  <i *ngIf=\"layoutOptions.draggable\" class=\"bhi-move\"></i>\n                  <label *ngIf=\"file.link\"><span><a href=\"{{ file.link }}\" target=\"_blank\">{{ file.name | decodeURI }}</a></span><span  *ngIf=\"file.description\">||</span><span>{{ file.description }}</span></label>\n                  <label *ngIf=\"!file.link\">{{ file.name | decodeURI }}</label>\n                  <div class=\"actions\" [attr.data-automation-id]=\"'file-actions'\" *ngIf=\"file.loaded\">\n                    <div *ngIf=\"!layoutOptions.customActions\">\n                      <button *ngIf=\"layoutOptions.download\" type=\"button\" theme=\"icon\" icon=\"save\" (click)=\"download(file)\" [attr.data-automation-id]=\"'file-download'\" tabindex=\"-1\"></button>\n                      <button *ngIf=\"!disabled && layoutOptions.removable\" type=\"button\" theme=\"icon\" icon=\"close\" (click)=\"remove(file)\" [attr.data-automation-id]=\"'file-remove'\" tabindex=\"-1\"></button>\n                    </div>\n                    <div *ngIf=\"layoutOptions.customActions\">\n                      <button *ngIf=\"layoutOptions.edit && !disabled\" type=\"button\" theme=\"icon\" icon=\"edit\" (click)=\"customEdit(file)\" [attr.data-automation-id]=\"'file-edit'\" tabindex=\"-1\"></button>\n                      <button *ngIf=\"layoutOptions.download\" type=\"button\" theme=\"icon\" icon=\"save\" (click)=\"customSave(file)\" [attr.data-automation-id]=\"'file-download'\" tabindex=\"-1\"></button>\n                      <button *ngIf=\"!disabled\" type=\"button\" theme=\"icon\" icon=\"close\" (click)=\"customDelete(file)\" [attr.data-automation-id]=\"'file-remove'\" tabindex=\"-1\"></button>\n                    </div>\n                  </div>\n                    <novo-loading *ngIf=\"!file.loaded\"></novo-loading>\n                </div>\n            </div>\n        </ng-template>"
+                    template: "\n    <div #container></div>\n    <ng-template #fileInput>\n      <div class=\"file-input-group\" [class.disabled]=\"disabled\" [class.active]=\"active\">\n        <input\n          *ngIf=\"!layoutOptions.customActions\"\n          type=\"file\"\n          [name]=\"name\"\n          [attr.id]=\"name\"\n          (change)=\"check($event)\"\n          [attr.multiple]=\"multiple\"\n          tabindex=\"-1\"\n        />\n        <input\n          *ngIf=\"layoutOptions.customActions\"\n          type=\"file\"\n          [name]=\"name\"\n          [attr.id]=\"name\"\n          (change)=\"customCheck($event)\"\n          [attr.multiple]=\"multiple\"\n          tabindex=\"-1\"\n        />\n        <section [ngSwitch]=\"layoutOptions.labelStyle\">\n          <label *ngSwitchCase=\"'no-box'\" [attr.for]=\"name\" class=\"no-box\">\n            <div>\n              <i class=\"bhi-dropzone\"></i>{{ placeholder || labels.chooseAFile }} {{ labels.or }}\n              <strong class=\"link\">{{ labels.clickToBrowse }}</strong>\n            </div>\n          </label>\n          <label *ngSwitchDefault [attr.for]=\"name\" class=\"boxed\">\n            <span>{{ placeholder || labels.chooseAFile }}</span>\n            <small\n              >{{ labels.or }} <strong class=\"link\">{{ labels.clickToBrowse }}</strong></small\n            >\n          </label>\n        </section>\n      </div>\n    </ng-template>\n    <ng-template #fileOutput>\n      <div class=\"file-output-group\" [dragula]=\"fileOutputBag\" [dragulaModel]=\"files\">\n        <div class=\"file-item\" *ngFor=\"let file of files\" [class.disabled]=\"disabled\">\n          <i *ngIf=\"layoutOptions.draggable\" class=\"bhi-move\"></i>\n          <label *ngIf=\"file.link\"\n            ><span\n              ><a href=\"{{ file.link }}\" target=\"_blank\">{{ file.name | decodeURI }}</a></span\n            ><span *ngIf=\"file.description\">||</span><span>{{ file.description }}</span></label\n          >\n          <label *ngIf=\"!file.link\">{{ file.name | decodeURI }}</label>\n          <div class=\"actions\" [attr.data-automation-id]=\"'file-actions'\" *ngIf=\"file.loaded\">\n            <div *ngIf=\"!layoutOptions.customActions\">\n              <button\n                *ngIf=\"layoutOptions.download\"\n                type=\"button\"\n                theme=\"icon\"\n                icon=\"save\"\n                (click)=\"download(file)\"\n                [attr.data-automation-id]=\"'file-download'\"\n                tabindex=\"-1\"\n              ></button>\n              <button\n                *ngIf=\"!disabled && layoutOptions.removable\"\n                type=\"button\"\n                theme=\"icon\"\n                icon=\"close\"\n                (click)=\"remove(file)\"\n                [attr.data-automation-id]=\"'file-remove'\"\n                tabindex=\"-1\"\n              ></button>\n            </div>\n            <div *ngIf=\"layoutOptions.customActions\">\n              <button\n                *ngIf=\"layoutOptions.edit && !disabled\"\n                type=\"button\"\n                theme=\"icon\"\n                icon=\"edit\"\n                (click)=\"customEdit(file)\"\n                [attr.data-automation-id]=\"'file-edit'\"\n                tabindex=\"-1\"\n              ></button>\n              <button\n                *ngIf=\"layoutOptions.download\"\n                type=\"button\"\n                theme=\"icon\"\n                icon=\"save\"\n                (click)=\"customSave(file)\"\n                [attr.data-automation-id]=\"'file-download'\"\n                tabindex=\"-1\"\n              ></button>\n              <button\n                *ngIf=\"!disabled\"\n                type=\"button\"\n                theme=\"icon\"\n                icon=\"close\"\n                (click)=\"customDelete(file)\"\n                [attr.data-automation-id]=\"'file-remove'\"\n                tabindex=\"-1\"\n              ></button>\n            </div>\n          </div>\n          <novo-loading *ngIf=\"!file.loaded\"></novo-loading>\n        </div>\n      </div>\n    </ng-template>\n  "
                 }] }
     ];
     /** @nocollapse */
