@@ -42871,6 +42871,7 @@ class DataTableState {
         this.page = 0;
         this.selectedRows.clear();
         this.resetSource.next();
+        this.setState();
         if (fireUpdate) {
             this.updates.emit({
                 sort: this.sort,
@@ -42888,6 +42889,7 @@ class DataTableState {
         this.page = 0;
         this.selectedRows.clear();
         this.resetSource.next();
+        this.setState();
         if (fireUpdate) {
             this.updates.emit({
                 sort: this.sort,
@@ -42906,6 +42908,7 @@ class DataTableState {
         this.page = 0;
         this.selectedRows.clear();
         this.resetSource.next();
+        this.setState();
         if (fireUpdate) {
             this.updates.emit({
                 sort: this.sort,
@@ -42940,6 +42943,34 @@ class DataTableState {
      */
     onSortFilterChange() {
         this.sortFilterSource.next();
+    }
+    /**
+     * @return {?}
+     */
+    setState() {
+        if (this.tableName) {
+            /** @type {?} */
+            const stickyState = {
+                filter: this.filter,
+                sort: this.sort,
+                globalSearch: this.globalSearch,
+            };
+            window.localStorage.setItem(this.tableName, JSON.stringify(stickyState));
+        }
+    }
+    /**
+     * @param {?} name
+     * @return {?}
+     */
+    getInitialFilterSortState(name) {
+        this.tableName = name;
+        /** @type {?} */
+        const stickyState = JSON.parse(window.localStorage.getItem(name));
+        if (stickyState !== null && stickyState !== undefined) {
+            this.filter = stickyState.filter;
+            this.sort = stickyState.sort;
+            this.globalSearch = stickyState.globalSearch;
+        }
     }
 }
 
@@ -43267,6 +43298,7 @@ class NovoDataTable {
         }
         this.state.page = this.paginationOptions ? this.paginationOptions.page : undefined;
         this.state.pageSize = this.paginationOptions ? this.paginationOptions.pageSize : undefined;
+        this.state.getInitialFilterSortState(this.name);
         // Scrolling inside table
         ((/** @type {?} */ (this.novoDataTableContainer.nativeElement))).addEventListener('scroll', this.scrollListenerHandler);
         this.initialized = true;
@@ -44073,20 +44105,27 @@ class NovoDataTableSortFilter {
         this.state.filter = filter$$1;
         this.state.reset(false, true);
         this.state.updates.next({ filter: filter$$1, sort: this.state.sort });
+        if (this.state.tableName) {
+            this.state.setState();
+        }
         this.state.onSortFilterChange();
     }
     /**
      * @param {?} id
      * @param {?} value
      * @param {?} transform
+     * @param {?=} tableName
      * @return {?}
      */
-    sort(id, value, transform) {
+    sort(id, value, transform, tableName = null) {
         /** @type {?} */
         let sort = { id, value, transform };
         this.state.sort = sort;
         this.state.reset(false, true);
         this.state.updates.next({ sort: sort, filter: this.state.filter });
+        if (this.state.tableName) {
+            this.state.setState();
+        }
         this.state.onSortFilterChange();
     }
 }
@@ -44132,26 +44171,7 @@ class NovoDataTableCellHeader {
         this.multiSelect = false;
         this.multiSelectedOptions = [];
         this.subscriptions = [];
-        this._rerenderSubscription = state$$1.updates.subscribe((change) => {
-            if (change.sort && change.sort.id === this.id) {
-                this.icon = `sort-${change.sort.value}`;
-                this.sortActive = true;
-            }
-            else {
-                this.icon = 'sortable';
-                this.sortActive = false;
-            }
-            if (change.filter && change.filter.id === this.id) {
-                this.filterActive = true;
-                this.filter = change.filter.value;
-            }
-            else {
-                this.filterActive = false;
-                this.filter = undefined;
-                this.multiSelectedOptions = [];
-            }
-            changeDetectorRef.markForCheck();
-        });
+        this._rerenderSubscription = state$$1.updates.subscribe((change) => this.checkSortFilterState(change));
     }
     /**
      * @param {?} column
@@ -44207,6 +44227,7 @@ class NovoDataTableCellHeader {
         if (this.multiSelect) {
             this.multiSelectedOptions = this.filter ? [...this.filter] : [];
         }
+        this.checkSortFilterState({ filter: this.state.filter, sort: this.state.sort });
     }
     /**
      * @return {?}
@@ -44216,6 +44237,30 @@ class NovoDataTableCellHeader {
         this.subscriptions.forEach((subscription) => {
             subscription.unsubscribe();
         });
+    }
+    /**
+     * @param {?} sortFilterState
+     * @return {?}
+     */
+    checkSortFilterState(sortFilterState) {
+        if (sortFilterState.sort && sortFilterState.sort.id === this.id) {
+            this.icon = `sort-${sortFilterState.sort.value}`;
+            this.sortActive = true;
+        }
+        else {
+            this.icon = 'sortable';
+            this.sortActive = false;
+        }
+        if (sortFilterState.filter && sortFilterState.filter.id === this.id) {
+            this.filterActive = true;
+            this.filter = sortFilterState.filter.value;
+        }
+        else {
+            this.filterActive = false;
+            this.filter = undefined;
+            this.multiSelectedOptions = [];
+        }
+        this.changeDetectorRef.markForCheck();
     }
     /**
      * @param {?} option

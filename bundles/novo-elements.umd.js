@@ -47514,6 +47514,7 @@
                 this.page = 0;
                 this.selectedRows.clear();
                 this.resetSource.next();
+                this.setState();
                 if (fireUpdate) {
                     this.updates.emit({
                         sort: this.sort,
@@ -47538,6 +47539,7 @@
                 this.page = 0;
                 this.selectedRows.clear();
                 this.resetSource.next();
+                this.setState();
                 if (fireUpdate) {
                     this.updates.emit({
                         sort: this.sort,
@@ -47563,6 +47565,7 @@
                 this.page = 0;
                 this.selectedRows.clear();
                 this.resetSource.next();
+                this.setState();
                 if (fireUpdate) {
                     this.updates.emit({
                         sort: this.sort,
@@ -47612,6 +47615,41 @@
          */
             function () {
                 this.sortFilterSource.next();
+            };
+        /**
+         * @return {?}
+         */
+        DataTableState.prototype.setState = /**
+         * @return {?}
+         */
+            function () {
+                if (this.tableName) {
+                    /** @type {?} */
+                    var stickyState = {
+                        filter: this.filter,
+                        sort: this.sort,
+                        globalSearch: this.globalSearch,
+                    };
+                    window.localStorage.setItem(this.tableName, JSON.stringify(stickyState));
+                }
+            };
+        /**
+         * @param {?} name
+         * @return {?}
+         */
+        DataTableState.prototype.getInitialFilterSortState = /**
+         * @param {?} name
+         * @return {?}
+         */
+            function (name) {
+                this.tableName = name;
+                /** @type {?} */
+                var stickyState = JSON.parse(window.localStorage.getItem(name));
+                if (stickyState !== null && stickyState !== undefined) {
+                    this.filter = stickyState.filter;
+                    this.sort = stickyState.sort;
+                    this.globalSearch = stickyState.globalSearch;
+                }
             };
         return DataTableState;
     }());
@@ -47993,6 +48031,7 @@
                 }
                 this.state.page = this.paginationOptions ? this.paginationOptions.page : undefined;
                 this.state.pageSize = this.paginationOptions ? this.paginationOptions.pageSize : undefined;
+                this.state.getInitialFilterSortState(this.name);
                 // Scrolling inside table
                 (( /** @type {?} */(this.novoDataTableContainer.nativeElement))).addEventListener('scroll', this.scrollListenerHandler);
                 this.initialized = true;
@@ -48687,26 +48726,37 @@
                 this.state.filter = filter;
                 this.state.reset(false, true);
                 this.state.updates.next({ filter: filter, sort: this.state.sort });
+                if (this.state.tableName) {
+                    this.state.setState();
+                }
                 this.state.onSortFilterChange();
             };
         /**
          * @param {?} id
          * @param {?} value
          * @param {?} transform
+         * @param {?=} tableName
          * @return {?}
          */
         NovoDataTableSortFilter.prototype.sort = /**
          * @param {?} id
          * @param {?} value
          * @param {?} transform
+         * @param {?=} tableName
          * @return {?}
          */
-            function (id, value, transform) {
+            function (id, value, transform, tableName) {
+                if (tableName === void 0) {
+                    tableName = null;
+                }
                 /** @type {?} */
                 var sort = { id: id, value: value, transform: transform };
                 this.state.sort = sort;
                 this.state.reset(false, true);
                 this.state.updates.next({ sort: sort, filter: this.state.filter });
+                if (this.state.tableName) {
+                    this.state.setState();
+                }
                 this.state.onSortFilterChange();
             };
         NovoDataTableSortFilter.decorators = [
@@ -48747,26 +48797,7 @@
             this.multiSelect = false;
             this.multiSelectedOptions = [];
             this.subscriptions = [];
-            this._rerenderSubscription = state.updates.subscribe(function (change) {
-                if (change.sort && change.sort.id === _this.id) {
-                    _this.icon = "sort-" + change.sort.value;
-                    _this.sortActive = true;
-                }
-                else {
-                    _this.icon = 'sortable';
-                    _this.sortActive = false;
-                }
-                if (change.filter && change.filter.id === _this.id) {
-                    _this.filterActive = true;
-                    _this.filter = change.filter.value;
-                }
-                else {
-                    _this.filterActive = false;
-                    _this.filter = undefined;
-                    _this.multiSelectedOptions = [];
-                }
-                changeDetectorRef.markForCheck();
-            });
+            this._rerenderSubscription = state.updates.subscribe(function (change) { return _this.checkSortFilterState(change); });
         }
         Object.defineProperty(NovoDataTableCellHeader.prototype, "column", {
             set: /**
@@ -48828,6 +48859,7 @@
                 if (this.multiSelect) {
                     this.multiSelectedOptions = this.filter ? __spread(this.filter) : [];
                 }
+                this.checkSortFilterState({ filter: this.state.filter, sort: this.state.sort });
             };
         /**
          * @return {?}
@@ -48840,6 +48872,34 @@
                 this.subscriptions.forEach(function (subscription) {
                     subscription.unsubscribe();
                 });
+            };
+        /**
+         * @param {?} sortFilterState
+         * @return {?}
+         */
+        NovoDataTableCellHeader.prototype.checkSortFilterState = /**
+         * @param {?} sortFilterState
+         * @return {?}
+         */
+            function (sortFilterState) {
+                if (sortFilterState.sort && sortFilterState.sort.id === this.id) {
+                    this.icon = "sort-" + sortFilterState.sort.value;
+                    this.sortActive = true;
+                }
+                else {
+                    this.icon = 'sortable';
+                    this.sortActive = false;
+                }
+                if (sortFilterState.filter && sortFilterState.filter.id === this.id) {
+                    this.filterActive = true;
+                    this.filter = sortFilterState.filter.value;
+                }
+                else {
+                    this.filterActive = false;
+                    this.filter = undefined;
+                    this.multiSelectedOptions = [];
+                }
+                this.changeDetectorRef.markForCheck();
             };
         /**
          * @param {?} option

@@ -8,6 +8,7 @@ export declare class DataTableState<T> {
     resetSource: Subject<{}>;
     expandSource: Subject<{}>;
     dataLoaded: Subject<{}>;
+    tableName: string;
     sort: {
         id: string;
         value: string;
@@ -33,4 +34,6 @@ export declare class DataTableState<T> {
     onExpandChange(targetId?: number): void;
     onPaginationChange(isPageSizeChange: boolean, pageSize: number): void;
     onSortFilterChange(): void;
+    setState(): void;
+    getInitialFilterSortState(name: string): void;
 }

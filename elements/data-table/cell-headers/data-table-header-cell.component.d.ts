@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, OnDestroy, OnInit, ElementRef, Renderer2, EventEmitter, TemplateRef } from '@angular/core';
 import { CdkColumnDef } from '@angular/cdk/table';
-import { IDataTableSortFilter, IDataTableColumn, IDataTableColumnFilterConfig } from '../interfaces';
+import { IDataTableSortFilter, IDataTableChangeEvent, IDataTableColumn, IDataTableColumnFilterConfig } from '../interfaces';
 import { NovoDataTableSortFilter } from '../sort-filter/sort-filter.directive';
 import { NovoDropdownElement } from '../../dropdown/Dropdown';
 import { NovoLabelService } from '../../../services/novo-label-service';
@@ -52,6 +52,7 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
     constructor(changeDetectorRef: ChangeDetectorRef, labels: NovoLabelService, state: DataTableState<T>, renderer: Renderer2, elementRef: ElementRef, _sort: NovoDataTableSortFilter<T>, _cdkColumnDef: CdkColumnDef);
     ngOnInit(): void;
     ngOnDestroy(): void;
+    checkSortFilterState(sortFilterState: IDataTableChangeEvent): void;
     isSelected(option: any, optionsList: any): boolean;
     toggleSelection(option: any): void;
     optionPresentCheck(item: any, optionValue: any): boolean;
