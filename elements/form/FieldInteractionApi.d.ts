@@ -5,6 +5,7 @@ import { NovoToastService } from '../toast/ToastService';
 import { NovoModalService } from '../modal/ModalService';
 import { AppBridge } from '../../utils/app-bridge/AppBridge';
 import { NovoLabelService } from '../../services/novo-label-service';
+import { ResultsTemplateType } from './FormInterfaces';
 export declare class FieldInteractionApi {
     private toaster;
     private modalService;
@@ -112,10 +113,12 @@ export declare class FieldInteractionApi {
         optionsUrlBuilder?: Function;
         optionsPromise?: any;
         options?: any[];
+        resultsTemplateType?: ResultsTemplateType;
     }, mapper?: any): void;
     setLoading(key: string, loading: boolean): void;
     addControl(key: string, metaForNewField: any, position?: string, initialValue?: any): void;
     removeControl(key: string): void;
     debounce(func: () => void, wait?: number): void;
     private triggerEvent;
+    private assignAppropriateResultsTemplate;
 }

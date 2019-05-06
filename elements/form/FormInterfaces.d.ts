@@ -30,3 +30,4 @@ export interface FormField {
     optionsUrl?: string;
     optionsType?: string;
 }
+export declare type ResultsTemplateType = 'entity-picker';

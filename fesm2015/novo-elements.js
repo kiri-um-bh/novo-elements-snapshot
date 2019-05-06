@@ -16843,6 +16843,9 @@ class FieldInteractionApi {
             else if (config.options) {
                 newConfig.options = [...config.options];
             }
+            if (config.resultsTemplateType) {
+                this.assignAppropriateResultsTemplate(config.resultsTemplateType, newConfig);
+            }
             this.setProperty(key, 'config', newConfig);
             this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: config });
         }
@@ -17001,6 +17004,19 @@ class FieldInteractionApi {
     triggerEvent(event) {
         if (this.form && this.form.fieldInteractionEvents) {
             this.form.fieldInteractionEvents.emit(event);
+        }
+    }
+    /**
+     * @private
+     * @param {?} resultsTemplateType
+     * @param {?} config
+     * @return {?}
+     */
+    assignAppropriateResultsTemplate(resultsTemplateType, config) {
+        switch (resultsTemplateType) {
+            case 'entity-picker':
+                config.resultsTemplate = EntityPickerResults;
+                break;
         }
     }
 }

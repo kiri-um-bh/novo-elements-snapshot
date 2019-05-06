@@ -19732,6 +19732,9 @@
                     else if (config.options) {
                         newConfig.options = __spread(config.options);
                     }
+                    if (config.resultsTemplateType) {
+                        this.assignAppropriateResultsTemplate(config.resultsTemplateType, newConfig);
+                    }
                     this.setProperty(key, 'config', newConfig);
                     this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: config });
                 }
@@ -19923,6 +19926,25 @@
             function (event) {
                 if (this.form && this.form.fieldInteractionEvents) {
                     this.form.fieldInteractionEvents.emit(event);
+                }
+            };
+        /**
+         * @private
+         * @param {?} resultsTemplateType
+         * @param {?} config
+         * @return {?}
+         */
+        FieldInteractionApi.prototype.assignAppropriateResultsTemplate = /**
+         * @private
+         * @param {?} resultsTemplateType
+         * @param {?} config
+         * @return {?}
+         */
+            function (resultsTemplateType, config) {
+                switch (resultsTemplateType) {
+                    case 'entity-picker':
+                        config.resultsTemplate = EntityPickerResults;
+                        break;
                 }
             };
         FieldInteractionApi.FIELD_POSITIONS = {
