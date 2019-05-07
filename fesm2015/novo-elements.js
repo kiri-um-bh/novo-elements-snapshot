@@ -36552,7 +36552,7 @@ NovoFileInputElement.decorators = [
                 tabindex="-1"
               ></button>
               <button
-                *ngIf="!disabled && layoutOptions.removable"
+                *ngIf="!disabled && (layoutOptions.removable || (!layoutOptions.removable && layoutOptions.removableWhenNew && !file.link))"
                 type="button"
                 theme="icon"
                 icon="close"

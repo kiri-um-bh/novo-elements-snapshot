@@ -25,6 +25,7 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
             action: string;
             fn: Function;
         }[];
+        removableWhenNew?: boolean;
     };
     value: Array<any>;
     edit: EventEmitter<any>;
