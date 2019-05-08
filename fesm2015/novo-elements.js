@@ -1846,6 +1846,7 @@ class NovoLabelService {
         this.selectCountryFirst = 'Please select a country before selecting a state';
         this.invalidIntegerInput = 'Special characters are not allowed for';
         this.maxRecordsReached = 'Sorry, you have reached the maximum number of records allowed for this field';
+        this.selectFilterOptions = 'Please select one or more filter options below.';
     }
     /**
      * @param {?} field
@@ -44295,6 +44296,9 @@ class NovoDataTableCellHeader {
         this.showCustomRange = false;
         this.multiSelect = false;
         this.multiSelectedOptions = [];
+        this.multiSelectedOptionIsHidden = [];
+        this.optionFilter = '';
+        this.error = false;
         this.subscriptions = [];
         this._rerenderSubscription = state$$1.updates.subscribe((change) => {
             if (change.sort && change.sort.id === this.id) {
@@ -44375,6 +44379,17 @@ class NovoDataTableCellHeader {
         this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
         if (this.multiSelect) {
             this.multiSelectedOptions = this.filter ? [...this.filter] : [];
+            if (this.config.filterConfig.options) {
+                if (typeof this.config.filterConfig.options[0] === 'string') {
+                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((option) => ({ option: option, hidden: false }));
+                }
+                else {
+                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((option) => ({
+                        option: option,
+                        hidden: false,
+                    }));
+                }
+            }
         }
     }
     /**
@@ -44410,8 +44425,15 @@ class NovoDataTableCellHeader {
         const optionValue = option.hasOwnProperty('value') ? option.value : option;
         /** @type {?} */
         let optionIndex = this.multiSelectedOptions.findIndex((item) => this.optionPresentCheck(item, optionValue));
+        this.error = false;
         if (optionIndex > -1) {
             this.multiSelectedOptions.splice(optionIndex, 1);
+            if (this.optionFilter &&
+                !this.getOptionText(option)
+                    .toLowerCase()
+                    .startsWith(this.optionFilter.toLowerCase())) {
+                this.multiSelectedOptionIsHidden[this.multiSelectedOptionIsHidden.findIndex((record) => record.option === option)].hidden = true;
+            }
         }
         else {
             this.multiSelectedOptions.push(optionValue);
@@ -44436,15 +44458,100 @@ class NovoDataTableCellHeader {
     cancel() {
         this.multiSelectedOptions = this.filter ? [...this.filter] : [];
         this.dropdown.closePanel();
+        this.clearOptionFilter();
     }
     /**
      * @return {?}
      */
     filterMultiSelect() {
-        /** @type {?} */
-        let actualFilter = this.multiSelectedOptions.length > 0 ? [...this.multiSelectedOptions] : undefined;
-        this.filterData(actualFilter);
-        this.dropdown.closePanel();
+        if (this.multiSelectedOptions.length === 0 && !this.filter) {
+            this.multiSelectHasVisibleOptions() && this.dropdown ? (this.error = true) : null;
+        }
+        else {
+            this.clearOptionFilter();
+            /** @type {?} */
+            let actualFilter = this.multiSelectedOptions.length > 0 ? [...this.multiSelectedOptions] : undefined;
+            this.filterData(actualFilter);
+            this.dropdown.closePanel();
+        }
+    }
+    /**
+     * @param {?} optionFilter
+     * @return {?}
+     */
+    multiSelectOptionFilter(optionFilter) {
+        this.multiSelectedOptionIsHidden.forEach((record) => {
+            if (record.option) {
+                record.hidden = !(this.getOptionText(record.option)
+                    .toLowerCase()
+                    .startsWith(optionFilter.toLowerCase()) || this.isSelected(record.option, this.multiSelectedOptions));
+            }
+        });
+    }
+    /**
+     * @param {?} option
+     * @return {?}
+     */
+    multiSelectOptionIsHidden(option) {
+        return this.multiSelectedOptionIsHidden.find((record) => record.option === option).hidden;
+    }
+    /**
+     * @return {?}
+     */
+    multiSelectHasVisibleOptions() {
+        return this.multiSelectedOptionIsHidden.some((record) => !record.hidden);
+    }
+    /**
+     * @private
+     * @param {?} option
+     * @return {?}
+     */
+    getOptionText(option) {
+        if (typeof option !== 'object') {
+            return option.toString();
+        }
+        else {
+            /** @type {?} */
+            const opt = (/** @type {?} */ (option));
+            return (opt.label.length > 0 ? opt.label : opt.value).toString();
+        }
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    multiSelectOptionFilterHandleKeydown(event) {
+        if (this.multiSelect) {
+            this.error = false;
+            if (this.dropdown.panelOpen && event.keyCode === KeyCodes.ESC) {
+                // escape = clear text box and close
+                Helpers.swallowEvent(event);
+                this.clearOptionFilter();
+                this.dropdown.closePanel();
+            }
+            else if (event.keyCode === KeyCodes.ENTER) {
+                Helpers.swallowEvent(event);
+                this.filterMultiSelect();
+            }
+            else if ((event.keyCode >= 65 && event.keyCode <= 90) ||
+                (event.keyCode >= 96 && event.keyCode <= 105) ||
+                (event.keyCode >= 48 && event.keyCode <= 57)) {
+                this.optionFilterInput.nativeElement.focus();
+            }
+        }
+    }
+    /**
+     * @private
+     * @return {?}
+     */
+    clearOptionFilter() {
+        this.error = false;
+        if (this.optionFilter.length > 0) {
+            this.optionFilter = '';
+            this.multiSelectedOptionIsHidden.forEach((record) => {
+                record.hidden = false;
+            });
+        }
     }
     /**
      * @param {?} mouseDownEvent
@@ -44498,6 +44605,13 @@ class NovoDataTableCellHeader {
     focusInput() {
         if (this.filterInput && this.filterInput.nativeElement) {
             setTimeout(() => this.filterInput.nativeElement.focus(), 0);
+        }
+        if (this.multiSelect && this.dropdown) {
+            this.dropdown.onKeyDown = (event) => {
+                this.multiSelectOptionFilterHandleKeydown(event);
+            };
+            setTimeout(() => this.optionFilterInput.nativeElement.focus(), 0);
+            this.changeDetectorRef.markForCheck();
         }
     }
     /**
@@ -44565,6 +44679,7 @@ class NovoDataTableCellHeader {
         this.multiSelectedOptions = [];
         this.activeDateFilter = undefined;
         this.filterData(undefined);
+        this.clearOptionFilter();
     }
     /**
      * @private
@@ -44684,9 +44799,22 @@ NovoDataTableCellHeader.decorators = [
             </item>
           </list>
           <list *ngSwitchCase="'multi-select'">
+            <div class="dropdown-list-filter" (keydown)="multiSelectOptionFilterHandleKeydown($event)">
+              <item class="filter-search" keepOpen="true">
+                <input
+                  [(ngModel)]="optionFilter"
+                  (ngModelChange)="multiSelectOptionFilter($event)"
+                  #optionFilterInput
+                  data-automation-id="novo-data-table-multi-select-option-filter-input"
+                />
+                <i class="bhi-search"></i>
+                <span class="error-text" [hidden]="!error || !multiSelectHasVisibleOptions()">{{ labels.selectFilterOptions }}</span>
+              </item>
+            </div>
             <div class="dropdown-list-options">
               <item
                 *ngFor="let option of config.filterConfig.options"
+                [hidden]="multiSelectOptionIsHidden(option)"
                 (click)="toggleSelection(option)"
                 [attr.data-automation-id]="'novo-data-table-filter-' + (option?.label || option)"
                 [keepOpen]="true"
@@ -44698,6 +44826,7 @@ NovoDataTableCellHeader.decorators = [
                 ></i>
               </item>
             </div>
+            <p class="filter-null-results" [hidden]="multiSelectHasVisibleOptions()">{{ labels.pickerEmpty }}</p>
           </list>
           <list *ngSwitchCase="'custom'">
             <item class="filter-search" keepOpen="true">
@@ -44745,12 +44874,14 @@ NovoDataTableCellHeader.ctorParameters = () => [
 NovoDataTableCellHeader.propDecorators = {
     filterInput: [{ type: ViewChild, args: ['filterInput',] }],
     dropdown: [{ type: ViewChild, args: [NovoDropdownElement,] }],
+    optionFilterInput: [{ type: ViewChild, args: ['optionFilterInput',] }],
     defaultSort: [{ type: Input }],
     allowMultipleFilters: [{ type: Input }],
     resized: [{ type: Input }],
     filterTemplate: [{ type: Input }],
     resizable: [{ type: HostBinding, args: ['class.resizable',] }],
-    column: [{ type: Input, args: ['novo-data-table-cell-config',] }]
+    column: [{ type: Input, args: ['novo-data-table-cell-config',] }],
+    multiSelectOptionFilterHandleKeydown: [{ type: HostListener, args: ['document:keydown', ['$event'],] }]
 };
 
 /**

@@ -2193,6 +2193,7 @@
             this.selectCountryFirst = 'Please select a country before selecting a state';
             this.invalidIntegerInput = 'Special characters are not allowed for';
             this.maxRecordsReached = 'Sorry, you have reached the maximum number of records allowed for this field';
+            this.selectFilterOptions = 'Please select one or more filter options below.';
         }
         /**
          * @param {?} field
@@ -48870,6 +48871,9 @@
             this.showCustomRange = false;
             this.multiSelect = false;
             this.multiSelectedOptions = [];
+            this.multiSelectedOptionIsHidden = [];
+            this.optionFilter = '';
+            this.error = false;
             this.subscriptions = [];
             this._rerenderSubscription = state.updates.subscribe(function (change) {
                 if (change.sort && change.sort.id === _this.id) {
@@ -48956,6 +48960,19 @@
                 this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
                 if (this.multiSelect) {
                     this.multiSelectedOptions = this.filter ? __spread(this.filter) : [];
+                    if (this.config.filterConfig.options) {
+                        if (typeof this.config.filterConfig.options[0] === 'string') {
+                            this.multiSelectedOptionIsHidden = (( /** @type {?} */(this.config.filterConfig.options))).map(function (option) { return ({ option: option, hidden: false }); });
+                        }
+                        else {
+                            this.multiSelectedOptionIsHidden = (( /** @type {?} */(this.config.filterConfig.options))).map(function (option) {
+                                return ({
+                                    option: option,
+                                    hidden: false,
+                                });
+                            });
+                        }
+                    }
                 }
             };
         /**
@@ -49005,8 +49022,15 @@
                 var optionValue = option.hasOwnProperty('value') ? option.value : option;
                 /** @type {?} */
                 var optionIndex = this.multiSelectedOptions.findIndex(function (item) { return _this.optionPresentCheck(item, optionValue); });
+                this.error = false;
                 if (optionIndex > -1) {
                     this.multiSelectedOptions.splice(optionIndex, 1);
+                    if (this.optionFilter &&
+                        !this.getOptionText(option)
+                            .toLowerCase()
+                            .startsWith(this.optionFilter.toLowerCase())) {
+                        this.multiSelectedOptionIsHidden[this.multiSelectedOptionIsHidden.findIndex(function (record) { return record.option === option; })].hidden = true;
+                    }
                 }
                 else {
                     this.multiSelectedOptions.push(optionValue);
@@ -49039,6 +49063,7 @@
             function () {
                 this.multiSelectedOptions = this.filter ? __spread(this.filter) : [];
                 this.dropdown.closePanel();
+                this.clearOptionFilter();
             };
         /**
          * @return {?}
@@ -49047,10 +49072,119 @@
          * @return {?}
          */
             function () {
-                /** @type {?} */
-                var actualFilter = this.multiSelectedOptions.length > 0 ? __spread(this.multiSelectedOptions) : undefined;
-                this.filterData(actualFilter);
-                this.dropdown.closePanel();
+                if (this.multiSelectedOptions.length === 0 && !this.filter) {
+                    this.multiSelectHasVisibleOptions() && this.dropdown ? (this.error = true) : null;
+                }
+                else {
+                    this.clearOptionFilter();
+                    /** @type {?} */
+                    var actualFilter = this.multiSelectedOptions.length > 0 ? __spread(this.multiSelectedOptions) : undefined;
+                    this.filterData(actualFilter);
+                    this.dropdown.closePanel();
+                }
+            };
+        /**
+         * @param {?} optionFilter
+         * @return {?}
+         */
+        NovoDataTableCellHeader.prototype.multiSelectOptionFilter = /**
+         * @param {?} optionFilter
+         * @return {?}
+         */
+            function (optionFilter) {
+                var _this = this;
+                this.multiSelectedOptionIsHidden.forEach(function (record) {
+                    if (record.option) {
+                        record.hidden = !(_this.getOptionText(record.option)
+                            .toLowerCase()
+                            .startsWith(optionFilter.toLowerCase()) || _this.isSelected(record.option, _this.multiSelectedOptions));
+                    }
+                });
+            };
+        /**
+         * @param {?} option
+         * @return {?}
+         */
+        NovoDataTableCellHeader.prototype.multiSelectOptionIsHidden = /**
+         * @param {?} option
+         * @return {?}
+         */
+            function (option) {
+                return this.multiSelectedOptionIsHidden.find(function (record) { return record.option === option; }).hidden;
+            };
+        /**
+         * @return {?}
+         */
+        NovoDataTableCellHeader.prototype.multiSelectHasVisibleOptions = /**
+         * @return {?}
+         */
+            function () {
+                return this.multiSelectedOptionIsHidden.some(function (record) { return !record.hidden; });
+            };
+        /**
+         * @private
+         * @param {?} option
+         * @return {?}
+         */
+        NovoDataTableCellHeader.prototype.getOptionText = /**
+         * @private
+         * @param {?} option
+         * @return {?}
+         */
+            function (option) {
+                if (typeof option !== 'object') {
+                    return option.toString();
+                }
+                else {
+                    /** @type {?} */
+                    var opt = ( /** @type {?} */(option));
+                    return (opt.label.length > 0 ? opt.label : opt.value).toString();
+                }
+            };
+        /**
+         * @param {?} event
+         * @return {?}
+         */
+        NovoDataTableCellHeader.prototype.multiSelectOptionFilterHandleKeydown = /**
+         * @param {?} event
+         * @return {?}
+         */
+            function (event) {
+                if (this.multiSelect) {
+                    this.error = false;
+                    if (this.dropdown.panelOpen && event.keyCode === KeyCodes.ESC) {
+                        // escape = clear text box and close
+                        Helpers.swallowEvent(event);
+                        this.clearOptionFilter();
+                        this.dropdown.closePanel();
+                    }
+                    else if (event.keyCode === KeyCodes.ENTER) {
+                        Helpers.swallowEvent(event);
+                        this.filterMultiSelect();
+                    }
+                    else if ((event.keyCode >= 65 && event.keyCode <= 90) ||
+                        (event.keyCode >= 96 && event.keyCode <= 105) ||
+                        (event.keyCode >= 48 && event.keyCode <= 57)) {
+                        this.optionFilterInput.nativeElement.focus();
+                    }
+                }
+            };
+        /**
+         * @private
+         * @return {?}
+         */
+        NovoDataTableCellHeader.prototype.clearOptionFilter = /**
+         * @private
+         * @return {?}
+         */
+            function () {
+                this.error = false;
+                if (this.optionFilter.length > 0) {
+                    this.optionFilter = '';
+                    this.multiSelectedOptionIsHidden.forEach(function (record) {
+                        record.hidden = false;
+                    });
+                }
             };
         /**
          * @param {?} mouseDownEvent
@@ -49118,6 +49252,13 @@
                 var _this = this;
                 if (this.filterInput && this.filterInput.nativeElement) {
                     setTimeout(function () { return _this.filterInput.nativeElement.focus(); }, 0);
+                }
+                if (this.multiSelect && this.dropdown) {
+                    this.dropdown.onKeyDown = function (event) {
+                        _this.multiSelectOptionFilterHandleKeydown(event);
+                    };
+                    setTimeout(function () { return _this.optionFilterInput.nativeElement.focus(); }, 0);
+                    this.changeDetectorRef.markForCheck();
                 }
             };
         /**
@@ -49197,6 +49338,7 @@
                 this.multiSelectedOptions = [];
                 this.activeDateFilter = undefined;
                 this.filterData(undefined);
+                this.clearOptionFilter();
             };
         /**
          * @private
@@ -49244,7 +49386,7 @@
         NovoDataTableCellHeader.decorators = [
             { type: core.Component, args: [{
                         selector: '[novo-data-table-cell-config]',
-                        template: "\n    <i class=\"bhi-{{ labelIcon }} label-icon\" *ngIf=\"labelIcon\" data-automation-id=\"novo-data-table-header-icon\"></i>\n    <label data-automation-id=\"novo-data-table-label\">{{ label }}</label>\n    <div>\n      <button\n        *ngIf=\"config.sortable\"\n        tooltipPosition=\"right\"\n        [tooltip]=\"labels.sort\"\n        theme=\"icon\"\n        [icon]=\"icon\"\n        (click)=\"sort()\"\n        [class.active]=\"sortActive\"\n        data-automation-id=\"novo-data-table-sort\"\n      ></button>\n      <novo-dropdown\n        *ngIf=\"config.filterable\"\n        side=\"right\"\n        parentScrollSelector=\".novo-data-table-container\"\n        containerClass=\"data-table-dropdown\"\n        data-automation-id=\"novo-data-table-filter\"\n      >\n        <button\n          type=\"button\"\n          theme=\"icon\"\n          icon=\"filter\"\n          [class.active]=\"filterActive\"\n          (click)=\"focusInput()\"\n          tooltipPosition=\"right\"\n          [tooltip]=\"labels.filters\"\n        ></button>\n        <div class=\"header\">\n          <span>{{ labels.filters }}</span>\n          <button\n            theme=\"dialogue\"\n            color=\"negative\"\n            icon=\"times\"\n            (click)=\"clearFilter()\"\n            *ngIf=\"filter !== null && filter !== undefined && filter !== ''\"\n            data-automation-id=\"novo-data-table-filter-clear\"\n          >\n            {{ labels.clear }}\n          </button>\n        </div>\n        <ng-container [ngSwitch]=\"config.filterConfig.type\">\n          <list *ngSwitchCase=\"'date'\">\n            <ng-container *ngIf=\"!showCustomRange\">\n              <item\n                [class.active]=\"activeDateFilter === option.label\"\n                *ngFor=\"let option of config.filterConfig.options\"\n                (click)=\"filterData(option)\"\n                [attr.data-automation-id]=\"'novo-data-table-filter-' + option.label\"\n              >\n                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n              </item>\n            </ng-container>\n            <item\n              [class.active]=\"labels.customDateRange === activeDateFilter\"\n              (click)=\"toggleCustomRange($event, true)\"\n              *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\"\n              [keepOpen]=\"true\"\n            >\n              {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n            </item>\n            <div class=\"calendar-container\" *ngIf=\"showCustomRange\">\n              <div (click)=\"toggleCustomRange($event, false)\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n              <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n            </div>\n          </list>\n          <list *ngSwitchCase=\"'select'\">\n            <item\n              [class.active]=\"filter === option\"\n              *ngFor=\"let option of config.filterConfig.options\"\n              (click)=\"filterData(option)\"\n              [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\"\n            >\n              <span>{{ option?.label || option }}</span>\n              <i class=\"bhi-check\" *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n            </item>\n          </list>\n          <list *ngSwitchCase=\"'multi-select'\">\n            <div class=\"dropdown-list-options\">\n              <item\n                *ngFor=\"let option of config.filterConfig.options\"\n                (click)=\"toggleSelection(option)\"\n                [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\"\n                [keepOpen]=\"true\"\n              >\n                <span>{{ option?.label || option }}</span>\n                <i\n                  [class.bhi-checkbox-empty]=\"!isSelected(option, multiSelectedOptions)\"\n                  [class.bhi-checkbox-filled]=\"isSelected(option, multiSelectedOptions)\"\n                ></i>\n              </item>\n            </div>\n          </list>\n          <list *ngSwitchCase=\"'custom'\">\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <ng-container *ngTemplateOutlet=\"filterTemplate; context: { $implicit: config }\"></ng-container>\n            </item>\n          </list>\n          <list *ngSwitchDefault>\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <input\n                [type]=\"config.filterConfig.type\"\n                [(ngModel)]=\"filter\"\n                (ngModelChange)=\"filterData($event)\"\n                #filterInput\n                data-automation-id=\"novo-data-table-filter-input\"\n              />\n            </item>\n          </list>\n        </ng-container>\n        <div class=\"footer\" *ngIf=\"multiSelect\">\n          <button theme=\"dialogue\" color=\"dark\" (click)=\"cancel()\" data-automation-id=\"novo-data-table-multi-select-cancel\">\n            {{ labels.cancel }}\n          </button>\n          <button theme=\"dialogue\" color=\"positive\" (click)=\"filterMultiSelect()\" data-automation-id=\"novo-data-table-multi-select-filter\">\n            {{ labels.filters }}\n          </button>\n        </div>\n      </novo-dropdown>\n    </div>\n    <div class=\"spacer\"></div>\n    <div class=\"data-table-header-resizable\" *ngIf=\"config.resizable\"><span (mousedown)=\"startResize($event)\">&nbsp;</span></div>\n  ",
+                        template: "\n    <i class=\"bhi-{{ labelIcon }} label-icon\" *ngIf=\"labelIcon\" data-automation-id=\"novo-data-table-header-icon\"></i>\n    <label data-automation-id=\"novo-data-table-label\">{{ label }}</label>\n    <div>\n      <button\n        *ngIf=\"config.sortable\"\n        tooltipPosition=\"right\"\n        [tooltip]=\"labels.sort\"\n        theme=\"icon\"\n        [icon]=\"icon\"\n        (click)=\"sort()\"\n        [class.active]=\"sortActive\"\n        data-automation-id=\"novo-data-table-sort\"\n      ></button>\n      <novo-dropdown\n        *ngIf=\"config.filterable\"\n        side=\"right\"\n        parentScrollSelector=\".novo-data-table-container\"\n        containerClass=\"data-table-dropdown\"\n        data-automation-id=\"novo-data-table-filter\"\n      >\n        <button\n          type=\"button\"\n          theme=\"icon\"\n          icon=\"filter\"\n          [class.active]=\"filterActive\"\n          (click)=\"focusInput()\"\n          tooltipPosition=\"right\"\n          [tooltip]=\"labels.filters\"\n        ></button>\n        <div class=\"header\">\n          <span>{{ labels.filters }}</span>\n          <button\n            theme=\"dialogue\"\n            color=\"negative\"\n            icon=\"times\"\n            (click)=\"clearFilter()\"\n            *ngIf=\"filter !== null && filter !== undefined && filter !== ''\"\n            data-automation-id=\"novo-data-table-filter-clear\"\n          >\n            {{ labels.clear }}\n          </button>\n        </div>\n        <ng-container [ngSwitch]=\"config.filterConfig.type\">\n          <list *ngSwitchCase=\"'date'\">\n            <ng-container *ngIf=\"!showCustomRange\">\n              <item\n                [class.active]=\"activeDateFilter === option.label\"\n                *ngFor=\"let option of config.filterConfig.options\"\n                (click)=\"filterData(option)\"\n                [attr.data-automation-id]=\"'novo-data-table-filter-' + option.label\"\n              >\n                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n              </item>\n            </ng-container>\n            <item\n              [class.active]=\"labels.customDateRange === activeDateFilter\"\n              (click)=\"toggleCustomRange($event, true)\"\n              *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\"\n              [keepOpen]=\"true\"\n            >\n              {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n            </item>\n            <div class=\"calendar-container\" *ngIf=\"showCustomRange\">\n              <div (click)=\"toggleCustomRange($event, false)\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n              <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n            </div>\n          </list>\n          <list *ngSwitchCase=\"'select'\">\n            <item\n              [class.active]=\"filter === option\"\n              *ngFor=\"let option of config.filterConfig.options\"\n              (click)=\"filterData(option)\"\n              [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\"\n            >\n              <span>{{ option?.label || option }}</span>\n              <i class=\"bhi-check\" *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n            </item>\n          </list>\n          <list *ngSwitchCase=\"'multi-select'\">\n            <div class=\"dropdown-list-filter\" (keydown)=\"multiSelectOptionFilterHandleKeydown($event)\">\n              <item class=\"filter-search\" keepOpen=\"true\">\n                <input\n                  [(ngModel)]=\"optionFilter\"\n                  (ngModelChange)=\"multiSelectOptionFilter($event)\"\n                  #optionFilterInput\n                  data-automation-id=\"novo-data-table-multi-select-option-filter-input\"\n                />\n                <i class=\"bhi-search\"></i>\n                <span class=\"error-text\" [hidden]=\"!error || !multiSelectHasVisibleOptions()\">{{ labels.selectFilterOptions }}</span>\n              </item>\n            </div>\n            <div class=\"dropdown-list-options\">\n              <item\n                *ngFor=\"let option of config.filterConfig.options\"\n                [hidden]=\"multiSelectOptionIsHidden(option)\"\n                (click)=\"toggleSelection(option)\"\n                [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\"\n                [keepOpen]=\"true\"\n              >\n                <span>{{ option?.label || option }}</span>\n                <i\n                  [class.bhi-checkbox-empty]=\"!isSelected(option, multiSelectedOptions)\"\n                  [class.bhi-checkbox-filled]=\"isSelected(option, multiSelectedOptions)\"\n                ></i>\n              </item>\n            </div>\n            <p class=\"filter-null-results\" [hidden]=\"multiSelectHasVisibleOptions()\">{{ labels.pickerEmpty }}</p>\n          </list>\n          <list *ngSwitchCase=\"'custom'\">\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <ng-container *ngTemplateOutlet=\"filterTemplate; context: { $implicit: config }\"></ng-container>\n            </item>\n          </list>\n          <list *ngSwitchDefault>\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <input\n                [type]=\"config.filterConfig.type\"\n                [(ngModel)]=\"filter\"\n                (ngModelChange)=\"filterData($event)\"\n                #filterInput\n                data-automation-id=\"novo-data-table-filter-input\"\n              />\n            </item>\n          </list>\n        </ng-container>\n        <div class=\"footer\" *ngIf=\"multiSelect\">\n          <button theme=\"dialogue\" color=\"dark\" (click)=\"cancel()\" data-automation-id=\"novo-data-table-multi-select-cancel\">\n            {{ labels.cancel }}\n          </button>\n          <button theme=\"dialogue\" color=\"positive\" (click)=\"filterMultiSelect()\" data-automation-id=\"novo-data-table-multi-select-filter\">\n            {{ labels.filters }}\n          </button>\n        </div>\n      </novo-dropdown>\n    </div>\n    <div class=\"spacer\"></div>\n    <div class=\"data-table-header-resizable\" *ngIf=\"config.resizable\"><span (mousedown)=\"startResize($event)\">&nbsp;</span></div>\n  ",
                         changeDetection: core.ChangeDetectionStrategy.OnPush
                     }] }
         ];
@@ -49263,12 +49405,14 @@
         NovoDataTableCellHeader.propDecorators = {
             filterInput: [{ type: core.ViewChild, args: ['filterInput',] }],
             dropdown: [{ type: core.ViewChild, args: [NovoDropdownElement,] }],
+            optionFilterInput: [{ type: core.ViewChild, args: ['optionFilterInput',] }],
             defaultSort: [{ type: core.Input }],
             allowMultipleFilters: [{ type: core.Input }],
             resized: [{ type: core.Input }],
             filterTemplate: [{ type: core.Input }],
             resizable: [{ type: core.HostBinding, args: ['class.resizable',] }],
-            column: [{ type: core.Input, args: ['novo-data-table-cell-config',] }]
+            column: [{ type: core.Input, args: ['novo-data-table-cell-config',] }],
+            multiSelectOptionFilterHandleKeydown: [{ type: core.HostListener, args: ['document:keydown', ['$event'],] }]
         };
         return NovoDataTableCellHeader;
     }());
