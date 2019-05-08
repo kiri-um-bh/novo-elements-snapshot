@@ -17402,6 +17402,7 @@ var FormUtils = /** @class */ (function () {
             'HTML-MINIMAL': 'editor-minimal',
             YEAR: 'year',
             WORKFLOW_OPTIONS: 'select',
+            SPECIALIZED_OPTIONS: 'select',
         };
         /** @type {?} */
         var dataTypeToTypeMap = {
@@ -17452,7 +17453,7 @@ var FormUtils = /** @class */ (function () {
             }
         }
         else if (field.type === 'TO_ONE') {
-            if (field.dataSpecialization === 'WORKFLOW_OPTIONS') {
+            if (['WORKFLOW_OPTIONS', 'SPECIALIZED_OPTIONS'].includes(field.dataSpecialization)) {
                 type = dataSpecializationTypeMap[field.dataSpecialization];
             }
             else if (this.hasAssociatedEntity(field)) {
@@ -17976,6 +17977,9 @@ var FormUtils = /** @class */ (function () {
         }
         else if (field.workflowOptions && fieldData) {
             return this.getWorkflowOptions(field.workflowOptions, fieldData);
+        }
+        else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS') {
+            return field.options.filter(function (o) { return !o.readOnly; });
         }
         else if (field.optionsUrl) {
             return this.optionsService.getOptionsConfig(http, field, config);
