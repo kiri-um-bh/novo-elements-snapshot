@@ -21,10 +21,6 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
         draggable?: boolean;
         customActions: boolean;
         removable?: boolean;
-        customValidation?: {
-            action: string;
-            fn: Function;
-        }[];
     };
     value: Array<any>;
     edit: EventEmitter<any>;
@@ -57,7 +53,6 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
     check(event: any): void;
-    validate(files: any): boolean;
     process(filelist: any): void;
     download(file: any): void;
     remove(file: any): void;

@@ -87,10 +87,7 @@ export interface IDataTableChangeEvent {
         id: string;
         value: string;
     };
-    filter?: {
-        id: string;
-        value: string | string[];
-    };
+    filter?: IDataTableFilter | IDataTableFilter[];
     page?: number;
     pageSize?: number;
     globalSearch?: string;
@@ -103,16 +100,17 @@ export interface IDataTablePaginationEvent {
     pageSize: number;
     length: number;
 }
+export interface IDataTableFilter {
+    id: string;
+    value: string | string[];
+    transform?: Function;
+}
 export interface IDataTableService<T> {
     getTableResults(sort: {
         id: string;
         value: string;
         transform?: Function;
-    }, filter: {
-        id: string;
-        value: string | string[];
-        transform?: Function;
-    }, page: number, pageSize: number, globalSearch?: string, outsideFilter?: any): Observable<{
+    }, filter: IDataTableFilter | IDataTableFilter[], page: number, pageSize: number, globalSearch?: string, outsideFilter?: any): Observable<{
         results: T[];
         total: number;
     }>;

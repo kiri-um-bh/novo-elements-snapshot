@@ -136,6 +136,16 @@ class Helpers {
         return typeof obj === 'string';
     }
     /**
+     * @param {?} obj
+     * @return {?}
+     */
+    static escapeString(obj) {
+        if (Helpers.isString(obj)) {
+            return obj.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+        return obj;
+    }
+    /**
      * @param {?} val
      * @param {?=} includeNegatives
      * @return {?}
@@ -181,6 +191,19 @@ class Helpers {
      */
     static isDate(obj) {
         return obj instanceof Date;
+    }
+    /**
+     * @param {?} obj
+     * @return {?}
+     */
+    static convertToArray(obj) {
+        if (obj === undefined) {
+            return [];
+        }
+        else if (!Array.isArray(obj)) {
+            return [obj];
+        }
+        return obj;
     }
     /**
      * @param {?} fields
@@ -36396,38 +36419,20 @@ class NovoFileInputElement {
         this.process(Array.from(event.target.files));
     }
     /**
-     * @param {?} files
-     * @return {?}
-     */
-    validate(files) {
-        /** @type {?} */
-        let passedValidation = true;
-        if (this.layoutOptions.customValidation) {
-            this.layoutOptions.customValidation
-                .filter((validation) => validation.action === 'upload')
-                .forEach((uploadValidation) => {
-                passedValidation = uploadValidation.fn(files) && passedValidation;
-            });
-        }
-        return passedValidation;
-    }
-    /**
      * @param {?} filelist
      * @return {?}
      */
     process(filelist) {
-        if (this.validate(filelist)) {
-            Promise.all(filelist.map((file) => this.readFile(file))).then((files) => {
-                if (this.multiple) {
-                    this.files.push(...files);
-                }
-                else {
-                    this.files = files;
-                }
-                this.model = this.files;
-                this.onModelChange(this.model);
-            });
-        }
+        Promise.all(filelist.map((file) => this.readFile(file))).then((files) => {
+            if (this.multiple) {
+                this.files.push(...files);
+            }
+            else {
+                this.files = files;
+            }
+            this.model = this.files;
+            this.onModelChange(this.model);
+        });
     }
     /**
      * @param {?} file
@@ -36493,109 +36498,43 @@ NovoFileInputElement.decorators = [
                 selector: 'novo-file-input',
                 providers: [FILE_VALUE_ACCESSOR],
                 template: `
-    <div #container></div>
-    <ng-template #fileInput>
-      <div class="file-input-group" [class.disabled]="disabled" [class.active]="active">
-        <input
-          *ngIf="!layoutOptions.customActions"
-          type="file"
-          [name]="name"
-          [attr.id]="name"
-          (change)="check($event)"
-          [attr.multiple]="multiple"
-          tabindex="-1"
-        />
-        <input
-          *ngIf="layoutOptions.customActions"
-          type="file"
-          [name]="name"
-          [attr.id]="name"
-          (change)="customCheck($event)"
-          [attr.multiple]="multiple"
-          tabindex="-1"
-        />
-        <section [ngSwitch]="layoutOptions.labelStyle">
-          <label *ngSwitchCase="'no-box'" [attr.for]="name" class="no-box">
-            <div>
-              <i class="bhi-dropzone"></i>{{ placeholder || labels.chooseAFile }} {{ labels.or }}
-              <strong class="link">{{ labels.clickToBrowse }}</strong>
+        <div #container></div>
+        <ng-template #fileInput>
+            <div class="file-input-group" [class.disabled]="disabled" [class.active]="active">
+                <input *ngIf="!layoutOptions.customActions" type="file" [name]="name" [attr.id]="name" (change)="check($event)" [attr.multiple]="multiple" tabindex="-1"/>
+                <input *ngIf="layoutOptions.customActions" type="file" [name]="name" [attr.id]="name" (change)="customCheck($event)" [attr.multiple]="multiple" tabindex="-1"/>
+                <section [ngSwitch]="layoutOptions.labelStyle">
+                    <label *ngSwitchCase="'no-box'" [attr.for]="name" class="no-box">
+                        <div><i class="bhi-dropzone"></i>{{ placeholder || labels.chooseAFile }} {{ labels.or }} <strong class="link">{{ labels.clickToBrowse }}</strong></div>
+                    </label>
+                    <label *ngSwitchDefault [attr.for]="name" class="boxed">
+                        <span>{{ placeholder || labels.chooseAFile }}</span>
+                        <small>{{ labels.or }} <strong class="link">{{ labels.clickToBrowse }}</strong></small>
+                    </label>
+                </section>
             </div>
-          </label>
-          <label *ngSwitchDefault [attr.for]="name" class="boxed">
-            <span>{{ placeholder || labels.chooseAFile }}</span>
-            <small
-              >{{ labels.or }} <strong class="link">{{ labels.clickToBrowse }}</strong></small
-            >
-          </label>
-        </section>
-      </div>
-    </ng-template>
-    <ng-template #fileOutput>
-      <div class="file-output-group" [dragula]="fileOutputBag" [dragulaModel]="files">
-        <div class="file-item" *ngFor="let file of files" [class.disabled]="disabled">
-          <i *ngIf="layoutOptions.draggable" class="bhi-move"></i>
-          <label *ngIf="file.link"
-            ><span
-              ><a href="{{ file.link }}" target="_blank">{{ file.name | decodeURI }}</a></span
-            ><span *ngIf="file.description">||</span><span>{{ file.description }}</span></label
-          >
-          <label *ngIf="!file.link">{{ file.name | decodeURI }}</label>
-          <div class="actions" [attr.data-automation-id]="'file-actions'" *ngIf="file.loaded">
-            <div *ngIf="!layoutOptions.customActions">
-              <button
-                *ngIf="layoutOptions.download"
-                type="button"
-                theme="icon"
-                icon="save"
-                (click)="download(file)"
-                [attr.data-automation-id]="'file-download'"
-                tabindex="-1"
-              ></button>
-              <button
-                *ngIf="!disabled && layoutOptions.removable"
-                type="button"
-                theme="icon"
-                icon="close"
-                (click)="remove(file)"
-                [attr.data-automation-id]="'file-remove'"
-                tabindex="-1"
-              ></button>
+        </ng-template>
+        <ng-template #fileOutput>
+            <div class="file-output-group" [dragula]="fileOutputBag" [dragulaModel]="files">
+                <div class="file-item" *ngFor="let file of files" [class.disabled]="disabled">
+                  <i *ngIf="layoutOptions.draggable" class="bhi-move"></i>
+                  <label *ngIf="file.link"><span><a href="{{ file.link }}" target="_blank">{{ file.name | decodeURI }}</a></span><span  *ngIf="file.description">||</span><span>{{ file.description }}</span></label>
+                  <label *ngIf="!file.link">{{ file.name | decodeURI }}</label>
+                  <div class="actions" [attr.data-automation-id]="'file-actions'" *ngIf="file.loaded">
+                    <div *ngIf="!layoutOptions.customActions">
+                      <button *ngIf="layoutOptions.download" type="button" theme="icon" icon="save" (click)="download(file)" [attr.data-automation-id]="'file-download'" tabindex="-1"></button>
+                      <button *ngIf="!disabled && layoutOptions.removable" type="button" theme="icon" icon="close" (click)="remove(file)" [attr.data-automation-id]="'file-remove'" tabindex="-1"></button>
+                    </div>
+                    <div *ngIf="layoutOptions.customActions">
+                      <button *ngIf="layoutOptions.edit && !disabled" type="button" theme="icon" icon="edit" (click)="customEdit(file)" [attr.data-automation-id]="'file-edit'" tabindex="-1"></button>
+                      <button *ngIf="layoutOptions.download" type="button" theme="icon" icon="save" (click)="customSave(file)" [attr.data-automation-id]="'file-download'" tabindex="-1"></button>
+                      <button *ngIf="!disabled" type="button" theme="icon" icon="close" (click)="customDelete(file)" [attr.data-automation-id]="'file-remove'" tabindex="-1"></button>
+                    </div>
+                  </div>
+                    <novo-loading *ngIf="!file.loaded"></novo-loading>
+                </div>
             </div>
-            <div *ngIf="layoutOptions.customActions">
-              <button
-                *ngIf="layoutOptions.edit && !disabled"
-                type="button"
-                theme="icon"
-                icon="edit"
-                (click)="customEdit(file)"
-                [attr.data-automation-id]="'file-edit'"
-                tabindex="-1"
-              ></button>
-              <button
-                *ngIf="layoutOptions.download"
-                type="button"
-                theme="icon"
-                icon="save"
-                (click)="customSave(file)"
-                [attr.data-automation-id]="'file-download'"
-                tabindex="-1"
-              ></button>
-              <button
-                *ngIf="!disabled"
-                type="button"
-                theme="icon"
-                icon="close"
-                (click)="customDelete(file)"
-                [attr.data-automation-id]="'file-remove'"
-                tabindex="-1"
-              ></button>
-            </div>
-          </div>
-          <novo-loading *ngIf="!file.loaded"></novo-loading>
-        </div>
-      </div>
-    </ng-template>
-  `
+        </ng-template>`
             }] }
 ];
 /** @nocollapse */
@@ -43061,9 +43000,7 @@ class StaticDataTableService {
                 total = this.currentData.length;
             }
             if (filter$$1) {
-                /** @type {?} */
-                let value = Helpers.isString(filter$$1.value) ? filter$$1.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter$$1.value;
-                this.currentData = this.currentData.filter(Helpers.filterByField(filter$$1.id, value));
+                this.currentData = this.filterData(this.currentData, filter$$1);
                 total = this.currentData.length;
             }
             if (sort) {
@@ -43078,6 +43015,28 @@ class StaticDataTableService {
             }
         }
         return of({ results: this.currentData, total: total });
+    }
+    /**
+     * @param {?} currentData
+     * @param {?} filter
+     * @return {?}
+     */
+    filterData(currentData, filter$$1) {
+        /** @type {?} */
+        let filters = Helpers.convertToArray(filter$$1);
+        filters.forEach((aFilter) => {
+            if (Array.isArray(aFilter.value)) {
+                /** @type {?} */
+                let values = Helpers.convertToArray(aFilter.value).map(Helpers.escapeString);
+                currentData = currentData.filter(Helpers.filterByField(aFilter.id, values));
+            }
+            else {
+                /** @type {?} */
+                let value = Helpers.escapeString(aFilter.value);
+                currentData = currentData.filter(Helpers.filterByField(aFilter.id, value));
+            }
+        });
+        return currentData;
     }
 }
 
@@ -43101,6 +43060,7 @@ class NovoDataTable {
         this.globalSearchHiddenClassToggle = false;
         this.resized = new EventEmitter();
         this.name = 'novo-data-table';
+        this.allowMultipleFilters = false;
         this.rowIdentifier = 'id';
         this.activeRowIdentifier = '';
         // prettier-ignore
@@ -43667,6 +43627,7 @@ NovoDataTable.decorators = [
               [novo-data-table-cell-config]="column"
               [resized]="resized"
               [defaultSort]="defaultSort"
+              [allowMultipleFilters]="allowMultipleFilters"
               [class.empty]="column?.type === 'action' && !column?.label"
               [class.button-header-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)"
               [class.dropdown-header-cell]="column?.type === 'action' && column?.action?.options"
@@ -43819,6 +43780,7 @@ NovoDataTable.propDecorators = {
     searchOptions: [{ type: Input }],
     defaultSort: [{ type: Input }],
     name: [{ type: Input }],
+    allowMultipleFilters: [{ type: Input }],
     rowIdentifier: [{ type: Input }],
     activeRowIdentifier: [{ type: Input }],
     trackByFn: [{ type: Input }],
@@ -44143,16 +44105,22 @@ class NovoDataTableSortFilter {
      * @param {?} id
      * @param {?} value
      * @param {?} transform
+     * @param {?=} allowMultipleFilters
      * @return {?}
      */
-    filter(id, value, transform) {
+    filter(id, value, transform, allowMultipleFilters = false) {
         /** @type {?} */
         let filter$$1;
-        if (!Helpers.isBlank(value)) {
-            filter$$1 = { id, value, transform };
+        if (allowMultipleFilters) {
+            filter$$1 = this.resolveMultiFilter(id, value, transform);
         }
         else {
-            filter$$1 = undefined;
+            if (!Helpers.isBlank(value)) {
+                filter$$1 = { id, value, transform };
+            }
+            else {
+                filter$$1 = undefined;
+            }
         }
         this.state.filter = filter$$1;
         this.state.reset(false, true);
@@ -44172,6 +44140,29 @@ class NovoDataTableSortFilter {
         this.state.reset(false, true);
         this.state.updates.next({ sort: sort, filter: this.state.filter });
         this.state.onSortFilterChange();
+    }
+    /**
+     * @param {?} id
+     * @param {?} value
+     * @param {?} transform
+     * @return {?}
+     */
+    resolveMultiFilter(id, value, transform) {
+        /** @type {?} */
+        let filter$$1;
+        filter$$1 = Helpers.convertToArray(this.state.filter);
+        /** @type {?} */
+        let filterIndex = filter$$1.findIndex((aFilter) => aFilter && aFilter.id === id);
+        if (filterIndex > -1) {
+            filter$$1.splice(filterIndex, 1);
+        }
+        if (!Helpers.isBlank(value)) {
+            filter$$1 = [...filter$$1, { id, value, transform }];
+        }
+        if (filter$$1.length < 1) {
+            filter$$1 = undefined;
+        }
+        return filter$$1;
     }
 }
 NovoDataTableSortFilter.decorators = [
@@ -44209,6 +44200,7 @@ class NovoDataTableCellHeader {
         this.elementRef = elementRef;
         this._sort = _sort;
         this._cdkColumnDef = _cdkColumnDef;
+        this.allowMultipleFilters = false;
         this.icon = 'sortable';
         this.filterActive = false;
         this.sortActive = false;
@@ -44225,13 +44217,18 @@ class NovoDataTableCellHeader {
                 this.icon = 'sortable';
                 this.sortActive = false;
             }
-            if (change.filter && change.filter.id === this.id) {
+            /** @type {?} */
+            let tableFilter = Helpers.convertToArray(change.filter);
+            /** @type {?} */
+            let thisFilter = tableFilter.find((filter$$1) => filter$$1 && filter$$1.id === this.id);
+            if (thisFilter) {
                 this.filterActive = true;
-                this.filter = change.filter.value;
+                this.filter = thisFilter.value;
             }
             else {
                 this.filterActive = false;
                 this.filter = undefined;
+                this.activeDateFilter = undefined;
                 this.multiSelectedOptions = [];
             }
             changeDetectorRef.markForCheck();
@@ -44322,7 +44319,7 @@ class NovoDataTableCellHeader {
      */
     toggleSelection(option) {
         /** @type {?} */
-        const optionValue = option.value ? option.value : option;
+        const optionValue = option.hasOwnProperty('value') ? option.value : option;
         /** @type {?} */
         let optionIndex = this.multiSelectedOptions.findIndex((item) => this.optionPresentCheck(item, optionValue));
         if (optionIndex > -1) {
@@ -44468,7 +44465,7 @@ class NovoDataTableCellHeader {
             if (actualFilter === '') {
                 actualFilter = undefined;
             }
-            this._sort.filter(this.id, actualFilter, this.config.transforms.filter);
+            this._sort.filter(this.id, actualFilter, this.config.transforms.filter, this.allowMultipleFilters);
             this.changeDetectorRef.markForCheck();
         }, 300);
     }
@@ -44661,6 +44658,7 @@ NovoDataTableCellHeader.propDecorators = {
     filterInput: [{ type: ViewChild, args: ['filterInput',] }],
     dropdown: [{ type: ViewChild, args: [NovoDropdownElement,] }],
     defaultSort: [{ type: Input }],
+    allowMultipleFilters: [{ type: Input }],
     resized: [{ type: Input }],
     filterTemplate: [{ type: Input }],
     resizable: [{ type: HostBinding, args: ['class.resizable',] }],
