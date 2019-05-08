@@ -22,6 +22,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
         value: string;
     };
     name: string;
+    allowMultipleFilters: boolean;
     rowIdentifier: string;
     activeRowIdentifier: string;
     trackByFn: Function;

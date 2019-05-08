@@ -19,6 +19,7 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
         id: string;
         value: string;
     };
+    allowMultipleFilters: boolean;
     resized: EventEmitter<IDataTableColumn<T>>;
     filterTemplate: TemplateRef<any>;
     resizable: boolean;
