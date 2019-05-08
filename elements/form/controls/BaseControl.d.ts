@@ -81,6 +81,7 @@ declare class ControlConfig {
             action: string;
             fn: Function;
         }[];
+        removableWhenNew?: boolean;
     };
     tipWell?: {
         button?: boolean;
