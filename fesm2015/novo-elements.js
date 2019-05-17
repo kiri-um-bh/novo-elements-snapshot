@@ -13865,7 +13865,11 @@ class NovoDynamicFormElement {
     showAllFields() {
         this.form.fieldsets.forEach((fieldset) => {
             fieldset.controls.forEach((control) => {
-                this.form.controls[control.key].hidden = false;
+                /** @type {?} */
+                const ctl = this.form.controls[control.key];
+                if (!this.fieldsAlreadyHidden.includes(control.key)) {
+                    ctl.hidden = false;
+                }
             });
         });
         this.showingAllFields = true;
@@ -13876,21 +13880,27 @@ class NovoDynamicFormElement {
      * @return {?}
      */
     showOnlyRequired(hideRequiredWithValue) {
+        this.fieldsAlreadyHidden = [];
         this.form.fieldsets.forEach((fieldset) => {
             fieldset.controls.forEach((control) => {
+                /** @type {?} */
+                const ctl = this.form.controls[control.key];
+                if (ctl.hidden) {
+                    this.fieldsAlreadyHidden.push(control.key);
+                }
                 // Hide any non-required fields
                 if (!control.required) {
-                    this.form.controls[control.key].hidden = true;
+                    ctl.hidden = true;
                 }
                 // Hide required fields that have been successfully filled out
                 if (hideRequiredWithValue &&
                     !Helpers.isBlank(this.form.value[control.key]) &&
-                    (!control.isEmpty || (control.isEmpty && control.isEmpty(this.form.controls[control.key])))) {
-                    this.form.controls[control.key].hidden = true;
+                    (!control.isEmpty || (control.isEmpty && control.isEmpty(ctl)))) {
+                    ctl.hidden = true;
                 }
                 // Don't hide fields with errors
-                if (this.form.controls[control.key].errors) {
-                    this.form.controls[control.key].hidden = false;
+                if (ctl.errors) {
+                    ctl.hidden = false;
                 }
             });
         });
