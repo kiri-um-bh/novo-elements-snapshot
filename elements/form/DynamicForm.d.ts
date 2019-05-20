@@ -24,6 +24,7 @@ export declare class NovoDynamicFormElement implements OnChanges, OnInit, AfterC
     hideNonRequiredFields: boolean;
     autoFocusFirstField: boolean;
     customTemplates: QueryList<NovoTemplate>;
+    private fieldsAlreadyHidden;
     allFieldsRequired: boolean;
     allFieldsNotRequired: boolean;
     showingAllFields: boolean;
