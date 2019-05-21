@@ -30,4 +30,5 @@ export declare class DataTableState<T> {
     onExpandChange(targetId?: number): void;
     onPaginationChange(isPageSizeChange: boolean, pageSize: number): void;
     onSortFilterChange(): void;
+    setInitialSortFilter(preferences: any): void;
 }
