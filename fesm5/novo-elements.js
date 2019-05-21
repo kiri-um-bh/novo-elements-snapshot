@@ -15904,11 +15904,7 @@ var NovoDynamicFormElement = /** @class */ (function () {
         var _this = this;
         this.form.fieldsets.forEach(function (fieldset) {
             fieldset.controls.forEach(function (control) {
-                /** @type {?} */
-                var ctl = _this.form.controls[control.key];
-                if (!_this.fieldsAlreadyHidden.includes(control.key)) {
-                    ctl.hidden = false;
-                }
+                _this.form.controls[control.key].hidden = false;
             });
         });
         this.showingAllFields = true;
@@ -15924,27 +15920,21 @@ var NovoDynamicFormElement = /** @class */ (function () {
      */
     function (hideRequiredWithValue) {
         var _this = this;
-        this.fieldsAlreadyHidden = [];
         this.form.fieldsets.forEach(function (fieldset) {
             fieldset.controls.forEach(function (control) {
-                /** @type {?} */
-                var ctl = _this.form.controls[control.key];
-                if (ctl.hidden) {
-                    _this.fieldsAlreadyHidden.push(control.key);
-                }
                 // Hide any non-required fields
                 if (!control.required) {
-                    ctl.hidden = true;
+                    _this.form.controls[control.key].hidden = true;
                 }
                 // Hide required fields that have been successfully filled out
                 if (hideRequiredWithValue &&
                     !Helpers.isBlank(_this.form.value[control.key]) &&
-                    (!control.isEmpty || (control.isEmpty && control.isEmpty(ctl)))) {
-                    ctl.hidden = true;
+                    (!control.isEmpty || (control.isEmpty && control.isEmpty(_this.form.controls[control.key])))) {
+                    _this.form.controls[control.key].hidden = true;
                 }
                 // Don't hide fields with errors
-                if (ctl.errors) {
-                    ctl.hidden = false;
+                if (_this.form.controls[control.key].errors) {
+                    _this.form.controls[control.key].hidden = false;
                 }
             });
         });
@@ -17445,6 +17435,8 @@ var FormUtils = /** @class */ (function () {
             YEAR: 'year',
             WORKFLOW_OPTIONS: 'select',
             SPECIALIZED_OPTIONS: 'select',
+            WorkflowOptionsLookup: 'select',
+            SpecializedOptionsLookup: 'select',
         };
         /** @type {?} */
         var dataTypeToTypeMap = {
@@ -17495,7 +17487,10 @@ var FormUtils = /** @class */ (function () {
             }
         }
         else if (field.type === 'TO_ONE') {
-            if (['WORKFLOW_OPTIONS', 'SPECIALIZED_OPTIONS'].includes(field.dataSpecialization)) {
+            if ('SYSTEM' === field.dataSpecialization && ['WorkflowOptionsLookup', 'SpecializedOptionsLookup'].includes(field.dataType)) {
+                type = dataSpecializationTypeMap[field.dataType];
+            }
+            else if (['WORKFLOW_OPTIONS', 'SPECIALIZED_OPTIONS'].includes(field.dataSpecialization)) {
                 type = dataSpecializationTypeMap[field.dataSpecialization];
             }
             else if (this.hasAssociatedEntity(field)) {
