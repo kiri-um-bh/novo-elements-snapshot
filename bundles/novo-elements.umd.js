@@ -47519,6 +47519,60 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
+    var NovoDataTableFilterUtils = /** @class */ (function () {
+        function NovoDataTableFilterUtils() {
+        }
+        /**
+         * @param {?=} filter
+         * @param {?=} type
+         * @param {?=} multiSelect
+         * @return {?}
+         */
+        NovoDataTableFilterUtils.constructFilter = /**
+         * @param {?=} filter
+         * @param {?=} type
+         * @param {?=} multiSelect
+         * @return {?}
+         */
+            function (filter, type, multiSelect) {
+                /** @type {?} */
+                var actualFilter = filter;
+                if (filter) {
+                    if (type && type === 'date') {
+                        if (filter.startDate && filter.endDate) {
+                            actualFilter = {
+                                min: dateFns.startOfDay(filter.startDate.date),
+                                max: dateFns.startOfDay(dateFns.addDays(dateFns.startOfDay(filter.endDate.date), 1)),
+                            };
+                        }
+                        else {
+                            actualFilter = {
+                                min: filter.min ? dateFns.addDays(dateFns.startOfToday(), filter.min) : dateFns.startOfToday(),
+                                max: filter.max ? dateFns.addDays(dateFns.endOfToday(), filter.max) : dateFns.endOfToday(),
+                            };
+                        }
+                    }
+                    if (multiSelect && Array.isArray(filter)) {
+                        actualFilter = filter.map(function (filterItem) {
+                            if (filterItem && filterItem.hasOwnProperty('value')) {
+                                return filterItem.value;
+                            }
+                            return filterItem;
+                        });
+                    }
+                    else if (actualFilter && actualFilter.hasOwnProperty('value')) {
+                        actualFilter = filter.value;
+                    }
+                }
+                return actualFilter;
+            };
+        return NovoDataTableFilterUtils;
+    }());
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
     /**
      * @template T
      */
@@ -47582,6 +47636,7 @@
                 this.page = 0;
                 this.selectedRows.clear();
                 this.resetSource.next();
+                this.onSortFilterChange();
                 if (fireUpdate) {
                     this.updates.emit({
                         sort: this.sort,
@@ -47606,6 +47661,7 @@
                 this.page = 0;
                 this.selectedRows.clear();
                 this.resetSource.next();
+                this.onSortFilterChange();
                 if (fireUpdate) {
                     this.updates.emit({
                         sort: this.sort,
@@ -47631,6 +47687,7 @@
                 this.page = 0;
                 this.selectedRows.clear();
                 this.resetSource.next();
+                this.onSortFilterChange();
                 if (fireUpdate) {
                     this.updates.emit({
                         sort: this.sort,
@@ -47679,7 +47736,37 @@
          * @return {?}
          */
             function () {
-                this.sortFilterSource.next();
+                this.sortFilterSource.next({
+                    sort: this.sort,
+                    filter: this.filter,
+                    globalSearch: this.globalSearch,
+                });
+            };
+        /**
+         * @param {?} preferences
+         * @return {?}
+         */
+        DataTableState.prototype.setInitialSortFilter = /**
+         * @param {?} preferences
+         * @return {?}
+         */
+            function (preferences) {
+                if (preferences) {
+                    if (preferences.sort) {
+                        this.sort = preferences.sort;
+                    }
+                    if (preferences.filter) {
+                        /** @type {?} */
+                        var filters = Helpers.convertToArray(preferences.filter);
+                        filters.forEach(function (filter) {
+                            filter.value =
+                                filter.selectedOption && filter.type
+                                    ? NovoDataTableFilterUtils.constructFilter(filter.selectedOption, filter.type)
+                                    : filter.value;
+                        });
+                        this.filter = filters;
+                    }
+                }
             };
         return DataTableState;
     }());
@@ -47813,6 +47900,14 @@
             this.expandable = false;
             this.initialized = false;
             this.scrollListenerHandler = this.scrollListener.bind(this);
+            this.sortFilterSubscription = this.state.sortFilterSource.subscribe(function (event) {
+                if (_this.name !== 'novo-data-table') {
+                    _this.preferencesChanged.emit({ name: _this.name, sort: event.sort, filter: event.filter, globalSearch: event.globalSearch });
+                }
+                else {
+                    notify('Must have [name] set on data-table to use preferences!');
+                }
+            });
             this.paginationSubscription = this.state.paginationSource.subscribe(function (event) {
                 if (_this.name !== 'novo-data-table') {
                     if (event.isPageSizeChange) {
@@ -48048,6 +48143,9 @@
                 }
                 if (this.resetSubscription) {
                     this.resetSubscription.unsubscribe();
+                }
+                if (this.sortFilterSubscription) {
+                    this.sortFilterSubscription.unsubscribe();
                 }
             };
         /**
@@ -48760,30 +48858,34 @@
         }
         /**
          * @param {?} id
+         * @param {?} type
          * @param {?} value
          * @param {?} transform
          * @param {?=} allowMultipleFilters
+         * @param {?=} selectedOption
          * @return {?}
          */
         NovoDataTableSortFilter.prototype.filter = /**
          * @param {?} id
+         * @param {?} type
          * @param {?} value
          * @param {?} transform
          * @param {?=} allowMultipleFilters
+         * @param {?=} selectedOption
          * @return {?}
          */
-            function (id, value, transform, allowMultipleFilters) {
+            function (id, type, value, transform, allowMultipleFilters, selectedOption) {
                 if (allowMultipleFilters === void 0) {
                     allowMultipleFilters = false;
                 }
                 /** @type {?} */
                 var filter;
                 if (allowMultipleFilters) {
-                    filter = this.resolveMultiFilter(id, value, transform);
+                    filter = this.resolveMultiFilter(id, type, value, transform, selectedOption);
                 }
                 else {
                     if (!Helpers.isBlank(value)) {
-                        filter = { id: id, value: value, transform: transform };
+                        filter = __assign({ id: id, type: type, value: value, transform: transform }, (selectedOption && { selectedOption: selectedOption }));
                     }
                     else {
                         filter = undefined;
@@ -48816,17 +48918,21 @@
             };
         /**
          * @param {?} id
+         * @param {?} type
          * @param {?} value
          * @param {?} transform
+         * @param {?} selectedOption
          * @return {?}
          */
         NovoDataTableSortFilter.prototype.resolveMultiFilter = /**
          * @param {?} id
+         * @param {?} type
          * @param {?} value
          * @param {?} transform
+         * @param {?} selectedOption
          * @return {?}
          */
-            function (id, value, transform) {
+            function (id, type, value, transform, selectedOption) {
                 /** @type {?} */
                 var filter;
                 filter = Helpers.convertToArray(this.state.filter);
@@ -48836,7 +48942,7 @@
                     filter.splice(filterIndex, 1);
                 }
                 if (!Helpers.isBlank(value)) {
-                    filter = __spread(filter, [{ id: id, value: value, transform: transform }]);
+                    filter = __spread(filter, [__assign({ id: id, type: type, value: value, transform: transform }, (selectedOption && { selectedOption: selectedOption }))]);
                 }
                 if (filter.length < 1) {
                     filter = undefined;
@@ -48885,31 +48991,7 @@
             this.optionFilter = '';
             this.error = false;
             this.subscriptions = [];
-            this._rerenderSubscription = state.updates.subscribe(function (change) {
-                if (change.sort && change.sort.id === _this.id) {
-                    _this.icon = "sort-" + change.sort.value;
-                    _this.sortActive = true;
-                }
-                else {
-                    _this.icon = 'sortable';
-                    _this.sortActive = false;
-                }
-                /** @type {?} */
-                var tableFilter = Helpers.convertToArray(change.filter);
-                /** @type {?} */
-                var thisFilter = tableFilter.find(function (filter) { return filter && filter.id === _this.id; });
-                if (thisFilter) {
-                    _this.filterActive = true;
-                    _this.filter = thisFilter.value;
-                }
-                else {
-                    _this.filterActive = false;
-                    _this.filter = undefined;
-                    _this.activeDateFilter = undefined;
-                    _this.multiSelectedOptions = [];
-                }
-                changeDetectorRef.markForCheck();
-            });
+            this._rerenderSubscription = state.updates.subscribe(function (change) { return _this.checkSortFilterState(change); });
         }
         Object.defineProperty(NovoDataTableCellHeader.prototype, "column", {
             set: /**
@@ -48962,10 +49044,68 @@
                 if (this._cdkColumnDef) {
                     this.id = this._cdkColumnDef.name;
                 }
+                this.checkSortFilterState({ filter: this.state.filter, sort: this.state.sort }, true);
+                this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
+                if (this.multiSelect) {
+                    this.multiSelectedOptions = this.filter ? __spread(this.filter) : [];
+                }
+                this.changeDetectorRef.markForCheck();
+            };
+        /**
+         * @return {?}
+         */
+        NovoDataTableCellHeader.prototype.ngOnDestroy = /**
+         * @return {?}
+         */
+            function () {
+                this._rerenderSubscription.unsubscribe();
+                this.subscriptions.forEach(function (subscription) {
+                    subscription.unsubscribe();
+                });
+            };
+        /**
+         * @param {?} sortFilterState
+         * @param {?=} initialConfig
+         * @return {?}
+         */
+        NovoDataTableCellHeader.prototype.checkSortFilterState = /**
+         * @param {?} sortFilterState
+         * @param {?=} initialConfig
+         * @return {?}
+         */
+            function (sortFilterState, initialConfig) {
+                var _this = this;
+                if (initialConfig === void 0) {
+                    initialConfig = false;
+                }
+                if (sortFilterState.sort && sortFilterState.sort.id === this.id) {
+                    this.icon = "sort-" + sortFilterState.sort.value;
+                    this.sortActive = true;
+                }
+                else {
+                    this.icon = 'sortable';
+                    this.sortActive = false;
+                }
+                /** @type {?} */
+                var tableFilter = Helpers.convertToArray(sortFilterState.filter);
+                /** @type {?} */
+                var thisFilter = tableFilter.find(function (filter) { return filter && filter.id === _this.id; });
+                if (thisFilter) {
+                    this.filterActive = true;
+                    if (initialConfig && thisFilter.type === 'date' && thisFilter.selectedOption) {
+                        this.activeDateFilter = thisFilter.selectedOption.label || this.labels.customDateRange;
+                    }
+                    this.filter = thisFilter.value;
+                }
+                else {
+                    this.filterActive = false;
+                    this.filter = undefined;
+                    this.activeDateFilter = undefined;
+                    this.multiSelectedOptions = [];
+                }
                 if (this.defaultSort && this.id === this.defaultSort.id) {
                     this.icon = "sort-" + this.defaultSort.value;
                     this.sortActive = true;
-                    this.changeDetectorRef.markForCheck();
                 }
                 this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
                 if (this.multiSelect) {
@@ -48984,18 +49124,7 @@
                         }
                     }
                 }
-            };
-        /**
-         * @return {?}
-         */
-        NovoDataTableCellHeader.prototype.ngOnDestroy = /**
-         * @return {?}
-         */
-            function () {
-                this._rerenderSubscription.unsubscribe();
-                this.subscriptions.forEach(function (subscription) {
-                    subscription.unsubscribe();
-                });
+                this.changeDetectorRef.markForCheck();
             };
         /**
          * @param {?} option
@@ -49299,33 +49428,9 @@
             function (filter) {
                 var _this = this;
                 /** @type {?} */
-                var actualFilter = filter;
-                if (this.config.filterConfig.type === 'date' && filter) {
-                    this.activeDateFilter = filter.label || this.labels.customDateRange;
-                    if (filter.startDate && filter.endDate) {
-                        actualFilter = {
-                            min: dateFns.startOfDay(filter.startDate.date),
-                            max: dateFns.startOfDay(dateFns.addDays(dateFns.startOfDay(filter.endDate.date), 1)),
-                        };
-                    }
-                    else {
-                        actualFilter = {
-                            min: filter.min ? dateFns.addDays(dateFns.startOfToday(), filter.min) : dateFns.startOfToday(),
-                            max: filter.max ? dateFns.addDays(dateFns.endOfToday(), filter.max) : dateFns.endOfToday(),
-                        };
-                    }
-                }
-                if (this.multiSelect && Array.isArray(filter)) {
-                    actualFilter = filter.map(function (filterItem) {
-                        if (filterItem && filterItem.hasOwnProperty('value')) {
-                            return filterItem.value;
-                        }
-                        return filterItem;
-                    });
-                }
-                else if (actualFilter && actualFilter.hasOwnProperty('value')) {
-                    actualFilter = filter.value;
-                }
+                var actualFilter = NovoDataTableFilterUtils.constructFilter(filter, this.config.filterConfig.type, this.multiSelect);
+                /** @type {?} */
+                var selectedOption = this.config.filterConfig.type === 'date' && filter ? filter : undefined;
                 if (this.changeTimeout) {
                     clearTimeout(this.changeTimeout);
                 }
@@ -49333,7 +49438,7 @@
                     if (actualFilter === '') {
                         actualFilter = undefined;
                     }
-                    _this._sort.filter(_this.id, actualFilter, _this.config.transforms.filter, _this.allowMultipleFilters);
+                    _this._sort.filter(_this.id, _this.config.filterConfig.type, actualFilter, _this.config.transforms.filter, _this.allowMultipleFilters, selectedOption);
                     _this.changeDetectorRef.markForCheck();
                 }, 300);
             };
@@ -55236,6 +55341,7 @@
     exports.NovoDataTableModule = NovoDataTableModule;
     exports.RemoteDataTableService = RemoteDataTableService;
     exports.StaticDataTableService = StaticDataTableService;
+    exports.NovoDataTableFilterUtils = NovoDataTableFilterUtils;
     exports.NovoDataTable = NovoDataTable;
     exports.NovoCommonModule = NovoCommonModule;
     exports.NovoTableElement = NovoTableElement;

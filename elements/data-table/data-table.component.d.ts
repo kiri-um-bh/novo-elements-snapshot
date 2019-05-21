@@ -57,6 +57,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     private refreshSubscription;
     private resetSubscription;
     private paginationSubscription;
+    private sortFilterSubscription;
     private _columns;
     private scrollListenerHandler;
     private initialized;
