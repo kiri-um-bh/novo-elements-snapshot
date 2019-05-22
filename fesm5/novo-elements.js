@@ -17445,6 +17445,8 @@ var FormUtils = /** @class */ (function () {
             YEAR: 'year',
             WORKFLOW_OPTIONS: 'select',
             SPECIALIZED_OPTIONS: 'select',
+            WorkflowOptionsLookup: 'select',
+            SpecializedOptionsLookup: 'select',
         };
         /** @type {?} */
         var dataTypeToTypeMap = {
@@ -17495,7 +17497,10 @@ var FormUtils = /** @class */ (function () {
             }
         }
         else if (field.type === 'TO_ONE') {
-            if (['WORKFLOW_OPTIONS', 'SPECIALIZED_OPTIONS'].includes(field.dataSpecialization)) {
+            if ('SYSTEM' === field.dataSpecialization && ['WorkflowOptionsLookup', 'SpecializedOptionsLookup'].includes(field.dataType)) {
+                type = dataSpecializationTypeMap[field.dataType];
+            }
+            else if (['WORKFLOW_OPTIONS', 'SPECIALIZED_OPTIONS'].includes(field.dataSpecialization)) {
                 type = dataSpecializationTypeMap[field.dataSpecialization];
             }
             else if (this.hasAssociatedEntity(field)) {
