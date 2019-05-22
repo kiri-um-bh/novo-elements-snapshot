@@ -1,12 +1,6 @@
 import { Observable } from 'rxjs';
 export interface IDataTablePreferences {
     name: string;
-    sort?: {
-        id: string;
-        value: string;
-    };
-    filter?: IDataTableFilter | IDataTableFilter[];
-    globalSearch?: any;
     pageSize?: number;
     displayedColumns?: string[];
 }
@@ -110,19 +104,13 @@ export interface IDataTableFilter {
     id: string;
     value: string | string[];
     transform?: Function;
-    type?: string;
-    selectedOption?: Object;
 }
 export interface IDataTableService<T> {
     getTableResults(sort: {
         id: string;
         value: string;
         transform?: Function;
-    }, filter: {
-        id: string;
-        value: string;
-        transform?: Function;
-    } | IDataTableFilter | IDataTableFilter[], page: number, pageSize: number, globalSearch?: string, outsideFilter?: any): Observable<{
+    }, filter: IDataTableFilter | IDataTableFilter[], page: number, pageSize: number, globalSearch?: string, outsideFilter?: any): Observable<{
         results: T[];
         total: number;
     }>;
