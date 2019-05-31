@@ -6633,7 +6633,7 @@
              * @param {?} value
              * @return {?}
              */ function (value) {
-                if (value !== this._term || this.page === 0) {
+                if (this.shouldSearch(value)) {
                     this._term = value;
                     this.page = 0;
                     this.matches = [];
@@ -6646,6 +6646,23 @@
             enumerable: true,
             configurable: true
         });
+        /**
+         * @param {?} value
+         * @return {?}
+         */
+        BasePickerResults.prototype.shouldSearch = /**
+         * @param {?} value
+         * @return {?}
+         */
+            function (value) {
+                /** @type {?} */
+                var termHasChanged = value !== this._term;
+                /** @type {?} */
+                var optionsNotYetCalled = this.page === 0;
+                /** @type {?} */
+                var optionsCalledOnEmptyStringSearch = !termHasChanged && this.page > 0 && value === '';
+                return termHasChanged || optionsNotYetCalled || optionsCalledOnEmptyStringSearch;
+            };
         /**
          * @return {?}
          */
@@ -6728,12 +6745,14 @@
                             // Arrays are returned immediately
                             resolve(_this.structureArray(options));
                         }
-                        else if (term && term.length >= (_this.config.minSearchLength || 1)) {
+                        else if (_this.shouldCallOptionsFunction(term)) {
                             if ((options.hasOwnProperty('reject') && options.hasOwnProperty('resolve')) ||
                                 Object.getPrototypeOf(options).hasOwnProperty('then')) {
                                 _this.isStatic = false;
                                 // Promises (ES6 or Deferred) are resolved whenever they resolve
-                                options.then(_this.structureArray.bind(_this)).then(resolve, reject);
+                                options
+                                    .then(_this.structureArray.bind(_this))
+                                    .then(resolve, reject);
                             }
                             else if (typeof options === 'function') {
                                 _this.isStatic = false;
@@ -6755,7 +6774,9 @@
                                     /** @type {?} */
                                     var defaultOptions = _this.config.defaultOptions(term, ++_this.page);
                                     if (Object.getPrototypeOf(defaultOptions).hasOwnProperty('then')) {
-                                        defaultOptions.then(_this.structureArray.bind(_this)).then(resolve, reject);
+                                        defaultOptions
+                                            .then(_this.structureArray.bind(_this))
+                                            .then(resolve, reject);
                                     }
                                     else {
                                         resolve(_this.structureArray(defaultOptions));
@@ -6776,6 +6797,22 @@
                         reject('error');
                     }
                 }));
+            };
+        /**
+         * @param {?} term
+         * @return {?}
+         */
+        BasePickerResults.prototype.shouldCallOptionsFunction = /**
+         * @param {?} term
+         * @return {?}
+         */
+            function (term) {
+                if (this.config && 'minSearchLength' in this.config && Number.isInteger(this.config.minSearchLength)) {
+                    return typeof term === 'string' && term.length >= this.config.minSearchLength;
+                }
+                else {
+                    return !!(term && term.length);
+                }
             };
         /**
          * @name structureArray
@@ -17880,7 +17917,7 @@
                     };
                 }
                 else if (optionsConfig) {
-                    controlConfig.config = optionsConfig;
+                    controlConfig.config = __assign({}, optionsConfig, controlConfig && controlConfig.config);
                 }
                 if (type === 'year') {
                     controlConfig.maxlength = 4;
@@ -19749,37 +19786,29 @@
                 var _this = this;
                 /** @type {?} */
                 var control = this.getControl(key);
+                var minSearchLength = control.config.minSearchLength;
                 if (control && !control.restrictFieldInteractions) {
                     /** @type {?} */
-                    var newConfig = {
-                        resultsTemplate: control.config.resultsTemplate,
-                    };
+                    var newConfig = __assign({}, (Number.isInteger(minSearchLength) && { minSearchLength: minSearchLength }), { resultsTemplate: control.config.resultsTemplate });
                     if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
-                        newConfig = Object.assign(newConfig, {
-                            options: function (query) {
-                                if (config.optionsPromise) {
-                                    return config.optionsPromise(query, new CustomHttp(_this.http));
-                                }
-                                return new Promise(function (resolve, reject) {
-                                    /** @type {?} */
-                                    var url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query) : config.optionsUrl + "?filter=" + (query || '');
-                                    if (query && query.length) {
-                                        _this.http
-                                            .get(url)
-                                            .pipe(operators.map(function (results) {
-                                            if (mapper) {
-                                                return results.map(mapper);
-                                            }
-                                            return results;
-                                        }))
-                                            .subscribe(resolve, reject);
+                        newConfig.options = function (query) {
+                            if (config.optionsPromise) {
+                                return config.optionsPromise(query, new CustomHttp(_this.http));
+                            }
+                            return new Promise(function (resolve, reject) {
+                                /** @type {?} */
+                                var url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query) : config.optionsUrl + "?filter=" + (query || '');
+                                _this.http
+                                    .get(url)
+                                    .pipe(operators.map(function (results) {
+                                    if (mapper) {
+                                        return results.map(mapper);
                                     }
-                                    else {
-                                        resolve([]);
-                                    }
-                                });
-                            },
-                        });
+                                    return results;
+                                }))
+                                    .subscribe(resolve, reject);
+                            });
+                        };
                         if (config.hasOwnProperty('format')) {
                             newConfig.format = config.format;
                         }
