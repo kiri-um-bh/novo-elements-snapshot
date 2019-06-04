@@ -15,7 +15,7 @@ export interface IDataTableColumn<T> {
     label?: string;
     labelIcon?: string;
     enabled?: boolean;
-    type: 'text' | 'link' | 'link:tel' | 'link:mailto' | 'date' | 'datetime' | 'time' | 'currency' | 'number' | 'percent' | 'action' | 'expand';
+    type: 'text' | 'link' | 'link:tel' | 'link:mailto' | 'date' | 'datetime' | 'time' | 'currency' | 'bigdecimal' | 'number' | 'percent' | 'action' | 'expand';
     template?: string;
     format?: string | string[];
     disabled?: boolean;
