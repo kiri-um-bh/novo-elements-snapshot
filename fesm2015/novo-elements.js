@@ -5813,7 +5813,7 @@ class BasePickerResults {
      * @return {?}
      */
     set term(value) {
-        if (value !== this._term || this.page === 0) {
+        if (this.shouldSearch(value)) {
             this._term = value;
             this.page = 0;
             this.matches = [];
@@ -5822,6 +5822,19 @@ class BasePickerResults {
         else {
             this.addScrollListener();
         }
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    shouldSearch(value) {
+        /** @type {?} */
+        const termHasChanged = value !== this._term;
+        /** @type {?} */
+        const optionsNotYetCalled = this.page === 0;
+        /** @type {?} */
+        const optionsCalledOnEmptyStringSearch = !termHasChanged && this.page > 0 && value === '';
+        return termHasChanged || optionsNotYetCalled || optionsCalledOnEmptyStringSearch;
     }
     /**
      * @return {?}
@@ -5891,12 +5904,14 @@ class BasePickerResults {
                     // Arrays are returned immediately
                     resolve(this.structureArray(options));
                 }
-                else if (term && term.length >= (this.config.minSearchLength || 1)) {
+                else if (this.shouldCallOptionsFunction(term)) {
                     if ((options.hasOwnProperty('reject') && options.hasOwnProperty('resolve')) ||
                         Object.getPrototypeOf(options).hasOwnProperty('then')) {
                         this.isStatic = false;
                         // Promises (ES6 or Deferred) are resolved whenever they resolve
-                        options.then(this.structureArray.bind(this)).then(resolve, reject);
+                        options
+                            .then(this.structureArray.bind(this))
+                            .then(resolve, reject);
                     }
                     else if (typeof options === 'function') {
                         this.isStatic = false;
@@ -5918,7 +5933,9 @@ class BasePickerResults {
                             /** @type {?} */
                             let defaultOptions = this.config.defaultOptions(term, ++this.page);
                             if (Object.getPrototypeOf(defaultOptions).hasOwnProperty('then')) {
-                                defaultOptions.then(this.structureArray.bind(this)).then(resolve, reject);
+                                defaultOptions
+                                    .then(this.structureArray.bind(this))
+                                    .then(resolve, reject);
                             }
                             else {
                                 resolve(this.structureArray(defaultOptions));
@@ -5939,6 +5956,18 @@ class BasePickerResults {
                 reject('error');
             }
         }));
+    }
+    /**
+     * @param {?} term
+     * @return {?}
+     */
+    shouldCallOptionsFunction(term) {
+        if (this.config && 'minSearchLength' in this.config && Number.isInteger(this.config.minSearchLength)) {
+            return typeof term === 'string' && term.length >= this.config.minSearchLength;
+        }
+        else {
+            return !!(term && term.length);
+        }
     }
     /**
      * \@name structureArray
@@ -15371,7 +15400,7 @@ class FormUtils {
             };
         }
         else if (optionsConfig) {
-            controlConfig.config = optionsConfig;
+            controlConfig.config = Object.assign({}, optionsConfig, controlConfig && controlConfig.config);
         }
         if (type === 'year') {
             controlConfig.maxlength = 4;
@@ -16877,37 +16906,29 @@ class FieldInteractionApi {
     modifyPickerConfig(key, config, mapper) {
         /** @type {?} */
         let control = this.getControl(key);
+        const { minSearchLength } = control.config;
         if (control && !control.restrictFieldInteractions) {
             /** @type {?} */
-            let newConfig = {
-                resultsTemplate: control.config.resultsTemplate,
-            };
+            const newConfig = Object.assign({}, (Number.isInteger(minSearchLength) && { minSearchLength }), { resultsTemplate: control.config.resultsTemplate });
             if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
-                newConfig = Object.assign(newConfig, {
-                    options: (query$$1) => {
-                        if (config.optionsPromise) {
-                            return config.optionsPromise(query$$1, new CustomHttp(this.http));
-                        }
-                        return new Promise((resolve, reject) => {
-                            /** @type {?} */
-                            let url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query$$1) : `${config.optionsUrl}?filter=${query$$1 || ''}`;
-                            if (query$$1 && query$$1.length) {
-                                this.http
-                                    .get(url)
-                                    .pipe(map((results) => {
-                                    if (mapper) {
-                                        return results.map(mapper);
-                                    }
-                                    return results;
-                                }))
-                                    .subscribe(resolve, reject);
+                newConfig.options = (query$$1) => {
+                    if (config.optionsPromise) {
+                        return config.optionsPromise(query$$1, new CustomHttp(this.http));
+                    }
+                    return new Promise((resolve, reject) => {
+                        /** @type {?} */
+                        let url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query$$1) : `${config.optionsUrl}?filter=${query$$1 || ''}`;
+                        this.http
+                            .get(url)
+                            .pipe(map((results) => {
+                            if (mapper) {
+                                return results.map(mapper);
                             }
-                            else {
-                                resolve([]);
-                            }
-                        });
-                    },
-                });
+                            return results;
+                        }))
+                            .subscribe(resolve, reject);
+                    });
+                };
                 if (config.hasOwnProperty('format')) {
                     newConfig.format = config.format;
                 }

@@ -29,9 +29,11 @@ export declare class BasePickerResults {
     cleanUp(): void;
     onScrollDown(event: MouseWheelEvent): void;
     term: string;
+    shouldSearch(value: unknown): boolean;
     addScrollListener(): void;
     processSearch(shouldReset?: boolean): void;
     search(term: any, mode?: any): Observable<any>;
+    shouldCallOptionsFunction(term: string): boolean;
     /**
      * @name structureArray
      * @param collection - the data once getData resolves it
