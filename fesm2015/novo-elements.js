@@ -2007,31 +2007,6 @@ class NovoLabelService {
     }
     /**
      * @param {?} value
-     * @return {?}
-     */
-    formatBigDecimal(value) {
-        /** @type {?} */
-        let valueAsString = value ? value.toString() : '0';
-        // truncate at two decimals (do not round)
-        /** @type {?} */
-        const decimalIndex = valueAsString.indexOf('.');
-        if (decimalIndex > -1 && decimalIndex + 3 < valueAsString.length) {
-            valueAsString = valueAsString.substring(0, valueAsString.indexOf('.') + 3);
-        }
-        // convert back to number
-        /** @type {?} */
-        const truncatedValue = Number(valueAsString);
-        /** @type {?} */
-        const options = { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 };
-        /** @type {?} */
-        let _value = new Intl.NumberFormat(this.userLocale, options).format(truncatedValue);
-        if (value < 0) {
-            _value = `(${_value.slice(1)})`;
-        }
-        return _value;
-    }
-    /**
-     * @param {?} value
      * @param {?=} options
      * @return {?}
      */
@@ -5813,7 +5788,7 @@ class BasePickerResults {
      * @return {?}
      */
     set term(value) {
-        if (this.shouldSearch(value)) {
+        if (value !== this._term || this.page === 0) {
             this._term = value;
             this.page = 0;
             this.matches = [];
@@ -5822,19 +5797,6 @@ class BasePickerResults {
         else {
             this.addScrollListener();
         }
-    }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    shouldSearch(value) {
-        /** @type {?} */
-        const termHasChanged = value !== this._term;
-        /** @type {?} */
-        const optionsNotYetCalled = this.page === 0;
-        /** @type {?} */
-        const optionsCalledOnEmptyStringSearch = !termHasChanged && this.page > 0 && value === '';
-        return termHasChanged || optionsNotYetCalled || optionsCalledOnEmptyStringSearch;
     }
     /**
      * @return {?}
@@ -5904,14 +5866,12 @@ class BasePickerResults {
                     // Arrays are returned immediately
                     resolve(this.structureArray(options));
                 }
-                else if (this.shouldCallOptionsFunction(term)) {
+                else if (term && term.length >= (this.config.minSearchLength || 1)) {
                     if ((options.hasOwnProperty('reject') && options.hasOwnProperty('resolve')) ||
                         Object.getPrototypeOf(options).hasOwnProperty('then')) {
                         this.isStatic = false;
                         // Promises (ES6 or Deferred) are resolved whenever they resolve
-                        options
-                            .then(this.structureArray.bind(this))
-                            .then(resolve, reject);
+                        options.then(this.structureArray.bind(this)).then(resolve, reject);
                     }
                     else if (typeof options === 'function') {
                         this.isStatic = false;
@@ -5933,9 +5893,7 @@ class BasePickerResults {
                             /** @type {?} */
                             let defaultOptions = this.config.defaultOptions(term, ++this.page);
                             if (Object.getPrototypeOf(defaultOptions).hasOwnProperty('then')) {
-                                defaultOptions
-                                    .then(this.structureArray.bind(this))
-                                    .then(resolve, reject);
+                                defaultOptions.then(this.structureArray.bind(this)).then(resolve, reject);
                             }
                             else {
                                 resolve(this.structureArray(defaultOptions));
@@ -5956,18 +5914,6 @@ class BasePickerResults {
                 reject('error');
             }
         }));
-    }
-    /**
-     * @param {?} term
-     * @return {?}
-     */
-    shouldCallOptionsFunction(term) {
-        if (this.config && 'minSearchLength' in this.config && Number.isInteger(this.config.minSearchLength)) {
-            return typeof term === 'string' && term.length >= this.config.minSearchLength;
-        }
-        else {
-            return !!(term && term.length);
-        }
     }
     /**
      * \@name structureArray
@@ -15371,6 +15317,7 @@ class FormUtils {
             optionsType: field.optionsType,
             multiple: field.multiValue,
             readOnly: !!field.disabled || !!field.readOnly,
+            disabled: field.disabled,
             maxlength: field.maxLength,
             interactions: field.interactions,
             dataSpecialization: field.dataSpecialization,
@@ -15386,6 +15333,7 @@ class FormUtils {
             warning: field.warning,
             config: field.config || {},
             closeOnSelect: field.closeOnSelect,
+            layoutOptions: field.layoutOptions,
         };
         this.inferStartDate(controlConfig, field);
         // TODO: getControlOptions should always return the correct format
@@ -15400,7 +15348,7 @@ class FormUtils {
             };
         }
         else if (optionsConfig) {
-            controlConfig.config = Object.assign({}, optionsConfig, controlConfig && controlConfig.config);
+            controlConfig.config = optionsConfig;
         }
         if (type === 'year') {
             controlConfig.maxlength = 4;
@@ -16906,29 +16854,37 @@ class FieldInteractionApi {
     modifyPickerConfig(key, config, mapper) {
         /** @type {?} */
         let control = this.getControl(key);
-        const { minSearchLength } = control.config;
         if (control && !control.restrictFieldInteractions) {
             /** @type {?} */
-            const newConfig = Object.assign({}, (Number.isInteger(minSearchLength) && { minSearchLength }), { resultsTemplate: control.config.resultsTemplate });
+            let newConfig = {
+                resultsTemplate: control.config.resultsTemplate,
+            };
             if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
-                newConfig.options = (query$$1) => {
-                    if (config.optionsPromise) {
-                        return config.optionsPromise(query$$1, new CustomHttp(this.http));
-                    }
-                    return new Promise((resolve, reject) => {
-                        /** @type {?} */
-                        let url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query$$1) : `${config.optionsUrl}?filter=${query$$1 || ''}`;
-                        this.http
-                            .get(url)
-                            .pipe(map((results) => {
-                            if (mapper) {
-                                return results.map(mapper);
+                newConfig = Object.assign(newConfig, {
+                    options: (query$$1) => {
+                        if (config.optionsPromise) {
+                            return config.optionsPromise(query$$1, new CustomHttp(this.http));
+                        }
+                        return new Promise((resolve, reject) => {
+                            /** @type {?} */
+                            let url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query$$1) : `${config.optionsUrl}?filter=${query$$1 || ''}`;
+                            if (query$$1 && query$$1.length) {
+                                this.http
+                                    .get(url)
+                                    .pipe(map((results) => {
+                                    if (mapper) {
+                                        return results.map(mapper);
+                                    }
+                                    return results;
+                                }))
+                                    .subscribe(resolve, reject);
                             }
-                            return results;
-                        }))
-                            .subscribe(resolve, reject);
-                    });
-                };
+                            else {
+                                resolve([]);
+                            }
+                        });
+                    },
+                });
                 if (config.hasOwnProperty('format')) {
                     newConfig.format = config.format;
                 }
@@ -41050,7 +41006,7 @@ NovoExpansionPanel.decorators = [
                     '[class.novo-expansion-panel-spacing]': '_hasSpacing()',
                     '[class.novo-expansion-panel-padding]': 'padding',
                 },
-                styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-expansion-panel{background:#fff;color:#3d464d;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);box-sizing:content-box;display:block;margin:0 16px;transition:margin 225ms ease-in-out}.novo-action-row{border-top-color:#3d464d}.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]):hover{background:rgba(0,0,0,.04)}.novo-expansion-panel-header-title{color:#3d464d}.novo-expansion-indicator::after,.novo-expansion-panel-header-description{color:#999}.novo-expansion-panel-header[aria-disabled=true]{color:#999;pointer-events:none}.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-description,.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-title{color:inherit}.novo-expansion-panel.novo-expanded[theme=company]{border-top:3px solid #39d}.novo-expansion-panel.novo-expanded[theme=candidate]{border-top:3px solid #4b7}.novo-expansion-panel.novo-expanded[theme=navigation]{border-top:3px solid #2f384f}.novo-expansion-panel.novo-expanded[theme=lead]{border-top:3px solid #a69}.novo-expansion-panel.novo-expanded[theme=contact]{border-top:3px solid #fa4}.novo-expansion-panel.novo-expanded[theme=opportunity]{border-top:3px solid #625}.novo-expansion-panel.novo-expanded[theme=job]{border-top:3px solid #b56}.novo-expansion-panel.novo-expanded[theme=earnCode],.novo-expansion-panel.novo-expanded[theme=jobCode]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=sendout]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=placement]{border-top:3px solid #0b344f}.novo-expansion-panel.novo-expanded[theme=corporateuser],.novo-expansion-panel.novo-expanded[theme=credential],.novo-expansion-panel.novo-expanded[theme=distributionList],.novo-expansion-panel.novo-expanded[theme=task],.novo-expansion-panel.novo-expanded[theme=user]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=aqua]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=ocean]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=mint]{border-top:3px solid #37bc9b}.novo-expansion-panel.novo-expanded[theme=grass]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=sunflower]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=bittersweet]{border-top:3px solid #eb6845}.novo-expansion-panel.novo-expanded[theme=grapefruit]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=carnation]{border-top:3px solid #d770ad}.novo-expansion-panel.novo-expanded[theme=lavender]{border-top:3px solid #967adc}.novo-expansion-panel.novo-expanded[theme=positive]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=success]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=negative]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=warning]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=black]{border-top:3px solid #000}.novo-expansion-panel.novo-expanded[theme=dark]{border-top:3px solid #3d464d}.novo-expansion-panel.novo-expanded[theme=pulse]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=neutral]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=navy]{border-top:3px solid #0d2d42}.novo-expansion-panel.novo-expanded[theme=contract]{border-top:3px solid #454ea0}.novo-expansion-panel.novo-expanded[theme=mountain]{border-top:3px solid #9678b6}.novo-expansion-panel.novo-expanded[theme=billableCharge],.novo-expansion-panel.novo-expanded[theme=invoiceStatement],.novo-expansion-panel.novo-expanded[theme=payableCharge]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=submission]{border-top:3px solid #a9adbb}.novo-expansion-panel.novo-expanded[theme=note]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=empty]{border-top:3px solid #cccdcc}.novo-expansion-panel.novo-expanded[theme=background]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=white]{border-top:3px solid #fff}.novo-expansion-panel.novo-expanded[theme=grey]{border-top:3px solid #999}.novo-expansion-panel.novo-expanded[theme=off-white]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=light]{border-top:3px solid #d9dadc}.novo-expansion-panel.novo-expanded{margin:16px 4px}.novo-expansion-panel.novo-expanded:first-child{margin-top:0}.novo-expansion-panel.novo-expanded:last-child{margin-bottom:0}.novo-expansion-panel-content{overflow:hidden}.novo-expansion-panel-content.novo-expanded{overflow:visible}.novo-expansion-panel-padding .novo-expansion-panel-body{padding:0 24px 16px}.novo-accordion .novo-expansion-panel-spacing:first-child{margin-top:0}.novo-accordion .novo-expansion-panel-spacing:last-child{margin-bottom:0}.novo-action-row{border-top-style:solid;border-top-width:1px;display:flex;flex-direction:row;justify-content:flex-end;padding:16px 8px 16px 24px}.novo-action-row button.novo-button{margin-left:8px}[dir=rtl] .novo-action-row button.novo-button{margin-left:0;margin-right:8px}"]
+                styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-expansion-panel{background:#fff;color:#3d464d;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);box-sizing:content-box;display:block;margin:0 16px;transition:margin 225ms ease-in-out}.novo-action-row{border-top-color:#3d464d}.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]):hover{background:rgba(0,0,0,.04)}.novo-expansion-panel-header-title{color:#3d464d}.novo-expansion-indicator::after,.novo-expansion-panel-header-description{color:#999}.novo-expansion-panel-header[aria-disabled=true]{color:#999;pointer-events:none}.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-description,.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-title{color:inherit}.novo-expansion-panel.novo-expanded[theme=company]{border-top:3px solid #39d}.novo-expansion-panel.novo-expanded[theme=candidate]{border-top:3px solid #4b7}.novo-expansion-panel.novo-expanded[theme=navigation]{border-top:3px solid #2f384f}.novo-expansion-panel.novo-expanded[theme=lead]{border-top:3px solid #a69}.novo-expansion-panel.novo-expanded[theme=contact]{border-top:3px solid #fa4}.novo-expansion-panel.novo-expanded[theme=opportunity]{border-top:3px solid #625}.novo-expansion-panel.novo-expanded[theme=job]{border-top:3px solid #b56}.novo-expansion-panel.novo-expanded[theme=earnCode],.novo-expansion-panel.novo-expanded[theme=jobCode]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=sendout]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=placement]{border-top:3px solid #0b344f}.novo-expansion-panel.novo-expanded[theme=corporateuser],.novo-expansion-panel.novo-expanded[theme=credential],.novo-expansion-panel.novo-expanded[theme=distributionList],.novo-expansion-panel.novo-expanded[theme=task],.novo-expansion-panel.novo-expanded[theme=user]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=aqua]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=ocean]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=mint]{border-top:3px solid #37bc9b}.novo-expansion-panel.novo-expanded[theme=grass]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=sunflower]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=bittersweet]{border-top:3px solid #eb6845}.novo-expansion-panel.novo-expanded[theme=grapefruit]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=carnation]{border-top:3px solid #d770ad}.novo-expansion-panel.novo-expanded[theme=lavender]{border-top:3px solid #967adc}.novo-expansion-panel.novo-expanded[theme=positive]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=success]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=negative]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=warning]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=black]{border-top:3px solid #000}.novo-expansion-panel.novo-expanded[theme=dark]{border-top:3px solid #3d464d}.novo-expansion-panel.novo-expanded[theme=pulse]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=neutral]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=navy]{border-top:3px solid #0d2d42}.novo-expansion-panel.novo-expanded[theme=contract]{border-top:3px solid #454ea0}.novo-expansion-panel.novo-expanded[theme=mountain]{border-top:3px solid #9678b6}.novo-expansion-panel.novo-expanded[theme=billableCharge],.novo-expansion-panel.novo-expanded[theme=invoiceStatement]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=submission]{border-top:3px solid #a9adbb}.novo-expansion-panel.novo-expanded[theme=note]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=empty]{border-top:3px solid #cccdcc}.novo-expansion-panel.novo-expanded[theme=background]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=white]{border-top:3px solid #fff}.novo-expansion-panel.novo-expanded[theme=grey]{border-top:3px solid #999}.novo-expansion-panel.novo-expanded[theme=off-white]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=light]{border-top:3px solid #d9dadc}.novo-expansion-panel.novo-expanded{margin:16px 4px}.novo-expansion-panel.novo-expanded:first-child{margin-top:0}.novo-expansion-panel.novo-expanded:last-child{margin-bottom:0}.novo-expansion-panel-content{overflow:hidden}.novo-expansion-panel-content.novo-expanded{overflow:visible}.novo-expansion-panel-padding .novo-expansion-panel-body{padding:0 24px 16px}.novo-accordion .novo-expansion-panel-spacing:first-child{margin-top:0}.novo-accordion .novo-expansion-panel-spacing:last-child{margin-bottom:0}.novo-action-row{border-top-style:solid;border-top-width:1px;display:flex;flex-direction:row;justify-content:flex-end;padding:16px 8px 16px 24px}.novo-action-row button.novo-button{margin-left:8px}[dir=rtl] .novo-action-row button.novo-button{margin-left:0;margin-right:8px}"]
             }] }
 ];
 /** @nocollapse */
@@ -43935,9 +43891,6 @@ NovoDataTable.decorators = [
     <ng-template novoTemplate="currencyCellTemplate" let-row let-col="col">
       <span>{{ row[col.id] | dataTableInterpolate: col | dataTableCurrencyRenderer: col }}</span>
     </ng-template>
-    <ng-template novoTemplate="bigdecimalCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableBigDecimalRenderer: col }}</span>
-    </ng-template>
     <ng-template novoTemplate="numberCellTemplate" let-row let-col="col">
       <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col }}</span>
     </ng-template>
@@ -45757,40 +45710,6 @@ DateTableNumberRendererPipe.ctorParameters = () => [
 /**
  * @template T
  */
-class DataTableBigDecimalRendererPipe {
-    /**
-     * @param {?} labels
-     */
-    constructor(labels) {
-        this.labels = labels;
-    }
-    /**
-     * @param {?} value
-     * @param {?} column
-     * @return {?}
-     */
-    transform(value, column) {
-        if (!Helpers.isEmpty(value)) {
-            /** @type {?} */
-            let val = interpolateCell(value, column);
-            return this.labels.formatBigDecimal(Number(val));
-        }
-        return '';
-    }
-}
-DataTableBigDecimalRendererPipe.decorators = [
-    { type: Pipe, args: [{
-                name: 'dataTableBigDecimalRenderer',
-                pure: true,
-            },] }
-];
-/** @nocollapse */
-DataTableBigDecimalRendererPipe.ctorParameters = () => [
-    { type: NovoLabelService }
-];
-/**
- * @template T
- */
 class DateTableCurrencyRendererPipe {
     /**
      * @param {?} labels
@@ -46007,7 +45926,6 @@ NovoDataTableModule.decorators = [
                     DateTableDateTimeRendererPipe,
                     DateTableNumberRendererPipe,
                     DateTableTimeRendererPipe,
-                    DataTableBigDecimalRendererPipe,
                     NovoDataTableCellHeader,
                     NovoDataTableSortFilter,
                     NovoDataTableHeaderCell,
@@ -46032,7 +45950,6 @@ NovoDataTableModule.decorators = [
                     DateTableDateTimeRendererPipe,
                     DateTableNumberRendererPipe,
                     DateTableTimeRendererPipe,
-                    DataTableBigDecimalRendererPipe,
                     NovoDataTableClearButton,
                 ],
             },] }
@@ -50004,6 +49921,6 @@ class ActivityTableRenderers {
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoDatePickerElement, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTableFilterUtils, NovoDataTable, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, CalendarEventResponse, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵx, NovoCalendarAllDayEventElement as ɵbh, NovoCalendarDayEventElement as ɵbf, NovoCalendarDayViewElement as ɵbe, NovoCalendarHourSegmentElement as ɵbg, NovoCalendarMonthDayElement as ɵba, NovoCalendarMonthHeaderElement as ɵz, NovoCalendarMonthViewElement as ɵy, DayOfMonthPipe as ɵbj, EndOfWeekDisplayPipe as ɵbo, HoursPipe as ɵbn, MonthPipe as ɵbk, MonthDayPipe as ɵbl, WeekdayPipe as ɵbi, YearPipe as ɵbm, NovoCalendarWeekEventElement as ɵbd, NovoCalendarWeekHeaderElement as ɵbc, NovoCalendarWeekViewElement as ɵbb, CardActionsElement as ɵv, CardElement as ɵw, NovoCategoryDropdownElement as ɵeq, NovoChipElement as ɵcr, NovoChipsElement as ɵcs, NovoRowChipElement as ɵct, NovoRowChipsElement as ɵcu, NovoCKEditorElement as ɵdb, NovoDataTableCheckboxHeaderCell as ɵfj, NovoDataTableExpandHeaderCell as ɵfl, NovoDataTableCellHeader as ɵfa, NovoDataTableHeaderCell as ɵfd, NovoDataTableCell as ɵfe, NovoDataTableCheckboxCell as ɵfi, NovoDataTableExpandCell as ɵfk, NovoDataTableClearButton as ɵfn, NovoDataTableExpandDirective as ɵfm, DataTableBigDecimalRendererPipe as ɵey, DataTableInterpolatePipe as ɵet, DateTableCurrencyRendererPipe as ɵez, DateTableDateRendererPipe as ɵeu, DateTableDateTimeRendererPipe as ɵev, DateTableNumberRendererPipe as ɵex, DateTableTimeRendererPipe as ɵew, NovoDataTablePagination as ɵfh, NovoDataTableHeaderRow as ɵff, NovoDataTableRow as ɵfg, NovoDataTableSortFilter as ɵfc, DataTableState as ɵfb, NovoDatePickerInputElement as ɵcv, NovoDateTimePickerElement as ɵcz, NovoDateTimePickerInputElement as ɵda, NovoDragulaElement as ɵcp, NovoDropdownElement as ɵch, NovoItemElement as ɵci, NovoItemHeaderElement$1 as ɵck, NovoListElement$1 as ɵcj, NovoAccordion as ɵea, novoExpansionAnimations as ɵed, NovoExpansionPanel as ɵeb, NovoExpansionPanelActionRow as ɵec, NovoExpansionPanelContent as ɵee, NovoExpansionPanelDescription as ɵeg, NovoExpansionPanelHeader as ɵef, NovoExpansionPanelTitle as ɵeh, NovoAutoSize as ɵdf, NovoControlElement as ɵdg, NovoControlTemplates as ɵdn, NovoDynamicFormElement as ɵdj, NovoFieldsetElement as ɵdi, NovoFieldsetHeaderElement as ɵdh, ControlConfirmModal as ɵdl, ControlPromptModal as ɵdm, NovoFormElement as ɵdk, NovoAddressElement as ɵl, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbt, NovoHeaderSpacer as ɵbq, NovoUtilActionComponent as ɵbs, NovoUtilsComponent as ɵbr, NovoIconComponent as ɵdz, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoIsLoadingDirective as ɵs, NovoLoadedDirective as ɵr, NovoLoadingElement as ɵo, NovoSkeletonDirective as ɵq, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵer, NovoOverlayTemplateComponent as ɵcg, NovoOverlayModule as ɵcf, NovoPickerElement as ɵcn, PlacesListComponent as ɵfv, GooglePlacesModule as ɵfu, PopOverDirective as ɵft, NovoPopOverModule as ɵfr, PopOverContent as ɵfs, QuickNoteElement as ɵcc, NovoRadioElement as ɵce, NovoRadioGroup as ɵcd, NovoSearchBoxElement as ɵco, NovoSelectElement as ɵcl, NovoSliderElement as ɵcq, NovoStepHeader as ɵem, NovoStepLabel as ɵen, NovoStepStatus as ɵep, novoStepperAnimations as ɵeo, NovoHorizontalStepper as ɵek, NovoStep as ɵei, NovoStepper as ɵej, NovoVerticalStepper as ɵel, NovoSwitchElement as ɵcm, NovoTableKeepFilterFocus as ɵdr, Pagination as ɵds, RowDetails as ɵdt, NovoTableActionsElement as ɵdq, TableCell as ɵdu, TableFilter as ɵdv, NovoTableFooterElement as ɵdp, NovoTableHeaderElement as ɵdo, ThOrderable as ɵdw, ThSortable as ɵdx, NovoNavContentElement as ɵbz, NovoNavElement as ɵbu, NovoNavHeaderElement as ɵca, NovoNavOutletElement as ɵby, NovoTabButtonElement as ɵbw, NovoTabElement as ɵbv, NovoTabLinkElement as ɵbx, NovoTilesElement as ɵcb, NovoTimePickerElement as ɵcx, NovoTimePickerInputElement as ɵcy, NovoTipWellElement as ɵdc, NovoToastElement as ɵbp, NovoTooltip as ɵu, TooltipDirective as ɵt, Unless as ɵes, EntityList as ɵdy, NovoValueElement as ɵk, DateFormatService as ɵcw, BrowserGlobalRef as ɵfp, GlobalRef as ɵfo, LocalStorageService as ɵfq };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoDatePickerElement, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTableFilterUtils, NovoDataTable, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, CalendarEventResponse, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵx, NovoCalendarAllDayEventElement as ɵbh, NovoCalendarDayEventElement as ɵbf, NovoCalendarDayViewElement as ɵbe, NovoCalendarHourSegmentElement as ɵbg, NovoCalendarMonthDayElement as ɵba, NovoCalendarMonthHeaderElement as ɵz, NovoCalendarMonthViewElement as ɵy, DayOfMonthPipe as ɵbj, EndOfWeekDisplayPipe as ɵbo, HoursPipe as ɵbn, MonthPipe as ɵbk, MonthDayPipe as ɵbl, WeekdayPipe as ɵbi, YearPipe as ɵbm, NovoCalendarWeekEventElement as ɵbd, NovoCalendarWeekHeaderElement as ɵbc, NovoCalendarWeekViewElement as ɵbb, CardActionsElement as ɵv, CardElement as ɵw, NovoCategoryDropdownElement as ɵeq, NovoChipElement as ɵcr, NovoChipsElement as ɵcs, NovoRowChipElement as ɵct, NovoRowChipsElement as ɵcu, NovoCKEditorElement as ɵdb, NovoDataTableCheckboxHeaderCell as ɵfi, NovoDataTableExpandHeaderCell as ɵfk, NovoDataTableCellHeader as ɵez, NovoDataTableHeaderCell as ɵfc, NovoDataTableCell as ɵfd, NovoDataTableCheckboxCell as ɵfh, NovoDataTableExpandCell as ɵfj, NovoDataTableClearButton as ɵfm, NovoDataTableExpandDirective as ɵfl, DataTableInterpolatePipe as ɵet, DateTableCurrencyRendererPipe as ɵey, DateTableDateRendererPipe as ɵeu, DateTableDateTimeRendererPipe as ɵev, DateTableNumberRendererPipe as ɵex, DateTableTimeRendererPipe as ɵew, NovoDataTablePagination as ɵfg, NovoDataTableHeaderRow as ɵfe, NovoDataTableRow as ɵff, NovoDataTableSortFilter as ɵfb, DataTableState as ɵfa, NovoDatePickerInputElement as ɵcv, NovoDateTimePickerElement as ɵcz, NovoDateTimePickerInputElement as ɵda, NovoDragulaElement as ɵcp, NovoDropdownElement as ɵch, NovoItemElement as ɵci, NovoItemHeaderElement$1 as ɵck, NovoListElement$1 as ɵcj, NovoAccordion as ɵea, novoExpansionAnimations as ɵed, NovoExpansionPanel as ɵeb, NovoExpansionPanelActionRow as ɵec, NovoExpansionPanelContent as ɵee, NovoExpansionPanelDescription as ɵeg, NovoExpansionPanelHeader as ɵef, NovoExpansionPanelTitle as ɵeh, NovoAutoSize as ɵdf, NovoControlElement as ɵdg, NovoControlTemplates as ɵdn, NovoDynamicFormElement as ɵdj, NovoFieldsetElement as ɵdi, NovoFieldsetHeaderElement as ɵdh, ControlConfirmModal as ɵdl, ControlPromptModal as ɵdm, NovoFormElement as ɵdk, NovoAddressElement as ɵl, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbt, NovoHeaderSpacer as ɵbq, NovoUtilActionComponent as ɵbs, NovoUtilsComponent as ɵbr, NovoIconComponent as ɵdz, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoIsLoadingDirective as ɵs, NovoLoadedDirective as ɵr, NovoLoadingElement as ɵo, NovoSkeletonDirective as ɵq, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵer, NovoOverlayTemplateComponent as ɵcg, NovoOverlayModule as ɵcf, NovoPickerElement as ɵcn, PlacesListComponent as ɵfu, GooglePlacesModule as ɵft, PopOverDirective as ɵfs, NovoPopOverModule as ɵfq, PopOverContent as ɵfr, QuickNoteElement as ɵcc, NovoRadioElement as ɵce, NovoRadioGroup as ɵcd, NovoSearchBoxElement as ɵco, NovoSelectElement as ɵcl, NovoSliderElement as ɵcq, NovoStepHeader as ɵem, NovoStepLabel as ɵen, NovoStepStatus as ɵep, novoStepperAnimations as ɵeo, NovoHorizontalStepper as ɵek, NovoStep as ɵei, NovoStepper as ɵej, NovoVerticalStepper as ɵel, NovoSwitchElement as ɵcm, NovoTableKeepFilterFocus as ɵdr, Pagination as ɵds, RowDetails as ɵdt, NovoTableActionsElement as ɵdq, TableCell as ɵdu, TableFilter as ɵdv, NovoTableFooterElement as ɵdp, NovoTableHeaderElement as ɵdo, ThOrderable as ɵdw, ThSortable as ɵdx, NovoNavContentElement as ɵbz, NovoNavElement as ɵbu, NovoNavHeaderElement as ɵca, NovoNavOutletElement as ɵby, NovoTabButtonElement as ɵbw, NovoTabElement as ɵbv, NovoTabLinkElement as ɵbx, NovoTilesElement as ɵcb, NovoTimePickerElement as ɵcx, NovoTimePickerInputElement as ɵcy, NovoTipWellElement as ɵdc, NovoToastElement as ɵbp, NovoTooltip as ɵu, TooltipDirective as ɵt, Unless as ɵes, EntityList as ɵdy, NovoValueElement as ɵk, DateFormatService as ɵcw, BrowserGlobalRef as ɵfo, GlobalRef as ɵfn, LocalStorageService as ɵfp };
 
 //# sourceMappingURL=novo-elements.js.map

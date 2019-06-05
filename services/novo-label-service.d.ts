@@ -108,7 +108,6 @@ export declare class NovoLabelService {
     getProperty(value: string): any;
     getRangeText(page: number, pageSize: number, length: number, short: boolean): string;
     formatCurrency(value: number): string;
-    formatBigDecimal(value: number): string;
     formatNumber(value: any, options?: Intl.NumberFormatOptions): string;
     formatDateShort(value: any): string;
     formatTime(value: any): string;
