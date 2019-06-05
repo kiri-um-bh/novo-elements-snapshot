@@ -17917,6 +17917,7 @@
                     optionsType: field.optionsType,
                     multiple: field.multiValue,
                     readOnly: !!field.disabled || !!field.readOnly,
+                    disabled: field.disabled,
                     maxlength: field.maxLength,
                     interactions: field.interactions,
                     dataSpecialization: field.dataSpecialization,
@@ -17932,6 +17933,7 @@
                     warning: field.warning,
                     config: field.config || {},
                     closeOnSelect: field.closeOnSelect,
+                    layoutOptions: field.layoutOptions,
                 };
                 this.inferStartDate(controlConfig, field);
                 // TODO: getControlOptions should always return the correct format
