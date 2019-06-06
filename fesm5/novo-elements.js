@@ -24,7 +24,7 @@ import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYea
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { __extends, __values, __assign, __spread, __read } from 'tslib';
-import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
+import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, Injector, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 /**
@@ -5778,12 +5778,17 @@ var ComponentUtils = /** @class */ (function () {
         this.componentFactoryResolver = componentFactoryResolver;
     }
     /**
+     * @deprecated use append() instead.
+     */
+    /**
+     * @deprecated use append() instead.
      * @param {?} ComponentClass
      * @param {?} location
      * @param {?=} providers
      * @return {?}
      */
     ComponentUtils.prototype.appendNextToLocation = /**
+     * @deprecated use append() instead.
      * @param {?} ComponentClass
      * @param {?} location
      * @param {?=} providers
@@ -5802,12 +5807,17 @@ var ComponentUtils = /** @class */ (function () {
         return location.createComponent(componentFactory, location.length, childInjector);
     };
     /**
+     * @deprecated
+     */
+    /**
+     * @deprecated
      * @param {?} ComponentClass
      * @param {?} location
      * @param {?=} providers
      * @return {?}
      */
     ComponentUtils.prototype.appendTopOfLocation = /**
+     * @deprecated
      * @param {?} ComponentClass
      * @param {?} location
      * @param {?=} providers
@@ -5824,6 +5834,31 @@ var ComponentUtils = /** @class */ (function () {
             childInjector = ReflectiveInjector.fromResolvedProviders(providers, parentInjector);
         }
         return location.createComponent(componentFactory, 0, childInjector);
+    };
+    /**
+     * @template T
+     * @param {?} ComponentClass
+     * @param {?} location
+     * @param {?=} providers
+     * @param {?=} onTop
+     * @return {?}
+     */
+    ComponentUtils.prototype.append = /**
+     * @template T
+     * @param {?} ComponentClass
+     * @param {?} location
+     * @param {?=} providers
+     * @param {?=} onTop
+     * @return {?}
+     */
+    function (ComponentClass, location, providers, onTop) {
+        /** @type {?} */
+        var componentFactory = this.componentFactoryResolver.resolveComponentFactory(ComponentClass);
+        /** @type {?} */
+        var parent = location.injector;
+        /** @type {?} */
+        var index = onTop ? 0 : location.length;
+        return location.createComponent(componentFactory, index, Injector.create({ providers: providers, parent: parent }));
     };
     ComponentUtils.decorators = [
         { type: Injectable }
@@ -5914,7 +5949,7 @@ var NovoModalContainerElement = /** @class */ (function () {
     function () {
         var _this = this;
         setTimeout(function () {
-            _this.modalRef.contentRef = _this.componentUtils.appendNextToLocation(_this.modalRef.component, _this.container);
+            _this.modalRef.contentRef = _this.componentUtils.append(_this.modalRef.component, _this.container);
         });
     };
     NovoModalContainerElement.decorators = [
@@ -5949,7 +5984,7 @@ var NovoModalElement = /** @class */ (function () {
     NovoModalElement.decorators = [
         { type: Component, args: [{
                     selector: 'novo-modal',
-                    template: "\n        <ng-content select=\"header\"></ng-content>\n        <ng-content select=\"section\"></ng-content>\n        <footer>\n            <ng-content select=\"button\"></ng-content>\n        </footer>\n    "
+                    template: "\n    <ng-content select=\"header\"></ng-content>\n    <ng-content select=\"section\"></ng-content>\n    <footer><ng-content select=\"button\"></ng-content></footer>\n  "
                 }] }
     ];
     /** @nocollapse */
@@ -6001,7 +6036,7 @@ var NovoModalNotificationElement = /** @class */ (function () {
     NovoModalNotificationElement.decorators = [
         { type: Component, args: [{
                     selector: 'novo-notification',
-                    template: "\n        <button class=\"modal-close\" theme=\"icon\" icon=\"times\" (click)=\"close()\"></button>\n        <header>\n            <ng-content select=\"label\"></ng-content>\n        </header>\n        <section class=\"notification-body\">\n            <i class=\"indicator\" [ngClass]=\"iconType\" *ngIf=\"iconType\"></i>\n            <ng-content select=\"h1\"></ng-content>\n            <ng-content select=\"h2\"></ng-content>\n            <ng-content select=\"p\"></ng-content>\n        </section>\n        <footer>\n            <ng-content select=\"button\"></ng-content>\n        </footer>\n    "
+                    template: "\n    <button class=\"modal-close\" theme=\"icon\" icon=\"times\" (click)=\"close()\"></button>\n    <header><ng-content select=\"label\"></ng-content></header>\n    <section class=\"notification-body\">\n      <i class=\"indicator\" [ngClass]=\"iconType\" *ngIf=\"iconType\"></i>\n      <ng-content select=\"h1\"></ng-content>\n      <ng-content select=\"h2\"></ng-content>\n      <ng-content select=\"p\"></ng-content>\n    </section>\n    <footer><ng-content select=\"button\"></ng-content></footer>\n  "
                 }] }
     ];
     /** @nocollapse */
@@ -7664,7 +7699,7 @@ var QuickNoteElement = /** @class */ (function (_super) {
                 }
                 else {
                     // Create the results DOM element
-                    this.quickNoteResults = this.componentUtils.appendNextToLocation(this.resultsComponent, this.results);
+                    this.quickNoteResults = this.componentUtils.append(this.resultsComponent, this.results);
                     this.quickNoteResults.instance.parent = this;
                     this.quickNoteResults.instance.config = this.config;
                     this.quickNoteResults.instance.term = {
@@ -8151,7 +8186,7 @@ var QuickNoteElement = /** @class */ (function (_super) {
         { type: Component, args: [{
                     selector: 'novo-quick-note',
                     providers: [QUICK_NOTE_VALUE_ACCESSOR],
-                    template: "\n        <div class=\"quick-note-wrapper\" #wrapper>\n            <textarea #host></textarea>\n            <span #results></span>\n        </div>\n    "
+                    template: "\n    <div class=\"quick-note-wrapper\" #wrapper><textarea #host></textarea> <span #results></span></div>\n  "
                 }] }
     ];
     /** @nocollapse */
@@ -10070,7 +10105,7 @@ var NovoPickerElement = /** @class */ (function () {
             this.ref.markForCheck();
         }
         else {
-            this.popup = this.componentUtils.appendNextToLocation(this.resultsComponent, this.results);
+            this.popup = this.componentUtils.append(this.resultsComponent, this.results);
             this.popup.instance.parent = this;
             this.popup.instance.config = this.config;
             this.popup.instance.term = this.term;
@@ -12058,7 +12093,7 @@ var NovoChipElement = /** @class */ (function () {
     NovoChipElement.decorators = [
         { type: Component, args: [{
                     selector: 'chip,novo-chip',
-                    template: "\n        <span (click)=\"onSelect($event)\" (mouseenter)=\"onSelect($event)\" (mouseleave)=\"onDeselect($event)\" [ngClass]=\"_type\">\n            <i *ngIf=\"_type\" class=\"bhi-circle\"></i>\n            <span><ng-content></ng-content></span>\n        </span>\n        <i class=\"bhi-close\" *ngIf=\"!disabled\" (click)=\"onRemove($event)\"></i>\n    "
+                    template: "\n    <span (click)=\"onSelect($event)\" (mouseenter)=\"onSelect($event)\" (mouseleave)=\"onDeselect($event)\" [ngClass]=\"_type\">\n      <i *ngIf=\"_type\" class=\"bhi-circle\"></i> <span><ng-content></ng-content></span>\n    </span>\n    <i class=\"bhi-close\" *ngIf=\"!disabled\" (click)=\"onRemove($event)\"></i>\n  "
                 }] }
     ];
     NovoChipElement.propDecorators = {
@@ -12475,7 +12510,7 @@ var NovoChipsElement = /** @class */ (function () {
     function () {
         if (this.source.previewTemplate) {
             if (!this.popup) {
-                this.popup = this.componentUtils.appendNextToLocation(this.source.previewTemplate, this.preview);
+                this.popup = this.componentUtils.append(this.source.previewTemplate, this.preview);
             }
             this.popup.instance.match = this.selected;
         }
@@ -12507,7 +12542,7 @@ var NovoChipsElement = /** @class */ (function () {
         { type: Component, args: [{
                     selector: 'chips,novo-chips',
                     providers: [CHIPS_VALUE_ACCESSOR],
-                    template: "\n        <div class=\"novo-chip-container\">\n          <novo-chip\n              *ngFor=\"let item of _items | async\"\n              [type]=\"type || item?.value?.searchEntity\"\n              [class.selected]=\"item == selected\"\n              [disabled]=\"disablePickerInput\"\n              (remove)=\"remove($event, item)\"\n              (select)=\"select($event, item)\"\n              (deselect)=\"deselect($event, item)\">\n              {{ item.label }}\n          </novo-chip>\n        </div>\n        <div class=\"chip-input-container\" *ngIf=\"!maxlength || (maxlength && items.length < maxlength)\">\n            <novo-picker\n                clearValueOnSelect=\"true\"\n                [closeOnSelect]=\"closeOnSelect\"\n                [config]=\"source\"\n                [disablePickerInput]=\"disablePickerInput\"\n                [placeholder]=\"placeholder\"\n                [(ngModel)]=\"itemToAdd\"\n                (select)=\"add($event)\"\n                (keydown)=\"onKeyDown($event)\"\n                (focus)=\"onFocus($event)\"\n                (typing)=\"onTyping($event)\"\n                (blur)=\"onTouched($event)\"\n                [selected]=\"items\"\n                [overrideElement]=\"element\">\n            </novo-picker>\n        </div>\n        <div class=\"preview-container\">\n            <span #preview></span>\n        </div>\n        <i class=\"bhi-search\" [class.has-value]=\"items.length\" *ngIf=\"!disablePickerInput\"></i>\n        <label class=\"clear-all\" *ngIf=\"items.length && !disablePickerInput\" (click)=\"clearValue()\">{{ labels.clearAll }} <i class=\"bhi-times\"></i></label>\n   ",
+                    template: "\n    <div class=\"novo-chip-container\">\n      <novo-chip\n        *ngFor=\"let item of (_items | async)\"\n        [type]=\"type || item?.value?.searchEntity\"\n        [class.selected]=\"item == selected\"\n        [disabled]=\"disablePickerInput\"\n        (remove)=\"remove($event, item)\"\n        (select)=\"select($event, item)\"\n        (deselect)=\"deselect($event, item)\"\n      >\n        {{ item.label }}\n      </novo-chip>\n    </div>\n    <div class=\"chip-input-container\" *ngIf=\"!maxlength || (maxlength && items.length < maxlength)\">\n      <novo-picker\n        clearValueOnSelect=\"true\"\n        [closeOnSelect]=\"closeOnSelect\"\n        [config]=\"source\"\n        [disablePickerInput]=\"disablePickerInput\"\n        [placeholder]=\"placeholder\"\n        [(ngModel)]=\"itemToAdd\"\n        (select)=\"add($event)\"\n        (keydown)=\"onKeyDown($event)\"\n        (focus)=\"onFocus($event)\"\n        (typing)=\"onTyping($event)\"\n        (blur)=\"onTouched($event)\"\n        [selected]=\"items\"\n        [overrideElement]=\"element\"\n      >\n      </novo-picker>\n    </div>\n    <div class=\"preview-container\"><span #preview></span></div>\n    <i class=\"bhi-search\" [class.has-value]=\"items.length\" *ngIf=\"!disablePickerInput\"></i>\n    <label class=\"clear-all\" *ngIf=\"items.length && !disablePickerInput\" (click)=\"clearValue()\"\n      >{{ labels.clearAll }} <i class=\"bhi-times\"></i\n    ></label>\n  ",
                     host: {
                         '[class.with-value]': 'items.length > 0',
                         '[class.disabled]': 'disablePickerInput',
@@ -18412,7 +18447,7 @@ var NovoToastService = /** @class */ (function () {
                 return;
             }
             /** @type {?} */
-            var toast = _this.componentUtils.appendNextToLocation(toastElement, _this._parentViewContainer);
+            var toast = _this.componentUtils.append(toastElement, _this._parentViewContainer);
             _this.references.push(toast);
             _this.handleAlert(toast.instance, options);
             resolve(toast);
@@ -18555,7 +18590,6 @@ var NovoToastService = /** @class */ (function () {
 var NovoModalService = /** @class */ (function () {
     function NovoModalService(componentUtils) {
         this.componentUtils = componentUtils;
-        this._parentViewContainer = null;
     }
     Object.defineProperty(NovoModalService.prototype, "parentViewContainer", {
         set: /**
@@ -18569,11 +18603,13 @@ var NovoModalService = /** @class */ (function () {
         configurable: true
     });
     /**
+     * @template T
      * @param {?} component
      * @param {?=} scope
      * @return {?}
      */
     NovoModalService.prototype.open = /**
+     * @template T
      * @param {?} component
      * @param {?=} scope
      * @return {?}
@@ -18589,8 +18625,8 @@ var NovoModalService = /** @class */ (function () {
         modal.component = component;
         modal.open();
         /** @type {?} */
-        var bindings = ReflectiveInjector.resolve([{ provide: NovoModalRef, useValue: modal }, { provide: NovoModalParams, useValue: scope }]);
-        modal.containerRef = this.componentUtils.appendNextToLocation(NovoModalContainerElement, this._parentViewContainer, bindings);
+        var providers = [{ provide: NovoModalRef, useValue: modal }, { provide: NovoModalParams, useValue: scope }];
+        modal.containerRef = this.componentUtils.append(NovoModalContainerElement, this._parentViewContainer, providers);
         return modal;
     };
     NovoModalService.decorators = [
@@ -40373,8 +40409,8 @@ var RowDetails = /** @class */ (function () {
         if (this.renderer) {
             if (this.renderer.prototype instanceof BaseRenderer) {
                 /** @type {?} */
-                var componentRef = this.componentUtils.appendNextToLocation(this.renderer, this.container);
-                componentRef.instance.data = this.data;
+                var componentRef = this.componentUtils.append(this.renderer, this.container);
+                componentRef.instance['data'] = this.data;
             }
             else {
                 this.value = this.renderer(this.data);
@@ -40384,7 +40420,7 @@ var RowDetails = /** @class */ (function () {
     RowDetails.decorators = [
         { type: Component, args: [{
                     selector: 'novo-row-details',
-                    template: "\n        <span #container></span>\n        <span>{{value}}</span>\n    "
+                    template: "\n    <span #container></span> <span>{{ value }}</span>\n  "
                 }] }
     ];
     /** @nocollapse */
@@ -40425,10 +40461,10 @@ var TableCell = /** @class */ (function () {
             if (this.column.renderer.prototype instanceof BaseRenderer) {
                 this.column._type = 'custom';
                 /** @type {?} */
-                var componentRef = this.componentUtils.appendNextToLocation(this.column.renderer, this.container);
-                componentRef.instance.meta = this.column;
-                componentRef.instance.data = this.row;
-                componentRef.instance.value = this.form && this.hasEditor ? this.form.value[this.column.name] : this.row[this.column.name];
+                var componentRef = this.componentUtils.append(this.column.renderer, this.container);
+                componentRef.instance['meta'] = this.column;
+                componentRef.instance['data'] = this.row;
+                componentRef.instance['value'] = this.form && this.hasEditor ? this.form.value[this.column.name] : this.row[this.column.name];
                 // TODO - save ref to this and update in the valueChanges below!!
             }
             else {
@@ -40478,7 +40514,7 @@ var TableCell = /** @class */ (function () {
     TableCell.decorators = [
         { type: Component, args: [{
                     selector: 'novo-table-cell',
-                    template: "\n        <div [ngSwitch]=\"column._type\">\n            <span #container></span>\n            <date-cell *ngSwitchCase=\"'date'\" [value]=\"value\"></date-cell>\n            <a *ngSwitchCase=\"'link'\" (click)=\"onClick($event);\">{{ value }}</a>\n            <span *ngSwitchDefault>{{ value }}</span>\n        </div>\n    "
+                    template: "\n    <div [ngSwitch]=\"column._type\">\n      <span #container></span>\n      <date-cell *ngSwitchCase=\"'date'\" [value]=\"value\"></date-cell>\n      <a *ngSwitchCase=\"'link'\" (click)=\"onClick($event)\">{{ value }}</a> <span *ngSwitchDefault>{{ value }}</span>\n    </div>\n  "
                 }] }
     ];
     /** @nocollapse */

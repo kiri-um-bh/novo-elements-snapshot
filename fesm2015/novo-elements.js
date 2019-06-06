@@ -23,7 +23,7 @@ import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkR
 import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
+import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, Injector, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 /**
@@ -5156,6 +5156,7 @@ class ComponentUtils {
         this.componentFactoryResolver = componentFactoryResolver;
     }
     /**
+     * @deprecated use append() instead.
      * @param {?} ComponentClass
      * @param {?} location
      * @param {?=} providers
@@ -5174,6 +5175,7 @@ class ComponentUtils {
         return location.createComponent(componentFactory, location.length, childInjector);
     }
     /**
+     * @deprecated
      * @param {?} ComponentClass
      * @param {?} location
      * @param {?=} providers
@@ -5190,6 +5192,23 @@ class ComponentUtils {
             childInjector = ReflectiveInjector.fromResolvedProviders(providers, parentInjector);
         }
         return location.createComponent(componentFactory, 0, childInjector);
+    }
+    /**
+     * @template T
+     * @param {?} ComponentClass
+     * @param {?} location
+     * @param {?=} providers
+     * @param {?=} onTop
+     * @return {?}
+     */
+    append(ComponentClass, location, providers, onTop) {
+        /** @type {?} */
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ComponentClass);
+        /** @type {?} */
+        const parent = location.injector;
+        /** @type {?} */
+        const index = onTop ? 0 : location.length;
+        return location.createComponent(componentFactory, index, Injector.create({ providers, parent }));
     }
 }
 ComponentUtils.decorators = [
@@ -5262,7 +5281,7 @@ class NovoModalContainerElement {
      */
     ngAfterViewInit() {
         setTimeout(() => {
-            this.modalRef.contentRef = this.componentUtils.appendNextToLocation(this.modalRef.component, this.container);
+            this.modalRef.contentRef = this.componentUtils.append(this.modalRef.component, this.container);
         });
     }
 }
@@ -5298,12 +5317,10 @@ NovoModalElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-modal',
                 template: `
-        <ng-content select="header"></ng-content>
-        <ng-content select="section"></ng-content>
-        <footer>
-            <ng-content select="button"></ng-content>
-        </footer>
-    `
+    <ng-content select="header"></ng-content>
+    <ng-content select="section"></ng-content>
+    <footer><ng-content select="button"></ng-content></footer>
+  `
             }] }
 ];
 /** @nocollapse */
@@ -5352,20 +5369,16 @@ NovoModalNotificationElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-notification',
                 template: `
-        <button class="modal-close" theme="icon" icon="times" (click)="close()"></button>
-        <header>
-            <ng-content select="label"></ng-content>
-        </header>
-        <section class="notification-body">
-            <i class="indicator" [ngClass]="iconType" *ngIf="iconType"></i>
-            <ng-content select="h1"></ng-content>
-            <ng-content select="h2"></ng-content>
-            <ng-content select="p"></ng-content>
-        </section>
-        <footer>
-            <ng-content select="button"></ng-content>
-        </footer>
-    `
+    <button class="modal-close" theme="icon" icon="times" (click)="close()"></button>
+    <header><ng-content select="label"></ng-content></header>
+    <section class="notification-body">
+      <i class="indicator" [ngClass]="iconType" *ngIf="iconType"></i>
+      <ng-content select="h1"></ng-content>
+      <ng-content select="h2"></ng-content>
+      <ng-content select="p"></ng-content>
+    </section>
+    <footer><ng-content select="button"></ng-content></footer>
+  `
             }] }
 ];
 /** @nocollapse */
@@ -6704,7 +6717,7 @@ class QuickNoteElement extends OutsideClick {
                 }
                 else {
                     // Create the results DOM element
-                    this.quickNoteResults = this.componentUtils.appendNextToLocation(this.resultsComponent, this.results);
+                    this.quickNoteResults = this.componentUtils.append(this.resultsComponent, this.results);
                     this.quickNoteResults.instance.parent = this;
                     this.quickNoteResults.instance.config = this.config;
                     this.quickNoteResults.instance.term = {
@@ -7059,11 +7072,8 @@ QuickNoteElement.decorators = [
                 selector: 'novo-quick-note',
                 providers: [QUICK_NOTE_VALUE_ACCESSOR],
                 template: `
-        <div class="quick-note-wrapper" #wrapper>
-            <textarea #host></textarea>
-            <span #results></span>
-        </div>
-    `
+    <div class="quick-note-wrapper" #wrapper><textarea #host></textarea> <span #results></span></div>
+  `
             }] }
 ];
 /** @nocollapse */
@@ -8721,7 +8731,7 @@ class NovoPickerElement {
             this.ref.markForCheck();
         }
         else {
-            this.popup = this.componentUtils.appendNextToLocation(this.resultsComponent, this.results);
+            this.popup = this.componentUtils.append(this.resultsComponent, this.results);
             this.popup.instance.parent = this;
             this.popup.instance.config = this.config;
             this.popup.instance.term = this.term;
@@ -10567,12 +10577,11 @@ NovoChipElement.decorators = [
     { type: Component, args: [{
                 selector: 'chip,novo-chip',
                 template: `
-        <span (click)="onSelect($event)" (mouseenter)="onSelect($event)" (mouseleave)="onDeselect($event)" [ngClass]="_type">
-            <i *ngIf="_type" class="bhi-circle"></i>
-            <span><ng-content></ng-content></span>
-        </span>
-        <i class="bhi-close" *ngIf="!disabled" (click)="onRemove($event)"></i>
-    `
+    <span (click)="onSelect($event)" (mouseenter)="onSelect($event)" (mouseleave)="onDeselect($event)" [ngClass]="_type">
+      <i *ngIf="_type" class="bhi-circle"></i> <span><ng-content></ng-content></span>
+    </span>
+    <i class="bhi-close" *ngIf="!disabled" (click)="onRemove($event)"></i>
+  `
             }] }
 ];
 NovoChipElement.propDecorators = {
@@ -10875,7 +10884,7 @@ class NovoChipsElement {
     showPreview() {
         if (this.source.previewTemplate) {
             if (!this.popup) {
-                this.popup = this.componentUtils.appendNextToLocation(this.source.previewTemplate, this.preview);
+                this.popup = this.componentUtils.append(this.source.previewTemplate, this.preview);
             }
             this.popup.instance.match = this.selected;
         }
@@ -10898,41 +10907,43 @@ NovoChipsElement.decorators = [
                 selector: 'chips,novo-chips',
                 providers: [CHIPS_VALUE_ACCESSOR],
                 template: `
-        <div class="novo-chip-container">
-          <novo-chip
-              *ngFor="let item of _items | async"
-              [type]="type || item?.value?.searchEntity"
-              [class.selected]="item == selected"
-              [disabled]="disablePickerInput"
-              (remove)="remove($event, item)"
-              (select)="select($event, item)"
-              (deselect)="deselect($event, item)">
-              {{ item.label }}
-          </novo-chip>
-        </div>
-        <div class="chip-input-container" *ngIf="!maxlength || (maxlength && items.length < maxlength)">
-            <novo-picker
-                clearValueOnSelect="true"
-                [closeOnSelect]="closeOnSelect"
-                [config]="source"
-                [disablePickerInput]="disablePickerInput"
-                [placeholder]="placeholder"
-                [(ngModel)]="itemToAdd"
-                (select)="add($event)"
-                (keydown)="onKeyDown($event)"
-                (focus)="onFocus($event)"
-                (typing)="onTyping($event)"
-                (blur)="onTouched($event)"
-                [selected]="items"
-                [overrideElement]="element">
-            </novo-picker>
-        </div>
-        <div class="preview-container">
-            <span #preview></span>
-        </div>
-        <i class="bhi-search" [class.has-value]="items.length" *ngIf="!disablePickerInput"></i>
-        <label class="clear-all" *ngIf="items.length && !disablePickerInput" (click)="clearValue()">{{ labels.clearAll }} <i class="bhi-times"></i></label>
-   `,
+    <div class="novo-chip-container">
+      <novo-chip
+        *ngFor="let item of (_items | async)"
+        [type]="type || item?.value?.searchEntity"
+        [class.selected]="item == selected"
+        [disabled]="disablePickerInput"
+        (remove)="remove($event, item)"
+        (select)="select($event, item)"
+        (deselect)="deselect($event, item)"
+      >
+        {{ item.label }}
+      </novo-chip>
+    </div>
+    <div class="chip-input-container" *ngIf="!maxlength || (maxlength && items.length < maxlength)">
+      <novo-picker
+        clearValueOnSelect="true"
+        [closeOnSelect]="closeOnSelect"
+        [config]="source"
+        [disablePickerInput]="disablePickerInput"
+        [placeholder]="placeholder"
+        [(ngModel)]="itemToAdd"
+        (select)="add($event)"
+        (keydown)="onKeyDown($event)"
+        (focus)="onFocus($event)"
+        (typing)="onTyping($event)"
+        (blur)="onTouched($event)"
+        [selected]="items"
+        [overrideElement]="element"
+      >
+      </novo-picker>
+    </div>
+    <div class="preview-container"><span #preview></span></div>
+    <i class="bhi-search" [class.has-value]="items.length" *ngIf="!disablePickerInput"></i>
+    <label class="clear-all" *ngIf="items.length && !disablePickerInput" (click)="clearValue()"
+      >{{ labels.clearAll }} <i class="bhi-times"></i
+    ></label>
+  `,
                 host: {
                     '[class.with-value]': 'items.length > 0',
                     '[class.disabled]': 'disablePickerInput',
@@ -16005,7 +16016,7 @@ class NovoToastService {
                 return;
             }
             /** @type {?} */
-            let toast = this.componentUtils.appendNextToLocation(toastElement, this._parentViewContainer);
+            const toast = this.componentUtils.append(toastElement, this._parentViewContainer);
             this.references.push(toast);
             this.handleAlert(toast.instance, options);
             resolve(toast);
@@ -16121,7 +16132,6 @@ class NovoModalService {
      */
     constructor(componentUtils) {
         this.componentUtils = componentUtils;
-        this._parentViewContainer = null;
     }
     /**
      * @param {?} view
@@ -16131,6 +16141,7 @@ class NovoModalService {
         this._parentViewContainer = view;
     }
     /**
+     * @template T
      * @param {?} component
      * @param {?=} scope
      * @return {?}
@@ -16145,8 +16156,8 @@ class NovoModalService {
         modal.component = component;
         modal.open();
         /** @type {?} */
-        let bindings = ReflectiveInjector.resolve([{ provide: NovoModalRef, useValue: modal }, { provide: NovoModalParams, useValue: scope }]);
-        modal.containerRef = this.componentUtils.appendNextToLocation(NovoModalContainerElement, this._parentViewContainer, bindings);
+        const providers = [{ provide: NovoModalRef, useValue: modal }, { provide: NovoModalParams, useValue: scope }];
+        modal.containerRef = this.componentUtils.append(NovoModalContainerElement, this._parentViewContainer, providers);
         return modal;
     }
 }
@@ -37515,8 +37526,8 @@ class RowDetails {
         if (this.renderer) {
             if (this.renderer.prototype instanceof BaseRenderer) {
                 /** @type {?} */
-                let componentRef = this.componentUtils.appendNextToLocation(this.renderer, this.container);
-                componentRef.instance.data = this.data;
+                let componentRef = this.componentUtils.append(this.renderer, this.container);
+                componentRef.instance['data'] = this.data;
             }
             else {
                 this.value = this.renderer(this.data);
@@ -37528,9 +37539,8 @@ RowDetails.decorators = [
     { type: Component, args: [{
                 selector: 'novo-row-details',
                 template: `
-        <span #container></span>
-        <span>{{value}}</span>
-    `
+    <span #container></span> <span>{{ value }}</span>
+  `
             }] }
 ];
 /** @nocollapse */
@@ -37569,10 +37579,10 @@ class TableCell {
             if (this.column.renderer.prototype instanceof BaseRenderer) {
                 this.column._type = 'custom';
                 /** @type {?} */
-                let componentRef = this.componentUtils.appendNextToLocation(this.column.renderer, this.container);
-                componentRef.instance.meta = this.column;
-                componentRef.instance.data = this.row;
-                componentRef.instance.value = this.form && this.hasEditor ? this.form.value[this.column.name] : this.row[this.column.name];
+                let componentRef = this.componentUtils.append(this.column.renderer, this.container);
+                componentRef.instance['meta'] = this.column;
+                componentRef.instance['data'] = this.row;
+                componentRef.instance['value'] = this.form && this.hasEditor ? this.form.value[this.column.name] : this.row[this.column.name];
                 // TODO - save ref to this and update in the valueChanges below!!
             }
             else {
@@ -37617,13 +37627,12 @@ TableCell.decorators = [
     { type: Component, args: [{
                 selector: 'novo-table-cell',
                 template: `
-        <div [ngSwitch]="column._type">
-            <span #container></span>
-            <date-cell *ngSwitchCase="'date'" [value]="value"></date-cell>
-            <a *ngSwitchCase="'link'" (click)="onClick($event);">{{ value }}</a>
-            <span *ngSwitchDefault>{{ value }}</span>
-        </div>
-    `
+    <div [ngSwitch]="column._type">
+      <span #container></span>
+      <date-cell *ngSwitchCase="'date'" [value]="value"></date-cell>
+      <a *ngSwitchCase="'link'" (click)="onClick($event)">{{ value }}</a> <span *ngSwitchDefault>{{ value }}</span>
+    </div>
+  `
             }] }
 ];
 /** @nocollapse */
