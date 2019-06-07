@@ -15402,7 +15402,7 @@ class FormUtils {
             };
         }
         else if (optionsConfig) {
-            controlConfig.config = Object.assign({}, optionsConfig, controlConfig && controlConfig.config);
+            controlConfig.config = Object.assign({}, optionsConfig, (controlConfig && controlConfig.config));
         }
         if (type === 'year') {
             controlConfig.maxlength = 4;
@@ -15578,6 +15578,19 @@ class FormUtils {
         return control;
     }
     /**
+     * @private
+     * @param {?} field
+     * @return {?}
+     */
+    shouldCreateControl(field) {
+        if (field.systemRequired) {
+            field.readOnly = false;
+        }
+        return (field.name !== 'id' &&
+            (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+            !field.readOnly);
+    }
+    /**
      * @param {?} meta
      * @param {?} currencyFormat
      * @param {?} http
@@ -15593,9 +15606,7 @@ class FormUtils {
             /** @type {?} */
             let fields = meta.fields;
             fields.forEach((field) => {
-                if (field.name !== 'id' &&
-                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
-                    !field.readOnly) {
+                if (this.shouldCreateControl(field)) {
                     /** @type {?} */
                     let control = this.getControlForField(field, http, config, overrides, forTable);
                     // Set currency format
@@ -15705,9 +15716,7 @@ class FormUtils {
                 });
             }
             fields.forEach((field) => {
-                if (field.name !== 'id' &&
-                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
-                    !field.readOnly) {
+                if (this.shouldCreateControl(field)) {
                     /** @type {?} */
                     const fieldData = data && data[field.name] ? data[field.name] : null;
                     /** @type {?} */
