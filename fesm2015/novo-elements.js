@@ -43903,6 +43903,11 @@ NovoDataTable.decorators = [
         <div
           class="novo-data-table-no-results-container"
           [style.left.px]="scrollLeft"
+          [ngClass]="
+            dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine
+              ? 'clickable-empty-state'
+              : ''
+          "
           *ngIf="dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine"
         >
           <div class="novo-data-table-empty-message">
@@ -43912,6 +43917,11 @@ NovoDataTable.decorators = [
       </div>
       <div
         class="novo-data-table-empty-container"
+        [ngClass]="
+          dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine
+            ? 'clickable-empty-state'
+            : ''
+        "
         *ngIf="dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine"
       >
         <div class="novo-data-table-empty-message">
@@ -43919,7 +43929,7 @@ NovoDataTable.decorators = [
         </div>
       </div>
     </div>
-    <!-- DEFAULT CELL TEMPLATE -->
+    'emptyMessage'] || templates['
     <ng-template novoTemplate="textCellTemplate" let-row let-col="col">
       <span [style.width.px]="col?.width" [style.min-width.px]="col?.width" [style.max-width.px]="col?.width">{{
         row[col.id] | dataTableInterpolate: col
@@ -44000,7 +44010,7 @@ NovoDataTable.decorators = [
         <ng-container *ngTemplateOutlet="templates['expandedRow']; context: { $implicit: row }"></ng-container>
       </div>
     </ng-template>
-    <!-- CUSTOM CELLS PASSED IN -->
+    -detail-row" [@expand] style="o
     <ng-content></ng-content>
   `,
                 changeDetection: ChangeDetectionStrategy.OnPush,
