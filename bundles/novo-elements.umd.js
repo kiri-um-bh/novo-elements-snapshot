@@ -15572,7 +15572,7 @@
          */
             function () {
                 /** @type {?} */
-                var config = this.config || this.getBaseConfig();
+                var config = Object.assign(this.getBaseConfig(), this.config);
                 if (this.startupFocus) {
                     config.startupFocus = true;
                 }

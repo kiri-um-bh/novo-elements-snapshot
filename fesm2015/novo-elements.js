@@ -13354,7 +13354,7 @@ class NovoCKEditorElement {
      */
     ngAfterViewInit() {
         /** @type {?} */
-        let config = this.config || this.getBaseConfig();
+        let config = Object.assign(this.getBaseConfig(), this.config);
         if (this.startupFocus) {
             config.startupFocus = true;
         }
