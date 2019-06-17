@@ -15402,7 +15402,7 @@ class FormUtils {
             };
         }
         else if (optionsConfig) {
-            controlConfig.config = Object.assign({}, optionsConfig, controlConfig && controlConfig.config);
+            controlConfig.config = Object.assign({}, optionsConfig, (controlConfig && controlConfig.config));
         }
         if (type === 'year') {
             controlConfig.maxlength = 4;
@@ -15806,9 +15806,9 @@ class FormUtils {
     setInitialValues(controls, values, keepClean, keyOverride) {
         for (let i = 0; i < controls.length; i++) {
             /** @type {?} */
-            let control = controls[i];
+            const control = controls[i];
             /** @type {?} */
-            let key = keyOverride ? control.key.replace(keyOverride, '') : control.key;
+            const key = keyOverride ? control.key.replace(keyOverride, '') : control.key;
             /** @type {?} */
             let value = values[key];
             if (Helpers.isBlank(value)) {
@@ -15828,6 +15828,9 @@ class FormUtils {
             }
             if (Object.keys(value).length === 0 && value.constructor === Object) {
                 continue;
+            }
+            if (control.dataType === 'Date' && typeof value === 'string' && control.optionsType !== 'skipConversion') {
+                value = startOfDay(value);
             }
             control.value = value;
             // TODO: keepClean is not required, but is always used. It should default (to true?)

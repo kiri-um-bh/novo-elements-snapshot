@@ -17948,7 +17948,7 @@
                     };
                 }
                 else if (optionsConfig) {
-                    controlConfig.config = __assign({}, optionsConfig, controlConfig && controlConfig.config);
+                    controlConfig.config = __assign({}, optionsConfig, (controlConfig && controlConfig.config));
                 }
                 if (type === 'year') {
                     controlConfig.maxlength = 4;
@@ -18441,6 +18441,9 @@
                     }
                     if (Object.keys(value).length === 0 && value.constructor === Object) {
                         continue;
+                    }
+                    if (control.dataType === 'Date' && typeof value === 'string' && control.optionsType !== 'skipConversion') {
+                        value = dateFns.startOfDay(value);
                     }
                     control.value = value;
                     // TODO: keepClean is not required, but is always used. It should default (to true?)
