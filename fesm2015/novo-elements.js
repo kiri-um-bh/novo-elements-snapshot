@@ -20,7 +20,7 @@ import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
-import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
+import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
@@ -5766,6 +5766,7 @@ class BasePickerResults {
         this.page = 0;
         this.lastPage = false;
         this.autoSelectFirstOption = true;
+        this.optionsFunctionHasChanged = false;
         this.selectingMatches = false;
         this.element = element;
         this.ref = ref;
@@ -5816,6 +5817,7 @@ class BasePickerResults {
         if (this.shouldSearch(value)) {
             this._term = value;
             this.page = 0;
+            this.optionsFunctionHasChanged = false;
             this.matches = [];
             this.processSearch(true);
         }
@@ -5827,14 +5829,28 @@ class BasePickerResults {
      * @param {?} value
      * @return {?}
      */
+    set config(value) {
+        if (this.config && this.config.options !== value.options) {
+            this.optionsFunctionHasChanged = true; // reset page so that new options call is used to search
+        }
+        this._config = value;
+    }
+    /**
+     * @return {?}
+     */
+    get config() {
+        return this._config;
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
     shouldSearch(value) {
         /** @type {?} */
         const termHasChanged = value !== this._term;
         /** @type {?} */
         const optionsNotYetCalled = this.page === 0;
-        /** @type {?} */
-        const optionsCalledOnEmptyStringSearch = !termHasChanged && this.page > 0 && value === '';
-        return termHasChanged || optionsNotYetCalled || optionsCalledOnEmptyStringSearch;
+        return termHasChanged || optionsNotYetCalled || this.optionsFunctionHasChanged;
     }
     /**
      * @return {?}
@@ -15402,7 +15418,7 @@ class FormUtils {
             };
         }
         else if (optionsConfig) {
-            controlConfig.config = Object.assign({}, optionsConfig, (controlConfig && controlConfig.config));
+            controlConfig.config = Object.assign({}, optionsConfig, controlConfig && controlConfig.config);
         }
         if (type === 'year') {
             controlConfig.maxlength = 4;
@@ -15578,19 +15594,6 @@ class FormUtils {
         return control;
     }
     /**
-     * @private
-     * @param {?} field
-     * @return {?}
-     */
-    shouldCreateControl(field) {
-        if (field.systemRequired) {
-            field.readOnly = false;
-        }
-        return (field.name !== 'id' &&
-            (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
-            !field.readOnly);
-    }
-    /**
      * @param {?} meta
      * @param {?} currencyFormat
      * @param {?} http
@@ -15606,7 +15609,9 @@ class FormUtils {
             /** @type {?} */
             let fields = meta.fields;
             fields.forEach((field) => {
-                if (this.shouldCreateControl(field)) {
+                if (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly) {
                     /** @type {?} */
                     let control = this.getControlForField(field, http, config, overrides, forTable);
                     // Set currency format
@@ -15716,7 +15721,9 @@ class FormUtils {
                 });
             }
             fields.forEach((field) => {
-                if (this.shouldCreateControl(field)) {
+                if (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly) {
                     /** @type {?} */
                     const fieldData = data && data[field.name] ? data[field.name] : null;
                     /** @type {?} */
@@ -15815,9 +15822,9 @@ class FormUtils {
     setInitialValues(controls, values, keepClean, keyOverride) {
         for (let i = 0; i < controls.length; i++) {
             /** @type {?} */
-            const control = controls[i];
+            let control = controls[i];
             /** @type {?} */
-            const key = keyOverride ? control.key.replace(keyOverride, '') : control.key;
+            let key = keyOverride ? control.key.replace(keyOverride, '') : control.key;
             /** @type {?} */
             let value = values[key];
             if (Helpers.isBlank(value)) {
@@ -15837,9 +15844,6 @@ class FormUtils {
             }
             if (Object.keys(value).length === 0 && value.constructor === Object) {
                 continue;
-            }
-            if (control.dataType === 'Date' && typeof value === 'string' && control.optionsType !== 'skipConversion') {
-                value = startOfDay(value);
             }
             control.value = value;
             // TODO: keepClean is not required, but is always used. It should default (to true?)
@@ -16256,7 +16260,7 @@ ControlPromptModal.ctorParameters = () => [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class CustomHttp {
+class CustomHttpImpl {
     /**
      * @param {?} http
      */
@@ -16265,26 +16269,22 @@ class CustomHttp {
         this.mapFn = (x) => x;
     }
     /**
-     * @template THIS
-     * @this {THIS}
      * @param {?} url
      * @param {?=} options
-     * @return {THIS}
+     * @return {?}
      */
     get(url, options) {
-        (/** @type {?} */ (this)).url = url;
-        (/** @type {?} */ (this)).options = options;
-        return (/** @type {?} */ (this));
+        this.url = url;
+        this.options = options;
+        return this;
     }
     /**
-     * @template THIS
-     * @this {THIS}
      * @param {?} mapFn
-     * @return {THIS}
+     * @return {?}
      */
     map(mapFn) {
-        (/** @type {?} */ (this)).mapFn = mapFn;
-        return (/** @type {?} */ (this));
+        this.mapFn = mapFn;
+        return this;
     }
     /**
      * @param {?} resolve
@@ -16312,6 +16312,49 @@ class FieldInteractionApi {
         this.formUtils = formUtils;
         this.http = http;
         this.labels = labels;
+        this.getOptionsConfig = (args, mapper, filteredOptionsCreator, pickerConfigFormat) => {
+            if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
+                /** @type {?} */
+                const format$$1 = ('format' in args && args.format) || pickerConfigFormat;
+                return Object.assign({ options: this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, (format$$1 && { format: format$$1 }));
+            }
+            else if ('options' in args && Array.isArray(args.options)) {
+                return {
+                    options: [...args.options],
+                };
+            }
+            else {
+                return undefined;
+            }
+        };
+        this.createOptionsFunction = (config, mapper, filteredOptionsCreator) => (query$$1, page) => {
+            if (filteredOptionsCreator) {
+                if ('where' in config) {
+                    return filteredOptionsCreator(config.where)(query$$1, page);
+                }
+                else {
+                    return filteredOptionsCreator()(query$$1, page);
+                }
+            }
+            else if ('optionsPromise' in config && config.optionsPromise) {
+                return config.optionsPromise(query$$1, new CustomHttpImpl(this.http));
+            }
+            else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
+                return new Promise((resolve, reject) => {
+                    /** @type {?} */
+                    const url = 'optionsUrlBuilder' in config ? config.optionsUrlBuilder(query$$1) : `${config.optionsUrl}?filter=${query$$1 || ''}`;
+                    this.http
+                        .get(url)
+                        .pipe(map((results) => {
+                        if (mapper) {
+                            return results.map(mapper);
+                        }
+                        return results;
+                    }))
+                        .subscribe(resolve, reject);
+                });
+            }
+        };
     }
     /**
      * @param {?} form
@@ -16918,40 +16961,26 @@ class FieldInteractionApi {
      * @return {?}
      */
     modifyPickerConfig(key, config, mapper) {
+        // call another public method to avoid a breaking change but still enable stricter types
+        this.mutatePickerConfig(key, (/** @type {?} */ (config)), mapper);
+    }
+    /**
+     * @param {?} key
+     * @param {?} args
+     * @param {?=} mapper
+     * @return {?}
+     */
+    mutatePickerConfig(key, args, mapper) {
         /** @type {?} */
         let control = this.getControl(key);
-        const { minSearchLength } = control.config;
         if (control && !control.restrictFieldInteractions) {
+            const { minSearchLength, enableInfiniteScroll, filteredOptionsCreator, format: format$$1 } = control.config;
             /** @type {?} */
-            const newConfig = Object.assign({}, (Number.isInteger(minSearchLength) && { minSearchLength }), { resultsTemplate: control.config.resultsTemplate });
-            if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
-                newConfig.options = (query$$1) => {
-                    if (config.optionsPromise) {
-                        return config.optionsPromise(query$$1, new CustomHttp(this.http));
-                    }
-                    return new Promise((resolve, reject) => {
-                        /** @type {?} */
-                        let url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query$$1) : `${config.optionsUrl}?filter=${query$$1 || ''}`;
-                        this.http
-                            .get(url)
-                            .pipe(map((results) => {
-                            if (mapper) {
-                                return results.map(mapper);
-                            }
-                            return results;
-                        }))
-                            .subscribe(resolve, reject);
-                    });
-                };
-                if (config.hasOwnProperty('format')) {
-                    newConfig.format = config.format;
-                }
-            }
-            else if (config.options) {
-                newConfig.options = [...config.options];
-            }
+            const optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format$$1);
+            /** @type {?} */
+            const newConfig = Object.assign({}, (Number.isInteger(minSearchLength) && { minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
             this.setProperty(key, 'config', newConfig);
-            this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: config });
+            this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args });
         }
     }
     /**
