@@ -18140,6 +18140,24 @@
                 return control;
             };
         /**
+         * @private
+         * @param {?} field
+         * @return {?}
+         */
+        FormUtils.prototype.shouldCreateControl = /**
+         * @private
+         * @param {?} field
+         * @return {?}
+         */
+            function (field) {
+                if (field.systemRequired) {
+                    field.readOnly = false;
+                }
+                return (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly);
+            };
+        /**
          * @param {?} meta
          * @param {?} currencyFormat
          * @param {?} http
@@ -18168,9 +18186,7 @@
                     /** @type {?} */
                     var fields = meta.fields;
                     fields.forEach(function (field) {
-                        if (field.name !== 'id' &&
-                            (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
-                            !field.readOnly) {
+                        if (_this.shouldCreateControl(field)) {
                             /** @type {?} */
                             var control = _this.getControlForField(field, http$$1, config, overrides, forTable);
                             // Set currency format
@@ -18298,9 +18314,7 @@
                         });
                     }
                     fields.forEach(function (field) {
-                        if (field.name !== 'id' &&
-                            (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
-                            !field.readOnly) {
+                        if (_this.shouldCreateControl(field)) {
                             /** @type {?} */
                             var fieldData = data && data[field.name] ? data[field.name] : null;
                             /** @type {?} */
