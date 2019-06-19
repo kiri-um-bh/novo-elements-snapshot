@@ -6609,6 +6609,7 @@
             this.page = 0;
             this.lastPage = false;
             this.autoSelectFirstOption = true;
+            this.optionsFunctionHasChanged = false;
             this.selectingMatches = false;
             this.element = element;
             this.ref = ref;
@@ -6665,12 +6666,31 @@
                 if (this.shouldSearch(value)) {
                     this._term = value;
                     this.page = 0;
+                    this.optionsFunctionHasChanged = false;
                     this.matches = [];
                     this.processSearch(true);
                 }
                 else {
                     this.addScrollListener();
                 }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(BasePickerResults.prototype, "config", {
+            get: /**
+             * @return {?}
+             */ function () {
+                return this._config;
+            },
+            set: /**
+             * @param {?} value
+             * @return {?}
+             */ function (value) {
+                if (this.config && this.config.options !== value.options) {
+                    this.optionsFunctionHasChanged = true; // reset page so that new options call is used to search
+                }
+                this._config = value;
             },
             enumerable: true,
             configurable: true
@@ -6688,9 +6708,7 @@
                 var termHasChanged = value !== this._term;
                 /** @type {?} */
                 var optionsNotYetCalled = this.page === 0;
-                /** @type {?} */
-                var optionsCalledOnEmptyStringSearch = !termHasChanged && this.page > 0 && value === '';
-                return termHasChanged || optionsNotYetCalled || optionsCalledOnEmptyStringSearch;
+                return termHasChanged || optionsNotYetCalled || this.optionsFunctionHasChanged;
             };
         /**
          * @return {?}
@@ -18961,52 +18979,44 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    var CustomHttp = /** @class */ (function () {
-        function CustomHttp(http$$1) {
+    var CustomHttpImpl = /** @class */ (function () {
+        function CustomHttpImpl(http$$1) {
             this.http = http$$1;
             this.mapFn = function (x) { return x; };
         }
         /**
-         * @template THIS
-         * @this {THIS}
          * @param {?} url
          * @param {?=} options
-         * @return {THIS}
+         * @return {?}
          */
-        CustomHttp.prototype.get = /**
-         * @template THIS
-         * @this {THIS}
+        CustomHttpImpl.prototype.get = /**
          * @param {?} url
          * @param {?=} options
-         * @return {THIS}
+         * @return {?}
          */
             function (url, options) {
-                ( /** @type {?} */(this)).url = url;
-                ( /** @type {?} */(this)).options = options;
-                return ( /** @type {?} */(this));
+                this.url = url;
+                this.options = options;
+                return this;
             };
         /**
-         * @template THIS
-         * @this {THIS}
          * @param {?} mapFn
-         * @return {THIS}
+         * @return {?}
          */
-        CustomHttp.prototype.map = /**
-         * @template THIS
-         * @this {THIS}
+        CustomHttpImpl.prototype.map = /**
          * @param {?} mapFn
-         * @return {THIS}
+         * @return {?}
          */
             function (mapFn) {
-                ( /** @type {?} */(this)).mapFn = mapFn;
-                return ( /** @type {?} */(this));
+                this.mapFn = mapFn;
+                return this;
             };
         /**
          * @param {?} resolve
          * @param {?=} reject
          * @return {?}
          */
-        CustomHttp.prototype.subscribe = /**
+        CustomHttpImpl.prototype.subscribe = /**
          * @param {?} resolve
          * @param {?=} reject
          * @return {?}
@@ -19017,15 +19027,61 @@
                     .pipe(operators.map(this.mapFn))
                     .subscribe(resolve, reject);
             };
-        return CustomHttp;
+        return CustomHttpImpl;
     }());
     var FieldInteractionApi = /** @class */ (function () {
         function FieldInteractionApi(toaster, modalService, formUtils, http$$1, labels) {
+            var _this = this;
             this.toaster = toaster;
             this.modalService = modalService;
             this.formUtils = formUtils;
             this.http = http$$1;
             this.labels = labels;
+            this.getOptionsConfig = function (args, mapper, filteredOptionsCreator, pickerConfigFormat) {
+                if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
+                    /** @type {?} */
+                    var format = ('format' in args && args.format) || pickerConfigFormat;
+                    return __assign({ options: _this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, (format && { format: format }));
+                }
+                else if ('options' in args && Array.isArray(args.options)) {
+                    return {
+                        options: __spread(args.options),
+                    };
+                }
+                else {
+                    return undefined;
+                }
+            };
+            this.createOptionsFunction = function (config, mapper, filteredOptionsCreator) {
+                return function (query, page) {
+                    if (filteredOptionsCreator) {
+                        if ('where' in config) {
+                            return filteredOptionsCreator(config.where)(query, page);
+                        }
+                        else {
+                            return filteredOptionsCreator()(query, page);
+                        }
+                    }
+                    else if ('optionsPromise' in config && config.optionsPromise) {
+                        return config.optionsPromise(query, new CustomHttpImpl(_this.http));
+                    }
+                    else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
+                        return new Promise(function (resolve, reject) {
+                            /** @type {?} */
+                            var url = 'optionsUrlBuilder' in config ? config.optionsUrlBuilder(query) : config.optionsUrl + "?filter=" + (query || '');
+                            _this.http
+                                .get(url)
+                                .pipe(operators.map(function (results) {
+                                if (mapper) {
+                                    return results.map(mapper);
+                                }
+                                return results;
+                            }))
+                                .subscribe(resolve, reject);
+                        });
+                    }
+                };
+            };
         }
         Object.defineProperty(FieldInteractionApi.prototype, "form", {
             get: /**
@@ -19831,41 +19887,32 @@
          * @return {?}
          */
             function (key, config, mapper) {
-                var _this = this;
+                // call another public method to avoid a breaking change but still enable stricter types
+                this.mutatePickerConfig(key, ( /** @type {?} */(config)), mapper);
+            };
+        /**
+         * @param {?} key
+         * @param {?} args
+         * @param {?=} mapper
+         * @return {?}
+         */
+        FieldInteractionApi.prototype.mutatePickerConfig = /**
+         * @param {?} key
+         * @param {?} args
+         * @param {?=} mapper
+         * @return {?}
+         */
+            function (key, args, mapper) {
                 /** @type {?} */
                 var control = this.getControl(key);
-                var minSearchLength = control.config.minSearchLength;
                 if (control && !control.restrictFieldInteractions) {
+                    var _a = control.config, minSearchLength = _a.minSearchLength, enableInfiniteScroll = _a.enableInfiniteScroll, filteredOptionsCreator = _a.filteredOptionsCreator, format = _a.format;
                     /** @type {?} */
-                    var newConfig = __assign({}, (Number.isInteger(minSearchLength) && { minSearchLength: minSearchLength }), { resultsTemplate: control.config.resultsTemplate });
-                    if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
-                        newConfig.options = function (query) {
-                            if (config.optionsPromise) {
-                                return config.optionsPromise(query, new CustomHttp(_this.http));
-                            }
-                            return new Promise(function (resolve, reject) {
-                                /** @type {?} */
-                                var url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query) : config.optionsUrl + "?filter=" + (query || '');
-                                _this.http
-                                    .get(url)
-                                    .pipe(operators.map(function (results) {
-                                    if (mapper) {
-                                        return results.map(mapper);
-                                    }
-                                    return results;
-                                }))
-                                    .subscribe(resolve, reject);
-                            });
-                        };
-                        if (config.hasOwnProperty('format')) {
-                            newConfig.format = config.format;
-                        }
-                    }
-                    else if (config.options) {
-                        newConfig.options = __spread(config.options);
-                    }
+                    var optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format);
+                    /** @type {?} */
+                    var newConfig = __assign({}, (Number.isInteger(minSearchLength) && { minSearchLength: minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll: enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator: filteredOptionsCreator }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
                     this.setProperty(key, 'config', newConfig);
-                    this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: config });
+                    this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args });
                 }
             };
         /**

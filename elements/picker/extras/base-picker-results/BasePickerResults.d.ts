@@ -1,6 +1,7 @@
 import { ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OverlayRef } from '@angular/cdk/overlay';
+import { NovoControlConfig } from '../../../form/controls/BaseControl';
 /**
  * @name: PickerResults
  *
@@ -14,7 +15,7 @@ export declare class BasePickerResults {
     hasError: boolean;
     isLoading: boolean;
     isStatic: boolean;
-    config: any;
+    _config: NovoControlConfig['config'];
     activeMatch: any;
     parent: any;
     element: ElementRef;
@@ -23,12 +24,14 @@ export declare class BasePickerResults {
     lastPage: boolean;
     autoSelectFirstOption: boolean;
     overlay: OverlayRef;
+    optionsFunctionHasChanged: boolean;
     private selectingMatches;
     private scrollHandler;
     constructor(element: ElementRef, ref: ChangeDetectorRef);
     cleanUp(): void;
     onScrollDown(event: MouseWheelEvent): void;
     term: string;
+    config: NovoControlConfig['config'];
     shouldSearch(value: unknown): boolean;
     addScrollListener(): void;
     processSearch(shouldReset?: boolean): void;
