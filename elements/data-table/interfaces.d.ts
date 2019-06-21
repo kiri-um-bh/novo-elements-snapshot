@@ -1,12 +1,6 @@
 import { Observable } from 'rxjs';
 export interface IDataTablePreferences {
     name: string;
-    sort?: {
-        id: string;
-        value: string;
-    };
-    filter?: IDataTableFilter | IDataTableFilter[];
-    globalSearch?: any;
     pageSize?: number;
     displayedColumns?: string[];
 }
@@ -15,7 +9,7 @@ export interface IDataTableColumn<T> {
     label?: string;
     labelIcon?: string;
     enabled?: boolean;
-    type: 'text' | 'link' | 'link:tel' | 'link:mailto' | 'date' | 'datetime' | 'time' | 'currency' | 'bigdecimal' | 'number' | 'percent' | 'action' | 'expand';
+    type: 'text' | 'link' | 'link:tel' | 'link:mailto' | 'date' | 'datetime' | 'time' | 'currency' | 'number' | 'percent' | 'action' | 'expand';
     template?: string;
     format?: string | string[];
     disabled?: boolean;
@@ -93,7 +87,10 @@ export interface IDataTableChangeEvent {
         id: string;
         value: string;
     };
-    filter?: IDataTableFilter | IDataTableFilter[];
+    filter?: {
+        id: string;
+        value: string | string[];
+    };
     page?: number;
     pageSize?: number;
     globalSearch?: string;
@@ -106,13 +103,6 @@ export interface IDataTablePaginationEvent {
     pageSize: number;
     length: number;
 }
-export interface IDataTableFilter {
-    id: string;
-    value: string | string[];
-    transform?: Function;
-    type?: string;
-    selectedOption?: Object;
-}
 export interface IDataTableService<T> {
     getTableResults(sort: {
         id: string;
@@ -120,9 +110,9 @@ export interface IDataTableService<T> {
         transform?: Function;
     }, filter: {
         id: string;
-        value: string;
+        value: string | string[];
         transform?: Function;
-    } | IDataTableFilter | IDataTableFilter[], page: number, pageSize: number, globalSearch?: string, outsideFilter?: any): Observable<{
+    }, page: number, pageSize: number, globalSearch?: string, outsideFilter?: any): Observable<{
         results: T[];
         total: number;
     }>;

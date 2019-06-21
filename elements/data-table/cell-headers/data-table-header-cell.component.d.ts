@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, OnDestroy, OnInit, ElementRef, Renderer2, EventEmitter, TemplateRef } from '@angular/core';
 import { CdkColumnDef } from '@angular/cdk/table';
-import { IDataTableSortFilter, IDataTableChangeEvent, IDataTableColumn, IDataTableColumnFilterOption, IDataTableColumnFilterConfig } from '../interfaces';
+import { IDataTableSortFilter, IDataTableColumn, IDataTableColumnFilterConfig } from '../interfaces';
 import { NovoDataTableSortFilter } from '../sort-filter/sort-filter.directive';
 import { NovoDropdownElement } from '../../dropdown/Dropdown';
 import { NovoLabelService } from '../../../services/novo-label-service';
@@ -15,12 +15,10 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
     _cdkColumnDef: CdkColumnDef;
     filterInput: ElementRef;
     dropdown: NovoDropdownElement;
-    optionFilterInput: ElementRef;
     defaultSort: {
         id: string;
         value: string;
     };
-    allowMultipleFilters: boolean;
     resized: EventEmitter<IDataTableColumn<T>>;
     filterTemplate: TemplateRef<any>;
     resizable: boolean;
@@ -49,26 +47,16 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
     };
     multiSelect: boolean;
     multiSelectedOptions: Array<any>;
-    private multiSelectedOptionIsHidden;
-    optionFilter: string;
-    error: boolean;
     private subscriptions;
     private _column;
     constructor(changeDetectorRef: ChangeDetectorRef, labels: NovoLabelService, state: DataTableState<T>, renderer: Renderer2, elementRef: ElementRef, _sort: NovoDataTableSortFilter<T>, _cdkColumnDef: CdkColumnDef);
     ngOnInit(): void;
     ngOnDestroy(): void;
-    checkSortFilterState(sortFilterState: IDataTableChangeEvent, initialConfig?: boolean): void;
     isSelected(option: any, optionsList: any): boolean;
     toggleSelection(option: any): void;
     optionPresentCheck(item: any, optionValue: any): boolean;
     cancel(): void;
     filterMultiSelect(): void;
-    multiSelectOptionFilter(optionFilter: string): void;
-    multiSelectOptionIsHidden(option: string | IDataTableColumnFilterOption): boolean;
-    multiSelectHasVisibleOptions(): boolean;
-    private getOptionText;
-    multiSelectOptionFilterHandleKeydown(event: KeyboardEvent): void;
-    private clearOptionFilter;
     startResize(mouseDownEvent: MouseEvent): void;
     toggleCustomRange(event: Event, value: boolean): void;
     focusInput(): void;

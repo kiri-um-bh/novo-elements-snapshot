@@ -90,7 +90,6 @@ export declare class NovoLabelService {
     selectCountryFirst: string;
     invalidIntegerInput: string;
     maxRecordsReached: string;
-    selectFilterOptions: string;
     constructor(userLocale?: string);
     maxlengthMetWithField(field: string, maxlength: number): string;
     maxlengthMet(maxlength: number): string;
@@ -108,7 +107,6 @@ export declare class NovoLabelService {
     getProperty(value: string): any;
     getRangeText(page: number, pageSize: number, length: number, short: boolean): string;
     formatCurrency(value: number): string;
-    formatBigDecimal(value: number): string;
     formatNumber(value: any, options?: Intl.NumberFormatOptions): string;
     formatDateShort(value: any): string;
     formatTime(value: any): string;

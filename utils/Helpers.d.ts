@@ -17,7 +17,6 @@ export declare class Helpers {
      * Checks to see if the object is a string
      */
     static isString(obj: any): boolean;
-    static escapeString(obj: any): any;
     static isNumber(val: any, includeNegatives?: boolean): boolean;
     /**
      * Checks to see if the object is a undefined or null
@@ -35,7 +34,6 @@ export declare class Helpers {
      * Checks to see if the object is a Date
      */
     static isDate(obj: any): boolean;
-    static convertToArray(obj: unknown): any[];
     static sortByField(fields: any, reverse?: boolean): (previous: any, current: any) => any;
     static filterByField(key: any, value: any): (item: any) => boolean;
     static findAncestor(element: Element, selector: string): Element;

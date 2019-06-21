@@ -162,20 +162,6 @@
                 return typeof obj === 'string';
             };
         /**
-         * @param {?} obj
-         * @return {?}
-         */
-        Helpers.escapeString = /**
-         * @param {?} obj
-         * @return {?}
-         */
-            function (obj) {
-                if (Helpers.isString(obj)) {
-                    return obj.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                }
-                return obj;
-            };
-        /**
          * @param {?} val
          * @param {?=} includeNegatives
          * @return {?}
@@ -261,23 +247,6 @@
          */
             function (obj) {
                 return obj instanceof Date;
-            };
-        /**
-         * @param {?} obj
-         * @return {?}
-         */
-        Helpers.convertToArray = /**
-         * @param {?} obj
-         * @return {?}
-         */
-            function (obj) {
-                if (obj === undefined) {
-                    return [];
-                }
-                else if (!Array.isArray(obj)) {
-                    return [obj];
-                }
-                return obj;
             };
         /**
          * @param {?} fields
@@ -2193,7 +2162,6 @@
             this.selectCountryFirst = 'Please select a country before selecting a state';
             this.invalidIntegerInput = 'Special characters are not allowed for';
             this.maxRecordsReached = 'Sorry, you have reached the maximum number of records allowed for this field';
-            this.selectFilterOptions = 'Please select one or more filter options below.';
         }
         /**
          * @param {?} field
@@ -2418,35 +2386,6 @@
                 /** @type {?} */
                 var options = { style: 'currency', currency: 'USD' };
                 return new Intl.NumberFormat(this.userLocale, options).format(value);
-            };
-        /**
-         * @param {?} value
-         * @return {?}
-         */
-        NovoLabelService.prototype.formatBigDecimal = /**
-         * @param {?} value
-         * @return {?}
-         */
-            function (value) {
-                /** @type {?} */
-                var valueAsString = value ? value.toString() : '0';
-                // truncate at two decimals (do not round)
-                /** @type {?} */
-                var decimalIndex = valueAsString.indexOf('.');
-                if (decimalIndex > -1 && decimalIndex + 3 < valueAsString.length) {
-                    valueAsString = valueAsString.substring(0, valueAsString.indexOf('.') + 3);
-                }
-                // convert back to number
-                /** @type {?} */
-                var truncatedValue = Number(valueAsString);
-                /** @type {?} */
-                var options = { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 };
-                /** @type {?} */
-                var _value = new Intl.NumberFormat(this.userLocale, options).format(truncatedValue);
-                if (value < 0) {
-                    _value = "(" + _value.slice(1) + ")";
-                }
-                return _value;
             };
         /**
          * @param {?} value
@@ -6609,7 +6548,6 @@
             this.page = 0;
             this.lastPage = false;
             this.autoSelectFirstOption = true;
-            this.optionsFunctionHasChanged = false;
             this.selectingMatches = false;
             this.element = element;
             this.ref = ref;
@@ -6663,10 +6601,9 @@
              * @param {?} value
              * @return {?}
              */ function (value) {
-                if (this.shouldSearch(value)) {
+                if (value !== this._term || this.page === 0) {
                     this._term = value;
                     this.page = 0;
-                    this.optionsFunctionHasChanged = false;
                     this.matches = [];
                     this.processSearch(true);
                 }
@@ -6677,39 +6614,6 @@
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(BasePickerResults.prototype, "config", {
-            get: /**
-             * @return {?}
-             */ function () {
-                return this._config;
-            },
-            set: /**
-             * @param {?} value
-             * @return {?}
-             */ function (value) {
-                if (this.config && this.config.options !== value.options) {
-                    this.optionsFunctionHasChanged = true; // reset page so that new options call is used to search
-                }
-                this._config = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @param {?} value
-         * @return {?}
-         */
-        BasePickerResults.prototype.shouldSearch = /**
-         * @param {?} value
-         * @return {?}
-         */
-            function (value) {
-                /** @type {?} */
-                var termHasChanged = value !== this._term;
-                /** @type {?} */
-                var optionsNotYetCalled = this.page === 0;
-                return termHasChanged || optionsNotYetCalled || this.optionsFunctionHasChanged;
-            };
         /**
          * @return {?}
          */
@@ -6792,14 +6696,12 @@
                             // Arrays are returned immediately
                             resolve(_this.structureArray(options));
                         }
-                        else if (_this.shouldCallOptionsFunction(term)) {
+                        else if (term && term.length >= (_this.config.minSearchLength || 1)) {
                             if ((options.hasOwnProperty('reject') && options.hasOwnProperty('resolve')) ||
                                 Object.getPrototypeOf(options).hasOwnProperty('then')) {
                                 _this.isStatic = false;
                                 // Promises (ES6 or Deferred) are resolved whenever they resolve
-                                options
-                                    .then(_this.structureArray.bind(_this))
-                                    .then(resolve, reject);
+                                options.then(_this.structureArray.bind(_this)).then(resolve, reject);
                             }
                             else if (typeof options === 'function') {
                                 _this.isStatic = false;
@@ -6821,9 +6723,7 @@
                                     /** @type {?} */
                                     var defaultOptions = _this.config.defaultOptions(term, ++_this.page);
                                     if (Object.getPrototypeOf(defaultOptions).hasOwnProperty('then')) {
-                                        defaultOptions
-                                            .then(_this.structureArray.bind(_this))
-                                            .then(resolve, reject);
+                                        defaultOptions.then(_this.structureArray.bind(_this)).then(resolve, reject);
                                     }
                                     else {
                                         resolve(_this.structureArray(defaultOptions));
@@ -6844,22 +6744,6 @@
                         reject('error');
                     }
                 }));
-            };
-        /**
-         * @param {?} term
-         * @return {?}
-         */
-        BasePickerResults.prototype.shouldCallOptionsFunction = /**
-         * @param {?} term
-         * @return {?}
-         */
-            function (term) {
-                if (this.config && 'minSearchLength' in this.config && Number.isInteger(this.config.minSearchLength)) {
-                    return typeof term === 'string' && term.length >= this.config.minSearchLength;
-                }
-                else {
-                    return !!(term && term.length);
-                }
             };
         /**
          * @name structureArray
@@ -10184,12 +10068,8 @@
                         return;
                     }
                     if (event.keyCode === KeyCodes.ENTER) {
-                        /** @type {?} */
-                        var activeMatch_1 = this.popup.instance.activeMatch;
-                        if (!this.selected.find(function (selected) { return activeMatch_1 && activeMatch_1.value && selected.value === activeMatch_1.value; })) {
-                            this.popup.instance.selectActiveMatch();
-                            this.ref.markForCheck();
-                        }
+                        this.popup.instance.selectActiveMatch();
+                        this.ref.markForCheck();
                         return;
                     }
                     if ((event.keyCode === KeyCodes.BACKSPACE || event.keyCode === KeyCodes.DELETE) && !Helpers.isBlank(this._value)) {
@@ -16232,11 +16112,7 @@
                 var _this = this;
                 this.form.fieldsets.forEach(function (fieldset) {
                     fieldset.controls.forEach(function (control) {
-                        /** @type {?} */
-                        var ctl = _this.form.controls[control.key];
-                        if (!_this.fieldsAlreadyHidden.includes(control.key)) {
-                            ctl.hidden = false;
-                        }
+                        _this.form.controls[control.key].hidden = false;
                     });
                 });
                 this.showingAllFields = true;
@@ -16252,27 +16128,21 @@
          */
             function (hideRequiredWithValue) {
                 var _this = this;
-                this.fieldsAlreadyHidden = [];
                 this.form.fieldsets.forEach(function (fieldset) {
                     fieldset.controls.forEach(function (control) {
-                        /** @type {?} */
-                        var ctl = _this.form.controls[control.key];
-                        if (ctl.hidden) {
-                            _this.fieldsAlreadyHidden.push(control.key);
-                        }
                         // Hide any non-required fields
                         if (!control.required) {
-                            ctl.hidden = true;
+                            _this.form.controls[control.key].hidden = true;
                         }
                         // Hide required fields that have been successfully filled out
                         if (hideRequiredWithValue &&
                             !Helpers.isBlank(_this.form.value[control.key]) &&
-                            (!control.isEmpty || (control.isEmpty && control.isEmpty(ctl)))) {
-                            ctl.hidden = true;
+                            (!control.isEmpty || (control.isEmpty && control.isEmpty(_this.form.controls[control.key])))) {
+                            _this.form.controls[control.key].hidden = true;
                         }
                         // Don't hide fields with errors
-                        if (ctl.errors) {
-                            ctl.hidden = false;
+                        if (_this.form.controls[control.key].errors) {
+                            _this.form.controls[control.key].hidden = false;
                         }
                     });
                 });
@@ -17780,9 +17650,6 @@
                     'HTML-MINIMAL': 'editor-minimal',
                     YEAR: 'year',
                     WORKFLOW_OPTIONS: 'select',
-                    SPECIALIZED_OPTIONS: 'select',
-                    WorkflowOptionsLookup: 'select',
-                    SpecializedOptionsLookup: 'select',
                 };
                 /** @type {?} */
                 var dataTypeToTypeMap = {
@@ -17833,10 +17700,7 @@
                     }
                 }
                 else if (field.type === 'TO_ONE') {
-                    if ('SYSTEM' === field.dataSpecialization && ['WorkflowOptionsLookup', 'SpecializedOptionsLookup'].includes(field.dataType)) {
-                        type = dataSpecializationTypeMap[field.dataType];
-                    }
-                    else if (['WORKFLOW_OPTIONS', 'SPECIALIZED_OPTIONS'].includes(field.dataSpecialization)) {
+                    if (field.dataSpecialization === 'WORKFLOW_OPTIONS') {
                         type = dataSpecializationTypeMap[field.dataSpecialization];
                     }
                     else if (this.hasAssociatedEntity(field)) {
@@ -17935,7 +17799,6 @@
                     optionsType: field.optionsType,
                     multiple: field.multiValue,
                     readOnly: !!field.disabled || !!field.readOnly,
-                    disabled: field.disabled,
                     maxlength: field.maxLength,
                     interactions: field.interactions,
                     dataSpecialization: field.dataSpecialization,
@@ -17951,7 +17814,6 @@
                     warning: field.warning,
                     config: field.config || {},
                     closeOnSelect: field.closeOnSelect,
-                    layoutOptions: field.layoutOptions,
                 };
                 this.inferStartDate(controlConfig, field);
                 // TODO: getControlOptions should always return the correct format
@@ -17966,7 +17828,7 @@
                     };
                 }
                 else if (optionsConfig) {
-                    controlConfig.config = __assign({}, optionsConfig, (controlConfig && controlConfig.config));
+                    controlConfig.config = optionsConfig;
                 }
                 if (type === 'year') {
                     controlConfig.maxlength = 4;
@@ -18158,24 +18020,6 @@
                 return control;
             };
         /**
-         * @private
-         * @param {?} field
-         * @return {?}
-         */
-        FormUtils.prototype.shouldCreateControl = /**
-         * @private
-         * @param {?} field
-         * @return {?}
-         */
-            function (field) {
-                if (field.systemRequired) {
-                    field.readOnly = false;
-                }
-                return (field.name !== 'id' &&
-                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
-                    !field.readOnly);
-            };
-        /**
          * @param {?} meta
          * @param {?} currencyFormat
          * @param {?} http
@@ -18204,7 +18048,9 @@
                     /** @type {?} */
                     var fields = meta.fields;
                     fields.forEach(function (field) {
-                        if (_this.shouldCreateControl(field)) {
+                        if (field.name !== 'id' &&
+                            (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                            !field.readOnly) {
                             /** @type {?} */
                             var control = _this.getControlForField(field, http$$1, config, overrides, forTable);
                             // Set currency format
@@ -18332,7 +18178,9 @@
                         });
                     }
                     fields.forEach(function (field) {
-                        if (_this.shouldCreateControl(field)) {
+                        if (field.name !== 'id' &&
+                            (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                            !field.readOnly) {
                             /** @type {?} */
                             var fieldData = data && data[field.name] ? data[field.name] : null;
                             /** @type {?} */
@@ -18386,9 +18234,6 @@
                 }
                 else if (field.workflowOptions && fieldData) {
                     return this.getWorkflowOptions(field.workflowOptions, fieldData);
-                }
-                else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS') {
-                    return field.options.filter(function (o) { return !o.readOnly; });
                 }
                 else if (field.optionsUrl) {
                     return this.optionsService.getOptionsConfig(http$$1, field, config);
@@ -18473,9 +18318,6 @@
                     }
                     if (Object.keys(value).length === 0 && value.constructor === Object) {
                         continue;
-                    }
-                    if (control.dataType === 'Date' && typeof value === 'string' && control.optionsType !== 'skipConversion') {
-                        value = dateFns.startOfDay(value);
                     }
                     control.value = value;
                     // TODO: keepClean is not required, but is always used. It should default (to true?)
@@ -18979,44 +18821,52 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    var CustomHttpImpl = /** @class */ (function () {
-        function CustomHttpImpl(http$$1) {
+    var CustomHttp = /** @class */ (function () {
+        function CustomHttp(http$$1) {
             this.http = http$$1;
             this.mapFn = function (x) { return x; };
         }
         /**
+         * @template THIS
+         * @this {THIS}
          * @param {?} url
          * @param {?=} options
-         * @return {?}
+         * @return {THIS}
          */
-        CustomHttpImpl.prototype.get = /**
+        CustomHttp.prototype.get = /**
+         * @template THIS
+         * @this {THIS}
          * @param {?} url
          * @param {?=} options
-         * @return {?}
+         * @return {THIS}
          */
             function (url, options) {
-                this.url = url;
-                this.options = options;
-                return this;
+                ( /** @type {?} */(this)).url = url;
+                ( /** @type {?} */(this)).options = options;
+                return ( /** @type {?} */(this));
             };
         /**
+         * @template THIS
+         * @this {THIS}
          * @param {?} mapFn
-         * @return {?}
+         * @return {THIS}
          */
-        CustomHttpImpl.prototype.map = /**
+        CustomHttp.prototype.map = /**
+         * @template THIS
+         * @this {THIS}
          * @param {?} mapFn
-         * @return {?}
+         * @return {THIS}
          */
             function (mapFn) {
-                this.mapFn = mapFn;
-                return this;
+                ( /** @type {?} */(this)).mapFn = mapFn;
+                return ( /** @type {?} */(this));
             };
         /**
          * @param {?} resolve
          * @param {?=} reject
          * @return {?}
          */
-        CustomHttpImpl.prototype.subscribe = /**
+        CustomHttp.prototype.subscribe = /**
          * @param {?} resolve
          * @param {?=} reject
          * @return {?}
@@ -19027,61 +18877,15 @@
                     .pipe(operators.map(this.mapFn))
                     .subscribe(resolve, reject);
             };
-        return CustomHttpImpl;
+        return CustomHttp;
     }());
     var FieldInteractionApi = /** @class */ (function () {
         function FieldInteractionApi(toaster, modalService, formUtils, http$$1, labels) {
-            var _this = this;
             this.toaster = toaster;
             this.modalService = modalService;
             this.formUtils = formUtils;
             this.http = http$$1;
             this.labels = labels;
-            this.getOptionsConfig = function (args, mapper, filteredOptionsCreator, pickerConfigFormat) {
-                if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
-                    /** @type {?} */
-                    var format = ('format' in args && args.format) || pickerConfigFormat;
-                    return __assign({ options: _this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, (format && { format: format }));
-                }
-                else if ('options' in args && Array.isArray(args.options)) {
-                    return {
-                        options: __spread(args.options),
-                    };
-                }
-                else {
-                    return undefined;
-                }
-            };
-            this.createOptionsFunction = function (config, mapper, filteredOptionsCreator) {
-                return function (query, page) {
-                    if (filteredOptionsCreator) {
-                        if ('where' in config) {
-                            return filteredOptionsCreator(config.where)(query, page);
-                        }
-                        else {
-                            return filteredOptionsCreator()(query, page);
-                        }
-                    }
-                    else if ('optionsPromise' in config && config.optionsPromise) {
-                        return config.optionsPromise(query, new CustomHttpImpl(_this.http));
-                    }
-                    else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
-                        return new Promise(function (resolve, reject) {
-                            /** @type {?} */
-                            var url = 'optionsUrlBuilder' in config ? config.optionsUrlBuilder(query) : config.optionsUrl + "?filter=" + (query || '');
-                            _this.http
-                                .get(url)
-                                .pipe(operators.map(function (results) {
-                                if (mapper) {
-                                    return results.map(mapper);
-                                }
-                                return results;
-                            }))
-                                .subscribe(resolve, reject);
-                        });
-                    }
-                };
-            };
         }
         Object.defineProperty(FieldInteractionApi.prototype, "form", {
             get: /**
@@ -19887,32 +19691,49 @@
          * @return {?}
          */
             function (key, config, mapper) {
-                // call another public method to avoid a breaking change but still enable stricter types
-                this.mutatePickerConfig(key, ( /** @type {?} */(config)), mapper);
-            };
-        /**
-         * @param {?} key
-         * @param {?} args
-         * @param {?=} mapper
-         * @return {?}
-         */
-        FieldInteractionApi.prototype.mutatePickerConfig = /**
-         * @param {?} key
-         * @param {?} args
-         * @param {?=} mapper
-         * @return {?}
-         */
-            function (key, args, mapper) {
+                var _this = this;
                 /** @type {?} */
                 var control = this.getControl(key);
                 if (control && !control.restrictFieldInteractions) {
-                    var _a = control.config, minSearchLength = _a.minSearchLength, enableInfiniteScroll = _a.enableInfiniteScroll, filteredOptionsCreator = _a.filteredOptionsCreator, format = _a.format;
                     /** @type {?} */
-                    var optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format);
-                    /** @type {?} */
-                    var newConfig = __assign({}, (Number.isInteger(minSearchLength) && { minSearchLength: minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll: enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator: filteredOptionsCreator }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
+                    var newConfig = {
+                        resultsTemplate: control.config.resultsTemplate,
+                    };
+                    if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
+                        newConfig = Object.assign(newConfig, {
+                            options: function (query) {
+                                if (config.optionsPromise) {
+                                    return config.optionsPromise(query, new CustomHttp(_this.http));
+                                }
+                                return new Promise(function (resolve, reject) {
+                                    /** @type {?} */
+                                    var url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query) : config.optionsUrl + "?filter=" + (query || '');
+                                    if (query && query.length) {
+                                        _this.http
+                                            .get(url)
+                                            .pipe(operators.map(function (results) {
+                                            if (mapper) {
+                                                return results.map(mapper);
+                                            }
+                                            return results;
+                                        }))
+                                            .subscribe(resolve, reject);
+                                    }
+                                    else {
+                                        resolve([]);
+                                    }
+                                });
+                            },
+                        });
+                        if (config.hasOwnProperty('format')) {
+                            newConfig.format = config.format;
+                        }
+                    }
+                    else if (config.options) {
+                        newConfig.options = __spread(config.options);
+                    }
                     this.setProperty(key, 'config', newConfig);
-                    this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args });
+                    this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: config });
                 }
             };
         /**
@@ -39749,26 +39570,6 @@
                 this.process(Array.from(event.target.files));
             };
         /**
-         * @param {?} files
-         * @return {?}
-         */
-        NovoFileInputElement.prototype.validate = /**
-         * @param {?} files
-         * @return {?}
-         */
-            function (files) {
-                /** @type {?} */
-                var passedValidation = true;
-                if (this.layoutOptions.customValidation) {
-                    this.layoutOptions.customValidation
-                        .filter(function (validation) { return validation.action === 'upload'; })
-                        .forEach(function (uploadValidation) {
-                        passedValidation = uploadValidation.fn(files) && passedValidation;
-                    });
-                }
-                return passedValidation;
-            };
-        /**
          * @param {?} filelist
          * @return {?}
          */
@@ -39778,19 +39579,17 @@
          */
             function (filelist) {
                 var _this = this;
-                if (this.validate(filelist)) {
-                    Promise.all(filelist.map(function (file) { return _this.readFile(file); })).then(function (files) {
-                        var _a;
-                        if (_this.multiple) {
-                            (_a = _this.files).push.apply(_a, __spread(files));
-                        }
-                        else {
-                            _this.files = files;
-                        }
-                        _this.model = _this.files;
-                        _this.onModelChange(_this.model);
-                    });
-                }
+                Promise.all(filelist.map(function (file) { return _this.readFile(file); })).then(function (files) {
+                    var _a;
+                    if (_this.multiple) {
+                        (_a = _this.files).push.apply(_a, __spread(files));
+                    }
+                    else {
+                        _this.files = files;
+                    }
+                    _this.model = _this.files;
+                    _this.onModelChange(_this.model);
+                });
             };
         /**
          * @param {?} file
@@ -39886,7 +39685,7 @@
             { type: core.Component, args: [{
                         selector: 'novo-file-input',
                         providers: [FILE_VALUE_ACCESSOR],
-                        template: "\n    <div #container></div>\n    <ng-template #fileInput>\n      <div class=\"file-input-group\" [class.disabled]=\"disabled\" [class.active]=\"active\">\n        <input\n          *ngIf=\"!layoutOptions.customActions\"\n          type=\"file\"\n          [name]=\"name\"\n          [attr.id]=\"name\"\n          (change)=\"check($event)\"\n          [attr.multiple]=\"multiple\"\n          tabindex=\"-1\"\n        />\n        <input\n          *ngIf=\"layoutOptions.customActions\"\n          type=\"file\"\n          [name]=\"name\"\n          [attr.id]=\"name\"\n          (change)=\"customCheck($event)\"\n          [attr.multiple]=\"multiple\"\n          tabindex=\"-1\"\n        />\n        <section [ngSwitch]=\"layoutOptions.labelStyle\">\n          <label *ngSwitchCase=\"'no-box'\" [attr.for]=\"name\" class=\"no-box\">\n            <div>\n              <i class=\"bhi-dropzone\"></i>{{ placeholder || labels.chooseAFile }} {{ labels.or }}\n              <strong class=\"link\">{{ labels.clickToBrowse }}</strong>\n            </div>\n          </label>\n          <label *ngSwitchDefault [attr.for]=\"name\" class=\"boxed\">\n            <span>{{ placeholder || labels.chooseAFile }}</span>\n            <small\n              >{{ labels.or }} <strong class=\"link\">{{ labels.clickToBrowse }}</strong></small\n            >\n          </label>\n        </section>\n      </div>\n    </ng-template>\n    <ng-template #fileOutput>\n      <div class=\"file-output-group\" [dragula]=\"fileOutputBag\" [dragulaModel]=\"files\">\n        <div class=\"file-item\" *ngFor=\"let file of files\" [class.disabled]=\"disabled\">\n          <i *ngIf=\"layoutOptions.draggable\" class=\"bhi-move\"></i>\n          <label *ngIf=\"file.link\"\n            ><span\n              ><a href=\"{{ file.link }}\" target=\"_blank\">{{ file.name | decodeURI }}</a></span\n            ><span *ngIf=\"file.description\">||</span><span>{{ file.description }}</span></label\n          >\n          <label *ngIf=\"!file.link\">{{ file.name | decodeURI }}</label>\n          <div class=\"actions\" [attr.data-automation-id]=\"'file-actions'\" *ngIf=\"file.loaded\">\n            <div *ngIf=\"!layoutOptions.customActions\">\n              <button\n                *ngIf=\"layoutOptions.download\"\n                type=\"button\"\n                theme=\"icon\"\n                icon=\"save\"\n                (click)=\"download(file)\"\n                [attr.data-automation-id]=\"'file-download'\"\n                tabindex=\"-1\"\n              ></button>\n              <button\n                *ngIf=\"!disabled && (layoutOptions.removable || (!layoutOptions.removable && layoutOptions.removableWhenNew && !file.link))\"\n                type=\"button\"\n                theme=\"icon\"\n                icon=\"close\"\n                (click)=\"remove(file)\"\n                [attr.data-automation-id]=\"'file-remove'\"\n                tabindex=\"-1\"\n              ></button>\n            </div>\n            <div *ngIf=\"layoutOptions.customActions\">\n              <button\n                *ngIf=\"layoutOptions.edit && !disabled\"\n                type=\"button\"\n                theme=\"icon\"\n                icon=\"edit\"\n                (click)=\"customEdit(file)\"\n                [attr.data-automation-id]=\"'file-edit'\"\n                tabindex=\"-1\"\n              ></button>\n              <button\n                *ngIf=\"layoutOptions.download\"\n                type=\"button\"\n                theme=\"icon\"\n                icon=\"save\"\n                (click)=\"customSave(file)\"\n                [attr.data-automation-id]=\"'file-download'\"\n                tabindex=\"-1\"\n              ></button>\n              <button\n                *ngIf=\"!disabled\"\n                type=\"button\"\n                theme=\"icon\"\n                icon=\"close\"\n                (click)=\"customDelete(file)\"\n                [attr.data-automation-id]=\"'file-remove'\"\n                tabindex=\"-1\"\n              ></button>\n            </div>\n          </div>\n          <novo-loading *ngIf=\"!file.loaded\"></novo-loading>\n        </div>\n      </div>\n    </ng-template>\n  "
+                        template: "\n        <div #container></div>\n        <ng-template #fileInput>\n            <div class=\"file-input-group\" [class.disabled]=\"disabled\" [class.active]=\"active\">\n                <input *ngIf=\"!layoutOptions.customActions\" type=\"file\" [name]=\"name\" [attr.id]=\"name\" (change)=\"check($event)\" [attr.multiple]=\"multiple\" tabindex=\"-1\"/>\n                <input *ngIf=\"layoutOptions.customActions\" type=\"file\" [name]=\"name\" [attr.id]=\"name\" (change)=\"customCheck($event)\" [attr.multiple]=\"multiple\" tabindex=\"-1\"/>\n                <section [ngSwitch]=\"layoutOptions.labelStyle\">\n                    <label *ngSwitchCase=\"'no-box'\" [attr.for]=\"name\" class=\"no-box\">\n                        <div><i class=\"bhi-dropzone\"></i>{{ placeholder || labels.chooseAFile }} {{ labels.or }} <strong class=\"link\">{{ labels.clickToBrowse }}</strong></div>\n                    </label>\n                    <label *ngSwitchDefault [attr.for]=\"name\" class=\"boxed\">\n                        <span>{{ placeholder || labels.chooseAFile }}</span>\n                        <small>{{ labels.or }} <strong class=\"link\">{{ labels.clickToBrowse }}</strong></small>\n                    </label>\n                </section>\n            </div>\n        </ng-template>\n        <ng-template #fileOutput>\n            <div class=\"file-output-group\" [dragula]=\"fileOutputBag\" [dragulaModel]=\"files\">\n                <div class=\"file-item\" *ngFor=\"let file of files\" [class.disabled]=\"disabled\">\n                  <i *ngIf=\"layoutOptions.draggable\" class=\"bhi-move\"></i>\n                  <label *ngIf=\"file.link\"><span><a href=\"{{ file.link }}\" target=\"_blank\">{{ file.name | decodeURI }}</a></span><span  *ngIf=\"file.description\">||</span><span>{{ file.description }}</span></label>\n                  <label *ngIf=\"!file.link\">{{ file.name | decodeURI }}</label>\n                  <div class=\"actions\" [attr.data-automation-id]=\"'file-actions'\" *ngIf=\"file.loaded\">\n                    <div *ngIf=\"!layoutOptions.customActions\">\n                      <button *ngIf=\"layoutOptions.download\" type=\"button\" theme=\"icon\" icon=\"save\" (click)=\"download(file)\" [attr.data-automation-id]=\"'file-download'\" tabindex=\"-1\"></button>\n                      <button *ngIf=\"!disabled && layoutOptions.removable\" type=\"button\" theme=\"icon\" icon=\"close\" (click)=\"remove(file)\" [attr.data-automation-id]=\"'file-remove'\" tabindex=\"-1\"></button>\n                    </div>\n                    <div *ngIf=\"layoutOptions.customActions\">\n                      <button *ngIf=\"layoutOptions.edit && !disabled\" type=\"button\" theme=\"icon\" icon=\"edit\" (click)=\"customEdit(file)\" [attr.data-automation-id]=\"'file-edit'\" tabindex=\"-1\"></button>\n                      <button *ngIf=\"layoutOptions.download\" type=\"button\" theme=\"icon\" icon=\"save\" (click)=\"customSave(file)\" [attr.data-automation-id]=\"'file-download'\" tabindex=\"-1\"></button>\n                      <button *ngIf=\"!disabled\" type=\"button\" theme=\"icon\" icon=\"close\" (click)=\"customDelete(file)\" [attr.data-automation-id]=\"'file-remove'\" tabindex=\"-1\"></button>\n                    </div>\n                  </div>\n                    <novo-loading *ngIf=\"!file.loaded\"></novo-loading>\n                </div>\n            </div>\n        </ng-template>"
                     }] }
         ];
         /** @nocollapse */
@@ -40361,7 +40160,7 @@
         NovoControlTemplates.decorators = [
             { type: core.Component, args: [{
                         selector: 'novo-control-templates',
-                        template: "\n        <!---Readonly--->\n        <ng-template novoTemplate=\"read-only\" let-form=\"form\" let-control>\n          <div>{{ form.value[control.key] }}</div>\n        </ng-template>\n        <!--Textbox--->\n        <ng-template novoTemplate=\"textbox\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container novo-control-input-with-label\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <input *ngIf=\"control?.type !== 'number' && control?.textMaskEnabled\" [textMask]=\"control.maskOptions\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (input)=\"methods.emitChange($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" autocomplete>\n            <input *ngIf=\"control?.type !== 'number' && !control?.textMaskEnabled\" [class.maxlength-error]=\"errors?.maxlength\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (input)=\"methods.emitChange($event)\" [maxlength]=\"control?.maxlength\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" autocomplete>\n            <input *ngIf=\"control?.type === 'number' && control?.subType !== 'percentage'\" [class.maxlength-error]=\"errors?.maxlength\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (keydown)=\"methods.restrictKeys($event)\" (input)=\"methods.emitChange($event)\" [maxlength]=\"control?.maxlength\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" step=\"any\" (mousewheel)=\"numberInput.blur()\" #numberInput>\n            <input *ngIf=\"control?.type === 'number' && control?.subType === 'percentage'\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (keydown)=\"methods.restrictKeys($event)\" [value]=\"control?.percentValue\" (input)=\"methods.handlePercentChange($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" step=\"any\" (mousewheel)=\"percentInput.blur()\" #percentInput>\n            <label class=\"input-label\" *ngIf=\"control?.subType === 'currency'\">{{ control.currencyFormat }}</label>\n            <label class=\"input-label\" *ngIf=\"control?.subType === 'percentage'\">%</label>\n          </div>\n        </ng-template>\n\n        <!--Textarea--->\n        <ng-template novoTemplate=\"text-area\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div class=\"textarea-container\" [formGroup]=\"form\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <textarea [class.maxlength-error]=\"errors?.maxlength\" [name]=\"control.key\" [attr.id]=\"control.key\" [placeholder]=\"control.placeholder\" [formControlName]=\"control.key\" autosize (input)=\"methods.handleTextAreaInput($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [maxlength]=\"control?.maxlength\"></textarea>\n          </div>\n        </ng-template>\n\n        <!--Editor-->\n        <ng-template novoTemplate=\"editor\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-editor [name]=\"control.key\" [formControlName]=\"control.key\" [startupFocus]=\"control.startupFocus\" [minimal]=\"control.minimal\" [fileBrowserImageUploadUrl]=\"control.fileBrowserImageUploadUrl\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [config]=\"control.config\"></novo-editor>\n          </div>\n        </ng-template>\n\n        <!--AceEditor-->\n        <ng-template novoTemplate=\"ace-editor\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-ace-editor [name]=\"control.key\" [formControlName]=\"control.key\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\"></novo-ace-editor>\n          </div>\n        </ng-template>\n\n        <!--HTML5 Select-->\n        <ng-template novoTemplate=\"native-select\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <select [id]=\"control.key\" [formControlName]=\"control.key\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n                <option *ngIf=\"control.placeholder\" value=\"\" disabled selected hidden>{{ control.placeholder }}</option>\n                <option *ngFor=\"let opt of control.options\" [value]=\"opt.key\">{{opt.value}}</option>\n            </select>\n          </div>\n        </ng-template>\n\n        <!--File-->\n        <ng-template novoTemplate=\"file\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-file-input [formControlName]=\"control.key\" [id]=\"control.key\" [name]=\"control.key\" [placeholder]=\"control.placeholder\" [value]=\"control.value\" [multiple]=\"control.multiple\" [layoutOptions]=\"control.layoutOptions\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" (edit)=\"methods.handleEdit($event)\" (save)=\"methods.handleSave($event)\" (delete)=\"methods.handleDelete($event)\" (upload)=\"methods.handleUpload($event)\"></novo-file-input>\n          </div>\n        </ng-template>\n\n        <!--Tiles-->\n        <ng-template novoTemplate=\"tiles\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-tiles [options]=\"control.options\" [formControlName]=\"control.key\" (onChange)=\"methods.modelChange($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [controlDisabled]=\"control.disabled\"></novo-tiles>\n          </div>\n        </ng-template>\n\n        <!--Picker-->\n        <ng-template novoTemplate=\"picker\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\">\n            <novo-picker [config]=\"control.config\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" [parentScrollSelector]=\"control.parentScrollSelector\" *ngIf=\"!control.multiple\" (select)=\"methods.modelChange($event);\" (changed)=\"methods.modelChangeWithRaw($event)\" (typing)=\"methods.handleTyping($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\"></novo-picker>\n            <novo-chips [source]=\"control.config\" [type]=\"control.config.type\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" [maxlength]=\"control?.maxlength\" *ngIf=\"control.multiple && !control.config.columns\" [closeOnSelect]=\"control.closeOnSelect\" (changed)=\"methods.modelChangeWithRaw($event)\" (typing)=\"methods.handleTyping($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\"></novo-chips>\n            <novo-row-chips [source]=\"control.config\" [type]=\"control.config.type\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" *ngIf=\"control.multiple && control.config.columns\" [closeOnSelect]=\"control.closeOnSelect\" (changed)=\"methods.modelChangeWithRaw($event)\" (typing)=\"methods.handleTyping($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\"></novo-row-chips>\n          </div>\n        </ng-template>\n\n        <!--Novo Select-->\n        <ng-template novoTemplate=\"select\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-select [options]=\"control.options\" [headerConfig]=\"control.headerConfig\" [placeholder]=\"control.placeholder\" [formControlName]=\"control.key\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" (onSelect)=\"methods.modelChange($event)\"></novo-select>\n          </div>\n        </ng-template>\n\n        <!--Radio-->\n        <ng-template novoTemplate=\"radio\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\">\n            <novo-radio [name]=\"control.key\" [formControlName]=\"control.key\" *ngFor=\"let option of control.options\" [value]=\"option.value\" [label]=\"option.label\" [checked]=\"option.value === form.value[control.key]\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [button]=\"!!option.icon\" [icon]=\"option.icon\" [attr.data-automation-id]=\"control.key + '-' + (option?.label || option?.value)\"></novo-radio>\n          </div>\n        </ng-template>\n\n        <!--Time-->\n        <ng-template novoTemplate=\"time\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <novo-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" [military]=\"control.military\"></novo-time-picker-input>\n          </div>\n        </ng-template>\n\n        <!--Date-->\n        <ng-template novoTemplate=\"date\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <novo-date-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [start]=\"control.startDate\" [end]=\"control.endDate\" [format]=\"control.dateFormat\" [allowInvalidDate]=\"control.allowInvalidDate\" [textMaskEnabled]=\"control.textMaskEnabled\" [placeholder]=\"control.placeholder\" (focusEvent)=\"methods.handleFocus($event)\" (blurEvent)=\"methods.handleBlur($event)\"></novo-date-picker-input>\n          </div>\n        </ng-template>\n\n\n        <!--Date and Time-->\n        <ng-template novoTemplate=\"date-time\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <novo-date-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [start]=\"control.startDate\" [end]=\"control.endDate\" [placeholder]=\"control.placeholder\" [military]=\"control.military\" (focusEvent)=\"methods.handleFocus($event)\" (blurEvent)=\"methods.handleBlur($event)\"></novo-date-time-picker-input>\n          </div>\n        </ng-template>\n\n        <!--Address-->\n        <ng-template novoTemplate=\"address\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-address [formControlName]=\"control.key\" [config]=\"control?.config\" [readOnly]=\"control?.readOnly\" (change)=\"methods.handleAddressChange($event)\" (focus)=\"methods.handleFocus($event.event, $event.field)\" (blur)=\"methods.handleBlur($event.event, $event.field)\"  (validityChange)=\"methods.updateValidity()\"></novo-address>\n          </div>\n        </ng-template>\n\n        <!--Checkbox-->\n        <ng-template novoTemplate=\"checkbox\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-checkbox [formControlName]=\"control?.key\" [name]=\"control?.key\" [label]=\"control?.checkboxLabel\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [layoutOptions]=\"control?.layoutOptions\"></novo-checkbox>\n          </div>\n        </ng-template>\n\n        <!--Checklist-->\n        <ng-template novoTemplate=\"checklist\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-check-list [formControlName]=\"control.key\" [name]=\"control.key\" [options]=\"control?.options\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" (onSelect)=\"methods.modelChange($event)\"></novo-check-list>\n          </div>\n        </ng-template>\n\n        <!--QuickNote-->\n        <ng-template novoTemplate=\"quick-note\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-quick-note [formControlName]=\"control.key\" [startupFocus]=\"control?.startupFocus\" [placeholder]=\"control?.placeholder\" [config]=\"control?.config\" (change)=\"methods.modelChange($event)\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [tooltipPreline]=\"control?.tooltipPreline\"></novo-quick-note>\n          </div>\n        </ng-template>\n    "
+                        template: "\n        <!---Readonly--->\n        <ng-template novoTemplate=\"read-only\" let-form=\"form\" let-control>\n          <div>{{ form.value[control.key] }}</div>\n        </ng-template>\n        <!--Textbox--->\n        <ng-template novoTemplate=\"textbox\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container novo-control-input-with-label\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <input *ngIf=\"control?.type !== 'number' && control?.textMaskEnabled\" [textMask]=\"control.maskOptions\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (input)=\"methods.emitChange($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" autocomplete>\n            <input *ngIf=\"control?.type !== 'number' && !control?.textMaskEnabled\" [class.maxlength-error]=\"errors?.maxlength\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (input)=\"methods.emitChange($event)\" [maxlength]=\"control?.maxlength\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" autocomplete>\n            <input *ngIf=\"control?.type === 'number' && control?.subType !== 'percentage'\" [class.maxlength-error]=\"errors?.maxlength\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (keydown)=\"methods.restrictKeys($event)\" (input)=\"methods.emitChange($event)\" [maxlength]=\"control?.maxlength\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" step=\"any\" (mousewheel)=\"numberInput.blur()\" #numberInput>\n            <input *ngIf=\"control?.type === 'number' && control?.subType === 'percentage'\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (keydown)=\"methods.restrictKeys($event)\" [value]=\"control?.percentValue\" (input)=\"methods.handlePercentChange($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" step=\"any\" (mousewheel)=\"percentInput.blur()\" #percentInput>\n            <label class=\"input-label\" *ngIf=\"control?.subType === 'currency'\">{{ control.currencyFormat }}</label>\n            <label class=\"input-label\" *ngIf=\"control?.subType === 'percentage'\">%</label>\n          </div>\n        </ng-template>\n\n        <!--Textarea--->\n        <ng-template novoTemplate=\"text-area\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div class=\"textarea-container\" [formGroup]=\"form\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <textarea [class.maxlength-error]=\"errors?.maxlength\" [name]=\"control.key\" [attr.id]=\"control.key\" [placeholder]=\"control.placeholder\" [formControlName]=\"control.key\" autosize (input)=\"methods.handleTextAreaInput($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [maxlength]=\"control?.maxlength\"></textarea>\n          </div>\n        </ng-template>\n\n        <!--Editor-->\n        <ng-template novoTemplate=\"editor\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-editor [name]=\"control.key\" [formControlName]=\"control.key\" [startupFocus]=\"control.startupFocus\" [minimal]=\"control.minimal\" [fileBrowserImageUploadUrl]=\"control.fileBrowserImageUploadUrl\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\"></novo-editor>\n          </div>\n        </ng-template>\n\n        <!--AceEditor-->\n        <ng-template novoTemplate=\"ace-editor\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-ace-editor [name]=\"control.key\" [formControlName]=\"control.key\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\"></novo-ace-editor>\n          </div>\n        </ng-template>\n\n        <!--HTML5 Select-->\n        <ng-template novoTemplate=\"native-select\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <select [id]=\"control.key\" [formControlName]=\"control.key\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n                <option *ngIf=\"control.placeholder\" value=\"\" disabled selected hidden>{{ control.placeholder }}</option>\n                <option *ngFor=\"let opt of control.options\" [value]=\"opt.key\">{{opt.value}}</option>\n            </select>\n          </div>\n        </ng-template>\n\n        <!--File-->\n        <ng-template novoTemplate=\"file\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-file-input [formControlName]=\"control.key\" [id]=\"control.key\" [name]=\"control.key\" [placeholder]=\"control.placeholder\" [value]=\"control.value\" [multiple]=\"control.multiple\" [layoutOptions]=\"control.layoutOptions\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" (edit)=\"methods.handleEdit($event)\" (save)=\"methods.handleSave($event)\" (delete)=\"methods.handleDelete($event)\" (upload)=\"methods.handleUpload($event)\"></novo-file-input>\n          </div>\n        </ng-template>\n\n        <!--Tiles-->\n        <ng-template novoTemplate=\"tiles\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-tiles [options]=\"control.options\" [formControlName]=\"control.key\" (onChange)=\"methods.modelChange($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [controlDisabled]=\"control.disabled\"></novo-tiles>\n          </div>\n        </ng-template>\n\n        <!--Picker-->\n        <ng-template novoTemplate=\"picker\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\">\n            <novo-picker [config]=\"control.config\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" [parentScrollSelector]=\"control.parentScrollSelector\" *ngIf=\"!control.multiple\" (select)=\"methods.modelChange($event);\" (changed)=\"methods.modelChangeWithRaw($event)\" (typing)=\"methods.handleTyping($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\"></novo-picker>\n            <novo-chips [source]=\"control.config\" [type]=\"control.config.type\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" [maxlength]=\"control?.maxlength\" *ngIf=\"control.multiple && !control.config.columns\" [closeOnSelect]=\"control.closeOnSelect\" (changed)=\"methods.modelChangeWithRaw($event)\" (typing)=\"methods.handleTyping($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\"></novo-chips>\n            <novo-row-chips [source]=\"control.config\" [type]=\"control.config.type\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" *ngIf=\"control.multiple && control.config.columns\" [closeOnSelect]=\"control.closeOnSelect\" (changed)=\"methods.modelChangeWithRaw($event)\" (typing)=\"methods.handleTyping($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\"></novo-row-chips>\n          </div>\n        </ng-template>\n\n        <!--Novo Select-->\n        <ng-template novoTemplate=\"select\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-select [options]=\"control.options\" [headerConfig]=\"control.headerConfig\" [placeholder]=\"control.placeholder\" [formControlName]=\"control.key\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" (onSelect)=\"methods.modelChange($event)\"></novo-select>\n          </div>\n        </ng-template>\n\n        <!--Radio-->\n        <ng-template novoTemplate=\"radio\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\">\n            <novo-radio [name]=\"control.key\" [formControlName]=\"control.key\" *ngFor=\"let option of control.options\" [value]=\"option.value\" [label]=\"option.label\" [checked]=\"option.value === form.value[control.key]\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [button]=\"!!option.icon\" [icon]=\"option.icon\" [attr.data-automation-id]=\"control.key + '-' + (option?.label || option?.value)\"></novo-radio>\n          </div>\n        </ng-template>\n\n        <!--Time-->\n        <ng-template novoTemplate=\"time\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <novo-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" [military]=\"control.military\"></novo-time-picker-input>\n          </div>\n        </ng-template>\n\n        <!--Date-->\n        <ng-template novoTemplate=\"date\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <novo-date-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [start]=\"control.startDate\" [end]=\"control.endDate\" [format]=\"control.dateFormat\" [allowInvalidDate]=\"control.allowInvalidDate\" [textMaskEnabled]=\"control.textMaskEnabled\" [placeholder]=\"control.placeholder\" (focusEvent)=\"methods.handleFocus($event)\" (blurEvent)=\"methods.handleBlur($event)\"></novo-date-picker-input>\n          </div>\n        </ng-template>\n\n\n        <!--Date and Time-->\n        <ng-template novoTemplate=\"date-time\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <novo-date-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [start]=\"control.startDate\" [end]=\"control.endDate\" [placeholder]=\"control.placeholder\" [military]=\"control.military\" (focusEvent)=\"methods.handleFocus($event)\" (blurEvent)=\"methods.handleBlur($event)\"></novo-date-time-picker-input>\n          </div>\n        </ng-template>\n\n        <!--Address-->\n        <ng-template novoTemplate=\"address\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-address [formControlName]=\"control.key\" [config]=\"control?.config\" [readOnly]=\"control?.readOnly\" (change)=\"methods.handleAddressChange($event)\" (focus)=\"methods.handleFocus($event.event, $event.field)\" (blur)=\"methods.handleBlur($event.event, $event.field)\"  (validityChange)=\"methods.updateValidity()\"></novo-address>\n          </div>\n        </ng-template>\n\n        <!--Checkbox-->\n        <ng-template novoTemplate=\"checkbox\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-checkbox [formControlName]=\"control?.key\" [name]=\"control?.key\" [label]=\"control?.checkboxLabel\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [layoutOptions]=\"control?.layoutOptions\"></novo-checkbox>\n          </div>\n        </ng-template>\n\n        <!--Checklist-->\n        <ng-template novoTemplate=\"checklist\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-check-list [formControlName]=\"control.key\" [name]=\"control.key\" [options]=\"control?.options\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" (onSelect)=\"methods.modelChange($event)\"></novo-check-list>\n          </div>\n        </ng-template>\n\n        <!--QuickNote-->\n        <ng-template novoTemplate=\"quick-note\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-quick-note [formControlName]=\"control.key\" [startupFocus]=\"control?.startupFocus\" [placeholder]=\"control?.placeholder\" [config]=\"control?.config\" (change)=\"methods.modelChange($event)\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [tooltipPreline]=\"control?.tooltipPreline\"></novo-quick-note>\n          </div>\n        </ng-template>\n    "
                     }] }
         ];
         /** @nocollapse */
@@ -44386,141 +44185,134 @@
                     type = args.dataType || 'default';
                 }
                 // Transform data here
-                try {
-                    switch (type) {
-                        case 'Address':
-                        case 'Address1':
-                        case 'AddressWithoutCountry':
-                        case 'SecondaryAddress':
-                        case 'BillingAddress':
-                            /** @type {?} */
-                            var country = findByCountryId(Number(value.countryName));
-                            text = '';
-                            if (value.address1 || value.address2) {
-                                text += (value.address1 || '') + " " + (value.address2 || '') + "<br />\n";
+                switch (type) {
+                    case 'Address':
+                    case 'Address1':
+                    case 'AddressWithoutCountry':
+                    case 'SecondaryAddress':
+                    case 'BillingAddress':
+                        /** @type {?} */
+                        var country = findByCountryId(Number(value.countryName));
+                        text = '';
+                        if (value.address1 || value.address2) {
+                            text += (value.address1 || '') + " " + (value.address2 || '') + "<br />\n";
+                        }
+                        text += (value.city || '') + " " + (value.state || '') + " " + (value.zip || '') + (value.city || value.state || value.zip ? '<br />\n' : '');
+                        text += "" + (country ? country.name : value.countryName || '') + (country || value.countryName ? '<br />\n' : '');
+                        text = this.sanitizationService.bypassSecurityTrustHtml(text.trim());
+                        break;
+                    case 'DateTime':
+                    case 'Timestamp':
+                        text = this.labels.formatDateShort(value);
+                        break;
+                    case 'Date':
+                        text = this.labels.formatDate(new Date(value));
+                        break;
+                    case 'Year':
+                        text = new Date(value).getFullYear();
+                        break;
+                    case 'Phone':
+                    case 'Email':
+                        text = value;
+                        break;
+                    case 'Money':
+                        text = this.labels.formatCurrency(value);
+                        break;
+                    case 'Percentage':
+                        text = this.labels.formatNumber(parseFloat(value).toString(), { style: 'percent', minimumFractionDigits: 2 });
+                        break;
+                    case 'Double':
+                    case 'BigDecimal':
+                        text = this.labels.formatNumber(value, { minimumFractionDigits: this.getNumberDecimalPlaces(value) });
+                        break;
+                    case 'Integer':
+                        text = value;
+                        break;
+                    case 'BusinessSector':
+                    case 'Category':
+                    case 'Certification':
+                    case 'ClientCorporation':
+                    case 'CorporationDepartment':
+                    case 'DistributionList':
+                    case 'Skill':
+                    case 'Tearsheet':
+                    case 'Specialty':
+                        text = value.label || value.name || '';
+                        break;
+                    case 'SkillText':
+                        text = Array.isArray(value) ? value.join(', ') : value;
+                        break;
+                    case 'Lead':
+                    case 'Candidate':
+                    case 'ClientContact':
+                    case 'CorporateUser':
+                    case 'Person':
+                        text = value.label || (value.firstName || '') + " " + (value.lastName || '');
+                        break;
+                    case 'Opportunity':
+                    case 'JobOrder':
+                        text = value.label || value.title || '';
+                        break;
+                    case 'Placement':
+                        if (value.candidate) {
+                            text = (value.candidate.firstName || '') + " " + (value.candidate.lastName || '');
+                        }
+                        if (value.jobOrder) {
+                            text = value.candidate ? text + " - " + (value.jobOrder.title || '') : "" + (value.jobOrder.title || '');
+                        }
+                        break;
+                    case 'JobSubmission':
+                        text =
+                            value.label ||
+                                (value.jobOrder ? value.jobOrder.title + " - " : '') + " " + (value.candidate ? value.candidate.firstName : '') + " " + (value.candidate ? value.candidate.lastName : '');
+                        break;
+                    case 'WorkersCompensationRate':
+                        text = (value.compensation ? value.compensation.code + " - " : '') + " " + (value.compensation ? value.compensation.name : '');
+                        break;
+                    case 'Options':
+                        text = this.options(value, args.options);
+                        break;
+                    case 'ToMany':
+                        if (['Candidate', 'CorporateUser', 'Person'].indexOf(args.associatedEntity.entity) > -1) {
+                            text = this.concat(value.data, 'firstName', 'lastName');
+                            if (value.data.length < value.total) {
+                                text = text + ', ' + this.labels.getToManyPlusMore({ quantity: value.total - value.data.length });
                             }
-                            text += (value.city || '') + " " + (value.state || '') + " " + (value.zip || '') + (value.city || value.state || value.zip ? '<br />\n' : '');
-                            text += "" + (country ? country.name : value.countryName || '') + (country || value.countryName ? '<br />\n' : '');
-                            text = this.sanitizationService.bypassSecurityTrustHtml(text.trim());
-                            break;
-                        case 'DateTime':
-                        case 'Timestamp':
-                            text = this.labels.formatDateShort(value);
-                            break;
-                        case 'Date':
-                            text = this.labels.formatDate(new Date(value));
-                            break;
-                        case 'Year':
-                            text = new Date(value).getFullYear();
-                            break;
-                        case 'Phone':
-                        case 'Email':
-                            text = value;
-                            break;
-                        case 'Money':
-                            text = this.labels.formatCurrency(value);
-                            break;
-                        case 'Percentage':
-                            text = this.labels.formatNumber(parseFloat(value).toString(), { style: 'percent', minimumFractionDigits: 2 });
-                            break;
-                        case 'Double':
-                        case 'BigDecimal':
-                            text = this.labels.formatNumber(value, { minimumFractionDigits: this.getNumberDecimalPlaces(value) });
-                            break;
-                        case 'Integer':
-                            text = value;
-                            break;
-                        case 'BusinessSector':
-                        case 'Category':
-                        case 'Certification':
-                        case 'ClientCorporation':
-                        case 'CorporationDepartment':
-                        case 'DistributionList':
-                        case 'Skill':
-                        case 'Tearsheet':
-                        case 'Specialty':
-                            text = value.label || value.name || '';
-                            break;
-                        case 'SkillText':
-                            text = Array.isArray(value) ? value.join(', ') : value;
-                            break;
-                        case 'Lead':
-                        case 'Candidate':
-                        case 'ClientContact':
-                        case 'CorporateUser':
-                        case 'Person':
-                            text = value.label || (value.firstName || '') + " " + (value.lastName || '');
-                            break;
-                        case 'Opportunity':
-                        case 'JobOrder':
-                            text = value.label || value.title || '';
-                            break;
-                        case 'Placement':
-                            if (value.candidate) {
-                                text = (value.candidate.firstName || '') + " " + (value.candidate.lastName || '');
+                        }
+                        else if (['Category', 'BusinessSector', 'Skill', 'Specialty', 'ClientCorporation', 'CorporationDepartment'].indexOf(args.associatedEntity.entity) > -1) {
+                            text = this.concat(value.data, 'name');
+                            if (value.data.length < value.total) {
+                                text = text + ', ' + this.labels.getToManyPlusMore({ quantity: value.total - value.data.length });
                             }
-                            if (value.jobOrder) {
-                                text = value.candidate ? text + " - " + (value.jobOrder.title || '') : "" + (value.jobOrder.title || '');
-                            }
-                            break;
-                        case 'JobSubmission':
-                            text =
-                                value.label ||
-                                    (value.jobOrder ? value.jobOrder.title + " - " : '') + " " + (value.candidate ? value.candidate.firstName : '') + " " + (value.candidate ? value.candidate.lastName : '');
-                            break;
-                        case 'WorkersCompensationRate':
-                            text = (value.compensation ? value.compensation.code + " - " : '') + " " + (value.compensation ? value.compensation.name : '');
-                            break;
-                        case 'Options':
-                            text = this.options(value, args.options, args);
-                            break;
-                        case 'ToMany':
-                            if (['Candidate', 'CorporateUser', 'Person'].indexOf(args.associatedEntity.entity) > -1) {
-                                text = this.concat(value.data, 'firstName', 'lastName');
-                                if (value.data.length < value.total) {
-                                    text = text + ', ' + this.labels.getToManyPlusMore({ quantity: value.total - value.data.length });
-                                }
-                            }
-                            else if (['Category', 'BusinessSector', 'Skill', 'Specialty', 'ClientCorporation', 'CorporationDepartment'].indexOf(args.associatedEntity.entity) > -1) {
-                                text = this.concat(value.data, 'name');
-                                if (value.data.length < value.total) {
-                                    text = text + ', ' + this.labels.getToManyPlusMore({ quantity: value.total - value.data.length });
-                                }
-                            }
-                            else if (args.associatedEntity.entity === 'MailListPushHistoryDetail') {
-                                text = this.concat(value.data, 'externalListName');
-                            }
-                            else {
-                                text = "" + (value.total || '');
-                            }
-                            break;
-                        case 'Country':
-                            /** @type {?} */
-                            var countryObj = findByCountryId(Number(value));
-                            text = countryObj ? countryObj.name : value;
-                            break;
-                        case 'Html':
-                            if (Array.isArray(value)) {
-                                value = value.join(' ');
-                            }
-                            if (typeof text === 'string') {
-                                text = this.sanitizationService.bypassSecurityTrustHtml(value.replace(/\<a/gi, '<a target="_blank"'));
-                            }
-                            break;
-                        case 'CandidateComment':
-                            text = value.comments ? this.labels.formatDateShort(value.dateLastModified) + " (" + value.name + ") - " + value.comments : '';
-                            break;
-                        default:
-                            text = value.trim ? value.trim() : value;
-                            break;
-                    }
-                    return text;
+                        }
+                        else if (args.associatedEntity.entity === 'MailListPushHistoryDetail') {
+                            text = this.concat(value.data, 'externalListName');
+                        }
+                        else {
+                            text = "" + (value.total || '');
+                        }
+                        break;
+                    case 'Country':
+                        /** @type {?} */
+                        var countryObj = findByCountryId(Number(value));
+                        text = countryObj ? countryObj.name : value;
+                        break;
+                    case 'Html':
+                        if (Array.isArray(value)) {
+                            value = value.join(' ');
+                        }
+                        if (typeof text === 'string') {
+                            text = this.sanitizationService.bypassSecurityTrustHtml(value.replace(/\<a/gi, '<a target="_blank"'));
+                        }
+                        break;
+                    case 'CandidateComment':
+                        text = value.comments ? this.labels.formatDateShort(value.dateLastModified) + " (" + value.name + ") - " + value.comments : '';
+                        break;
+                    default:
+                        text = value.trim ? value.trim() : value;
+                        break;
                 }
-                catch (e) {
-                    console.error("WARNING: There was a problem rendering the value of the field: " + args.label + ". Please check the configuration");
-                    console.error(e);
-                    return text;
-                }
+                return text;
             };
         /**
          * @param {?} value
@@ -44639,7 +44431,6 @@
          * \@name options
          * @param {?} value - the value to find
          * @param {?} list - list of options (label/value pairs)
-         * @param {?} args
          * @return {?}
          */
         RenderPipe.prototype.options = /**
@@ -44647,46 +44438,37 @@
          * \@name options
          * @param {?} value - the value to find
          * @param {?} list - list of options (label/value pairs)
-         * @param {?} args
          * @return {?}
          */
-            function (value, list, args) {
+            function (value, list) {
                 if (!Array.isArray(value)) {
                     value = [value];
                 }
-                try {
-                    return value.map(function (item) {
-                        var e_3, _a;
-                        try {
-                            for (var list_2 = __values(list), list_2_1 = list_2.next(); !list_2_1.done; list_2_1 = list_2.next()) {
-                                var option = list_2_1.value;
-                                if (option.value === item) {
-                                    return option.label;
-                                }
+                return value.map(function (item) {
+                    var e_3, _a;
+                    try {
+                        for (var list_2 = __values(list), list_2_1 = list_2.next(); !list_2_1.done; list_2_1 = list_2.next()) {
+                            var option = list_2_1.value;
+                            if (option.value === item) {
+                                return option.label;
                             }
                         }
-                        catch (e_3_1) {
-                            e_3 = { error: e_3_1 };
+                    }
+                    catch (e_3_1) {
+                        e_3 = { error: e_3_1 };
+                    }
+                    finally {
+                        try {
+                            if (list_2_1 && !list_2_1.done && (_a = list_2.return))
+                                _a.call(list_2);
                         }
                         finally {
-                            try {
-                                if (list_2_1 && !list_2_1.done && (_a = list_2.return))
-                                    _a.call(list_2);
-                            }
-                            finally {
-                                if (e_3)
-                                    throw e_3.error;
-                            }
+                            if (e_3)
+                                throw e_3.error;
                         }
-                        return item;
-                    });
-                }
-                catch (e) {
-                    if (!args.optionsType) {
-                        throw Error(e);
                     }
-                    return value;
-                }
+                    return item;
+                });
             };
         /**
          * @param {?} value
@@ -45298,7 +45080,7 @@
                             '[class.novo-expansion-panel-spacing]': '_hasSpacing()',
                             '[class.novo-expansion-panel-padding]': 'padding',
                         },
-                        styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-expansion-panel{background:#fff;color:#3d464d;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);box-sizing:content-box;display:block;margin:0 16px;transition:margin 225ms ease-in-out}.novo-action-row{border-top-color:#3d464d}.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]):hover{background:rgba(0,0,0,.04)}.novo-expansion-panel-header-title{color:#3d464d}.novo-expansion-indicator::after,.novo-expansion-panel-header-description{color:#999}.novo-expansion-panel-header[aria-disabled=true]{color:#999;pointer-events:none}.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-description,.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-title{color:inherit}.novo-expansion-panel.novo-expanded[theme=company]{border-top:3px solid #39d}.novo-expansion-panel.novo-expanded[theme=candidate]{border-top:3px solid #4b7}.novo-expansion-panel.novo-expanded[theme=navigation]{border-top:3px solid #2f384f}.novo-expansion-panel.novo-expanded[theme=lead]{border-top:3px solid #a69}.novo-expansion-panel.novo-expanded[theme=contact]{border-top:3px solid #fa4}.novo-expansion-panel.novo-expanded[theme=opportunity]{border-top:3px solid #625}.novo-expansion-panel.novo-expanded[theme=job]{border-top:3px solid #b56}.novo-expansion-panel.novo-expanded[theme=earnCode],.novo-expansion-panel.novo-expanded[theme=jobCode]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=sendout]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=placement]{border-top:3px solid #0b344f}.novo-expansion-panel.novo-expanded[theme=corporateuser],.novo-expansion-panel.novo-expanded[theme=credential],.novo-expansion-panel.novo-expanded[theme=distributionList],.novo-expansion-panel.novo-expanded[theme=task],.novo-expansion-panel.novo-expanded[theme=user]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=aqua]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=ocean]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=mint]{border-top:3px solid #37bc9b}.novo-expansion-panel.novo-expanded[theme=grass]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=sunflower]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=bittersweet]{border-top:3px solid #eb6845}.novo-expansion-panel.novo-expanded[theme=grapefruit]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=carnation]{border-top:3px solid #d770ad}.novo-expansion-panel.novo-expanded[theme=lavender]{border-top:3px solid #967adc}.novo-expansion-panel.novo-expanded[theme=positive]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=success]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=negative]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=warning]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=black]{border-top:3px solid #000}.novo-expansion-panel.novo-expanded[theme=dark]{border-top:3px solid #3d464d}.novo-expansion-panel.novo-expanded[theme=pulse]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=neutral]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=navy]{border-top:3px solid #0d2d42}.novo-expansion-panel.novo-expanded[theme=contract]{border-top:3px solid #454ea0}.novo-expansion-panel.novo-expanded[theme=mountain]{border-top:3px solid #9678b6}.novo-expansion-panel.novo-expanded[theme=billableCharge],.novo-expansion-panel.novo-expanded[theme=invoiceStatement],.novo-expansion-panel.novo-expanded[theme=payableCharge]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=submission]{border-top:3px solid #a9adbb}.novo-expansion-panel.novo-expanded[theme=note]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=empty]{border-top:3px solid #cccdcc}.novo-expansion-panel.novo-expanded[theme=background]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=white]{border-top:3px solid #fff}.novo-expansion-panel.novo-expanded[theme=grey]{border-top:3px solid #999}.novo-expansion-panel.novo-expanded[theme=off-white]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=light]{border-top:3px solid #d9dadc}.novo-expansion-panel.novo-expanded{margin:16px 4px}.novo-expansion-panel.novo-expanded:first-child{margin-top:0}.novo-expansion-panel.novo-expanded:last-child{margin-bottom:0}.novo-expansion-panel-content{overflow:hidden}.novo-expansion-panel-content.novo-expanded{overflow:visible}.novo-expansion-panel-padding .novo-expansion-panel-body{padding:0 24px 16px}.novo-accordion .novo-expansion-panel-spacing:first-child{margin-top:0}.novo-accordion .novo-expansion-panel-spacing:last-child{margin-bottom:0}.novo-action-row{border-top-style:solid;border-top-width:1px;display:flex;flex-direction:row;justify-content:flex-end;padding:16px 8px 16px 24px}.novo-action-row button.novo-button{margin-left:8px}[dir=rtl] .novo-action-row button.novo-button{margin-left:0;margin-right:8px}"]
+                        styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-expansion-panel{background:#fff;color:#3d464d;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);box-sizing:content-box;display:block;margin:0 16px;transition:margin 225ms ease-in-out}.novo-action-row{border-top-color:#3d464d}.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]):hover{background:rgba(0,0,0,.04)}.novo-expansion-panel-header-title{color:#3d464d}.novo-expansion-indicator::after,.novo-expansion-panel-header-description{color:#999}.novo-expansion-panel-header[aria-disabled=true]{color:#999;pointer-events:none}.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-description,.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-title{color:inherit}.novo-expansion-panel.novo-expanded[theme=company]{border-top:3px solid #39d}.novo-expansion-panel.novo-expanded[theme=candidate]{border-top:3px solid #4b7}.novo-expansion-panel.novo-expanded[theme=navigation]{border-top:3px solid #2f384f}.novo-expansion-panel.novo-expanded[theme=lead]{border-top:3px solid #a69}.novo-expansion-panel.novo-expanded[theme=contact]{border-top:3px solid #fa4}.novo-expansion-panel.novo-expanded[theme=opportunity]{border-top:3px solid #625}.novo-expansion-panel.novo-expanded[theme=job]{border-top:3px solid #b56}.novo-expansion-panel.novo-expanded[theme=earnCode],.novo-expansion-panel.novo-expanded[theme=jobCode]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=sendout]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=placement]{border-top:3px solid #0b344f}.novo-expansion-panel.novo-expanded[theme=corporateuser],.novo-expansion-panel.novo-expanded[theme=credential],.novo-expansion-panel.novo-expanded[theme=distributionList],.novo-expansion-panel.novo-expanded[theme=task],.novo-expansion-panel.novo-expanded[theme=user]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=aqua]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=ocean]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=mint]{border-top:3px solid #37bc9b}.novo-expansion-panel.novo-expanded[theme=grass]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=sunflower]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=bittersweet]{border-top:3px solid #eb6845}.novo-expansion-panel.novo-expanded[theme=grapefruit]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=carnation]{border-top:3px solid #d770ad}.novo-expansion-panel.novo-expanded[theme=lavender]{border-top:3px solid #967adc}.novo-expansion-panel.novo-expanded[theme=positive]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=success]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=negative]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=warning]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=black]{border-top:3px solid #000}.novo-expansion-panel.novo-expanded[theme=dark]{border-top:3px solid #3d464d}.novo-expansion-panel.novo-expanded[theme=pulse]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=neutral]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=navy]{border-top:3px solid #0d2d42}.novo-expansion-panel.novo-expanded[theme=contract]{border-top:3px solid #454ea0}.novo-expansion-panel.novo-expanded[theme=mountain]{border-top:3px solid #9678b6}.novo-expansion-panel.novo-expanded[theme=billableCharge],.novo-expansion-panel.novo-expanded[theme=invoiceStatement]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=submission]{border-top:3px solid #a9adbb}.novo-expansion-panel.novo-expanded[theme=note]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=empty]{border-top:3px solid #cccdcc}.novo-expansion-panel.novo-expanded[theme=background]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=white]{border-top:3px solid #fff}.novo-expansion-panel.novo-expanded[theme=grey]{border-top:3px solid #999}.novo-expansion-panel.novo-expanded[theme=off-white]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=light]{border-top:3px solid #d9dadc}.novo-expansion-panel.novo-expanded{margin:16px 4px}.novo-expansion-panel.novo-expanded:first-child{margin-top:0}.novo-expansion-panel.novo-expanded:last-child{margin-bottom:0}.novo-expansion-panel-content{overflow:hidden}.novo-expansion-panel-content.novo-expanded{overflow:visible}.novo-expansion-panel-padding .novo-expansion-panel-body{padding:0 24px 16px}.novo-accordion .novo-expansion-panel-spacing:first-child{margin-top:0}.novo-accordion .novo-expansion-panel-spacing:last-child{margin-bottom:0}.novo-action-row{border-top-style:solid;border-top-width:1px;display:flex;flex-direction:row;justify-content:flex-end;padding:16px 8px 16px 24px}.novo-action-row button.novo-button{margin-left:8px}[dir=rtl] .novo-action-row button.novo-button{margin-left:0;margin-right:8px}"]
                     }] }
         ];
         /** @nocollapse */
@@ -47652,60 +47434,6 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    var NovoDataTableFilterUtils = /** @class */ (function () {
-        function NovoDataTableFilterUtils() {
-        }
-        /**
-         * @param {?=} filter
-         * @param {?=} type
-         * @param {?=} multiSelect
-         * @return {?}
-         */
-        NovoDataTableFilterUtils.constructFilter = /**
-         * @param {?=} filter
-         * @param {?=} type
-         * @param {?=} multiSelect
-         * @return {?}
-         */
-            function (filter, type, multiSelect) {
-                /** @type {?} */
-                var actualFilter = filter;
-                if (filter) {
-                    if (type && type === 'date') {
-                        if (filter.startDate && filter.endDate) {
-                            actualFilter = {
-                                min: dateFns.startOfDay(filter.startDate.date),
-                                max: dateFns.startOfDay(dateFns.addDays(dateFns.startOfDay(filter.endDate.date), 1)),
-                            };
-                        }
-                        else {
-                            actualFilter = {
-                                min: filter.min ? dateFns.addDays(dateFns.startOfToday(), filter.min) : dateFns.startOfToday(),
-                                max: filter.max ? dateFns.addDays(dateFns.endOfToday(), filter.max) : dateFns.endOfToday(),
-                            };
-                        }
-                    }
-                    if (multiSelect && Array.isArray(filter)) {
-                        actualFilter = filter.map(function (filterItem) {
-                            if (filterItem && filterItem.hasOwnProperty('value')) {
-                                return filterItem.value;
-                            }
-                            return filterItem;
-                        });
-                    }
-                    else if (actualFilter && actualFilter.hasOwnProperty('value')) {
-                        actualFilter = filter.value;
-                    }
-                }
-                return actualFilter;
-            };
-        return NovoDataTableFilterUtils;
-    }());
-
-    /**
-     * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
     /**
      * @template T
      */
@@ -47769,7 +47497,6 @@
                 this.page = 0;
                 this.selectedRows.clear();
                 this.resetSource.next();
-                this.onSortFilterChange();
                 if (fireUpdate) {
                     this.updates.emit({
                         sort: this.sort,
@@ -47794,7 +47521,6 @@
                 this.page = 0;
                 this.selectedRows.clear();
                 this.resetSource.next();
-                this.onSortFilterChange();
                 if (fireUpdate) {
                     this.updates.emit({
                         sort: this.sort,
@@ -47820,7 +47546,6 @@
                 this.page = 0;
                 this.selectedRows.clear();
                 this.resetSource.next();
-                this.onSortFilterChange();
                 if (fireUpdate) {
                     this.updates.emit({
                         sort: this.sort,
@@ -47869,37 +47594,7 @@
          * @return {?}
          */
             function () {
-                this.sortFilterSource.next({
-                    sort: this.sort,
-                    filter: this.filter,
-                    globalSearch: this.globalSearch,
-                });
-            };
-        /**
-         * @param {?} preferences
-         * @return {?}
-         */
-        DataTableState.prototype.setInitialSortFilter = /**
-         * @param {?} preferences
-         * @return {?}
-         */
-            function (preferences) {
-                if (preferences) {
-                    if (preferences.sort) {
-                        this.sort = preferences.sort;
-                    }
-                    if (preferences.filter) {
-                        /** @type {?} */
-                        var filters = Helpers.convertToArray(preferences.filter);
-                        filters.forEach(function (filter) {
-                            filter.value =
-                                filter.selectedOption && filter.type
-                                    ? NovoDataTableFilterUtils.constructFilter(filter.selectedOption, filter.type)
-                                    : filter.value;
-                        });
-                        this.filter = filters;
-                    }
-                }
+                this.sortFilterSource.next();
             };
         return DataTableState;
     }());
@@ -47954,7 +47649,9 @@
                         total = this.currentData.length;
                     }
                     if (filter) {
-                        this.currentData = this.filterData(this.currentData, filter);
+                        /** @type {?} */
+                        var value = Helpers.isString(filter.value) ? filter.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter.value;
+                        this.currentData = this.currentData.filter(Helpers.filterByField(filter.id, value));
                         total = this.currentData.length;
                     }
                     if (sort) {
@@ -47969,33 +47666,6 @@
                     }
                 }
                 return rxjs.of({ results: this.currentData, total: total });
-            };
-        /**
-         * @param {?} currentData
-         * @param {?} filter
-         * @return {?}
-         */
-        StaticDataTableService.prototype.filterData = /**
-         * @param {?} currentData
-         * @param {?} filter
-         * @return {?}
-         */
-            function (currentData, filter) {
-                /** @type {?} */
-                var filters = Helpers.convertToArray(filter);
-                filters.forEach(function (aFilter) {
-                    if (Array.isArray(aFilter.value)) {
-                        /** @type {?} */
-                        var values = Helpers.convertToArray(aFilter.value).map(Helpers.escapeString);
-                        currentData = currentData.filter(Helpers.filterByField(aFilter.id, values));
-                    }
-                    else {
-                        /** @type {?} */
-                        var value = Helpers.escapeString(aFilter.value);
-                        currentData = currentData.filter(Helpers.filterByField(aFilter.id, value));
-                    }
-                });
-                return currentData;
             };
         return StaticDataTableService;
     }());
@@ -48016,7 +47686,6 @@
             this.globalSearchHiddenClassToggle = false;
             this.resized = new core.EventEmitter();
             this.name = 'novo-data-table';
-            this.allowMultipleFilters = false;
             this.rowIdentifier = 'id';
             this.activeRowIdentifier = '';
             // prettier-ignore
@@ -48033,14 +47702,6 @@
             this.expandable = false;
             this.initialized = false;
             this.scrollListenerHandler = this.scrollListener.bind(this);
-            this.sortFilterSubscription = this.state.sortFilterSource.subscribe(function (event) {
-                if (_this.name !== 'novo-data-table') {
-                    _this.preferencesChanged.emit({ name: _this.name, sort: event.sort, filter: event.filter, globalSearch: event.globalSearch });
-                }
-                else {
-                    notify('Must have [name] set on data-table to use preferences!');
-                }
-            });
             this.paginationSubscription = this.state.paginationSource.subscribe(function (event) {
                 if (_this.name !== 'novo-data-table') {
                     if (event.isPageSizeChange) {
@@ -48276,9 +47937,6 @@
                 }
                 if (this.resetSubscription) {
                     this.resetSubscription.unsubscribe();
-                }
-                if (this.sortFilterSubscription) {
-                    this.sortFilterSubscription.unsubscribe();
                 }
             };
         /**
@@ -48626,7 +48284,7 @@
                                 animations.transition('void <=> *', animations.animate('70ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
                             ]),
                         ],
-                        template: "\n    <header\n      *ngIf=\"(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader\"\n      [class.empty]=\"hideGlobalSearch && !paginationOptions && !templates['customActions']\"\n    >\n      <ng-container *ngTemplateOutlet=\"templates['customHeader']\"></ng-container>\n      <novo-search\n        alwaysOpen=\"true\"\n        (searchChanged)=\"onSearchChange($event)\"\n        [(ngModel)]=\"state.globalSearch\"\n        *ngIf=\"!hideGlobalSearch\"\n        [placeholder]=\"searchOptions?.placeholder\"\n        [hint]=\"searchOptions?.tooltip\"\n      >\n      </novo-search>\n      <novo-data-table-pagination\n        *ngIf=\"paginationOptions\"\n        [theme]=\"paginationOptions.theme\"\n        [length]=\"dataSource?.currentTotal\"\n        [page]=\"paginationOptions.page\"\n        [pageSize]=\"paginationOptions.pageSize\"\n        [pageSizeOptions]=\"paginationOptions.pageSizeOptions\"\n      >\n      </novo-data-table-pagination>\n      <div class=\"novo-data-table-actions\" *ngIf=\"templates['customActions']\">\n        <ng-container *ngTemplateOutlet=\"templates['customActions']\"></ng-container>\n      </div>\n    </header>\n    <div class=\"novo-data-table-loading-mask\" *ngIf=\"dataSource?.loading || loading\" data-automation-id=\"novo-data-table-loading\">\n      <novo-loading></novo-loading>\n    </div>\n    <div class=\"novo-data-table-outside-container\" [ngClass]=\"{ 'novo-data-table-outside-container-fixed': fixedHeader }\">\n      <div class=\"novo-data-table-custom-filter\" *ngIf=\"customFilter\">\n        <ng-container *ngTemplateOutlet=\"templates['customFilter']\"></ng-container>\n      </div>\n      <div\n        #novoDataTableContainer\n        class=\"novo-data-table-container\"\n        [ngClass]=\"{ 'novo-data-table-container-fixed': fixedHeader }\"\n        [class.empty-user-filtered]=\"dataSource?.currentlyEmpty && state.userFiltered\"\n        [class.empty]=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\"\n      >\n        <cdk-table\n          *ngIf=\"columns?.length > 0 && columnsLoaded && dataSource\"\n          [dataSource]=\"dataSource\"\n          [trackBy]=\"trackByFn\"\n          novoDataTableSortFilter\n          [class.expandable]=\"expandable\"\n          [class.empty]=\"dataSource?.currentlyEmpty && state.userFiltered\"\n          [hidden]=\"dataSource?.totallyEmpty && !state.userFiltered\"\n        >\n          <ng-container cdkColumnDef=\"selection\">\n            <novo-data-table-checkbox-header-cell *cdkHeaderCellDef></novo-data-table-checkbox-header-cell>\n            <novo-data-table-checkbox-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-checkbox-cell>\n          </ng-container>\n          <ng-container cdkColumnDef=\"expand\">\n            <novo-data-table-expand-header-cell *cdkHeaderCellDef></novo-data-table-expand-header-cell>\n            <novo-data-table-expand-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-expand-cell>\n          </ng-container>\n          <ng-container *ngFor=\"let column of columns; trackBy: trackColumnsBy\" [cdkColumnDef]=\"column.id\">\n            <novo-data-table-header-cell\n              *cdkHeaderCellDef\n              [column]=\"column\"\n              [filterTemplate]=\"templates['column-filter-' + column.id]\"\n              [novo-data-table-cell-config]=\"column\"\n              [resized]=\"resized\"\n              [defaultSort]=\"defaultSort\"\n              [allowMultipleFilters]=\"allowMultipleFilters\"\n              [class.empty]=\"column?.type === 'action' && !column?.label\"\n              [class.button-header-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\"\n              [class.dropdown-header-cell]=\"column?.type === 'action' && column?.action?.options\"\n            ></novo-data-table-header-cell>\n            <novo-data-table-cell\n              *cdkCellDef=\"let row\"\n              [resized]=\"resized\"\n              [column]=\"column\"\n              [row]=\"row\"\n              [template]=\"columnToTemplate[column.id]\"\n              [class.empty]=\"column?.type === 'action' && !column?.label\"\n              [class.button-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\"\n              [class.dropdown-cell]=\"column?.type === 'action' && column?.action?.options\"\n            ></novo-data-table-cell>\n          </ng-container>\n          <novo-data-table-header-row\n            *cdkHeaderRowDef=\"displayedColumns\"\n            data-automation-id=\"novo-data-table-header-row\"\n          ></novo-data-table-header-row>\n          <novo-data-table-row\n            *cdkRowDef=\"let row; columns: displayedColumns\"\n            [ngClass]=\"{ active: row[rowIdentifier] == activeRowIdentifier }\"\n            [novoDataTableExpand]=\"detailRowTemplate\"\n            [row]=\"row\"\n            [id]=\"name + '-' + row[rowIdentifier]\"\n            [dataAutomationId]=\"row[rowIdentifier]\"\n          ></novo-data-table-row>\n        </cdk-table>\n        <div class=\"novo-data-table-footer\" *ngIf=\"templates['footer']\">\n          <ng-container *ngTemplateOutlet=\"templates['footer']; context: { $implicit: columns, data: dataSource.data }\"></ng-container>\n        </div>\n        <div\n          class=\"novo-data-table-no-results-container\"\n          [style.left.px]=\"scrollLeft\"\n          *ngIf=\"dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine\"\n        >\n          <div class=\"novo-data-table-empty-message\">\n            <ng-container *ngTemplateOutlet=\"templates['noResultsMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n          </div>\n        </div>\n      </div>\n      <div\n        class=\"novo-data-table-empty-container\"\n        *ngIf=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\"\n      >\n        <div class=\"novo-data-table-empty-message\">\n          <ng-container *ngTemplateOutlet=\"templates['emptyMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n        </div>\n      </div>\n    </div>\n    <!-- DEFAULT CELL TEMPLATE -->\n    <ng-template novoTemplate=\"textCellTemplate\" let-row let-col=\"col\">\n      <span [style.width.px]=\"col?.width\" [style.min-width.px]=\"col?.width\" [style.max-width.px]=\"col?.width\">{{\n        row[col.id] | dataTableInterpolate: col\n      }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"dateCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"datetimeCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateTimeRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"timeCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableTimeRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"currencyCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableCurrencyRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"bigdecimalCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableBigDecimalRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"numberCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"percentCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col:true }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"linkCellTemplate\" let-row let-col=\"col\">\n      <a\n        (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\"\n        [style.width.px]=\"col?.width\"\n        [style.min-width.px]=\"col?.width\"\n        [style.max-width.px]=\"col?.width\"\n        >{{ row[col.id] | dataTableInterpolate: col }}</a\n      >\n    </ng-template>\n    <ng-template novoTemplate=\"telCellTemplate\" let-row let-col=\"col\">\n      <a href=\"tel:{{ row[col.id] | dataTableInterpolate: col }}\" [target]=\"col?.attributes?.target\">{{\n        row[col.id] | dataTableInterpolate: col\n      }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"mailtoCellTemplate\" let-row let-col=\"col\">\n      <a href=\"mailto:{{ row[col.id] | dataTableInterpolate: col }}\" [target]=\"col?.attributes?.target\">{{\n        row[col.id] | dataTableInterpolate: col\n      }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"buttonCellTemplate\" let-row let-col=\"col\">\n      <p [tooltip]=\"col?.action?.tooltip\" tooltipPosition=\"right\">\n        <i\n          class=\"bhi-{{ col?.action?.icon }} data-table-icon\"\n          (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\"\n          [class.disabled]=\"isDisabled(col, row)\"\n        ></i>\n      </p>\n    </ng-template>\n    <ng-template novoTemplate=\"dropdownCellTemplate\" let-row let-col=\"col\">\n      <novo-dropdown parentScrollSelector=\".novo-data-table-container\" containerClass=\"novo-data-table-dropdown\">\n        <button type=\"button\" theme=\"dialogue\" icon=\"collapse\" inverse>{{ col.label }}</button>\n        <list>\n          <item\n            *ngFor=\"let option of col?.action?.options\"\n            (action)=\"option.handlers.click({ originalEvent: $event?.originalEvent, row: row })\"\n            [disabled]=\"isDisabled(option, row)\"\n          >\n            <span [attr.data-automation-id]=\"option.label\">{{ option.label }}</span>\n          </item>\n        </list>\n      </novo-dropdown>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultNoResultsMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.noMatchingRecordsMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultEmptyMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.emptyTableMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"expandedRow\"> You did not provide an \"expandedRow\" template! </ng-template>\n    <ng-template #detailRowTemplate let-row>\n      <div class=\"novo-data-table-detail-row\" [@expand] style=\"overflow: hidden\">\n        <ng-container *ngTemplateOutlet=\"templates['expandedRow']; context: { $implicit: row }\"></ng-container>\n      </div>\n    </ng-template>\n    <!-- CUSTOM CELLS PASSED IN -->\n    <ng-content></ng-content>\n  ",
+                        template: "\n    <header\n      *ngIf=\"(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader\"\n      [class.empty]=\"hideGlobalSearch && !paginationOptions && !templates['customActions']\"\n    >\n      <ng-container *ngTemplateOutlet=\"templates['customHeader']\"></ng-container>\n      <novo-search\n        alwaysOpen=\"true\"\n        (searchChanged)=\"onSearchChange($event)\"\n        [(ngModel)]=\"state.globalSearch\"\n        *ngIf=\"!hideGlobalSearch\"\n        [placeholder]=\"searchOptions?.placeholder\"\n        [hint]=\"searchOptions?.tooltip\"\n      >\n      </novo-search>\n      <novo-data-table-pagination\n        *ngIf=\"paginationOptions\"\n        [theme]=\"paginationOptions.theme\"\n        [length]=\"dataSource?.currentTotal\"\n        [page]=\"paginationOptions.page\"\n        [pageSize]=\"paginationOptions.pageSize\"\n        [pageSizeOptions]=\"paginationOptions.pageSizeOptions\"\n      >\n      </novo-data-table-pagination>\n      <div class=\"novo-data-table-actions\" *ngIf=\"templates['customActions']\">\n        <ng-container *ngTemplateOutlet=\"templates['customActions']\"></ng-container>\n      </div>\n    </header>\n    <div class=\"novo-data-table-loading-mask\" *ngIf=\"dataSource?.loading || loading\" data-automation-id=\"novo-data-table-loading\">\n      <novo-loading></novo-loading>\n    </div>\n    <div class=\"novo-data-table-outside-container\" [ngClass]=\"{ 'novo-data-table-outside-container-fixed': fixedHeader }\">\n      <div class=\"novo-data-table-custom-filter\" *ngIf=\"customFilter\">\n        <ng-container *ngTemplateOutlet=\"templates['customFilter']\"></ng-container>\n      </div>\n      <div\n        #novoDataTableContainer\n        class=\"novo-data-table-container\"\n        [ngClass]=\"{ 'novo-data-table-container-fixed': fixedHeader }\"\n        [class.empty-user-filtered]=\"dataSource?.currentlyEmpty && state.userFiltered\"\n        [class.empty]=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\"\n      >\n        <cdk-table\n          *ngIf=\"columns?.length > 0 && columnsLoaded && dataSource\"\n          [dataSource]=\"dataSource\"\n          [trackBy]=\"trackByFn\"\n          novoDataTableSortFilter\n          [class.expandable]=\"expandable\"\n          [class.empty]=\"dataSource?.currentlyEmpty && state.userFiltered\"\n          [hidden]=\"dataSource?.totallyEmpty && !state.userFiltered\"\n        >\n          <ng-container cdkColumnDef=\"selection\">\n            <novo-data-table-checkbox-header-cell *cdkHeaderCellDef></novo-data-table-checkbox-header-cell>\n            <novo-data-table-checkbox-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-checkbox-cell>\n          </ng-container>\n          <ng-container cdkColumnDef=\"expand\">\n            <novo-data-table-expand-header-cell *cdkHeaderCellDef></novo-data-table-expand-header-cell>\n            <novo-data-table-expand-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-expand-cell>\n          </ng-container>\n          <ng-container *ngFor=\"let column of columns; trackBy: trackColumnsBy\" [cdkColumnDef]=\"column.id\">\n            <novo-data-table-header-cell\n              *cdkHeaderCellDef\n              [column]=\"column\"\n              [filterTemplate]=\"templates['column-filter-' + column.id]\"\n              [novo-data-table-cell-config]=\"column\"\n              [resized]=\"resized\"\n              [defaultSort]=\"defaultSort\"\n              [class.empty]=\"column?.type === 'action' && !column?.label\"\n              [class.button-header-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\"\n              [class.dropdown-header-cell]=\"column?.type === 'action' && column?.action?.options\"\n            ></novo-data-table-header-cell>\n            <novo-data-table-cell\n              *cdkCellDef=\"let row\"\n              [resized]=\"resized\"\n              [column]=\"column\"\n              [row]=\"row\"\n              [template]=\"columnToTemplate[column.id]\"\n              [class.empty]=\"column?.type === 'action' && !column?.label\"\n              [class.button-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\"\n              [class.dropdown-cell]=\"column?.type === 'action' && column?.action?.options\"\n            ></novo-data-table-cell>\n          </ng-container>\n          <novo-data-table-header-row\n            *cdkHeaderRowDef=\"displayedColumns\"\n            data-automation-id=\"novo-data-table-header-row\"\n          ></novo-data-table-header-row>\n          <novo-data-table-row\n            *cdkRowDef=\"let row; columns: displayedColumns\"\n            [ngClass]=\"{ active: row[rowIdentifier] == activeRowIdentifier }\"\n            [novoDataTableExpand]=\"detailRowTemplate\"\n            [row]=\"row\"\n            [id]=\"name + '-' + row[rowIdentifier]\"\n            [dataAutomationId]=\"row[rowIdentifier]\"\n          ></novo-data-table-row>\n        </cdk-table>\n        <div class=\"novo-data-table-footer\" *ngIf=\"templates['footer']\">\n          <ng-container *ngTemplateOutlet=\"templates['footer']; context: { $implicit: columns, data: dataSource.data }\"></ng-container>\n        </div>\n        <div\n          class=\"novo-data-table-no-results-container\"\n          [style.left.px]=\"scrollLeft\"\n          *ngIf=\"dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine\"\n        >\n          <div class=\"novo-data-table-empty-message\">\n            <ng-container *ngTemplateOutlet=\"templates['noResultsMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n          </div>\n        </div>\n      </div>\n      <div\n        class=\"novo-data-table-empty-container\"\n        *ngIf=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\"\n      >\n        <div class=\"novo-data-table-empty-message\">\n          <ng-container *ngTemplateOutlet=\"templates['emptyMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n        </div>\n      </div>\n    </div>\n    <!-- DEFAULT CELL TEMPLATE -->\n    <ng-template novoTemplate=\"textCellTemplate\" let-row let-col=\"col\">\n      <span [style.width.px]=\"col?.width\" [style.min-width.px]=\"col?.width\" [style.max-width.px]=\"col?.width\">{{\n        row[col.id] | dataTableInterpolate: col\n      }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"dateCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"datetimeCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateTimeRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"timeCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableTimeRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"currencyCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableCurrencyRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"numberCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"percentCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col:true }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"linkCellTemplate\" let-row let-col=\"col\">\n      <a\n        (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\"\n        [style.width.px]=\"col?.width\"\n        [style.min-width.px]=\"col?.width\"\n        [style.max-width.px]=\"col?.width\"\n        >{{ row[col.id] | dataTableInterpolate: col }}</a\n      >\n    </ng-template>\n    <ng-template novoTemplate=\"telCellTemplate\" let-row let-col=\"col\">\n      <a href=\"tel:{{ row[col.id] | dataTableInterpolate: col }}\" [target]=\"col?.attributes?.target\">{{\n        row[col.id] | dataTableInterpolate: col\n      }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"mailtoCellTemplate\" let-row let-col=\"col\">\n      <a href=\"mailto:{{ row[col.id] | dataTableInterpolate: col }}\" [target]=\"col?.attributes?.target\">{{\n        row[col.id] | dataTableInterpolate: col\n      }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"buttonCellTemplate\" let-row let-col=\"col\">\n      <p [tooltip]=\"col?.action?.tooltip\" tooltipPosition=\"right\">\n        <i\n          class=\"bhi-{{ col?.action?.icon }} data-table-icon\"\n          (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\"\n          [class.disabled]=\"isDisabled(col, row)\"\n        ></i>\n      </p>\n    </ng-template>\n    <ng-template novoTemplate=\"dropdownCellTemplate\" let-row let-col=\"col\">\n      <novo-dropdown parentScrollSelector=\".novo-data-table-container\" containerClass=\"novo-data-table-dropdown\">\n        <button type=\"button\" theme=\"dialogue\" icon=\"collapse\" inverse>{{ col.label }}</button>\n        <list>\n          <item\n            *ngFor=\"let option of col?.action?.options\"\n            (action)=\"option.handlers.click({ originalEvent: $event?.originalEvent, row: row })\"\n            [disabled]=\"isDisabled(option, row)\"\n          >\n            <span [attr.data-automation-id]=\"option.label\">{{ option.label }}</span>\n          </item>\n        </list>\n      </novo-dropdown>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultNoResultsMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.noMatchingRecordsMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultEmptyMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.emptyTableMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"expandedRow\"> You did not provide an \"expandedRow\" template! </ng-template>\n    <ng-template #detailRowTemplate let-row>\n      <div class=\"novo-data-table-detail-row\" [@expand] style=\"overflow: hidden\">\n        <ng-container *ngTemplateOutlet=\"templates['expandedRow']; context: { $implicit: row }\"></ng-container>\n      </div>\n    </ng-template>\n    <!-- CUSTOM CELLS PASSED IN -->\n    <ng-content></ng-content>\n  ",
                         changeDetection: core.ChangeDetectionStrategy.OnPush,
                         providers: [DataTableState]
                     }] }
@@ -48650,7 +48308,6 @@
             searchOptions: [{ type: core.Input }],
             defaultSort: [{ type: core.Input }],
             name: [{ type: core.Input }],
-            allowMultipleFilters: [{ type: core.Input }],
             rowIdentifier: [{ type: core.Input }],
             activeRowIdentifier: [{ type: core.Input }],
             trackByFn: [{ type: core.Input }],
@@ -48991,38 +48648,24 @@
         }
         /**
          * @param {?} id
-         * @param {?} type
          * @param {?} value
          * @param {?} transform
-         * @param {?=} allowMultipleFilters
-         * @param {?=} selectedOption
          * @return {?}
          */
         NovoDataTableSortFilter.prototype.filter = /**
          * @param {?} id
-         * @param {?} type
          * @param {?} value
          * @param {?} transform
-         * @param {?=} allowMultipleFilters
-         * @param {?=} selectedOption
          * @return {?}
          */
-            function (id, type, value, transform, allowMultipleFilters, selectedOption) {
-                if (allowMultipleFilters === void 0) {
-                    allowMultipleFilters = false;
-                }
+            function (id, value, transform) {
                 /** @type {?} */
                 var filter;
-                if (allowMultipleFilters) {
-                    filter = this.resolveMultiFilter(id, type, value, transform, selectedOption);
+                if (!Helpers.isBlank(value)) {
+                    filter = { id: id, value: value, transform: transform };
                 }
                 else {
-                    if (!Helpers.isBlank(value)) {
-                        filter = __assign({ id: id, type: type, value: value, transform: transform }, (selectedOption && { selectedOption: selectedOption }));
-                    }
-                    else {
-                        filter = undefined;
-                    }
+                    filter = undefined;
                 }
                 this.state.filter = filter;
                 this.state.reset(false, true);
@@ -49048,39 +48691,6 @@
                 this.state.reset(false, true);
                 this.state.updates.next({ sort: sort, filter: this.state.filter });
                 this.state.onSortFilterChange();
-            };
-        /**
-         * @param {?} id
-         * @param {?} type
-         * @param {?} value
-         * @param {?} transform
-         * @param {?} selectedOption
-         * @return {?}
-         */
-        NovoDataTableSortFilter.prototype.resolveMultiFilter = /**
-         * @param {?} id
-         * @param {?} type
-         * @param {?} value
-         * @param {?} transform
-         * @param {?} selectedOption
-         * @return {?}
-         */
-            function (id, type, value, transform, selectedOption) {
-                /** @type {?} */
-                var filter;
-                filter = Helpers.convertToArray(this.state.filter);
-                /** @type {?} */
-                var filterIndex = filter.findIndex(function (aFilter) { return aFilter && aFilter.id === id; });
-                if (filterIndex > -1) {
-                    filter.splice(filterIndex, 1);
-                }
-                if (!Helpers.isBlank(value)) {
-                    filter = __spread(filter, [__assign({ id: id, type: type, value: value, transform: transform }, (selectedOption && { selectedOption: selectedOption }))]);
-                }
-                if (filter.length < 1) {
-                    filter = undefined;
-                }
-                return filter;
             };
         NovoDataTableSortFilter.decorators = [
             { type: core.Directive, args: [{
@@ -49113,18 +48723,33 @@
             this.elementRef = elementRef;
             this._sort = _sort;
             this._cdkColumnDef = _cdkColumnDef;
-            this.allowMultipleFilters = false;
             this.icon = 'sortable';
             this.filterActive = false;
             this.sortActive = false;
             this.showCustomRange = false;
             this.multiSelect = false;
             this.multiSelectedOptions = [];
-            this.multiSelectedOptionIsHidden = [];
-            this.optionFilter = '';
-            this.error = false;
             this.subscriptions = [];
-            this._rerenderSubscription = state.updates.subscribe(function (change) { return _this.checkSortFilterState(change); });
+            this._rerenderSubscription = state.updates.subscribe(function (change) {
+                if (change.sort && change.sort.id === _this.id) {
+                    _this.icon = "sort-" + change.sort.value;
+                    _this.sortActive = true;
+                }
+                else {
+                    _this.icon = 'sortable';
+                    _this.sortActive = false;
+                }
+                if (change.filter && change.filter.id === _this.id) {
+                    _this.filterActive = true;
+                    _this.filter = change.filter.value;
+                }
+                else {
+                    _this.filterActive = false;
+                    _this.filter = undefined;
+                    _this.multiSelectedOptions = [];
+                }
+                changeDetectorRef.markForCheck();
+            });
         }
         Object.defineProperty(NovoDataTableCellHeader.prototype, "column", {
             set: /**
@@ -49177,12 +48802,15 @@
                 if (this._cdkColumnDef) {
                     this.id = this._cdkColumnDef.name;
                 }
-                this.checkSortFilterState({ filter: this.state.filter, sort: this.state.sort }, true);
+                if (this.defaultSort && this.id === this.defaultSort.id) {
+                    this.icon = "sort-" + this.defaultSort.value;
+                    this.sortActive = true;
+                    this.changeDetectorRef.markForCheck();
+                }
                 this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
                 if (this.multiSelect) {
                     this.multiSelectedOptions = this.filter ? __spread(this.filter) : [];
                 }
-                this.changeDetectorRef.markForCheck();
             };
         /**
          * @return {?}
@@ -49195,69 +48823,6 @@
                 this.subscriptions.forEach(function (subscription) {
                     subscription.unsubscribe();
                 });
-            };
-        /**
-         * @param {?} sortFilterState
-         * @param {?=} initialConfig
-         * @return {?}
-         */
-        NovoDataTableCellHeader.prototype.checkSortFilterState = /**
-         * @param {?} sortFilterState
-         * @param {?=} initialConfig
-         * @return {?}
-         */
-            function (sortFilterState, initialConfig) {
-                var _this = this;
-                if (initialConfig === void 0) {
-                    initialConfig = false;
-                }
-                if (sortFilterState.sort && sortFilterState.sort.id === this.id) {
-                    this.icon = "sort-" + sortFilterState.sort.value;
-                    this.sortActive = true;
-                }
-                else {
-                    this.icon = 'sortable';
-                    this.sortActive = false;
-                }
-                /** @type {?} */
-                var tableFilter = Helpers.convertToArray(sortFilterState.filter);
-                /** @type {?} */
-                var thisFilter = tableFilter.find(function (filter) { return filter && filter.id === _this.id; });
-                if (thisFilter) {
-                    this.filterActive = true;
-                    if (initialConfig && thisFilter.type === 'date' && thisFilter.selectedOption) {
-                        this.activeDateFilter = thisFilter.selectedOption.label || this.labels.customDateRange;
-                    }
-                    this.filter = thisFilter.value;
-                }
-                else {
-                    this.filterActive = false;
-                    this.filter = undefined;
-                    this.activeDateFilter = undefined;
-                    this.multiSelectedOptions = [];
-                }
-                if (this.defaultSort && this.id === this.defaultSort.id) {
-                    this.icon = "sort-" + this.defaultSort.value;
-                    this.sortActive = true;
-                }
-                this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
-                if (this.multiSelect) {
-                    this.multiSelectedOptions = this.filter ? __spread(this.filter) : [];
-                    if (this.config.filterConfig.options) {
-                        if (typeof this.config.filterConfig.options[0] === 'string') {
-                            this.multiSelectedOptionIsHidden = (( /** @type {?} */(this.config.filterConfig.options))).map(function (option) { return ({ option: option, hidden: false }); });
-                        }
-                        else {
-                            this.multiSelectedOptionIsHidden = (( /** @type {?} */(this.config.filterConfig.options))).map(function (option) {
-                                return ({
-                                    option: option,
-                                    hidden: false,
-                                });
-                            });
-                        }
-                    }
-                }
-                this.changeDetectorRef.markForCheck();
             };
         /**
          * @param {?} option
@@ -49291,18 +48856,11 @@
             function (option) {
                 var _this = this;
                 /** @type {?} */
-                var optionValue = option.hasOwnProperty('value') ? option.value : option;
+                var optionValue = option.value ? option.value : option;
                 /** @type {?} */
                 var optionIndex = this.multiSelectedOptions.findIndex(function (item) { return _this.optionPresentCheck(item, optionValue); });
-                this.error = false;
                 if (optionIndex > -1) {
                     this.multiSelectedOptions.splice(optionIndex, 1);
-                    if (this.optionFilter &&
-                        !this.getOptionText(option)
-                            .toLowerCase()
-                            .startsWith(this.optionFilter.toLowerCase())) {
-                        this.multiSelectedOptionIsHidden[this.multiSelectedOptionIsHidden.findIndex(function (record) { return record.option === option; })].hidden = true;
-                    }
                 }
                 else {
                     this.multiSelectedOptions.push(optionValue);
@@ -49335,7 +48893,6 @@
             function () {
                 this.multiSelectedOptions = this.filter ? __spread(this.filter) : [];
                 this.dropdown.closePanel();
-                this.clearOptionFilter();
             };
         /**
          * @return {?}
@@ -49344,119 +48901,10 @@
          * @return {?}
          */
             function () {
-                if (this.multiSelectedOptions.length === 0 && !this.filter) {
-                    this.multiSelectHasVisibleOptions() && this.dropdown ? (this.error = true) : null;
-                }
-                else {
-                    this.clearOptionFilter();
-                    /** @type {?} */
-                    var actualFilter = this.multiSelectedOptions.length > 0 ? __spread(this.multiSelectedOptions) : undefined;
-                    this.filterData(actualFilter);
-                    this.dropdown.closePanel();
-                }
-            };
-        /**
-         * @param {?} optionFilter
-         * @return {?}
-         */
-        NovoDataTableCellHeader.prototype.multiSelectOptionFilter = /**
-         * @param {?} optionFilter
-         * @return {?}
-         */
-            function (optionFilter) {
-                var _this = this;
-                this.multiSelectedOptionIsHidden.forEach(function (record) {
-                    if (record.option) {
-                        record.hidden = !(_this.getOptionText(record.option)
-                            .toLowerCase()
-                            .startsWith(optionFilter.toLowerCase()) || _this.isSelected(record.option, _this.multiSelectedOptions));
-                    }
-                });
-            };
-        /**
-         * @param {?} option
-         * @return {?}
-         */
-        NovoDataTableCellHeader.prototype.multiSelectOptionIsHidden = /**
-         * @param {?} option
-         * @return {?}
-         */
-            function (option) {
-                return this.multiSelectedOptionIsHidden.find(function (record) { return record.option === option; }).hidden;
-            };
-        /**
-         * @return {?}
-         */
-        NovoDataTableCellHeader.prototype.multiSelectHasVisibleOptions = /**
-         * @return {?}
-         */
-            function () {
-                return this.multiSelectedOptionIsHidden.some(function (record) { return !record.hidden; });
-            };
-        /**
-         * @private
-         * @param {?} option
-         * @return {?}
-         */
-        NovoDataTableCellHeader.prototype.getOptionText = /**
-         * @private
-         * @param {?} option
-         * @return {?}
-         */
-            function (option) {
-                if (typeof option !== 'object') {
-                    return option.toString();
-                }
-                else {
-                    /** @type {?} */
-                    var opt = ( /** @type {?} */(option));
-                    return (opt.label.length > 0 ? opt.label : opt.value).toString();
-                }
-            };
-        /**
-         * @param {?} event
-         * @return {?}
-         */
-        NovoDataTableCellHeader.prototype.multiSelectOptionFilterHandleKeydown = /**
-         * @param {?} event
-         * @return {?}
-         */
-            function (event) {
-                if (this.multiSelect) {
-                    this.error = false;
-                    if (this.dropdown.panelOpen && event.keyCode === KeyCodes.ESC) {
-                        // escape = clear text box and close
-                        Helpers.swallowEvent(event);
-                        this.clearOptionFilter();
-                        this.dropdown.closePanel();
-                    }
-                    else if (event.keyCode === KeyCodes.ENTER) {
-                        Helpers.swallowEvent(event);
-                        this.filterMultiSelect();
-                    }
-                    else if ((event.keyCode >= 65 && event.keyCode <= 90) ||
-                        (event.keyCode >= 96 && event.keyCode <= 105) ||
-                        (event.keyCode >= 48 && event.keyCode <= 57)) {
-                        this.optionFilterInput.nativeElement.focus();
-                    }
-                }
-            };
-        /**
-         * @private
-         * @return {?}
-         */
-        NovoDataTableCellHeader.prototype.clearOptionFilter = /**
-         * @private
-         * @return {?}
-         */
-            function () {
-                this.error = false;
-                if (this.optionFilter.length > 0) {
-                    this.optionFilter = '';
-                    this.multiSelectedOptionIsHidden.forEach(function (record) {
-                        record.hidden = false;
-                    });
-                }
+                /** @type {?} */
+                var actualFilter = this.multiSelectedOptions.length > 0 ? __spread(this.multiSelectedOptions) : undefined;
+                this.filterData(actualFilter);
+                this.dropdown.closePanel();
             };
         /**
          * @param {?} mouseDownEvent
@@ -49525,13 +48973,6 @@
                 if (this.filterInput && this.filterInput.nativeElement) {
                     setTimeout(function () { return _this.filterInput.nativeElement.focus(); }, 0);
                 }
-                if (this.multiSelect && this.dropdown) {
-                    this.dropdown.onKeyDown = function (event) {
-                        _this.multiSelectOptionFilterHandleKeydown(event);
-                    };
-                    setTimeout(function () { return _this.optionFilterInput.nativeElement.focus(); }, 0);
-                    this.changeDetectorRef.markForCheck();
-                }
             };
         /**
          * @return {?}
@@ -49561,9 +49002,33 @@
             function (filter) {
                 var _this = this;
                 /** @type {?} */
-                var actualFilter = NovoDataTableFilterUtils.constructFilter(filter, this.config.filterConfig.type, this.multiSelect);
-                /** @type {?} */
-                var selectedOption = this.config.filterConfig.type === 'date' && filter ? filter : undefined;
+                var actualFilter = filter;
+                if (this.config.filterConfig.type === 'date' && filter) {
+                    this.activeDateFilter = filter.label || this.labels.customDateRange;
+                    if (filter.startDate && filter.endDate) {
+                        actualFilter = {
+                            min: dateFns.startOfDay(filter.startDate.date),
+                            max: dateFns.startOfDay(dateFns.addDays(dateFns.startOfDay(filter.endDate.date), 1)),
+                        };
+                    }
+                    else {
+                        actualFilter = {
+                            min: filter.min ? dateFns.addDays(dateFns.startOfToday(), filter.min) : dateFns.startOfToday(),
+                            max: filter.max ? dateFns.addDays(dateFns.endOfToday(), filter.max) : dateFns.endOfToday(),
+                        };
+                    }
+                }
+                if (this.multiSelect && Array.isArray(filter)) {
+                    actualFilter = filter.map(function (filterItem) {
+                        if (filterItem && filterItem.hasOwnProperty('value')) {
+                            return filterItem.value;
+                        }
+                        return filterItem;
+                    });
+                }
+                else if (actualFilter && actualFilter.hasOwnProperty('value')) {
+                    actualFilter = filter.value;
+                }
                 if (this.changeTimeout) {
                     clearTimeout(this.changeTimeout);
                 }
@@ -49571,7 +49036,7 @@
                     if (actualFilter === '') {
                         actualFilter = undefined;
                     }
-                    _this._sort.filter(_this.id, _this.config.filterConfig.type, actualFilter, _this.config.transforms.filter, _this.allowMultipleFilters, selectedOption);
+                    _this._sort.filter(_this.id, actualFilter, _this.config.transforms.filter);
                     _this.changeDetectorRef.markForCheck();
                 }, 300);
             };
@@ -49586,7 +49051,6 @@
                 this.multiSelectedOptions = [];
                 this.activeDateFilter = undefined;
                 this.filterData(undefined);
-                this.clearOptionFilter();
             };
         /**
          * @private
@@ -49634,7 +49098,7 @@
         NovoDataTableCellHeader.decorators = [
             { type: core.Component, args: [{
                         selector: '[novo-data-table-cell-config]',
-                        template: "\n    <i class=\"bhi-{{ labelIcon }} label-icon\" *ngIf=\"labelIcon\" data-automation-id=\"novo-data-table-header-icon\"></i>\n    <label data-automation-id=\"novo-data-table-label\">{{ label }}</label>\n    <div>\n      <button\n        *ngIf=\"config.sortable\"\n        tooltipPosition=\"right\"\n        [tooltip]=\"labels.sort\"\n        theme=\"icon\"\n        [icon]=\"icon\"\n        (click)=\"sort()\"\n        [class.active]=\"sortActive\"\n        data-automation-id=\"novo-data-table-sort\"\n      ></button>\n      <novo-dropdown\n        *ngIf=\"config.filterable\"\n        side=\"right\"\n        parentScrollSelector=\".novo-data-table-container\"\n        containerClass=\"data-table-dropdown\"\n        data-automation-id=\"novo-data-table-filter\"\n      >\n        <button\n          type=\"button\"\n          theme=\"icon\"\n          icon=\"filter\"\n          [class.active]=\"filterActive\"\n          (click)=\"focusInput()\"\n          tooltipPosition=\"right\"\n          [tooltip]=\"labels.filters\"\n        ></button>\n        <div class=\"header\">\n          <span>{{ labels.filters }}</span>\n          <button\n            theme=\"dialogue\"\n            color=\"negative\"\n            icon=\"times\"\n            (click)=\"clearFilter()\"\n            *ngIf=\"filter !== null && filter !== undefined && filter !== ''\"\n            data-automation-id=\"novo-data-table-filter-clear\"\n          >\n            {{ labels.clear }}\n          </button>\n        </div>\n        <ng-container [ngSwitch]=\"config.filterConfig.type\">\n          <list *ngSwitchCase=\"'date'\">\n            <ng-container *ngIf=\"!showCustomRange\">\n              <item\n                [class.active]=\"activeDateFilter === option.label\"\n                *ngFor=\"let option of config.filterConfig.options\"\n                (click)=\"filterData(option)\"\n                [attr.data-automation-id]=\"'novo-data-table-filter-' + option.label\"\n              >\n                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n              </item>\n            </ng-container>\n            <item\n              [class.active]=\"labels.customDateRange === activeDateFilter\"\n              (click)=\"toggleCustomRange($event, true)\"\n              *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\"\n              [keepOpen]=\"true\"\n            >\n              {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n            </item>\n            <div class=\"calendar-container\" *ngIf=\"showCustomRange\">\n              <div (click)=\"toggleCustomRange($event, false)\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n              <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n            </div>\n          </list>\n          <list *ngSwitchCase=\"'select'\">\n            <item\n              [class.active]=\"filter === option\"\n              *ngFor=\"let option of config.filterConfig.options\"\n              (click)=\"filterData(option)\"\n              [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\"\n            >\n              <span>{{ option?.label || option }}</span>\n              <i class=\"bhi-check\" *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n            </item>\n          </list>\n          <list *ngSwitchCase=\"'multi-select'\">\n            <div class=\"dropdown-list-filter\" (keydown)=\"multiSelectOptionFilterHandleKeydown($event)\">\n              <item class=\"filter-search\" keepOpen=\"true\">\n                <input\n                  [(ngModel)]=\"optionFilter\"\n                  (ngModelChange)=\"multiSelectOptionFilter($event)\"\n                  #optionFilterInput\n                  data-automation-id=\"novo-data-table-multi-select-option-filter-input\"\n                />\n                <i class=\"bhi-search\"></i>\n                <span class=\"error-text\" [hidden]=\"!error || !multiSelectHasVisibleOptions()\">{{ labels.selectFilterOptions }}</span>\n              </item>\n            </div>\n            <div class=\"dropdown-list-options\">\n              <item\n                *ngFor=\"let option of config.filterConfig.options\"\n                [hidden]=\"multiSelectOptionIsHidden(option)\"\n                (click)=\"toggleSelection(option)\"\n                [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\"\n                [keepOpen]=\"true\"\n              >\n                <span>{{ option?.label || option }}</span>\n                <i\n                  [class.bhi-checkbox-empty]=\"!isSelected(option, multiSelectedOptions)\"\n                  [class.bhi-checkbox-filled]=\"isSelected(option, multiSelectedOptions)\"\n                ></i>\n              </item>\n            </div>\n            <p class=\"filter-null-results\" [hidden]=\"multiSelectHasVisibleOptions()\">{{ labels.pickerEmpty }}</p>\n          </list>\n          <list *ngSwitchCase=\"'custom'\">\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <ng-container *ngTemplateOutlet=\"filterTemplate; context: { $implicit: config }\"></ng-container>\n            </item>\n          </list>\n          <list *ngSwitchDefault>\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <input\n                [type]=\"config.filterConfig.type\"\n                [(ngModel)]=\"filter\"\n                (ngModelChange)=\"filterData($event)\"\n                #filterInput\n                data-automation-id=\"novo-data-table-filter-input\"\n              />\n            </item>\n          </list>\n        </ng-container>\n        <div class=\"footer\" *ngIf=\"multiSelect\">\n          <button theme=\"dialogue\" color=\"dark\" (click)=\"cancel()\" data-automation-id=\"novo-data-table-multi-select-cancel\">\n            {{ labels.cancel }}\n          </button>\n          <button theme=\"dialogue\" color=\"positive\" (click)=\"filterMultiSelect()\" data-automation-id=\"novo-data-table-multi-select-filter\">\n            {{ labels.filters }}\n          </button>\n        </div>\n      </novo-dropdown>\n    </div>\n    <div class=\"spacer\"></div>\n    <div class=\"data-table-header-resizable\" *ngIf=\"config.resizable\"><span (mousedown)=\"startResize($event)\">&nbsp;</span></div>\n  ",
+                        template: "\n    <i class=\"bhi-{{ labelIcon }} label-icon\" *ngIf=\"labelIcon\" data-automation-id=\"novo-data-table-header-icon\"></i>\n    <label data-automation-id=\"novo-data-table-label\">{{ label }}</label>\n    <div>\n      <button\n        *ngIf=\"config.sortable\"\n        tooltipPosition=\"right\"\n        [tooltip]=\"labels.sort\"\n        theme=\"icon\"\n        [icon]=\"icon\"\n        (click)=\"sort()\"\n        [class.active]=\"sortActive\"\n        data-automation-id=\"novo-data-table-sort\"\n      ></button>\n      <novo-dropdown\n        *ngIf=\"config.filterable\"\n        side=\"right\"\n        parentScrollSelector=\".novo-data-table-container\"\n        containerClass=\"data-table-dropdown\"\n        data-automation-id=\"novo-data-table-filter\"\n      >\n        <button\n          type=\"button\"\n          theme=\"icon\"\n          icon=\"filter\"\n          [class.active]=\"filterActive\"\n          (click)=\"focusInput()\"\n          tooltipPosition=\"right\"\n          [tooltip]=\"labels.filters\"\n        ></button>\n        <div class=\"header\">\n          <span>{{ labels.filters }}</span>\n          <button\n            theme=\"dialogue\"\n            color=\"negative\"\n            icon=\"times\"\n            (click)=\"clearFilter()\"\n            *ngIf=\"filter !== null && filter !== undefined && filter !== ''\"\n            data-automation-id=\"novo-data-table-filter-clear\"\n          >\n            {{ labels.clear }}\n          </button>\n        </div>\n        <ng-container [ngSwitch]=\"config.filterConfig.type\">\n          <list *ngSwitchCase=\"'date'\">\n            <ng-container *ngIf=\"!showCustomRange\">\n              <item\n                [class.active]=\"activeDateFilter === option.label\"\n                *ngFor=\"let option of config.filterConfig.options\"\n                (click)=\"filterData(option)\"\n                [attr.data-automation-id]=\"'novo-data-table-filter-' + option.label\"\n              >\n                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n              </item>\n            </ng-container>\n            <item\n              [class.active]=\"labels.customDateRange === activeDateFilter\"\n              (click)=\"toggleCustomRange($event, true)\"\n              *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\"\n              [keepOpen]=\"true\"\n            >\n              {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n            </item>\n            <div class=\"calendar-container\" *ngIf=\"showCustomRange\">\n              <div (click)=\"toggleCustomRange($event, false)\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n              <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n            </div>\n          </list>\n          <list *ngSwitchCase=\"'select'\">\n            <item\n              [class.active]=\"filter === option\"\n              *ngFor=\"let option of config.filterConfig.options\"\n              (click)=\"filterData(option)\"\n              [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\"\n            >\n              <span>{{ option?.label || option }}</span>\n              <i class=\"bhi-check\" *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n            </item>\n          </list>\n          <list *ngSwitchCase=\"'multi-select'\">\n            <div class=\"dropdown-list-options\">\n              <item\n                *ngFor=\"let option of config.filterConfig.options\"\n                (click)=\"toggleSelection(option)\"\n                [attr.data-automation-id]=\"'novo-data-table-filter-' + (option?.label || option)\"\n                [keepOpen]=\"true\"\n              >\n                <span>{{ option?.label || option }}</span>\n                <i\n                  [class.bhi-checkbox-empty]=\"!isSelected(option, multiSelectedOptions)\"\n                  [class.bhi-checkbox-filled]=\"isSelected(option, multiSelectedOptions)\"\n                ></i>\n              </item>\n            </div>\n          </list>\n          <list *ngSwitchCase=\"'custom'\">\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <ng-container *ngTemplateOutlet=\"filterTemplate; context: { $implicit: config }\"></ng-container>\n            </item>\n          </list>\n          <list *ngSwitchDefault>\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <input\n                [type]=\"config.filterConfig.type\"\n                [(ngModel)]=\"filter\"\n                (ngModelChange)=\"filterData($event)\"\n                #filterInput\n                data-automation-id=\"novo-data-table-filter-input\"\n              />\n            </item>\n          </list>\n        </ng-container>\n        <div class=\"footer\" *ngIf=\"multiSelect\">\n          <button theme=\"dialogue\" color=\"dark\" (click)=\"cancel()\" data-automation-id=\"novo-data-table-multi-select-cancel\">\n            {{ labels.cancel }}\n          </button>\n          <button theme=\"dialogue\" color=\"positive\" (click)=\"filterMultiSelect()\" data-automation-id=\"novo-data-table-multi-select-filter\">\n            {{ labels.filters }}\n          </button>\n        </div>\n      </novo-dropdown>\n    </div>\n    <div class=\"spacer\"></div>\n    <div class=\"data-table-header-resizable\" *ngIf=\"config.resizable\"><span (mousedown)=\"startResize($event)\">&nbsp;</span></div>\n  ",
                         changeDetection: core.ChangeDetectionStrategy.OnPush
                     }] }
         ];
@@ -49653,14 +49117,11 @@
         NovoDataTableCellHeader.propDecorators = {
             filterInput: [{ type: core.ViewChild, args: ['filterInput',] }],
             dropdown: [{ type: core.ViewChild, args: [NovoDropdownElement,] }],
-            optionFilterInput: [{ type: core.ViewChild, args: ['optionFilterInput',] }],
             defaultSort: [{ type: core.Input }],
-            allowMultipleFilters: [{ type: core.Input }],
             resized: [{ type: core.Input }],
             filterTemplate: [{ type: core.Input }],
             resizable: [{ type: core.HostBinding, args: ['class.resizable',] }],
-            column: [{ type: core.Input, args: ['novo-data-table-cell-config',] }],
-            multiSelectOptionFilterHandleKeydown: [{ type: core.HostListener, args: ['document:keydown', ['$event'],] }]
+            column: [{ type: core.Input, args: ['novo-data-table-cell-config',] }]
         };
         return NovoDataTableCellHeader;
     }());
@@ -50439,45 +49900,6 @@
     /**
      * @template T
      */
-    var DataTableBigDecimalRendererPipe = /** @class */ (function () {
-        function DataTableBigDecimalRendererPipe(labels) {
-            this.labels = labels;
-        }
-        /**
-         * @param {?} value
-         * @param {?} column
-         * @return {?}
-         */
-        DataTableBigDecimalRendererPipe.prototype.transform = /**
-         * @param {?} value
-         * @param {?} column
-         * @return {?}
-         */
-            function (value, column) {
-                if (!Helpers.isEmpty(value)) {
-                    /** @type {?} */
-                    var val = interpolateCell(value, column);
-                    return this.labels.formatBigDecimal(Number(val));
-                }
-                return '';
-            };
-        DataTableBigDecimalRendererPipe.decorators = [
-            { type: core.Pipe, args: [{
-                        name: 'dataTableBigDecimalRenderer',
-                        pure: true,
-                    },] }
-        ];
-        /** @nocollapse */
-        DataTableBigDecimalRendererPipe.ctorParameters = function () {
-            return [
-                { type: NovoLabelService }
-            ];
-        };
-        return DataTableBigDecimalRendererPipe;
-    }());
-    /**
-     * @template T
-     */
     var DateTableCurrencyRendererPipe = /** @class */ (function () {
         function DateTableCurrencyRendererPipe(labels) {
             this.labels = labels;
@@ -50712,7 +50134,6 @@
                             DateTableDateTimeRendererPipe,
                             DateTableNumberRendererPipe,
                             DateTableTimeRendererPipe,
-                            DataTableBigDecimalRendererPipe,
                             NovoDataTableCellHeader,
                             NovoDataTableSortFilter,
                             NovoDataTableHeaderCell,
@@ -50737,7 +50158,6 @@
                             DateTableDateTimeRendererPipe,
                             DateTableNumberRendererPipe,
                             DateTableTimeRendererPipe,
-                            DataTableBigDecimalRendererPipe,
                             NovoDataTableClearButton,
                         ],
                     },] }
@@ -55508,7 +54928,6 @@
     exports.NovoStepperModule = NovoStepperModule;
     exports.NovoTableExtrasModule = NovoTableExtrasModule;
     exports.NovoFormModule = NovoFormModule;
-    exports.NovoDynamicFormElement = NovoDynamicFormElement;
     exports.NovoFormExtrasModule = NovoFormExtrasModule;
     exports.NovoCategoryDropdownModule = NovoCategoryDropdownModule;
     exports.NovoMultiPickerModule = NovoMultiPickerModule;
@@ -55516,7 +54935,6 @@
     exports.NovoDataTableModule = NovoDataTableModule;
     exports.RemoteDataTableService = RemoteDataTableService;
     exports.StaticDataTableService = StaticDataTableService;
-    exports.NovoDataTableFilterUtils = NovoDataTableFilterUtils;
     exports.NovoDataTable = NovoDataTable;
     exports.NovoCommonModule = NovoCommonModule;
     exports.NovoTableElement = NovoTableElement;
@@ -55644,34 +55062,34 @@
     exports.getDayView = getDayView;
     exports.getDayViewHourGrid = getDayViewHourGrid;
     exports.CalendarEventResponse = CalendarEventResponse;
-    exports.ɵo = NovoAceEditor;
-    exports.ɵp = NovoButtonElement;
-    exports.ɵz = NovoEventTypeLegendElement;
-    exports.ɵbj = NovoCalendarAllDayEventElement;
-    exports.ɵbh = NovoCalendarDayEventElement;
-    exports.ɵbg = NovoCalendarDayViewElement;
-    exports.ɵbi = NovoCalendarHourSegmentElement;
-    exports.ɵbc = NovoCalendarMonthDayElement;
-    exports.ɵbb = NovoCalendarMonthHeaderElement;
-    exports.ɵba = NovoCalendarMonthViewElement;
-    exports.ɵbl = DayOfMonthPipe;
-    exports.ɵbq = EndOfWeekDisplayPipe;
-    exports.ɵbp = HoursPipe;
-    exports.ɵbm = MonthPipe;
-    exports.ɵbn = MonthDayPipe;
-    exports.ɵbk = WeekdayPipe;
-    exports.ɵbo = YearPipe;
-    exports.ɵbf = NovoCalendarWeekEventElement;
-    exports.ɵbe = NovoCalendarWeekHeaderElement;
-    exports.ɵbd = NovoCalendarWeekViewElement;
-    exports.ɵx = CardActionsElement;
-    exports.ɵy = CardElement;
-    exports.ɵep = NovoCategoryDropdownElement;
-    exports.ɵct = NovoChipElement;
-    exports.ɵcu = NovoChipsElement;
-    exports.ɵcv = NovoRowChipElement;
-    exports.ɵcw = NovoRowChipsElement;
-    exports.ɵdd = NovoCKEditorElement;
+    exports.ɵm = NovoAceEditor;
+    exports.ɵn = NovoButtonElement;
+    exports.ɵx = NovoEventTypeLegendElement;
+    exports.ɵbh = NovoCalendarAllDayEventElement;
+    exports.ɵbf = NovoCalendarDayEventElement;
+    exports.ɵbe = NovoCalendarDayViewElement;
+    exports.ɵbg = NovoCalendarHourSegmentElement;
+    exports.ɵba = NovoCalendarMonthDayElement;
+    exports.ɵz = NovoCalendarMonthHeaderElement;
+    exports.ɵy = NovoCalendarMonthViewElement;
+    exports.ɵbj = DayOfMonthPipe;
+    exports.ɵbo = EndOfWeekDisplayPipe;
+    exports.ɵbn = HoursPipe;
+    exports.ɵbk = MonthPipe;
+    exports.ɵbl = MonthDayPipe;
+    exports.ɵbi = WeekdayPipe;
+    exports.ɵbm = YearPipe;
+    exports.ɵbd = NovoCalendarWeekEventElement;
+    exports.ɵbc = NovoCalendarWeekHeaderElement;
+    exports.ɵbb = NovoCalendarWeekViewElement;
+    exports.ɵv = CardActionsElement;
+    exports.ɵw = CardElement;
+    exports.ɵeq = NovoCategoryDropdownElement;
+    exports.ɵcr = NovoChipElement;
+    exports.ɵcs = NovoChipsElement;
+    exports.ɵct = NovoRowChipElement;
+    exports.ɵcu = NovoRowChipsElement;
+    exports.ɵdb = NovoCKEditorElement;
     exports.ɵfi = NovoDataTableCheckboxHeaderCell;
     exports.ɵfk = NovoDataTableExpandHeaderCell;
     exports.ɵez = NovoDataTableCellHeader;
@@ -55681,117 +55099,117 @@
     exports.ɵfj = NovoDataTableExpandCell;
     exports.ɵfm = NovoDataTableClearButton;
     exports.ɵfl = NovoDataTableExpandDirective;
-    exports.ɵex = DataTableBigDecimalRendererPipe;
-    exports.ɵes = DataTableInterpolatePipe;
+    exports.ɵet = DataTableInterpolatePipe;
     exports.ɵey = DateTableCurrencyRendererPipe;
-    exports.ɵet = DateTableDateRendererPipe;
-    exports.ɵeu = DateTableDateTimeRendererPipe;
-    exports.ɵew = DateTableNumberRendererPipe;
-    exports.ɵev = DateTableTimeRendererPipe;
+    exports.ɵeu = DateTableDateRendererPipe;
+    exports.ɵev = DateTableDateTimeRendererPipe;
+    exports.ɵex = DateTableNumberRendererPipe;
+    exports.ɵew = DateTableTimeRendererPipe;
     exports.ɵfg = NovoDataTablePagination;
     exports.ɵfe = NovoDataTableHeaderRow;
     exports.ɵff = NovoDataTableRow;
     exports.ɵfb = NovoDataTableSortFilter;
     exports.ɵfa = DataTableState;
-    exports.ɵcx = NovoDatePickerInputElement;
-    exports.ɵdb = NovoDateTimePickerElement;
-    exports.ɵdc = NovoDateTimePickerInputElement;
-    exports.ɵcr = NovoDragulaElement;
-    exports.ɵcj = NovoDropdownElement;
-    exports.ɵck = NovoItemElement;
-    exports.ɵcm = NovoItemHeaderElement$1;
-    exports.ɵcl = NovoListElement$1;
-    exports.ɵdz = NovoAccordion;
-    exports.ɵec = novoExpansionAnimations;
-    exports.ɵea = NovoExpansionPanel;
-    exports.ɵeb = NovoExpansionPanelActionRow;
-    exports.ɵed = NovoExpansionPanelContent;
-    exports.ɵef = NovoExpansionPanelDescription;
-    exports.ɵee = NovoExpansionPanelHeader;
-    exports.ɵeg = NovoExpansionPanelTitle;
-    exports.ɵdh = NovoAutoSize;
-    exports.ɵdi = NovoControlElement;
-    exports.ɵdm = NovoControlTemplates;
-    exports.ɵb = NovoFieldsetElement;
-    exports.ɵa = NovoFieldsetHeaderElement;
-    exports.ɵdk = ControlConfirmModal;
-    exports.ɵdl = ControlPromptModal;
-    exports.ɵdj = NovoFormElement;
-    exports.ɵn = NovoAddressElement;
-    exports.ɵdf = NovoCheckboxElement;
-    exports.ɵdg = NovoFileInputElement;
-    exports.ɵbv = NovoHeaderComponent;
-    exports.ɵbs = NovoHeaderSpacer;
-    exports.ɵbu = NovoUtilActionComponent;
-    exports.ɵbt = NovoUtilsComponent;
-    exports.ɵdy = NovoIconComponent;
-    exports.ɵg = NovoItemAvatarElement;
-    exports.ɵk = NovoItemContentElement;
-    exports.ɵj = NovoItemDateElement;
-    exports.ɵl = NovoItemEndElement;
-    exports.ɵi = NovoItemHeaderElement;
-    exports.ɵh = NovoItemTitleElement;
-    exports.ɵf = NovoListItemElement;
-    exports.ɵu = NovoIsLoadingDirective;
-    exports.ɵt = NovoLoadedDirective;
-    exports.ɵq = NovoLoadingElement;
-    exports.ɵs = NovoSkeletonDirective;
-    exports.ɵr = NovoSpinnerElement;
-    exports.ɵc = NovoModalContainerElement;
-    exports.ɵd = NovoModalElement;
-    exports.ɵe = NovoModalNotificationElement;
-    exports.ɵeq = NovoMultiPickerElement;
-    exports.ɵci = NovoOverlayTemplateComponent;
-    exports.ɵch = NovoOverlayModule;
-    exports.ɵcp = NovoPickerElement;
+    exports.ɵcv = NovoDatePickerInputElement;
+    exports.ɵcz = NovoDateTimePickerElement;
+    exports.ɵda = NovoDateTimePickerInputElement;
+    exports.ɵcp = NovoDragulaElement;
+    exports.ɵch = NovoDropdownElement;
+    exports.ɵci = NovoItemElement;
+    exports.ɵck = NovoItemHeaderElement$1;
+    exports.ɵcj = NovoListElement$1;
+    exports.ɵea = NovoAccordion;
+    exports.ɵed = novoExpansionAnimations;
+    exports.ɵeb = NovoExpansionPanel;
+    exports.ɵec = NovoExpansionPanelActionRow;
+    exports.ɵee = NovoExpansionPanelContent;
+    exports.ɵeg = NovoExpansionPanelDescription;
+    exports.ɵef = NovoExpansionPanelHeader;
+    exports.ɵeh = NovoExpansionPanelTitle;
+    exports.ɵdf = NovoAutoSize;
+    exports.ɵdg = NovoControlElement;
+    exports.ɵdn = NovoControlTemplates;
+    exports.ɵdj = NovoDynamicFormElement;
+    exports.ɵdi = NovoFieldsetElement;
+    exports.ɵdh = NovoFieldsetHeaderElement;
+    exports.ɵdl = ControlConfirmModal;
+    exports.ɵdm = ControlPromptModal;
+    exports.ɵdk = NovoFormElement;
+    exports.ɵl = NovoAddressElement;
+    exports.ɵdd = NovoCheckboxElement;
+    exports.ɵde = NovoFileInputElement;
+    exports.ɵbt = NovoHeaderComponent;
+    exports.ɵbq = NovoHeaderSpacer;
+    exports.ɵbs = NovoUtilActionComponent;
+    exports.ɵbr = NovoUtilsComponent;
+    exports.ɵdz = NovoIconComponent;
+    exports.ɵe = NovoItemAvatarElement;
+    exports.ɵi = NovoItemContentElement;
+    exports.ɵh = NovoItemDateElement;
+    exports.ɵj = NovoItemEndElement;
+    exports.ɵg = NovoItemHeaderElement;
+    exports.ɵf = NovoItemTitleElement;
+    exports.ɵd = NovoListItemElement;
+    exports.ɵs = NovoIsLoadingDirective;
+    exports.ɵr = NovoLoadedDirective;
+    exports.ɵo = NovoLoadingElement;
+    exports.ɵq = NovoSkeletonDirective;
+    exports.ɵp = NovoSpinnerElement;
+    exports.ɵa = NovoModalContainerElement;
+    exports.ɵb = NovoModalElement;
+    exports.ɵc = NovoModalNotificationElement;
+    exports.ɵer = NovoMultiPickerElement;
+    exports.ɵcg = NovoOverlayTemplateComponent;
+    exports.ɵcf = NovoOverlayModule;
+    exports.ɵcn = NovoPickerElement;
     exports.ɵfu = PlacesListComponent;
     exports.ɵft = GooglePlacesModule;
     exports.ɵfs = PopOverDirective;
     exports.ɵfq = NovoPopOverModule;
     exports.ɵfr = PopOverContent;
-    exports.ɵce = QuickNoteElement;
-    exports.ɵcg = NovoRadioElement;
-    exports.ɵcf = NovoRadioGroup;
-    exports.ɵcq = NovoSearchBoxElement;
-    exports.ɵcn = NovoSelectElement;
-    exports.ɵcs = NovoSliderElement;
-    exports.ɵel = NovoStepHeader;
-    exports.ɵem = NovoStepLabel;
-    exports.ɵeo = NovoStepStatus;
-    exports.ɵen = novoStepperAnimations;
-    exports.ɵej = NovoHorizontalStepper;
-    exports.ɵeh = NovoStep;
-    exports.ɵei = NovoStepper;
-    exports.ɵek = NovoVerticalStepper;
-    exports.ɵco = NovoSwitchElement;
-    exports.ɵdq = NovoTableKeepFilterFocus;
-    exports.ɵdr = Pagination;
-    exports.ɵds = RowDetails;
-    exports.ɵdp = NovoTableActionsElement;
-    exports.ɵdt = TableCell;
-    exports.ɵdu = TableFilter;
-    exports.ɵdo = NovoTableFooterElement;
-    exports.ɵdn = NovoTableHeaderElement;
-    exports.ɵdv = ThOrderable;
-    exports.ɵdw = ThSortable;
-    exports.ɵcb = NovoNavContentElement;
-    exports.ɵbw = NovoNavElement;
-    exports.ɵcc = NovoNavHeaderElement;
-    exports.ɵca = NovoNavOutletElement;
-    exports.ɵby = NovoTabButtonElement;
-    exports.ɵbx = NovoTabElement;
-    exports.ɵbz = NovoTabLinkElement;
-    exports.ɵcd = NovoTilesElement;
-    exports.ɵcz = NovoTimePickerElement;
-    exports.ɵda = NovoTimePickerInputElement;
-    exports.ɵde = NovoTipWellElement;
-    exports.ɵbr = NovoToastElement;
-    exports.ɵw = NovoTooltip;
-    exports.ɵv = TooltipDirective;
-    exports.ɵer = Unless;
-    exports.ɵdx = EntityList;
-    exports.ɵm = NovoValueElement;
-    exports.ɵcy = DateFormatService;
+    exports.ɵcc = QuickNoteElement;
+    exports.ɵce = NovoRadioElement;
+    exports.ɵcd = NovoRadioGroup;
+    exports.ɵco = NovoSearchBoxElement;
+    exports.ɵcl = NovoSelectElement;
+    exports.ɵcq = NovoSliderElement;
+    exports.ɵem = NovoStepHeader;
+    exports.ɵen = NovoStepLabel;
+    exports.ɵep = NovoStepStatus;
+    exports.ɵeo = novoStepperAnimations;
+    exports.ɵek = NovoHorizontalStepper;
+    exports.ɵei = NovoStep;
+    exports.ɵej = NovoStepper;
+    exports.ɵel = NovoVerticalStepper;
+    exports.ɵcm = NovoSwitchElement;
+    exports.ɵdr = NovoTableKeepFilterFocus;
+    exports.ɵds = Pagination;
+    exports.ɵdt = RowDetails;
+    exports.ɵdq = NovoTableActionsElement;
+    exports.ɵdu = TableCell;
+    exports.ɵdv = TableFilter;
+    exports.ɵdp = NovoTableFooterElement;
+    exports.ɵdo = NovoTableHeaderElement;
+    exports.ɵdw = ThOrderable;
+    exports.ɵdx = ThSortable;
+    exports.ɵbz = NovoNavContentElement;
+    exports.ɵbu = NovoNavElement;
+    exports.ɵca = NovoNavHeaderElement;
+    exports.ɵby = NovoNavOutletElement;
+    exports.ɵbw = NovoTabButtonElement;
+    exports.ɵbv = NovoTabElement;
+    exports.ɵbx = NovoTabLinkElement;
+    exports.ɵcb = NovoTilesElement;
+    exports.ɵcx = NovoTimePickerElement;
+    exports.ɵcy = NovoTimePickerInputElement;
+    exports.ɵdc = NovoTipWellElement;
+    exports.ɵbp = NovoToastElement;
+    exports.ɵu = NovoTooltip;
+    exports.ɵt = TooltipDirective;
+    exports.ɵes = Unless;
+    exports.ɵdy = EntityList;
+    exports.ɵk = NovoValueElement;
+    exports.ɵcw = DateFormatService;
     exports.ɵfo = BrowserGlobalRef;
     exports.ɵfn = GlobalRef;
     exports.ɵfp = LocalStorageService;

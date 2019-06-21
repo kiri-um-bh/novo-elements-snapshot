@@ -404,7 +404,6 @@ novo-data-table {
     align-items: center;
     justify-content: center;
     color: $grey;
-    z-index: 5;
   }
   .novo-data-table-outside-container {
     display: flex;
@@ -614,7 +613,7 @@ novo-data-table-pagination {
     }
   }
   .dropdown-list-options {
-    max-height: 346px;
+    max-height: 400px;
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -682,9 +681,6 @@ novo-data-table-pagination {
         &:focus {
           outline: none;
           border-bottom: 2px solid $ocean;
-          ~ i.bhi-search {
-            color: $ocean;
-          }
         }
       }
     }
@@ -719,25 +715,5 @@ novo-data-table-pagination {
         }
       }
     }
-  }
-  i.bhi-search {
-    color: inherit;
-    position: relative;
-    left: 196px;
-    top: -25px;
-  }
-  span.error-text {
-    color: $negative;
-    position: relative;
-    left: 10px;
-    top: -17px;
-    font-size: x-small;
-  }
-  .filter-null-results {
-    background-color: $white;
-    text-align: center;
-    color: darken($light, 15%);
-    background: transparent;
-    font-weight: 500;
   }
 }

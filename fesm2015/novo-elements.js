@@ -136,16 +136,6 @@ class Helpers {
         return typeof obj === 'string';
     }
     /**
-     * @param {?} obj
-     * @return {?}
-     */
-    static escapeString(obj) {
-        if (Helpers.isString(obj)) {
-            return obj.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        }
-        return obj;
-    }
-    /**
      * @param {?} val
      * @param {?=} includeNegatives
      * @return {?}
@@ -191,19 +181,6 @@ class Helpers {
      */
     static isDate(obj) {
         return obj instanceof Date;
-    }
-    /**
-     * @param {?} obj
-     * @return {?}
-     */
-    static convertToArray(obj) {
-        if (obj === undefined) {
-            return [];
-        }
-        else if (!Array.isArray(obj)) {
-            return [obj];
-        }
-        return obj;
     }
     /**
      * @param {?} fields
@@ -1846,7 +1823,6 @@ class NovoLabelService {
         this.selectCountryFirst = 'Please select a country before selecting a state';
         this.invalidIntegerInput = 'Special characters are not allowed for';
         this.maxRecordsReached = 'Sorry, you have reached the maximum number of records allowed for this field';
-        this.selectFilterOptions = 'Please select one or more filter options below.';
     }
     /**
      * @param {?} field
@@ -2004,31 +1980,6 @@ class NovoLabelService {
         /** @type {?} */
         let options = { style: 'currency', currency: 'USD' };
         return new Intl.NumberFormat(this.userLocale, options).format(value);
-    }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    formatBigDecimal(value) {
-        /** @type {?} */
-        let valueAsString = value ? value.toString() : '0';
-        // truncate at two decimals (do not round)
-        /** @type {?} */
-        const decimalIndex = valueAsString.indexOf('.');
-        if (decimalIndex > -1 && decimalIndex + 3 < valueAsString.length) {
-            valueAsString = valueAsString.substring(0, valueAsString.indexOf('.') + 3);
-        }
-        // convert back to number
-        /** @type {?} */
-        const truncatedValue = Number(valueAsString);
-        /** @type {?} */
-        const options = { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 };
-        /** @type {?} */
-        let _value = new Intl.NumberFormat(this.userLocale, options).format(truncatedValue);
-        if (value < 0) {
-            _value = `(${_value.slice(1)})`;
-        }
-        return _value;
     }
     /**
      * @param {?} value
@@ -5766,7 +5717,6 @@ class BasePickerResults {
         this.page = 0;
         this.lastPage = false;
         this.autoSelectFirstOption = true;
-        this.optionsFunctionHasChanged = false;
         this.selectingMatches = false;
         this.element = element;
         this.ref = ref;
@@ -5814,43 +5764,15 @@ class BasePickerResults {
      * @return {?}
      */
     set term(value) {
-        if (this.shouldSearch(value)) {
+        if (value !== this._term || this.page === 0) {
             this._term = value;
             this.page = 0;
-            this.optionsFunctionHasChanged = false;
             this.matches = [];
             this.processSearch(true);
         }
         else {
             this.addScrollListener();
         }
-    }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    set config(value) {
-        if (this.config && this.config.options !== value.options) {
-            this.optionsFunctionHasChanged = true; // reset page so that new options call is used to search
-        }
-        this._config = value;
-    }
-    /**
-     * @return {?}
-     */
-    get config() {
-        return this._config;
-    }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    shouldSearch(value) {
-        /** @type {?} */
-        const termHasChanged = value !== this._term;
-        /** @type {?} */
-        const optionsNotYetCalled = this.page === 0;
-        return termHasChanged || optionsNotYetCalled || this.optionsFunctionHasChanged;
     }
     /**
      * @return {?}
@@ -5920,14 +5842,12 @@ class BasePickerResults {
                     // Arrays are returned immediately
                     resolve(this.structureArray(options));
                 }
-                else if (this.shouldCallOptionsFunction(term)) {
+                else if (term && term.length >= (this.config.minSearchLength || 1)) {
                     if ((options.hasOwnProperty('reject') && options.hasOwnProperty('resolve')) ||
                         Object.getPrototypeOf(options).hasOwnProperty('then')) {
                         this.isStatic = false;
                         // Promises (ES6 or Deferred) are resolved whenever they resolve
-                        options
-                            .then(this.structureArray.bind(this))
-                            .then(resolve, reject);
+                        options.then(this.structureArray.bind(this)).then(resolve, reject);
                     }
                     else if (typeof options === 'function') {
                         this.isStatic = false;
@@ -5949,9 +5869,7 @@ class BasePickerResults {
                             /** @type {?} */
                             let defaultOptions = this.config.defaultOptions(term, ++this.page);
                             if (Object.getPrototypeOf(defaultOptions).hasOwnProperty('then')) {
-                                defaultOptions
-                                    .then(this.structureArray.bind(this))
-                                    .then(resolve, reject);
+                                defaultOptions.then(this.structureArray.bind(this)).then(resolve, reject);
                             }
                             else {
                                 resolve(this.structureArray(defaultOptions));
@@ -5972,18 +5890,6 @@ class BasePickerResults {
                 reject('error');
             }
         }));
-    }
-    /**
-     * @param {?} term
-     * @return {?}
-     */
-    shouldCallOptionsFunction(term) {
-        if (this.config && 'minSearchLength' in this.config && Number.isInteger(this.config.minSearchLength)) {
-            return typeof term === 'string' && term.length >= this.config.minSearchLength;
-        }
-        else {
-            return !!(term && term.length);
-        }
     }
     /**
      * \@name structureArray
@@ -8676,12 +8582,8 @@ class NovoPickerElement {
                 return;
             }
             if (event.keyCode === KeyCodes.ENTER) {
-                /** @type {?} */
-                const activeMatch = this.popup.instance.activeMatch;
-                if (!this.selected.find((selected) => activeMatch && activeMatch.value && selected.value === activeMatch.value)) {
-                    this.popup.instance.selectActiveMatch();
-                    this.ref.markForCheck();
-                }
+                this.popup.instance.selectActiveMatch();
+                this.ref.markForCheck();
                 return;
             }
             if ((event.keyCode === KeyCodes.BACKSPACE || event.keyCode === KeyCodes.DELETE) && !Helpers.isBlank(this._value)) {
@@ -13939,11 +13841,7 @@ class NovoDynamicFormElement {
     showAllFields() {
         this.form.fieldsets.forEach((fieldset) => {
             fieldset.controls.forEach((control) => {
-                /** @type {?} */
-                const ctl = this.form.controls[control.key];
-                if (!this.fieldsAlreadyHidden.includes(control.key)) {
-                    ctl.hidden = false;
-                }
+                this.form.controls[control.key].hidden = false;
             });
         });
         this.showingAllFields = true;
@@ -13954,27 +13852,21 @@ class NovoDynamicFormElement {
      * @return {?}
      */
     showOnlyRequired(hideRequiredWithValue) {
-        this.fieldsAlreadyHidden = [];
         this.form.fieldsets.forEach((fieldset) => {
             fieldset.controls.forEach((control) => {
-                /** @type {?} */
-                const ctl = this.form.controls[control.key];
-                if (ctl.hidden) {
-                    this.fieldsAlreadyHidden.push(control.key);
-                }
                 // Hide any non-required fields
                 if (!control.required) {
-                    ctl.hidden = true;
+                    this.form.controls[control.key].hidden = true;
                 }
                 // Hide required fields that have been successfully filled out
                 if (hideRequiredWithValue &&
                     !Helpers.isBlank(this.form.value[control.key]) &&
-                    (!control.isEmpty || (control.isEmpty && control.isEmpty(ctl)))) {
-                    ctl.hidden = true;
+                    (!control.isEmpty || (control.isEmpty && control.isEmpty(this.form.controls[control.key])))) {
+                    this.form.controls[control.key].hidden = true;
                 }
                 // Don't hide fields with errors
-                if (ctl.errors) {
-                    ctl.hidden = false;
+                if (this.form.controls[control.key].errors) {
+                    this.form.controls[control.key].hidden = false;
                 }
             });
         });
@@ -15249,9 +15141,6 @@ class FormUtils {
             'HTML-MINIMAL': 'editor-minimal',
             YEAR: 'year',
             WORKFLOW_OPTIONS: 'select',
-            SPECIALIZED_OPTIONS: 'select',
-            WorkflowOptionsLookup: 'select',
-            SpecializedOptionsLookup: 'select',
         };
         /** @type {?} */
         let dataTypeToTypeMap = {
@@ -15302,10 +15191,7 @@ class FormUtils {
             }
         }
         else if (field.type === 'TO_ONE') {
-            if ('SYSTEM' === field.dataSpecialization && ['WorkflowOptionsLookup', 'SpecializedOptionsLookup'].includes(field.dataType)) {
-                type = dataSpecializationTypeMap[field.dataType];
-            }
-            else if (['WORKFLOW_OPTIONS', 'SPECIALIZED_OPTIONS'].includes(field.dataSpecialization)) {
+            if (field.dataSpecialization === 'WORKFLOW_OPTIONS') {
                 type = dataSpecializationTypeMap[field.dataSpecialization];
             }
             else if (this.hasAssociatedEntity(field)) {
@@ -15387,7 +15273,6 @@ class FormUtils {
             optionsType: field.optionsType,
             multiple: field.multiValue,
             readOnly: !!field.disabled || !!field.readOnly,
-            disabled: field.disabled,
             maxlength: field.maxLength,
             interactions: field.interactions,
             dataSpecialization: field.dataSpecialization,
@@ -15403,7 +15288,6 @@ class FormUtils {
             warning: field.warning,
             config: field.config || {},
             closeOnSelect: field.closeOnSelect,
-            layoutOptions: field.layoutOptions,
         };
         this.inferStartDate(controlConfig, field);
         // TODO: getControlOptions should always return the correct format
@@ -15418,7 +15302,7 @@ class FormUtils {
             };
         }
         else if (optionsConfig) {
-            controlConfig.config = Object.assign({}, optionsConfig, (controlConfig && controlConfig.config));
+            controlConfig.config = optionsConfig;
         }
         if (type === 'year') {
             controlConfig.maxlength = 4;
@@ -15594,19 +15478,6 @@ class FormUtils {
         return control;
     }
     /**
-     * @private
-     * @param {?} field
-     * @return {?}
-     */
-    shouldCreateControl(field) {
-        if (field.systemRequired) {
-            field.readOnly = false;
-        }
-        return (field.name !== 'id' &&
-            (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
-            !field.readOnly);
-    }
-    /**
      * @param {?} meta
      * @param {?} currencyFormat
      * @param {?} http
@@ -15622,7 +15493,9 @@ class FormUtils {
             /** @type {?} */
             let fields = meta.fields;
             fields.forEach((field) => {
-                if (this.shouldCreateControl(field)) {
+                if (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly) {
                     /** @type {?} */
                     let control = this.getControlForField(field, http, config, overrides, forTable);
                     // Set currency format
@@ -15732,7 +15605,9 @@ class FormUtils {
                 });
             }
             fields.forEach((field) => {
-                if (this.shouldCreateControl(field)) {
+                if (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly) {
                     /** @type {?} */
                     const fieldData = data && data[field.name] ? data[field.name] : null;
                     /** @type {?} */
@@ -15779,9 +15654,6 @@ class FormUtils {
         }
         else if (field.workflowOptions && fieldData) {
             return this.getWorkflowOptions(field.workflowOptions, fieldData);
-        }
-        else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS') {
-            return field.options.filter((o) => !o.readOnly);
         }
         else if (field.optionsUrl) {
             return this.optionsService.getOptionsConfig(http, field, config);
@@ -15831,9 +15703,9 @@ class FormUtils {
     setInitialValues(controls, values, keepClean, keyOverride) {
         for (let i = 0; i < controls.length; i++) {
             /** @type {?} */
-            const control = controls[i];
+            let control = controls[i];
             /** @type {?} */
-            const key = keyOverride ? control.key.replace(keyOverride, '') : control.key;
+            let key = keyOverride ? control.key.replace(keyOverride, '') : control.key;
             /** @type {?} */
             let value = values[key];
             if (Helpers.isBlank(value)) {
@@ -15853,9 +15725,6 @@ class FormUtils {
             }
             if (Object.keys(value).length === 0 && value.constructor === Object) {
                 continue;
-            }
-            if (control.dataType === 'Date' && typeof value === 'string' && control.optionsType !== 'skipConversion') {
-                value = startOfDay(value);
             }
             control.value = value;
             // TODO: keepClean is not required, but is always used. It should default (to true?)
@@ -16272,7 +16141,7 @@ ControlPromptModal.ctorParameters = () => [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class CustomHttpImpl {
+class CustomHttp {
     /**
      * @param {?} http
      */
@@ -16281,22 +16150,26 @@ class CustomHttpImpl {
         this.mapFn = (x) => x;
     }
     /**
+     * @template THIS
+     * @this {THIS}
      * @param {?} url
      * @param {?=} options
-     * @return {?}
+     * @return {THIS}
      */
     get(url, options) {
-        this.url = url;
-        this.options = options;
-        return this;
+        (/** @type {?} */ (this)).url = url;
+        (/** @type {?} */ (this)).options = options;
+        return (/** @type {?} */ (this));
     }
     /**
+     * @template THIS
+     * @this {THIS}
      * @param {?} mapFn
-     * @return {?}
+     * @return {THIS}
      */
     map(mapFn) {
-        this.mapFn = mapFn;
-        return this;
+        (/** @type {?} */ (this)).mapFn = mapFn;
+        return (/** @type {?} */ (this));
     }
     /**
      * @param {?} resolve
@@ -16324,49 +16197,6 @@ class FieldInteractionApi {
         this.formUtils = formUtils;
         this.http = http;
         this.labels = labels;
-        this.getOptionsConfig = (args, mapper, filteredOptionsCreator, pickerConfigFormat) => {
-            if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
-                /** @type {?} */
-                const format$$1 = ('format' in args && args.format) || pickerConfigFormat;
-                return Object.assign({ options: this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, (format$$1 && { format: format$$1 }));
-            }
-            else if ('options' in args && Array.isArray(args.options)) {
-                return {
-                    options: [...args.options],
-                };
-            }
-            else {
-                return undefined;
-            }
-        };
-        this.createOptionsFunction = (config, mapper, filteredOptionsCreator) => (query$$1, page) => {
-            if (filteredOptionsCreator) {
-                if ('where' in config) {
-                    return filteredOptionsCreator(config.where)(query$$1, page);
-                }
-                else {
-                    return filteredOptionsCreator()(query$$1, page);
-                }
-            }
-            else if ('optionsPromise' in config && config.optionsPromise) {
-                return config.optionsPromise(query$$1, new CustomHttpImpl(this.http));
-            }
-            else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
-                return new Promise((resolve, reject) => {
-                    /** @type {?} */
-                    const url = 'optionsUrlBuilder' in config ? config.optionsUrlBuilder(query$$1) : `${config.optionsUrl}?filter=${query$$1 || ''}`;
-                    this.http
-                        .get(url)
-                        .pipe(map((results) => {
-                        if (mapper) {
-                            return results.map(mapper);
-                        }
-                        return results;
-                    }))
-                        .subscribe(resolve, reject);
-                });
-            }
-        };
     }
     /**
      * @param {?} form
@@ -16973,26 +16803,48 @@ class FieldInteractionApi {
      * @return {?}
      */
     modifyPickerConfig(key, config, mapper) {
-        // call another public method to avoid a breaking change but still enable stricter types
-        this.mutatePickerConfig(key, (/** @type {?} */ (config)), mapper);
-    }
-    /**
-     * @param {?} key
-     * @param {?} args
-     * @param {?=} mapper
-     * @return {?}
-     */
-    mutatePickerConfig(key, args, mapper) {
         /** @type {?} */
         let control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
-            const { minSearchLength, enableInfiniteScroll, filteredOptionsCreator, format: format$$1 } = control.config;
             /** @type {?} */
-            const optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format$$1);
-            /** @type {?} */
-            const newConfig = Object.assign({}, (Number.isInteger(minSearchLength) && { minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
+            let newConfig = {
+                resultsTemplate: control.config.resultsTemplate,
+            };
+            if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
+                newConfig = Object.assign(newConfig, {
+                    options: (query$$1) => {
+                        if (config.optionsPromise) {
+                            return config.optionsPromise(query$$1, new CustomHttp(this.http));
+                        }
+                        return new Promise((resolve, reject) => {
+                            /** @type {?} */
+                            let url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query$$1) : `${config.optionsUrl}?filter=${query$$1 || ''}`;
+                            if (query$$1 && query$$1.length) {
+                                this.http
+                                    .get(url)
+                                    .pipe(map((results) => {
+                                    if (mapper) {
+                                        return results.map(mapper);
+                                    }
+                                    return results;
+                                }))
+                                    .subscribe(resolve, reject);
+                            }
+                            else {
+                                resolve([]);
+                            }
+                        });
+                    },
+                });
+                if (config.hasOwnProperty('format')) {
+                    newConfig.format = config.format;
+                }
+            }
+            else if (config.options) {
+                newConfig.options = [...config.options];
+            }
             this.setProperty(key, 'config', newConfig);
-            this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args });
+            this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: config });
         }
     }
     /**
@@ -36544,38 +36396,20 @@ class NovoFileInputElement {
         this.process(Array.from(event.target.files));
     }
     /**
-     * @param {?} files
-     * @return {?}
-     */
-    validate(files) {
-        /** @type {?} */
-        let passedValidation = true;
-        if (this.layoutOptions.customValidation) {
-            this.layoutOptions.customValidation
-                .filter((validation) => validation.action === 'upload')
-                .forEach((uploadValidation) => {
-                passedValidation = uploadValidation.fn(files) && passedValidation;
-            });
-        }
-        return passedValidation;
-    }
-    /**
      * @param {?} filelist
      * @return {?}
      */
     process(filelist) {
-        if (this.validate(filelist)) {
-            Promise.all(filelist.map((file) => this.readFile(file))).then((files) => {
-                if (this.multiple) {
-                    this.files.push(...files);
-                }
-                else {
-                    this.files = files;
-                }
-                this.model = this.files;
-                this.onModelChange(this.model);
-            });
-        }
+        Promise.all(filelist.map((file) => this.readFile(file))).then((files) => {
+            if (this.multiple) {
+                this.files.push(...files);
+            }
+            else {
+                this.files = files;
+            }
+            this.model = this.files;
+            this.onModelChange(this.model);
+        });
     }
     /**
      * @param {?} file
@@ -36641,109 +36475,43 @@ NovoFileInputElement.decorators = [
                 selector: 'novo-file-input',
                 providers: [FILE_VALUE_ACCESSOR],
                 template: `
-    <div #container></div>
-    <ng-template #fileInput>
-      <div class="file-input-group" [class.disabled]="disabled" [class.active]="active">
-        <input
-          *ngIf="!layoutOptions.customActions"
-          type="file"
-          [name]="name"
-          [attr.id]="name"
-          (change)="check($event)"
-          [attr.multiple]="multiple"
-          tabindex="-1"
-        />
-        <input
-          *ngIf="layoutOptions.customActions"
-          type="file"
-          [name]="name"
-          [attr.id]="name"
-          (change)="customCheck($event)"
-          [attr.multiple]="multiple"
-          tabindex="-1"
-        />
-        <section [ngSwitch]="layoutOptions.labelStyle">
-          <label *ngSwitchCase="'no-box'" [attr.for]="name" class="no-box">
-            <div>
-              <i class="bhi-dropzone"></i>{{ placeholder || labels.chooseAFile }} {{ labels.or }}
-              <strong class="link">{{ labels.clickToBrowse }}</strong>
+        <div #container></div>
+        <ng-template #fileInput>
+            <div class="file-input-group" [class.disabled]="disabled" [class.active]="active">
+                <input *ngIf="!layoutOptions.customActions" type="file" [name]="name" [attr.id]="name" (change)="check($event)" [attr.multiple]="multiple" tabindex="-1"/>
+                <input *ngIf="layoutOptions.customActions" type="file" [name]="name" [attr.id]="name" (change)="customCheck($event)" [attr.multiple]="multiple" tabindex="-1"/>
+                <section [ngSwitch]="layoutOptions.labelStyle">
+                    <label *ngSwitchCase="'no-box'" [attr.for]="name" class="no-box">
+                        <div><i class="bhi-dropzone"></i>{{ placeholder || labels.chooseAFile }} {{ labels.or }} <strong class="link">{{ labels.clickToBrowse }}</strong></div>
+                    </label>
+                    <label *ngSwitchDefault [attr.for]="name" class="boxed">
+                        <span>{{ placeholder || labels.chooseAFile }}</span>
+                        <small>{{ labels.or }} <strong class="link">{{ labels.clickToBrowse }}</strong></small>
+                    </label>
+                </section>
             </div>
-          </label>
-          <label *ngSwitchDefault [attr.for]="name" class="boxed">
-            <span>{{ placeholder || labels.chooseAFile }}</span>
-            <small
-              >{{ labels.or }} <strong class="link">{{ labels.clickToBrowse }}</strong></small
-            >
-          </label>
-        </section>
-      </div>
-    </ng-template>
-    <ng-template #fileOutput>
-      <div class="file-output-group" [dragula]="fileOutputBag" [dragulaModel]="files">
-        <div class="file-item" *ngFor="let file of files" [class.disabled]="disabled">
-          <i *ngIf="layoutOptions.draggable" class="bhi-move"></i>
-          <label *ngIf="file.link"
-            ><span
-              ><a href="{{ file.link }}" target="_blank">{{ file.name | decodeURI }}</a></span
-            ><span *ngIf="file.description">||</span><span>{{ file.description }}</span></label
-          >
-          <label *ngIf="!file.link">{{ file.name | decodeURI }}</label>
-          <div class="actions" [attr.data-automation-id]="'file-actions'" *ngIf="file.loaded">
-            <div *ngIf="!layoutOptions.customActions">
-              <button
-                *ngIf="layoutOptions.download"
-                type="button"
-                theme="icon"
-                icon="save"
-                (click)="download(file)"
-                [attr.data-automation-id]="'file-download'"
-                tabindex="-1"
-              ></button>
-              <button
-                *ngIf="!disabled && (layoutOptions.removable || (!layoutOptions.removable && layoutOptions.removableWhenNew && !file.link))"
-                type="button"
-                theme="icon"
-                icon="close"
-                (click)="remove(file)"
-                [attr.data-automation-id]="'file-remove'"
-                tabindex="-1"
-              ></button>
+        </ng-template>
+        <ng-template #fileOutput>
+            <div class="file-output-group" [dragula]="fileOutputBag" [dragulaModel]="files">
+                <div class="file-item" *ngFor="let file of files" [class.disabled]="disabled">
+                  <i *ngIf="layoutOptions.draggable" class="bhi-move"></i>
+                  <label *ngIf="file.link"><span><a href="{{ file.link }}" target="_blank">{{ file.name | decodeURI }}</a></span><span  *ngIf="file.description">||</span><span>{{ file.description }}</span></label>
+                  <label *ngIf="!file.link">{{ file.name | decodeURI }}</label>
+                  <div class="actions" [attr.data-automation-id]="'file-actions'" *ngIf="file.loaded">
+                    <div *ngIf="!layoutOptions.customActions">
+                      <button *ngIf="layoutOptions.download" type="button" theme="icon" icon="save" (click)="download(file)" [attr.data-automation-id]="'file-download'" tabindex="-1"></button>
+                      <button *ngIf="!disabled && layoutOptions.removable" type="button" theme="icon" icon="close" (click)="remove(file)" [attr.data-automation-id]="'file-remove'" tabindex="-1"></button>
+                    </div>
+                    <div *ngIf="layoutOptions.customActions">
+                      <button *ngIf="layoutOptions.edit && !disabled" type="button" theme="icon" icon="edit" (click)="customEdit(file)" [attr.data-automation-id]="'file-edit'" tabindex="-1"></button>
+                      <button *ngIf="layoutOptions.download" type="button" theme="icon" icon="save" (click)="customSave(file)" [attr.data-automation-id]="'file-download'" tabindex="-1"></button>
+                      <button *ngIf="!disabled" type="button" theme="icon" icon="close" (click)="customDelete(file)" [attr.data-automation-id]="'file-remove'" tabindex="-1"></button>
+                    </div>
+                  </div>
+                    <novo-loading *ngIf="!file.loaded"></novo-loading>
+                </div>
             </div>
-            <div *ngIf="layoutOptions.customActions">
-              <button
-                *ngIf="layoutOptions.edit && !disabled"
-                type="button"
-                theme="icon"
-                icon="edit"
-                (click)="customEdit(file)"
-                [attr.data-automation-id]="'file-edit'"
-                tabindex="-1"
-              ></button>
-              <button
-                *ngIf="layoutOptions.download"
-                type="button"
-                theme="icon"
-                icon="save"
-                (click)="customSave(file)"
-                [attr.data-automation-id]="'file-download'"
-                tabindex="-1"
-              ></button>
-              <button
-                *ngIf="!disabled"
-                type="button"
-                theme="icon"
-                icon="close"
-                (click)="customDelete(file)"
-                [attr.data-automation-id]="'file-remove'"
-                tabindex="-1"
-              ></button>
-            </div>
-          </div>
-          <novo-loading *ngIf="!file.loaded"></novo-loading>
-        </div>
-      </div>
-    </ng-template>
-  `
+        </ng-template>`
             }] }
 ];
 /** @nocollapse */
@@ -37161,7 +36929,7 @@ NovoControlTemplates.decorators = [
         <!--Editor-->
         <ng-template novoTemplate="editor" let-control let-form="form" let-errors="errors" let-methods="methods">
           <div [formGroup]="form">
-            <novo-editor [name]="control.key" [formControlName]="control.key" [startupFocus]="control.startupFocus" [minimal]="control.minimal" [fileBrowserImageUploadUrl]="control.fileBrowserImageUploadUrl" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [config]="control.config"></novo-editor>
+            <novo-editor [name]="control.key" [formControlName]="control.key" [startupFocus]="control.startupFocus" [minimal]="control.minimal" [fileBrowserImageUploadUrl]="control.fileBrowserImageUploadUrl" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)"></novo-editor>
           </div>
         </ng-template>
 
@@ -40368,141 +40136,134 @@ class RenderPipe {
             type = args.dataType || 'default';
         }
         // Transform data here
-        try {
-            switch (type) {
-                case 'Address':
-                case 'Address1':
-                case 'AddressWithoutCountry':
-                case 'SecondaryAddress':
-                case 'BillingAddress':
-                    /** @type {?} */
-                    let country = findByCountryId(Number(value.countryName));
-                    text = '';
-                    if (value.address1 || value.address2) {
-                        text += `${value.address1 || ''} ${value.address2 || ''}<br />\n`;
+        switch (type) {
+            case 'Address':
+            case 'Address1':
+            case 'AddressWithoutCountry':
+            case 'SecondaryAddress':
+            case 'BillingAddress':
+                /** @type {?} */
+                let country = findByCountryId(Number(value.countryName));
+                text = '';
+                if (value.address1 || value.address2) {
+                    text += `${value.address1 || ''} ${value.address2 || ''}<br />\n`;
+                }
+                text += `${value.city || ''} ${value.state || ''} ${value.zip || ''}${value.city || value.state || value.zip ? '<br />\n' : ''}`;
+                text += `${country ? country.name : value.countryName || ''}${country || value.countryName ? '<br />\n' : ''}`;
+                text = this.sanitizationService.bypassSecurityTrustHtml(text.trim());
+                break;
+            case 'DateTime':
+            case 'Timestamp':
+                text = this.labels.formatDateShort(value);
+                break;
+            case 'Date':
+                text = this.labels.formatDate(new Date(value));
+                break;
+            case 'Year':
+                text = new Date(value).getFullYear();
+                break;
+            case 'Phone':
+            case 'Email':
+                text = value;
+                break;
+            case 'Money':
+                text = this.labels.formatCurrency(value);
+                break;
+            case 'Percentage':
+                text = this.labels.formatNumber(parseFloat(value).toString(), { style: 'percent', minimumFractionDigits: 2 });
+                break;
+            case 'Double':
+            case 'BigDecimal':
+                text = this.labels.formatNumber(value, { minimumFractionDigits: this.getNumberDecimalPlaces(value) });
+                break;
+            case 'Integer':
+                text = value;
+                break;
+            case 'BusinessSector':
+            case 'Category':
+            case 'Certification':
+            case 'ClientCorporation':
+            case 'CorporationDepartment':
+            case 'DistributionList':
+            case 'Skill':
+            case 'Tearsheet':
+            case 'Specialty':
+                text = value.label || value.name || '';
+                break;
+            case 'SkillText':
+                text = Array.isArray(value) ? value.join(', ') : value;
+                break;
+            case 'Lead':
+            case 'Candidate':
+            case 'ClientContact':
+            case 'CorporateUser':
+            case 'Person':
+                text = value.label || `${value.firstName || ''} ${value.lastName || ''}`;
+                break;
+            case 'Opportunity':
+            case 'JobOrder':
+                text = value.label || value.title || '';
+                break;
+            case 'Placement':
+                if (value.candidate) {
+                    text = `${value.candidate.firstName || ''} ${value.candidate.lastName || ''}`;
+                }
+                if (value.jobOrder) {
+                    text = value.candidate ? `${text} - ${value.jobOrder.title || ''}` : `${value.jobOrder.title || ''}`;
+                }
+                break;
+            case 'JobSubmission':
+                text =
+                    value.label ||
+                        `${value.jobOrder ? `${value.jobOrder.title} - ` : ''} ${value.candidate ? value.candidate.firstName : ''} ${value.candidate ? value.candidate.lastName : ''}`;
+                break;
+            case 'WorkersCompensationRate':
+                text = `${value.compensation ? `${value.compensation.code} - ` : ''} ${value.compensation ? value.compensation.name : ''}`;
+                break;
+            case 'Options':
+                text = this.options(value, args.options);
+                break;
+            case 'ToMany':
+                if (['Candidate', 'CorporateUser', 'Person'].indexOf(args.associatedEntity.entity) > -1) {
+                    text = this.concat(value.data, 'firstName', 'lastName');
+                    if (value.data.length < value.total) {
+                        text = text + ', ' + this.labels.getToManyPlusMore({ quantity: value.total - value.data.length });
                     }
-                    text += `${value.city || ''} ${value.state || ''} ${value.zip || ''}${value.city || value.state || value.zip ? '<br />\n' : ''}`;
-                    text += `${country ? country.name : value.countryName || ''}${country || value.countryName ? '<br />\n' : ''}`;
-                    text = this.sanitizationService.bypassSecurityTrustHtml(text.trim());
-                    break;
-                case 'DateTime':
-                case 'Timestamp':
-                    text = this.labels.formatDateShort(value);
-                    break;
-                case 'Date':
-                    text = this.labels.formatDate(new Date(value));
-                    break;
-                case 'Year':
-                    text = new Date(value).getFullYear();
-                    break;
-                case 'Phone':
-                case 'Email':
-                    text = value;
-                    break;
-                case 'Money':
-                    text = this.labels.formatCurrency(value);
-                    break;
-                case 'Percentage':
-                    text = this.labels.formatNumber(parseFloat(value).toString(), { style: 'percent', minimumFractionDigits: 2 });
-                    break;
-                case 'Double':
-                case 'BigDecimal':
-                    text = this.labels.formatNumber(value, { minimumFractionDigits: this.getNumberDecimalPlaces(value) });
-                    break;
-                case 'Integer':
-                    text = value;
-                    break;
-                case 'BusinessSector':
-                case 'Category':
-                case 'Certification':
-                case 'ClientCorporation':
-                case 'CorporationDepartment':
-                case 'DistributionList':
-                case 'Skill':
-                case 'Tearsheet':
-                case 'Specialty':
-                    text = value.label || value.name || '';
-                    break;
-                case 'SkillText':
-                    text = Array.isArray(value) ? value.join(', ') : value;
-                    break;
-                case 'Lead':
-                case 'Candidate':
-                case 'ClientContact':
-                case 'CorporateUser':
-                case 'Person':
-                    text = value.label || `${value.firstName || ''} ${value.lastName || ''}`;
-                    break;
-                case 'Opportunity':
-                case 'JobOrder':
-                    text = value.label || value.title || '';
-                    break;
-                case 'Placement':
-                    if (value.candidate) {
-                        text = `${value.candidate.firstName || ''} ${value.candidate.lastName || ''}`;
+                }
+                else if (['Category', 'BusinessSector', 'Skill', 'Specialty', 'ClientCorporation', 'CorporationDepartment'].indexOf(args.associatedEntity.entity) > -1) {
+                    text = this.concat(value.data, 'name');
+                    if (value.data.length < value.total) {
+                        text = text + ', ' + this.labels.getToManyPlusMore({ quantity: value.total - value.data.length });
                     }
-                    if (value.jobOrder) {
-                        text = value.candidate ? `${text} - ${value.jobOrder.title || ''}` : `${value.jobOrder.title || ''}`;
-                    }
-                    break;
-                case 'JobSubmission':
-                    text =
-                        value.label ||
-                            `${value.jobOrder ? `${value.jobOrder.title} - ` : ''} ${value.candidate ? value.candidate.firstName : ''} ${value.candidate ? value.candidate.lastName : ''}`;
-                    break;
-                case 'WorkersCompensationRate':
-                    text = `${value.compensation ? `${value.compensation.code} - ` : ''} ${value.compensation ? value.compensation.name : ''}`;
-                    break;
-                case 'Options':
-                    text = this.options(value, args.options, args);
-                    break;
-                case 'ToMany':
-                    if (['Candidate', 'CorporateUser', 'Person'].indexOf(args.associatedEntity.entity) > -1) {
-                        text = this.concat(value.data, 'firstName', 'lastName');
-                        if (value.data.length < value.total) {
-                            text = text + ', ' + this.labels.getToManyPlusMore({ quantity: value.total - value.data.length });
-                        }
-                    }
-                    else if (['Category', 'BusinessSector', 'Skill', 'Specialty', 'ClientCorporation', 'CorporationDepartment'].indexOf(args.associatedEntity.entity) > -1) {
-                        text = this.concat(value.data, 'name');
-                        if (value.data.length < value.total) {
-                            text = text + ', ' + this.labels.getToManyPlusMore({ quantity: value.total - value.data.length });
-                        }
-                    }
-                    else if (args.associatedEntity.entity === 'MailListPushHistoryDetail') {
-                        text = this.concat(value.data, 'externalListName');
-                    }
-                    else {
-                        text = `${value.total || ''}`;
-                    }
-                    break;
-                case 'Country':
-                    /** @type {?} */
-                    let countryObj = findByCountryId(Number(value));
-                    text = countryObj ? countryObj.name : value;
-                    break;
-                case 'Html':
-                    if (Array.isArray(value)) {
-                        value = value.join(' ');
-                    }
-                    if (typeof text === 'string') {
-                        text = this.sanitizationService.bypassSecurityTrustHtml(value.replace(/\<a/gi, '<a target="_blank"'));
-                    }
-                    break;
-                case 'CandidateComment':
-                    text = value.comments ? `${this.labels.formatDateShort(value.dateLastModified)} (${value.name}) - ${value.comments}` : '';
-                    break;
-                default:
-                    text = value.trim ? value.trim() : value;
-                    break;
-            }
-            return text;
+                }
+                else if (args.associatedEntity.entity === 'MailListPushHistoryDetail') {
+                    text = this.concat(value.data, 'externalListName');
+                }
+                else {
+                    text = `${value.total || ''}`;
+                }
+                break;
+            case 'Country':
+                /** @type {?} */
+                let countryObj = findByCountryId(Number(value));
+                text = countryObj ? countryObj.name : value;
+                break;
+            case 'Html':
+                if (Array.isArray(value)) {
+                    value = value.join(' ');
+                }
+                if (typeof text === 'string') {
+                    text = this.sanitizationService.bypassSecurityTrustHtml(value.replace(/\<a/gi, '<a target="_blank"'));
+                }
+                break;
+            case 'CandidateComment':
+                text = value.comments ? `${this.labels.formatDateShort(value.dateLastModified)} (${value.name}) - ${value.comments}` : '';
+                break;
+            default:
+                text = value.trim ? value.trim() : value;
+                break;
         }
-        catch (e) {
-            console.error(`WARNING: There was a problem rendering the value of the field: ${args.label}. Please check the configuration`);
-            console.error(e);
-            return text;
-        }
+        return text;
     }
     /**
      * @param {?} value
@@ -40555,29 +40316,20 @@ class RenderPipe {
      * \@name options
      * @param {?} value - the value to find
      * @param {?} list - list of options (label/value pairs)
-     * @param {?} args
      * @return {?}
      */
-    options(value, list, args) {
+    options(value, list) {
         if (!Array.isArray(value)) {
             value = [value];
         }
-        try {
-            return value.map((item) => {
-                for (const option of list) {
-                    if (option.value === item) {
-                        return option.label;
-                    }
+        return value.map((item) => {
+            for (const option of list) {
+                if (option.value === item) {
+                    return option.label;
                 }
-                return item;
-            });
-        }
-        catch (e) {
-            if (!args.optionsType) {
-                throw Error(e);
             }
-            return value;
-        }
+            return item;
+        });
     }
     /**
      * @param {?} value
@@ -41105,7 +40857,7 @@ NovoExpansionPanel.decorators = [
                     '[class.novo-expansion-panel-spacing]': '_hasSpacing()',
                     '[class.novo-expansion-panel-padding]': 'padding',
                 },
-                styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-expansion-panel{background:#fff;color:#3d464d;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);box-sizing:content-box;display:block;margin:0 16px;transition:margin 225ms ease-in-out}.novo-action-row{border-top-color:#3d464d}.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]):hover{background:rgba(0,0,0,.04)}.novo-expansion-panel-header-title{color:#3d464d}.novo-expansion-indicator::after,.novo-expansion-panel-header-description{color:#999}.novo-expansion-panel-header[aria-disabled=true]{color:#999;pointer-events:none}.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-description,.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-title{color:inherit}.novo-expansion-panel.novo-expanded[theme=company]{border-top:3px solid #39d}.novo-expansion-panel.novo-expanded[theme=candidate]{border-top:3px solid #4b7}.novo-expansion-panel.novo-expanded[theme=navigation]{border-top:3px solid #2f384f}.novo-expansion-panel.novo-expanded[theme=lead]{border-top:3px solid #a69}.novo-expansion-panel.novo-expanded[theme=contact]{border-top:3px solid #fa4}.novo-expansion-panel.novo-expanded[theme=opportunity]{border-top:3px solid #625}.novo-expansion-panel.novo-expanded[theme=job]{border-top:3px solid #b56}.novo-expansion-panel.novo-expanded[theme=earnCode],.novo-expansion-panel.novo-expanded[theme=jobCode]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=sendout]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=placement]{border-top:3px solid #0b344f}.novo-expansion-panel.novo-expanded[theme=corporateuser],.novo-expansion-panel.novo-expanded[theme=credential],.novo-expansion-panel.novo-expanded[theme=distributionList],.novo-expansion-panel.novo-expanded[theme=task],.novo-expansion-panel.novo-expanded[theme=user]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=aqua]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=ocean]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=mint]{border-top:3px solid #37bc9b}.novo-expansion-panel.novo-expanded[theme=grass]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=sunflower]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=bittersweet]{border-top:3px solid #eb6845}.novo-expansion-panel.novo-expanded[theme=grapefruit]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=carnation]{border-top:3px solid #d770ad}.novo-expansion-panel.novo-expanded[theme=lavender]{border-top:3px solid #967adc}.novo-expansion-panel.novo-expanded[theme=positive]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=success]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=negative]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=warning]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=black]{border-top:3px solid #000}.novo-expansion-panel.novo-expanded[theme=dark]{border-top:3px solid #3d464d}.novo-expansion-panel.novo-expanded[theme=pulse]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=neutral]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=navy]{border-top:3px solid #0d2d42}.novo-expansion-panel.novo-expanded[theme=contract]{border-top:3px solid #454ea0}.novo-expansion-panel.novo-expanded[theme=mountain]{border-top:3px solid #9678b6}.novo-expansion-panel.novo-expanded[theme=billableCharge],.novo-expansion-panel.novo-expanded[theme=invoiceStatement],.novo-expansion-panel.novo-expanded[theme=payableCharge]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=submission]{border-top:3px solid #a9adbb}.novo-expansion-panel.novo-expanded[theme=note]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=empty]{border-top:3px solid #cccdcc}.novo-expansion-panel.novo-expanded[theme=background]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=white]{border-top:3px solid #fff}.novo-expansion-panel.novo-expanded[theme=grey]{border-top:3px solid #999}.novo-expansion-panel.novo-expanded[theme=off-white]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=light]{border-top:3px solid #d9dadc}.novo-expansion-panel.novo-expanded{margin:16px 4px}.novo-expansion-panel.novo-expanded:first-child{margin-top:0}.novo-expansion-panel.novo-expanded:last-child{margin-bottom:0}.novo-expansion-panel-content{overflow:hidden}.novo-expansion-panel-content.novo-expanded{overflow:visible}.novo-expansion-panel-padding .novo-expansion-panel-body{padding:0 24px 16px}.novo-accordion .novo-expansion-panel-spacing:first-child{margin-top:0}.novo-accordion .novo-expansion-panel-spacing:last-child{margin-bottom:0}.novo-action-row{border-top-style:solid;border-top-width:1px;display:flex;flex-direction:row;justify-content:flex-end;padding:16px 8px 16px 24px}.novo-action-row button.novo-button{margin-left:8px}[dir=rtl] .novo-action-row button.novo-button{margin-left:0;margin-right:8px}"]
+                styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-expansion-panel{background:#fff;color:#3d464d;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);box-sizing:content-box;display:block;margin:0 16px;transition:margin 225ms ease-in-out}.novo-action-row{border-top-color:#3d464d}.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]):hover{background:rgba(0,0,0,.04)}.novo-expansion-panel-header-title{color:#3d464d}.novo-expansion-indicator::after,.novo-expansion-panel-header-description{color:#999}.novo-expansion-panel-header[aria-disabled=true]{color:#999;pointer-events:none}.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-description,.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-title{color:inherit}.novo-expansion-panel.novo-expanded[theme=company]{border-top:3px solid #39d}.novo-expansion-panel.novo-expanded[theme=candidate]{border-top:3px solid #4b7}.novo-expansion-panel.novo-expanded[theme=navigation]{border-top:3px solid #2f384f}.novo-expansion-panel.novo-expanded[theme=lead]{border-top:3px solid #a69}.novo-expansion-panel.novo-expanded[theme=contact]{border-top:3px solid #fa4}.novo-expansion-panel.novo-expanded[theme=opportunity]{border-top:3px solid #625}.novo-expansion-panel.novo-expanded[theme=job]{border-top:3px solid #b56}.novo-expansion-panel.novo-expanded[theme=earnCode],.novo-expansion-panel.novo-expanded[theme=jobCode]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=sendout]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=placement]{border-top:3px solid #0b344f}.novo-expansion-panel.novo-expanded[theme=corporateuser],.novo-expansion-panel.novo-expanded[theme=credential],.novo-expansion-panel.novo-expanded[theme=distributionList],.novo-expansion-panel.novo-expanded[theme=task],.novo-expansion-panel.novo-expanded[theme=user]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=aqua]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=ocean]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=mint]{border-top:3px solid #37bc9b}.novo-expansion-panel.novo-expanded[theme=grass]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=sunflower]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=bittersweet]{border-top:3px solid #eb6845}.novo-expansion-panel.novo-expanded[theme=grapefruit]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=carnation]{border-top:3px solid #d770ad}.novo-expansion-panel.novo-expanded[theme=lavender]{border-top:3px solid #967adc}.novo-expansion-panel.novo-expanded[theme=positive]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=success]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=negative]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=warning]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=black]{border-top:3px solid #000}.novo-expansion-panel.novo-expanded[theme=dark]{border-top:3px solid #3d464d}.novo-expansion-panel.novo-expanded[theme=pulse]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=neutral]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=navy]{border-top:3px solid #0d2d42}.novo-expansion-panel.novo-expanded[theme=contract]{border-top:3px solid #454ea0}.novo-expansion-panel.novo-expanded[theme=mountain]{border-top:3px solid #9678b6}.novo-expansion-panel.novo-expanded[theme=billableCharge],.novo-expansion-panel.novo-expanded[theme=invoiceStatement]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=submission]{border-top:3px solid #a9adbb}.novo-expansion-panel.novo-expanded[theme=note]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=empty]{border-top:3px solid #cccdcc}.novo-expansion-panel.novo-expanded[theme=background]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=white]{border-top:3px solid #fff}.novo-expansion-panel.novo-expanded[theme=grey]{border-top:3px solid #999}.novo-expansion-panel.novo-expanded[theme=off-white]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=light]{border-top:3px solid #d9dadc}.novo-expansion-panel.novo-expanded{margin:16px 4px}.novo-expansion-panel.novo-expanded:first-child{margin-top:0}.novo-expansion-panel.novo-expanded:last-child{margin-bottom:0}.novo-expansion-panel-content{overflow:hidden}.novo-expansion-panel-content.novo-expanded{overflow:visible}.novo-expansion-panel-padding .novo-expansion-panel-body{padding:0 24px 16px}.novo-accordion .novo-expansion-panel-spacing:first-child{margin-top:0}.novo-accordion .novo-expansion-panel-spacing:last-child{margin-bottom:0}.novo-action-row{border-top-style:solid;border-top-width:1px;display:flex;flex-direction:row;justify-content:flex-end;padding:16px 8px 16px 24px}.novo-action-row button.novo-button{margin-left:8px}[dir=rtl] .novo-action-row button.novo-button{margin-left:0;margin-right:8px}"]
             }] }
 ];
 /** @nocollapse */
@@ -43056,51 +42808,6 @@ class DataTableSource extends DataSource {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class NovoDataTableFilterUtils {
-    /**
-     * @param {?=} filter
-     * @param {?=} type
-     * @param {?=} multiSelect
-     * @return {?}
-     */
-    static constructFilter(filter$$1, type, multiSelect) {
-        /** @type {?} */
-        let actualFilter = filter$$1;
-        if (filter$$1) {
-            if (type && type === 'date') {
-                if (filter$$1.startDate && filter$$1.endDate) {
-                    actualFilter = {
-                        min: startOfDay(filter$$1.startDate.date),
-                        max: startOfDay(addDays(startOfDay(filter$$1.endDate.date), 1)),
-                    };
-                }
-                else {
-                    actualFilter = {
-                        min: filter$$1.min ? addDays(startOfToday(), filter$$1.min) : startOfToday(),
-                        max: filter$$1.max ? addDays(endOfToday(), filter$$1.max) : endOfToday(),
-                    };
-                }
-            }
-            if (multiSelect && Array.isArray(filter$$1)) {
-                actualFilter = filter$$1.map((filterItem) => {
-                    if (filterItem && filterItem.hasOwnProperty('value')) {
-                        return filterItem.value;
-                    }
-                    return filterItem;
-                });
-            }
-            else if (actualFilter && actualFilter.hasOwnProperty('value')) {
-                actualFilter = filter$$1.value;
-            }
-        }
-        return actualFilter;
-    }
-}
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 /**
  * @template T
  */
@@ -43148,7 +42855,6 @@ class DataTableState {
         this.page = 0;
         this.selectedRows.clear();
         this.resetSource.next();
-        this.onSortFilterChange();
         if (fireUpdate) {
             this.updates.emit({
                 sort: this.sort,
@@ -43166,7 +42872,6 @@ class DataTableState {
         this.page = 0;
         this.selectedRows.clear();
         this.resetSource.next();
-        this.onSortFilterChange();
         if (fireUpdate) {
             this.updates.emit({
                 sort: this.sort,
@@ -43185,7 +42890,6 @@ class DataTableState {
         this.page = 0;
         this.selectedRows.clear();
         this.resetSource.next();
-        this.onSortFilterChange();
         if (fireUpdate) {
             this.updates.emit({
                 sort: this.sort,
@@ -43219,33 +42923,7 @@ class DataTableState {
      * @return {?}
      */
     onSortFilterChange() {
-        this.sortFilterSource.next({
-            sort: this.sort,
-            filter: this.filter,
-            globalSearch: this.globalSearch,
-        });
-    }
-    /**
-     * @param {?} preferences
-     * @return {?}
-     */
-    setInitialSortFilter(preferences) {
-        if (preferences) {
-            if (preferences.sort) {
-                this.sort = preferences.sort;
-            }
-            if (preferences.filter) {
-                /** @type {?} */
-                let filters = Helpers.convertToArray(preferences.filter);
-                filters.forEach((filter$$1) => {
-                    filter$$1.value =
-                        filter$$1.selectedOption && filter$$1.type
-                            ? NovoDataTableFilterUtils.constructFilter(filter$$1.selectedOption, filter$$1.type)
-                            : filter$$1.value;
-                });
-                this.filter = filters;
-            }
-        }
+        this.sortFilterSource.next();
     }
 }
 
@@ -43283,7 +42961,9 @@ class StaticDataTableService {
                 total = this.currentData.length;
             }
             if (filter$$1) {
-                this.currentData = this.filterData(this.currentData, filter$$1);
+                /** @type {?} */
+                let value = Helpers.isString(filter$$1.value) ? filter$$1.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter$$1.value;
+                this.currentData = this.currentData.filter(Helpers.filterByField(filter$$1.id, value));
                 total = this.currentData.length;
             }
             if (sort) {
@@ -43298,28 +42978,6 @@ class StaticDataTableService {
             }
         }
         return of({ results: this.currentData, total: total });
-    }
-    /**
-     * @param {?} currentData
-     * @param {?} filter
-     * @return {?}
-     */
-    filterData(currentData, filter$$1) {
-        /** @type {?} */
-        let filters = Helpers.convertToArray(filter$$1);
-        filters.forEach((aFilter) => {
-            if (Array.isArray(aFilter.value)) {
-                /** @type {?} */
-                let values = Helpers.convertToArray(aFilter.value).map(Helpers.escapeString);
-                currentData = currentData.filter(Helpers.filterByField(aFilter.id, values));
-            }
-            else {
-                /** @type {?} */
-                let value = Helpers.escapeString(aFilter.value);
-                currentData = currentData.filter(Helpers.filterByField(aFilter.id, value));
-            }
-        });
-        return currentData;
     }
 }
 
@@ -43343,7 +43001,6 @@ class NovoDataTable {
         this.globalSearchHiddenClassToggle = false;
         this.resized = new EventEmitter();
         this.name = 'novo-data-table';
-        this.allowMultipleFilters = false;
         this.rowIdentifier = 'id';
         this.activeRowIdentifier = '';
         // prettier-ignore
@@ -43360,14 +43017,6 @@ class NovoDataTable {
         this.expandable = false;
         this.initialized = false;
         this.scrollListenerHandler = this.scrollListener.bind(this);
-        this.sortFilterSubscription = this.state.sortFilterSource.subscribe((event) => {
-            if (this.name !== 'novo-data-table') {
-                this.preferencesChanged.emit({ name: this.name, sort: event.sort, filter: event.filter, globalSearch: event.globalSearch });
-            }
-            else {
-                notify('Must have [name] set on data-table to use preferences!');
-            }
-        });
         this.paginationSubscription = this.state.paginationSource.subscribe((event) => {
             if (this.name !== 'novo-data-table') {
                 if (event.isPageSizeChange) {
@@ -43567,9 +43216,6 @@ class NovoDataTable {
         }
         if (this.resetSubscription) {
             this.resetSubscription.unsubscribe();
-        }
-        if (this.sortFilterSubscription) {
-            this.sortFilterSubscription.unsubscribe();
         }
     }
     /**
@@ -43921,7 +43567,6 @@ NovoDataTable.decorators = [
               [novo-data-table-cell-config]="column"
               [resized]="resized"
               [defaultSort]="defaultSort"
-              [allowMultipleFilters]="allowMultipleFilters"
               [class.empty]="column?.type === 'action' && !column?.label"
               [class.button-header-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)"
               [class.dropdown-header-cell]="column?.type === 'action' && column?.action?.options"
@@ -43989,9 +43634,6 @@ NovoDataTable.decorators = [
     </ng-template>
     <ng-template novoTemplate="currencyCellTemplate" let-row let-col="col">
       <span>{{ row[col.id] | dataTableInterpolate: col | dataTableCurrencyRenderer: col }}</span>
-    </ng-template>
-    <ng-template novoTemplate="bigdecimalCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableBigDecimalRenderer: col }}</span>
     </ng-template>
     <ng-template novoTemplate="numberCellTemplate" let-row let-col="col">
       <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col }}</span>
@@ -44077,7 +43719,6 @@ NovoDataTable.propDecorators = {
     searchOptions: [{ type: Input }],
     defaultSort: [{ type: Input }],
     name: [{ type: Input }],
-    allowMultipleFilters: [{ type: Input }],
     rowIdentifier: [{ type: Input }],
     activeRowIdentifier: [{ type: Input }],
     trackByFn: [{ type: Input }],
@@ -44400,26 +44041,18 @@ class NovoDataTableSortFilter {
     }
     /**
      * @param {?} id
-     * @param {?} type
      * @param {?} value
      * @param {?} transform
-     * @param {?=} allowMultipleFilters
-     * @param {?=} selectedOption
      * @return {?}
      */
-    filter(id, type, value, transform, allowMultipleFilters = false, selectedOption) {
+    filter(id, value, transform) {
         /** @type {?} */
         let filter$$1;
-        if (allowMultipleFilters) {
-            filter$$1 = this.resolveMultiFilter(id, type, value, transform, selectedOption);
+        if (!Helpers.isBlank(value)) {
+            filter$$1 = { id, value, transform };
         }
         else {
-            if (!Helpers.isBlank(value)) {
-                filter$$1 = Object.assign({ id, type, value, transform }, (selectedOption && { selectedOption }));
-            }
-            else {
-                filter$$1 = undefined;
-            }
+            filter$$1 = undefined;
         }
         this.state.filter = filter$$1;
         this.state.reset(false, true);
@@ -44439,31 +44072,6 @@ class NovoDataTableSortFilter {
         this.state.reset(false, true);
         this.state.updates.next({ sort: sort, filter: this.state.filter });
         this.state.onSortFilterChange();
-    }
-    /**
-     * @param {?} id
-     * @param {?} type
-     * @param {?} value
-     * @param {?} transform
-     * @param {?} selectedOption
-     * @return {?}
-     */
-    resolveMultiFilter(id, type, value, transform, selectedOption) {
-        /** @type {?} */
-        let filter$$1;
-        filter$$1 = Helpers.convertToArray(this.state.filter);
-        /** @type {?} */
-        let filterIndex = filter$$1.findIndex((aFilter) => aFilter && aFilter.id === id);
-        if (filterIndex > -1) {
-            filter$$1.splice(filterIndex, 1);
-        }
-        if (!Helpers.isBlank(value)) {
-            filter$$1 = [...filter$$1, Object.assign({ id, type, value, transform }, (selectedOption && { selectedOption }))];
-        }
-        if (filter$$1.length < 1) {
-            filter$$1 = undefined;
-        }
-        return filter$$1;
     }
 }
 NovoDataTableSortFilter.decorators = [
@@ -44501,18 +44109,33 @@ class NovoDataTableCellHeader {
         this.elementRef = elementRef;
         this._sort = _sort;
         this._cdkColumnDef = _cdkColumnDef;
-        this.allowMultipleFilters = false;
         this.icon = 'sortable';
         this.filterActive = false;
         this.sortActive = false;
         this.showCustomRange = false;
         this.multiSelect = false;
         this.multiSelectedOptions = [];
-        this.multiSelectedOptionIsHidden = [];
-        this.optionFilter = '';
-        this.error = false;
         this.subscriptions = [];
-        this._rerenderSubscription = state$$1.updates.subscribe((change) => this.checkSortFilterState(change));
+        this._rerenderSubscription = state$$1.updates.subscribe((change) => {
+            if (change.sort && change.sort.id === this.id) {
+                this.icon = `sort-${change.sort.value}`;
+                this.sortActive = true;
+            }
+            else {
+                this.icon = 'sortable';
+                this.sortActive = false;
+            }
+            if (change.filter && change.filter.id === this.id) {
+                this.filterActive = true;
+                this.filter = change.filter.value;
+            }
+            else {
+                this.filterActive = false;
+                this.filter = undefined;
+                this.multiSelectedOptions = [];
+            }
+            changeDetectorRef.markForCheck();
+        });
     }
     /**
      * @param {?} column
@@ -44559,12 +44182,15 @@ class NovoDataTableCellHeader {
         if (this._cdkColumnDef) {
             this.id = this._cdkColumnDef.name;
         }
-        this.checkSortFilterState({ filter: this.state.filter, sort: this.state.sort }, true);
+        if (this.defaultSort && this.id === this.defaultSort.id) {
+            this.icon = `sort-${this.defaultSort.value}`;
+            this.sortActive = true;
+            this.changeDetectorRef.markForCheck();
+        }
         this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
         if (this.multiSelect) {
             this.multiSelectedOptions = this.filter ? [...this.filter] : [];
         }
-        this.changeDetectorRef.markForCheck();
     }
     /**
      * @return {?}
@@ -44574,58 +44200,6 @@ class NovoDataTableCellHeader {
         this.subscriptions.forEach((subscription) => {
             subscription.unsubscribe();
         });
-    }
-    /**
-     * @param {?} sortFilterState
-     * @param {?=} initialConfig
-     * @return {?}
-     */
-    checkSortFilterState(sortFilterState, initialConfig = false) {
-        if (sortFilterState.sort && sortFilterState.sort.id === this.id) {
-            this.icon = `sort-${sortFilterState.sort.value}`;
-            this.sortActive = true;
-        }
-        else {
-            this.icon = 'sortable';
-            this.sortActive = false;
-        }
-        /** @type {?} */
-        const tableFilter = Helpers.convertToArray(sortFilterState.filter);
-        /** @type {?} */
-        const thisFilter = tableFilter.find((filter$$1) => filter$$1 && filter$$1.id === this.id);
-        if (thisFilter) {
-            this.filterActive = true;
-            if (initialConfig && thisFilter.type === 'date' && thisFilter.selectedOption) {
-                this.activeDateFilter = thisFilter.selectedOption.label || this.labels.customDateRange;
-            }
-            this.filter = thisFilter.value;
-        }
-        else {
-            this.filterActive = false;
-            this.filter = undefined;
-            this.activeDateFilter = undefined;
-            this.multiSelectedOptions = [];
-        }
-        if (this.defaultSort && this.id === this.defaultSort.id) {
-            this.icon = `sort-${this.defaultSort.value}`;
-            this.sortActive = true;
-        }
-        this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
-        if (this.multiSelect) {
-            this.multiSelectedOptions = this.filter ? [...this.filter] : [];
-            if (this.config.filterConfig.options) {
-                if (typeof this.config.filterConfig.options[0] === 'string') {
-                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((option) => ({ option: option, hidden: false }));
-                }
-                else {
-                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((option) => ({
-                        option: option,
-                        hidden: false,
-                    }));
-                }
-            }
-        }
-        this.changeDetectorRef.markForCheck();
     }
     /**
      * @param {?} option
@@ -44648,18 +44222,11 @@ class NovoDataTableCellHeader {
      */
     toggleSelection(option) {
         /** @type {?} */
-        const optionValue = option.hasOwnProperty('value') ? option.value : option;
+        const optionValue = option.value ? option.value : option;
         /** @type {?} */
         let optionIndex = this.multiSelectedOptions.findIndex((item) => this.optionPresentCheck(item, optionValue));
-        this.error = false;
         if (optionIndex > -1) {
             this.multiSelectedOptions.splice(optionIndex, 1);
-            if (this.optionFilter &&
-                !this.getOptionText(option)
-                    .toLowerCase()
-                    .startsWith(this.optionFilter.toLowerCase())) {
-                this.multiSelectedOptionIsHidden[this.multiSelectedOptionIsHidden.findIndex((record) => record.option === option)].hidden = true;
-            }
         }
         else {
             this.multiSelectedOptions.push(optionValue);
@@ -44684,100 +44251,15 @@ class NovoDataTableCellHeader {
     cancel() {
         this.multiSelectedOptions = this.filter ? [...this.filter] : [];
         this.dropdown.closePanel();
-        this.clearOptionFilter();
     }
     /**
      * @return {?}
      */
     filterMultiSelect() {
-        if (this.multiSelectedOptions.length === 0 && !this.filter) {
-            this.multiSelectHasVisibleOptions() && this.dropdown ? (this.error = true) : null;
-        }
-        else {
-            this.clearOptionFilter();
-            /** @type {?} */
-            let actualFilter = this.multiSelectedOptions.length > 0 ? [...this.multiSelectedOptions] : undefined;
-            this.filterData(actualFilter);
-            this.dropdown.closePanel();
-        }
-    }
-    /**
-     * @param {?} optionFilter
-     * @return {?}
-     */
-    multiSelectOptionFilter(optionFilter) {
-        this.multiSelectedOptionIsHidden.forEach((record) => {
-            if (record.option) {
-                record.hidden = !(this.getOptionText(record.option)
-                    .toLowerCase()
-                    .startsWith(optionFilter.toLowerCase()) || this.isSelected(record.option, this.multiSelectedOptions));
-            }
-        });
-    }
-    /**
-     * @param {?} option
-     * @return {?}
-     */
-    multiSelectOptionIsHidden(option) {
-        return this.multiSelectedOptionIsHidden.find((record) => record.option === option).hidden;
-    }
-    /**
-     * @return {?}
-     */
-    multiSelectHasVisibleOptions() {
-        return this.multiSelectedOptionIsHidden.some((record) => !record.hidden);
-    }
-    /**
-     * @private
-     * @param {?} option
-     * @return {?}
-     */
-    getOptionText(option) {
-        if (typeof option !== 'object') {
-            return option.toString();
-        }
-        else {
-            /** @type {?} */
-            const opt = (/** @type {?} */ (option));
-            return (opt.label.length > 0 ? opt.label : opt.value).toString();
-        }
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    multiSelectOptionFilterHandleKeydown(event) {
-        if (this.multiSelect) {
-            this.error = false;
-            if (this.dropdown.panelOpen && event.keyCode === KeyCodes.ESC) {
-                // escape = clear text box and close
-                Helpers.swallowEvent(event);
-                this.clearOptionFilter();
-                this.dropdown.closePanel();
-            }
-            else if (event.keyCode === KeyCodes.ENTER) {
-                Helpers.swallowEvent(event);
-                this.filterMultiSelect();
-            }
-            else if ((event.keyCode >= 65 && event.keyCode <= 90) ||
-                (event.keyCode >= 96 && event.keyCode <= 105) ||
-                (event.keyCode >= 48 && event.keyCode <= 57)) {
-                this.optionFilterInput.nativeElement.focus();
-            }
-        }
-    }
-    /**
-     * @private
-     * @return {?}
-     */
-    clearOptionFilter() {
-        this.error = false;
-        if (this.optionFilter.length > 0) {
-            this.optionFilter = '';
-            this.multiSelectedOptionIsHidden.forEach((record) => {
-                record.hidden = false;
-            });
-        }
+        /** @type {?} */
+        let actualFilter = this.multiSelectedOptions.length > 0 ? [...this.multiSelectedOptions] : undefined;
+        this.filterData(actualFilter);
+        this.dropdown.closePanel();
     }
     /**
      * @param {?} mouseDownEvent
@@ -44832,13 +44314,6 @@ class NovoDataTableCellHeader {
         if (this.filterInput && this.filterInput.nativeElement) {
             setTimeout(() => this.filterInput.nativeElement.focus(), 0);
         }
-        if (this.multiSelect && this.dropdown) {
-            this.dropdown.onKeyDown = (event) => {
-                this.multiSelectOptionFilterHandleKeydown(event);
-            };
-            setTimeout(() => this.optionFilterInput.nativeElement.focus(), 0);
-            this.changeDetectorRef.markForCheck();
-        }
     }
     /**
      * @return {?}
@@ -44859,9 +44334,33 @@ class NovoDataTableCellHeader {
      */
     filterData(filter$$1) {
         /** @type {?} */
-        let actualFilter = NovoDataTableFilterUtils.constructFilter(filter$$1, this.config.filterConfig.type, this.multiSelect);
-        /** @type {?} */
-        const selectedOption = this.config.filterConfig.type === 'date' && filter$$1 ? filter$$1 : undefined;
+        let actualFilter = filter$$1;
+        if (this.config.filterConfig.type === 'date' && filter$$1) {
+            this.activeDateFilter = filter$$1.label || this.labels.customDateRange;
+            if (filter$$1.startDate && filter$$1.endDate) {
+                actualFilter = {
+                    min: startOfDay(filter$$1.startDate.date),
+                    max: startOfDay(addDays(startOfDay(filter$$1.endDate.date), 1)),
+                };
+            }
+            else {
+                actualFilter = {
+                    min: filter$$1.min ? addDays(startOfToday(), filter$$1.min) : startOfToday(),
+                    max: filter$$1.max ? addDays(endOfToday(), filter$$1.max) : endOfToday(),
+                };
+            }
+        }
+        if (this.multiSelect && Array.isArray(filter$$1)) {
+            actualFilter = filter$$1.map((filterItem) => {
+                if (filterItem && filterItem.hasOwnProperty('value')) {
+                    return filterItem.value;
+                }
+                return filterItem;
+            });
+        }
+        else if (actualFilter && actualFilter.hasOwnProperty('value')) {
+            actualFilter = filter$$1.value;
+        }
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
         }
@@ -44869,7 +44368,7 @@ class NovoDataTableCellHeader {
             if (actualFilter === '') {
                 actualFilter = undefined;
             }
-            this._sort.filter(this.id, this.config.filterConfig.type, actualFilter, this.config.transforms.filter, this.allowMultipleFilters, selectedOption);
+            this._sort.filter(this.id, actualFilter, this.config.transforms.filter);
             this.changeDetectorRef.markForCheck();
         }, 300);
     }
@@ -44881,7 +44380,6 @@ class NovoDataTableCellHeader {
         this.multiSelectedOptions = [];
         this.activeDateFilter = undefined;
         this.filterData(undefined);
-        this.clearOptionFilter();
     }
     /**
      * @private
@@ -45001,22 +44499,9 @@ NovoDataTableCellHeader.decorators = [
             </item>
           </list>
           <list *ngSwitchCase="'multi-select'">
-            <div class="dropdown-list-filter" (keydown)="multiSelectOptionFilterHandleKeydown($event)">
-              <item class="filter-search" keepOpen="true">
-                <input
-                  [(ngModel)]="optionFilter"
-                  (ngModelChange)="multiSelectOptionFilter($event)"
-                  #optionFilterInput
-                  data-automation-id="novo-data-table-multi-select-option-filter-input"
-                />
-                <i class="bhi-search"></i>
-                <span class="error-text" [hidden]="!error || !multiSelectHasVisibleOptions()">{{ labels.selectFilterOptions }}</span>
-              </item>
-            </div>
             <div class="dropdown-list-options">
               <item
                 *ngFor="let option of config.filterConfig.options"
-                [hidden]="multiSelectOptionIsHidden(option)"
                 (click)="toggleSelection(option)"
                 [attr.data-automation-id]="'novo-data-table-filter-' + (option?.label || option)"
                 [keepOpen]="true"
@@ -45028,7 +44513,6 @@ NovoDataTableCellHeader.decorators = [
                 ></i>
               </item>
             </div>
-            <p class="filter-null-results" [hidden]="multiSelectHasVisibleOptions()">{{ labels.pickerEmpty }}</p>
           </list>
           <list *ngSwitchCase="'custom'">
             <item class="filter-search" keepOpen="true">
@@ -45076,14 +44560,11 @@ NovoDataTableCellHeader.ctorParameters = () => [
 NovoDataTableCellHeader.propDecorators = {
     filterInput: [{ type: ViewChild, args: ['filterInput',] }],
     dropdown: [{ type: ViewChild, args: [NovoDropdownElement,] }],
-    optionFilterInput: [{ type: ViewChild, args: ['optionFilterInput',] }],
     defaultSort: [{ type: Input }],
-    allowMultipleFilters: [{ type: Input }],
     resized: [{ type: Input }],
     filterTemplate: [{ type: Input }],
     resizable: [{ type: HostBinding, args: ['class.resizable',] }],
-    column: [{ type: Input, args: ['novo-data-table-cell-config',] }],
-    multiSelectOptionFilterHandleKeydown: [{ type: HostListener, args: ['document:keydown', ['$event'],] }]
+    column: [{ type: Input, args: ['novo-data-table-cell-config',] }]
 };
 
 /**
@@ -45812,40 +45293,6 @@ DateTableNumberRendererPipe.ctorParameters = () => [
 /**
  * @template T
  */
-class DataTableBigDecimalRendererPipe {
-    /**
-     * @param {?} labels
-     */
-    constructor(labels) {
-        this.labels = labels;
-    }
-    /**
-     * @param {?} value
-     * @param {?} column
-     * @return {?}
-     */
-    transform(value, column) {
-        if (!Helpers.isEmpty(value)) {
-            /** @type {?} */
-            let val = interpolateCell(value, column);
-            return this.labels.formatBigDecimal(Number(val));
-        }
-        return '';
-    }
-}
-DataTableBigDecimalRendererPipe.decorators = [
-    { type: Pipe, args: [{
-                name: 'dataTableBigDecimalRenderer',
-                pure: true,
-            },] }
-];
-/** @nocollapse */
-DataTableBigDecimalRendererPipe.ctorParameters = () => [
-    { type: NovoLabelService }
-];
-/**
- * @template T
- */
 class DateTableCurrencyRendererPipe {
     /**
      * @param {?} labels
@@ -46062,7 +45509,6 @@ NovoDataTableModule.decorators = [
                     DateTableDateTimeRendererPipe,
                     DateTableNumberRendererPipe,
                     DateTableTimeRendererPipe,
-                    DataTableBigDecimalRendererPipe,
                     NovoDataTableCellHeader,
                     NovoDataTableSortFilter,
                     NovoDataTableHeaderCell,
@@ -46087,7 +45533,6 @@ NovoDataTableModule.decorators = [
                     DateTableDateTimeRendererPipe,
                     DateTableNumberRendererPipe,
                     DateTableTimeRendererPipe,
-                    DataTableBigDecimalRendererPipe,
                     NovoDataTableClearButton,
                 ],
             },] }
@@ -50059,6 +49504,6 @@ class ActivityTableRenderers {
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoDatePickerElement, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoTableExtrasModule, NovoFormModule, NovoDynamicFormElement, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTableFilterUtils, NovoDataTable, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, CalendarEventResponse, NovoAceEditor as ɵo, NovoButtonElement as ɵp, NovoEventTypeLegendElement as ɵz, NovoCalendarAllDayEventElement as ɵbj, NovoCalendarDayEventElement as ɵbh, NovoCalendarDayViewElement as ɵbg, NovoCalendarHourSegmentElement as ɵbi, NovoCalendarMonthDayElement as ɵbc, NovoCalendarMonthHeaderElement as ɵbb, NovoCalendarMonthViewElement as ɵba, DayOfMonthPipe as ɵbl, EndOfWeekDisplayPipe as ɵbq, HoursPipe as ɵbp, MonthPipe as ɵbm, MonthDayPipe as ɵbn, WeekdayPipe as ɵbk, YearPipe as ɵbo, NovoCalendarWeekEventElement as ɵbf, NovoCalendarWeekHeaderElement as ɵbe, NovoCalendarWeekViewElement as ɵbd, CardActionsElement as ɵx, CardElement as ɵy, NovoCategoryDropdownElement as ɵep, NovoChipElement as ɵct, NovoChipsElement as ɵcu, NovoRowChipElement as ɵcv, NovoRowChipsElement as ɵcw, NovoCKEditorElement as ɵdd, NovoDataTableCheckboxHeaderCell as ɵfi, NovoDataTableExpandHeaderCell as ɵfk, NovoDataTableCellHeader as ɵez, NovoDataTableHeaderCell as ɵfc, NovoDataTableCell as ɵfd, NovoDataTableCheckboxCell as ɵfh, NovoDataTableExpandCell as ɵfj, NovoDataTableClearButton as ɵfm, NovoDataTableExpandDirective as ɵfl, DataTableBigDecimalRendererPipe as ɵex, DataTableInterpolatePipe as ɵes, DateTableCurrencyRendererPipe as ɵey, DateTableDateRendererPipe as ɵet, DateTableDateTimeRendererPipe as ɵeu, DateTableNumberRendererPipe as ɵew, DateTableTimeRendererPipe as ɵev, NovoDataTablePagination as ɵfg, NovoDataTableHeaderRow as ɵfe, NovoDataTableRow as ɵff, NovoDataTableSortFilter as ɵfb, DataTableState as ɵfa, NovoDatePickerInputElement as ɵcx, NovoDateTimePickerElement as ɵdb, NovoDateTimePickerInputElement as ɵdc, NovoDragulaElement as ɵcr, NovoDropdownElement as ɵcj, NovoItemElement as ɵck, NovoItemHeaderElement$1 as ɵcm, NovoListElement$1 as ɵcl, NovoAccordion as ɵdz, novoExpansionAnimations as ɵec, NovoExpansionPanel as ɵea, NovoExpansionPanelActionRow as ɵeb, NovoExpansionPanelContent as ɵed, NovoExpansionPanelDescription as ɵef, NovoExpansionPanelHeader as ɵee, NovoExpansionPanelTitle as ɵeg, NovoAutoSize as ɵdh, NovoControlElement as ɵdi, NovoControlTemplates as ɵdm, NovoFieldsetElement as ɵb, NovoFieldsetHeaderElement as ɵa, ControlConfirmModal as ɵdk, ControlPromptModal as ɵdl, NovoFormElement as ɵdj, NovoAddressElement as ɵn, NovoCheckboxElement as ɵdf, NovoFileInputElement as ɵdg, NovoHeaderComponent as ɵbv, NovoHeaderSpacer as ɵbs, NovoUtilActionComponent as ɵbu, NovoUtilsComponent as ɵbt, NovoIconComponent as ɵdy, NovoItemAvatarElement as ɵg, NovoItemContentElement as ɵk, NovoItemDateElement as ɵj, NovoItemEndElement as ɵl, NovoItemHeaderElement as ɵi, NovoItemTitleElement as ɵh, NovoListItemElement as ɵf, NovoIsLoadingDirective as ɵu, NovoLoadedDirective as ɵt, NovoLoadingElement as ɵq, NovoSkeletonDirective as ɵs, NovoSpinnerElement as ɵr, NovoModalContainerElement as ɵc, NovoModalElement as ɵd, NovoModalNotificationElement as ɵe, NovoMultiPickerElement as ɵeq, NovoOverlayTemplateComponent as ɵci, NovoOverlayModule as ɵch, NovoPickerElement as ɵcp, PlacesListComponent as ɵfu, GooglePlacesModule as ɵft, PopOverDirective as ɵfs, NovoPopOverModule as ɵfq, PopOverContent as ɵfr, QuickNoteElement as ɵce, NovoRadioElement as ɵcg, NovoRadioGroup as ɵcf, NovoSearchBoxElement as ɵcq, NovoSelectElement as ɵcn, NovoSliderElement as ɵcs, NovoStepHeader as ɵel, NovoStepLabel as ɵem, NovoStepStatus as ɵeo, novoStepperAnimations as ɵen, NovoHorizontalStepper as ɵej, NovoStep as ɵeh, NovoStepper as ɵei, NovoVerticalStepper as ɵek, NovoSwitchElement as ɵco, NovoTableKeepFilterFocus as ɵdq, Pagination as ɵdr, RowDetails as ɵds, NovoTableActionsElement as ɵdp, TableCell as ɵdt, TableFilter as ɵdu, NovoTableFooterElement as ɵdo, NovoTableHeaderElement as ɵdn, ThOrderable as ɵdv, ThSortable as ɵdw, NovoNavContentElement as ɵcb, NovoNavElement as ɵbw, NovoNavHeaderElement as ɵcc, NovoNavOutletElement as ɵca, NovoTabButtonElement as ɵby, NovoTabElement as ɵbx, NovoTabLinkElement as ɵbz, NovoTilesElement as ɵcd, NovoTimePickerElement as ɵcz, NovoTimePickerInputElement as ɵda, NovoTipWellElement as ɵde, NovoToastElement as ɵbr, NovoTooltip as ɵw, TooltipDirective as ɵv, Unless as ɵer, EntityList as ɵdx, NovoValueElement as ɵm, DateFormatService as ɵcy, BrowserGlobalRef as ɵfo, GlobalRef as ɵfn, LocalStorageService as ɵfp };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoDatePickerElement, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTable, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, CalendarEventResponse, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵx, NovoCalendarAllDayEventElement as ɵbh, NovoCalendarDayEventElement as ɵbf, NovoCalendarDayViewElement as ɵbe, NovoCalendarHourSegmentElement as ɵbg, NovoCalendarMonthDayElement as ɵba, NovoCalendarMonthHeaderElement as ɵz, NovoCalendarMonthViewElement as ɵy, DayOfMonthPipe as ɵbj, EndOfWeekDisplayPipe as ɵbo, HoursPipe as ɵbn, MonthPipe as ɵbk, MonthDayPipe as ɵbl, WeekdayPipe as ɵbi, YearPipe as ɵbm, NovoCalendarWeekEventElement as ɵbd, NovoCalendarWeekHeaderElement as ɵbc, NovoCalendarWeekViewElement as ɵbb, CardActionsElement as ɵv, CardElement as ɵw, NovoCategoryDropdownElement as ɵeq, NovoChipElement as ɵcr, NovoChipsElement as ɵcs, NovoRowChipElement as ɵct, NovoRowChipsElement as ɵcu, NovoCKEditorElement as ɵdb, NovoDataTableCheckboxHeaderCell as ɵfi, NovoDataTableExpandHeaderCell as ɵfk, NovoDataTableCellHeader as ɵez, NovoDataTableHeaderCell as ɵfc, NovoDataTableCell as ɵfd, NovoDataTableCheckboxCell as ɵfh, NovoDataTableExpandCell as ɵfj, NovoDataTableClearButton as ɵfm, NovoDataTableExpandDirective as ɵfl, DataTableInterpolatePipe as ɵet, DateTableCurrencyRendererPipe as ɵey, DateTableDateRendererPipe as ɵeu, DateTableDateTimeRendererPipe as ɵev, DateTableNumberRendererPipe as ɵex, DateTableTimeRendererPipe as ɵew, NovoDataTablePagination as ɵfg, NovoDataTableHeaderRow as ɵfe, NovoDataTableRow as ɵff, NovoDataTableSortFilter as ɵfb, DataTableState as ɵfa, NovoDatePickerInputElement as ɵcv, NovoDateTimePickerElement as ɵcz, NovoDateTimePickerInputElement as ɵda, NovoDragulaElement as ɵcp, NovoDropdownElement as ɵch, NovoItemElement as ɵci, NovoItemHeaderElement$1 as ɵck, NovoListElement$1 as ɵcj, NovoAccordion as ɵea, novoExpansionAnimations as ɵed, NovoExpansionPanel as ɵeb, NovoExpansionPanelActionRow as ɵec, NovoExpansionPanelContent as ɵee, NovoExpansionPanelDescription as ɵeg, NovoExpansionPanelHeader as ɵef, NovoExpansionPanelTitle as ɵeh, NovoAutoSize as ɵdf, NovoControlElement as ɵdg, NovoControlTemplates as ɵdn, NovoDynamicFormElement as ɵdj, NovoFieldsetElement as ɵdi, NovoFieldsetHeaderElement as ɵdh, ControlConfirmModal as ɵdl, ControlPromptModal as ɵdm, NovoFormElement as ɵdk, NovoAddressElement as ɵl, NovoCheckboxElement as ɵdd, NovoFileInputElement as ɵde, NovoHeaderComponent as ɵbt, NovoHeaderSpacer as ɵbq, NovoUtilActionComponent as ɵbs, NovoUtilsComponent as ɵbr, NovoIconComponent as ɵdz, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoIsLoadingDirective as ɵs, NovoLoadedDirective as ɵr, NovoLoadingElement as ɵo, NovoSkeletonDirective as ɵq, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵer, NovoOverlayTemplateComponent as ɵcg, NovoOverlayModule as ɵcf, NovoPickerElement as ɵcn, PlacesListComponent as ɵfu, GooglePlacesModule as ɵft, PopOverDirective as ɵfs, NovoPopOverModule as ɵfq, PopOverContent as ɵfr, QuickNoteElement as ɵcc, NovoRadioElement as ɵce, NovoRadioGroup as ɵcd, NovoSearchBoxElement as ɵco, NovoSelectElement as ɵcl, NovoSliderElement as ɵcq, NovoStepHeader as ɵem, NovoStepLabel as ɵen, NovoStepStatus as ɵep, novoStepperAnimations as ɵeo, NovoHorizontalStepper as ɵek, NovoStep as ɵei, NovoStepper as ɵej, NovoVerticalStepper as ɵel, NovoSwitchElement as ɵcm, NovoTableKeepFilterFocus as ɵdr, Pagination as ɵds, RowDetails as ɵdt, NovoTableActionsElement as ɵdq, TableCell as ɵdu, TableFilter as ɵdv, NovoTableFooterElement as ɵdp, NovoTableHeaderElement as ɵdo, ThOrderable as ɵdw, ThSortable as ɵdx, NovoNavContentElement as ɵbz, NovoNavElement as ɵbu, NovoNavHeaderElement as ɵca, NovoNavOutletElement as ɵby, NovoTabButtonElement as ɵbw, NovoTabElement as ɵbv, NovoTabLinkElement as ɵbx, NovoTilesElement as ɵcb, NovoTimePickerElement as ɵcx, NovoTimePickerInputElement as ɵcy, NovoTipWellElement as ɵdc, NovoToastElement as ɵbp, NovoTooltip as ɵu, TooltipDirective as ɵt, Unless as ɵes, EntityList as ɵdy, NovoValueElement as ɵk, DateFormatService as ɵcw, BrowserGlobalRef as ɵfo, GlobalRef as ɵfn, LocalStorageService as ɵfp };
 
 //# sourceMappingURL=novo-elements.js.map
