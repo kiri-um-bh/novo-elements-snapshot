@@ -46,7 +46,7 @@ export declare class NovoTimePickerInputElement implements OnInit, ControlValueA
      * Clear any previous selected option and emit a selection change event for this option
      */
     clearValue(): void;
-    formatDateValue(value: any): any;
+    formatDateValue(value: any): string;
     readonly hasValue: boolean;
     scrollToIndex(index: number): void;
 }

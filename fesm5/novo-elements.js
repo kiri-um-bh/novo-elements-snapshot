@@ -2230,6 +2230,31 @@ var NovoLabelService = /** @class */ (function () {
         return new Intl.DateTimeFormat(this.userLocale, format$$1).format(date);
     };
     /**
+     * @param {?} value
+     * @param {?} format
+     * @return {?}
+     */
+    NovoLabelService.prototype.formatTimeWithFormat = /**
+     * @param {?} value
+     * @param {?} format
+     * @return {?}
+     */
+    function (value, format$$1) {
+        /** @type {?} */
+        var date = value instanceof Date ? value : new Date(value);
+        if (date.getTime() !== date.getTime()) {
+            return value;
+        }
+        /** @type {?} */
+        var timeParts = Intl.DateTimeFormat(this.userLocale, format$$1).formatToParts(date).reduce(function (obj, part) {
+            obj[part.type] = part.value;
+            return obj;
+        }, {});
+        /** @type {?} */
+        var dayperiod = timeParts.dayperiod ? timeParts.dayperiod : '';
+        return timeParts.hour + ":" + timeParts.minute + dayperiod;
+    };
+    /**
      * @return {?}
      */
     NovoLabelService.prototype.getWeekdays = /**
@@ -14457,7 +14482,7 @@ var NovoTimePickerInputElement = /** @class */ (function () {
     function () {
         this.placeholder = this.military ? this.labels.timeFormatPlaceholder24Hour : this.labels.timeFormatPlaceholderAM;
         this.maskOptions = {
-            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP]/, /[mM]/],
+            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP上下]/, /[mM午]/],
             pipe: this.military ? createAutoCorrectedDatePipe('HH:MM') : createAutoCorrectedDatePipe('mm:MM'),
             keepCharPositions: false,
             guide: true,
@@ -14702,7 +14727,7 @@ var NovoTimePickerInputElement = /** @class */ (function () {
             return '';
         }
         /** @type {?} */
-        var format$$1 = this.labels.formatDateWithFormat(value, {
+        var format$$1 = this.labels.formatTimeWithFormat(value, {
             hour: '2-digit',
             minute: '2-digit',
             hour12: !this.military,

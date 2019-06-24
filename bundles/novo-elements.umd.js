@@ -2313,6 +2313,31 @@
                 return new Intl.DateTimeFormat(this.userLocale, format).format(date);
             };
         /**
+         * @param {?} value
+         * @param {?} format
+         * @return {?}
+         */
+        NovoLabelService.prototype.formatTimeWithFormat = /**
+         * @param {?} value
+         * @param {?} format
+         * @return {?}
+         */
+            function (value, format) {
+                /** @type {?} */
+                var date = value instanceof Date ? value : new Date(value);
+                if (date.getTime() !== date.getTime()) {
+                    return value;
+                }
+                /** @type {?} */
+                var timeParts = Intl.DateTimeFormat(this.userLocale, format).formatToParts(date).reduce(function (obj, part) {
+                    obj[part.type] = part.value;
+                    return obj;
+                }, {});
+                /** @type {?} */
+                var dayperiod = timeParts.dayperiod ? timeParts.dayperiod : '';
+                return timeParts.hour + ":" + timeParts.minute + dayperiod;
+            };
+        /**
          * @return {?}
          */
         NovoLabelService.prototype.getWeekdays = /**
@@ -14686,7 +14711,7 @@
             function () {
                 this.placeholder = this.military ? this.labels.timeFormatPlaceholder24Hour : this.labels.timeFormatPlaceholderAM;
                 this.maskOptions = {
-                    mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP]/, /[mM]/],
+                    mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP上下]/, /[mM午]/],
                     pipe: this.military ? createAutoCorrectedDatePipe('HH:MM') : createAutoCorrectedDatePipe('mm:MM'),
                     keepCharPositions: false,
                     guide: true,
@@ -14932,7 +14957,7 @@
                     return '';
                 }
                 /** @type {?} */
-                var format = this.labels.formatDateWithFormat(value, {
+                var format = this.labels.formatTimeWithFormat(value, {
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: !this.military,

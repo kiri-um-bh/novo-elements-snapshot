@@ -1922,6 +1922,26 @@ class NovoLabelService {
         return new Intl.DateTimeFormat(this.userLocale, format$$1).format(date);
     }
     /**
+     * @param {?} value
+     * @param {?} format
+     * @return {?}
+     */
+    formatTimeWithFormat(value, format$$1) {
+        /** @type {?} */
+        let date = value instanceof Date ? value : new Date(value);
+        if (date.getTime() !== date.getTime()) {
+            return value;
+        }
+        /** @type {?} */
+        let timeParts = Intl.DateTimeFormat(this.userLocale, format$$1).formatToParts(date).reduce((obj, part) => {
+            obj[part.type] = part.value;
+            return obj;
+        }, {});
+        /** @type {?} */
+        const dayperiod = timeParts.dayperiod ? timeParts.dayperiod : '';
+        return `${timeParts.hour}:${timeParts.minute}${dayperiod}`;
+    }
+    /**
      * @return {?}
      */
     getWeekdays() {
@@ -12635,7 +12655,7 @@ class NovoTimePickerInputElement {
     ngOnInit() {
         this.placeholder = this.military ? this.labels.timeFormatPlaceholder24Hour : this.labels.timeFormatPlaceholderAM;
         this.maskOptions = {
-            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP]/, /[mM]/],
+            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP上下]/, /[mM午]/],
             pipe: this.military ? createAutoCorrectedDatePipe('HH:MM') : createAutoCorrectedDatePipe('mm:MM'),
             keepCharPositions: false,
             guide: true,
@@ -12802,7 +12822,7 @@ class NovoTimePickerInputElement {
             return '';
         }
         /** @type {?} */
-        let format$$1 = this.labels.formatDateWithFormat(value, {
+        let format$$1 = this.labels.formatTimeWithFormat(value, {
             hour: '2-digit',
             minute: '2-digit',
             hour12: !this.military,
