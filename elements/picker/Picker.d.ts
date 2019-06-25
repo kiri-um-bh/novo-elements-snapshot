@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, ComponentRef, ElementRef, EventEmitter, OnInit, ViewContainerRef } from '@angular/core';
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
-import { NovoControlConfig } from '../form/FormControls';
 /**
  * @name Picker
  *
@@ -15,7 +14,7 @@ export declare class NovoPickerElement implements OnInit {
     private componentUtils;
     private ref;
     results: ViewContainerRef;
-    config: NovoControlConfig['config'];
+    config: any;
     placeholder: string;
     clearValueOnSelect: boolean;
     closeOnSelect: boolean;

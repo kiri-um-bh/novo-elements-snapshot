@@ -5,7 +5,6 @@ import { NovoToastService } from '../toast/ToastService';
 import { NovoModalService } from '../modal/ModalService';
 import { AppBridge } from '../../utils/app-bridge/AppBridge';
 import { NovoLabelService } from '../../services/novo-label-service';
-import { ModifyPickerConfigArgs, OptionsFunction } from './FieldInteractionApiTypes';
 export declare class FieldInteractionApi {
     private toaster;
     private modalService;
@@ -114,14 +113,6 @@ export declare class FieldInteractionApi {
         optionsPromise?: any;
         options?: any[];
     }, mapper?: any): void;
-    mutatePickerConfig(key: string, args: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown): void;
-    getOptionsConfig: (args: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown, filteredOptionsCreator?: (where: string) => (query: string) => Promise<unknown[]>, pickerConfigFormat?: string) => {
-        options: unknown[];
-    } | {
-        options: OptionsFunction;
-        format?: string;
-    };
-    createOptionsFunction: (config: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown, filteredOptionsCreator?: (where?: string) => (query: string, page?: number) => Promise<unknown[]>) => (query: string) => Promise<unknown[]>;
     setLoading(key: string, loading: boolean): void;
     addControl(key: string, metaForNewField: any, position?: string, initialValue?: any): void;
     removeControl(key: string): void;
