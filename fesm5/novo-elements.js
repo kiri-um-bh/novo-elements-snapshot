@@ -20,7 +20,7 @@ import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
-import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, addDays, addWeeks, startOfWeek, endOfWeek, startOfDay, startOfToday, endOfToday, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
+import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { __extends, __values, __assign, __spread, __read } from 'tslib';
@@ -2228,31 +2228,6 @@ var NovoLabelService = /** @class */ (function () {
             return value;
         }
         return new Intl.DateTimeFormat(this.userLocale, format$$1).format(date);
-    };
-    /**
-     * @param {?} value
-     * @param {?} format
-     * @return {?}
-     */
-    NovoLabelService.prototype.formatTimeWithFormat = /**
-     * @param {?} value
-     * @param {?} format
-     * @return {?}
-     */
-    function (value, format$$1) {
-        /** @type {?} */
-        var date = value instanceof Date ? value : new Date(value);
-        if (date.getTime() !== date.getTime()) {
-            return value;
-        }
-        /** @type {?} */
-        var timeParts = Intl.DateTimeFormat(this.userLocale, format$$1).formatToParts(date).reduce(function (obj, part) {
-            obj[part.type] = part.value;
-            return obj;
-        }, {});
-        /** @type {?} */
-        var dayperiod = timeParts.dayperiod ? timeParts.dayperiod : '';
-        return timeParts.hour + ":" + timeParts.minute + dayperiod;
     };
     /**
      * @return {?}
@@ -14482,7 +14457,7 @@ var NovoTimePickerInputElement = /** @class */ (function () {
     function () {
         this.placeholder = this.military ? this.labels.timeFormatPlaceholder24Hour : this.labels.timeFormatPlaceholderAM;
         this.maskOptions = {
-            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP上下]/, /[mM午]/],
+            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP]/, /[mM]/],
             pipe: this.military ? createAutoCorrectedDatePipe('HH:MM') : createAutoCorrectedDatePipe('mm:MM'),
             keepCharPositions: false,
             guide: true,
@@ -14727,7 +14702,7 @@ var NovoTimePickerInputElement = /** @class */ (function () {
             return '';
         }
         /** @type {?} */
-        var format$$1 = this.labels.formatTimeWithFormat(value, {
+        var format$$1 = this.labels.formatDateWithFormat(value, {
             hour: '2-digit',
             minute: '2-digit',
             hour12: !this.military,
