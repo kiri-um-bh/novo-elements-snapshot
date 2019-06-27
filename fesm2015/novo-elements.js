@@ -17006,11 +17006,11 @@ class FieldInteractionApi {
         /** @type {?} */
         let control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
-            const { minSearchLength, enableInfiniteScroll, filteredOptionsCreator, format: format$$1 } = control.config;
+            const { minSearchLength, enableInfiniteScroll, filteredOptionsCreator, format: format$$1, getLabels } = control.config;
             /** @type {?} */
             const optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format$$1);
             /** @type {?} */
-            const newConfig = Object.assign({}, (Number.isInteger(minSearchLength) && { minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
+            const newConfig = Object.assign({}, (Number.isInteger(minSearchLength) && { minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator }), (getLabels && { getLabels }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
             this.setProperty(key, 'config', newConfig);
             this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args });
         }
