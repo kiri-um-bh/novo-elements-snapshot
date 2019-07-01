@@ -3,6 +3,7 @@ declare type OptionsFunctionConfig = {
     format?: string;
 } & ({
     where: string;
+    emptyPickerMessage?: string;
 } | {
     optionsPromise: (query: string, http: CustomHttp) => Promise<unknown[]>;
 } | {

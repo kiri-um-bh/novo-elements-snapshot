@@ -19066,7 +19066,7 @@
                 if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
                     /** @type {?} */
                     var format = ('format' in args && args.format) || pickerConfigFormat;
-                    return __assign({ options: _this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, (format && { format: format }));
+                    return __assign({ options: _this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, ('emptyPickerMessage' in args && { emptyPickerMessage: args.emptyPickerMessage }), (format && { format: format }));
                 }
                 else if ('options' in args && Array.isArray(args.options)) {
                     return {

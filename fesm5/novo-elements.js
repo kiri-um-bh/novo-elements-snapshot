@@ -20,7 +20,7 @@ import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
-import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
+import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, addDays, addWeeks, startOfWeek, endOfWeek, startOfDay, startOfToday, endOfToday, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { __extends, __values, __assign, __spread, __read } from 'tslib';
@@ -18798,7 +18798,7 @@ var FieldInteractionApi = /** @class */ (function () {
             if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
                 /** @type {?} */
                 var format$$1 = ('format' in args && args.format) || pickerConfigFormat;
-                return __assign({ options: _this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, (format$$1 && { format: format$$1 }));
+                return __assign({ options: _this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, ('emptyPickerMessage' in args && { emptyPickerMessage: args.emptyPickerMessage }), (format$$1 && { format: format$$1 }));
             }
             else if ('options' in args && Array.isArray(args.options)) {
                 return {

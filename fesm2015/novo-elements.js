@@ -16348,7 +16348,7 @@ class FieldInteractionApi {
             if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
                 /** @type {?} */
                 const format$$1 = ('format' in args && args.format) || pickerConfigFormat;
-                return Object.assign({ options: this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, (format$$1 && { format: format$$1 }));
+                return Object.assign({ options: this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, ('emptyPickerMessage' in args && { emptyPickerMessage: args.emptyPickerMessage }), (format$$1 && { format: format$$1 }));
             }
             else if ('options' in args && Array.isArray(args.options)) {
                 return {
