@@ -40,6 +40,7 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges {
     onRemove: EventEmitter<any>;
     onEdit: EventEmitter<any>;
     onAdd: EventEmitter<any>;
+    change: EventEmitter<any>;
     controlLabels: {
         value: string;
         width: number;
@@ -51,10 +52,11 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges {
         edit: boolean;
         remove: boolean;
     }[];
-    private currentIndex;
+    currentIndex: number;
     constructor(formUtils: FormUtils, fb: FormBuilder, ref: ChangeDetectorRef, labels: NovoLabelService);
     ngAfterContentInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
+    onChange(change: any): void;
     resetAddRemove(): void;
     addNewControl(value?: {}): void;
     buildControl(value?: {}): NovoFormGroup;
