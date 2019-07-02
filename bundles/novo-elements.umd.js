@@ -2313,31 +2313,6 @@
                 return new Intl.DateTimeFormat(this.userLocale, format).format(date);
             };
         /**
-         * @param {?} value
-         * @param {?} format
-         * @return {?}
-         */
-        NovoLabelService.prototype.formatTimeWithFormat = /**
-         * @param {?} value
-         * @param {?} format
-         * @return {?}
-         */
-            function (value, format) {
-                /** @type {?} */
-                var date = value instanceof Date ? value : new Date(value);
-                if (date.getTime() !== date.getTime()) {
-                    return value;
-                }
-                /** @type {?} */
-                var timeParts = Intl.DateTimeFormat(this.userLocale, format).formatToParts(date).reduce(function (obj, part) {
-                    obj[part.type] = part.value;
-                    return obj;
-                }, {});
-                /** @type {?} */
-                var dayperiod = timeParts.dayperiod ? timeParts.dayperiod : '';
-                return timeParts.hour + ":" + timeParts.minute + dayperiod;
-            };
-        /**
          * @return {?}
          */
         NovoLabelService.prototype.getWeekdays = /**
@@ -14711,7 +14686,7 @@
             function () {
                 this.placeholder = this.military ? this.labels.timeFormatPlaceholder24Hour : this.labels.timeFormatPlaceholderAM;
                 this.maskOptions = {
-                    mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP上下]/, /[mM午]/],
+                    mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP]/, /[mM]/],
                     pipe: this.military ? createAutoCorrectedDatePipe('HH:MM') : createAutoCorrectedDatePipe('mm:MM'),
                     keepCharPositions: false,
                     guide: true,
@@ -14957,7 +14932,7 @@
                     return '';
                 }
                 /** @type {?} */
-                var format = this.labels.formatTimeWithFormat(value, {
+                var format = this.labels.formatDateWithFormat(value, {
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: !this.military,
@@ -19066,7 +19041,7 @@
                 if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
                     /** @type {?} */
                     var format = ('format' in args && args.format) || pickerConfigFormat;
-                    return __assign({ options: _this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, ('emptyPickerMessage' in args && { emptyPickerMessage: args.emptyPickerMessage }), (format && { format: format }));
+                    return __assign({ options: _this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, (format && { format: format }));
                 }
                 else if ('options' in args && Array.isArray(args.options)) {
                     return {
@@ -19931,11 +19906,11 @@
                 /** @type {?} */
                 var control = this.getControl(key);
                 if (control && !control.restrictFieldInteractions) {
-                    var _a = control.config, minSearchLength = _a.minSearchLength, enableInfiniteScroll = _a.enableInfiniteScroll, filteredOptionsCreator = _a.filteredOptionsCreator, format = _a.format, getLabels = _a.getLabels;
+                    var _a = control.config, minSearchLength = _a.minSearchLength, enableInfiniteScroll = _a.enableInfiniteScroll, filteredOptionsCreator = _a.filteredOptionsCreator, format = _a.format;
                     /** @type {?} */
                     var optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format);
                     /** @type {?} */
-                    var newConfig = __assign({}, (Number.isInteger(minSearchLength) && { minSearchLength: minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll: enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator: filteredOptionsCreator }), (getLabels && { getLabels: getLabels }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
+                    var newConfig = __assign({}, (Number.isInteger(minSearchLength) && { minSearchLength: minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll: enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator: filteredOptionsCreator }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
                     this.setProperty(key, 'config', newConfig);
                     this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args });
                 }

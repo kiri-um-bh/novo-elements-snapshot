@@ -1922,26 +1922,6 @@ class NovoLabelService {
         return new Intl.DateTimeFormat(this.userLocale, format$$1).format(date);
     }
     /**
-     * @param {?} value
-     * @param {?} format
-     * @return {?}
-     */
-    formatTimeWithFormat(value, format$$1) {
-        /** @type {?} */
-        let date = value instanceof Date ? value : new Date(value);
-        if (date.getTime() !== date.getTime()) {
-            return value;
-        }
-        /** @type {?} */
-        let timeParts = Intl.DateTimeFormat(this.userLocale, format$$1).formatToParts(date).reduce((obj, part) => {
-            obj[part.type] = part.value;
-            return obj;
-        }, {});
-        /** @type {?} */
-        const dayperiod = timeParts.dayperiod ? timeParts.dayperiod : '';
-        return `${timeParts.hour}:${timeParts.minute}${dayperiod}`;
-    }
-    /**
      * @return {?}
      */
     getWeekdays() {
@@ -12655,7 +12635,7 @@ class NovoTimePickerInputElement {
     ngOnInit() {
         this.placeholder = this.military ? this.labels.timeFormatPlaceholder24Hour : this.labels.timeFormatPlaceholderAM;
         this.maskOptions = {
-            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP上下]/, /[mM午]/],
+            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP]/, /[mM]/],
             pipe: this.military ? createAutoCorrectedDatePipe('HH:MM') : createAutoCorrectedDatePipe('mm:MM'),
             keepCharPositions: false,
             guide: true,
@@ -12822,7 +12802,7 @@ class NovoTimePickerInputElement {
             return '';
         }
         /** @type {?} */
-        let format$$1 = this.labels.formatTimeWithFormat(value, {
+        let format$$1 = this.labels.formatDateWithFormat(value, {
             hour: '2-digit',
             minute: '2-digit',
             hour12: !this.military,
@@ -16348,7 +16328,7 @@ class FieldInteractionApi {
             if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
                 /** @type {?} */
                 const format$$1 = ('format' in args && args.format) || pickerConfigFormat;
-                return Object.assign({ options: this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, ('emptyPickerMessage' in args && { emptyPickerMessage: args.emptyPickerMessage }), (format$$1 && { format: format$$1 }));
+                return Object.assign({ options: this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, (format$$1 && { format: format$$1 }));
             }
             else if ('options' in args && Array.isArray(args.options)) {
                 return {
@@ -17006,11 +16986,11 @@ class FieldInteractionApi {
         /** @type {?} */
         let control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
-            const { minSearchLength, enableInfiniteScroll, filteredOptionsCreator, format: format$$1, getLabels } = control.config;
+            const { minSearchLength, enableInfiniteScroll, filteredOptionsCreator, format: format$$1 } = control.config;
             /** @type {?} */
             const optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format$$1);
             /** @type {?} */
-            const newConfig = Object.assign({}, (Number.isInteger(minSearchLength) && { minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator }), (getLabels && { getLabels }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
+            const newConfig = Object.assign({}, (Number.isInteger(minSearchLength) && { minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
             this.setProperty(key, 'config', newConfig);
             this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args });
         }
