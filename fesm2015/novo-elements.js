@@ -43024,6 +43024,14 @@ class DataTableSource extends DataSource {
         this.loading = false;
         this.pristine = true;
         this.totalSet = false;
+        this.connectSub = this.connect().subscribe(() => {
+            if (!this.totalSet || this.currentTotal > this.total) {
+                this.total = this.currentTotal;
+                this.totalSet = true;
+            }
+            this.loading = false;
+            this.ref.markForCheck();
+        });
     }
     /**
      * @return {?}
@@ -43040,17 +43048,24 @@ class DataTableSource extends DataSource {
     /**
      * @return {?}
      */
+    ngOnDestroy() {
+        this.connectSub.unsubscribe();
+    }
+    /**
+     * @return {?}
+     */
     connect() {
         /** @type {?} */
         const displayDataChanges = [this.state.updates];
         return merge(...displayDataChanges).pipe(startWith(null), switchMap(() => {
             this.pristine = false;
-            this.loading = true;
+            if (this.state.isForceRefresh || this.total === 0) {
+                this.loading = true;
+            }
             return this.tableService.getTableResults(this.state.sort, this.state.filter, this.state.page, this.state.pageSize, this.state.globalSearch, this.state.outsideFilter);
         }), map((data) => {
-            if (!this.totalSet || this.state.isForceRefresh) {
-                this.total = data.total;
-                this.totalSet = true;
+            if (this.state.isForceRefresh) {
+                this.totalSet = false;
                 this.state.isForceRefresh = false;
             }
             this.currentTotal = data.total;
@@ -43063,15 +43078,12 @@ class DataTableSource extends DataSource {
             setTimeout(() => {
                 this.ref.markForCheck();
                 setTimeout(() => {
-                    this.loading = false;
                     this.state.dataLoaded.next();
-                    this.ref.markForCheck();
                 });
             });
             return data.results;
         }), catchError((err, caught) => {
             console.error(err, caught); // tslint: disable-line
-            this.loading = false;
             return of(null);
         }));
     }
