@@ -2230,31 +2230,6 @@ var NovoLabelService = /** @class */ (function () {
         return new Intl.DateTimeFormat(this.userLocale, format$$1).format(date);
     };
     /**
-     * @param {?} value
-     * @param {?} format
-     * @return {?}
-     */
-    NovoLabelService.prototype.formatTimeWithFormat = /**
-     * @param {?} value
-     * @param {?} format
-     * @return {?}
-     */
-    function (value, format$$1) {
-        /** @type {?} */
-        var date = value instanceof Date ? value : new Date(value);
-        if (date.getTime() !== date.getTime()) {
-            return value;
-        }
-        /** @type {?} */
-        var timeParts = Intl.DateTimeFormat(this.userLocale, format$$1).formatToParts(date).reduce(function (obj, part) {
-            obj[part.type] = part.value;
-            return obj;
-        }, {});
-        /** @type {?} */
-        var dayperiod = timeParts.dayperiod ? timeParts.dayperiod : '';
-        return timeParts.hour + ":" + timeParts.minute + dayperiod;
-    };
-    /**
      * @return {?}
      */
     NovoLabelService.prototype.getWeekdays = /**
@@ -14482,7 +14457,7 @@ var NovoTimePickerInputElement = /** @class */ (function () {
     function () {
         this.placeholder = this.military ? this.labels.timeFormatPlaceholder24Hour : this.labels.timeFormatPlaceholderAM;
         this.maskOptions = {
-            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP上下]/, /[mM午]/],
+            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP]/, /[mM]/],
             pipe: this.military ? createAutoCorrectedDatePipe('HH:MM') : createAutoCorrectedDatePipe('mm:MM'),
             keepCharPositions: false,
             guide: true,
@@ -14727,7 +14702,7 @@ var NovoTimePickerInputElement = /** @class */ (function () {
             return '';
         }
         /** @type {?} */
-        var format$$1 = this.labels.formatTimeWithFormat(value, {
+        var format$$1 = this.labels.formatDateWithFormat(value, {
             hour: '2-digit',
             minute: '2-digit',
             hour12: !this.military,
@@ -18798,7 +18773,7 @@ var FieldInteractionApi = /** @class */ (function () {
             if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
                 /** @type {?} */
                 var format$$1 = ('format' in args && args.format) || pickerConfigFormat;
-                return __assign({ options: _this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, ('emptyPickerMessage' in args && { emptyPickerMessage: args.emptyPickerMessage }), (format$$1 && { format: format$$1 }));
+                return __assign({ options: _this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, (format$$1 && { format: format$$1 }));
             }
             else if ('options' in args && Array.isArray(args.options)) {
                 return {
@@ -19672,11 +19647,11 @@ var FieldInteractionApi = /** @class */ (function () {
         /** @type {?} */
         var control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
-            var _a = control.config, minSearchLength = _a.minSearchLength, enableInfiniteScroll = _a.enableInfiniteScroll, filteredOptionsCreator = _a.filteredOptionsCreator, format$$1 = _a.format, getLabels = _a.getLabels;
+            var _a = control.config, minSearchLength = _a.minSearchLength, enableInfiniteScroll = _a.enableInfiniteScroll, filteredOptionsCreator = _a.filteredOptionsCreator, format$$1 = _a.format;
             /** @type {?} */
             var optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format$$1);
             /** @type {?} */
-            var newConfig = __assign({}, (Number.isInteger(minSearchLength) && { minSearchLength: minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll: enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator: filteredOptionsCreator }), (getLabels && { getLabels: getLabels }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
+            var newConfig = __assign({}, (Number.isInteger(minSearchLength) && { minSearchLength: minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll: enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator: filteredOptionsCreator }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
             this.setProperty(key, 'config', newConfig);
             this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args });
         }
@@ -47251,14 +47226,6 @@ DataTableSource = /** @class */ (function (_super) {
         _this.loading = false;
         _this.pristine = true;
         _this.totalSet = false;
-        _this.connectSub = _this.connect().subscribe(function () {
-            if (!_this.totalSet || _this.currentTotal > _this.total) {
-                _this.total = _this.currentTotal;
-                _this.totalSet = true;
-            }
-            _this.loading = false;
-            _this.ref.markForCheck();
-        });
         return _this;
     }
     Object.defineProperty(DataTableSource.prototype, "totallyEmpty", {
@@ -47284,15 +47251,6 @@ DataTableSource = /** @class */ (function (_super) {
     /**
      * @return {?}
      */
-    DataTableSource.prototype.ngOnDestroy = /**
-     * @return {?}
-     */
-    function () {
-        this.connectSub.unsubscribe();
-    };
-    /**
-     * @return {?}
-     */
     DataTableSource.prototype.connect = /**
      * @return {?}
      */
@@ -47302,13 +47260,12 @@ DataTableSource = /** @class */ (function (_super) {
         var displayDataChanges = [this.state.updates];
         return merge.apply(void 0, __spread(displayDataChanges)).pipe(startWith(null), switchMap(function () {
             _this.pristine = false;
-            if (_this.state.isForceRefresh || _this.total === 0) {
-                _this.loading = true;
-            }
+            _this.loading = true;
             return _this.tableService.getTableResults(_this.state.sort, _this.state.filter, _this.state.page, _this.state.pageSize, _this.state.globalSearch, _this.state.outsideFilter);
         }), map(function (data) {
-            if (_this.state.isForceRefresh) {
-                _this.totalSet = false;
+            if (!_this.totalSet || _this.state.isForceRefresh) {
+                _this.total = data.total;
+                _this.totalSet = true;
                 _this.state.isForceRefresh = false;
             }
             _this.currentTotal = data.total;
@@ -47321,12 +47278,15 @@ DataTableSource = /** @class */ (function (_super) {
             setTimeout(function () {
                 _this.ref.markForCheck();
                 setTimeout(function () {
+                    _this.loading = false;
                     _this.state.dataLoaded.next();
+                    _this.ref.markForCheck();
                 });
             });
             return data.results;
         }), catchError(function (err, caught) {
             console.error(err, caught); // tslint: disable-line
+            _this.loading = false;
             return of(null);
         }));
     };
