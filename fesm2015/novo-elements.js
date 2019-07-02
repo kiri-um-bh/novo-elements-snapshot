@@ -17339,11 +17339,11 @@ class NovoControlElement extends OutsideClick {
      */
     get showCount() {
         /** @type {?} */
-        let charCount = (this.form.controls[this.control.key].maxlength &&
-            this.focused &&
-            (this.form.controls[this.control.key].controlType === 'text-area' ||
-                this.form.controls[this.control.key].controlType === 'textbox')) ||
-            (this.form.controls[this.control.key].maxlength && this.form.controls[this.control.key].controlType === 'picker');
+        const MAX_LENGTH_CONTROL_TYPES = ['textbox', 'picker', 'text-area'];
+        /** @type {?} */
+        let charCount = this.focused &&
+            !!this.form.controls[this.control.key].maxlength &&
+            MAX_LENGTH_CONTROL_TYPES.includes(this.form.controls[this.control.key].controlType);
         return this._showCount || charCount;
     }
     /**

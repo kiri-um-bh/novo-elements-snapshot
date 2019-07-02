@@ -20330,11 +20330,11 @@
              * @return {?}
              */ function () {
                 /** @type {?} */
-                var charCount = (this.form.controls[this.control.key].maxlength &&
-                    this.focused &&
-                    (this.form.controls[this.control.key].controlType === 'text-area' ||
-                        this.form.controls[this.control.key].controlType === 'textbox')) ||
-                    (this.form.controls[this.control.key].maxlength && this.form.controls[this.control.key].controlType === 'picker');
+                var MAX_LENGTH_CONTROL_TYPES = ['textbox', 'picker', 'text-area'];
+                /** @type {?} */
+                var charCount = this.focused &&
+                    !!this.form.controls[this.control.key].maxlength &&
+                    MAX_LENGTH_CONTROL_TYPES.includes(this.form.controls[this.control.key].controlType);
                 return this._showCount || charCount;
             },
             set: /**
