@@ -49347,7 +49347,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
         filterTemplate: [{ type: Input }],
         resizable: [{ type: HostBinding, args: ['class.resizable',] }],
         column: [{ type: Input, args: ['novo-data-table-cell-config',] }],
-        multiSelectOptionFilterHandleKeydown: [{ type: HostListener, args: ['document:keydown', ['$event'],] }]
+        multiSelectOptionFilterHandleKeydown: [{ type: HostListener, args: ['keydown', ['$event'],] }]
     };
     return NovoDataTableCellHeader;
 }());

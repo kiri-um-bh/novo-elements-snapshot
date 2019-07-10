@@ -49713,7 +49713,7 @@
             filterTemplate: [{ type: core.Input }],
             resizable: [{ type: core.HostBinding, args: ['class.resizable',] }],
             column: [{ type: core.Input, args: ['novo-data-table-cell-config',] }],
-            multiSelectOptionFilterHandleKeydown: [{ type: core.HostListener, args: ['document:keydown', ['$event'],] }]
+            multiSelectOptionFilterHandleKeydown: [{ type: core.HostListener, args: ['keydown', ['$event'],] }]
         };
         return NovoDataTableCellHeader;
     }());
