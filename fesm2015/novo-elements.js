@@ -43059,9 +43059,7 @@ class DataTableSource extends DataSource {
         const displayDataChanges = [this.state.updates];
         return merge(...displayDataChanges).pipe(startWith(null), switchMap(() => {
             this.pristine = false;
-            if (this.state.isForceRefresh || this.total === 0) {
-                this.loading = true;
-            }
+            this.loading = true;
             return this.tableService.getTableResults(this.state.sort, this.state.filter, this.state.page, this.state.pageSize, this.state.globalSearch, this.state.outsideFilter);
         }), map((data) => {
             if (this.state.isForceRefresh) {
@@ -43078,11 +43076,13 @@ class DataTableSource extends DataSource {
             setTimeout(() => {
                 this.ref.markForCheck();
                 setTimeout(() => {
+                    this.loading = false;
                     this.state.dataLoaded.next();
                 });
             });
             return data.results;
         }), catchError((err, caught) => {
+            this.loading = false;
             console.error(err, caught); // tslint: disable-line
             return of(null);
         }));
