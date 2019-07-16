@@ -7227,6 +7227,13 @@
          * @return {?}
          */
             function (match) {
+                if (this.config.preselected) {
+                    /** @type {?} */
+                    var preselectedFunc_1 = this.config.preselected;
+                    return (this.selected.findIndex(function (item) {
+                        return preselectedFunc_1(match, item);
+                    }) !== -1);
+                }
                 return (this.selected.findIndex(function (item) {
                     /** @type {?} */
                     var isPreselected = false;
