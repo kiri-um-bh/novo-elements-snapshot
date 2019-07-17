@@ -5,5 +5,7 @@ export declare class PickerResults extends BasePickerResults {
     labels: NovoLabelService;
     constructor(element: ElementRef, labels: NovoLabelService, ref: ChangeDetectorRef);
     readonly hasNonErrorMessage: boolean;
+    getEmptyMessage(): any;
+    shouldShowMessageForZeroLengthSearch(): any;
     getListElement(): any;
 }
