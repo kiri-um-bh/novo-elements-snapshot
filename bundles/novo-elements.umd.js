@@ -47715,7 +47715,7 @@
                 var displayDataChanges = [this.state.updates];
                 return rxjs.merge.apply(void 0, __spread(displayDataChanges)).pipe(operators.startWith(null), operators.switchMap(function () {
                     _this.pristine = false;
-                    if (_this.state.isForceRefresh || _this.total === 0) {
+                    if (_this.state.isForceRefresh) {
                         _this.loading = true;
                     }
                     return _this.tableService.getTableResults(_this.state.sort, _this.state.filter, _this.state.page, _this.state.pageSize, _this.state.globalSearch, _this.state.outsideFilter);

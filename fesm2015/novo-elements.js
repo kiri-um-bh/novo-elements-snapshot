@@ -43099,7 +43099,7 @@ class DataTableSource extends DataSource {
         const displayDataChanges = [this.state.updates];
         return merge(...displayDataChanges).pipe(startWith(null), switchMap(() => {
             this.pristine = false;
-            if (this.state.isForceRefresh || this.total === 0) {
+            if (this.state.isForceRefresh) {
                 this.loading = true;
             }
             return this.tableService.getTableResults(this.state.sort, this.state.filter, this.state.page, this.state.pageSize, this.state.globalSearch, this.state.outsideFilter);
