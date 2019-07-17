@@ -115,6 +115,9 @@ export declare class FieldInteractionApi {
         options?: any[];
     }, mapper?: any): void;
     mutatePickerConfig(key: string, args: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown): void;
+    addPropertiesToPickerConfig(key: string, properties: {
+        [key: string]: unknown;
+    }): void;
     getOptionsConfig: (args: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown, filteredOptionsCreator?: (where: string) => (query: string) => Promise<unknown[]>, pickerConfigFormat?: string) => {
         options: unknown[];
     } | {
