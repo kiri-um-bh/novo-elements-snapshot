@@ -20,7 +20,7 @@ import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
-import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
+import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, addDays, addWeeks, startOfWeek, endOfWeek, startOfDay, startOfToday, endOfToday, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { __extends, __values, __assign, __spread, __read } from 'tslib';
@@ -47303,14 +47303,6 @@ DataTableSource = /** @class */ (function (_super) {
         _this.loading = false;
         _this.pristine = true;
         _this.totalSet = false;
-        _this.connectSub = _this.connect().subscribe(function () {
-            if (!_this.totalSet || _this.currentTotal > _this.total) {
-                _this.total = _this.currentTotal;
-                _this.totalSet = true;
-            }
-            _this.loading = false;
-            _this.ref.markForCheck();
-        });
         return _this;
     }
     Object.defineProperty(DataTableSource.prototype, "totallyEmpty", {
@@ -47336,15 +47328,6 @@ DataTableSource = /** @class */ (function (_super) {
     /**
      * @return {?}
      */
-    DataTableSource.prototype.ngOnDestroy = /**
-     * @return {?}
-     */
-    function () {
-        this.connectSub.unsubscribe();
-    };
-    /**
-     * @return {?}
-     */
     DataTableSource.prototype.connect = /**
      * @return {?}
      */
@@ -47354,13 +47337,12 @@ DataTableSource = /** @class */ (function (_super) {
         var displayDataChanges = [this.state.updates];
         return merge.apply(void 0, __spread(displayDataChanges)).pipe(startWith(null), switchMap(function () {
             _this.pristine = false;
-            if (_this.state.isForceRefresh || _this.total === 0) {
-                _this.loading = true;
-            }
+            _this.loading = true;
             return _this.tableService.getTableResults(_this.state.sort, _this.state.filter, _this.state.page, _this.state.pageSize, _this.state.globalSearch, _this.state.outsideFilter);
         }), map(function (data) {
-            if (_this.state.isForceRefresh) {
-                _this.totalSet = false;
+            if (!_this.totalSet || _this.state.isForceRefresh) {
+                _this.total = data.total;
+                _this.totalSet = true;
                 _this.state.isForceRefresh = false;
             }
             _this.currentTotal = data.total;
@@ -47373,12 +47355,15 @@ DataTableSource = /** @class */ (function (_super) {
             setTimeout(function () {
                 _this.ref.markForCheck();
                 setTimeout(function () {
+                    _this.loading = false;
                     _this.state.dataLoaded.next();
+                    _this.ref.markForCheck();
                 });
             });
             return data.results;
         }), catchError(function (err, caught) {
             console.error(err, caught); // tslint: disable-line
+            _this.loading = false;
             return of(null);
         }));
     };

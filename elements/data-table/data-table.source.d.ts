@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs';
 import { DataTableState } from './state/data-table-state.service';
 import { IDataTableService } from './interfaces';
-export declare class DataTableSource<T> extends DataSource<T> implements OnDestroy {
+export declare class DataTableSource<T> extends DataSource<T> {
     private tableService;
     private state;
     private ref;
@@ -13,12 +13,10 @@ export declare class DataTableSource<T> extends DataSource<T> implements OnDestr
     loading: boolean;
     pristine: boolean;
     data: T[];
-    private connectSub;
     private totalSet;
     readonly totallyEmpty: boolean;
     readonly currentlyEmpty: boolean;
     constructor(tableService: IDataTableService<T>, state: DataTableState<T>, ref: ChangeDetectorRef);
-    ngOnDestroy(): void;
     connect(): Observable<any>;
     disconnect(): void;
 }

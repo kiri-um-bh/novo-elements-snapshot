@@ -47666,14 +47666,6 @@
             _this.loading = false;
             _this.pristine = true;
             _this.totalSet = false;
-            _this.connectSub = _this.connect().subscribe(function () {
-                if (!_this.totalSet || _this.currentTotal > _this.total) {
-                    _this.total = _this.currentTotal;
-                    _this.totalSet = true;
-                }
-                _this.loading = false;
-                _this.ref.markForCheck();
-            });
             return _this;
         }
         Object.defineProperty(DataTableSource.prototype, "totallyEmpty", {
@@ -47697,15 +47689,6 @@
         /**
          * @return {?}
          */
-        DataTableSource.prototype.ngOnDestroy = /**
-         * @return {?}
-         */
-            function () {
-                this.connectSub.unsubscribe();
-            };
-        /**
-         * @return {?}
-         */
         DataTableSource.prototype.connect = /**
          * @return {?}
          */
@@ -47715,13 +47698,12 @@
                 var displayDataChanges = [this.state.updates];
                 return rxjs.merge.apply(void 0, __spread(displayDataChanges)).pipe(operators.startWith(null), operators.switchMap(function () {
                     _this.pristine = false;
-                    if (_this.state.isForceRefresh || _this.total === 0) {
-                        _this.loading = true;
-                    }
+                    _this.loading = true;
                     return _this.tableService.getTableResults(_this.state.sort, _this.state.filter, _this.state.page, _this.state.pageSize, _this.state.globalSearch, _this.state.outsideFilter);
                 }), operators.map(function (data) {
-                    if (_this.state.isForceRefresh) {
-                        _this.totalSet = false;
+                    if (!_this.totalSet || _this.state.isForceRefresh) {
+                        _this.total = data.total;
+                        _this.totalSet = true;
                         _this.state.isForceRefresh = false;
                     }
                     _this.currentTotal = data.total;
@@ -47734,12 +47716,15 @@
                     setTimeout(function () {
                         _this.ref.markForCheck();
                         setTimeout(function () {
+                            _this.loading = false;
                             _this.state.dataLoaded.next();
+                            _this.ref.markForCheck();
                         });
                     });
                     return data.results;
                 }), operators.catchError(function (err, caught) {
                     console.error(err, caught); // tslint: disable-line
+                    _this.loading = false;
                     return rxjs.of(null);
                 }));
             };
