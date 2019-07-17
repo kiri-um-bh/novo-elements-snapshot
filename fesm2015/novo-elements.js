@@ -6249,6 +6249,24 @@ class PickerResults extends BasePickerResults {
     /**
      * @return {?}
      */
+    getEmptyMessage() {
+        if (this.shouldShowMessageForZeroLengthSearch()) {
+            // this property comes from Field Interactions
+            return this.config.emptyPickerMessage;
+        }
+        else {
+            return this.term === '' ? this.labels.pickerTextFieldEmpty : this.labels.pickerEmpty;
+        }
+    }
+    /**
+     * @return {?}
+     */
+    shouldShowMessageForZeroLengthSearch() {
+        return this.config && this.config.minSearchLength === 0 && this.term === '' && this.config.emptyPickerMessage;
+    }
+    /**
+     * @return {?}
+     */
     getListElement() {
         return this.element.nativeElement.querySelector('novo-list');
     }
@@ -6274,8 +6292,7 @@ PickerResults.decorators = [
     </novo-list>
     <div class="picker-loader" *ngIf="isLoading && matches.length === 0"><novo-loading theme="line"></novo-loading></div>
     <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
-    <p class="picker-null-results" *ngIf="hasNonErrorMessage && term !== ''">{{ labels.pickerEmpty }}</p>
-    <p class="picker-null-results" *ngIf="hasNonErrorMessage && term === ''">{{ labels.pickerTextFieldEmpty }}</p>
+    <p class="picker-null-results" *ngIf="hasNonErrorMessage">{{ getEmptyMessage() }}</p>
   `
             }] }
 ];
