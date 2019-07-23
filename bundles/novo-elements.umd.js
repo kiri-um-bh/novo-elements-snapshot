@@ -48796,6 +48796,9 @@
                 if (this.column.cellClass) {
                     this.renderer.addClass(this.elementRef.nativeElement, this.column.cellClass(this.row));
                 }
+                if (this.column.rightAlignCellContent) {
+                    this.renderer.addClass(this.elementRef.nativeElement, 'novo-data-table-cell-align-right');
+                }
                 this.calculateWidths();
                 this.subscriptions.push(this.resized.subscribe(function (column) {
                     if (column === _this.column) {
