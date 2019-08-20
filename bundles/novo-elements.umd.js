@@ -45674,11 +45674,14 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    var NovoStepHeader = /** @class */ (function () {
+    var NovoStepHeader = /** @class */ (function (_super) {
+        __extends(NovoStepHeader, _super);
         function NovoStepHeader(_focusMonitor, _element) {
-            this._focusMonitor = _focusMonitor;
-            this._element = _element;
+            var _this = _super.call(this, _element) || this;
+            _this._focusMonitor = _focusMonitor;
+            _this._element = _element;
             _focusMonitor.monitor(_element.nativeElement, true);
+            return _this;
         }
         Object.defineProperty(NovoStepHeader.prototype, "index", {
             /** Index of the given step. */
@@ -45837,7 +45840,7 @@
             optional: [{ type: core.Input }]
         };
         return NovoStepHeader;
-    }());
+    }(stepper.CdkStepHeader));
 
     /**
      * @fileoverview added by tsickle
@@ -55602,6 +55605,10 @@
     exports.NovoIconModule = NovoIconModule;
     exports.NovoExpansionModule = NovoExpansionModule;
     exports.NovoStepperModule = NovoStepperModule;
+    exports.NovoVerticalStepper = NovoVerticalStepper;
+    exports.NovoHorizontalStepper = NovoHorizontalStepper;
+    exports.NovoStep = NovoStep;
+    exports.NovoStepper = NovoStepper;
     exports.NovoTableExtrasModule = NovoTableExtrasModule;
     exports.NovoFormModule = NovoFormModule;
     exports.NovoDynamicFormElement = NovoDynamicFormElement;
@@ -55762,33 +55769,33 @@
     exports.ɵbd = NovoCalendarWeekViewElement;
     exports.ɵx = CardActionsElement;
     exports.ɵy = CardElement;
-    exports.ɵep = NovoCategoryDropdownElement;
+    exports.ɵel = NovoCategoryDropdownElement;
     exports.ɵct = NovoChipElement;
     exports.ɵcu = NovoChipsElement;
     exports.ɵcv = NovoRowChipElement;
     exports.ɵcw = NovoRowChipsElement;
     exports.ɵdd = NovoCKEditorElement;
-    exports.ɵfi = NovoDataTableCheckboxHeaderCell;
-    exports.ɵfk = NovoDataTableExpandHeaderCell;
-    exports.ɵez = NovoDataTableCellHeader;
-    exports.ɵfc = NovoDataTableHeaderCell;
-    exports.ɵfd = NovoDataTableCell;
-    exports.ɵfh = NovoDataTableCheckboxCell;
-    exports.ɵfj = NovoDataTableExpandCell;
-    exports.ɵfm = NovoDataTableClearButton;
-    exports.ɵfl = NovoDataTableExpandDirective;
-    exports.ɵex = DataTableBigDecimalRendererPipe;
-    exports.ɵes = DataTableInterpolatePipe;
-    exports.ɵey = DateTableCurrencyRendererPipe;
-    exports.ɵet = DateTableDateRendererPipe;
-    exports.ɵeu = DateTableDateTimeRendererPipe;
-    exports.ɵew = DateTableNumberRendererPipe;
-    exports.ɵev = DateTableTimeRendererPipe;
-    exports.ɵfg = NovoDataTablePagination;
-    exports.ɵfe = NovoDataTableHeaderRow;
-    exports.ɵff = NovoDataTableRow;
-    exports.ɵfb = NovoDataTableSortFilter;
-    exports.ɵfa = DataTableState;
+    exports.ɵfe = NovoDataTableCheckboxHeaderCell;
+    exports.ɵfg = NovoDataTableExpandHeaderCell;
+    exports.ɵev = NovoDataTableCellHeader;
+    exports.ɵey = NovoDataTableHeaderCell;
+    exports.ɵez = NovoDataTableCell;
+    exports.ɵfd = NovoDataTableCheckboxCell;
+    exports.ɵff = NovoDataTableExpandCell;
+    exports.ɵfi = NovoDataTableClearButton;
+    exports.ɵfh = NovoDataTableExpandDirective;
+    exports.ɵet = DataTableBigDecimalRendererPipe;
+    exports.ɵeo = DataTableInterpolatePipe;
+    exports.ɵeu = DateTableCurrencyRendererPipe;
+    exports.ɵep = DateTableDateRendererPipe;
+    exports.ɵeq = DateTableDateTimeRendererPipe;
+    exports.ɵes = DateTableNumberRendererPipe;
+    exports.ɵer = DateTableTimeRendererPipe;
+    exports.ɵfc = NovoDataTablePagination;
+    exports.ɵfa = NovoDataTableHeaderRow;
+    exports.ɵfb = NovoDataTableRow;
+    exports.ɵex = NovoDataTableSortFilter;
+    exports.ɵew = DataTableState;
     exports.ɵcx = NovoDatePickerInputElement;
     exports.ɵdb = NovoDateTimePickerElement;
     exports.ɵdc = NovoDateTimePickerInputElement;
@@ -55836,29 +55843,25 @@
     exports.ɵc = NovoModalContainerElement;
     exports.ɵd = NovoModalElement;
     exports.ɵe = NovoModalNotificationElement;
-    exports.ɵeq = NovoMultiPickerElement;
+    exports.ɵem = NovoMultiPickerElement;
     exports.ɵci = NovoOverlayTemplateComponent;
     exports.ɵch = NovoOverlayModule;
     exports.ɵcp = NovoPickerElement;
-    exports.ɵfu = PlacesListComponent;
-    exports.ɵft = GooglePlacesModule;
-    exports.ɵfs = PopOverDirective;
-    exports.ɵfq = NovoPopOverModule;
-    exports.ɵfr = PopOverContent;
+    exports.ɵfq = PlacesListComponent;
+    exports.ɵfp = GooglePlacesModule;
+    exports.ɵfo = PopOverDirective;
+    exports.ɵfm = NovoPopOverModule;
+    exports.ɵfn = PopOverContent;
     exports.ɵce = QuickNoteElement;
     exports.ɵcg = NovoRadioElement;
     exports.ɵcf = NovoRadioGroup;
     exports.ɵcq = NovoSearchBoxElement;
     exports.ɵcn = NovoSelectElement;
     exports.ɵcs = NovoSliderElement;
-    exports.ɵel = NovoStepHeader;
-    exports.ɵem = NovoStepLabel;
-    exports.ɵeo = NovoStepStatus;
-    exports.ɵen = novoStepperAnimations;
-    exports.ɵej = NovoHorizontalStepper;
-    exports.ɵeh = NovoStep;
-    exports.ɵei = NovoStepper;
-    exports.ɵek = NovoVerticalStepper;
+    exports.ɵeh = NovoStepHeader;
+    exports.ɵei = NovoStepLabel;
+    exports.ɵek = NovoStepStatus;
+    exports.ɵej = novoStepperAnimations;
     exports.ɵco = NovoSwitchElement;
     exports.ɵdq = NovoTableKeepFilterFocus;
     exports.ɵdr = Pagination;
@@ -55884,13 +55887,13 @@
     exports.ɵbr = NovoToastElement;
     exports.ɵw = NovoTooltip;
     exports.ɵv = TooltipDirective;
-    exports.ɵer = Unless;
+    exports.ɵen = Unless;
     exports.ɵdx = EntityList;
     exports.ɵm = NovoValueElement;
     exports.ɵcy = DateFormatService;
-    exports.ɵfo = BrowserGlobalRef;
-    exports.ɵfn = GlobalRef;
-    exports.ɵfp = LocalStorageService;
+    exports.ɵfk = BrowserGlobalRef;
+    exports.ɵfj = GlobalRef;
+    exports.ɵfl = LocalStorageService;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
