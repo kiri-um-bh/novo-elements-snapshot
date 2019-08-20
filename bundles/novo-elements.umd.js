@@ -19110,15 +19110,7 @@
             };
             this.createOptionsFunction = function (config, mapper, filteredOptionsCreator) {
                 return function (query, page) {
-                    if (filteredOptionsCreator) {
-                        if ('where' in config) {
-                            return filteredOptionsCreator(config.where)(query, page);
-                        }
-                        else {
-                            return filteredOptionsCreator()(query, page);
-                        }
-                    }
-                    else if ('optionsPromise' in config && config.optionsPromise) {
+                    if ('optionsPromise' in config && config.optionsPromise) {
                         return config.optionsPromise(query, new CustomHttpImpl(_this.http));
                     }
                     else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
@@ -19135,6 +19127,14 @@
                             }))
                                 .subscribe(resolve, reject);
                         });
+                    }
+                    else if (filteredOptionsCreator) {
+                        if ('where' in config) {
+                            return filteredOptionsCreator(config.where)(query, page);
+                        }
+                        else {
+                            return filteredOptionsCreator()(query, page);
+                        }
                     }
                 };
             };
