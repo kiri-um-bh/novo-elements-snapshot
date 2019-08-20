@@ -18841,15 +18841,7 @@ var FieldInteractionApi = /** @class */ (function () {
             }
         };
         this.createOptionsFunction = function (config, mapper, filteredOptionsCreator) { return function (query$$1, page) {
-            if (filteredOptionsCreator) {
-                if ('where' in config) {
-                    return filteredOptionsCreator(config.where)(query$$1, page);
-                }
-                else {
-                    return filteredOptionsCreator()(query$$1, page);
-                }
-            }
-            else if ('optionsPromise' in config && config.optionsPromise) {
+            if ('optionsPromise' in config && config.optionsPromise) {
                 return config.optionsPromise(query$$1, new CustomHttpImpl(_this.http));
             }
             else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
@@ -18866,6 +18858,14 @@ var FieldInteractionApi = /** @class */ (function () {
                     }))
                         .subscribe(resolve, reject);
                 });
+            }
+            else if (filteredOptionsCreator) {
+                if ('where' in config) {
+                    return filteredOptionsCreator(config.where)(query$$1, page);
+                }
+                else {
+                    return filteredOptionsCreator()(query$$1, page);
+                }
             }
         }; };
     }
