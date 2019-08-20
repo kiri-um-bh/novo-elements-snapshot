@@ -20,7 +20,7 @@ import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
-import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
+import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
@@ -14445,7 +14445,7 @@ class BaseControl extends ControlConfig {
         this.metaType = config.metaType;
         this.placeholder = config.placeholder || '';
         this.config = config.config || null;
-        this.dirty = !!(config.value !== undefined && config.value !== null);
+        this.dirty = !!config.value;
         this.multiple = !!config.multiple;
         this.headerConfig = config.headerConfig || null;
         this.currencyFormat = config.currencyFormat || null;
@@ -16384,15 +16384,7 @@ class FieldInteractionApi {
             }
         };
         this.createOptionsFunction = (config, mapper, filteredOptionsCreator) => (query$$1, page) => {
-            if (filteredOptionsCreator) {
-                if ('where' in config) {
-                    return filteredOptionsCreator(config.where)(query$$1, page);
-                }
-                else {
-                    return filteredOptionsCreator()(query$$1, page);
-                }
-            }
-            else if ('optionsPromise' in config && config.optionsPromise) {
+            if ('optionsPromise' in config && config.optionsPromise) {
                 return config.optionsPromise(query$$1, new CustomHttpImpl(this.http));
             }
             else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
@@ -16409,6 +16401,14 @@ class FieldInteractionApi {
                     }))
                         .subscribe(resolve, reject);
                 });
+            }
+            else if (filteredOptionsCreator) {
+                if ('where' in config) {
+                    return filteredOptionsCreator(config.where)(query$$1, page);
+                }
+                else {
+                    return filteredOptionsCreator()(query$$1, page);
+                }
             }
         };
     }
@@ -44198,9 +44198,6 @@ class NovoDataTableCell extends CdkCell {
     ngOnInit() {
         if (this.column.cellClass) {
             this.renderer.addClass(this.elementRef.nativeElement, this.column.cellClass(this.row));
-        }
-        if (this.column.rightAlignCellContent) {
-            this.renderer.addClass(this.elementRef.nativeElement, 'novo-data-table-cell-align-right');
         }
         this.calculateWidths();
         this.subscriptions.push(this.resized.subscribe((column) => {

@@ -16868,7 +16868,7 @@
             _this.metaType = config.metaType;
             _this.placeholder = config.placeholder || '';
             _this.config = config.config || null;
-            _this.dirty = !!(config.value !== undefined && config.value !== null);
+            _this.dirty = !!config.value;
             _this.multiple = !!config.multiple;
             _this.headerConfig = config.headerConfig || null;
             _this.currencyFormat = config.currencyFormat || null;
@@ -19110,15 +19110,7 @@
             };
             this.createOptionsFunction = function (config, mapper, filteredOptionsCreator) {
                 return function (query, page) {
-                    if (filteredOptionsCreator) {
-                        if ('where' in config) {
-                            return filteredOptionsCreator(config.where)(query, page);
-                        }
-                        else {
-                            return filteredOptionsCreator()(query, page);
-                        }
-                    }
-                    else if ('optionsPromise' in config && config.optionsPromise) {
+                    if ('optionsPromise' in config && config.optionsPromise) {
                         return config.optionsPromise(query, new CustomHttpImpl(_this.http));
                     }
                     else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
@@ -19135,6 +19127,14 @@
                             }))
                                 .subscribe(resolve, reject);
                         });
+                    }
+                    else if (filteredOptionsCreator) {
+                        if ('where' in config) {
+                            return filteredOptionsCreator(config.where)(query, page);
+                        }
+                        else {
+                            return filteredOptionsCreator()(query, page);
+                        }
                     }
                 };
             };
@@ -48795,9 +48795,6 @@
                 var _this = this;
                 if (this.column.cellClass) {
                     this.renderer.addClass(this.elementRef.nativeElement, this.column.cellClass(this.row));
-                }
-                if (this.column.rightAlignCellContent) {
-                    this.renderer.addClass(this.elementRef.nativeElement, 'novo-data-table-cell-align-right');
                 }
                 this.calculateWidths();
                 this.subscriptions.push(this.resized.subscribe(function (column) {
