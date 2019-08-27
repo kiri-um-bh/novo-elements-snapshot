@@ -2112,6 +2112,7 @@
             this.pickerError = 'Oops! An error occurred.';
             this.pickerTextFieldEmpty = 'Begin typing to see results.';
             this.pickerEmpty = 'No results to display...';
+            this.tabbedGroupPickerEmpty = 'No results found';
             this.quickNoteError = 'Oops! An error occurred.';
             this.quickNoteEmpty = 'No results to display...';
             this.required = 'Required';
@@ -2293,6 +2294,17 @@
                     select = false;
                 }
                 return select ? "Select all " + total + " records." : "De-select remaining " + total + " records.";
+            };
+        /**
+         * @param {?} tabLabelPlural
+         * @return {?}
+         */
+        NovoLabelService.prototype.tabbedGroupClearSuggestion = /**
+         * @param {?} tabLabelPlural
+         * @return {?}
+         */
+            function (tabLabelPlural) {
+                return "Clear your search to see all " + tabLabelPlural + ".";
             };
         /**
          * @param {?} value
@@ -6822,7 +6834,9 @@
                                 Object.getPrototypeOf(options).hasOwnProperty('then')) {
                                 _this.isStatic = false;
                                 // Promises (ES6 or Deferred) are resolved whenever they resolve
-                                options.then(_this.structureArray.bind(_this)).then(resolve, reject);
+                                options
+                                    .then(_this.structureArray.bind(_this))
+                                    .then(resolve, reject);
                             }
                             else if (typeof options === 'function') {
                                 _this.isStatic = false;
@@ -6844,7 +6858,9 @@
                                     /** @type {?} */
                                     var defaultOptions = _this.config.defaultOptions(term, ++_this.page);
                                     if (Object.getPrototypeOf(defaultOptions).hasOwnProperty('then')) {
-                                        defaultOptions.then(_this.structureArray.bind(_this)).then(resolve, reject);
+                                        defaultOptions
+                                            .then(_this.structureArray.bind(_this))
+                                            .then(resolve, reject);
                                     }
                                     else {
                                         resolve(_this.structureArray(defaultOptions));
@@ -18715,8 +18731,19 @@
         function NovoToastService(componentUtils) {
             this.componentUtils = componentUtils;
             this.references = [];
-            this.icons = { default: 'bell', success: 'check', info: 'info', warning: 'warning', danger: 'remove' };
-            this.defaults = { hideDelay: 3500, position: 'growlTopRight', theme: 'default' };
+            this.themes = ['default', 'success', 'info', 'warning', 'danger'];
+            this.icons = {
+                default: 'bell',
+                success: 'check',
+                info: 'info',
+                warning: 'warning',
+                danger: 'remove',
+            };
+            this.defaults = {
+                hideDelay: 3500,
+                position: 'growlTopRight',
+                theme: 'default',
+            };
         }
         Object.defineProperty(NovoToastService.prototype, "parentViewContainer", {
             set: /**
@@ -45659,14 +45686,11 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    var NovoStepHeader = /** @class */ (function (_super) {
-        __extends(NovoStepHeader, _super);
+    var NovoStepHeader = /** @class */ (function () {
         function NovoStepHeader(_focusMonitor, _element) {
-            var _this = _super.call(this, _element) || this;
-            _this._focusMonitor = _focusMonitor;
-            _this._element = _element;
+            this._focusMonitor = _focusMonitor;
+            this._element = _element;
             _focusMonitor.monitor(_element.nativeElement, true);
-            return _this;
         }
         Object.defineProperty(NovoStepHeader.prototype, "index", {
             /** Index of the given step. */
@@ -45825,7 +45849,7 @@
             optional: [{ type: core.Input }]
         };
         return NovoStepHeader;
-    }(stepper.CdkStepHeader));
+    }());
 
     /**
      * @fileoverview added by tsickle
@@ -50850,6 +50874,318 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
+    var NovoTabbedGroupPickerElement = /** @class */ (function () {
+        function NovoTabbedGroupPickerElement(labelService) {
+            var _this = this;
+            this.labelService = labelService;
+            this.selectionChange = new core.EventEmitter();
+            this.filterText = new rxjs.BehaviorSubject('');
+            this.searchLabel = 'Search';
+            this.loading = true;
+            this.getSelectedValues = function () {
+                return _this.schemata.reduce(function (prev, _a) {
+                    var typeName = _a.typeName, valueField = _a.valueField;
+                    var _b;
+                    return __assign({}, prev, (_b = {}, _b[typeName] = _this.data[typeName].filter(function (dataItem) { return dataItem.selected; }).map(function (dataItem) { return dataItem[valueField]; }), _b));
+                }, {});
+            };
+            this.filter = function (searchTerm) {
+                return (_this.displayData = _this.schemata.reduce(function (accumulator, _a) {
+                    var labelField = _a.labelField, typeName = _a.typeName;
+                    var _b;
+                    return (__assign({}, accumulator, (_b = {}, _b[typeName] = _this.data[typeName] && _this.data[typeName].filter(function (item) { return item[labelField].toLowerCase().includes(searchTerm.toLowerCase()); }), _b)));
+                }, {}));
+            };
+        }
+        /**
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.ngOnInit = /**
+         * @return {?}
+         */
+            function () {
+                this.validateData();
+                this.displayData = this.data;
+                if (this.quickSelectConfig) {
+                    this.validateQuickSelectConfig();
+                }
+                this.setActiveSchema(this.schemata[0]);
+                this.loading = false;
+                this.filterText.pipe(operators.debounceTime(300)).subscribe({
+                    next: this.filter,
+                });
+            };
+        /**
+         * @param {?} newActiveSchema
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.setActiveSchema = /**
+         * @param {?} newActiveSchema
+         * @return {?}
+         */
+            function (newActiveSchema) {
+                this.activeSchema = newActiveSchema;
+            };
+        /**
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.validateData = /**
+         * @return {?}
+         */
+            function () {
+                var _this = this;
+                /** @type {?} */
+                var warning = '';
+                this.schemata.forEach(function (schema) {
+                    if (_this.data[schema.typeName] === undefined) {
+                        warning += "Property " + schema.typeName + " is missing from data.\n";
+                    }
+                    else if (!Array.isArray(_this.data[schema.typeName])) {
+                        warning += "data." + schema.typeName + " is not an array.\n";
+                    }
+                    else {
+                        if (_this.data[schema.typeName].some(function (item) { return !(schema.valueField in item); })) {
+                            warning += "At least one item in data." + schema.typeName + " is missing the " + schema.valueField + " property.\n";
+                        }
+                        if (_this.data[schema.typeName].some(function (item) { return !(schema.labelField in item); })) {
+                            warning += "At least one item in data." + schema.typeName + " is missing the " + schema.labelField + " property.\n";
+                        }
+                    }
+                });
+                if (warning) {
+                    console.warn("TabbedGroupPicker data validation warning:\n" + warning);
+                }
+            };
+        /**
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.validateQuickSelectConfig = /**
+         * @return {?}
+         */
+            function () {
+                var _this = this;
+                /** @type {?} */
+                var warning = '';
+                if (!('items' in this.quickSelectConfig)) {
+                    warning += "Invalid quick select: required field 'items' is not defined.\n";
+                }
+                else if (!Array.isArray(this.quickSelectConfig.items)) {
+                    warning += "Invalid quick select: 'items' is not an array.\n";
+                }
+                else if (!this.quickSelectConfig.items.length) {
+                    warning += "Invalid quick select: 'items' is empty.\n";
+                }
+                else {
+                    this.quickSelectConfig.items.forEach(function (quickSelect) {
+                        /** @type {?} */
+                        var quickSelectIdentifier = '(Invalid quickSelect)';
+                        if (!quickSelect.typeName) {
+                            warning += "Invalid typeName: required field 'typeName' is not defined.\n";
+                        }
+                        else if (!quickSelect.label) {
+                            warning += "Invalid label: required field 'label' is not defined.\n";
+                        }
+                        else {
+                            quickSelectIdentifier = quickSelect.label + " (" + quickSelect.typeName + ")";
+                        }
+                        /** @type {?} */
+                        var schema = _this.schemata.find(function (schemaItem) { return quickSelect.typeName === schemaItem.typeName; });
+                        if (!schema) {
+                            warning += "Invalid typeName for " + quickSelectIdentifier + " config: " + quickSelect.typeName + " is not present in any configured typeSchema.\n";
+                        }
+                        if ('values' in quickSelect && 'all' in quickSelect) {
+                            warning += "Invalid properties for " + quickSelectIdentifier + " config: only one of 'values' and 'all' is allowed.\n";
+                        }
+                        else if (!('values' in quickSelect) && !('all' in quickSelect)) {
+                            warning += "Invalid properties for " + quickSelectIdentifier + " config: either 'values' or 'all' is required.\n";
+                        }
+                        if ('values' in quickSelect) {
+                            if (!Array.isArray(quickSelect.values)) {
+                                warning += "Invalid values for " + quickSelectIdentifier + " config:  'values' property is not an array.\n";
+                            }
+                            else if (!Array.isArray(quickSelect.values)) {
+                                warning += "Invalid values for " + quickSelectIdentifier + " config:  'values' property contains no values.\n";
+                            }
+                            else if (!quickSelect.values.every(function (quickSelectValue) {
+                                return _this.data[schema.typeName].some(function (dataItem) { return dataItem[schema.valueField] === quickSelectValue; });
+                            })) {
+                                warning += "Invalid value for " + quickSelectIdentifier + " config: at least one value in values is not present in any item in data." + schema.typeName + "\n";
+                            }
+                        }
+                    });
+                }
+                if (warning) {
+                    console.warn("TabbedGroupPicker quickSelect validation warning:\n" + warning);
+                }
+            };
+        /**
+         * @param {?} activeSchema
+         * @param {?} item
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.onDataListItemClicked = /**
+         * @param {?} activeSchema
+         * @param {?} item
+         * @return {?}
+         */
+            function (activeSchema, item) {
+                item.selected = !item.selected;
+                this.onItemToggled(activeSchema);
+            };
+        /**
+         * @param {?} schema
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.onItemToggled = /**
+         * @param {?} schema
+         * @return {?}
+         */
+            function (schema) {
+                if (this.quickSelectConfig) {
+                    this.updateQuickSelectCheckboxes(schema);
+                }
+                this.emitSelectedValues();
+            };
+        /**
+         * @param {?} quickSelect
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.onQuickSelectListItemClicked = /**
+         * @param {?} quickSelect
+         * @return {?}
+         */
+            function (quickSelect) {
+                quickSelect.active = !quickSelect.active;
+                this.onQuickSelectToggled(quickSelect);
+            };
+        /**
+         * @param {?} quickSelect
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.onQuickSelectToggled = /**
+         * @param {?} quickSelect
+         * @return {?}
+         */
+            function (quickSelect) {
+                /** @type {?} */
+                var schema = this.schemata.find(function (schemaItem) { return quickSelect.typeName === schemaItem.typeName; });
+                /** @type {?} */
+                var itemsToSelect = [];
+                if (quickSelect.all) {
+                    itemsToSelect = this.data[schema.typeName];
+                }
+                else {
+                    itemsToSelect = this.data[schema.typeName].filter(function (item) { return quickSelect.values.includes(item[schema.valueField]); });
+                }
+                if (itemsToSelect && itemsToSelect.length) {
+                    itemsToSelect.forEach(function (itemToSelect) {
+                        itemToSelect.selected = !!quickSelect.active;
+                    });
+                }
+                this.onItemToggled(schema);
+            };
+        /**
+         * @param {?} activeSchema
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.updateQuickSelectCheckboxes = /**
+         * @param {?} activeSchema
+         * @return {?}
+         */
+            function (activeSchema) {
+                var _this = this;
+                /** @type {?} */
+                var relevantQuickSelects = this.quickSelectConfig.items.filter(function (quickSelect) { return activeSchema.typeName === quickSelect.typeName; });
+                relevantQuickSelects.forEach(function (quickSelect) {
+                    /** @type {?} */
+                    var itemsToCheck = [];
+                    if (quickSelect.all) {
+                        itemsToCheck = _this.data[activeSchema.typeName];
+                    }
+                    else {
+                        itemsToCheck = _this.data[activeSchema.typeName].filter(function (dataItem) {
+                            return quickSelect.values.includes(dataItem[activeSchema.valueField]);
+                        });
+                    }
+                    quickSelect.active = itemsToCheck.every(function (dataItem) { return dataItem.selected === true; });
+                });
+            };
+        /**
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.emitSelectedValues = /**
+         * @return {?}
+         */
+            function () {
+                this.selectionChange.emit(this.getSelectedValues());
+            };
+        /**
+         * @param {?} event
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.onClearFilter = /**
+         * @param {?} event
+         * @return {?}
+         */
+            function (event) {
+                Helpers.swallowEvent(event); // dunno if this is necessary
+                this.filterText.next('');
+            };
+        /**
+         * @param {?} event
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.onFilter = /**
+         * @param {?} event
+         * @return {?}
+         */
+            function (event) {
+                this.filterText.next(event.target.value);
+            };
+        NovoTabbedGroupPickerElement.decorators = [
+            { type: core.Component, args: [{
+                        selector: 'novo-tabbed-group-picker',
+                        template: "<novo-dropdown>\n  <button class=\"tabbed-group-picker-button\"\n          [theme]=\"buttonConfig.theme\"\n          [side]=\"buttonConfig.side\"\n          [icon]=\"buttonConfig.icon\"\n          [loading]=\"loading\">\n    <div class=\"tabbed-group-picker-button-label\">{{ buttonConfig.label }}</div>\n  </button>\n  <div class=\"novo-category-dropdown-search\" data-automation-id=\"novo-category-dropdown-search\">\n    <input type=\"text\" [placeholder]=\"searchLabel\" [value]=\"filterText | async\" (input)=\"onFilter($event)\" />\n    <i class=\"bhi-search\" *ngIf=\"!(filterText | async)\"></i>\n    <i class=\"bhi-times\" *ngIf=\"filterText | async\" (click)=\"onClearFilter($event)\"></i>\n  </div>\n  <div class=\"tabbed-group-picker-column-container\">\n    <div class=\"tabbed-group-picker-column left\">\n      <novo-nav theme=\"white\"\n                direction=\"vertical\">\n        <novo-tab *ngFor=\"let schema of schemata\"\n                  [attr.data-automation-id]=\"schema.typeName\"\n                  (activeChange)=\"setActiveSchema(schema)\">\n          <span>{{schema.typeLabel}} ({{displayData[schema.typeName].length}})</span><i class=\"bhi-next\"></i>\n        </novo-tab>\n      </novo-nav>\n      <!-- todo: clear all button goes here-->\n    </div>\n    <div class=\"tabbed-group-picker-column right\">\n      <div class=\"quick-select\" *ngIf=\"quickSelectConfig && !(filterText | async)\">\n        <div class=\"quick-select-label\">{{ quickSelectConfig.label }}</div>\n        <novo-list direction=\"vertical\">\n          <novo-list-item *ngFor=\"let quickSelect of quickSelectConfig.items\"\n                          [attr.data-automation-id]=\"quickSelect.label\"\n                          (click)=\"onQuickSelectListItemClicked(quickSelect)\">\n            <item-content>\n              <novo-checkbox [label]=\"quickSelect.label\"\n                             [name]=\"'active'\"\n                             [(ngModel)]=\"quickSelect.active\"\n                             (ngModelChange)=\"onQuickSelectToggled(quickSelect)\"></novo-checkbox>\n            </item-content>\n          </novo-list-item>\n        </novo-list>\n      </div>\n      <!-- todo: add virtual scroll-->\n      <novo-list *ngIf=\"displayData[activeSchema.typeName].length\"\n                 direction=\"vertical\">\n        <novo-list-item *ngFor=\"let item of displayData[activeSchema.typeName]\"\n                        [attr.data-automation-id]=\"item[activeSchema.labelField]\"\n                        (click)=\"onDataListItemClicked(activeSchema, item);\">\n          <item-content>\n            <novo-checkbox [label]=\"item[activeSchema.labelField]\"\n                           [name]=\"'selected'\"\n                           [(ngModel)]=\"item.selected\"\n                           (ngModelChange)=\"onItemToggled(activeSchema)\"></novo-checkbox>\n          </item-content>\n        </novo-list-item>\n      </novo-list>\n      <!-- TODO: add empty result message for no data in the case of no search -->\n      <div class=\"novo-category-dropdown-empty-item\" *ngIf=\"!displayData[activeSchema.typeName].length && (filterText | async)\">\n        <!-- TODO: add bhi-users icon if parent-child relationship-->\n        <i class=\"bhi-user\"></i>\n        <div class=\"empty-item-main-message\">{{ labelService.tabbedGroupPickerEmpty }}</div>\n        <div class=\"empty-item-sub-message\">{{ labelService.tabbedGroupClearSuggestion(this.activeSchema.typeLabel) }}</div>\n      </div>\n    </div>\n  </div>\n</novo-dropdown>\n"
+                    }] }
+        ];
+        /** @nocollapse */
+        NovoTabbedGroupPickerElement.ctorParameters = function () {
+            return [
+                { type: NovoLabelService }
+            ];
+        };
+        NovoTabbedGroupPickerElement.propDecorators = {
+            buttonConfig: [{ type: core.Input }],
+            schemata: [{ type: core.Input }],
+            quickSelectConfig: [{ type: core.Input }],
+            data: [{ type: core.Input }],
+            selectionChange: [{ type: core.Output }]
+        };
+        return NovoTabbedGroupPickerElement;
+    }());
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var NovoTabbedGroupPickerModule = /** @class */ (function () {
+        function NovoTabbedGroupPickerModule() {
+        }
+        NovoTabbedGroupPickerModule.decorators = [
+            { type: core.NgModule, args: [{
+                        imports: [common.CommonModule, forms.FormsModule, NovoTabModule, NovoListModule, NovoFormExtrasModule, NovoButtonModule, NovoDropdownModule],
+                        providers: [NovoLabelService],
+                        declarations: [NovoTabbedGroupPickerElement],
+                        exports: [NovoTabbedGroupPickerElement],
+                    },] }
+        ];
+        return NovoTabbedGroupPickerModule;
+    }());
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
     /**
      * @abstract
      */
@@ -55482,6 +55818,7 @@
                             UnlessModule,
                             NovoCommonModule,
                             NovoStepperModule,
+                            NovoTabbedGroupPickerModule,
                             scrolling.ScrollDispatchModule,
                         ],
                         providers: [
@@ -55590,10 +55927,6 @@
     exports.NovoIconModule = NovoIconModule;
     exports.NovoExpansionModule = NovoExpansionModule;
     exports.NovoStepperModule = NovoStepperModule;
-    exports.NovoVerticalStepper = NovoVerticalStepper;
-    exports.NovoHorizontalStepper = NovoHorizontalStepper;
-    exports.NovoStep = NovoStep;
-    exports.NovoStepper = NovoStepper;
     exports.NovoTableExtrasModule = NovoTableExtrasModule;
     exports.NovoFormModule = NovoFormModule;
     exports.NovoDynamicFormElement = NovoDynamicFormElement;
@@ -55607,6 +55940,7 @@
     exports.NovoDataTableFilterUtils = NovoDataTableFilterUtils;
     exports.NovoDataTable = NovoDataTable;
     exports.NovoCommonModule = NovoCommonModule;
+    exports.NovoTabbedGroupPickerModule = NovoTabbedGroupPickerModule;
     exports.NovoTableElement = NovoTableElement;
     exports.NovoCalendarDateChangeElement = NovoCalendarDateChangeElement;
     exports.NovoTemplate = NovoTemplate;
@@ -55754,33 +56088,33 @@
     exports.ɵbd = NovoCalendarWeekViewElement;
     exports.ɵx = CardActionsElement;
     exports.ɵy = CardElement;
-    exports.ɵel = NovoCategoryDropdownElement;
+    exports.ɵep = NovoCategoryDropdownElement;
     exports.ɵct = NovoChipElement;
     exports.ɵcu = NovoChipsElement;
     exports.ɵcv = NovoRowChipElement;
     exports.ɵcw = NovoRowChipsElement;
     exports.ɵdd = NovoCKEditorElement;
-    exports.ɵfe = NovoDataTableCheckboxHeaderCell;
-    exports.ɵfg = NovoDataTableExpandHeaderCell;
-    exports.ɵev = NovoDataTableCellHeader;
-    exports.ɵey = NovoDataTableHeaderCell;
-    exports.ɵez = NovoDataTableCell;
-    exports.ɵfd = NovoDataTableCheckboxCell;
-    exports.ɵff = NovoDataTableExpandCell;
-    exports.ɵfi = NovoDataTableClearButton;
-    exports.ɵfh = NovoDataTableExpandDirective;
-    exports.ɵet = DataTableBigDecimalRendererPipe;
-    exports.ɵeo = DataTableInterpolatePipe;
-    exports.ɵeu = DateTableCurrencyRendererPipe;
-    exports.ɵep = DateTableDateRendererPipe;
-    exports.ɵeq = DateTableDateTimeRendererPipe;
-    exports.ɵes = DateTableNumberRendererPipe;
-    exports.ɵer = DateTableTimeRendererPipe;
-    exports.ɵfc = NovoDataTablePagination;
-    exports.ɵfa = NovoDataTableHeaderRow;
-    exports.ɵfb = NovoDataTableRow;
-    exports.ɵex = NovoDataTableSortFilter;
-    exports.ɵew = DataTableState;
+    exports.ɵfi = NovoDataTableCheckboxHeaderCell;
+    exports.ɵfk = NovoDataTableExpandHeaderCell;
+    exports.ɵez = NovoDataTableCellHeader;
+    exports.ɵfc = NovoDataTableHeaderCell;
+    exports.ɵfd = NovoDataTableCell;
+    exports.ɵfh = NovoDataTableCheckboxCell;
+    exports.ɵfj = NovoDataTableExpandCell;
+    exports.ɵfm = NovoDataTableClearButton;
+    exports.ɵfl = NovoDataTableExpandDirective;
+    exports.ɵex = DataTableBigDecimalRendererPipe;
+    exports.ɵes = DataTableInterpolatePipe;
+    exports.ɵey = DateTableCurrencyRendererPipe;
+    exports.ɵet = DateTableDateRendererPipe;
+    exports.ɵeu = DateTableDateTimeRendererPipe;
+    exports.ɵew = DateTableNumberRendererPipe;
+    exports.ɵev = DateTableTimeRendererPipe;
+    exports.ɵfg = NovoDataTablePagination;
+    exports.ɵfe = NovoDataTableHeaderRow;
+    exports.ɵff = NovoDataTableRow;
+    exports.ɵfb = NovoDataTableSortFilter;
+    exports.ɵfa = DataTableState;
     exports.ɵcx = NovoDatePickerInputElement;
     exports.ɵdb = NovoDateTimePickerElement;
     exports.ɵdc = NovoDateTimePickerInputElement;
@@ -55828,26 +56162,31 @@
     exports.ɵc = NovoModalContainerElement;
     exports.ɵd = NovoModalElement;
     exports.ɵe = NovoModalNotificationElement;
-    exports.ɵem = NovoMultiPickerElement;
+    exports.ɵeq = NovoMultiPickerElement;
     exports.ɵci = NovoOverlayTemplateComponent;
     exports.ɵch = NovoOverlayModule;
     exports.ɵcp = NovoPickerElement;
-    exports.ɵfq = PlacesListComponent;
-    exports.ɵfp = GooglePlacesModule;
-    exports.ɵfo = PopOverDirective;
-    exports.ɵfm = NovoPopOverModule;
-    exports.ɵfn = PopOverContent;
+    exports.ɵfv = PlacesListComponent;
+    exports.ɵfu = GooglePlacesModule;
+    exports.ɵft = PopOverDirective;
+    exports.ɵfr = NovoPopOverModule;
+    exports.ɵfs = PopOverContent;
     exports.ɵce = QuickNoteElement;
     exports.ɵcg = NovoRadioElement;
     exports.ɵcf = NovoRadioGroup;
     exports.ɵcq = NovoSearchBoxElement;
     exports.ɵcn = NovoSelectElement;
     exports.ɵcs = NovoSliderElement;
-    exports.ɵeh = NovoStepHeader;
-    exports.ɵei = NovoStepLabel;
-    exports.ɵek = NovoStepStatus;
-    exports.ɵej = novoStepperAnimations;
+    exports.ɵel = NovoStepHeader;
+    exports.ɵem = NovoStepLabel;
+    exports.ɵeo = NovoStepStatus;
+    exports.ɵen = novoStepperAnimations;
+    exports.ɵej = NovoHorizontalStepper;
+    exports.ɵeh = NovoStep;
+    exports.ɵei = NovoStepper;
+    exports.ɵek = NovoVerticalStepper;
     exports.ɵco = NovoSwitchElement;
+    exports.ɵfn = NovoTabbedGroupPickerElement;
     exports.ɵdq = NovoTableKeepFilterFocus;
     exports.ɵdr = Pagination;
     exports.ɵds = RowDetails;
@@ -55872,13 +56211,13 @@
     exports.ɵbr = NovoToastElement;
     exports.ɵw = NovoTooltip;
     exports.ɵv = TooltipDirective;
-    exports.ɵen = Unless;
+    exports.ɵer = Unless;
     exports.ɵdx = EntityList;
     exports.ɵm = NovoValueElement;
     exports.ɵcy = DateFormatService;
-    exports.ɵfk = BrowserGlobalRef;
-    exports.ɵfj = GlobalRef;
-    exports.ɵfl = LocalStorageService;
+    exports.ɵfp = BrowserGlobalRef;
+    exports.ɵfo = GlobalRef;
+    exports.ɵfq = LocalStorageService;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

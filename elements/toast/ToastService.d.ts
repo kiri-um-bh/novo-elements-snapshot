@@ -1,33 +1,14 @@
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
-export interface ToastOptions {
-    title?: string;
-    message?: string;
-    icon?: 'bell' | 'check' | 'info' | 'warning' | 'remove' | 'caution' | 'times' | 'coffee' | 'danger' | string;
-    theme?: 'default' | 'success' | 'info' | 'warning' | 'danger';
-    hideDelay?: number;
-    position?: 'fixedTop' | 'fixedBottom' | 'growlTopRight' | 'growlTopLeft' | 'growlBottomRight' | 'growlBottomLeft';
-    isCloseable?: boolean;
-    customClass?: string;
-}
 export declare class NovoToastService {
     private componentUtils;
     _parentViewContainer: any;
     references: Array<any>;
-    icons: {
-        default: string;
-        success: string;
-        info: string;
-        warning: string;
-        danger: string;
-    };
-    defaults: {
-        hideDelay: number;
-        position: string;
-        theme: string;
-    };
+    themes: Array<string>;
+    icons: any;
+    defaults: any;
     constructor(componentUtils: ComponentUtils);
     parentViewContainer: any;
-    alert(options: ToastOptions, toastElement?: any): Promise<any>;
+    alert(options: any, toastElement?: any): Promise<{}>;
     isVisible(toast: any): any;
     hide(toast: any): void;
     handleAlert(toast: any, options: any): void;
