@@ -52,7 +52,7 @@ export { NovoCommonModule } from './elements/common/common.module';
 export { NovoTableElement, NovoTableConfig } from './elements/table/Table';
 export { NovoCalendarDateChangeElement } from './elements/calendar/common/CalendarDateChange';
 export { NovoTemplate } from './elements/common/novo-template/novo-template.directive';
-export { NovoToastService } from './elements/toast/ToastService';
+export { NovoToastService, ToastOptions } from './elements/toast/ToastService';
 export { NovoModalService } from './elements/modal/ModalService';
 export { NovoLabelService } from './services/novo-label-service';
 export { NovoDragulaService } from './elements/dragula/DragulaService';

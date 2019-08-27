@@ -23,7 +23,7 @@ import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkR
 import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { __extends, __assign, __spread, __values, __read } from 'tslib';
+import { __extends, __values, __assign, __spread, __read } from 'tslib';
 import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 
@@ -6652,9 +6652,7 @@ var BasePickerResults = /** @class */ (function () {
                         Object.getPrototypeOf(options).hasOwnProperty('then')) {
                         _this.isStatic = false;
                         // Promises (ES6 or Deferred) are resolved whenever they resolve
-                        options
-                            .then(_this.structureArray.bind(_this))
-                            .then(resolve, reject);
+                        options.then(_this.structureArray.bind(_this)).then(resolve, reject);
                     }
                     else if (typeof options === 'function') {
                         _this.isStatic = false;
@@ -6676,9 +6674,7 @@ var BasePickerResults = /** @class */ (function () {
                             /** @type {?} */
                             var defaultOptions = _this.config.defaultOptions(term, ++_this.page);
                             if (Object.getPrototypeOf(defaultOptions).hasOwnProperty('then')) {
-                                defaultOptions
-                                    .then(_this.structureArray.bind(_this))
-                                    .then(resolve, reject);
+                                defaultOptions.then(_this.structureArray.bind(_this)).then(resolve, reject);
                             }
                             else {
                                 resolve(_this.structureArray(defaultOptions));
@@ -18461,19 +18457,8 @@ var NovoToastService = /** @class */ (function () {
     function NovoToastService(componentUtils) {
         this.componentUtils = componentUtils;
         this.references = [];
-        this.themes = ['default', 'success', 'info', 'warning', 'danger'];
-        this.icons = {
-            default: 'bell',
-            success: 'check',
-            info: 'info',
-            warning: 'warning',
-            danger: 'remove',
-        };
-        this.defaults = {
-            hideDelay: 3500,
-            position: 'growlTopRight',
-            theme: 'default',
-        };
+        this.icons = { default: 'bell', success: 'check', info: 'info', warning: 'warning', danger: 'remove' };
+        this.defaults = { hideDelay: 3500, position: 'growlTopRight', theme: 'default' };
     }
     Object.defineProperty(NovoToastService.prototype, "parentViewContainer", {
         set: /**

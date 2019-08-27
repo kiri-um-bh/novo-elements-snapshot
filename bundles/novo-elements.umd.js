@@ -6822,9 +6822,7 @@
                                 Object.getPrototypeOf(options).hasOwnProperty('then')) {
                                 _this.isStatic = false;
                                 // Promises (ES6 or Deferred) are resolved whenever they resolve
-                                options
-                                    .then(_this.structureArray.bind(_this))
-                                    .then(resolve, reject);
+                                options.then(_this.structureArray.bind(_this)).then(resolve, reject);
                             }
                             else if (typeof options === 'function') {
                                 _this.isStatic = false;
@@ -6846,9 +6844,7 @@
                                     /** @type {?} */
                                     var defaultOptions = _this.config.defaultOptions(term, ++_this.page);
                                     if (Object.getPrototypeOf(defaultOptions).hasOwnProperty('then')) {
-                                        defaultOptions
-                                            .then(_this.structureArray.bind(_this))
-                                            .then(resolve, reject);
+                                        defaultOptions.then(_this.structureArray.bind(_this)).then(resolve, reject);
                                     }
                                     else {
                                         resolve(_this.structureArray(defaultOptions));
@@ -18719,19 +18715,8 @@
         function NovoToastService(componentUtils) {
             this.componentUtils = componentUtils;
             this.references = [];
-            this.themes = ['default', 'success', 'info', 'warning', 'danger'];
-            this.icons = {
-                default: 'bell',
-                success: 'check',
-                info: 'info',
-                warning: 'warning',
-                danger: 'remove',
-            };
-            this.defaults = {
-                hideDelay: 3500,
-                position: 'growlTopRight',
-                theme: 'default',
-            };
+            this.icons = { default: 'bell', success: 'check', info: 'info', warning: 'warning', danger: 'remove' };
+            this.defaults = { hideDelay: 3500, position: 'growlTopRight', theme: 'default' };
         }
         Object.defineProperty(NovoToastService.prototype, "parentViewContainer", {
             set: /**
