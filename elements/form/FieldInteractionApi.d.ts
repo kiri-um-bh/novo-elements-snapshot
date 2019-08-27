@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { NovoFormControl } from './NovoFormControl';
 import { FormUtils } from '../../utils/form-utils/FormUtils';
-import { NovoToastService } from '../toast/ToastService';
+import { NovoToastService, ToastOptions } from '../toast/ToastService';
 import { NovoModalService } from '../modal/ModalService';
 import { AppBridge } from '../../utils/app-bridge/AppBridge';
 import { NovoLabelService } from '../../services/novo-label-service';
@@ -86,16 +86,7 @@ export declare class FieldInteractionApi {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
-    displayToast(toastConfig: {
-        message: string;
-        title?: string;
-        hideDelay?: number;
-        icon?: string;
-        theme?: string;
-        position?: string;
-        isCloseable?: boolean;
-        customClass?: string;
-    }): void;
+    displayToast(toastConfig: ToastOptions): void;
     displayTip(key: string, tip: string, icon?: string, allowDismiss?: boolean): void;
     setTooltip(key: string, tooltip: string): void;
     confirmChanges(key: string, message?: string): Promise<boolean>;
