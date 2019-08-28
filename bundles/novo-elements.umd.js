@@ -5966,12 +5966,17 @@
             this.componentFactoryResolver = componentFactoryResolver;
         }
         /**
+         * @deprecated use append() instead.
+         */
+        /**
+         * @deprecated use append() instead.
          * @param {?} ComponentClass
          * @param {?} location
          * @param {?=} providers
          * @return {?}
          */
         ComponentUtils.prototype.appendNextToLocation = /**
+         * @deprecated use append() instead.
          * @param {?} ComponentClass
          * @param {?} location
          * @param {?=} providers
@@ -5990,12 +5995,17 @@
                 return location.createComponent(componentFactory, location.length, childInjector);
             };
         /**
+         * @deprecated
+         */
+        /**
+         * @deprecated
          * @param {?} ComponentClass
          * @param {?} location
          * @param {?=} providers
          * @return {?}
          */
         ComponentUtils.prototype.appendTopOfLocation = /**
+         * @deprecated
          * @param {?} ComponentClass
          * @param {?} location
          * @param {?=} providers
@@ -6012,6 +6022,31 @@
                     childInjector = core.ReflectiveInjector.fromResolvedProviders(providers, parentInjector);
                 }
                 return location.createComponent(componentFactory, 0, childInjector);
+            };
+        /**
+         * @template T
+         * @param {?} ComponentClass
+         * @param {?} location
+         * @param {?=} providers
+         * @param {?=} onTop
+         * @return {?}
+         */
+        ComponentUtils.prototype.append = /**
+         * @template T
+         * @param {?} ComponentClass
+         * @param {?} location
+         * @param {?=} providers
+         * @param {?=} onTop
+         * @return {?}
+         */
+            function (ComponentClass, location, providers, onTop) {
+                /** @type {?} */
+                var componentFactory = this.componentFactoryResolver.resolveComponentFactory(ComponentClass);
+                /** @type {?} */
+                var parent = location.injector;
+                /** @type {?} */
+                var index$$1 = onTop ? 0 : location.length;
+                return location.createComponent(componentFactory, index$$1, core.Injector.create({ providers: providers, parent: parent }));
             };
         ComponentUtils.decorators = [
             { type: core.Injectable }
@@ -6104,7 +6139,7 @@
             function () {
                 var _this = this;
                 setTimeout(function () {
-                    _this.modalRef.contentRef = _this.componentUtils.appendNextToLocation(_this.modalRef.component, _this.container);
+                    _this.modalRef.contentRef = _this.componentUtils.append(_this.modalRef.component, _this.container);
                 });
             };
         NovoModalContainerElement.decorators = [
@@ -6141,7 +6176,7 @@
         NovoModalElement.decorators = [
             { type: core.Component, args: [{
                         selector: 'novo-modal',
-                        template: "\n        <ng-content select=\"header\"></ng-content>\n        <ng-content select=\"section\"></ng-content>\n        <footer>\n            <ng-content select=\"button\"></ng-content>\n        </footer>\n    "
+                        template: "\n    <ng-content select=\"header\"></ng-content>\n    <ng-content select=\"section\"></ng-content>\n    <footer><ng-content select=\"button\"></ng-content></footer>\n  "
                     }] }
         ];
         /** @nocollapse */
@@ -6195,7 +6230,7 @@
         NovoModalNotificationElement.decorators = [
             { type: core.Component, args: [{
                         selector: 'novo-notification',
-                        template: "\n        <button class=\"modal-close\" theme=\"icon\" icon=\"times\" (click)=\"close()\"></button>\n        <header>\n            <ng-content select=\"label\"></ng-content>\n        </header>\n        <section class=\"notification-body\">\n            <i class=\"indicator\" [ngClass]=\"iconType\" *ngIf=\"iconType\"></i>\n            <ng-content select=\"h1\"></ng-content>\n            <ng-content select=\"h2\"></ng-content>\n            <ng-content select=\"p\"></ng-content>\n        </section>\n        <footer>\n            <ng-content select=\"button\"></ng-content>\n        </footer>\n    "
+                        template: "\n    <button class=\"modal-close\" theme=\"icon\" icon=\"times\" (click)=\"close()\"></button>\n    <header><ng-content select=\"label\"></ng-content></header>\n    <section class=\"notification-body\">\n      <i class=\"indicator\" [ngClass]=\"iconType\" *ngIf=\"iconType\"></i>\n      <ng-content select=\"h1\"></ng-content>\n      <ng-content select=\"h2\"></ng-content>\n      <ng-content select=\"p\"></ng-content>\n    </section>\n    <footer><ng-content select=\"button\"></ng-content></footer>\n  "
                     }] }
         ];
         /** @nocollapse */
@@ -7907,7 +7942,7 @@
                         }
                         else {
                             // Create the results DOM element
-                            this.quickNoteResults = this.componentUtils.appendNextToLocation(this.resultsComponent, this.results);
+                            this.quickNoteResults = this.componentUtils.append(this.resultsComponent, this.results);
                             this.quickNoteResults.instance.parent = this;
                             this.quickNoteResults.instance.config = this.config;
                             this.quickNoteResults.instance.term = {
@@ -10320,7 +10355,7 @@
                     this.ref.markForCheck();
                 }
                 else {
-                    this.popup = this.componentUtils.appendNextToLocation(this.resultsComponent, this.results);
+                    this.popup = this.componentUtils.append(this.resultsComponent, this.results);
                     this.popup.instance.parent = this;
                     this.popup.instance.config = this.config;
                     this.popup.instance.term = this.term;
@@ -12750,7 +12785,7 @@
             function () {
                 if (this.source.previewTemplate) {
                     if (!this.popup) {
-                        this.popup = this.componentUtils.appendNextToLocation(this.source.previewTemplate, this.preview);
+                        this.popup = this.componentUtils.append(this.source.previewTemplate, this.preview);
                     }
                     this.popup.instance.match = this.selected;
                 }
@@ -18749,7 +18784,7 @@
                         return;
                     }
                     /** @type {?} */
-                    var toast = _this.componentUtils.appendNextToLocation(toastElement, _this._parentViewContainer);
+                    var toast = _this.componentUtils.append(toastElement, _this._parentViewContainer);
                     _this.references.push(toast);
                     _this.handleAlert(toast.instance, options);
                     resolve(toast);
@@ -18894,7 +18929,6 @@
     var NovoModalService = /** @class */ (function () {
         function NovoModalService(componentUtils) {
             this.componentUtils = componentUtils;
-            this._parentViewContainer = null;
         }
         Object.defineProperty(NovoModalService.prototype, "parentViewContainer", {
             set: /**
@@ -18907,11 +18941,13 @@
             configurable: true
         });
         /**
+         * @template T
          * @param {?} component
          * @param {?=} scope
          * @return {?}
          */
         NovoModalService.prototype.open = /**
+         * @template T
          * @param {?} component
          * @param {?=} scope
          * @return {?}
@@ -18921,16 +18957,15 @@
                     scope = {};
                 }
                 if (!this._parentViewContainer) {
-                    console.error('No parent view container specified for the ModalService. Set it inside your main application. \nthis.modalService.parentViewContainer = view (ViewContainerRef)');
-                    return null;
+                    throw new Error('No parent view container specified for the ModalService. Set it inside your main application. \nthis.modalService.parentViewContainer = view (ViewContainerRef)');
                 }
                 /** @type {?} */
                 var modal = new NovoModalRef();
                 modal.component = component;
                 modal.open();
                 /** @type {?} */
-                var bindings = core.ReflectiveInjector.resolve([{ provide: NovoModalRef, useValue: modal }, { provide: NovoModalParams, useValue: scope }]);
-                modal.containerRef = this.componentUtils.appendNextToLocation(NovoModalContainerElement, this._parentViewContainer, bindings);
+                var providers = [{ provide: NovoModalRef, useValue: modal }, { provide: NovoModalParams, useValue: scope }];
+                modal.containerRef = this.componentUtils.append(NovoModalContainerElement, this._parentViewContainer, providers);
                 return modal;
             };
         NovoModalService.decorators = [
@@ -40781,8 +40816,8 @@
                 if (this.renderer) {
                     if (this.renderer.prototype instanceof BaseRenderer) {
                         /** @type {?} */
-                        var componentRef = this.componentUtils.appendNextToLocation(this.renderer, this.container);
-                        componentRef.instance.data = this.data;
+                        var componentRef = this.componentUtils.append(this.renderer, this.container);
+                        componentRef.instance['data'] = this.data;
                     }
                     else {
                         this.value = this.renderer(this.data);
@@ -40835,7 +40870,7 @@
                     if (this.column.renderer.prototype instanceof BaseRenderer) {
                         this.column._type = 'custom';
                         /** @type {?} */
-                        var componentRef = this.componentUtils.appendNextToLocation(this.column.renderer, this.container);
+                        var componentRef = ( /** @type {?} */(this.componentUtils.append(this.column.renderer, this.container)));
                         componentRef.instance.meta = this.column;
                         componentRef.instance.data = this.row;
                         componentRef.instance.value = this.form && this.hasEditor ? this.form.value[this.column.name] : this.row[this.column.name];
