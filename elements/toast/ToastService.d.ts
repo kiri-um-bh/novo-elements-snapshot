@@ -1,11 +1,14 @@
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
+export declare type ToastThemes = 'default' | 'success' | 'info' | 'warning' | 'danger' | 'positive' | string;
+export declare type ToastIcons = 'bell' | 'check' | 'info' | 'warning' | 'remove' | 'caution' | 'times' | 'coffee' | 'danger' | string;
+export declare type ToastPositions = 'fixedTop' | 'fixedBottom' | 'growlTopRight' | 'growlTopLeft' | 'growlBottomRight' | 'growlBottomLeft';
 export interface ToastOptions {
     title?: string;
     message?: string;
-    icon?: 'bell' | 'check' | 'info' | 'warning' | 'remove' | 'caution' | 'times' | 'coffee' | 'danger' | string;
-    theme?: 'default' | 'success' | 'info' | 'warning' | 'danger';
+    icon?: ToastIcons;
+    theme?: ToastThemes;
     hideDelay?: number;
-    position?: 'fixedTop' | 'fixedBottom' | 'growlTopRight' | 'growlTopLeft' | 'growlBottomRight' | 'growlBottomLeft';
+    position?: ToastPositions;
     isCloseable?: boolean;
     customClass?: string;
 }
