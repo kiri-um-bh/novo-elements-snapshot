@@ -18,4 +18,5 @@ export declare class NovoFormElement implements AfterContentInit, OnInit {
     showAllFields(): void;
     showOnlyRequired(hideRequiredWithValue: any): void;
     forceValidation(): void;
+    updatedValues(): any;
 }

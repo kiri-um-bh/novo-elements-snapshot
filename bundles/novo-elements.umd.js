@@ -16561,10 +16561,30 @@
                     }
                 });
             };
+        /**
+         * @return {?}
+         */
+        NovoFormElement.prototype.updatedValues = /**
+         * @return {?}
+         */
+            function () {
+                var _this = this;
+                /** @type {?} */
+                var ret = null;
+                this.form.controls.forEach(function (control) {
+                    if (_this.form.controls[control.key].dirty || control.dirty) {
+                        if (!ret) {
+                            ret = {};
+                        }
+                        ret[control.key] = _this.form.value[control.key];
+                    }
+                });
+                return ret;
+            };
         NovoFormElement.decorators = [
             { type: core.Component, args: [{
                         selector: 'novo-form',
-                        template: "\n        <novo-control-templates></novo-control-templates>\n        <div class=\"novo-form-container\">\n            <header *ngIf=\"!hideHeader\">\n                <ng-content select=\"form-title\"></ng-content>\n                <ng-content select=\"form-subtitle\"></ng-content>\n            </header>\n            <form class=\"novo-form\" [formGroup]=\"form\">\n                <ng-content></ng-content>\n            </form>\n        </div>\n    ",
+                        template: "\n    <novo-control-templates></novo-control-templates>\n    <div class=\"novo-form-container\">\n      <header *ngIf=\"!hideHeader\">\n        <ng-content select=\"form-title\"></ng-content>\n        <ng-content select=\"form-subtitle\"></ng-content>\n      </header>\n      <form class=\"novo-form\" [formGroup]=\"form\"><ng-content></ng-content></form>\n    </div>\n  ",
                         providers: [NovoTemplateService]
                     }] }
         ];

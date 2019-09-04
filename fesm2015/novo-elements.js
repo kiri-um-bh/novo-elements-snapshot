@@ -14202,22 +14202,36 @@ class NovoFormElement {
             }
         });
     }
+    /**
+     * @return {?}
+     */
+    updatedValues() {
+        /** @type {?} */
+        let ret = null;
+        this.form.controls.forEach((control) => {
+            if (this.form.controls[control.key].dirty || control.dirty) {
+                if (!ret) {
+                    ret = {};
+                }
+                ret[control.key] = this.form.value[control.key];
+            }
+        });
+        return ret;
+    }
 }
 NovoFormElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-form',
                 template: `
-        <novo-control-templates></novo-control-templates>
-        <div class="novo-form-container">
-            <header *ngIf="!hideHeader">
-                <ng-content select="form-title"></ng-content>
-                <ng-content select="form-subtitle"></ng-content>
-            </header>
-            <form class="novo-form" [formGroup]="form">
-                <ng-content></ng-content>
-            </form>
-        </div>
-    `,
+    <novo-control-templates></novo-control-templates>
+    <div class="novo-form-container">
+      <header *ngIf="!hideHeader">
+        <ng-content select="form-title"></ng-content>
+        <ng-content select="form-subtitle"></ng-content>
+      </header>
+      <form class="novo-form" [formGroup]="form"><ng-content></ng-content></form>
+    </div>
+  `,
                 providers: [NovoTemplateService]
             }] }
 ];
