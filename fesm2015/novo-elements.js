@@ -43902,15 +43902,6 @@ class NovoDataTable {
         if (left !== this.scrollLeft) {
             this.scrollLeft = target.scrollLeft;
         }
-        if (this.fixedHeader) {
-            /** @type {?} */
-            const top = target.scrollTop;
-            /** @type {?} */
-            const header = target.querySelector('cdk-table > novo-data-table-header-row');
-            if (header) {
-                header.style.transform = `translateY(${top}px)`;
-            }
-        }
         this.ref.markForCheck();
     }
 }
@@ -43995,6 +43986,7 @@ NovoDataTable.decorators = [
               [class.empty]="column?.type === 'action' && !column?.label"
               [class.button-header-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)"
               [class.dropdown-header-cell]="column?.type === 'action' && column?.action?.options"
+              [class.fixed-header]="fixedHeader"
             ></novo-data-table-header-cell>
             <novo-data-table-cell
               *cdkCellDef="let row"
@@ -44009,6 +44001,7 @@ NovoDataTable.decorators = [
           </ng-container>
           <novo-data-table-header-row
             *cdkHeaderRowDef="displayedColumns"
+            [fixedHeader]="fixedHeader"
             data-automation-id="novo-data-table-header-row"
           ></novo-data-table-header-row>
           <novo-data-table-row
@@ -44417,6 +44410,7 @@ class NovoDataTableHeaderRow extends CdkHeaderRow {
     constructor() {
         super(...arguments);
         this.rowClass = 'novo-data-table-header-row';
+        this.fixedHeader = false;
         this.role = 'row';
     }
 }
@@ -44429,6 +44423,7 @@ NovoDataTableHeaderRow.decorators = [
 ];
 NovoDataTableHeaderRow.propDecorators = {
     rowClass: [{ type: HostBinding, args: ['class',] }],
+    fixedHeader: [{ type: HostBinding, args: ['class.fixed-header',] }, { type: Input }],
     role: [{ type: HostBinding, args: ['attr.role',] }]
 };
 
