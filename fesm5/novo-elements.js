@@ -49335,6 +49335,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
         this.activeDateFilter = undefined;
         this.filterData(undefined);
         this.clearOptionFilter();
+        this.dropdown.closePanel();
     };
     /**
      * @private
