@@ -53,7 +53,6 @@ export interface IDataTableColumn<T> {
         resizable: boolean;
         width: number;
     };
-    rightAlignCellContent?: boolean;
 }
 export interface IDataTablePaginationOptions {
     theme: 'basic' | 'standard' | 'basic-wide';

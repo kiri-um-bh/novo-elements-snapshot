@@ -9,6 +9,7 @@ export declare class PopOverContent implements AfterViewInit {
     animation: boolean;
     popoverDiv: ElementRef;
     popover: PopOverDirective;
+    _popover: PopOverDirective;
     onCloseFromOutside: EventEmitter<{}>;
     top: number;
     left: number;

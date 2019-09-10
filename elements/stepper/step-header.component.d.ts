@@ -1,8 +1,7 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { ElementRef, OnDestroy, TemplateRef } from '@angular/core';
 import { NovoStepLabel } from './step-label.component';
-import { CdkStepHeader } from '@angular/cdk/stepper';
-export declare class NovoStepHeader extends CdkStepHeader implements OnDestroy {
+export declare class NovoStepHeader implements OnDestroy {
     private _focusMonitor;
     private _element;
     theme: string;

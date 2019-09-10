@@ -34,7 +34,6 @@ export declare class FormUtils {
         restUrl?: string;
         military?: boolean;
     }, overrides?: any, forTable?: boolean, fieldData?: any): any;
-    private shouldCreateControl;
     toControls(meta: any, currencyFormat: any, http: any, config: {
         token?: string;
         restUrl?: string;

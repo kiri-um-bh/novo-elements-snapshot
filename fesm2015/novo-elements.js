@@ -5,6 +5,12 @@ import 'brace/ext/language_tools.js';
 import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
 import * as dragulaImported from '@bullhorn/dragula';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
+import { __awaiter } from 'tslib';
+import * as retextProxy from 'retext';
+import retextProxy__default, {  } from 'retext';
+import * as english from 'retext-english';
+import * as equality from 'retext-equality';
+import * as stringify from 'retext-stringify';
 import { TextMaskModule } from 'angular2-text-mask';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CdkAccordion, CdkAccordionItem, CdkAccordionModule } from '@angular/cdk/accordion';
@@ -12,18 +18,18 @@ import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 import { TAB, ENTER, ESCAPE, SPACE } from '@angular/cdk/keycodes';
 import { ComponentPortal, TemplatePortal, PortalModule } from '@angular/cdk/portal';
 import { FocusMonitor, A11yModule } from '@angular/cdk/a11y';
-import { CdkStepLabel, CdkStepHeader, CdkStep, CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
+import { CdkStepLabel, CdkStep, CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
 import { Directionality } from '@angular/cdk/bidi';
 import { trigger, state, style, animate, transition, animateChild, group, query } from '@angular/animations';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from 'rxjs';
-import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
+import { filter, first, switchMap, debounceTime, distinctUntilChanged, throttleTime, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
 import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, Injector, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
+import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 /**
@@ -1920,26 +1926,6 @@ class NovoLabelService {
             return value;
         }
         return new Intl.DateTimeFormat(this.userLocale, format$$1).format(date);
-    }
-    /**
-     * @param {?} value
-     * @param {?} format
-     * @return {?}
-     */
-    formatTimeWithFormat(value, format$$1) {
-        /** @type {?} */
-        let date = value instanceof Date ? value : new Date(value);
-        if (date.getTime() !== date.getTime()) {
-            return value;
-        }
-        /** @type {?} */
-        let timeParts = Intl.DateTimeFormat(this.userLocale, format$$1).formatToParts(date).reduce((obj, part) => {
-            obj[part.type] = part.value;
-            return obj;
-        }, {});
-        /** @type {?} */
-        const dayperiod = timeParts.dayperiod ? timeParts.dayperiod : '';
-        return `${timeParts.hour}:${timeParts.minute}${dayperiod}`;
     }
     /**
      * @return {?}
@@ -5176,7 +5162,6 @@ class ComponentUtils {
         this.componentFactoryResolver = componentFactoryResolver;
     }
     /**
-     * @deprecated use append() instead.
      * @param {?} ComponentClass
      * @param {?} location
      * @param {?=} providers
@@ -5195,7 +5180,6 @@ class ComponentUtils {
         return location.createComponent(componentFactory, location.length, childInjector);
     }
     /**
-     * @deprecated
      * @param {?} ComponentClass
      * @param {?} location
      * @param {?=} providers
@@ -5212,23 +5196,6 @@ class ComponentUtils {
             childInjector = ReflectiveInjector.fromResolvedProviders(providers, parentInjector);
         }
         return location.createComponent(componentFactory, 0, childInjector);
-    }
-    /**
-     * @template T
-     * @param {?} ComponentClass
-     * @param {?} location
-     * @param {?=} providers
-     * @param {?=} onTop
-     * @return {?}
-     */
-    append(ComponentClass, location, providers, onTop) {
-        /** @type {?} */
-        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ComponentClass);
-        /** @type {?} */
-        const parent = location.injector;
-        /** @type {?} */
-        const index = onTop ? 0 : location.length;
-        return location.createComponent(componentFactory, index, Injector.create({ providers, parent }));
     }
 }
 ComponentUtils.decorators = [
@@ -5301,7 +5268,7 @@ class NovoModalContainerElement {
      */
     ngAfterViewInit() {
         setTimeout(() => {
-            this.modalRef.contentRef = this.componentUtils.append(this.modalRef.component, this.container);
+            this.modalRef.contentRef = this.componentUtils.appendNextToLocation(this.modalRef.component, this.container);
         });
     }
 }
@@ -5337,10 +5304,12 @@ NovoModalElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-modal',
                 template: `
-    <ng-content select="header"></ng-content>
-    <ng-content select="section"></ng-content>
-    <footer><ng-content select="button"></ng-content></footer>
-  `
+        <ng-content select="header"></ng-content>
+        <ng-content select="section"></ng-content>
+        <footer>
+            <ng-content select="button"></ng-content>
+        </footer>
+    `
             }] }
 ];
 /** @nocollapse */
@@ -5389,16 +5358,20 @@ NovoModalNotificationElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-notification',
                 template: `
-    <button class="modal-close" theme="icon" icon="times" (click)="close()"></button>
-    <header><ng-content select="label"></ng-content></header>
-    <section class="notification-body">
-      <i class="indicator" [ngClass]="iconType" *ngIf="iconType"></i>
-      <ng-content select="h1"></ng-content>
-      <ng-content select="h2"></ng-content>
-      <ng-content select="p"></ng-content>
-    </section>
-    <footer><ng-content select="button"></ng-content></footer>
-  `
+        <button class="modal-close" theme="icon" icon="times" (click)="close()"></button>
+        <header>
+            <ng-content select="label"></ng-content>
+        </header>
+        <section class="notification-body">
+            <i class="indicator" [ngClass]="iconType" *ngIf="iconType"></i>
+            <ng-content select="h1"></ng-content>
+            <ng-content select="h2"></ng-content>
+            <ng-content select="p"></ng-content>
+        </section>
+        <footer>
+            <ng-content select="button"></ng-content>
+        </footer>
+    `
             }] }
 ];
 /** @nocollapse */
@@ -5799,7 +5772,6 @@ class BasePickerResults {
         this.page = 0;
         this.lastPage = false;
         this.autoSelectFirstOption = true;
-        this.optionsFunctionHasChanged = false;
         this.selectingMatches = false;
         this.element = element;
         this.ref = ref;
@@ -5850,7 +5822,6 @@ class BasePickerResults {
         if (this.shouldSearch(value)) {
             this._term = value;
             this.page = 0;
-            this.optionsFunctionHasChanged = false;
             this.matches = [];
             this.processSearch(true);
         }
@@ -5862,28 +5833,14 @@ class BasePickerResults {
      * @param {?} value
      * @return {?}
      */
-    set config(value) {
-        if (this.config && this.config.options !== value.options) {
-            this.optionsFunctionHasChanged = true; // reset page so that new options call is used to search
-        }
-        this._config = value;
-    }
-    /**
-     * @return {?}
-     */
-    get config() {
-        return this._config;
-    }
-    /**
-     * @param {?} value
-     * @return {?}
-     */
     shouldSearch(value) {
         /** @type {?} */
         const termHasChanged = value !== this._term;
         /** @type {?} */
         const optionsNotYetCalled = this.page === 0;
-        return termHasChanged || optionsNotYetCalled || this.optionsFunctionHasChanged;
+        /** @type {?} */
+        const optionsCalledOnEmptyStringSearch = !termHasChanged && this.page > 0 && value === '';
+        return termHasChanged || optionsNotYetCalled || optionsCalledOnEmptyStringSearch;
     }
     /**
      * @return {?}
@@ -5958,7 +5915,9 @@ class BasePickerResults {
                         Object.getPrototypeOf(options).hasOwnProperty('then')) {
                         this.isStatic = false;
                         // Promises (ES6 or Deferred) are resolved whenever they resolve
-                        options.then(this.structureArray.bind(this)).then(resolve, reject);
+                        options
+                            .then(this.structureArray.bind(this))
+                            .then(resolve, reject);
                     }
                     else if (typeof options === 'function') {
                         this.isStatic = false;
@@ -5980,7 +5939,9 @@ class BasePickerResults {
                             /** @type {?} */
                             let defaultOptions = this.config.defaultOptions(term, ++this.page);
                             if (Object.getPrototypeOf(defaultOptions).hasOwnProperty('then')) {
-                                defaultOptions.then(this.structureArray.bind(this)).then(resolve, reject);
+                                defaultOptions
+                                    .then(this.structureArray.bind(this))
+                                    .then(resolve, reject);
                             }
                             else {
                                 resolve(this.structureArray(defaultOptions));
@@ -6206,13 +6167,6 @@ class BasePickerResults {
      * @return {?}
      */
     preselected(match) {
-        if (this.config.preselected) {
-            /** @type {?} */
-            let preselectedFunc = this.config.preselected;
-            return (this.selected.findIndex((item) => {
-                return preselectedFunc(match, item);
-            }) !== -1);
-        }
         return (this.selected.findIndex((item) => {
             /** @type {?} */
             let isPreselected = false;
@@ -6258,24 +6212,6 @@ class PickerResults extends BasePickerResults {
     /**
      * @return {?}
      */
-    getEmptyMessage() {
-        if (this.shouldShowMessageForZeroLengthSearch()) {
-            // this property comes from Field Interactions
-            return this.config.emptyPickerMessage;
-        }
-        else {
-            return this.term === '' ? this.labels.pickerTextFieldEmpty : this.labels.pickerEmpty;
-        }
-    }
-    /**
-     * @return {?}
-     */
-    shouldShowMessageForZeroLengthSearch() {
-        return this.config && this.config.minSearchLength === 0 && this.term === '' && this.config.emptyPickerMessage;
-    }
-    /**
-     * @return {?}
-     */
     getListElement() {
         return this.element.nativeElement.querySelector('novo-list');
     }
@@ -6301,7 +6237,8 @@ PickerResults.decorators = [
     </novo-list>
     <div class="picker-loader" *ngIf="isLoading && matches.length === 0"><novo-loading theme="line"></novo-loading></div>
     <p class="picker-error" *ngIf="hasError">{{ labels.pickerError }}</p>
-    <p class="picker-null-results" *ngIf="hasNonErrorMessage">{{ getEmptyMessage() }}</p>
+    <p class="picker-null-results" *ngIf="hasNonErrorMessage && term !== ''">{{ labels.pickerEmpty }}</p>
+    <p class="picker-null-results" *ngIf="hasNonErrorMessage && term === ''">{{ labels.pickerTextFieldEmpty }}</p>
   `
             }] }
 ];
@@ -6773,7 +6710,7 @@ class QuickNoteElement extends OutsideClick {
                 }
                 else {
                     // Create the results DOM element
-                    this.quickNoteResults = this.componentUtils.append(this.resultsComponent, this.results);
+                    this.quickNoteResults = this.componentUtils.appendNextToLocation(this.resultsComponent, this.results);
                     this.quickNoteResults.instance.parent = this;
                     this.quickNoteResults.instance.config = this.config;
                     this.quickNoteResults.instance.term = {
@@ -8790,7 +8727,7 @@ class NovoPickerElement {
             this.ref.markForCheck();
         }
         else {
-            this.popup = this.componentUtils.append(this.resultsComponent, this.results);
+            this.popup = this.componentUtils.appendNextToLocation(this.resultsComponent, this.results);
             this.popup.instance.parent = this;
             this.popup.instance.config = this.config;
             this.popup.instance.term = this.term;
@@ -10944,7 +10881,7 @@ class NovoChipsElement {
     showPreview() {
         if (this.source.previewTemplate) {
             if (!this.popup) {
-                this.popup = this.componentUtils.append(this.source.previewTemplate, this.preview);
+                this.popup = this.componentUtils.appendNextToLocation(this.source.previewTemplate, this.preview);
             }
             this.popup.instance.match = this.selected;
         }
@@ -12688,7 +12625,7 @@ class NovoTimePickerInputElement {
     ngOnInit() {
         this.placeholder = this.military ? this.labels.timeFormatPlaceholder24Hour : this.labels.timeFormatPlaceholderAM;
         this.maskOptions = {
-            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP上下]/, /[mM午]/],
+            mask: this.military ? [/\d/, /\d/, ':', /\d/, /\d/] : [/\d/, /\d/, ':', /\d/, /\d/, ' ', /[aApP]/, /[mM]/],
             pipe: this.military ? createAutoCorrectedDatePipe('HH:MM') : createAutoCorrectedDatePipe('mm:MM'),
             keepCharPositions: false,
             guide: true,
@@ -12855,7 +12792,7 @@ class NovoTimePickerInputElement {
             return '';
         }
         /** @type {?} */
-        let format$$1 = this.labels.formatTimeWithFormat(value, {
+        let format$$1 = this.labels.formatDateWithFormat(value, {
             hour: '2-digit',
             minute: '2-digit',
             hour12: !this.military,
@@ -13359,6 +13296,627 @@ NovoDateTimePickerModule.decorators = [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/** @type {?} */
+const retext = retextProxy__default || retextProxy;
+/**
+ * @param {?} editor
+ * @return {?}
+ */
+function init(editor) {
+    /** @type {?} */
+    const processor = retext()
+        .use(english)
+        .use(equality)
+        .use(stringify);
+    /** @type {?} */
+    const changeSubject = new Subject();
+    changeSubject
+        .pipe(throttleTime(700), debounceTime(300))
+        .subscribe((event) => {
+        console.log('change event', event);
+        /** @type {?} */
+        const body = editor.document.$.body;
+        walk(body, editor, processor);
+    });
+    editor.on('change', (event) => {
+        // fromEvent on editor or document doesn't work /shrug emoji
+        changeSubject.next(event);
+    });
+}
+/**
+ * @param {?} element
+ * @param {?} editor
+ * @param {?} processor
+ * @return {?}
+ */
+function walk(element, editor, processor) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield verifyExistingWarnings(element.ownerDocument, processor);
+        flattenChildNodes(element, 'inclusion-helper-warning')
+            .filter((node) => node.nodeType === Node.TEXT_NODE)
+            .forEach((item) => parseAndAddSuggestions(item, editor, processor));
+    });
+}
+/**
+ * @param {?} document
+ * @param {?} processor
+ * @return {?}
+ */
+function verifyExistingWarnings(document, processor) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Promise.all(Array.from(document.getElementsByClassName('inclusion-helper-warning')).map((element) => __awaiter(this, void 0, void 0, function* () {
+            /** @type {?} */
+            const text = element.textContent;
+            /** @type {?} */
+            const vfile = yield processor.process(text);
+            if (vfile.messages.length !== 1 || vfile.messages[0].location.end.offset !== text.length) {
+                removeWarning(element, document);
+            }
+            return;
+        })));
+    });
+}
+/**
+ * @param {?} element
+ * @param {?} document
+ * @return {?}
+ */
+function removeWarning(element, document) {
+    /** @type {?} */
+    const parent = element.parentNode;
+    parent.replaceChild(document.createTextNode(element.textContent), element);
+}
+/**
+ * @param {?} parent
+ * @param {?=} filter
+ * @return {?}
+ */
+function flattenChildNodes(parent, filter$$1) {
+    /** @type {?} */
+    const children = Array.from(parent.childNodes).filter((child) => {
+        if ({}.hasOwnProperty.call(child, 'className') && filter$$1) {
+            return !((/** @type {?} */ (child))).className.includes(filter$$1);
+        }
+        else {
+            return true;
+        }
+    });
+    if (children.length === 0) {
+        return [parent];
+    }
+    else {
+        return [parent, ...flatten(children.map((n) => flattenChildNodes(n, 'inclusion-helper-warning')))];
+    }
+}
+/**
+ * @template T
+ * @param {?} a
+ * @return {?}
+ */
+function flatten(a) {
+    return a.reduce((prev, next) => [...(Array.isArray(prev) ? prev : [prev]), ...(Array.isArray(next) ? next : [next])]);
+}
+/**
+ * @param {?} vfile
+ * @param {?} text
+ * @return {?}
+ */
+function getSuggestions(vfile, text) {
+    if (!vfile.messages && vfile.messages.length) {
+        return [];
+    }
+    return vfile.messages
+        .map((vmessage) => {
+        /** @type {?} */
+        const suggestedReplacements = vmessage.message.match(/`([^`]*)`/g).map((s) => s.replace(/`/g, ''));
+        /** @type {?} */
+        const problematicTerm = suggestedReplacements.shift();
+        return {
+            start: vmessage.location.start.offset,
+            stop: vmessage.location.end.offset,
+            id: vmessage.name + problematicTerm,
+            problematicTerm,
+            suggestedReplacements,
+            explanation: makeExplanation(suggestedReplacements, problematicTerm),
+        };
+    })
+        .concat(getCustomSuggestions(text));
+}
+/**
+ * @param {?} suggestedReplacements
+ * @param {?} problematicTerm
+ * @return {?}
+ */
+function makeExplanation(suggestedReplacements, problematicTerm) {
+    /** @type {?} */
+    let replacements;
+    if (suggestedReplacements.length === 1) {
+        replacements = suggestedReplacements.map((t) => `"${t}"`).pop();
+    }
+    else if (suggestedReplacements.length === 2) {
+        replacements = suggestedReplacements.map((t) => `"${t}"`).join(' or ');
+    }
+    else if (suggestedReplacements.length > 2) {
+        replacements = `${suggestedReplacements
+            .slice(0, -1)
+            .map((t) => `"${t}"`)
+            .join(', ')}, or ${suggestedReplacements.slice(-1).map((t) => `"${t}"`)}`;
+    }
+    return `"${problematicTerm}" is potentially a less inclusive term than ${replacements}`;
+}
+/**
+ * @param {?} text
+ * @return {?}
+ */
+function getCustomSuggestions(text) {
+    /** @type {?} */
+    const customList = [
+        { term: 'superior', replacement: 'excellent' },
+        { term: 'boasts', replacement: 'has' },
+        { term: ' courageously', replacement: ', with pluck and grit,' },
+        { term: 'dominate', replacement: 'thrive' },
+        { term: 'hostile', replacement: 'difficult' },
+    ];
+    return customList
+        .filter(({ term }) => text.includes(term))
+        .map(({ term, replacement }) => {
+        return {
+            start: text.indexOf(term),
+            stop: text.indexOf(term) + term.length,
+            id: term,
+            problematicTerm: term,
+            suggestedReplacements: [replacement],
+            explanation: makeExplanation([replacement], term),
+        };
+    });
+}
+/**
+ * @param {?} element
+ * @param {?} editor
+ * @param {?} processor
+ * @return {?}
+ */
+function parseAndAddSuggestions(element, editor, processor) {
+    return __awaiter(this, void 0, void 0, function* () {
+        /** @type {?} */
+        const doc = element.ownerDocument;
+        /** @type {?} */
+        const text = element.textContent;
+        /** @type {?} */
+        const parent = element.parentNode;
+        /** @type {?} */
+        const vfile = yield processor.process(text);
+        // console.log(vfile);
+        /** @type {?} */
+        const suggestions = getSuggestions(vfile, text).filter((suggestion) => {
+            if (!Array.isArray(editor.dismissedTerms) || editor.dismissedTerms.length === 0) {
+                return true;
+            }
+            return !editor.dismissedTerms.find((term) => {
+                return term === suggestion.problematicTerm;
+            });
+        });
+        if (suggestions.length && !((/** @type {?} */ (parent))).className.includes('inclusion-helper-warning')) {
+            // for reach suggestion, splice it into the thing
+            /** @type {?} */
+            const offset = getSelection(doc, element);
+            splitIntoNodes(suggestions, text, doc, editor).forEach((node) => parent.insertBefore(node, (/** @type {?} */ (element))));
+            if (Number.isInteger(offset)) {
+                setSelection(doc, offset, parent);
+            }
+            parent.removeChild(element);
+        }
+    });
+}
+/**
+ * @param {?} doc
+ * @param {?} element
+ * @return {?}
+ */
+function getSelection(doc, element) {
+    /** @type {?} */
+    const selection = doc.getSelection();
+    if (selection.focusNode === element || selection.anchorNode === element) {
+        return selection.focusOffset;
+    }
+}
+/**
+ * @param {?} doc
+ * @param {?} location
+ * @param {?} parent
+ * @return {?}
+ */
+function setSelection(doc, location, parent) {
+    /** @type {?} */
+    const selection = doc.getSelection();
+    selection.removeAllRanges();
+    /** @type {?} */
+    const range = document.createRange();
+    range.selectNode(parent);
+    selection.addRange(range);
+    selection.collapseToEnd();
+}
+/**
+ * @param {?} suggestions
+ * @param {?} text
+ * @param {?} doc
+ * @param {?} editor
+ * @return {?}
+ */
+function splitIntoNodes(suggestions, text, doc, editor) {
+    /** @type {?} */
+    const nodes = [];
+    /** @type {?} */
+    let index = 0;
+    suggestions.sort(suggestionSorter).forEach((suggestion) => {
+        if (index < suggestion.start) {
+            nodes.push(doc.createTextNode(text.slice(index, suggestion.start)));
+        }
+        nodes.push(makeWarningElement(doc, suggestion, editor));
+        index = suggestion.stop;
+    });
+    if (index < text.length) {
+        nodes.push(doc.createTextNode(text.slice(index)));
+    }
+    return nodes;
+}
+/**
+ * @param {?} a
+ * @param {?} b
+ * @return {?}
+ */
+function suggestionSorter(a, b) {
+    if (a.start < b.start) {
+        return -1;
+    }
+    if (a.start > b.start) {
+        return 1;
+    }
+    return 0;
+}
+/**
+ * @param {?} document
+ * @param {?} suggestion
+ * @param {?} editor
+ * @return {?}
+ */
+function makeWarningElement(document, suggestion, editor) {
+    /** @type {?} */
+    const warning = document.createElement('span');
+    /** @type {?} */
+    const textNodeForMatchedWord = document.createTextNode(suggestion.problematicTerm);
+    warning.appendChild(textNodeForMatchedWord);
+    /** @type {?} */
+    const inclusionArgs = {
+        offset: 50,
+        suggestion,
+    };
+    warning.onclick = () => {
+        editor.fire('inclusion', inclusionArgs, editor);
+    };
+    /** @type {?} */
+    const spanStyles = {
+        display: 'inline-block',
+        cursor: 'pointer',
+        'border-bottom': '2px dashed gold',
+        'border-right': '2px dashed gold',
+        'font-style': 'normal',
+        background: '#ffef94',
+        padding: '0px 4px',
+    };
+    /** @type {?} */
+    const style$$1 = Object.entries(spanStyles)
+        .map((property) => property.join(' : '))
+        .join(';');
+    /** @type {?} */
+    const spanAttributes = {
+        style: style$$1,
+        id: suggestion.id,
+        class: 'inclusion-helper-warning',
+    };
+    Object.entries(spanAttributes).forEach(([key, value]) => {
+        warning.setAttribute(key, value);
+    });
+    return warning;
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class PopOverContent {
+    /**
+     * @param {?} element
+     * @param {?} cdr
+     */
+    constructor(element, cdr) {
+        this.element = element;
+        this.cdr = cdr;
+        this.placement = 'top';
+        this.animation = true;
+        this.onCloseFromOutside = new EventEmitter();
+        this.top = -10000;
+        this.left = -10000;
+        this.displayType = 'none';
+        this.isHidden = false;
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set popover(value) {
+        this._popover = value;
+    }
+    /**
+     * @return {?}
+     */
+    get popover() {
+        return this._popover;
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterViewInit() {
+        this.show();
+        this.cdr.detectChanges();
+    }
+    /**
+     * @return {?}
+     */
+    toggle() {
+        if (this.isHidden) {
+            this.show();
+        }
+        else {
+            this.hide();
+        }
+    }
+    /**
+     * @return {?}
+     */
+    show() {
+        if (!this.popover || !this.popover.getElement()) {
+            return;
+        }
+        /** @type {?} */
+        const p = this.positionElements(this.popover.getElement(), this.popoverDiv.nativeElement, this.placement);
+        this.displayType = 'block';
+        this.top = p.top;
+        this.left = p.left;
+        this.isHidden = false;
+    }
+    /**
+     * @return {?}
+     */
+    hide() {
+        this.top = -10000;
+        this.left = -10000;
+        this.isHidden = true;
+        this.popover.hide();
+    }
+    /**
+     * @return {?}
+     */
+    hideFromPopover() {
+        this.top = -10000;
+        this.left = -10000;
+    }
+    /**
+     * @protected
+     * @param {?} hostEl
+     * @param {?} targetEl
+     * @param {?} positionStr
+     * @param {?=} appendToBody
+     * @return {?}
+     */
+    positionElements(hostEl, targetEl, positionStr, appendToBody = false) {
+        /** @type {?} */
+        let positionStrParts = positionStr.split('-');
+        /** @type {?} */
+        let mainSide = (this.effectivePlacement = this.getEffectivePlacement(positionStrParts[0] || 'right', hostEl, targetEl));
+        /** @type {?} */
+        let orientation = (this.effectiveAlignment = positionStrParts[1] || 'center');
+        /** @type {?} */
+        let hostElPos = appendToBody ? this.offset(hostEl) : this.position(hostEl);
+        /** @type {?} */
+        let targetElWidth = targetEl.offsetWidth;
+        /** @type {?} */
+        let targetElHeight = targetEl.offsetHeight;
+        /** @type {?} */
+        let shiftWidth = {
+            center: function () {
+                return hostElPos.left + (hostElPos.width - targetElWidth) / 2;
+            },
+            right: function () {
+                return hostElPos.left;
+            },
+            left: function () {
+                return hostElPos.left + (hostElPos.width - targetElWidth);
+            },
+        };
+        /** @type {?} */
+        let shiftHeight = {
+            center: function () {
+                return hostElPos.top + (hostElPos.height - targetElHeight) / 2;
+            },
+            bottom: function () {
+                return hostElPos.top;
+            },
+            top: function () {
+                return hostElPos.top + (hostElPos.height - targetElHeight);
+            },
+        };
+        /** @type {?} */
+        let targetElPos;
+        switch (mainSide) {
+            case 'right':
+                targetElPos = {
+                    top: shiftHeight[orientation](),
+                    left: hostElPos.left + hostElPos.width,
+                };
+                break;
+            case 'left':
+                targetElPos = {
+                    top: shiftHeight[orientation](),
+                    left: hostElPos.left - targetElWidth,
+                };
+                break;
+            case 'bottom':
+                targetElPos = {
+                    top: hostElPos.top + hostElPos.height,
+                    left: shiftWidth[orientation](),
+                };
+                break;
+            default:
+                targetElPos = {
+                    top: hostElPos.top - targetElHeight,
+                    left: shiftWidth[orientation](),
+                };
+                break;
+        }
+        return targetElPos;
+    }
+    /**
+     * @protected
+     * @param {?} nativeEl
+     * @return {?}
+     */
+    position(nativeEl) {
+        /** @type {?} */
+        let offsetParentBCR = { top: 0, left: 0 };
+        /** @type {?} */
+        const elBCR = this.offset(nativeEl);
+        /** @type {?} */
+        const offsetParentEl = this.parentOffsetEl(nativeEl);
+        if (offsetParentEl !== window.document) {
+            offsetParentBCR = this.offset(offsetParentEl);
+            offsetParentBCR.top += offsetParentEl.clientTop - offsetParentEl.scrollTop;
+            offsetParentBCR.left += offsetParentEl.clientLeft - offsetParentEl.scrollLeft;
+        }
+        /** @type {?} */
+        const boundingClientRect = nativeEl.getBoundingClientRect();
+        return {
+            width: boundingClientRect.width || nativeEl.offsetWidth,
+            height: boundingClientRect.height || nativeEl.offsetHeight,
+            top: elBCR.top - offsetParentBCR.top,
+            left: elBCR.left - offsetParentBCR.left,
+        };
+    }
+    /**
+     * @protected
+     * @param {?} nativeEl
+     * @return {?}
+     */
+    offset(nativeEl) {
+        /** @type {?} */
+        const boundingClientRect = nativeEl.getBoundingClientRect();
+        return {
+            width: boundingClientRect.width || nativeEl.offsetWidth,
+            height: boundingClientRect.height || nativeEl.offsetHeight,
+            top: boundingClientRect.top + (window.pageYOffset || window.document.documentElement.scrollTop),
+            left: boundingClientRect.left + (window.pageXOffset || window.document.documentElement.scrollLeft),
+        };
+    }
+    /**
+     * @protected
+     * @param {?} nativeEl
+     * @param {?} cssProp
+     * @return {?}
+     */
+    getStyle(nativeEl, cssProp) {
+        if (((/** @type {?} */ (nativeEl))).currentStyle) {
+            return ((/** @type {?} */ (nativeEl))).currentStyle[cssProp];
+        }
+        if (window.getComputedStyle) {
+            return ((/** @type {?} */ (window.getComputedStyle)))(nativeEl)[cssProp];
+        }
+        return ((/** @type {?} */ (nativeEl.style)))[cssProp];
+    }
+    /**
+     * @protected
+     * @param {?} nativeEl
+     * @return {?}
+     */
+    isStaticPositioned(nativeEl) {
+        return (this.getStyle(nativeEl, 'position') || 'static') === 'static';
+    }
+    /**
+     * @protected
+     * @param {?} nativeEl
+     * @return {?}
+     */
+    parentOffsetEl(nativeEl) {
+        /** @type {?} */
+        let offsetParent = nativeEl.offsetParent || window.document;
+        while (offsetParent && offsetParent !== window.document && this.isStaticPositioned(offsetParent)) {
+            offsetParent = offsetParent.offsetParent;
+        }
+        return offsetParent || window.document;
+    }
+    /**
+     * @protected
+     * @param {?} desiredPlacement
+     * @param {?} hostElement
+     * @param {?} targetElement
+     * @return {?}
+     */
+    getEffectivePlacement(desiredPlacement, hostElement, targetElement) {
+        /** @type {?} */
+        const hostElBoundingRect = hostElement.getBoundingClientRect();
+        if (desiredPlacement === 'top' && hostElBoundingRect.top - targetElement.offsetHeight < 0) {
+            return 'bottom';
+        }
+        if (desiredPlacement === 'bottom' && hostElBoundingRect.bottom + targetElement.offsetHeight > window.innerHeight) {
+            return 'top';
+        }
+        if (desiredPlacement === 'left' && hostElBoundingRect.left - targetElement.offsetWidth < 0) {
+            return 'right';
+        }
+        if (desiredPlacement === 'right' && hostElBoundingRect.right + targetElement.offsetWidth > window.innerWidth) {
+            return 'left';
+        }
+        return desiredPlacement;
+    }
+}
+PopOverContent.decorators = [
+    { type: Component, args: [{
+                selector: 'popover-content',
+                template: `
+        <div #popoverDiv
+            class="popover {{ effectivePlacement }}"
+            [style.top]="top + 'px'"
+            [style.left]="left + 'px'"
+            [class.fade]="animation"
+            style="display: block"
+            role="popover">
+            <div class="arrow {{effectiveAlignment}}"></div>
+            <h4 class="popover-title" [hidden]="!title">{{ title }}</h4>
+            <div class="popover-content">
+                <ng-content></ng-content>
+                <div class="popover-content-text">{{ content }}</div>
+            </div>
+        </div>
+    `
+            }] }
+];
+/** @nocollapse */
+PopOverContent.ctorParameters = () => [
+    { type: ElementRef },
+    { type: ChangeDetectorRef }
+];
+PopOverContent.propDecorators = {
+    content: [{ type: Input }],
+    placement: [{ type: Input }],
+    title: [{ type: Input }],
+    animation: [{ type: Input }],
+    popoverDiv: [{ type: ViewChild, args: ['popoverDiv',] }]
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+// import 'CKEDITOR';
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const CKEDITOR_CONTROL_VALUE_ACCESSOR = {
@@ -13374,9 +13932,11 @@ const CKEDITOR_CONTROL_VALUE_ACCESSOR = {
 class NovoCKEditorElement {
     /**
      * @param {?} zone
+     * @param {?} changeDetectorRef
      */
-    constructor(zone) {
+    constructor(zone, changeDetectorRef) {
         this.zone = zone;
+        this.changeDetectorRef = changeDetectorRef;
         this.startupFocus = false;
         this.fileBrowserImageUploadUrl = '';
         this.disabled = false;
@@ -13387,6 +13947,71 @@ class NovoCKEditorElement {
         this.paste = new EventEmitter();
         this.loaded = new EventEmitter();
         this._value = '';
+        this.popoverTitle = '';
+        this.popoverText = '';
+        this.suggestedReplacements = [];
+        this._shouldShowPopover = false;
+        this.onInclusionEvent = (info) => {
+            /** @type {?} */
+            const data = info.data;
+            /** @type {?} */
+            const editor = info.editor;
+            this.createChangeTerm(info.data.suggestion.id, editor.document.$);
+            this.createDismiss(editor, data);
+            this.shouldShowPopover = true;
+            this.suggestedReplacements = data.suggestion.suggestedReplacements;
+            this.popoverTitle = `"${data.suggestion.problematicTerm}"`;
+            this.popoverText = data.suggestion.explanation;
+            this.changeDetectorRef.detectChanges();
+        };
+        this.ckeditorInit = (config) => {
+            if (!CKEDITOR) {
+                console.error('Make sure to include CKEditor sources in your dependencies!');
+                return;
+            }
+            CKEDITOR.plugins.add('inclusion-helper', { init }); // , onLoad });
+            // CKEditor replace textarea
+            this.instance = CKEDITOR.replace(this.host.nativeElement, config);
+            // Set initial value
+            this.instance.setData(this.value);
+            // listen for instanceReady event
+            this.instance.on('instanceReady', (evt) => {
+                // send the evt to the EventEmitter
+                this.ready.emit(evt);
+            });
+            this.instance.on('inclusion', this.onInclusionEvent.bind(this));
+            // CKEditor change event
+            this.instance.on('change', () => {
+                this.onTouched();
+                /** @type {?} */
+                let value = this.instance.getData();
+                // Debounce update
+                if (this.debounce) {
+                    if (this.debounceTimeout) {
+                        clearTimeout(this.debounceTimeout);
+                    }
+                    this.debounceTimeout = setTimeout(() => {
+                        this.updateValue(value);
+                        this.debounceTimeout = null;
+                    }, parseInt(this.debounce));
+                }
+                else {
+                    this.updateValue(value);
+                }
+            });
+            this.instance.on('blur', (event) => {
+                this.blur.emit(event);
+            });
+            this.instance.on('focus', (event) => {
+                this.focus.emit(event);
+            });
+            this.instance.on('paste', (event) => {
+                this.paste.emit(event);
+            });
+            this.instance.on('loaded', (event) => {
+                this.loaded.emit(event);
+            });
+        };
     }
     /**
      * @return {?}
@@ -13445,54 +14070,86 @@ class NovoCKEditorElement {
         });
     }
     /**
-     * @param {?} config
      * @return {?}
      */
-    ckeditorInit(config) {
-        if (!CKEDITOR) {
-            console.error('Make sure to include CKEditor sources in your dependencies!');
-            return;
-        }
-        // CKEditor replace textarea
-        this.instance = CKEDITOR.replace(this.host.nativeElement, config);
-        // Set initial value
-        this.instance.setData(this.value);
-        // listen for instanceReady event
-        this.instance.on('instanceReady', (evt) => {
-            // send the evt to the EventEmitter
-            this.ready.emit(evt);
-        });
-        // CKEditor change event
-        this.instance.on('change', () => {
-            this.onTouched();
+    dismiss() {
+        this.hidePopover();
+    }
+    /**
+     * @param {?} p
+     * @return {?}
+     */
+    set inclusionPopover(p) {
+        this.popover = p;
+    }
+    /**
+     * @return {?}
+     */
+    get inclusionPopover() {
+        return this.popover;
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    set shouldShowPopover(value) {
+        this._shouldShowPopover = value;
+    }
+    /**
+     * @return {?}
+     */
+    get shouldShowPopover() {
+        return this._shouldShowPopover;
+    }
+    /**
+     * @return {?}
+     */
+    learnMore() { }
+    /**
+     * @param {?} term
+     * @return {?}
+     */
+    changeTerm(term) {
+        // this is a placeholdler to be replaced when the highlighted text is clicked
+        this.hidePopover();
+    }
+    /**
+     * @return {?}
+     */
+    hidePopover() {
+        this.shouldShowPopover = false;
+        this.inclusionPopover.hide();
+    }
+    /**
+     * @param {?} id
+     * @param {?} document
+     * @return {?}
+     */
+    createChangeTerm(id, document) {
+        this.changeTerm = (term) => {
             /** @type {?} */
-            let value = this.instance.getData();
-            // Debounce update
-            if (this.debounce) {
-                if (this.debounceTimeout) {
-                    clearTimeout(this.debounceTimeout);
-                }
-                this.debounceTimeout = setTimeout(() => {
-                    this.updateValue(value);
-                    this.debounceTimeout = null;
-                }, parseInt(this.debounce));
-            }
-            else {
-                this.updateValue(value);
-            }
-        });
-        this.instance.on('blur', (event) => {
-            this.blur.emit(event);
-        });
-        this.instance.on('focus', (event) => {
-            this.focus.emit(event);
-        });
-        this.instance.on('paste', (event) => {
-            this.paste.emit(event);
-        });
-        this.instance.on('loaded', (event) => {
-            this.loaded.emit(event);
-        });
+            const element = document.getElementById(id);
+            /** @type {?} */
+            const parent = element.parentNode;
+            parent.replaceChild(document.createTextNode(term), element);
+            this.hidePopover();
+        };
+    }
+    /**
+     * @param {?} editor
+     * @param {?} data
+     * @return {?}
+     */
+    createDismiss(editor, data) {
+        this.dismiss = () => {
+            editor.dismissedTerms = [...(editor.dismissedTerms ? editor.dismissedTerms : []), data.suggestion.problematicTerm];
+            /** @type {?} */
+            const element = editor.document.$.getElementById(data.suggestion.id);
+            /** @type {?} */
+            const parent = element.parentNode;
+            parent.replaceChild(document.createTextNode(data.suggestion.problematicTerm), element);
+            this.hidePopover();
+        };
     }
     /**
      * @return {?}
@@ -13500,13 +14157,14 @@ class NovoCKEditorElement {
     getBaseConfig() {
         /** @type {?} */
         const baseConfig = {
+            extraPlugins: 'inclusion-helper',
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_P,
             disableNativeSpellChecker: false,
             removePlugins: 'liststyle,tabletools,contextmenu',
             // allows browser based spell checking
-            extraAllowedContent: '*(*){*};table tbody tr td th[*];',
-            // allows class names (*) and inline styles {*} for all and attributes [*] on tables
+            allowedContent: true,
+            // extraAllowedContent: '*(*){*};table tbody tr td th[*];', // allows class names (*) and inline styles {*} for all and attributes [*] on tables
             font_names: 'Arial/Arial, Helvetica, sans-serif;' +
                 'Calibri/Calibri, Verdana, Geneva, sans-serif;' +
                 'Comic Sans MS/Comic Sans MS, cursive;' +
@@ -13561,7 +14219,7 @@ class NovoCKEditorElement {
                     ],
                 },
                 { name: 'links', items: ['Link'] },
-                { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] },
+                { name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'Inclusion-Helper'] },
                 { name: 'tools', items: ['Maximize', 'Source'] },
                 '/',
                 { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'] },
@@ -13630,12 +14288,13 @@ NovoCKEditorElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-editor',
                 providers: [CKEDITOR_CONTROL_VALUE_ACCESSOR],
-                template: '<textarea [name]="name" [id]="name" #host></textarea>'
+                template: "\n  <popover-content\n    #inclusionPopover\n    [title]=\"popoverTitle\"\n    placement=\"right\"\n    onclick=\"\">\n    <div class=\"popover-text\">\n      {{popoverText}}\n    </div>\n    <div class=\"popover-cta\">\n        <button theme=\"secondary\" side=\"right\" (click)=\"dismiss()\">Dismiss</button>\n        <button theme=\"primary\" icon=\"check\" side=\"right\" (click)=\"changeTerm(suggestedReplacements[0])\">Change</button>\n    </div>\n  </popover-content>\n<div\n[popover]=\"inclusionPopover\"\n  [popoverDisabled]=\"true\"\n  [popoverAlways]=\"shouldShowPopover\"\n>\n<textarea\n[name]=\"name\"\n[id]=\"name\"\n#host>\n</textarea>\n</div>\n"
             }] }
 ];
 /** @nocollapse */
 NovoCKEditorElement.ctorParameters = () => [
-    { type: NgZone }
+    { type: NgZone },
+    { type: ChangeDetectorRef }
 ];
 NovoCKEditorElement.propDecorators = {
     config: [{ type: Input }],
@@ -13652,8 +14311,201 @@ NovoCKEditorElement.propDecorators = {
     paste: [{ type: Output }],
     loaded: [{ type: Output }],
     host: [{ type: ViewChild, args: ['host',] }],
-    value: [{ type: Input }]
+    value: [{ type: Input }],
+    inclusionPopover: [{ type: ViewChild, args: ['inclusionPopover',] }]
 };
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class PopOverDirective {
+    /**
+     * @param {?} viewContainerRef
+     * @param {?} resolver
+     */
+    constructor(viewContainerRef, resolver) {
+        this.viewContainerRef = viewContainerRef;
+        this.resolver = resolver;
+        this.PopoverComponent = PopOverContent;
+        this.popoverOnHover = false;
+        this.popoverDismissTimeout = 0;
+        this.onShown = new EventEmitter();
+        this.onHidden = new EventEmitter();
+    }
+    // ---------------------------------------------------
+    // Event listeners
+    // ---------------------------------------------------
+    /**
+     * @return {?}
+     */
+    showOrHideOnClick() {
+        if (this.popoverOnHover || this.popoverDisabled) {
+            return;
+        }
+        this.toggle();
+    }
+    /**
+     * @return {?}
+     */
+    showOnHover() {
+        if (!this.popoverOnHover || this.popoverDisabled) {
+            return;
+        }
+        this.show();
+    }
+    /**
+     * @return {?}
+     */
+    hideOnHover() {
+        if (!this.popoverOnHover || this.popoverDisabled) {
+            return;
+        }
+        this.hide();
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        if (changes['popoverDisabled']) {
+            if (changes['popoverDisabled'].currentValue) {
+                this.hide();
+            }
+        }
+        if (changes['popoverAlways']) {
+            if (changes['popoverAlways'].currentValue) {
+                this.show();
+            }
+        }
+    }
+    /**
+     * @return {?}
+     */
+    toggle() {
+        if (!this.visible) {
+            this.show();
+        }
+        else {
+            this.hide();
+        }
+    }
+    /**
+     * @return {?}
+     */
+    show() {
+        if (this.visible) {
+            return;
+        }
+        this.visible = true;
+        if (typeof this.content === 'string') {
+            /** @type {?} */
+            const factory = this.resolver.resolveComponentFactory(this.PopoverComponent);
+            if (!this.visible) {
+                return;
+            }
+            this.popover = this.viewContainerRef.createComponent(factory);
+            /** @type {?} */
+            const popover = (/** @type {?} */ (this.popover.instance));
+            popover.popover = this;
+            popover.content = (/** @type {?} */ (this.content));
+            if (this.popoverPlacement !== undefined) {
+                popover.placement = this.popoverPlacement;
+            }
+            if (this.popoverAnimation !== undefined) {
+                popover.animation = this.popoverAnimation;
+            }
+            if (this.popoverTitle !== undefined) {
+                popover.title = this.popoverTitle;
+            }
+            popover.onCloseFromOutside.subscribe(() => this.hide());
+            if (this.popoverDismissTimeout > 0) {
+                setTimeout(() => this.hide(), this.popoverDismissTimeout);
+            }
+        }
+        else {
+            /** @type {?} */
+            const popover = (/** @type {?} */ (this.content));
+            popover.popover = this;
+            if (this.popoverPlacement !== undefined) {
+                popover.placement = this.popoverPlacement;
+            }
+            if (this.popoverAnimation !== undefined) {
+                popover.animation = this.popoverAnimation;
+            }
+            if (this.popoverTitle !== undefined) {
+                popover.title = this.popoverTitle;
+            }
+            popover.onCloseFromOutside.subscribe(() => this.hide());
+            if (this.popoverDismissTimeout > 0) {
+                setTimeout(() => this.hide(), this.popoverDismissTimeout);
+            }
+            popover.show();
+        }
+        this.onShown.emit(this);
+    }
+    /**
+     * @return {?}
+     */
+    hide() {
+        if (!this.visible) {
+            return;
+        }
+        this.visible = false;
+        if (this.popover) {
+            this.popover.destroy();
+        }
+        if (this.content instanceof PopOverContent) {
+            ((/** @type {?} */ (this.content))).hideFromPopover();
+        }
+        this.onHidden.emit(this);
+    }
+    /**
+     * @return {?}
+     */
+    getElement() {
+        return this.viewContainerRef.element.nativeElement;
+    }
+}
+PopOverDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[popover]',
+            },] }
+];
+/** @nocollapse */
+PopOverDirective.ctorParameters = () => [
+    { type: ViewContainerRef },
+    { type: ComponentFactoryResolver }
+];
+PopOverDirective.propDecorators = {
+    content: [{ type: Input, args: ['popover',] }],
+    popoverDisabled: [{ type: Input }],
+    popoverAlways: [{ type: Input }],
+    popoverAnimation: [{ type: Input }],
+    popoverPlacement: [{ type: Input }],
+    popoverTitle: [{ type: Input }],
+    popoverOnHover: [{ type: Input }],
+    popoverDismissTimeout: [{ type: Input }],
+    onShown: [{ type: Output }],
+    onHidden: [{ type: Output }],
+    showOrHideOnClick: [{ type: HostListener, args: ['click',] }],
+    showOnHover: [{ type: HostListener, args: ['focusin',] }, { type: HostListener, args: ['mouseenter',] }],
+    hideOnHover: [{ type: HostListener, args: ['focusout',] }, { type: HostListener, args: ['mouseleave',] }]
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class NovoPopOverModule {
+}
+NovoPopOverModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [PopOverContent, PopOverDirective],
+                exports: [PopOverContent, PopOverDirective],
+                entryComponents: [PopOverContent],
+            },] }
+];
 
 /**
  * @fileoverview added by tsickle
@@ -13663,7 +14515,7 @@ class NovoNovoCKEditorModule {
 }
 NovoNovoCKEditorModule.decorators = [
     { type: NgModule, args: [{
-                imports: [CommonModule, FormsModule],
+                imports: [CommonModule, FormsModule, NovoPopOverModule, NovoButtonModule],
                 declarations: [NovoCKEditorElement],
                 exports: [NovoCKEditorElement],
             },] }
@@ -14454,7 +15306,7 @@ class BaseControl extends ControlConfig {
         this.metaType = config.metaType;
         this.placeholder = config.placeholder || '';
         this.config = config.config || null;
-        this.dirty = !!(config.value !== undefined && config.value !== null);
+        this.dirty = !!config.value;
         this.multiple = !!config.multiple;
         this.headerConfig = config.headerConfig || null;
         this.currencyFormat = config.currencyFormat || null;
@@ -15471,7 +16323,7 @@ class FormUtils {
             };
         }
         else if (optionsConfig) {
-            controlConfig.config = Object.assign({}, optionsConfig, (controlConfig && controlConfig.config));
+            controlConfig.config = Object.assign({}, optionsConfig, controlConfig && controlConfig.config);
         }
         if (type === 'year') {
             controlConfig.maxlength = 4;
@@ -15647,19 +16499,6 @@ class FormUtils {
         return control;
     }
     /**
-     * @private
-     * @param {?} field
-     * @return {?}
-     */
-    shouldCreateControl(field) {
-        if (field.systemRequired) {
-            field.readOnly = false;
-        }
-        return (field.name !== 'id' &&
-            (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
-            !field.readOnly);
-    }
-    /**
      * @param {?} meta
      * @param {?} currencyFormat
      * @param {?} http
@@ -15675,7 +16514,9 @@ class FormUtils {
             /** @type {?} */
             let fields = meta.fields;
             fields.forEach((field) => {
-                if (this.shouldCreateControl(field)) {
+                if (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly) {
                     /** @type {?} */
                     let control = this.getControlForField(field, http, config, overrides, forTable);
                     // Set currency format
@@ -15785,7 +16626,9 @@ class FormUtils {
                 });
             }
             fields.forEach((field) => {
-                if (this.shouldCreateControl(field)) {
+                if (field.name !== 'id' &&
+                    (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                    !field.readOnly) {
                     /** @type {?} */
                     const fieldData = data && data[field.name] ? data[field.name] : null;
                     /** @type {?} */
@@ -15884,9 +16727,9 @@ class FormUtils {
     setInitialValues(controls, values, keepClean, keyOverride) {
         for (let i = 0; i < controls.length; i++) {
             /** @type {?} */
-            const control = controls[i];
+            let control = controls[i];
             /** @type {?} */
-            const key = keyOverride ? control.key.replace(keyOverride, '') : control.key;
+            let key = keyOverride ? control.key.replace(keyOverride, '') : control.key;
             /** @type {?} */
             let value = values[key];
             if (Helpers.isBlank(value)) {
@@ -15906,9 +16749,6 @@ class FormUtils {
             }
             if (Object.keys(value).length === 0 && value.constructor === Object) {
                 continue;
-            }
-            if (control.dataType === 'Date' && typeof value === 'string' && control.optionsType !== 'skipConversion') {
-                value = startOfDay(value);
             }
             control.value = value;
             // TODO: keepClean is not required, but is always used. It should default (to true?)
@@ -16053,8 +16893,19 @@ class NovoToastService {
     constructor(componentUtils) {
         this.componentUtils = componentUtils;
         this.references = [];
-        this.icons = { default: 'bell', success: 'check', info: 'info', warning: 'warning', danger: 'remove' };
-        this.defaults = { hideDelay: 3500, position: 'growlTopRight', theme: 'default' };
+        this.themes = ['default', 'success', 'info', 'warning', 'danger'];
+        this.icons = {
+            default: 'bell',
+            success: 'check',
+            info: 'info',
+            warning: 'warning',
+            danger: 'remove',
+        };
+        this.defaults = {
+            hideDelay: 3500,
+            position: 'growlTopRight',
+            theme: 'default',
+        };
     }
     /**
      * @param {?} view
@@ -16075,7 +16926,7 @@ class NovoToastService {
                 return;
             }
             /** @type {?} */
-            const toast = this.componentUtils.append(toastElement, this._parentViewContainer);
+            let toast = this.componentUtils.appendNextToLocation(toastElement, this._parentViewContainer);
             this.references.push(toast);
             this.handleAlert(toast.instance, options);
             resolve(toast);
@@ -16191,6 +17042,7 @@ class NovoModalService {
      */
     constructor(componentUtils) {
         this.componentUtils = componentUtils;
+        this._parentViewContainer = null;
     }
     /**
      * @param {?} view
@@ -16200,22 +17052,22 @@ class NovoModalService {
         this._parentViewContainer = view;
     }
     /**
-     * @template T
      * @param {?} component
      * @param {?=} scope
      * @return {?}
      */
     open(component, scope = {}) {
         if (!this._parentViewContainer) {
-            throw new Error('No parent view container specified for the ModalService. Set it inside your main application. \nthis.modalService.parentViewContainer = view (ViewContainerRef)');
+            console.error('No parent view container specified for the ModalService. Set it inside your main application. \nthis.modalService.parentViewContainer = view (ViewContainerRef)');
+            return null;
         }
         /** @type {?} */
         const modal = new NovoModalRef();
         modal.component = component;
         modal.open();
         /** @type {?} */
-        const providers = [{ provide: NovoModalRef, useValue: modal }, { provide: NovoModalParams, useValue: scope }];
-        modal.containerRef = this.componentUtils.append(NovoModalContainerElement, this._parentViewContainer, providers);
+        let bindings = ReflectiveInjector.resolve([{ provide: NovoModalRef, useValue: modal }, { provide: NovoModalParams, useValue: scope }]);
+        modal.containerRef = this.componentUtils.appendNextToLocation(NovoModalContainerElement, this._parentViewContainer, bindings);
         return modal;
     }
 }
@@ -16313,7 +17165,7 @@ ControlPromptModal.ctorParameters = () => [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class CustomHttpImpl {
+class CustomHttp {
     /**
      * @param {?} http
      */
@@ -16322,22 +17174,26 @@ class CustomHttpImpl {
         this.mapFn = (x) => x;
     }
     /**
+     * @template THIS
+     * @this {THIS}
      * @param {?} url
      * @param {?=} options
-     * @return {?}
+     * @return {THIS}
      */
     get(url, options) {
-        this.url = url;
-        this.options = options;
-        return this;
+        (/** @type {?} */ (this)).url = url;
+        (/** @type {?} */ (this)).options = options;
+        return (/** @type {?} */ (this));
     }
     /**
+     * @template THIS
+     * @this {THIS}
      * @param {?} mapFn
-     * @return {?}
+     * @return {THIS}
      */
     map(mapFn) {
-        this.mapFn = mapFn;
-        return this;
+        (/** @type {?} */ (this)).mapFn = mapFn;
+        return (/** @type {?} */ (this));
     }
     /**
      * @param {?} resolve
@@ -16365,49 +17221,6 @@ class FieldInteractionApi {
         this.formUtils = formUtils;
         this.http = http;
         this.labels = labels;
-        this.getOptionsConfig = (args, mapper, filteredOptionsCreator, pickerConfigFormat) => {
-            if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
-                /** @type {?} */
-                const format$$1 = ('format' in args && args.format) || pickerConfigFormat;
-                return Object.assign({ options: this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, ('emptyPickerMessage' in args && { emptyPickerMessage: args.emptyPickerMessage }), (format$$1 && { format: format$$1 }));
-            }
-            else if ('options' in args && Array.isArray(args.options)) {
-                return {
-                    options: [...args.options],
-                };
-            }
-            else {
-                return undefined;
-            }
-        };
-        this.createOptionsFunction = (config, mapper, filteredOptionsCreator) => (query$$1, page) => {
-            if ('optionsPromise' in config && config.optionsPromise) {
-                return config.optionsPromise(query$$1, new CustomHttpImpl(this.http));
-            }
-            else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
-                return new Promise((resolve, reject) => {
-                    /** @type {?} */
-                    const url = 'optionsUrlBuilder' in config ? config.optionsUrlBuilder(query$$1) : `${config.optionsUrl}?filter=${query$$1 || ''}`;
-                    this.http
-                        .get(url)
-                        .pipe(map((results) => {
-                        if (mapper) {
-                            return results.map(mapper);
-                        }
-                        return results;
-                    }))
-                        .subscribe(resolve, reject);
-                });
-            }
-            else if (filteredOptionsCreator) {
-                if ('where' in config) {
-                    return filteredOptionsCreator(config.where)(query$$1, page);
-                }
-                else {
-                    return filteredOptionsCreator()(query$$1, page);
-                }
-            }
-        };
     }
     /**
      * @param {?} form
@@ -17014,43 +17827,41 @@ class FieldInteractionApi {
      * @return {?}
      */
     modifyPickerConfig(key, config, mapper) {
-        // call another public method to avoid a breaking change but still enable stricter types
-        this.mutatePickerConfig(key, (/** @type {?} */ (config)), mapper);
-    }
-    /**
-     * @param {?} key
-     * @param {?} args
-     * @param {?=} mapper
-     * @return {?}
-     */
-    mutatePickerConfig(key, args, mapper) {
         /** @type {?} */
         let control = this.getControl(key);
+        const { minSearchLength } = control.config;
         if (control && !control.restrictFieldInteractions) {
-            const { minSearchLength, enableInfiniteScroll, filteredOptionsCreator, format: format$$1, getLabels, emptyPickerMessage } = control.config;
             /** @type {?} */
-            const optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format$$1);
-            /** @type {?} */
-            const newConfig = Object.assign({}, (emptyPickerMessage && { emptyPickerMessage }), (Number.isInteger(minSearchLength) && { minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator }), (getLabels && { getLabels }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
+            const newConfig = Object.assign({}, (Number.isInteger(minSearchLength) && { minSearchLength }), { resultsTemplate: control.config.resultsTemplate });
+            if (config.optionsUrl || config.optionsUrlBuilder || config.optionsPromise) {
+                newConfig.options = (query$$1) => {
+                    if (config.optionsPromise) {
+                        return config.optionsPromise(query$$1, new CustomHttp(this.http));
+                    }
+                    return new Promise((resolve, reject) => {
+                        /** @type {?} */
+                        let url = config.optionsUrlBuilder ? config.optionsUrlBuilder(query$$1) : `${config.optionsUrl}?filter=${query$$1 || ''}`;
+                        this.http
+                            .get(url)
+                            .pipe(map((results) => {
+                            if (mapper) {
+                                return results.map(mapper);
+                            }
+                            return results;
+                        }))
+                            .subscribe(resolve, reject);
+                    });
+                };
+                if (config.hasOwnProperty('format')) {
+                    newConfig.format = config.format;
+                }
+            }
+            else if (config.options) {
+                newConfig.options = [...config.options];
+            }
             this.setProperty(key, 'config', newConfig);
-            this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args });
+            this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: config });
         }
-    }
-    /**
-     * @param {?} key
-     * @param {?} properties
-     * @return {?}
-     */
-    addPropertiesToPickerConfig(key, properties) {
-        /** @type {?} */
-        let control = this.getControl(key);
-        if (!control || control.restrictFieldInteractions) {
-            return;
-        }
-        /** @type {?} */
-        const config = Object.assign({}, control.config, properties);
-        this.setProperty(key, 'config', config);
-        this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: properties });
     }
     /**
      * @param {?} key
@@ -17376,11 +18187,11 @@ class NovoControlElement extends OutsideClick {
      */
     get showCount() {
         /** @type {?} */
-        const MAX_LENGTH_CONTROL_TYPES = ['textbox', 'picker', 'text-area'];
-        /** @type {?} */
-        let charCount = this.focused &&
-            !!this.form.controls[this.control.key].maxlength &&
-            MAX_LENGTH_CONTROL_TYPES.includes(this.form.controls[this.control.key].controlType);
+        let charCount = (this.form.controls[this.control.key].maxlength &&
+            this.focused &&
+            (this.form.controls[this.control.key].controlType === 'text-area' ||
+                this.form.controls[this.control.key].controlType === 'textbox')) ||
+            (this.form.controls[this.control.key].maxlength && this.form.controls[this.control.key].controlType === 'picker');
         return this._showCount || charCount;
     }
     /**
@@ -36872,7 +37683,6 @@ class NovoControlGroup {
         this.onRemove = new EventEmitter();
         this.onEdit = new EventEmitter();
         this.onAdd = new EventEmitter();
-        this.change = new EventEmitter();
         this.controlLabels = [];
         this.toggled = false;
         this.disabledArray = [];
@@ -36990,13 +37800,6 @@ class NovoControlGroup {
             });
             this.ref.markForCheck();
         }
-    }
-    /**
-     * @param {?} change
-     * @return {?}
-     */
-    onChange(change) {
-        this.change.emit(this);
     }
     /**
      * @return {?}
@@ -37141,7 +37944,7 @@ class NovoControlGroup {
 NovoControlGroup.decorators = [
     { type: Component, args: [{
                 selector: 'novo-control-group',
-                template: "<h6 class=\"novo-section-header\" *ngIf=\"label\">\n  <span (click)=\"toggle($event)\" [class.clickable]=\"collapsible\">\n    <i *ngIf=\"icon && !collapsible\" [ngClass]=\"icon\" [attr.data-automation-id]=\"'novo-control-group-icon-' + key\"></i>\n    <i *ngIf=\"collapsible\" class=\"bhi-next\" [class.toggled]=\"toggled\" [attr.data-automation-id]=\"'novo-control-group-collapse-' + key\"></i>\n    <span [attr.data-automation-id]=\"'novo-control-group-label-' + key\">{{ label }}</span>\n  </span>\n  <label class=\"novo-control-group-description\" *ngIf=\"description\" [attr.data-automation-id]=\"'novo-control-group-description-' + key\">{{ description }}</label>\n</h6>\n<div class=\"novo-control-group-controls\" [class.vertical]=\"vertical\" [class.horizontal]=\"!vertical\" [class.hidden]=\"collapsible && !toggled\">\n  <ng-template #defaultTemplate let-index=\"index\" let-form=\"form\" let-key=\"key\">\n    <div class=\"novo-control-group-control\">\n      <div *ngFor=\"let c of controls\" class=\"novo-control-container {{c.key}}\" [class.is-label]=\"c.controlType === 'read-only'\" [style.max-width.px]=\"c.width\">\n        <novo-control (change)=\"onChange($event)\" [form]=\"(form?.controls)[key]['controls'][index]\" [control]=\"c\" [condensed]=\"!vertical || c.controlType === 'read-only'\"></novo-control>\n      </div>\n      <div class=\"novo-control-container last\" *ngIf=\"edit && !vertical\">\n        <button [disabled]=\"!disabledArray[index].edit\" type=\"button\" *ngIf=\"edit && !vertical\" theme=\"icon\" icon=\"edit\" (click)=\"editControl(index)\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\" index=\"-1\"></button>\n      </div>\n      <div class=\"novo-control-container last\" *ngIf=\"remove && !vertical\">\n        <button [disabled]=\"!disabledArray[index].remove\" type=\"button\" *ngIf=\"remove && !vertical\" theme=\"icon\" icon=\"delete-o\" (click)=\"removeControl(index)\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\" index=\"-1\"></button>\n      </div>\n    </div>\n    <button [disabled]=\"!disabledArray[index].edit\" type=\"button\" *ngIf=\"edit && vertical\" theme=\"icon\" icon=\"edit\" (click)=\"editControl(index)\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\" index=\"-1\"></button>\n    <button [disabled]=\"!disabledArray[index].remove\" type=\"button\" *ngIf=\"remove && vertical\" theme=\"icon\" icon=\"delete-o\" (click)=\"removeControl(index)\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\" index=\"-1\"></button>\n  </ng-template>\n  <div class=\"novo-control-group-labels\" *ngIf=\"!vertical && (form?.controls)[key] && (form?.controls)[key]['controls'].length !== 0\">\n    <div class=\"novo-control-group-control-label {{ label.key }}\" *ngFor=\"let label of controlLabels\" [style.max-width.px]=\"label.width\" [class.column-required]=\"label.required\">\n      <span [attr.data-automation-id]=\"'novo-control-group-label-' + label.value\">{{ label.value }}</span>\n    </div>\n    <div class=\"novo-control-group-control-label last\" *ngIf=\"edit\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\"></div>\n    <div class=\"novo-control-group-control-label last\" *ngIf=\"remove\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\"></div>\n  </div>\n  <ng-container *ngIf=\"(form?.controls)[key]\">\n    <div class=\"novo-control-group-row\" *ngFor=\"let control of (form?.controls)[key]['controls']; let index = index\">\n      <ng-template [ngTemplateOutlet]=\"rowTemplate || defaultTemplate\" [ngTemplateOutletContext]=\"{ form: form, index: index, key: key, controls: controls }\">\n      </ng-template>\n    </div>\n  </ng-container>\n  <div class=\"novo-control-group-empty\" *ngIf=\"(form?.controls)[key] && (form?.controls)[key]['controls'].length === 0\" [attr.data-automation-id]=\"'novo-control-group-empty-' + key\">\n    {{ emptyMessage }}\n  </div>\n  <p *ngIf=\"add\">\n    <button type=\"button\" theme=\"dialogue\" icon=\"add-thin\" (click)=\"addNewControl()\" [attr.data-automation-id]=\"'novo-control-group-bottom-add-' + key\" index=\"-1\">\n      {{ add?.label }}\n    </button>\n  </p>\n</div>\n",
+                template: "<h6 class=\"novo-section-header\" *ngIf=\"label\">\n  <span (click)=\"toggle($event)\" [class.clickable]=\"collapsible\">\n    <i *ngIf=\"icon && !collapsible\" [ngClass]=\"icon\" [attr.data-automation-id]=\"'novo-control-group-icon-' + key\"></i>\n    <i *ngIf=\"collapsible\" class=\"bhi-next\" [class.toggled]=\"toggled\" [attr.data-automation-id]=\"'novo-control-group-collapse-' + key\"></i>\n    <span [attr.data-automation-id]=\"'novo-control-group-label-' + key\">{{ label }}</span>\n  </span>\n  <label class=\"novo-control-group-description\" *ngIf=\"description\" [attr.data-automation-id]=\"'novo-control-group-description-' + key\">{{ description }}</label>\n</h6>\n<div class=\"novo-control-group-controls\" [class.vertical]=\"vertical\" [class.horizontal]=\"!vertical\" [class.hidden]=\"collapsible && !toggled\">\n  <ng-template #defaultTemplate let-index=\"index\" let-form=\"form\" let-key=\"key\">\n    <div class=\"novo-control-group-control\">\n      <div *ngFor=\"let c of controls\" class=\"novo-control-container {{c.key}}\" [class.is-label]=\"c.controlType === 'read-only'\" [style.max-width.px]=\"c.width\">\n        <novo-control [form]=\"(form?.controls)[key]['controls'][index]\" [control]=\"c\" [condensed]=\"!vertical || c.controlType === 'read-only'\"></novo-control>\n      </div>\n      <div class=\"novo-control-container last\" *ngIf=\"edit && !vertical\">\n        <button [disabled]=\"!disabledArray[index].edit\" type=\"button\" *ngIf=\"edit && !vertical\" theme=\"icon\" icon=\"edit\" (click)=\"editControl(index)\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\" index=\"-1\"></button>\n      </div>\n      <div class=\"novo-control-container last\" *ngIf=\"remove && !vertical\">\n        <button [disabled]=\"!disabledArray[index].remove\" type=\"button\" *ngIf=\"remove && !vertical\" theme=\"icon\" icon=\"delete-o\" (click)=\"removeControl(index)\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\" index=\"-1\"></button>\n      </div>\n    </div>\n    <button [disabled]=\"!disabledArray[index].edit\" type=\"button\" *ngIf=\"edit && vertical\" theme=\"icon\" icon=\"edit\" (click)=\"editControl(index)\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\" index=\"-1\"></button>\n    <button [disabled]=\"!disabledArray[index].remove\" type=\"button\" *ngIf=\"remove && vertical\" theme=\"icon\" icon=\"delete-o\" (click)=\"removeControl(index)\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\" index=\"-1\"></button>\n  </ng-template>\n  <div class=\"novo-control-group-labels\" *ngIf=\"!vertical && (form?.controls)[key] && (form?.controls)[key]['controls'].length !== 0\">\n    <div class=\"novo-control-group-control-label {{ label.key }}\" *ngFor=\"let label of controlLabels\" [style.max-width.px]=\"label.width\" [class.column-required]=\"label.required\">\n      <span [attr.data-automation-id]=\"'novo-control-group-label-' + label.value\">{{ label.value }}</span>\n    </div>\n    <div class=\"novo-control-group-control-label last\" *ngIf=\"edit\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\"></div>\n    <div class=\"novo-control-group-control-label last\" *ngIf=\"remove\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\"></div>\n  </div>\n  <ng-container *ngIf=\"(form?.controls)[key]\">\n    <div class=\"novo-control-group-row\" *ngFor=\"let control of (form?.controls)[key]['controls']; let index = index\">\n      <ng-template [ngTemplateOutlet]=\"rowTemplate || defaultTemplate\" [ngTemplateOutletContext]=\"{ form: form, index: index, key: key, controls: controls }\">\n      </ng-template>\n    </div>\n  </ng-container>\n  <div class=\"novo-control-group-empty\" *ngIf=\"(form?.controls)[key] && (form?.controls)[key]['controls'].length === 0\" [attr.data-automation-id]=\"'novo-control-group-empty-' + key\">\n    {{ emptyMessage }}\n  </div>\n  <p *ngIf=\"add\">\n    <button type=\"button\" theme=\"dialogue\" icon=\"add-thin\" (click)=\"addNewControl()\" [attr.data-automation-id]=\"'novo-control-group-bottom-add-' + key\" index=\"-1\">\n      {{ add?.label }}\n    </button>\n  </p>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush
             }] }
 ];
@@ -37171,8 +37974,7 @@ NovoControlGroup.propDecorators = {
     rowTemplate: [{ type: Input }],
     onRemove: [{ type: Output }],
     onEdit: [{ type: Output }],
-    onAdd: [{ type: Output }],
-    change: [{ type: Output }]
+    onAdd: [{ type: Output }]
 };
 
 /**
@@ -37227,7 +38029,7 @@ NovoControlTemplates.decorators = [
         <!--Editor-->
         <ng-template novoTemplate="editor" let-control let-form="form" let-errors="errors" let-methods="methods">
           <div [formGroup]="form">
-            <novo-editor [name]="control.key" [formControlName]="control.key" [startupFocus]="control.startupFocus" [minimal]="control.minimal" [fileBrowserImageUploadUrl]="control.fileBrowserImageUploadUrl" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [config]="control.config"></novo-editor>
+            <novo-editor [name]="control.key" [formControlName]="control.key" [startupFocus]="control.startupFocus" [minimal]="control.minimal" [fileBrowserImageUploadUrl]="control.fileBrowserImageUploadUrl" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)"></novo-editor>
           </div>
         </ng-template>
 
@@ -37634,8 +38436,8 @@ class RowDetails {
         if (this.renderer) {
             if (this.renderer.prototype instanceof BaseRenderer) {
                 /** @type {?} */
-                const componentRef = this.componentUtils.append(this.renderer, this.container);
-                componentRef.instance['data'] = this.data;
+                let componentRef = this.componentUtils.appendNextToLocation(this.renderer, this.container);
+                componentRef.instance.data = this.data;
             }
             else {
                 this.value = this.renderer(this.data);
@@ -37688,7 +38490,7 @@ class TableCell {
             if (this.column.renderer.prototype instanceof BaseRenderer) {
                 this.column._type = 'custom';
                 /** @type {?} */
-                const componentRef = (/** @type {?} */ (this.componentUtils.append(this.column.renderer, this.container)));
+                let componentRef = this.componentUtils.appendNextToLocation(this.column.renderer, this.container);
                 componentRef.instance.meta = this.column;
                 componentRef.instance.data = this.row;
                 componentRef.instance.value = this.form && this.hasEditor ? this.form.value[this.column.name] : this.row[this.column.name];
@@ -41413,13 +42215,12 @@ NovoStepLabel.ctorParameters = () => [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class NovoStepHeader extends CdkStepHeader {
+class NovoStepHeader {
     /**
      * @param {?} _focusMonitor
      * @param {?} _element
      */
     constructor(_focusMonitor, _element) {
-        super(_element);
         this._focusMonitor = _focusMonitor;
         this._element = _element;
         _focusMonitor.monitor(_element.nativeElement, true);
@@ -43866,9 +44667,6 @@ class NovoDataTable {
                     // Default to the defaulCellTemplate
                     if (column.type === 'action') {
                         if (column.action && column.action.options) {
-                            if (!column.action.icon) {
-                                column.action.icon = 'collapse';
-                            }
                             templateName = 'dropdownCellTemplate';
                         }
                         else {
@@ -43901,6 +44699,15 @@ class NovoDataTable {
         let left = target.scrollLeft;
         if (left !== this.scrollLeft) {
             this.scrollLeft = target.scrollLeft;
+        }
+        if (this.fixedHeader) {
+            /** @type {?} */
+            const top = target.scrollTop;
+            /** @type {?} */
+            const header = target.querySelector('cdk-table > novo-data-table-header-row');
+            if (header) {
+                header.style.transform = `translateY(${top}px)`;
+            }
         }
         this.ref.markForCheck();
     }
@@ -43986,7 +44793,6 @@ NovoDataTable.decorators = [
               [class.empty]="column?.type === 'action' && !column?.label"
               [class.button-header-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)"
               [class.dropdown-header-cell]="column?.type === 'action' && column?.action?.options"
-              [class.fixed-header]="fixedHeader"
             ></novo-data-table-header-cell>
             <novo-data-table-cell
               *cdkCellDef="let row"
@@ -44001,7 +44807,6 @@ NovoDataTable.decorators = [
           </ng-container>
           <novo-data-table-header-row
             *cdkHeaderRowDef="displayedColumns"
-            [fixedHeader]="fixedHeader"
             data-automation-id="novo-data-table-header-row"
           ></novo-data-table-header-row>
           <novo-data-table-row
@@ -44092,7 +44897,7 @@ NovoDataTable.decorators = [
     </ng-template>
     <ng-template novoTemplate="dropdownCellTemplate" let-row let-col="col">
       <novo-dropdown parentScrollSelector=".novo-data-table-container" containerClass="novo-data-table-dropdown">
-        <button type="button" theme="dialogue" [icon]="col.action.icon" inverse>{{ col.label }}</button>
+        <button type="button" theme="dialogue" icon="collapse" inverse>{{ col.label }}</button>
         <list>
           <item
             *ngFor="let option of col?.action?.options"
@@ -44189,9 +44994,6 @@ class NovoDataTableCell extends CdkCell {
     ngOnInit() {
         if (this.column.cellClass) {
             this.renderer.addClass(this.elementRef.nativeElement, this.column.cellClass(this.row));
-        }
-        if (this.column.rightAlignCellContent) {
-            this.renderer.addClass(this.elementRef.nativeElement, 'novo-data-table-cell-align-right');
         }
         this.calculateWidths();
         this.subscriptions.push(this.resized.subscribe((column) => {
@@ -44410,7 +45212,6 @@ class NovoDataTableHeaderRow extends CdkHeaderRow {
     constructor() {
         super(...arguments);
         this.rowClass = 'novo-data-table-header-row';
-        this.fixedHeader = false;
         this.role = 'row';
     }
 }
@@ -44423,7 +45224,6 @@ NovoDataTableHeaderRow.decorators = [
 ];
 NovoDataTableHeaderRow.propDecorators = {
     rowClass: [{ type: HostBinding, args: ['class',] }],
-    fixedHeader: [{ type: HostBinding, args: ['class.fixed-header',] }, { type: Input }],
     role: [{ type: HostBinding, args: ['attr.role',] }]
 };
 
@@ -44950,7 +45750,6 @@ class NovoDataTableCellHeader {
         this.activeDateFilter = undefined;
         this.filterData(undefined);
         this.clearOptionFilter();
-        this.dropdown.closePanel();
     }
     /**
      * @private
@@ -45152,7 +45951,7 @@ NovoDataTableCellHeader.propDecorators = {
     filterTemplate: [{ type: Input }],
     resizable: [{ type: HostBinding, args: ['class.resizable',] }],
     column: [{ type: Input, args: ['novo-data-table-cell-config',] }],
-    multiSelectOptionFilterHandleKeydown: [{ type: HostListener, args: ['keydown', ['$event'],] }]
+    multiSelectOptionFilterHandleKeydown: [{ type: HostListener, args: ['document:keydown', ['$event'],] }]
 };
 
 /**
@@ -49070,477 +49869,6 @@ NovoSimpleTableModule.decorators = [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class PopOverContent {
-    /**
-     * @param {?} element
-     * @param {?} cdr
-     */
-    constructor(element, cdr) {
-        this.element = element;
-        this.cdr = cdr;
-        this.placement = 'top';
-        this.animation = true;
-        this.onCloseFromOutside = new EventEmitter();
-        this.top = -10000;
-        this.left = -10000;
-        this.displayType = 'none';
-        this.isHidden = false;
-    }
-    /**
-     * @return {?}
-     */
-    ngAfterViewInit() {
-        this.show();
-        this.cdr.detectChanges();
-    }
-    /**
-     * @return {?}
-     */
-    toggle() {
-        if (this.isHidden) {
-            this.show();
-        }
-        else {
-            this.hide();
-        }
-    }
-    /**
-     * @return {?}
-     */
-    show() {
-        if (!this.popover || !this.popover.getElement()) {
-            return;
-        }
-        /** @type {?} */
-        const p = this.positionElements(this.popover.getElement(), this.popoverDiv.nativeElement, this.placement);
-        this.displayType = 'block';
-        this.top = p.top;
-        this.left = p.left;
-        this.isHidden = false;
-    }
-    /**
-     * @return {?}
-     */
-    hide() {
-        this.top = -10000;
-        this.left = -10000;
-        this.isHidden = true;
-        this.popover.hide();
-    }
-    /**
-     * @return {?}
-     */
-    hideFromPopover() {
-        this.top = -10000;
-        this.left = -10000;
-    }
-    /**
-     * @protected
-     * @param {?} hostEl
-     * @param {?} targetEl
-     * @param {?} positionStr
-     * @param {?=} appendToBody
-     * @return {?}
-     */
-    positionElements(hostEl, targetEl, positionStr, appendToBody = false) {
-        /** @type {?} */
-        let positionStrParts = positionStr.split('-');
-        /** @type {?} */
-        let mainSide = (this.effectivePlacement = this.getEffectivePlacement(positionStrParts[0] || 'right', hostEl, targetEl));
-        /** @type {?} */
-        let orientation = (this.effectiveAlignment = positionStrParts[1] || 'center');
-        /** @type {?} */
-        let hostElPos = appendToBody ? this.offset(hostEl) : this.position(hostEl);
-        /** @type {?} */
-        let targetElWidth = targetEl.offsetWidth;
-        /** @type {?} */
-        let targetElHeight = targetEl.offsetHeight;
-        /** @type {?} */
-        let shiftWidth = {
-            center: function () {
-                return hostElPos.left + (hostElPos.width - targetElWidth) / 2;
-            },
-            right: function () {
-                return hostElPos.left;
-            },
-            left: function () {
-                return hostElPos.left + (hostElPos.width - targetElWidth);
-            },
-        };
-        /** @type {?} */
-        let shiftHeight = {
-            center: function () {
-                return hostElPos.top + (hostElPos.height - targetElHeight) / 2;
-            },
-            bottom: function () {
-                return hostElPos.top;
-            },
-            top: function () {
-                return hostElPos.top + (hostElPos.height - targetElHeight);
-            },
-        };
-        /** @type {?} */
-        let targetElPos;
-        switch (mainSide) {
-            case 'right':
-                targetElPos = {
-                    top: shiftHeight[orientation](),
-                    left: hostElPos.left + hostElPos.width,
-                };
-                break;
-            case 'left':
-                targetElPos = {
-                    top: shiftHeight[orientation](),
-                    left: hostElPos.left - targetElWidth,
-                };
-                break;
-            case 'bottom':
-                targetElPos = {
-                    top: hostElPos.top + hostElPos.height,
-                    left: shiftWidth[orientation](),
-                };
-                break;
-            default:
-                targetElPos = {
-                    top: hostElPos.top - targetElHeight,
-                    left: shiftWidth[orientation](),
-                };
-                break;
-        }
-        return targetElPos;
-    }
-    /**
-     * @protected
-     * @param {?} nativeEl
-     * @return {?}
-     */
-    position(nativeEl) {
-        /** @type {?} */
-        let offsetParentBCR = { top: 0, left: 0 };
-        /** @type {?} */
-        const elBCR = this.offset(nativeEl);
-        /** @type {?} */
-        const offsetParentEl = this.parentOffsetEl(nativeEl);
-        if (offsetParentEl !== window.document) {
-            offsetParentBCR = this.offset(offsetParentEl);
-            offsetParentBCR.top += offsetParentEl.clientTop - offsetParentEl.scrollTop;
-            offsetParentBCR.left += offsetParentEl.clientLeft - offsetParentEl.scrollLeft;
-        }
-        /** @type {?} */
-        const boundingClientRect = nativeEl.getBoundingClientRect();
-        return {
-            width: boundingClientRect.width || nativeEl.offsetWidth,
-            height: boundingClientRect.height || nativeEl.offsetHeight,
-            top: elBCR.top - offsetParentBCR.top,
-            left: elBCR.left - offsetParentBCR.left,
-        };
-    }
-    /**
-     * @protected
-     * @param {?} nativeEl
-     * @return {?}
-     */
-    offset(nativeEl) {
-        /** @type {?} */
-        const boundingClientRect = nativeEl.getBoundingClientRect();
-        return {
-            width: boundingClientRect.width || nativeEl.offsetWidth,
-            height: boundingClientRect.height || nativeEl.offsetHeight,
-            top: boundingClientRect.top + (window.pageYOffset || window.document.documentElement.scrollTop),
-            left: boundingClientRect.left + (window.pageXOffset || window.document.documentElement.scrollLeft),
-        };
-    }
-    /**
-     * @protected
-     * @param {?} nativeEl
-     * @param {?} cssProp
-     * @return {?}
-     */
-    getStyle(nativeEl, cssProp) {
-        if (((/** @type {?} */ (nativeEl))).currentStyle) {
-            return ((/** @type {?} */ (nativeEl))).currentStyle[cssProp];
-        }
-        if (window.getComputedStyle) {
-            return ((/** @type {?} */ (window.getComputedStyle)))(nativeEl)[cssProp];
-        }
-        return ((/** @type {?} */ (nativeEl.style)))[cssProp];
-    }
-    /**
-     * @protected
-     * @param {?} nativeEl
-     * @return {?}
-     */
-    isStaticPositioned(nativeEl) {
-        return (this.getStyle(nativeEl, 'position') || 'static') === 'static';
-    }
-    /**
-     * @protected
-     * @param {?} nativeEl
-     * @return {?}
-     */
-    parentOffsetEl(nativeEl) {
-        /** @type {?} */
-        let offsetParent = nativeEl.offsetParent || window.document;
-        while (offsetParent && offsetParent !== window.document && this.isStaticPositioned(offsetParent)) {
-            offsetParent = offsetParent.offsetParent;
-        }
-        return offsetParent || window.document;
-    }
-    /**
-     * @protected
-     * @param {?} desiredPlacement
-     * @param {?} hostElement
-     * @param {?} targetElement
-     * @return {?}
-     */
-    getEffectivePlacement(desiredPlacement, hostElement, targetElement) {
-        /** @type {?} */
-        const hostElBoundingRect = hostElement.getBoundingClientRect();
-        if (desiredPlacement === 'top' && hostElBoundingRect.top - targetElement.offsetHeight < 0) {
-            return 'bottom';
-        }
-        if (desiredPlacement === 'bottom' && hostElBoundingRect.bottom + targetElement.offsetHeight > window.innerHeight) {
-            return 'top';
-        }
-        if (desiredPlacement === 'left' && hostElBoundingRect.left - targetElement.offsetWidth < 0) {
-            return 'right';
-        }
-        if (desiredPlacement === 'right' && hostElBoundingRect.right + targetElement.offsetWidth > window.innerWidth) {
-            return 'left';
-        }
-        return desiredPlacement;
-    }
-}
-PopOverContent.decorators = [
-    { type: Component, args: [{
-                selector: 'popover-content',
-                template: `
-        <div #popoverDiv
-            class="popover {{ effectivePlacement }}"
-            [style.top]="top + 'px'"
-            [style.left]="left + 'px'"
-            [class.fade]="animation"
-            style="display: block"
-            role="popover">
-            <div class="arrow {{effectiveAlignment}}"></div>
-            <h4 class="popover-title" [hidden]="!title">{{ title }}</h4>
-            <div class="popover-content">
-                <ng-content></ng-content>
-                <div class="popover-content-text">{{ content }}</div>
-            </div>
-        </div>
-    `
-            }] }
-];
-/** @nocollapse */
-PopOverContent.ctorParameters = () => [
-    { type: ElementRef },
-    { type: ChangeDetectorRef }
-];
-PopOverContent.propDecorators = {
-    content: [{ type: Input }],
-    placement: [{ type: Input }],
-    title: [{ type: Input }],
-    animation: [{ type: Input }],
-    popoverDiv: [{ type: ViewChild, args: ['popoverDiv',] }]
-};
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-class PopOverDirective {
-    /**
-     * @param {?} viewContainerRef
-     * @param {?} resolver
-     */
-    constructor(viewContainerRef, resolver) {
-        this.viewContainerRef = viewContainerRef;
-        this.resolver = resolver;
-        this.PopoverComponent = PopOverContent;
-        this.popoverOnHover = false;
-        this.popoverDismissTimeout = 0;
-        this.onShown = new EventEmitter();
-        this.onHidden = new EventEmitter();
-    }
-    // ---------------------------------------------------
-    // Event listeners
-    // ---------------------------------------------------
-    /**
-     * @return {?}
-     */
-    showOrHideOnClick() {
-        if (this.popoverOnHover || this.popoverDisabled) {
-            return;
-        }
-        this.toggle();
-    }
-    /**
-     * @return {?}
-     */
-    showOnHover() {
-        if (!this.popoverOnHover || this.popoverDisabled) {
-            return;
-        }
-        this.show();
-    }
-    /**
-     * @return {?}
-     */
-    hideOnHover() {
-        if (!this.popoverOnHover || this.popoverDisabled) {
-            return;
-        }
-        this.hide();
-    }
-    /**
-     * @param {?} changes
-     * @return {?}
-     */
-    ngOnChanges(changes) {
-        if (changes['popoverDisabled']) {
-            if (changes['popoverDisabled'].currentValue) {
-                this.hide();
-            }
-        }
-        if (changes['popoverAlways']) {
-            if (changes['popoverAlways'].currentValue) {
-                this.show();
-            }
-        }
-    }
-    /**
-     * @return {?}
-     */
-    toggle() {
-        if (!this.visible) {
-            this.show();
-        }
-        else {
-            this.hide();
-        }
-    }
-    /**
-     * @return {?}
-     */
-    show() {
-        if (this.visible) {
-            return;
-        }
-        this.visible = true;
-        if (typeof this.content === 'string') {
-            /** @type {?} */
-            const factory = this.resolver.resolveComponentFactory(this.PopoverComponent);
-            if (!this.visible) {
-                return;
-            }
-            this.popover = this.viewContainerRef.createComponent(factory);
-            /** @type {?} */
-            const popover = (/** @type {?} */ (this.popover.instance));
-            popover.popover = this;
-            popover.content = (/** @type {?} */ (this.content));
-            if (this.popoverPlacement !== undefined) {
-                popover.placement = this.popoverPlacement;
-            }
-            if (this.popoverAnimation !== undefined) {
-                popover.animation = this.popoverAnimation;
-            }
-            if (this.popoverTitle !== undefined) {
-                popover.title = this.popoverTitle;
-            }
-            popover.onCloseFromOutside.subscribe(() => this.hide());
-            if (this.popoverDismissTimeout > 0) {
-                setTimeout(() => this.hide(), this.popoverDismissTimeout);
-            }
-        }
-        else {
-            /** @type {?} */
-            const popover = (/** @type {?} */ (this.content));
-            popover.popover = this;
-            if (this.popoverPlacement !== undefined) {
-                popover.placement = this.popoverPlacement;
-            }
-            if (this.popoverAnimation !== undefined) {
-                popover.animation = this.popoverAnimation;
-            }
-            if (this.popoverTitle !== undefined) {
-                popover.title = this.popoverTitle;
-            }
-            popover.onCloseFromOutside.subscribe(() => this.hide());
-            if (this.popoverDismissTimeout > 0) {
-                setTimeout(() => this.hide(), this.popoverDismissTimeout);
-            }
-            popover.show();
-        }
-        this.onShown.emit(this);
-    }
-    /**
-     * @return {?}
-     */
-    hide() {
-        if (!this.visible) {
-            return;
-        }
-        this.visible = false;
-        if (this.popover) {
-            this.popover.destroy();
-        }
-        if (this.content instanceof PopOverContent) {
-            ((/** @type {?} */ (this.content))).hideFromPopover();
-        }
-        this.onHidden.emit(this);
-    }
-    /**
-     * @return {?}
-     */
-    getElement() {
-        return this.viewContainerRef.element.nativeElement;
-    }
-}
-PopOverDirective.decorators = [
-    { type: Directive, args: [{
-                selector: '[popover]',
-            },] }
-];
-/** @nocollapse */
-PopOverDirective.ctorParameters = () => [
-    { type: ViewContainerRef },
-    { type: ComponentFactoryResolver }
-];
-PopOverDirective.propDecorators = {
-    content: [{ type: Input, args: ['popover',] }],
-    popoverDisabled: [{ type: Input }],
-    popoverAlways: [{ type: Input }],
-    popoverAnimation: [{ type: Input }],
-    popoverPlacement: [{ type: Input }],
-    popoverTitle: [{ type: Input }],
-    popoverOnHover: [{ type: Input }],
-    popoverDismissTimeout: [{ type: Input }],
-    onShown: [{ type: Output }],
-    onHidden: [{ type: Output }],
-    showOrHideOnClick: [{ type: HostListener, args: ['click',] }],
-    showOnHover: [{ type: HostListener, args: ['focusin',] }, { type: HostListener, args: ['mouseenter',] }],
-    hideOnHover: [{ type: HostListener, args: ['focusout',] }, { type: HostListener, args: ['mouseleave',] }]
-};
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-class NovoPopOverModule {
-}
-NovoPopOverModule.decorators = [
-    { type: NgModule, args: [{
-                declarations: [PopOverContent, PopOverDirective],
-                exports: [PopOverContent, PopOverDirective],
-                entryComponents: [PopOverContent],
-            },] }
-];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 class PlacesListComponent {
     /**
      * @param {?} platformId
@@ -50128,6 +50456,6 @@ class ActivityTableRenderers {
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoDatePickerElement, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoVerticalStepper, NovoHorizontalStepper, NovoStep, NovoStepper, NovoTableExtrasModule, NovoFormModule, NovoDynamicFormElement, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTableFilterUtils, NovoDataTable, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, CalendarEventResponse, NovoAceEditor as ɵo, NovoButtonElement as ɵp, NovoEventTypeLegendElement as ɵz, NovoCalendarAllDayEventElement as ɵbj, NovoCalendarDayEventElement as ɵbh, NovoCalendarDayViewElement as ɵbg, NovoCalendarHourSegmentElement as ɵbi, NovoCalendarMonthDayElement as ɵbc, NovoCalendarMonthHeaderElement as ɵbb, NovoCalendarMonthViewElement as ɵba, DayOfMonthPipe as ɵbl, EndOfWeekDisplayPipe as ɵbq, HoursPipe as ɵbp, MonthPipe as ɵbm, MonthDayPipe as ɵbn, WeekdayPipe as ɵbk, YearPipe as ɵbo, NovoCalendarWeekEventElement as ɵbf, NovoCalendarWeekHeaderElement as ɵbe, NovoCalendarWeekViewElement as ɵbd, CardActionsElement as ɵx, CardElement as ɵy, NovoCategoryDropdownElement as ɵel, NovoChipElement as ɵct, NovoChipsElement as ɵcu, NovoRowChipElement as ɵcv, NovoRowChipsElement as ɵcw, NovoCKEditorElement as ɵdd, NovoDataTableCheckboxHeaderCell as ɵfe, NovoDataTableExpandHeaderCell as ɵfg, NovoDataTableCellHeader as ɵev, NovoDataTableHeaderCell as ɵey, NovoDataTableCell as ɵez, NovoDataTableCheckboxCell as ɵfd, NovoDataTableExpandCell as ɵff, NovoDataTableClearButton as ɵfi, NovoDataTableExpandDirective as ɵfh, DataTableBigDecimalRendererPipe as ɵet, DataTableInterpolatePipe as ɵeo, DateTableCurrencyRendererPipe as ɵeu, DateTableDateRendererPipe as ɵep, DateTableDateTimeRendererPipe as ɵeq, DateTableNumberRendererPipe as ɵes, DateTableTimeRendererPipe as ɵer, NovoDataTablePagination as ɵfc, NovoDataTableHeaderRow as ɵfa, NovoDataTableRow as ɵfb, NovoDataTableSortFilter as ɵex, DataTableState as ɵew, NovoDatePickerInputElement as ɵcx, NovoDateTimePickerElement as ɵdb, NovoDateTimePickerInputElement as ɵdc, NovoDragulaElement as ɵcr, NovoDropdownElement as ɵcj, NovoItemElement as ɵck, NovoItemHeaderElement$1 as ɵcm, NovoListElement$1 as ɵcl, NovoAccordion as ɵdz, novoExpansionAnimations as ɵec, NovoExpansionPanel as ɵea, NovoExpansionPanelActionRow as ɵeb, NovoExpansionPanelContent as ɵed, NovoExpansionPanelDescription as ɵef, NovoExpansionPanelHeader as ɵee, NovoExpansionPanelTitle as ɵeg, NovoAutoSize as ɵdh, NovoControlElement as ɵdi, NovoControlTemplates as ɵdm, NovoFieldsetElement as ɵb, NovoFieldsetHeaderElement as ɵa, ControlConfirmModal as ɵdk, ControlPromptModal as ɵdl, NovoFormElement as ɵdj, NovoAddressElement as ɵn, NovoCheckboxElement as ɵdf, NovoFileInputElement as ɵdg, NovoHeaderComponent as ɵbv, NovoHeaderSpacer as ɵbs, NovoUtilActionComponent as ɵbu, NovoUtilsComponent as ɵbt, NovoIconComponent as ɵdy, NovoItemAvatarElement as ɵg, NovoItemContentElement as ɵk, NovoItemDateElement as ɵj, NovoItemEndElement as ɵl, NovoItemHeaderElement as ɵi, NovoItemTitleElement as ɵh, NovoListItemElement as ɵf, NovoIsLoadingDirective as ɵu, NovoLoadedDirective as ɵt, NovoLoadingElement as ɵq, NovoSkeletonDirective as ɵs, NovoSpinnerElement as ɵr, NovoModalContainerElement as ɵc, NovoModalElement as ɵd, NovoModalNotificationElement as ɵe, NovoMultiPickerElement as ɵem, NovoOverlayTemplateComponent as ɵci, NovoOverlayModule as ɵch, NovoPickerElement as ɵcp, PlacesListComponent as ɵfq, GooglePlacesModule as ɵfp, PopOverDirective as ɵfo, NovoPopOverModule as ɵfm, PopOverContent as ɵfn, QuickNoteElement as ɵce, NovoRadioElement as ɵcg, NovoRadioGroup as ɵcf, NovoSearchBoxElement as ɵcq, NovoSelectElement as ɵcn, NovoSliderElement as ɵcs, NovoStepHeader as ɵeh, NovoStepLabel as ɵei, NovoStepStatus as ɵek, novoStepperAnimations as ɵej, NovoSwitchElement as ɵco, NovoTableKeepFilterFocus as ɵdq, Pagination as ɵdr, RowDetails as ɵds, NovoTableActionsElement as ɵdp, TableCell as ɵdt, TableFilter as ɵdu, NovoTableFooterElement as ɵdo, NovoTableHeaderElement as ɵdn, ThOrderable as ɵdv, ThSortable as ɵdw, NovoNavContentElement as ɵcb, NovoNavElement as ɵbw, NovoNavHeaderElement as ɵcc, NovoNavOutletElement as ɵca, NovoTabButtonElement as ɵby, NovoTabElement as ɵbx, NovoTabLinkElement as ɵbz, NovoTilesElement as ɵcd, NovoTimePickerElement as ɵcz, NovoTimePickerInputElement as ɵda, NovoTipWellElement as ɵde, NovoToastElement as ɵbr, NovoTooltip as ɵw, TooltipDirective as ɵv, Unless as ɵen, EntityList as ɵdx, NovoValueElement as ɵm, DateFormatService as ɵcy, BrowserGlobalRef as ɵfk, GlobalRef as ɵfj, LocalStorageService as ɵfl };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoDatePickerElement, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoTableExtrasModule, NovoFormModule, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTableFilterUtils, NovoDataTable, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, init, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, CalendarEventResponse, NovoAceEditor as ɵm, NovoButtonElement as ɵn, NovoEventTypeLegendElement as ɵx, NovoCalendarAllDayEventElement as ɵbh, NovoCalendarDayEventElement as ɵbf, NovoCalendarDayViewElement as ɵbe, NovoCalendarHourSegmentElement as ɵbg, NovoCalendarMonthDayElement as ɵba, NovoCalendarMonthHeaderElement as ɵz, NovoCalendarMonthViewElement as ɵy, DayOfMonthPipe as ɵbj, EndOfWeekDisplayPipe as ɵbo, HoursPipe as ɵbn, MonthPipe as ɵbk, MonthDayPipe as ɵbl, WeekdayPipe as ɵbi, YearPipe as ɵbm, NovoCalendarWeekEventElement as ɵbd, NovoCalendarWeekHeaderElement as ɵbc, NovoCalendarWeekViewElement as ɵbb, CardActionsElement as ɵv, CardElement as ɵw, NovoCategoryDropdownElement as ɵet, NovoChipElement as ɵcr, NovoChipsElement as ɵcs, NovoRowChipElement as ɵct, NovoRowChipsElement as ɵcu, NovoCKEditorElement as ɵde, NovoDataTableCheckboxHeaderCell as ɵfm, NovoDataTableExpandHeaderCell as ɵfo, NovoDataTableCellHeader as ɵfd, NovoDataTableHeaderCell as ɵfg, NovoDataTableCell as ɵfh, NovoDataTableCheckboxCell as ɵfl, NovoDataTableExpandCell as ɵfn, NovoDataTableClearButton as ɵfq, NovoDataTableExpandDirective as ɵfp, DataTableBigDecimalRendererPipe as ɵfb, DataTableInterpolatePipe as ɵew, DateTableCurrencyRendererPipe as ɵfc, DateTableDateRendererPipe as ɵex, DateTableDateTimeRendererPipe as ɵey, DateTableNumberRendererPipe as ɵfa, DateTableTimeRendererPipe as ɵez, NovoDataTablePagination as ɵfk, NovoDataTableHeaderRow as ɵfi, NovoDataTableRow as ɵfj, NovoDataTableSortFilter as ɵff, DataTableState as ɵfe, NovoDatePickerInputElement as ɵcv, NovoDateTimePickerElement as ɵcz, NovoDateTimePickerInputElement as ɵda, NovoDragulaElement as ɵcp, NovoDropdownElement as ɵch, NovoItemElement as ɵci, NovoItemHeaderElement$1 as ɵck, NovoListElement$1 as ɵcj, NovoAccordion as ɵed, novoExpansionAnimations as ɵeg, NovoExpansionPanel as ɵee, NovoExpansionPanelActionRow as ɵef, NovoExpansionPanelContent as ɵeh, NovoExpansionPanelDescription as ɵej, NovoExpansionPanelHeader as ɵei, NovoExpansionPanelTitle as ɵek, NovoAutoSize as ɵdi, NovoControlElement as ɵdj, NovoControlTemplates as ɵdq, NovoDynamicFormElement as ɵdm, NovoFieldsetElement as ɵdl, NovoFieldsetHeaderElement as ɵdk, ControlConfirmModal as ɵdo, ControlPromptModal as ɵdp, NovoFormElement as ɵdn, NovoAddressElement as ɵl, NovoCheckboxElement as ɵdg, NovoFileInputElement as ɵdh, NovoHeaderComponent as ɵbt, NovoHeaderSpacer as ɵbq, NovoUtilActionComponent as ɵbs, NovoUtilsComponent as ɵbr, NovoIconComponent as ɵec, NovoItemAvatarElement as ɵe, NovoItemContentElement as ɵi, NovoItemDateElement as ɵh, NovoItemEndElement as ɵj, NovoItemHeaderElement as ɵg, NovoItemTitleElement as ɵf, NovoListItemElement as ɵd, NovoIsLoadingDirective as ɵs, NovoLoadedDirective as ɵr, NovoLoadingElement as ɵo, NovoSkeletonDirective as ɵq, NovoSpinnerElement as ɵp, NovoModalContainerElement as ɵa, NovoModalElement as ɵb, NovoModalNotificationElement as ɵc, NovoMultiPickerElement as ɵeu, NovoOverlayTemplateComponent as ɵcg, NovoOverlayModule as ɵcf, NovoPickerElement as ɵcn, PlacesListComponent as ɵfv, GooglePlacesModule as ɵfu, PopOverDirective as ɵdd, NovoPopOverModule as ɵdb, PopOverContent as ɵdc, QuickNoteElement as ɵcc, NovoRadioElement as ɵce, NovoRadioGroup as ɵcd, NovoSearchBoxElement as ɵco, NovoSelectElement as ɵcl, NovoSliderElement as ɵcq, NovoStepHeader as ɵep, NovoStepLabel as ɵeq, NovoStepStatus as ɵes, novoStepperAnimations as ɵer, NovoHorizontalStepper as ɵen, NovoStep as ɵel, NovoStepper as ɵem, NovoVerticalStepper as ɵeo, NovoSwitchElement as ɵcm, NovoTableKeepFilterFocus as ɵdu, Pagination as ɵdv, RowDetails as ɵdw, NovoTableActionsElement as ɵdt, TableCell as ɵdx, TableFilter as ɵdy, NovoTableFooterElement as ɵds, NovoTableHeaderElement as ɵdr, ThOrderable as ɵdz, ThSortable as ɵea, NovoNavContentElement as ɵbz, NovoNavElement as ɵbu, NovoNavHeaderElement as ɵca, NovoNavOutletElement as ɵby, NovoTabButtonElement as ɵbw, NovoTabElement as ɵbv, NovoTabLinkElement as ɵbx, NovoTilesElement as ɵcb, NovoTimePickerElement as ɵcx, NovoTimePickerInputElement as ɵcy, NovoTipWellElement as ɵdf, NovoToastElement as ɵbp, NovoTooltip as ɵu, TooltipDirective as ɵt, Unless as ɵev, EntityList as ɵeb, NovoValueElement as ɵk, DateFormatService as ɵcw, BrowserGlobalRef as ɵfs, GlobalRef as ɵfr, LocalStorageService as ɵft };
 
 //# sourceMappingURL=novo-elements.js.map

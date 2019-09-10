@@ -1,5 +1,7 @@
-import { EventEmitter, NgZone, AfterViewInit, OnDestroy } from '@angular/core';
+import { EventEmitter, NgZone, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { InclusionSuggestionArgs, Editor } from './editor-types';
+import { PopOverContent } from '../popover/PopOverContent';
 /**
  * CKEditor component
  * Usage :
@@ -7,6 +9,7 @@ import { ControlValueAccessor } from '@angular/forms';
  */
 export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit, ControlValueAccessor {
     private zone;
+    private changeDetectorRef;
     config: any;
     debounce: any;
     name: any;
@@ -24,18 +27,33 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit, Co
     _value: string;
     instance: any;
     debounceTimeout: any;
-    constructor(zone: NgZone);
+    popoverTitle: string;
+    popoverText: string;
+    suggestedReplacements: string[];
+    constructor(zone: NgZone, changeDetectorRef: ChangeDetectorRef);
     value: string;
     ngOnDestroy(): void;
     ngAfterViewInit(): void;
     updateValue(value: any): void;
-    ckeditorInit(config: any): void;
+    dismiss(): void;
+    popover: PopOverContent;
+    inclusionPopover: PopOverContent;
+    _shouldShowPopover: boolean;
+    shouldShowPopover: boolean;
+    learnMore(): void;
+    changeTerm(term: string): void;
+    hidePopover(): void;
+    onInclusionEvent: (info: any) => void;
+    createChangeTerm(id: string, document: Document): void;
+    createDismiss(editor: Editor, data: InclusionSuggestionArgs): void;
+    ckeditorInit: (config: any) => void;
     getBaseConfig(): ({
+        extraPlugins: string;
         enterMode: any;
         shiftEnterMode: any;
         disableNativeSpellChecker: boolean;
         removePlugins: string;
-        extraAllowedContent: string;
+        allowedContent: boolean;
         font_names: string;
     } & {
         toolbar: {
@@ -43,11 +61,12 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit, Co
             items: string[];
         }[];
     }) | ({
+        extraPlugins: string;
         enterMode: any;
         shiftEnterMode: any;
         disableNativeSpellChecker: boolean;
         removePlugins: string;
-        extraAllowedContent: string;
+        allowedContent: boolean;
         font_names: string;
     } & {
         toolbar: (string | {
