@@ -9292,7 +9292,6 @@
             appendToBody: [{ type: core.Input }],
             toggled: [{ type: core.Output }],
             overlay: [{ type: core.ViewChild, args: [NovoOverlayTemplateComponent,] }],
-            button: [{ type: core.ViewChild, args: ['trigger',] }],
             onKeyDown: [{ type: core.HostListener, args: ['keydown', ['$event'],] }]
         };
         return NovoDropdownElement;
@@ -9400,9 +9399,9 @@
         }
         NovoOverlayModule.decorators = [
             { type: core.NgModule, args: [{
-                        imports: [common.CommonModule, forms.FormsModule, overlay.OverlayModule, scrolling.ScrollDispatchModule],
+                        imports: [common.CommonModule, forms.FormsModule, overlay.OverlayModule, scrolling.ScrollingModule],
                         declarations: [NovoOverlayTemplateComponent],
-                        exports: [NovoOverlayTemplateComponent, scrolling.ScrollDispatchModule],
+                        exports: [NovoOverlayTemplateComponent, scrolling.ScrollingModule],
                     },] }
         ];
         return NovoOverlayModule;
@@ -13679,8 +13678,7 @@
             range: [{ type: core.Input }],
             weekRangeSelect: [{ type: core.Input }],
             weekStart: [{ type: core.Input }],
-            onSelect: [{ type: core.Output }],
-            template: [{ type: core.ViewChild, args: [core.TemplateRef,] }]
+            onSelect: [{ type: core.Output }]
         };
         return NovoDatePickerElement;
     }());
@@ -15665,7 +15663,11 @@
                     this.instance.focusManager.blur(true); // Remove focus from editor
                     setTimeout(function () {
                         _this.instance.removeAllListeners();
-                        CKEDITOR.instances[_this.instance.name].destroy();
+                        /** @type {?} */
+                        var aInstance = CKEDITOR.instances[_this.instance.name];
+                        if (aInstance) {
+                            aInstance.destroy();
+                        }
                         _this.instance.destroy();
                         _this.instance = null;
                     });
@@ -15706,10 +15708,12 @@
                 });
             };
         /**
+         * @private
          * @param {?} config
          * @return {?}
          */
         NovoCKEditorElement.prototype.ckeditorInit = /**
+         * @private
          * @param {?} config
          * @return {?}
          */
@@ -46433,7 +46437,7 @@
                 this.types.forEach(function (type) { return _this.modifyAllOfType(type.value, 'unselect'); });
                 this.items = [];
                 this._items.next(this.items);
-                this.value = this.setInitialValue(null);
+                this.setInitialValue(null);
                 this.onModelChange(this.value);
             };
         /**
@@ -47345,7 +47349,7 @@
             { type: core.Component, args: [{
                         selector: 'multi-picker',
                         providers: [CHIPS_VALUE_ACCESSOR$2],
-                        template: "\n        <chip\n            *ngFor=\"let item of _items | async | slice:0:chipsCount\"\n            [type]=\"item.type\"\n            [class.selected]=\"item == selected\"\n            (remove)=\"removeFromDisplay($event, item)\"\n            (select)=\"select($event, item)\">\n            {{ item.label }}\n        </chip>\n        <div *ngIf=\"items.length > chipsCount\">\n            <ul class=\"summary\">\n                <li *ngFor=\"let type of notShown\">+ {{type.count}} {{ labels.more }} {{type.type}}</li>\n            </ul>\n        </div>\n        <div class=\"chip-input-container\">\n            <novo-picker\n                clearValueOnSelect=\"true\"\n                [config]=\"source\"\n                [placeholder]=\"placeholder\"\n                (select)=\"clickOption($event)\"\n                (keydown)=\"onKeyDown($event)\"\n                (focus)=\"onFocus($event)\"\n                (blur)=\"onTouched($event)\"\n                [overrideElement]=\"element\">\n            </novo-picker>\n        </div>\n        <i class=\"bhi-search\" [class.has-value]=\"items.length\"></i>\n        <label class=\"clear-all\" *ngIf=\"items.length\" (click)=\"clearValue()\">{{ labels.clearAll }} <i class=\"bhi-times\"></i></label>\n   ",
+                        template: "\n    <chip\n      *ngFor=\"let item of (_items | async | slice: 0:chipsCount)\"\n      [type]=\"item.type\"\n      [class.selected]=\"item == selected\"\n      (remove)=\"removeFromDisplay($event, item)\"\n      (select)=\"select($event, item)\"\n    >\n      {{ item.label }}\n    </chip>\n    <div *ngIf=\"items.length > chipsCount\">\n      <ul class=\"summary\">\n        <li *ngFor=\"let type of notShown\">+ {{ type.count }} {{ labels.more }} {{ type.type }}</li>\n      </ul>\n    </div>\n    <div class=\"chip-input-container\">\n      <novo-picker\n        clearValueOnSelect=\"true\"\n        [config]=\"source\"\n        [placeholder]=\"placeholder\"\n        (select)=\"clickOption($event)\"\n        (keydown)=\"onKeyDown($event)\"\n        (focus)=\"onFocus($event)\"\n        (blur)=\"onTouched($event)\"\n        [overrideElement]=\"element\"\n      >\n      </novo-picker>\n    </div>\n    <i class=\"bhi-search\" [class.has-value]=\"items.length\"></i>\n    <label class=\"clear-all\" *ngIf=\"items.length\" (click)=\"clearValue()\">{{ labels.clearAll }} <i class=\"bhi-times\"></i></label>\n  ",
                         host: {
                             '[class.with-value]': 'items.length > 0',
                         }
@@ -53873,7 +53877,7 @@
         NovoSimpleCellHeader.decorators = [
             { type: core.Component, args: [{
                         selector: '[novo-simple-cell-config]',
-                        template: "\n    <label (click)=\"sort()\" data-automation-id=\"novo-activity-table-label\" [class.sort-disabled]=\"!config.sortable\">\n      <ng-content></ng-content>\n    </label>\n    <div>\n      <button *ngIf=\"config.sortable\" theme=\"icon\" [icon]=\"icon\" (click)=\"sort()\" [class.active]=\"sortActive\"\n              data-automation-id=\"novo-activity-table-sort\"></button>\n      <novo-dropdown *ngIf=\"config.filterable\" side=\"right\" parentScrollSelector=\".novo-simple-table\" containerClass=\"simple-table-dropdown\"\n                     data-automation-id=\"novo-activity-table-filter\">\n        <button type=\"button\" theme=\"icon\" icon=\"filter\" [class.active]=\"filterActive\"></button>\n        <div class=\"header\">\n          <span>{{ labels.filters }}</span>\n          <button theme=\"dialogue\" color=\"negative\" icon=\"times\" (click)=\"clearFilter()\"\n                  *ngIf=\"filter !== null && filter !== undefined && filter !== ''\" data-automation-id=\"novo-activity-table-filter-clear\">\n            {{ labels.clear }}\n          </button>\n        </div>\n        <ng-container [ngSwitch]=\"config.filterConfig.type\">\n          <list *ngSwitchCase=\"'date'\">\n            <ng-container *ngIf=\"!showCustomRange\">\n              <item [class.active]=\"activeDateFilter === option.label\" *ngFor=\"let option of config.filterConfig.options\" (click)=\"filterData(option)\"\n                    [attr.data-automation-id]=\"'novo-activity-table-filter-' + option.label\">\n                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n              </item>\n            </ng-container>\n            <item [class.active]=\"labels.customDateRange === activeDateFilter\" (click)=\"toggleCustomRange($event, true)\"\n                  *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\" [keepOpen]=\"true\">\n              {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n            </item>\n            <div class=\"calendar-container\" *ngIf=\"showCustomRange\">\n              <div (click)=\"toggleCustomRange($event, false)\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n              <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n            </div>\n          </list>\n          <list *ngSwitchCase=\"'select'\">\n            <item [class.active]=\"filter === option\" *ngFor=\"let option of config.filterConfig.options\" (click)=\"filterData(option)\"\n                  [attr.data-automation-id]=\"'novo-activity-table-filter-' + (option?.label || option)\">\n              <span>{{ option?.label || option }}</span> <i class=\"bhi-check\"\n                                                            *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n            </item>\n          </list>\n          <list *ngSwitchDefault>\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <input type=\"text\" [(ngModel)]=\"filter\" (ngModelChange)=\"filterData($event)\" novoSimpleFilterFocus\n                     data-automation-id=\"novo-activity-table-filter-input\"/>\n            </item>\n          </list>\n        </ng-container>\n      </novo-dropdown>\n    </div>\n  ",
+                        template: "\n    <label (click)=\"sort()\" data-automation-id=\"novo-activity-table-label\" [class.sort-disabled]=\"!config.sortable\">\n      <ng-content></ng-content>\n    </label>\n    <div>\n      <button\n        *ngIf=\"config.sortable\"\n        theme=\"icon\"\n        [icon]=\"icon\"\n        (click)=\"sort()\"\n        [class.active]=\"sortActive\"\n        data-automation-id=\"novo-activity-table-sort\"\n      ></button>\n      <novo-dropdown\n        *ngIf=\"config.filterable\"\n        side=\"right\"\n        parentScrollSelector=\".novo-simple-table\"\n        containerClass=\"simple-table-dropdown\"\n        data-automation-id=\"novo-activity-table-filter\"\n      >\n        <button type=\"button\" theme=\"icon\" icon=\"filter\" [class.active]=\"filterActive\"></button>\n        <div class=\"header\">\n          <span>{{ labels.filters }}</span>\n          <button\n            theme=\"dialogue\"\n            color=\"negative\"\n            icon=\"times\"\n            (click)=\"clearFilter()\"\n            *ngIf=\"filter\"\n            data-automation-id=\"novo-activity-table-filter-clear\"\n          >\n            {{ labels.clear }}\n          </button>\n        </div>\n        <ng-container [ngSwitch]=\"config.filterConfig.type\">\n          <list *ngSwitchCase=\"'date'\">\n            <ng-container *ngIf=\"!showCustomRange\">\n              <item\n                [class.active]=\"activeDateFilter === option.label\"\n                *ngFor=\"let option of config.filterConfig.options\"\n                (click)=\"filterData(option)\"\n                [attr.data-automation-id]=\"'novo-activity-table-filter-' + option.label\"\n              >\n                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n              </item>\n            </ng-container>\n            <item\n              [class.active]=\"labels.customDateRange === activeDateFilter\"\n              (click)=\"toggleCustomRange($event, true)\"\n              *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\"\n              [keepOpen]=\"true\"\n            >\n              {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n            </item>\n            <div class=\"calendar-container\" *ngIf=\"showCustomRange\">\n              <div (click)=\"toggleCustomRange($event, false)\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n              <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n            </div>\n          </list>\n          <list *ngSwitchCase=\"'select'\">\n            <item\n              [class.active]=\"filter === option\"\n              *ngFor=\"let option of config.filterConfig.options\"\n              (click)=\"filterData(option)\"\n              [attr.data-automation-id]=\"'novo-activity-table-filter-' + (option?.label || option)\"\n            >\n              <span>{{ option?.label || option }}</span>\n              <i class=\"bhi-check\" *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n            </item>\n          </list>\n          <list *ngSwitchDefault>\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <input\n                type=\"text\"\n                [(ngModel)]=\"filter\"\n                (ngModelChange)=\"filterData($event)\"\n                novoSimpleFilterFocus\n                data-automation-id=\"novo-activity-table-filter-input\"\n              />\n            </item>\n          </list>\n        </ng-container>\n      </novo-dropdown>\n    </div>\n  ",
                         encapsulation: core.ViewEncapsulation.None,
                         changeDetection: core.ChangeDetectionStrategy.OnPush
                     }] }
@@ -55513,7 +55517,7 @@
                             UnlessModule,
                             NovoCommonModule,
                             NovoStepperModule,
-                            scrolling.ScrollDispatchModule,
+                            scrolling.ScrollingModule,
                         ],
                         providers: [
                             { provide: ComponentUtils, useClass: ComponentUtils },
