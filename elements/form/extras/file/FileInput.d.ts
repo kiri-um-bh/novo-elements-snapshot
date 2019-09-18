@@ -28,6 +28,7 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
         removableWhenNew?: boolean;
     };
     value: Array<any>;
+    dataFeatureId: string;
     edit: EventEmitter<any>;
     save: EventEmitter<any>;
     delete: EventEmitter<any>;
