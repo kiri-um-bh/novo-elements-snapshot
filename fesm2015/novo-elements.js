@@ -1933,7 +1933,9 @@ class NovoLabelService {
             return value;
         }
         /** @type {?} */
-        let timeParts = Intl.DateTimeFormat(this.userLocale, format$$1).formatToParts(date).reduce((obj, part) => {
+        let timeParts = Intl.DateTimeFormat(this.userLocale, format$$1)
+            .formatToParts(date)
+            .reduce((obj, part) => {
             obj[part.type] = part.value;
             return obj;
         }, {});
@@ -2069,7 +2071,7 @@ class NovoLabelService {
             month: '2-digit',
             day: '2-digit',
             year: 'numeric',
-            hour: '2-digit',
+            hour: 'numeric',
             minute: '2-digit',
         };
         /** @type {?} */
@@ -2084,7 +2086,7 @@ class NovoLabelService {
         /** @type {?} */
         let options = {
             // HH:MM A - 1:17 PM
-            hour: '2-digit',
+            hour: 'numeric',
             minute: '2-digit',
         };
         /** @type {?} */
@@ -12856,7 +12858,7 @@ class NovoTimePickerInputElement {
         }
         /** @type {?} */
         let format$$1 = this.labels.formatTimeWithFormat(value, {
-            hour: '2-digit',
+            hour: 'numeric',
             minute: '2-digit',
             hour12: !this.military,
         });
@@ -12894,10 +12896,21 @@ NovoTimePickerInputElement.decorators = [
                 selector: 'novo-time-picker-input',
                 providers: [DATE_VALUE_ACCESSOR$1],
                 template: `
-    <input type="text" [name]="name" [(ngModel)]="formattedValue" [textMask]="maskOptions" [placeholder]="placeholder" (focus)="_handleFocus($event)"
-           (keydown)="_handleKeydown($event)" (input)="_handleInput($event)" (blur)="_handleBlur($event)" #input data-automation-id="time-input" [disabled]="disabled"/>
-    <i *ngIf="!hasValue" (click)="openPanel()" class="bhi-clock"></i>
-    <i *ngIf="hasValue" (click)="clearValue()" class="bhi-times"></i>
+    <input
+      type="text"
+      [name]="name"
+      [(ngModel)]="formattedValue"
+      [textMask]="maskOptions"
+      [placeholder]="placeholder"
+      (focus)="_handleFocus($event)"
+      (keydown)="_handleKeydown($event)"
+      (input)="_handleInput($event)"
+      (blur)="_handleBlur($event)"
+      #input
+      data-automation-id="time-input"
+      [disabled]="disabled"
+    />
+    <i *ngIf="!hasValue" (click)="openPanel()" class="bhi-clock"></i> <i *ngIf="hasValue" (click)="clearValue()" class="bhi-times"></i>
 
     <novo-overlay-template [parent]="element" position="above-below">
       <novo-time-picker inline="true" (onSelect)="setValue($event)" [ngModel]="value" [military]="military"></novo-time-picker>
@@ -13002,7 +13015,7 @@ class NovoDateTimePickerElement {
                 hours = 12;
             }
         }
-        this.hours = hours.toString().length === 1 ? `0${hours.toString()}` : hours.toString();
+        this.hours = hours.toString();
         this.minutes = minutes.toString().length === 1 ? `0${minutes.toString()}` : minutes.toString();
     }
     /**
@@ -13114,26 +13127,45 @@ NovoDateTimePickerElement.decorators = [
                     ]),
                 ],
                 template: `
-        <div class="date-time-container">
-            <div class="date-time-tabs">
-                <span class="date-tab" (click)="toggleView('date')" [@dateTextState]="componentTabState" data-automation-id="novo-date-time-date-tab">{{selectedLabel}}</span>
-                <span class="time-tab" (click)="toggleView('time')" [@timeTextState]="componentTabState" data-automation-id="novo-date-time-time-tab">
-                    <span class="hours" data-automation-id="novo-time-picker-hours">{{hours}}</span>:<span
-                    class="minutes" data-automation-id="novo-time-picker-minutes">{{minutes}}</span>
-                    <span *ngIf="!military" class="meridian">{{meridian}}</span>
-                </span>
-                <i class="date-time-indicator" [@indicatorState]="componentTabState"></i>
-            </div>
-            <div class="view-container" [@containerState]="componentTabState">
-                <div class="calendar">
-                    <novo-date-picker (onSelect)="onDateSelected($event)" [(ngModel)]="model" inline="true" [minYear]="minYear" [maxYear]="maxYear" [start]="start" [end]="end"></novo-date-picker>
-                </div>
-                <div class="time-picker">
-                    <novo-time-picker (onSelect)="onTimeSelected($event)" [(ngModel)]="model" [military]="military" inline="true"></novo-time-picker>
-                </div>
-            </div>
+    <div class="date-time-container">
+      <div class="date-time-tabs">
+        <span
+          class="date-tab"
+          (click)="toggleView('date')"
+          [@dateTextState]="componentTabState"
+          data-automation-id="novo-date-time-date-tab"
+          >{{ selectedLabel }}</span
+        >
+        <span
+          class="time-tab"
+          (click)="toggleView('time')"
+          [@timeTextState]="componentTabState"
+          data-automation-id="novo-date-time-time-tab"
+        >
+          <span class="hours" data-automation-id="novo-time-picker-hours">{{ hours }}</span
+          >:<span class="minutes" data-automation-id="novo-time-picker-minutes">{{ minutes }}</span>
+          <span *ngIf="!military" class="meridian"> {{ meridian }}</span>
+        </span>
+        <i class="date-time-indicator" [@indicatorState]="componentTabState"></i>
+      </div>
+      <div class="view-container" [@containerState]="componentTabState">
+        <div class="calendar">
+          <novo-date-picker
+            (onSelect)="onDateSelected($event)"
+            [(ngModel)]="model"
+            inline="true"
+            [minYear]="minYear"
+            [maxYear]="maxYear"
+            [start]="start"
+            [end]="end"
+          ></novo-date-picker>
         </div>
-    `
+        <div class="time-picker">
+          <novo-time-picker (onSelect)="onTimeSelected($event)" [(ngModel)]="model" [military]="military" inline="true"></novo-time-picker>
+        </div>
+      </div>
+    </div>
+  `
             }] }
 ];
 /** @nocollapse */
