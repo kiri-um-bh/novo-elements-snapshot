@@ -29,7 +29,7 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit, Co
     ngOnDestroy(): void;
     ngAfterViewInit(): void;
     updateValue(value: any): void;
-    ckeditorInit(config: any): void;
+    private ckeditorInit;
     getBaseConfig(): ({
         enterMode: any;
         shiftEnterMode: any;

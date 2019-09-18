@@ -15,7 +15,7 @@ import { FocusMonitor, A11yModule } from '@angular/cdk/a11y';
 import { CdkStepLabel, CdkStepHeader, CdkStep, CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
 import { Directionality } from '@angular/cdk/bidi';
 import { trigger, state, style, animate, transition, animateChild, group, query } from '@angular/animations';
-import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from 'rxjs';
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
@@ -7873,7 +7873,6 @@ NovoDropdownElement.propDecorators = {
     appendToBody: [{ type: Input }],
     toggled: [{ type: Output }],
     overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }],
-    button: [{ type: ViewChild, args: ['trigger',] }],
     onKeyDown: [{ type: HostListener, args: ['keydown', ['$event'],] }]
 };
 class NovoItemElement {
@@ -7969,9 +7968,9 @@ class NovoOverlayModule {
 }
 NovoOverlayModule.decorators = [
     { type: NgModule, args: [{
-                imports: [CommonModule, FormsModule, OverlayModule, ScrollDispatchModule],
+                imports: [CommonModule, FormsModule, OverlayModule, ScrollingModule],
                 declarations: [NovoOverlayTemplateComponent],
-                exports: [NovoOverlayTemplateComponent, ScrollDispatchModule],
+                exports: [NovoOverlayTemplateComponent, ScrollingModule],
             },] }
 ];
 
@@ -11793,8 +11792,7 @@ NovoDatePickerElement.propDecorators = {
     range: [{ type: Input }],
     weekRangeSelect: [{ type: Input }],
     weekStart: [{ type: Input }],
-    onSelect: [{ type: Output }],
-    template: [{ type: ViewChild, args: [TemplateRef,] }]
+    onSelect: [{ type: Output }]
 };
 
 /**
@@ -13444,7 +13442,11 @@ class NovoCKEditorElement {
             this.instance.focusManager.blur(true); // Remove focus from editor
             setTimeout(() => {
                 this.instance.removeAllListeners();
-                CKEDITOR.instances[this.instance.name].destroy();
+                /** @type {?} */
+                const aInstance = CKEDITOR.instances[this.instance.name];
+                if (aInstance) {
+                    aInstance.destroy();
+                }
                 this.instance.destroy();
                 this.instance = null;
             });
@@ -13477,6 +13479,7 @@ class NovoCKEditorElement {
         });
     }
     /**
+     * @private
      * @param {?} config
      * @return {?}
      */
@@ -42101,7 +42104,7 @@ class NovoMultiPickerElement {
         this.types.forEach((type) => this.modifyAllOfType(type.value, 'unselect'));
         this.items = [];
         this._items.next(this.items);
-        this.value = this.setInitialValue(null);
+        this.setInitialValue(null);
         this.onModelChange(this.value);
     }
     /**
@@ -42827,34 +42830,36 @@ NovoMultiPickerElement.decorators = [
                 selector: 'multi-picker',
                 providers: [CHIPS_VALUE_ACCESSOR$2],
                 template: `
-        <chip
-            *ngFor="let item of _items | async | slice:0:chipsCount"
-            [type]="item.type"
-            [class.selected]="item == selected"
-            (remove)="removeFromDisplay($event, item)"
-            (select)="select($event, item)">
-            {{ item.label }}
-        </chip>
-        <div *ngIf="items.length > chipsCount">
-            <ul class="summary">
-                <li *ngFor="let type of notShown">+ {{type.count}} {{ labels.more }} {{type.type}}</li>
-            </ul>
-        </div>
-        <div class="chip-input-container">
-            <novo-picker
-                clearValueOnSelect="true"
-                [config]="source"
-                [placeholder]="placeholder"
-                (select)="clickOption($event)"
-                (keydown)="onKeyDown($event)"
-                (focus)="onFocus($event)"
-                (blur)="onTouched($event)"
-                [overrideElement]="element">
-            </novo-picker>
-        </div>
-        <i class="bhi-search" [class.has-value]="items.length"></i>
-        <label class="clear-all" *ngIf="items.length" (click)="clearValue()">{{ labels.clearAll }} <i class="bhi-times"></i></label>
-   `,
+    <chip
+      *ngFor="let item of (_items | async | slice: 0:chipsCount)"
+      [type]="item.type"
+      [class.selected]="item == selected"
+      (remove)="removeFromDisplay($event, item)"
+      (select)="select($event, item)"
+    >
+      {{ item.label }}
+    </chip>
+    <div *ngIf="items.length > chipsCount">
+      <ul class="summary">
+        <li *ngFor="let type of notShown">+ {{ type.count }} {{ labels.more }} {{ type.type }}</li>
+      </ul>
+    </div>
+    <div class="chip-input-container">
+      <novo-picker
+        clearValueOnSelect="true"
+        [config]="source"
+        [placeholder]="placeholder"
+        (select)="clickOption($event)"
+        (keydown)="onKeyDown($event)"
+        (focus)="onFocus($event)"
+        (blur)="onTouched($event)"
+        [overrideElement]="element"
+      >
+      </novo-picker>
+    </div>
+    <i class="bhi-search" [class.has-value]="items.length"></i>
+    <label class="clear-all" *ngIf="items.length" (click)="clearValue()">{{ labels.clearAll }} <i class="bhi-times"></i></label>
+  `,
                 host: {
                     '[class.with-value]': 'items.length > 0',
                 }
@@ -48713,28 +48718,53 @@ NovoSimpleCellHeader.decorators = [
       <ng-content></ng-content>
     </label>
     <div>
-      <button *ngIf="config.sortable" theme="icon" [icon]="icon" (click)="sort()" [class.active]="sortActive"
-              data-automation-id="novo-activity-table-sort"></button>
-      <novo-dropdown *ngIf="config.filterable" side="right" parentScrollSelector=".novo-simple-table" containerClass="simple-table-dropdown"
-                     data-automation-id="novo-activity-table-filter">
+      <button
+        *ngIf="config.sortable"
+        theme="icon"
+        [icon]="icon"
+        (click)="sort()"
+        [class.active]="sortActive"
+        data-automation-id="novo-activity-table-sort"
+      ></button>
+      <novo-dropdown
+        *ngIf="config.filterable"
+        side="right"
+        parentScrollSelector=".novo-simple-table"
+        containerClass="simple-table-dropdown"
+        data-automation-id="novo-activity-table-filter"
+      >
         <button type="button" theme="icon" icon="filter" [class.active]="filterActive"></button>
         <div class="header">
           <span>{{ labels.filters }}</span>
-          <button theme="dialogue" color="negative" icon="times" (click)="clearFilter()"
-                  *ngIf="filter !== null && filter !== undefined && filter !== ''" data-automation-id="novo-activity-table-filter-clear">
+          <button
+            theme="dialogue"
+            color="negative"
+            icon="times"
+            (click)="clearFilter()"
+            *ngIf="filter"
+            data-automation-id="novo-activity-table-filter-clear"
+          >
             {{ labels.clear }}
           </button>
         </div>
         <ng-container [ngSwitch]="config.filterConfig.type">
           <list *ngSwitchCase="'date'">
             <ng-container *ngIf="!showCustomRange">
-              <item [class.active]="activeDateFilter === option.label" *ngFor="let option of config.filterConfig.options" (click)="filterData(option)"
-                    [attr.data-automation-id]="'novo-activity-table-filter-' + option.label">
+              <item
+                [class.active]="activeDateFilter === option.label"
+                *ngFor="let option of config.filterConfig.options"
+                (click)="filterData(option)"
+                [attr.data-automation-id]="'novo-activity-table-filter-' + option.label"
+              >
                 {{ option.label }} <i class="bhi-check" *ngIf="activeDateFilter === option.label"></i>
               </item>
             </ng-container>
-            <item [class.active]="labels.customDateRange === activeDateFilter" (click)="toggleCustomRange($event, true)"
-                  *ngIf="config.filterConfig.allowCustomRange && !showCustomRange" [keepOpen]="true">
+            <item
+              [class.active]="labels.customDateRange === activeDateFilter"
+              (click)="toggleCustomRange($event, true)"
+              *ngIf="config.filterConfig.allowCustomRange && !showCustomRange"
+              [keepOpen]="true"
+            >
               {{ labels.customDateRange }} <i class="bhi-check" *ngIf="labels.customDateRange === activeDateFilter"></i>
             </item>
             <div class="calendar-container" *ngIf="showCustomRange">
@@ -48743,16 +48773,25 @@ NovoSimpleCellHeader.decorators = [
             </div>
           </list>
           <list *ngSwitchCase="'select'">
-            <item [class.active]="filter === option" *ngFor="let option of config.filterConfig.options" (click)="filterData(option)"
-                  [attr.data-automation-id]="'novo-activity-table-filter-' + (option?.label || option)">
-              <span>{{ option?.label || option }}</span> <i class="bhi-check"
-                                                            *ngIf="option.hasOwnProperty('value') ? filter === option.value : filter === option"></i>
+            <item
+              [class.active]="filter === option"
+              *ngFor="let option of config.filterConfig.options"
+              (click)="filterData(option)"
+              [attr.data-automation-id]="'novo-activity-table-filter-' + (option?.label || option)"
+            >
+              <span>{{ option?.label || option }}</span>
+              <i class="bhi-check" *ngIf="option.hasOwnProperty('value') ? filter === option.value : filter === option"></i>
             </item>
           </list>
           <list *ngSwitchDefault>
             <item class="filter-search" keepOpen="true">
-              <input type="text" [(ngModel)]="filter" (ngModelChange)="filterData($event)" novoSimpleFilterFocus
-                     data-automation-id="novo-activity-table-filter-input"/>
+              <input
+                type="text"
+                [(ngModel)]="filter"
+                (ngModelChange)="filterData($event)"
+                novoSimpleFilterFocus
+                data-automation-id="novo-activity-table-filter-input"
+              />
             </item>
           </list>
         </ng-container>
@@ -50102,7 +50141,7 @@ NovoElementsModule.decorators = [
                     UnlessModule,
                     NovoCommonModule,
                     NovoStepperModule,
-                    ScrollDispatchModule,
+                    ScrollingModule,
                 ],
                 providers: [
                     { provide: ComponentUtils, useClass: ComponentUtils },

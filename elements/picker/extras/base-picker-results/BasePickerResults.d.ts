@@ -29,7 +29,7 @@ export declare class BasePickerResults {
     private scrollHandler;
     constructor(element: ElementRef, ref: ChangeDetectorRef);
     cleanUp(): void;
-    onScrollDown(event: MouseWheelEvent): void;
+    onScrollDown(event: WheelEvent): void;
     term: string;
     config: NovoControlConfig['config'];
     shouldSearch(value: unknown): boolean;
