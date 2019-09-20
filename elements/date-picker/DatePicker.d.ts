@@ -1,4 +1,4 @@
-import { ElementRef, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { ElementRef, EventEmitter, OnInit, TemplateRef, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../services/novo-label-service';
 export interface RangeModal {
@@ -26,6 +26,7 @@ export declare class NovoDatePickerElement implements ControlValueAccessor, OnIn
     weekRangeSelect: boolean;
     weekStart: number;
     onSelect: EventEmitter<any>;
+    template: TemplateRef<any>;
     weekdays: string[];
     months: string[];
     years: Array<any>;

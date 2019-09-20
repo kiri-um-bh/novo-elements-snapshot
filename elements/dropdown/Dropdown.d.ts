@@ -13,6 +13,7 @@ export declare class NovoDropdownElement implements OnInit, OnDestroy {
     appendToBody: boolean;
     toggled: EventEmitter<boolean>;
     overlay: NovoOverlayTemplateComponent;
+    button: any;
     clickHandler: any;
     closeHandler: any;
     parentScrollElement: Element;

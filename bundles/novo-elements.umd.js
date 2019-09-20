@@ -595,6 +595,43 @@
     function can(obj) {
         return new Can(obj);
     }
+    // Assumes data is already sorted
+    /**
+     * @template T
+     * @param {?} item
+     * @param {?} array
+     * @param {?} compare
+     * @return {?}
+     */
+    function binarySearch(item, array, compare) {
+        return search(0, array.length - 1);
+        /**
+         * @param {?} min
+         * @param {?} max
+         * @return {?}
+         */
+        function search(min, max) {
+            if (min > max) {
+                return undefined;
+            }
+            /** @type {?} */
+            var guess = min + Math.floor((max - min) / 2);
+            /** @type {?} */
+            var comparison = compare(item, array[guess]);
+            if (comparison === 0) {
+                return array[guess];
+            }
+            else if (comparison === -1) {
+                return search(min, guess - 1);
+            }
+            else if (comparison === 1) {
+                return search(guess + 1, max);
+            }
+            else {
+                throw new Error("Input mismatch: " + JSON.stringify(item) + " not comparable to " + JSON.stringify(array[guess]));
+            }
+        }
+    }
 
     /**
      * @fileoverview added by tsickle
@@ -1409,6 +1446,17 @@
         };
         return __assign.apply(this, arguments);
     };
+    function __rest(s, e) {
+        var t = {};
+        for (var p in s)
+            if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+                t[p] = s[p];
+        if (s != null && typeof Object.getOwnPropertySymbols === "function")
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++)
+                if (e.indexOf(p[i]) < 0)
+                    t[p[i]] = s[p[i]];
+        return t;
+    }
     function __values(o) {
         var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
         if (m)
@@ -2112,6 +2160,7 @@
             this.pickerError = 'Oops! An error occurred.';
             this.pickerTextFieldEmpty = 'Begin typing to see results.';
             this.pickerEmpty = 'No results to display...';
+            this.tabbedGroupPickerEmpty = 'No results found';
             this.quickNoteError = 'Oops! An error occurred.';
             this.quickNoteEmpty = 'No results to display...';
             this.required = 'Required';
@@ -2295,6 +2344,17 @@
                 return select ? "Select all " + total + " records." : "De-select remaining " + total + " records.";
             };
         /**
+         * @param {?} tabLabelPlural
+         * @return {?}
+         */
+        NovoLabelService.prototype.tabbedGroupClearSuggestion = /**
+         * @param {?} tabLabelPlural
+         * @return {?}
+         */
+            function (tabLabelPlural) {
+                return "Clear your search to see all " + tabLabelPlural + ".";
+            };
+        /**
          * @param {?} value
          * @param {?} format
          * @return {?}
@@ -2329,9 +2389,7 @@
                     return value;
                 }
                 /** @type {?} */
-                var timeParts = Intl.DateTimeFormat(this.userLocale, format)
-                    .formatToParts(date)
-                    .reduce(function (obj, part) {
+                var timeParts = Intl.DateTimeFormat(this.userLocale, format).formatToParts(date).reduce(function (obj, part) {
                     obj[part.type] = part.value;
                     return obj;
                 }, {});
@@ -2503,7 +2561,7 @@
                     month: '2-digit',
                     day: '2-digit',
                     year: 'numeric',
-                    hour: 'numeric',
+                    hour: '2-digit',
                     minute: '2-digit',
                 };
                 /** @type {?} */
@@ -2522,7 +2580,7 @@
                 /** @type {?} */
                 var options = {
                     // HH:MM A - 1:17 PM
-                    hour: 'numeric',
+                    hour: '2-digit',
                     minute: '2-digit',
                 };
                 /** @type {?} */
@@ -5968,17 +6026,12 @@
             this.componentFactoryResolver = componentFactoryResolver;
         }
         /**
-         * @deprecated use append() instead.
-         */
-        /**
-         * @deprecated use append() instead.
          * @param {?} ComponentClass
          * @param {?} location
          * @param {?=} providers
          * @return {?}
          */
         ComponentUtils.prototype.appendNextToLocation = /**
-         * @deprecated use append() instead.
          * @param {?} ComponentClass
          * @param {?} location
          * @param {?=} providers
@@ -5997,17 +6050,12 @@
                 return location.createComponent(componentFactory, location.length, childInjector);
             };
         /**
-         * @deprecated
-         */
-        /**
-         * @deprecated
          * @param {?} ComponentClass
          * @param {?} location
          * @param {?=} providers
          * @return {?}
          */
         ComponentUtils.prototype.appendTopOfLocation = /**
-         * @deprecated
          * @param {?} ComponentClass
          * @param {?} location
          * @param {?=} providers
@@ -6024,31 +6072,6 @@
                     childInjector = core.ReflectiveInjector.fromResolvedProviders(providers, parentInjector);
                 }
                 return location.createComponent(componentFactory, 0, childInjector);
-            };
-        /**
-         * @template T
-         * @param {?} ComponentClass
-         * @param {?} location
-         * @param {?=} providers
-         * @param {?=} onTop
-         * @return {?}
-         */
-        ComponentUtils.prototype.append = /**
-         * @template T
-         * @param {?} ComponentClass
-         * @param {?} location
-         * @param {?=} providers
-         * @param {?=} onTop
-         * @return {?}
-         */
-            function (ComponentClass, location, providers, onTop) {
-                /** @type {?} */
-                var componentFactory = this.componentFactoryResolver.resolveComponentFactory(ComponentClass);
-                /** @type {?} */
-                var parent = location.injector;
-                /** @type {?} */
-                var index$$1 = onTop ? 0 : location.length;
-                return location.createComponent(componentFactory, index$$1, core.Injector.create({ providers: providers, parent: parent }));
             };
         ComponentUtils.decorators = [
             { type: core.Injectable }
@@ -6141,7 +6164,7 @@
             function () {
                 var _this = this;
                 setTimeout(function () {
-                    _this.modalRef.contentRef = _this.componentUtils.append(_this.modalRef.component, _this.container);
+                    _this.modalRef.contentRef = _this.componentUtils.appendNextToLocation(_this.modalRef.component, _this.container);
                 });
             };
         NovoModalContainerElement.decorators = [
@@ -6178,7 +6201,7 @@
         NovoModalElement.decorators = [
             { type: core.Component, args: [{
                         selector: 'novo-modal',
-                        template: "\n    <ng-content select=\"header\"></ng-content>\n    <ng-content select=\"section\"></ng-content>\n    <footer><ng-content select=\"button\"></ng-content></footer>\n  "
+                        template: "\n        <ng-content select=\"header\"></ng-content>\n        <ng-content select=\"section\"></ng-content>\n        <footer>\n            <ng-content select=\"button\"></ng-content>\n        </footer>\n    "
                     }] }
         ];
         /** @nocollapse */
@@ -6232,7 +6255,7 @@
         NovoModalNotificationElement.decorators = [
             { type: core.Component, args: [{
                         selector: 'novo-notification',
-                        template: "\n    <button class=\"modal-close\" theme=\"icon\" icon=\"times\" (click)=\"close()\"></button>\n    <header><ng-content select=\"label\"></ng-content></header>\n    <section class=\"notification-body\">\n      <i class=\"indicator\" [ngClass]=\"iconType\" *ngIf=\"iconType\"></i>\n      <ng-content select=\"h1\"></ng-content>\n      <ng-content select=\"h2\"></ng-content>\n      <ng-content select=\"p\"></ng-content>\n    </section>\n    <footer><ng-content select=\"button\"></ng-content></footer>\n  "
+                        template: "\n        <button class=\"modal-close\" theme=\"icon\" icon=\"times\" (click)=\"close()\"></button>\n        <header>\n            <ng-content select=\"label\"></ng-content>\n        </header>\n        <section class=\"notification-body\">\n            <i class=\"indicator\" [ngClass]=\"iconType\" *ngIf=\"iconType\"></i>\n            <ng-content select=\"h1\"></ng-content>\n            <ng-content select=\"h2\"></ng-content>\n            <ng-content select=\"p\"></ng-content>\n        </section>\n        <footer>\n            <ng-content select=\"button\"></ng-content>\n        </footer>\n    "
                     }] }
         ];
         /** @nocollapse */
@@ -6859,7 +6882,9 @@
                                 Object.getPrototypeOf(options).hasOwnProperty('then')) {
                                 _this.isStatic = false;
                                 // Promises (ES6 or Deferred) are resolved whenever they resolve
-                                options.then(_this.structureArray.bind(_this)).then(resolve, reject);
+                                options
+                                    .then(_this.structureArray.bind(_this))
+                                    .then(resolve, reject);
                             }
                             else if (typeof options === 'function') {
                                 _this.isStatic = false;
@@ -6881,7 +6906,9 @@
                                     /** @type {?} */
                                     var defaultOptions = _this.config.defaultOptions(term, ++_this.page);
                                     if (Object.getPrototypeOf(defaultOptions).hasOwnProperty('then')) {
-                                        defaultOptions.then(_this.structureArray.bind(_this)).then(resolve, reject);
+                                        defaultOptions
+                                            .then(_this.structureArray.bind(_this))
+                                            .then(resolve, reject);
                                     }
                                     else {
                                         resolve(_this.structureArray(defaultOptions));
@@ -7944,7 +7971,7 @@
                         }
                         else {
                             // Create the results DOM element
-                            this.quickNoteResults = this.componentUtils.append(this.resultsComponent, this.results);
+                            this.quickNoteResults = this.componentUtils.appendNextToLocation(this.resultsComponent, this.results);
                             this.quickNoteResults.instance.parent = this;
                             this.quickNoteResults.instance.config = this.config;
                             this.quickNoteResults.instance.term = {
@@ -9292,6 +9319,7 @@
             appendToBody: [{ type: core.Input }],
             toggled: [{ type: core.Output }],
             overlay: [{ type: core.ViewChild, args: [NovoOverlayTemplateComponent,] }],
+            button: [{ type: core.ViewChild, args: ['trigger',] }],
             onKeyDown: [{ type: core.HostListener, args: ['keydown', ['$event'],] }]
         };
         return NovoDropdownElement;
@@ -9399,9 +9427,9 @@
         }
         NovoOverlayModule.decorators = [
             { type: core.NgModule, args: [{
-                        imports: [common.CommonModule, forms.FormsModule, overlay.OverlayModule, scrolling.ScrollingModule],
+                        imports: [common.CommonModule, forms.FormsModule, overlay.OverlayModule, scrolling.ScrollDispatchModule],
                         declarations: [NovoOverlayTemplateComponent],
-                        exports: [NovoOverlayTemplateComponent, scrolling.ScrollingModule],
+                        exports: [NovoOverlayTemplateComponent, scrolling.ScrollDispatchModule],
                     },] }
         ];
         return NovoOverlayModule;
@@ -10356,7 +10384,7 @@
                     this.ref.markForCheck();
                 }
                 else {
-                    this.popup = this.componentUtils.append(this.resultsComponent, this.results);
+                    this.popup = this.componentUtils.appendNextToLocation(this.resultsComponent, this.results);
                     this.popup.instance.parent = this;
                     this.popup.instance.config = this.config;
                     this.popup.instance.term = this.term;
@@ -12786,7 +12814,7 @@
             function () {
                 if (this.source.previewTemplate) {
                     if (!this.popup) {
-                        this.popup = this.componentUtils.append(this.source.previewTemplate, this.preview);
+                        this.popup = this.componentUtils.appendNextToLocation(this.source.previewTemplate, this.preview);
                     }
                     this.popup.instance.match = this.selected;
                 }
@@ -13678,7 +13706,8 @@
             range: [{ type: core.Input }],
             weekRangeSelect: [{ type: core.Input }],
             weekStart: [{ type: core.Input }],
-            onSelect: [{ type: core.Output }]
+            onSelect: [{ type: core.Output }],
+            template: [{ type: core.ViewChild, args: [core.TemplateRef,] }]
         };
         return NovoDatePickerElement;
     }());
@@ -15020,7 +15049,7 @@
                 }
                 /** @type {?} */
                 var format = this.labels.formatTimeWithFormat(value, {
-                    hour: 'numeric',
+                    hour: '2-digit',
                     minute: '2-digit',
                     hour12: !this.military,
                 });
@@ -15063,7 +15092,7 @@
             { type: core.Component, args: [{
                         selector: 'novo-time-picker-input',
                         providers: [DATE_VALUE_ACCESSOR$1],
-                        template: "\n    <input\n      type=\"text\"\n      [name]=\"name\"\n      [(ngModel)]=\"formattedValue\"\n      [textMask]=\"maskOptions\"\n      [placeholder]=\"placeholder\"\n      (focus)=\"_handleFocus($event)\"\n      (keydown)=\"_handleKeydown($event)\"\n      (input)=\"_handleInput($event)\"\n      (blur)=\"_handleBlur($event)\"\n      #input\n      data-automation-id=\"time-input\"\n      [disabled]=\"disabled\"\n    />\n    <i *ngIf=\"!hasValue\" (click)=\"openPanel()\" class=\"bhi-clock\"></i> <i *ngIf=\"hasValue\" (click)=\"clearValue()\" class=\"bhi-times\"></i>\n\n    <novo-overlay-template [parent]=\"element\" position=\"above-below\">\n      <novo-time-picker inline=\"true\" (onSelect)=\"setValue($event)\" [ngModel]=\"value\" [military]=\"military\"></novo-time-picker>\n    </novo-overlay-template>\n  "
+                        template: "\n    <input type=\"text\" [name]=\"name\" [(ngModel)]=\"formattedValue\" [textMask]=\"maskOptions\" [placeholder]=\"placeholder\" (focus)=\"_handleFocus($event)\"\n           (keydown)=\"_handleKeydown($event)\" (input)=\"_handleInput($event)\" (blur)=\"_handleBlur($event)\" #input data-automation-id=\"time-input\" [disabled]=\"disabled\"/>\n    <i *ngIf=\"!hasValue\" (click)=\"openPanel()\" class=\"bhi-clock\"></i>\n    <i *ngIf=\"hasValue\" (click)=\"clearValue()\" class=\"bhi-times\"></i>\n\n    <novo-overlay-template [parent]=\"element\" position=\"above-below\">\n      <novo-time-picker inline=\"true\" (onSelect)=\"setValue($event)\" [ngModel]=\"value\" [military]=\"military\"></novo-time-picker>\n    </novo-overlay-template>\n  "
                     }] }
         ];
         /** @nocollapse */
@@ -15178,7 +15207,7 @@
                         hours = 12;
                     }
                 }
-                this.hours = hours.toString();
+                this.hours = hours.toString().length === 1 ? "0" + hours.toString() : hours.toString();
                 this.minutes = minutes.toString().length === 1 ? "0" + minutes.toString() : minutes.toString();
             };
         /**
@@ -15316,7 +15345,7 @@
                                 animations.transition('date <=> time', animations.animate('200ms ease-in')),
                             ]),
                         ],
-                        template: "\n    <div class=\"date-time-container\">\n      <div class=\"date-time-tabs\">\n        <span\n          class=\"date-tab\"\n          (click)=\"toggleView('date')\"\n          [@dateTextState]=\"componentTabState\"\n          data-automation-id=\"novo-date-time-date-tab\"\n          >{{ selectedLabel }}</span\n        >\n        <span\n          class=\"time-tab\"\n          (click)=\"toggleView('time')\"\n          [@timeTextState]=\"componentTabState\"\n          data-automation-id=\"novo-date-time-time-tab\"\n        >\n          <span class=\"hours\" data-automation-id=\"novo-time-picker-hours\">{{ hours }}</span\n          >:<span class=\"minutes\" data-automation-id=\"novo-time-picker-minutes\">{{ minutes }}</span>\n          <span *ngIf=\"!military\" class=\"meridian\"> {{ meridian }}</span>\n        </span>\n        <i class=\"date-time-indicator\" [@indicatorState]=\"componentTabState\"></i>\n      </div>\n      <div class=\"view-container\" [@containerState]=\"componentTabState\">\n        <div class=\"calendar\">\n          <novo-date-picker\n            (onSelect)=\"onDateSelected($event)\"\n            [(ngModel)]=\"model\"\n            inline=\"true\"\n            [minYear]=\"minYear\"\n            [maxYear]=\"maxYear\"\n            [start]=\"start\"\n            [end]=\"end\"\n          ></novo-date-picker>\n        </div>\n        <div class=\"time-picker\">\n          <novo-time-picker (onSelect)=\"onTimeSelected($event)\" [(ngModel)]=\"model\" [military]=\"military\" inline=\"true\"></novo-time-picker>\n        </div>\n      </div>\n    </div>\n  "
+                        template: "\n        <div class=\"date-time-container\">\n            <div class=\"date-time-tabs\">\n                <span class=\"date-tab\" (click)=\"toggleView('date')\" [@dateTextState]=\"componentTabState\" data-automation-id=\"novo-date-time-date-tab\">{{selectedLabel}}</span>\n                <span class=\"time-tab\" (click)=\"toggleView('time')\" [@timeTextState]=\"componentTabState\" data-automation-id=\"novo-date-time-time-tab\">\n                    <span class=\"hours\" data-automation-id=\"novo-time-picker-hours\">{{hours}}</span>:<span\n                    class=\"minutes\" data-automation-id=\"novo-time-picker-minutes\">{{minutes}}</span>\n                    <span *ngIf=\"!military\" class=\"meridian\">{{meridian}}</span>\n                </span>\n                <i class=\"date-time-indicator\" [@indicatorState]=\"componentTabState\"></i>\n            </div>\n            <div class=\"view-container\" [@containerState]=\"componentTabState\">\n                <div class=\"calendar\">\n                    <novo-date-picker (onSelect)=\"onDateSelected($event)\" [(ngModel)]=\"model\" inline=\"true\" [minYear]=\"minYear\" [maxYear]=\"maxYear\" [start]=\"start\" [end]=\"end\"></novo-date-picker>\n                </div>\n                <div class=\"time-picker\">\n                    <novo-time-picker (onSelect)=\"onTimeSelected($event)\" [(ngModel)]=\"model\" [military]=\"military\" inline=\"true\"></novo-time-picker>\n                </div>\n            </div>\n        </div>\n    "
                     }] }
         ];
         /** @nocollapse */
@@ -15663,11 +15692,7 @@
                     this.instance.focusManager.blur(true); // Remove focus from editor
                     setTimeout(function () {
                         _this.instance.removeAllListeners();
-                        /** @type {?} */
-                        var aInstance = CKEDITOR.instances[_this.instance.name];
-                        if (aInstance) {
-                            aInstance.destroy();
-                        }
+                        CKEDITOR.instances[_this.instance.name].destroy();
                         _this.instance.destroy();
                         _this.instance = null;
                     });
@@ -15708,12 +15733,10 @@
                 });
             };
         /**
-         * @private
          * @param {?} config
          * @return {?}
          */
         NovoCKEditorElement.prototype.ckeditorInit = /**
-         * @private
          * @param {?} config
          * @return {?}
          */
@@ -18756,8 +18779,19 @@
         function NovoToastService(componentUtils) {
             this.componentUtils = componentUtils;
             this.references = [];
-            this.icons = { default: 'bell', success: 'check', info: 'info', warning: 'warning', danger: 'remove' };
-            this.defaults = { hideDelay: 3500, position: 'growlTopRight', theme: 'default' };
+            this.themes = ['default', 'success', 'info', 'warning', 'danger'];
+            this.icons = {
+                default: 'bell',
+                success: 'check',
+                info: 'info',
+                warning: 'warning',
+                danger: 'remove',
+            };
+            this.defaults = {
+                hideDelay: 3500,
+                position: 'growlTopRight',
+                theme: 'default',
+            };
         }
         Object.defineProperty(NovoToastService.prototype, "parentViewContainer", {
             set: /**
@@ -18790,7 +18824,7 @@
                         return;
                     }
                     /** @type {?} */
-                    var toast = _this.componentUtils.append(toastElement, _this._parentViewContainer);
+                    var toast = _this.componentUtils.appendNextToLocation(toastElement, _this._parentViewContainer);
                     _this.references.push(toast);
                     _this.handleAlert(toast.instance, options);
                     resolve(toast);
@@ -18935,6 +18969,7 @@
     var NovoModalService = /** @class */ (function () {
         function NovoModalService(componentUtils) {
             this.componentUtils = componentUtils;
+            this._parentViewContainer = null;
         }
         Object.defineProperty(NovoModalService.prototype, "parentViewContainer", {
             set: /**
@@ -18947,13 +18982,11 @@
             configurable: true
         });
         /**
-         * @template T
          * @param {?} component
          * @param {?=} scope
          * @return {?}
          */
         NovoModalService.prototype.open = /**
-         * @template T
          * @param {?} component
          * @param {?=} scope
          * @return {?}
@@ -18963,15 +18996,16 @@
                     scope = {};
                 }
                 if (!this._parentViewContainer) {
-                    throw new Error('No parent view container specified for the ModalService. Set it inside your main application. \nthis.modalService.parentViewContainer = view (ViewContainerRef)');
+                    console.error('No parent view container specified for the ModalService. Set it inside your main application. \nthis.modalService.parentViewContainer = view (ViewContainerRef)');
+                    return null;
                 }
                 /** @type {?} */
                 var modal = new NovoModalRef();
                 modal.component = component;
                 modal.open();
                 /** @type {?} */
-                var providers = [{ provide: NovoModalRef, useValue: modal }, { provide: NovoModalParams, useValue: scope }];
-                modal.containerRef = this.componentUtils.append(NovoModalContainerElement, this._parentViewContainer, providers);
+                var bindings = core.ReflectiveInjector.resolve([{ provide: NovoModalRef, useValue: modal }, { provide: NovoModalParams, useValue: scope }]);
+                modal.containerRef = this.componentUtils.appendNextToLocation(NovoModalContainerElement, this._parentViewContainer, bindings);
                 return modal;
             };
         NovoModalService.decorators = [
@@ -40822,8 +40856,8 @@
                 if (this.renderer) {
                     if (this.renderer.prototype instanceof BaseRenderer) {
                         /** @type {?} */
-                        var componentRef = this.componentUtils.append(this.renderer, this.container);
-                        componentRef.instance['data'] = this.data;
+                        var componentRef = this.componentUtils.appendNextToLocation(this.renderer, this.container);
+                        componentRef.instance.data = this.data;
                     }
                     else {
                         this.value = this.renderer(this.data);
@@ -40876,7 +40910,7 @@
                     if (this.column.renderer.prototype instanceof BaseRenderer) {
                         this.column._type = 'custom';
                         /** @type {?} */
-                        var componentRef = ( /** @type {?} */(this.componentUtils.append(this.column.renderer, this.container)));
+                        var componentRef = this.componentUtils.appendNextToLocation(this.column.renderer, this.container);
                         componentRef.instance.meta = this.column;
                         componentRef.instance.data = this.row;
                         componentRef.instance.value = this.form && this.hasEditor ? this.form.value[this.column.name] : this.row[this.column.name];
@@ -45700,14 +45734,11 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    var NovoStepHeader = /** @class */ (function (_super) {
-        __extends(NovoStepHeader, _super);
+    var NovoStepHeader = /** @class */ (function () {
         function NovoStepHeader(_focusMonitor, _element) {
-            var _this = _super.call(this, _element) || this;
-            _this._focusMonitor = _focusMonitor;
-            _this._element = _element;
+            this._focusMonitor = _focusMonitor;
+            this._element = _element;
             _focusMonitor.monitor(_element.nativeElement, true);
-            return _this;
         }
         Object.defineProperty(NovoStepHeader.prototype, "index", {
             /** Index of the given step. */
@@ -45866,7 +45897,7 @@
             optional: [{ type: core.Input }]
         };
         return NovoStepHeader;
-    }(stepper.CdkStepHeader));
+    }());
 
     /**
      * @fileoverview added by tsickle
@@ -46437,7 +46468,7 @@
                 this.types.forEach(function (type) { return _this.modifyAllOfType(type.value, 'unselect'); });
                 this.items = [];
                 this._items.next(this.items);
-                this.setInitialValue(null);
+                this.value = this.setInitialValue(null);
                 this.onModelChange(this.value);
             };
         /**
@@ -47349,7 +47380,7 @@
             { type: core.Component, args: [{
                         selector: 'multi-picker',
                         providers: [CHIPS_VALUE_ACCESSOR$2],
-                        template: "\n    <chip\n      *ngFor=\"let item of (_items | async | slice: 0:chipsCount)\"\n      [type]=\"item.type\"\n      [class.selected]=\"item == selected\"\n      (remove)=\"removeFromDisplay($event, item)\"\n      (select)=\"select($event, item)\"\n    >\n      {{ item.label }}\n    </chip>\n    <div *ngIf=\"items.length > chipsCount\">\n      <ul class=\"summary\">\n        <li *ngFor=\"let type of notShown\">+ {{ type.count }} {{ labels.more }} {{ type.type }}</li>\n      </ul>\n    </div>\n    <div class=\"chip-input-container\">\n      <novo-picker\n        clearValueOnSelect=\"true\"\n        [config]=\"source\"\n        [placeholder]=\"placeholder\"\n        (select)=\"clickOption($event)\"\n        (keydown)=\"onKeyDown($event)\"\n        (focus)=\"onFocus($event)\"\n        (blur)=\"onTouched($event)\"\n        [overrideElement]=\"element\"\n      >\n      </novo-picker>\n    </div>\n    <i class=\"bhi-search\" [class.has-value]=\"items.length\"></i>\n    <label class=\"clear-all\" *ngIf=\"items.length\" (click)=\"clearValue()\">{{ labels.clearAll }} <i class=\"bhi-times\"></i></label>\n  ",
+                        template: "\n        <chip\n            *ngFor=\"let item of _items | async | slice:0:chipsCount\"\n            [type]=\"item.type\"\n            [class.selected]=\"item == selected\"\n            (remove)=\"removeFromDisplay($event, item)\"\n            (select)=\"select($event, item)\">\n            {{ item.label }}\n        </chip>\n        <div *ngIf=\"items.length > chipsCount\">\n            <ul class=\"summary\">\n                <li *ngFor=\"let type of notShown\">+ {{type.count}} {{ labels.more }} {{type.type}}</li>\n            </ul>\n        </div>\n        <div class=\"chip-input-container\">\n            <novo-picker\n                clearValueOnSelect=\"true\"\n                [config]=\"source\"\n                [placeholder]=\"placeholder\"\n                (select)=\"clickOption($event)\"\n                (keydown)=\"onKeyDown($event)\"\n                (focus)=\"onFocus($event)\"\n                (blur)=\"onTouched($event)\"\n                [overrideElement]=\"element\">\n            </novo-picker>\n        </div>\n        <i class=\"bhi-search\" [class.has-value]=\"items.length\"></i>\n        <label class=\"clear-all\" *ngIf=\"items.length\" (click)=\"clearValue()\">{{ labels.clearAll }} <i class=\"bhi-times\"></i></label>\n   ",
                         host: {
                             '[class.with-value]': 'items.length > 0',
                         }
@@ -48727,6 +48758,15 @@
                 if (left !== this.scrollLeft) {
                     this.scrollLeft = target.scrollLeft;
                 }
+                if (this.fixedHeader) {
+                    /** @type {?} */
+                    var top_1 = target.scrollTop;
+                    /** @type {?} */
+                    var header = target.querySelector('cdk-table > novo-data-table-header-row');
+                    if (header) {
+                        header.style.transform = "translateY(" + top_1 + "px)";
+                    }
+                }
                 this.ref.markForCheck();
             };
         NovoDataTable.decorators = [
@@ -48739,7 +48779,7 @@
                                 animations.transition('void <=> *', animations.animate('70ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
                             ]),
                         ],
-                        template: "\n    <header\n      *ngIf=\"(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader\"\n      [class.empty]=\"hideGlobalSearch && !paginationOptions && !templates['customActions']\"\n    >\n      <ng-container *ngTemplateOutlet=\"templates['customHeader']\"></ng-container>\n      <novo-search\n        alwaysOpen=\"true\"\n        (searchChanged)=\"onSearchChange($event)\"\n        [(ngModel)]=\"state.globalSearch\"\n        *ngIf=\"!hideGlobalSearch\"\n        [placeholder]=\"searchOptions?.placeholder\"\n        [hint]=\"searchOptions?.tooltip\"\n      >\n      </novo-search>\n      <novo-data-table-pagination\n        *ngIf=\"paginationOptions\"\n        [theme]=\"paginationOptions.theme\"\n        [length]=\"dataSource?.currentTotal\"\n        [page]=\"paginationOptions.page\"\n        [pageSize]=\"paginationOptions.pageSize\"\n        [pageSizeOptions]=\"paginationOptions.pageSizeOptions\"\n      >\n      </novo-data-table-pagination>\n      <div class=\"novo-data-table-actions\" *ngIf=\"templates['customActions']\">\n        <ng-container *ngTemplateOutlet=\"templates['customActions']\"></ng-container>\n      </div>\n    </header>\n    <div class=\"novo-data-table-loading-mask\" *ngIf=\"dataSource?.loading || loading\" data-automation-id=\"novo-data-table-loading\">\n      <novo-loading></novo-loading>\n    </div>\n    <div class=\"novo-data-table-outside-container\" [ngClass]=\"{ 'novo-data-table-outside-container-fixed': fixedHeader }\">\n      <div class=\"novo-data-table-custom-filter\" *ngIf=\"customFilter\">\n        <ng-container *ngTemplateOutlet=\"templates['customFilter']\"></ng-container>\n      </div>\n      <div\n        #novoDataTableContainer\n        class=\"novo-data-table-container\"\n        [ngClass]=\"{ 'novo-data-table-container-fixed': fixedHeader }\"\n        [class.empty-user-filtered]=\"dataSource?.currentlyEmpty && state.userFiltered\"\n        [class.empty]=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\"\n      >\n        <cdk-table\n          *ngIf=\"columns?.length > 0 && columnsLoaded && dataSource\"\n          [dataSource]=\"dataSource\"\n          [trackBy]=\"trackByFn\"\n          novoDataTableSortFilter\n          [class.expandable]=\"expandable\"\n          [class.empty]=\"dataSource?.currentlyEmpty && state.userFiltered\"\n          [hidden]=\"dataSource?.totallyEmpty && !state.userFiltered\"\n        >\n          <ng-container cdkColumnDef=\"selection\">\n            <novo-data-table-checkbox-header-cell *cdkHeaderCellDef></novo-data-table-checkbox-header-cell>\n            <novo-data-table-checkbox-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-checkbox-cell>\n          </ng-container>\n          <ng-container cdkColumnDef=\"expand\">\n            <novo-data-table-expand-header-cell *cdkHeaderCellDef></novo-data-table-expand-header-cell>\n            <novo-data-table-expand-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-expand-cell>\n          </ng-container>\n          <ng-container *ngFor=\"let column of columns; trackBy: trackColumnsBy\" [cdkColumnDef]=\"column.id\">\n            <novo-data-table-header-cell\n              *cdkHeaderCellDef\n              [column]=\"column\"\n              [filterTemplate]=\"templates['column-filter-' + column.id]\"\n              [novo-data-table-cell-config]=\"column\"\n              [resized]=\"resized\"\n              [defaultSort]=\"defaultSort\"\n              [allowMultipleFilters]=\"allowMultipleFilters\"\n              [class.empty]=\"column?.type === 'action' && !column?.label\"\n              [class.button-header-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\"\n              [class.dropdown-header-cell]=\"column?.type === 'action' && column?.action?.options\"\n              [class.fixed-header]=\"fixedHeader\"\n            ></novo-data-table-header-cell>\n            <novo-data-table-cell\n              *cdkCellDef=\"let row\"\n              [resized]=\"resized\"\n              [column]=\"column\"\n              [row]=\"row\"\n              [template]=\"columnToTemplate[column.id]\"\n              [class.empty]=\"column?.type === 'action' && !column?.label\"\n              [class.button-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\"\n              [class.dropdown-cell]=\"column?.type === 'action' && column?.action?.options\"\n            ></novo-data-table-cell>\n          </ng-container>\n          <novo-data-table-header-row\n            *cdkHeaderRowDef=\"displayedColumns\"\n            [fixedHeader]=\"fixedHeader\"\n            data-automation-id=\"novo-data-table-header-row\"\n          ></novo-data-table-header-row>\n          <novo-data-table-row\n            *cdkRowDef=\"let row; columns: displayedColumns\"\n            [ngClass]=\"{ active: row[rowIdentifier] == activeRowIdentifier }\"\n            [novoDataTableExpand]=\"detailRowTemplate\"\n            [row]=\"row\"\n            [id]=\"name + '-' + row[rowIdentifier]\"\n            [dataAutomationId]=\"row[rowIdentifier]\"\n          ></novo-data-table-row>\n        </cdk-table>\n        <div class=\"novo-data-table-footer\" *ngIf=\"templates['footer']\">\n          <ng-container *ngTemplateOutlet=\"templates['footer']; context: { $implicit: columns, data: dataSource.data }\"></ng-container>\n        </div>\n        <div\n          class=\"novo-data-table-no-results-container\"\n          [style.left.px]=\"scrollLeft\"\n          *ngIf=\"dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine\"\n        >\n          <div class=\"novo-data-table-empty-message\">\n            <ng-container *ngTemplateOutlet=\"templates['noResultsMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n          </div>\n        </div>\n      </div>\n      <div\n        class=\"novo-data-table-empty-container\"\n        *ngIf=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\"\n      >\n        <div class=\"novo-data-table-empty-message\">\n          <ng-container *ngTemplateOutlet=\"templates['emptyMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n        </div>\n      </div>\n    </div>\n    <!-- DEFAULT CELL TEMPLATE -->\n    <ng-template novoTemplate=\"textCellTemplate\" let-row let-col=\"col\">\n      <span [style.width.px]=\"col?.width\" [style.min-width.px]=\"col?.width\" [style.max-width.px]=\"col?.width\">{{\n        row[col.id] | dataTableInterpolate: col\n      }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"dateCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"datetimeCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateTimeRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"timeCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableTimeRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"currencyCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableCurrencyRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"bigdecimalCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableBigDecimalRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"numberCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"percentCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col:true }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"linkCellTemplate\" let-row let-col=\"col\">\n      <a\n        (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\"\n        [style.width.px]=\"col?.width\"\n        [style.min-width.px]=\"col?.width\"\n        [style.max-width.px]=\"col?.width\"\n        >{{ row[col.id] | dataTableInterpolate: col }}</a\n      >\n    </ng-template>\n    <ng-template novoTemplate=\"telCellTemplate\" let-row let-col=\"col\">\n      <a href=\"tel:{{ row[col.id] | dataTableInterpolate: col }}\" [target]=\"col?.attributes?.target\">{{\n        row[col.id] | dataTableInterpolate: col\n      }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"mailtoCellTemplate\" let-row let-col=\"col\">\n      <a href=\"mailto:{{ row[col.id] | dataTableInterpolate: col }}\" [target]=\"col?.attributes?.target\">{{\n        row[col.id] | dataTableInterpolate: col\n      }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"buttonCellTemplate\" let-row let-col=\"col\">\n      <p [tooltip]=\"col?.action?.tooltip\" tooltipPosition=\"right\">\n        <i\n          class=\"bhi-{{ col?.action?.icon }} data-table-icon\"\n          (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\"\n          [class.disabled]=\"isDisabled(col, row)\"\n        ></i>\n      </p>\n    </ng-template>\n    <ng-template novoTemplate=\"dropdownCellTemplate\" let-row let-col=\"col\">\n      <novo-dropdown parentScrollSelector=\".novo-data-table-container\" containerClass=\"novo-data-table-dropdown\">\n        <button type=\"button\" theme=\"dialogue\" [icon]=\"col.action.icon\" inverse>{{ col.label }}</button>\n        <list>\n          <item\n            *ngFor=\"let option of col?.action?.options\"\n            (action)=\"option.handlers.click({ originalEvent: $event?.originalEvent, row: row })\"\n            [disabled]=\"isDisabled(option, row)\"\n          >\n            <span [attr.data-automation-id]=\"option.label\">{{ option.label }}</span>\n          </item>\n        </list>\n      </novo-dropdown>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultNoResultsMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.noMatchingRecordsMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultEmptyMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.emptyTableMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"expandedRow\"> You did not provide an \"expandedRow\" template! </ng-template>\n    <ng-template #detailRowTemplate let-row>\n      <div class=\"novo-data-table-detail-row\" [@expand] style=\"overflow: hidden\">\n        <ng-container *ngTemplateOutlet=\"templates['expandedRow']; context: { $implicit: row }\"></ng-container>\n      </div>\n    </ng-template>\n    <!-- CUSTOM CELLS PASSED IN -->\n    <ng-content></ng-content>\n  ",
+                        template: "\n    <header\n      *ngIf=\"(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader\"\n      [class.empty]=\"hideGlobalSearch && !paginationOptions && !templates['customActions']\"\n    >\n      <ng-container *ngTemplateOutlet=\"templates['customHeader']\"></ng-container>\n      <novo-search\n        alwaysOpen=\"true\"\n        (searchChanged)=\"onSearchChange($event)\"\n        [(ngModel)]=\"state.globalSearch\"\n        *ngIf=\"!hideGlobalSearch\"\n        [placeholder]=\"searchOptions?.placeholder\"\n        [hint]=\"searchOptions?.tooltip\"\n      >\n      </novo-search>\n      <novo-data-table-pagination\n        *ngIf=\"paginationOptions\"\n        [theme]=\"paginationOptions.theme\"\n        [length]=\"dataSource?.currentTotal\"\n        [page]=\"paginationOptions.page\"\n        [pageSize]=\"paginationOptions.pageSize\"\n        [pageSizeOptions]=\"paginationOptions.pageSizeOptions\"\n      >\n      </novo-data-table-pagination>\n      <div class=\"novo-data-table-actions\" *ngIf=\"templates['customActions']\">\n        <ng-container *ngTemplateOutlet=\"templates['customActions']\"></ng-container>\n      </div>\n    </header>\n    <div class=\"novo-data-table-loading-mask\" *ngIf=\"dataSource?.loading || loading\" data-automation-id=\"novo-data-table-loading\">\n      <novo-loading></novo-loading>\n    </div>\n    <div class=\"novo-data-table-outside-container\" [ngClass]=\"{ 'novo-data-table-outside-container-fixed': fixedHeader }\">\n      <div class=\"novo-data-table-custom-filter\" *ngIf=\"customFilter\">\n        <ng-container *ngTemplateOutlet=\"templates['customFilter']\"></ng-container>\n      </div>\n      <div\n        #novoDataTableContainer\n        class=\"novo-data-table-container\"\n        [ngClass]=\"{ 'novo-data-table-container-fixed': fixedHeader }\"\n        [class.empty-user-filtered]=\"dataSource?.currentlyEmpty && state.userFiltered\"\n        [class.empty]=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\"\n      >\n        <cdk-table\n          *ngIf=\"columns?.length > 0 && columnsLoaded && dataSource\"\n          [dataSource]=\"dataSource\"\n          [trackBy]=\"trackByFn\"\n          novoDataTableSortFilter\n          [class.expandable]=\"expandable\"\n          [class.empty]=\"dataSource?.currentlyEmpty && state.userFiltered\"\n          [hidden]=\"dataSource?.totallyEmpty && !state.userFiltered\"\n        >\n          <ng-container cdkColumnDef=\"selection\">\n            <novo-data-table-checkbox-header-cell *cdkHeaderCellDef></novo-data-table-checkbox-header-cell>\n            <novo-data-table-checkbox-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-checkbox-cell>\n          </ng-container>\n          <ng-container cdkColumnDef=\"expand\">\n            <novo-data-table-expand-header-cell *cdkHeaderCellDef></novo-data-table-expand-header-cell>\n            <novo-data-table-expand-cell *cdkCellDef=\"let row; let i = index\" [row]=\"row\"></novo-data-table-expand-cell>\n          </ng-container>\n          <ng-container *ngFor=\"let column of columns; trackBy: trackColumnsBy\" [cdkColumnDef]=\"column.id\">\n            <novo-data-table-header-cell\n              *cdkHeaderCellDef\n              [column]=\"column\"\n              [filterTemplate]=\"templates['column-filter-' + column.id]\"\n              [novo-data-table-cell-config]=\"column\"\n              [resized]=\"resized\"\n              [defaultSort]=\"defaultSort\"\n              [allowMultipleFilters]=\"allowMultipleFilters\"\n              [class.empty]=\"column?.type === 'action' && !column?.label\"\n              [class.button-header-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\"\n              [class.dropdown-header-cell]=\"column?.type === 'action' && column?.action?.options\"\n            ></novo-data-table-header-cell>\n            <novo-data-table-cell\n              *cdkCellDef=\"let row\"\n              [resized]=\"resized\"\n              [column]=\"column\"\n              [row]=\"row\"\n              [template]=\"columnToTemplate[column.id]\"\n              [class.empty]=\"column?.type === 'action' && !column?.label\"\n              [class.button-cell]=\"column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)\"\n              [class.dropdown-cell]=\"column?.type === 'action' && column?.action?.options\"\n            ></novo-data-table-cell>\n          </ng-container>\n          <novo-data-table-header-row\n            *cdkHeaderRowDef=\"displayedColumns\"\n            data-automation-id=\"novo-data-table-header-row\"\n          ></novo-data-table-header-row>\n          <novo-data-table-row\n            *cdkRowDef=\"let row; columns: displayedColumns\"\n            [ngClass]=\"{ active: row[rowIdentifier] == activeRowIdentifier }\"\n            [novoDataTableExpand]=\"detailRowTemplate\"\n            [row]=\"row\"\n            [id]=\"name + '-' + row[rowIdentifier]\"\n            [dataAutomationId]=\"row[rowIdentifier]\"\n          ></novo-data-table-row>\n        </cdk-table>\n        <div class=\"novo-data-table-footer\" *ngIf=\"templates['footer']\">\n          <ng-container *ngTemplateOutlet=\"templates['footer']; context: { $implicit: columns, data: dataSource.data }\"></ng-container>\n        </div>\n        <div\n          class=\"novo-data-table-no-results-container\"\n          [style.left.px]=\"scrollLeft\"\n          *ngIf=\"dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine\"\n        >\n          <div class=\"novo-data-table-empty-message\">\n            <ng-container *ngTemplateOutlet=\"templates['noResultsMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n          </div>\n        </div>\n      </div>\n      <div\n        class=\"novo-data-table-empty-container\"\n        *ngIf=\"dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine\"\n      >\n        <div class=\"novo-data-table-empty-message\">\n          <ng-container *ngTemplateOutlet=\"templates['emptyMessage'] || templates['defaultNoResultsMessage']\"></ng-container>\n        </div>\n      </div>\n    </div>\n    <!-- DEFAULT CELL TEMPLATE -->\n    <ng-template novoTemplate=\"textCellTemplate\" let-row let-col=\"col\">\n      <span [style.width.px]=\"col?.width\" [style.min-width.px]=\"col?.width\" [style.max-width.px]=\"col?.width\">{{\n        row[col.id] | dataTableInterpolate: col\n      }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"dateCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"datetimeCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateTimeRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"timeCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableTimeRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"currencyCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableCurrencyRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"bigdecimalCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableBigDecimalRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"numberCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"percentCellTemplate\" let-row let-col=\"col\">\n      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col:true }}</span>\n    </ng-template>\n    <ng-template novoTemplate=\"linkCellTemplate\" let-row let-col=\"col\">\n      <a\n        (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\"\n        [style.width.px]=\"col?.width\"\n        [style.min-width.px]=\"col?.width\"\n        [style.max-width.px]=\"col?.width\"\n        >{{ row[col.id] | dataTableInterpolate: col }}</a\n      >\n    </ng-template>\n    <ng-template novoTemplate=\"telCellTemplate\" let-row let-col=\"col\">\n      <a href=\"tel:{{ row[col.id] | dataTableInterpolate: col }}\" [target]=\"col?.attributes?.target\">{{\n        row[col.id] | dataTableInterpolate: col\n      }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"mailtoCellTemplate\" let-row let-col=\"col\">\n      <a href=\"mailto:{{ row[col.id] | dataTableInterpolate: col }}\" [target]=\"col?.attributes?.target\">{{\n        row[col.id] | dataTableInterpolate: col\n      }}</a>\n    </ng-template>\n    <ng-template novoTemplate=\"buttonCellTemplate\" let-row let-col=\"col\">\n      <p [tooltip]=\"col?.action?.tooltip\" tooltipPosition=\"right\">\n        <i\n          class=\"bhi-{{ col?.action?.icon }} data-table-icon\"\n          (click)=\"col.handlers?.click({ originalEvent: $event, row: row })\"\n          [class.disabled]=\"isDisabled(col, row)\"\n        ></i>\n      </p>\n    </ng-template>\n    <ng-template novoTemplate=\"dropdownCellTemplate\" let-row let-col=\"col\">\n      <novo-dropdown parentScrollSelector=\".novo-data-table-container\" containerClass=\"novo-data-table-dropdown\">\n        <button type=\"button\" theme=\"dialogue\" [icon]=\"col.action.icon\" inverse>{{ col.label }}</button>\n        <list>\n          <item\n            *ngFor=\"let option of col?.action?.options\"\n            (action)=\"option.handlers.click({ originalEvent: $event?.originalEvent, row: row })\"\n            [disabled]=\"isDisabled(option, row)\"\n          >\n            <span [attr.data-automation-id]=\"option.label\">{{ option.label }}</span>\n          </item>\n        </list>\n      </novo-dropdown>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultNoResultsMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.noMatchingRecordsMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"defaultEmptyMessage\">\n      <h4><i class=\"bhi-search-question\"></i> {{ labels.emptyTableMessage }}</h4>\n    </ng-template>\n    <ng-template novoTemplate=\"expandedRow\"> You did not provide an \"expandedRow\" template! </ng-template>\n    <ng-template #detailRowTemplate let-row>\n      <div class=\"novo-data-table-detail-row\" [@expand] style=\"overflow: hidden\">\n        <ng-container *ngTemplateOutlet=\"templates['expandedRow']; context: { $implicit: row }\"></ng-container>\n      </div>\n    </ng-template>\n    <!-- CUSTOM CELLS PASSED IN -->\n    <ng-content></ng-content>\n  ",
                         changeDetection: core.ChangeDetectionStrategy.OnPush,
                         providers: [DataTableState]
                     }] }
@@ -49049,7 +49089,6 @@
         function NovoDataTableHeaderRow() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.rowClass = 'novo-data-table-header-row';
-            _this.fixedHeader = false;
             _this.role = 'row';
             return _this;
         }
@@ -49062,7 +49101,6 @@
         ];
         NovoDataTableHeaderRow.propDecorators = {
             rowClass: [{ type: core.HostBinding, args: ['class',] }],
-            fixedHeader: [{ type: core.HostBinding, args: ['class.fixed-header',] }, { type: core.Input }],
             role: [{ type: core.HostBinding, args: ['attr.role',] }]
         };
         return NovoDataTableHeaderRow;
@@ -49705,7 +49743,6 @@
                 this.activeDateFilter = undefined;
                 this.filterData(undefined);
                 this.clearOptionFilter();
-                this.dropdown.closePanel();
             };
         /**
          * @private
@@ -50879,6 +50916,361 @@
         function RemoteDataTableService() {
         }
         return RemoteDataTableService;
+    }());
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var NovoTabbedGroupPickerElement = /** @class */ (function () {
+        function NovoTabbedGroupPickerElement(labelService, ref) {
+            var _this = this;
+            this.labelService = labelService;
+            this.ref = ref;
+            this.selectionChange = new core.EventEmitter();
+            this.filterText = new rxjs.BehaviorSubject('');
+            this.searchLabel = 'Search';
+            this.loading = true;
+            this.getSelectedState = function (childArray) {
+                /** @type {?} */
+                var numberOfSelectedItems = childArray.filter(function (_a) {
+                    var selected = _a.selected;
+                    return selected;
+                }).length;
+                if (!numberOfSelectedItems) {
+                    return undefined;
+                }
+                return numberOfSelectedItems === childArray.length ? 'selected' : 'indeterminate';
+            };
+            this.filter = function (searchTerm) {
+                _this.displaySchemata = _this.schemata.map(function (_a) {
+                    var data = _a.data, schema = __rest(_a, ["data"]);
+                    return (__assign({}, schema, { data: data && data.filter(function (item) { return item[schema.labelField].toLowerCase().includes(searchTerm.toLowerCase()); }) }));
+                });
+                _this.ref.markForCheck();
+            };
+        }
+        Object.defineProperty(NovoTabbedGroupPickerElement.prototype, "displaySchema", {
+            get: /**
+             * @return {?}
+             */ function () {
+                return this.displaySchemata[this.displaySchemaIndex];
+            },
+            set: /**
+             * @param {?} schema
+             * @return {?}
+             */ function (schema) {
+                this.displaySchemaIndex = this.schemata.map(function (_a) {
+                    var typeName = _a.typeName;
+                    return typeName;
+                }).indexOf(schema.typeName);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.ngOnInit = /**
+         * @return {?}
+         */
+            function () {
+                this.setupDisplayData();
+                this.createChildrenReferences();
+                this.loading = false;
+                this.filterText.pipe(operators.debounceTime(300)).subscribe({
+                    next: this.filter,
+                });
+            };
+        /**
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.setupDisplayData = /**
+         * @return {?}
+         */
+            function () {
+                this.displaySchemata = this.schemata;
+                this.displaySchema = this.schemata[0];
+            };
+        // Replace each parent's child object with a reference to the child to avoid
+        // a child lookup for selected status; linking references allows M x N
+        // time complexity instead of M x N^2
+        // Replace each parent's child object with a reference to the child to avoid
+        // a child lookup for selected status; linking references allows M x N
+        // time complexity instead of M x N^2
+        /**
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.createChildrenReferences =
+            // Replace each parent's child object with a reference to the child to avoid
+            // a child lookup for selected status; linking references allows M x N
+            // time complexity instead of M x N^2
+            /**
+             * @return {?}
+             */
+            function () {
+                var _this = this;
+                this.schemata.forEach(function (schema) {
+                    // would rather filter but TypeScript still wants a type narrowing here
+                    if ('childTypeName' in schema) {
+                        /** @type {?} */
+                        var childSchema = _this.schemata.find(function (_a) {
+                            var typeName = _a.typeName;
+                            return typeName === schema.childTypeName;
+                        });
+                        /** @type {?} */
+                        var compareFunction_1 = _this.makeCompareFunction(childSchema.valueField);
+                        /** @type {?} */
+                        var warnFunction_1 = _this.makeWarningFunction(schema.typeName, childSchema.typeName, childSchema.valueField);
+                        /** @type {?} */
+                        var sortedChildren_1 = childSchema.data.slice().sort(compareFunction_1);
+                        schema.data
+                            .filter(function (_a) {
+                            var children = _a.children;
+                            return children && children.length;
+                        })
+                            .forEach(function (parent) {
+                            return _this.replaceChildrenWithReferences(( /** @type {?} */(parent)), sortedChildren_1, compareFunction_1, warnFunction_1);
+                        });
+                    }
+                });
+                if (this.quickSelectConfig) {
+                    this.quickSelectConfig.items
+                        .filter(function (parent) { return 'all' in parent; })
+                        .forEach(function (parent) {
+                        parent.children = _this.schemata.find(function (_a) {
+                            var typeName = _a.typeName;
+                            return parent.childTypeName === typeName;
+                        }).data;
+                    });
+                    this.quickSelectConfig.items
+                        .filter(function (parent) { return !('all' in parent); })
+                        .forEach(function (parent) {
+                        /** @type {?} */
+                        var childSchema = _this.schemata.find(function (_a) {
+                            var typeName = _a.typeName;
+                            return typeName === parent.childTypeName;
+                        });
+                        /** @type {?} */
+                        var compareFunction = _this.makeCompareFunction(childSchema.valueField);
+                        /** @type {?} */
+                        var warnFunction = _this.makeWarningFunction(parent.label, childSchema.typeName, childSchema.valueField);
+                        /** @type {?} */
+                        var sortedChildren = childSchema.data.slice().sort(compareFunction);
+                        _this.replaceChildrenWithReferences(( /** @type {?} */(parent)), sortedChildren, compareFunction, warnFunction);
+                    });
+                }
+            };
+        /**
+         * @template T
+         * @param {?} key
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.makeCompareFunction = /**
+         * @template T
+         * @param {?} key
+         * @return {?}
+         */
+            function (key) {
+                return function (a, b) {
+                    /** @type {?} */
+                    var value = (a && a[key]) || a;
+                    if (value < b[key]) {
+                        return -1;
+                    }
+                    else if (value > b[key]) {
+                        return 1;
+                    }
+                    else if (value === b[key]) {
+                        return 0;
+                    }
+                    else {
+                        return undefined;
+                    }
+                };
+            };
+        /**
+         * @param {?} parent
+         * @param {?} sortedData
+         * @param {?} compareFunction
+         * @param {?} warnFunction
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.replaceChildrenWithReferences = /**
+         * @param {?} parent
+         * @param {?} sortedData
+         * @param {?} compareFunction
+         * @param {?} warnFunction
+         * @return {?}
+         */
+            function (parent, sortedData, compareFunction, warnFunction) {
+                parent.children = parent.children
+                    .map(function (child) { return binarySearch(child, sortedData, compareFunction) || warnFunction(child); })
+                    .filter(Boolean); // since map can return undefined, remove undefined elements
+            };
+        /**
+         * @param {?} parentLabel
+         * @param {?} childLabel
+         * @param {?} childValueField
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.makeWarningFunction = /**
+         * @param {?} parentLabel
+         * @param {?} childLabel
+         * @param {?} childValueField
+         * @return {?}
+         */
+            function (parentLabel, childLabel, childValueField) {
+                return function (child) {
+                    /** @type {?} */
+                    var childValue = child[childValueField] || child;
+                    console.warn("No " + childLabel + " found with value " + childValue + " for parent " + parentLabel);
+                };
+            };
+        /**
+         * @param {?} item
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.onItemToggled = /**
+         * @param {?} item
+         * @return {?}
+         */
+            function (item) {
+                if (Array.isArray(item.children)) {
+                    this.updateChildren(item.selected, item.children);
+                }
+                this.updateParents();
+                this.emitSelectedValues();
+                this.ref.markForCheck();
+            };
+        /**
+         * @param {?} parentIsSelected
+         * @param {?} children
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.updateChildren = /**
+         * @param {?} parentIsSelected
+         * @param {?} children
+         * @return {?}
+         */
+            function (parentIsSelected, children) {
+                children.forEach(function (item) { return (parentIsSelected ? (item.selected = true) : delete item.selected); });
+            };
+        /**
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.updateParents = /**
+         * @return {?}
+         */
+            function () {
+                var _this = this;
+                // mutate here to avoid dereferencing the objects in displaySchemata
+                this.schemata
+                    .filter(function (schema) { return 'childTypeName' in schema && !!schema.childTypeName; })
+                    .forEach(function (schema) {
+                    /** @type {?} */
+                    var parents = schema.data.filter(function (_a) {
+                        var children = _a.children;
+                        return children && children.length;
+                    });
+                    parents.forEach(function (parent) {
+                        ['indeterminate', 'selected'].forEach(function (v) { return delete parent[v]; });
+                        /** @type {?} */
+                        var selectedState = _this.getSelectedState(parent.children);
+                        if (selectedState) {
+                            parent[selectedState] = true;
+                        }
+                    });
+                });
+                if (this.quickSelectConfig) {
+                    this.quickSelectConfig.items.forEach(function (quickSelect) {
+                        delete quickSelect.selected;
+                        /** @type {?} */
+                        var selectedState = _this.getSelectedState(( /** @type {?} */(quickSelect.children)));
+                        if (selectedState) {
+                            quickSelect[selectedState] = true;
+                        }
+                    });
+                }
+            };
+        /**
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.emitSelectedValues = /**
+         * @return {?}
+         */
+            function () {
+                /** @type {?} */
+                var selectedValues = this.schemata.map(function (schema) {
+                    return (__assign({}, schema, { data: schema.data.filter(function (_a) {
+                            var selected = _a.selected;
+                            return selected;
+                        }) }));
+                });
+                this.selectionChange.emit(selectedValues);
+            };
+        /**
+         * @param {?} event
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.onClearFilter = /**
+         * @param {?} event
+         * @return {?}
+         */
+            function (event) {
+                Helpers.swallowEvent(event);
+                this.filterText.next('');
+            };
+        /**
+         * @param {?} event
+         * @return {?}
+         */
+        NovoTabbedGroupPickerElement.prototype.onFilter = /**
+         * @param {?} event
+         * @return {?}
+         */
+            function (event) {
+                this.filterText.next(event.target.value);
+            };
+        NovoTabbedGroupPickerElement.decorators = [
+            { type: core.Component, args: [{
+                        selector: 'novo-tabbed-group-picker',
+                        template: "<novo-dropdown>\n  <button class=\"tabbed-group-picker-button\"\n          [theme]=\"buttonConfig.theme\"\n          [side]=\"buttonConfig.side\"\n          [icon]=\"buttonConfig.icon\"\n          [loading]=\"loading\">\n    <div class=\"tabbed-group-picker-button-label\">{{ buttonConfig.label }}</div>\n  </button>\n  <div class=\"novo-category-dropdown-search\" data-automation-id=\"novo-category-dropdown-search\">\n    <input type=\"text\" [placeholder]=\"searchLabel\" [value]=\"filterText | async\" (input)=\"onFilter($event)\" />\n    <i class=\"bhi-search\" *ngIf=\"!(filterText | async)\"></i>\n    <i class=\"bhi-times\" *ngIf=\"filterText | async\" (click)=\"onClearFilter($event)\"></i>\n  </div>\n  <div class=\"tabbed-group-picker-column-container\">\n    <div class=\"tabbed-group-picker-column left\">\n      <novo-nav theme=\"white\"\n                direction=\"vertical\">\n        <novo-tab *ngFor=\"let schema of displaySchemata\"\n                  [attr.data-automation-id]=\"schema.typeName\"\n                  (activeChange)=\"displaySchema = schema\">\n          <span>{{schema.typeLabel}} ({{schema.data.length}})</span><i class=\"bhi-next\"></i>\n        </novo-tab>\n      </novo-nav>\n      <!-- todo: clear all button goes here-->\n    </div>\n    <div class=\"tabbed-group-picker-column right\">\n      <div class=\"quick-select\" *ngIf=\"quickSelectConfig && !(filterText | async)\">\n        <div class=\"quick-select-label\">{{ quickSelectConfig.label }}</div>\n        <novo-list direction=\"vertical\">\n          <novo-list-item *ngFor=\"let quickSelect of quickSelectConfig.items\"\n                          [attr.data-automation-id]=\"quickSelect.label\"\n                          (click)=\"quickSelect.selected = !quickSelect.selected; onItemToggled(quickSelect)\">\n                          <item-content>\n                            <novo-checkbox [label]=\"quickSelect.label\"\n                            [name]=\"'selected'\"\n                            [(ngModel)]=\"quickSelect.selected\"\n                            (ngModelChange)=\"onItemToggled(quickSelect)\"></novo-checkbox>\n                          </item-content>\n          </novo-list-item>\n        </novo-list>\n      </div>\n      <!-- todo: add virtual scroll-->\n      <novo-list *ngIf=\"schemata[displaySchemaIndex].data.length\"\n                 direction=\"vertical\">\n        <novo-list-item *ngFor=\"let item of displaySchema.data\"\n                        [attr.data-automation-id]=\"item[displaySchema.labelField]\"\n                        (click)=\"item.selected = !item.selected; onItemToggled(item)\">\n                        <item-content>\n                          <novo-checkbox [label]=\"item[displaySchema.labelField]\"\n                          [name]=\"'selected'\"\n                          [indeterminate]=\"item.indeterminate\"\n                          [(ngModel)]=\"item.selected\"\n                          (ngModelChange)=\"onItemToggled(item)\">\n                        </novo-checkbox>\n                      </item-content>\n        </novo-list-item>\n      </novo-list>\n      <!-- TODO: add empty result message for no data in the case of no search -->\n      <div class=\"novo-category-dropdown-empty-item\" *ngIf=\"!displaySchema.data.length && (filterText | async)\">\n        <!-- TODO: add bhi-users icon if parent-child relationship-->\n        <i class=\"bhi-user\"></i>\n        <div class=\"empty-item-main-message\">{{ labelService.tabbedGroupPickerEmpty }}</div>\n        <div class=\"empty-item-sub-message\">{{ labelService.tabbedGroupClearSuggestion(this.displaySchema.typeLabel) }}</div>\n      </div>\n    </div>\n  </div>\n</novo-dropdown>\n",
+                        changeDetection: core.ChangeDetectionStrategy.OnPush
+                    }] }
+        ];
+        /** @nocollapse */
+        NovoTabbedGroupPickerElement.ctorParameters = function () {
+            return [
+                { type: NovoLabelService },
+                { type: core.ChangeDetectorRef }
+            ];
+        };
+        NovoTabbedGroupPickerElement.propDecorators = {
+            buttonConfig: [{ type: core.Input }],
+            schemata: [{ type: core.Input }],
+            quickSelectConfig: [{ type: core.Input }],
+            selectionChange: [{ type: core.Output }]
+        };
+        return NovoTabbedGroupPickerElement;
+    }());
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var NovoTabbedGroupPickerModule = /** @class */ (function () {
+        function NovoTabbedGroupPickerModule() {
+        }
+        NovoTabbedGroupPickerModule.decorators = [
+            { type: core.NgModule, args: [{
+                        imports: [common.CommonModule, forms.FormsModule, NovoTabModule, NovoListModule, NovoFormExtrasModule, NovoButtonModule, NovoDropdownModule],
+                        providers: [NovoLabelService],
+                        declarations: [NovoTabbedGroupPickerElement],
+                        exports: [NovoTabbedGroupPickerElement],
+                    },] }
+        ];
+        return NovoTabbedGroupPickerModule;
     }());
 
     /**
@@ -53877,7 +54269,7 @@
         NovoSimpleCellHeader.decorators = [
             { type: core.Component, args: [{
                         selector: '[novo-simple-cell-config]',
-                        template: "\n    <label (click)=\"sort()\" data-automation-id=\"novo-activity-table-label\" [class.sort-disabled]=\"!config.sortable\">\n      <ng-content></ng-content>\n    </label>\n    <div>\n      <button\n        *ngIf=\"config.sortable\"\n        theme=\"icon\"\n        [icon]=\"icon\"\n        (click)=\"sort()\"\n        [class.active]=\"sortActive\"\n        data-automation-id=\"novo-activity-table-sort\"\n      ></button>\n      <novo-dropdown\n        *ngIf=\"config.filterable\"\n        side=\"right\"\n        parentScrollSelector=\".novo-simple-table\"\n        containerClass=\"simple-table-dropdown\"\n        data-automation-id=\"novo-activity-table-filter\"\n      >\n        <button type=\"button\" theme=\"icon\" icon=\"filter\" [class.active]=\"filterActive\"></button>\n        <div class=\"header\">\n          <span>{{ labels.filters }}</span>\n          <button\n            theme=\"dialogue\"\n            color=\"negative\"\n            icon=\"times\"\n            (click)=\"clearFilter()\"\n            *ngIf=\"filter\"\n            data-automation-id=\"novo-activity-table-filter-clear\"\n          >\n            {{ labels.clear }}\n          </button>\n        </div>\n        <ng-container [ngSwitch]=\"config.filterConfig.type\">\n          <list *ngSwitchCase=\"'date'\">\n            <ng-container *ngIf=\"!showCustomRange\">\n              <item\n                [class.active]=\"activeDateFilter === option.label\"\n                *ngFor=\"let option of config.filterConfig.options\"\n                (click)=\"filterData(option)\"\n                [attr.data-automation-id]=\"'novo-activity-table-filter-' + option.label\"\n              >\n                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n              </item>\n            </ng-container>\n            <item\n              [class.active]=\"labels.customDateRange === activeDateFilter\"\n              (click)=\"toggleCustomRange($event, true)\"\n              *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\"\n              [keepOpen]=\"true\"\n            >\n              {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n            </item>\n            <div class=\"calendar-container\" *ngIf=\"showCustomRange\">\n              <div (click)=\"toggleCustomRange($event, false)\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n              <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n            </div>\n          </list>\n          <list *ngSwitchCase=\"'select'\">\n            <item\n              [class.active]=\"filter === option\"\n              *ngFor=\"let option of config.filterConfig.options\"\n              (click)=\"filterData(option)\"\n              [attr.data-automation-id]=\"'novo-activity-table-filter-' + (option?.label || option)\"\n            >\n              <span>{{ option?.label || option }}</span>\n              <i class=\"bhi-check\" *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n            </item>\n          </list>\n          <list *ngSwitchDefault>\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <input\n                type=\"text\"\n                [(ngModel)]=\"filter\"\n                (ngModelChange)=\"filterData($event)\"\n                novoSimpleFilterFocus\n                data-automation-id=\"novo-activity-table-filter-input\"\n              />\n            </item>\n          </list>\n        </ng-container>\n      </novo-dropdown>\n    </div>\n  ",
+                        template: "\n    <label (click)=\"sort()\" data-automation-id=\"novo-activity-table-label\" [class.sort-disabled]=\"!config.sortable\">\n      <ng-content></ng-content>\n    </label>\n    <div>\n      <button *ngIf=\"config.sortable\" theme=\"icon\" [icon]=\"icon\" (click)=\"sort()\" [class.active]=\"sortActive\"\n              data-automation-id=\"novo-activity-table-sort\"></button>\n      <novo-dropdown *ngIf=\"config.filterable\" side=\"right\" parentScrollSelector=\".novo-simple-table\" containerClass=\"simple-table-dropdown\"\n                     data-automation-id=\"novo-activity-table-filter\">\n        <button type=\"button\" theme=\"icon\" icon=\"filter\" [class.active]=\"filterActive\"></button>\n        <div class=\"header\">\n          <span>{{ labels.filters }}</span>\n          <button theme=\"dialogue\" color=\"negative\" icon=\"times\" (click)=\"clearFilter()\"\n                  *ngIf=\"filter !== null && filter !== undefined && filter !== ''\" data-automation-id=\"novo-activity-table-filter-clear\">\n            {{ labels.clear }}\n          </button>\n        </div>\n        <ng-container [ngSwitch]=\"config.filterConfig.type\">\n          <list *ngSwitchCase=\"'date'\">\n            <ng-container *ngIf=\"!showCustomRange\">\n              <item [class.active]=\"activeDateFilter === option.label\" *ngFor=\"let option of config.filterConfig.options\" (click)=\"filterData(option)\"\n                    [attr.data-automation-id]=\"'novo-activity-table-filter-' + option.label\">\n                {{ option.label }} <i class=\"bhi-check\" *ngIf=\"activeDateFilter === option.label\"></i>\n              </item>\n            </ng-container>\n            <item [class.active]=\"labels.customDateRange === activeDateFilter\" (click)=\"toggleCustomRange($event, true)\"\n                  *ngIf=\"config.filterConfig.allowCustomRange && !showCustomRange\" [keepOpen]=\"true\">\n              {{ labels.customDateRange }} <i class=\"bhi-check\" *ngIf=\"labels.customDateRange === activeDateFilter\"></i>\n            </item>\n            <div class=\"calendar-container\" *ngIf=\"showCustomRange\">\n              <div (click)=\"toggleCustomRange($event, false)\"><i class=\"bhi-previous\"></i>{{ labels.backToPresetFilters }}</div>\n              <novo-date-picker (onSelect)=\"filterData($event)\" [(ngModel)]=\"filter\" range=\"true\"></novo-date-picker>\n            </div>\n          </list>\n          <list *ngSwitchCase=\"'select'\">\n            <item [class.active]=\"filter === option\" *ngFor=\"let option of config.filterConfig.options\" (click)=\"filterData(option)\"\n                  [attr.data-automation-id]=\"'novo-activity-table-filter-' + (option?.label || option)\">\n              <span>{{ option?.label || option }}</span> <i class=\"bhi-check\"\n                                                            *ngIf=\"option.hasOwnProperty('value') ? filter === option.value : filter === option\"></i>\n            </item>\n          </list>\n          <list *ngSwitchDefault>\n            <item class=\"filter-search\" keepOpen=\"true\">\n              <input type=\"text\" [(ngModel)]=\"filter\" (ngModelChange)=\"filterData($event)\" novoSimpleFilterFocus\n                     data-automation-id=\"novo-activity-table-filter-input\"/>\n            </item>\n          </list>\n        </ng-container>\n      </novo-dropdown>\n    </div>\n  ",
                         encapsulation: core.ViewEncapsulation.None,
                         changeDetection: core.ChangeDetectionStrategy.OnPush
                     }] }
@@ -55517,7 +55909,8 @@
                             UnlessModule,
                             NovoCommonModule,
                             NovoStepperModule,
-                            scrolling.ScrollingModule,
+                            NovoTabbedGroupPickerModule,
+                            scrolling.ScrollDispatchModule,
                         ],
                         providers: [
                             { provide: ComponentUtils, useClass: ComponentUtils },
@@ -55625,10 +56018,6 @@
     exports.NovoIconModule = NovoIconModule;
     exports.NovoExpansionModule = NovoExpansionModule;
     exports.NovoStepperModule = NovoStepperModule;
-    exports.NovoVerticalStepper = NovoVerticalStepper;
-    exports.NovoHorizontalStepper = NovoHorizontalStepper;
-    exports.NovoStep = NovoStep;
-    exports.NovoStepper = NovoStepper;
     exports.NovoTableExtrasModule = NovoTableExtrasModule;
     exports.NovoFormModule = NovoFormModule;
     exports.NovoDynamicFormElement = NovoDynamicFormElement;
@@ -55642,6 +56031,7 @@
     exports.NovoDataTableFilterUtils = NovoDataTableFilterUtils;
     exports.NovoDataTable = NovoDataTable;
     exports.NovoCommonModule = NovoCommonModule;
+    exports.NovoTabbedGroupPickerModule = NovoTabbedGroupPickerModule;
     exports.NovoTableElement = NovoTableElement;
     exports.NovoCalendarDateChangeElement = NovoCalendarDateChangeElement;
     exports.NovoTemplate = NovoTemplate;
@@ -55789,33 +56179,33 @@
     exports.ɵbd = NovoCalendarWeekViewElement;
     exports.ɵx = CardActionsElement;
     exports.ɵy = CardElement;
-    exports.ɵel = NovoCategoryDropdownElement;
+    exports.ɵep = NovoCategoryDropdownElement;
     exports.ɵct = NovoChipElement;
     exports.ɵcu = NovoChipsElement;
     exports.ɵcv = NovoRowChipElement;
     exports.ɵcw = NovoRowChipsElement;
     exports.ɵdd = NovoCKEditorElement;
-    exports.ɵfe = NovoDataTableCheckboxHeaderCell;
-    exports.ɵfg = NovoDataTableExpandHeaderCell;
-    exports.ɵev = NovoDataTableCellHeader;
-    exports.ɵey = NovoDataTableHeaderCell;
-    exports.ɵez = NovoDataTableCell;
-    exports.ɵfd = NovoDataTableCheckboxCell;
-    exports.ɵff = NovoDataTableExpandCell;
-    exports.ɵfi = NovoDataTableClearButton;
-    exports.ɵfh = NovoDataTableExpandDirective;
-    exports.ɵet = DataTableBigDecimalRendererPipe;
-    exports.ɵeo = DataTableInterpolatePipe;
-    exports.ɵeu = DateTableCurrencyRendererPipe;
-    exports.ɵep = DateTableDateRendererPipe;
-    exports.ɵeq = DateTableDateTimeRendererPipe;
-    exports.ɵes = DateTableNumberRendererPipe;
-    exports.ɵer = DateTableTimeRendererPipe;
-    exports.ɵfc = NovoDataTablePagination;
-    exports.ɵfa = NovoDataTableHeaderRow;
-    exports.ɵfb = NovoDataTableRow;
-    exports.ɵex = NovoDataTableSortFilter;
-    exports.ɵew = DataTableState;
+    exports.ɵfi = NovoDataTableCheckboxHeaderCell;
+    exports.ɵfk = NovoDataTableExpandHeaderCell;
+    exports.ɵez = NovoDataTableCellHeader;
+    exports.ɵfc = NovoDataTableHeaderCell;
+    exports.ɵfd = NovoDataTableCell;
+    exports.ɵfh = NovoDataTableCheckboxCell;
+    exports.ɵfj = NovoDataTableExpandCell;
+    exports.ɵfm = NovoDataTableClearButton;
+    exports.ɵfl = NovoDataTableExpandDirective;
+    exports.ɵex = DataTableBigDecimalRendererPipe;
+    exports.ɵes = DataTableInterpolatePipe;
+    exports.ɵey = DateTableCurrencyRendererPipe;
+    exports.ɵet = DateTableDateRendererPipe;
+    exports.ɵeu = DateTableDateTimeRendererPipe;
+    exports.ɵew = DateTableNumberRendererPipe;
+    exports.ɵev = DateTableTimeRendererPipe;
+    exports.ɵfg = NovoDataTablePagination;
+    exports.ɵfe = NovoDataTableHeaderRow;
+    exports.ɵff = NovoDataTableRow;
+    exports.ɵfb = NovoDataTableSortFilter;
+    exports.ɵfa = DataTableState;
     exports.ɵcx = NovoDatePickerInputElement;
     exports.ɵdb = NovoDateTimePickerElement;
     exports.ɵdc = NovoDateTimePickerInputElement;
@@ -55863,26 +56253,31 @@
     exports.ɵc = NovoModalContainerElement;
     exports.ɵd = NovoModalElement;
     exports.ɵe = NovoModalNotificationElement;
-    exports.ɵem = NovoMultiPickerElement;
+    exports.ɵeq = NovoMultiPickerElement;
     exports.ɵci = NovoOverlayTemplateComponent;
     exports.ɵch = NovoOverlayModule;
     exports.ɵcp = NovoPickerElement;
-    exports.ɵfq = PlacesListComponent;
-    exports.ɵfp = GooglePlacesModule;
-    exports.ɵfo = PopOverDirective;
-    exports.ɵfm = NovoPopOverModule;
-    exports.ɵfn = PopOverContent;
+    exports.ɵfv = PlacesListComponent;
+    exports.ɵfu = GooglePlacesModule;
+    exports.ɵft = PopOverDirective;
+    exports.ɵfr = NovoPopOverModule;
+    exports.ɵfs = PopOverContent;
     exports.ɵce = QuickNoteElement;
     exports.ɵcg = NovoRadioElement;
     exports.ɵcf = NovoRadioGroup;
     exports.ɵcq = NovoSearchBoxElement;
     exports.ɵcn = NovoSelectElement;
     exports.ɵcs = NovoSliderElement;
-    exports.ɵeh = NovoStepHeader;
-    exports.ɵei = NovoStepLabel;
-    exports.ɵek = NovoStepStatus;
-    exports.ɵej = novoStepperAnimations;
+    exports.ɵel = NovoStepHeader;
+    exports.ɵem = NovoStepLabel;
+    exports.ɵeo = NovoStepStatus;
+    exports.ɵen = novoStepperAnimations;
+    exports.ɵej = NovoHorizontalStepper;
+    exports.ɵeh = NovoStep;
+    exports.ɵei = NovoStepper;
+    exports.ɵek = NovoVerticalStepper;
     exports.ɵco = NovoSwitchElement;
+    exports.ɵfn = NovoTabbedGroupPickerElement;
     exports.ɵdq = NovoTableKeepFilterFocus;
     exports.ɵdr = Pagination;
     exports.ɵds = RowDetails;
@@ -55907,13 +56302,13 @@
     exports.ɵbr = NovoToastElement;
     exports.ɵw = NovoTooltip;
     exports.ɵv = TooltipDirective;
-    exports.ɵen = Unless;
+    exports.ɵer = Unless;
     exports.ɵdx = EntityList;
     exports.ɵm = NovoValueElement;
     exports.ɵcy = DateFormatService;
-    exports.ɵfk = BrowserGlobalRef;
-    exports.ɵfj = GlobalRef;
-    exports.ɵfl = LocalStorageService;
+    exports.ɵfp = BrowserGlobalRef;
+    exports.ɵfo = GlobalRef;
+    exports.ɵfq = LocalStorageService;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
