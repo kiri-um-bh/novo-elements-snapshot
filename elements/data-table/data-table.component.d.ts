@@ -25,11 +25,12 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     allowMultipleFilters: boolean;
     rowIdentifier: string;
     activeRowIdentifier: string;
-    trackByFn: Function;
+    trackByFn: (index: any, item: any) => any;
     templates: {
         [key: string]: TemplateRef<any>;
     };
     fixedHeader: boolean;
+    paginatorDataFeatureId: string;
     dataTableService: IDataTableService<T>;
     rows: T[];
     outsideFilter: EventEmitter<any>;

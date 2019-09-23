@@ -11,6 +11,7 @@ export declare class NovoDataTablePagination<T> implements OnInit, OnDestroy {
     _page: number;
     pageSize: number;
     private _pageSize;
+    dataFeatureId: string;
     pageSizeOptions: any[];
     private _pageSizeOptions;
     length: number;
