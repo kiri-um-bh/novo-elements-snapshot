@@ -2295,6 +2295,15 @@
                 return select ? "Select all " + total + " records." : "De-select remaining " + total + " records.";
             };
         /**
+         * @return {?}
+         */
+        NovoLabelService.prototype.dateFormatString = /**
+         * @return {?}
+         */
+            function () {
+                return this.dateFormat;
+            };
+        /**
          * @param {?} value
          * @param {?} format
          * @return {?}
@@ -13791,7 +13800,7 @@
          */
             function (dateString) {
                 /** @type {?} */
-                var dateFormat = this.labels.dateFormat;
+                var dateFormat = this.labels.dateFormatString();
                 /** @type {?} */
                 var dateFormatRegex = /(\w+)[\/|\.|\-](\w+)[\/|\.|\-](\w+)/gi;
                 /** @type {?} */
@@ -14039,7 +14048,7 @@
             this.disabled = false;
             this.blurEvent = new core.EventEmitter();
             this.focusEvent = new core.EventEmitter();
-            this.placeholder = this.labels.dateFormatPlaceholder;
+            this.placeholder = this.labels.dateFormatString().toUpperCase() || this.labels.dateFormatPlaceholder;
         }
         /**
          * @return {?}
@@ -14051,8 +14060,8 @@
                 this.userDefinedFormat = this.format ? !this.format.match(/^(DD\/MM\/YYYY|MM\/DD\/YYYY)$/g) : false;
                 if (!this.userDefinedFormat && this.textMaskEnabled && !this.allowInvalidDate) {
                     this.maskOptions = this.maskOptions || {
-                        mask: [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/],
-                        pipe: createAutoCorrectedDatePipe(this.format || this.labels.dateFormat.toLowerCase()),
+                        mask: this.dateFormatService.getDateMask(),
+                        pipe: createAutoCorrectedDatePipe(this.format || this.labels.dateFormatString().toLowerCase()),
                         keepCharPositions: false,
                         guide: true,
                     };
