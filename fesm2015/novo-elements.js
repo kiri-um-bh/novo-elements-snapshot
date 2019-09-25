@@ -1923,6 +1923,12 @@ class NovoLabelService {
         return select ? `Select all ${total} records.` : `De-select remaining ${total} records.`;
     }
     /**
+     * @return {?}
+     */
+    dateFormatString() {
+        return this.dateFormat;
+    }
+    /**
      * @param {?} value
      * @param {?} format
      * @return {?}
@@ -11881,7 +11887,7 @@ class DateFormatService {
      */
     parseDateString(dateString) {
         /** @type {?} */
-        let dateFormat = this.labels.dateFormat;
+        let dateFormat = this.labels.dateFormatString();
         /** @type {?} */
         let dateFormatRegex = /(\w+)[\/|\.|\-](\w+)[\/|\.|\-](\w+)/gi;
         /** @type {?} */
@@ -12099,7 +12105,7 @@ class NovoDatePickerInputElement {
         this.disabled = false;
         this.blurEvent = new EventEmitter();
         this.focusEvent = new EventEmitter();
-        this.placeholder = this.labels.dateFormatPlaceholder;
+        this.placeholder = this.labels.dateFormatString().toUpperCase() || this.labels.dateFormatPlaceholder;
     }
     /**
      * @return {?}
@@ -12108,8 +12114,8 @@ class NovoDatePickerInputElement {
         this.userDefinedFormat = this.format ? !this.format.match(/^(DD\/MM\/YYYY|MM\/DD\/YYYY)$/g) : false;
         if (!this.userDefinedFormat && this.textMaskEnabled && !this.allowInvalidDate) {
             this.maskOptions = this.maskOptions || {
-                mask: [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/],
-                pipe: createAutoCorrectedDatePipe(this.format || this.labels.dateFormat.toLowerCase()),
+                mask: this.dateFormatService.getDateMask(),
+                pipe: createAutoCorrectedDatePipe(this.format || this.labels.dateFormatString().toLowerCase()),
                 keepCharPositions: false,
                 guide: true,
             };
