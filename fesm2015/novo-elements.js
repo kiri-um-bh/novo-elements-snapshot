@@ -38124,16 +38124,33 @@ ThSortable.propDecorators = {
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class DateCell extends BaseRenderer {
+    /**
+     * @param {?} labels
+     */
+    constructor(labels) {
+        super();
+        this.labels = labels;
+    }
+    /**
+     * @return {?}
+     */
+    getFormattedDate() {
+        return this.labels.formatDate(this.value);
+    }
 }
 DateCell.decorators = [
     { type: Component, args: [{
                 selector: 'date-cell',
                 template: `
         <div class="date-cell">
-            <label>{{ value | date }}</label>
+            <label>{{ getFormattedDate() }}</label>
         </div>
     `
             }] }
+];
+/** @nocollapse */
+DateCell.ctorParameters = () => [
+    { type: NovoLabelService }
 ];
 DateCell.propDecorators = {
     value: [{ type: Input }]
