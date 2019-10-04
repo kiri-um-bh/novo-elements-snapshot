@@ -16437,7 +16437,7 @@ class FieldInteractionApi {
         };
         this.createOptionsFunction = (config, mapper, filteredOptionsCreator) => (query$$1, page) => {
             if ('optionsPromise' in config && config.optionsPromise) {
-                return config.optionsPromise(query$$1, new CustomHttpImpl(this.http));
+                return config.optionsPromise(query$$1, new CustomHttpImpl(this.http), page);
             }
             else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
                 return new Promise((resolve, reject) => {

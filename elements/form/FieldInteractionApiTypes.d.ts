@@ -5,7 +5,7 @@ declare type OptionsFunctionConfig = {
     where: string;
     emptyPickerMessage?: string;
 } | {
-    optionsPromise: (query: string, http: CustomHttp) => Promise<unknown[]>;
+    optionsPromise: (query: string, http: CustomHttp, page: number) => Promise<unknown[]>;
 } | {
     optionsUrl: string;
 } | {

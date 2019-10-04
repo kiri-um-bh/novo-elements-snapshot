@@ -19146,7 +19146,7 @@
             this.createOptionsFunction = function (config, mapper, filteredOptionsCreator) {
                 return function (query, page) {
                     if ('optionsPromise' in config && config.optionsPromise) {
-                        return config.optionsPromise(query, new CustomHttpImpl(_this.http));
+                        return config.optionsPromise(query, new CustomHttpImpl(_this.http), page);
                     }
                     else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
                         return new Promise(function (resolve, reject) {
