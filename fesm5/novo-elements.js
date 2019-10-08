@@ -41069,15 +41069,30 @@ var ThSortable = /** @class */ (function () {
  */
 var DateCell = /** @class */ (function (_super) {
     __extends(DateCell, _super);
-    function DateCell() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function DateCell(labels) {
+        var _this = _super.call(this) || this;
+        _this.labels = labels;
+        return _this;
     }
+    /**
+     * @return {?}
+     */
+    DateCell.prototype.getFormattedDate = /**
+     * @return {?}
+     */
+    function () {
+        return this.labels.formatDate(this.value);
+    };
     DateCell.decorators = [
         { type: Component, args: [{
                     selector: 'date-cell',
-                    template: "\n        <div class=\"date-cell\">\n            <label>{{ value | date }}</label>\n        </div>\n    "
+                    template: "\n        <div class=\"date-cell\">\n            <label>{{ getFormattedDate() }}</label>\n        </div>\n    "
                 }] }
     ];
+    /** @nocollapse */
+    DateCell.ctorParameters = function () { return [
+        { type: NovoLabelService }
+    ]; };
     DateCell.propDecorators = {
         value: [{ type: Input }]
     };
