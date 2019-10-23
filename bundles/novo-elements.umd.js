@@ -10701,6 +10701,8 @@
                             return 'star placement';
                         case 'CorporateUser':
                             return 'user';
+                        case 'CorporationDepartment':
+                            return 'department';
                         default:
                             return '';
                     }
@@ -17726,6 +17728,7 @@
                 'Candidate',
                 'ClientContact',
                 'ClientCorporation',
+                'CorporationDepartment',
                 'Lead',
                 'Opportunity',
                 'JobOrder',

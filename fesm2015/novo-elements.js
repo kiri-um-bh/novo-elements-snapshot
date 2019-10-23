@@ -9086,6 +9086,8 @@ class EntityPickerResult {
                     return 'star placement';
                 case 'CorporateUser':
                     return 'user';
+                case 'CorporationDepartment':
+                    return 'department';
                 default:
                     return '';
             }
@@ -15245,6 +15247,7 @@ class FormUtils {
             'Candidate',
             'ClientContact',
             'ClientCorporation',
+            'CorporationDepartment',
             'Lead',
             'Opportunity',
             'JobOrder',
