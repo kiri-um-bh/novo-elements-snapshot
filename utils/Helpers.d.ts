@@ -58,3 +58,4 @@ export declare class Can {
  * @param obj
  */
 export declare function can(obj: any): Can;
+export declare function binarySearch<T>(item: T, array: T[], compare: (a: T, b: T) => 1 | -1 | 0 | undefined): T | undefined;
