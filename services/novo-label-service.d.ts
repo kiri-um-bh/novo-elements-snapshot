@@ -11,6 +11,7 @@ export declare class NovoLabelService {
     pickerError: string;
     pickerTextFieldEmpty: string;
     pickerEmpty: string;
+    tabbedGroupPickerEmpty: string;
     quickNoteError: string;
     quickNoteEmpty: string;
     required: string;
@@ -103,6 +104,7 @@ export declare class NovoLabelService {
     showingXofXResults(shown: number, total: number): string;
     totalRecords(total: number, select?: boolean): string;
     dateFormatString(): string;
+    tabbedGroupClearSuggestion(tabLabelPlural: string): string;
     formatDateWithFormat(value: any, format: Intl.DateTimeFormatOptions): any;
     formatTimeWithFormat(value: any, format: Intl.DateTimeFormatOptions): string;
     getWeekdays(): string[];

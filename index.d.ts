@@ -49,6 +49,8 @@ export { NovoDataTableFilterUtils } from './elements/data-table/services/data-ta
 export { IDataTableCell, IDataTableChangeEvent, IDataTableColumn, IDataTableColumnFilterConfig, IDataTableColumnFilterOption, IDataTableColumnSortConfig, IDataTablePaginationEvent, IDataTablePaginationOptions, IDataTableSearchOptions, IDataTableSelectionChangeEvent, IDataTableService, IDataTableSortFilter, IDataTablePreferences, IDataTableFilter, } from './elements/data-table/interfaces';
 export { NovoDataTable } from './elements/data-table/data-table.component';
 export { NovoCommonModule } from './elements/common/common.module';
+export { ChildTab, ParentTab, TabbedGroupPickerTab, QuickSelectConfig, TabbedGroupPickerQuickSelect, TabbedGroupPickerButtonConfig } from './elements/tabbed-group-picker/TabbedGroupPicker';
+export { NovoTabbedGroupPickerModule } from './elements/tabbed-group-picker/TabbedGroupPicker.module';
 export { NovoTableElement, NovoTableConfig } from './elements/table/Table';
 export { NovoCalendarDateChangeElement } from './elements/calendar/common/CalendarDateChange';
 export { NovoTemplate } from './elements/common/novo-template/novo-template.directive';

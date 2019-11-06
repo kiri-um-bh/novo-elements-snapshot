@@ -16,7 +16,7 @@ import { CdkStepLabel, CdkStepHeader, CdkStep, CdkStepper, CdkStepperModule } fr
 import { Directionality } from '@angular/cdk/bidi';
 import { trigger, state, style, animate, transition, animateChild, group, query } from '@angular/animations';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from 'rxjs';
+import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription, BehaviorSubject } from 'rxjs';
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
@@ -470,6 +470,43 @@ class Can {
  */
 function can(obj) {
     return new Can(obj);
+}
+// Assumes data is already sorted
+/**
+ * @template T
+ * @param {?} item
+ * @param {?} array
+ * @param {?} compare
+ * @return {?}
+ */
+function binarySearch(item, array, compare) {
+    return search(0, array.length - 1);
+    /**
+     * @param {?} min
+     * @param {?} max
+     * @return {?}
+     */
+    function search(min, max) {
+        if (min > max) {
+            return undefined;
+        }
+        /** @type {?} */
+        const guess = min + Math.floor((max - min) / 2);
+        /** @type {?} */
+        const comparison = compare(item, array[guess]);
+        if (comparison === 0) {
+            return array[guess];
+        }
+        else if (comparison === -1) {
+            return search(min, guess - 1);
+        }
+        else if (comparison === 1) {
+            return search(guess + 1, max);
+        }
+        else {
+            throw new Error(`Input mismatch: ${JSON.stringify(item)} not comparable to ${JSON.stringify(array[guess])}`);
+        }
+    }
 }
 
 /**
@@ -1779,6 +1816,7 @@ class NovoLabelService {
         this.pickerError = 'Oops! An error occurred.';
         this.pickerTextFieldEmpty = 'Begin typing to see results.';
         this.pickerEmpty = 'No results to display...';
+        this.tabbedGroupPickerEmpty = 'No results found';
         this.quickNoteError = 'Oops! An error occurred.';
         this.quickNoteEmpty = 'No results to display...';
         this.required = 'Required';
@@ -1927,6 +1965,13 @@ class NovoLabelService {
      */
     dateFormatString() {
         return this.dateFormat;
+    }
+    /**
+     * @param {?} tabLabelPlural
+     * @return {?}
+     */
+    tabbedGroupClearSuggestion(tabLabelPlural) {
+        return `Clear your search to see all ${tabLabelPlural}.`;
     }
     /**
      * @param {?} value
@@ -43454,6 +43499,12 @@ class DataTableState {
     /**
      * @return {?}
      */
+    get userFilteredInternal() {
+        return !!(this.filter || this.sort || this.globalSearch);
+    }
+    /**
+     * @return {?}
+     */
     get selected() {
         return Array.from(this.selectedRows.values());
     }
@@ -46441,6 +46492,399 @@ NovoDataTableModule.decorators = [
  */
 class RemoteDataTableService {
 }
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class NovoTabbedGroupPickerElement {
+    /**
+     * @param {?} labelService
+     * @param {?} ref
+     */
+    constructor(labelService, ref) {
+        this.labelService = labelService;
+        this.ref = ref;
+        this.selectionChange = new EventEmitter();
+        this.displayTabIndex = 0;
+        this.filterText = new BehaviorSubject('');
+        this.loading = true;
+        this.showClearAll = false;
+        // Initial height based on 13 px font rendered in chrome. Actual height retrieved onDropdownToggled.
+        this.scrollViewportHeight = 351;
+        this.virtualScrollItemSize = 39;
+        this.getSelectedState = (childArray) => {
+            /** @type {?} */
+            const numberOfSelectedItems = childArray.filter(({ selected }) => selected).length;
+            if (!numberOfSelectedItems) {
+                return undefined;
+            }
+            return numberOfSelectedItems === childArray.length ? 'selected' : 'indeterminate';
+        };
+        this.filter = (searchTerm) => {
+            this.displayTabs.forEach((displayTab, i) => (displayTab.data = this.tabs[i].data.filter((item) => item[displayTab.labelField].toLowerCase().includes(searchTerm.toLowerCase()))));
+            this.ref.markForCheck();
+        };
+    }
+    /**
+     * @return {?}
+     */
+    get displayTab() {
+        return this.displayTabs[this.displayTabIndex];
+    }
+    /**
+     * @param {?} tab
+     * @return {?}
+     */
+    set displayTab(tab) {
+        this.displayTabIndex = this.tabs.map(({ typeName }) => typeName).indexOf(tab.typeName);
+    }
+    /**
+     * @return {?}
+     */
+    get minBufferPx() {
+        return this.scrollViewportHeight; // render at least 2x the number of items visible (viewport + min buffer)
+    }
+    /**
+     * @return {?}
+     */
+    get maxBufferPx() {
+        return 2 * this.scrollViewportHeight; // render at most 3x the number of items visible (viewport + max buffer)
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+        this.setupDisplayData();
+        this.createChildrenReferences();
+        this.initializeDescendantSelection();
+        this.updateParentsAndQuickSelect();
+        this.updateClearAll();
+        this.loading = false;
+        this.filterTextSubscription = this.filterText.pipe(debounceTime(300)).subscribe({
+            next: this.filter,
+        });
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        if (this.filterTextSubscription) {
+            this.filterTextSubscription.unsubscribe();
+        }
+    }
+    /**
+     * @param {?} tab
+     * @return {?}
+     */
+    changeTab(tab) {
+        this.displayTab = tab;
+        if (this.scrollableInstance) {
+            this.scrollableInstance.scrollTo({ behavior: 'auto', top: 0 });
+        }
+    }
+    /**
+     * @param {?} element
+     * @return {?}
+     */
+    getPixelHeight(element) {
+        return Number(getComputedStyle(element, '').height.match(/(\d+(\.\d+)?)px$/)[1]);
+    }
+    /**
+     * @return {?}
+     */
+    setupDisplayData() {
+        // shallow copy here so that reassigning displayTabs[i].data doesn't mutate tabs[i].data
+        // but both data values point to the same items
+        this.displayTabs = this.tabs.map((tab) => (Object.assign({}, tab)));
+        this.displayTab = this.tabs[0];
+    }
+    // Replace each parent's child object with a reference to the child to avoid
+    // a child lookup for selected status; linking references allows M x N
+    // time complexity instead of M x N^2
+    /**
+     * @return {?}
+     */
+    createChildrenReferences() {
+        this.tabs.forEach((tab) => {
+            // would rather filter but TypeScript still wants a type narrowing here
+            if ('childTypeName' in tab) {
+                /** @type {?} */
+                const childTab = this.tabs.find(({ typeName }) => typeName === tab.childTypeName);
+                /** @type {?} */
+                const compareFunction = this.makeCompareFunction(childTab.valueField);
+                /** @type {?} */
+                const warnFunction = this.makeWarningFunction(tab.typeName, childTab.typeName, childTab.valueField);
+                /** @type {?} */
+                const sortedChildren = childTab.data.slice().sort(compareFunction);
+                tab.data
+                    .filter(({ children }) => children && children.length)
+                    .forEach((parent) => this.replaceChildrenWithReferences((/** @type {?} */ (parent)), sortedChildren, compareFunction, warnFunction));
+            }
+        });
+        if (this.quickSelectConfig) {
+            this.quickSelectConfig.items
+                .filter((parent) => 'all' in parent)
+                .forEach((parent) => {
+                parent.children = this.tabs.find(({ typeName }) => parent.childTypeName === typeName).data;
+            });
+            this.quickSelectConfig.items
+                .filter((parent) => !('all' in parent))
+                .forEach((parent) => {
+                /** @type {?} */
+                const childTab = this.tabs.find(({ typeName }) => typeName === parent.childTypeName);
+                /** @type {?} */
+                const compareFunction = this.makeCompareFunction(childTab.valueField);
+                /** @type {?} */
+                const warnFunction = this.makeWarningFunction(parent.label, childTab.typeName, childTab.valueField);
+                /** @type {?} */
+                const sortedChildren = childTab.data.slice().sort(compareFunction);
+                this.replaceChildrenWithReferences((/** @type {?} */ (parent)), sortedChildren, compareFunction, warnFunction);
+            });
+        }
+    }
+    /**
+     * @template T
+     * @param {?} key
+     * @return {?}
+     */
+    makeCompareFunction(key) {
+        return (a, b) => {
+            /** @type {?} */
+            const aValue = (a && a[key]) || a;
+            /** @type {?} */
+            const bValue = (b && b[key]) || b;
+            if (aValue < bValue) {
+                return -1;
+            }
+            else if (aValue > bValue) {
+                return 1;
+            }
+            else if (aValue === bValue) {
+                return 0;
+            }
+            else {
+                return undefined;
+            }
+        };
+    }
+    /**
+     * @param {?} parent
+     * @param {?} sortedData
+     * @param {?} compareFunction
+     * @param {?} warnFunction
+     * @return {?}
+     */
+    replaceChildrenWithReferences(parent, sortedData, compareFunction, warnFunction) {
+        parent.children = parent.children
+            .map((child) => binarySearch(child, sortedData, compareFunction) || warnFunction(child))
+            .filter(Boolean); // since map can return undefined, remove undefined elements
+    }
+    /**
+     * @param {?} parentLabel
+     * @param {?} childLabel
+     * @param {?} childValueField
+     * @return {?}
+     */
+    makeWarningFunction(parentLabel, childLabel, childValueField) {
+        return (child) => {
+            /** @type {?} */
+            const childValue = child[childValueField] || child;
+            console.warn(`No ${childLabel} found with value ${childValue} for parent ${parentLabel}`);
+        };
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    onDropdownToggle(event) {
+        if (event) {
+            this.scrollViewportHeight = this.getPixelHeight(this.scrollableInstance.getElementRef().nativeElement);
+            this.virtualScrollItemSize = this.getPixelHeight(this.scrollableInstance.getElementRef().nativeElement.querySelector('novo-list-item'));
+        }
+    }
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    onItemToggled(item) {
+        if (Array.isArray(item.children)) {
+            this.updateDescendants(item.selected, item.children);
+        }
+        this.updateParentsAndQuickSelect();
+        this.updateClearAll(item.selected);
+        this.emitSelectedValues();
+        this.ref.markForCheck();
+    }
+    /**
+     * @return {?}
+     */
+    initializeDescendantSelection() {
+        this.tabs.forEach((tab) => {
+            if ('childTypeName' in tab && tab.data && tab.data.length) {
+                tab.data.forEach((parent) => {
+                    if (parent.selected && parent.children && parent.children.length) {
+                        parent.children.forEach((child) => {
+                            child.selected = true;
+                        });
+                    }
+                });
+            }
+        });
+    }
+    /**
+     * @param {?} parentIsSelected
+     * @param {?} children
+     * @return {?}
+     */
+    updateDescendants(parentIsSelected, children) {
+        children.forEach((item) => {
+            parentIsSelected ? (item.selected = true) : delete item.selected;
+            if (Array.isArray(item.children)) {
+                this.updateDescendants(item.selected, item.children);
+            }
+        });
+    }
+    /**
+     * @param {?=} itemWasJustSelected
+     * @return {?}
+     */
+    updateClearAll(itemWasJustSelected) {
+        this.showClearAll = itemWasJustSelected
+            ? true
+            : this.tabs.some((tab) => {
+                if (((/** @type {?} */ (tab))).childTypeName) {
+                    return tab.data.some(({ selected, indeterminate }) => selected || indeterminate);
+                }
+                else {
+                    return tab.data.some(({ selected }) => selected);
+                }
+            });
+    }
+    /**
+     * @return {?}
+     */
+    updateParentsAndQuickSelect() {
+        // mutate here to avoid dereferencing the objects in displayTabs
+        this.tabs
+            .filter((tab) => 'childTypeName' in tab && !!tab.childTypeName)
+            .forEach((tab) => {
+            /** @type {?} */
+            const parents = tab.data.filter(({ children }) => children && children.length);
+            parents.forEach((parent) => {
+                ['indeterminate', 'selected'].forEach((selectedStateOption) => delete parent[selectedStateOption]);
+                /** @type {?} */
+                const selectedState = this.getSelectedState(parent.children);
+                if (selectedState) {
+                    parent[selectedState] = true;
+                }
+            });
+        });
+        if (this.quickSelectConfig) {
+            this.quickSelectConfig.items.forEach((quickSelect) => {
+                delete quickSelect.selected;
+                /** @type {?} */
+                const selectedState = this.getSelectedState((/** @type {?} */ (quickSelect.children)));
+                if (selectedState) {
+                    quickSelect[selectedState] = true;
+                }
+            });
+        }
+    }
+    /**
+     * @return {?}
+     */
+    emitSelectedValues() {
+        /** @type {?} */
+        const selectedValues = this.tabs.map((tab) => (Object.assign({}, tab, { data: tab.data.filter(({ selected }) => selected) })));
+        this.selectionChange.emit(selectedValues);
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    deselectEverything(event) {
+        Helpers.swallowEvent(event);
+        this.showClearAll = false;
+        if (this.quickSelectConfig) {
+            this.quickSelectConfig.items.forEach((quickSelect) => {
+                delete quickSelect.selected;
+            });
+        }
+        this.tabs.forEach((tab) => {
+            if (((/** @type {?} */ (tab))).childTypeName) {
+                tab.data.forEach((item) => {
+                    delete item.selected;
+                    delete item.indeterminate;
+                    item.children.forEach((child) => delete child.selected);
+                });
+            }
+            else {
+                ((/** @type {?} */ (tab))).data.forEach((item) => delete item.selected);
+            }
+        });
+        this.emitSelectedValues();
+        this.ref.markForCheck();
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    onClearFilter(event) {
+        Helpers.swallowEvent(event);
+        this.filterText.next('');
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    onFilter(event) {
+        this.filterText.next(event.target.value);
+    }
+}
+NovoTabbedGroupPickerElement.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-tabbed-group-picker',
+                template: "<novo-dropdown (toggled)=\"onDropdownToggle($event)\">\n  <button\n    class=\"tabbed-group-picker-button\"\n    [theme]=\"buttonConfig.theme\"\n    [side]=\"buttonConfig.side\"\n    [icon]=\"buttonConfig.icon\"\n    [loading]=\"loading\"\n  >\n    <div class=\"tabbed-group-picker-button-label\">{{ buttonConfig.label }}</div>\n  </button>\n  <div class=\"tabbed-group-picker-search\" data-automation-id=\"tabbed-group-picker-search\">\n    <input type=\"text\" [placeholder]=\"labelService.search\" [value]=\"filterText | async\" (input)=\"onFilter($event)\" />\n    <i class=\"bhi-search\" *ngIf=\"!(filterText | async)\"></i>\n    <i class=\"bhi-times\" *ngIf=\"(filterText | async)\" (click)=\"onClearFilter($event)\"></i>\n  </div>\n  <div class=\"tabbed-group-picker-column-container\">\n    <div class=\"tabbed-group-picker-column left\">\n      <novo-nav theme=\"white\" direction=\"vertical\">\n        <novo-tab *ngFor=\"let tab of displayTabs\" [attr.data-automation-id]=\"tab.typeName\" (activeChange)=\"changeTab(tab)\">\n          <span>{{ tab.typeLabel }} ({{ tab.data.length }})</span><i class=\"bhi-next\"></i>\n        </novo-tab>\n      </novo-nav>\n      <button *ngIf=\"showClearAll\" class=\"clear-all-button\" theme=\"dialogue\" icon=\"times\" side=\"right\" color=\"grapefruit\" (click)=\"deselectEverything($event)\">{{ labelService.clear }}</button>\n    </div>\n    <div class=\"tabbed-group-picker-column right\">\n      <div class=\"quick-select\" *ngIf=\"quickSelectConfig && !(filterText | async)\">\n        <div class=\"quick-select-label\">{{ quickSelectConfig.label }}</div>\n        <novo-list class=\"quick-select-list\" direction=\"vertical\">\n          <novo-list-item\n            class=\"quick-select-item\"\n            *ngFor=\"let quickSelect of quickSelectConfig.items\"\n            [attr.data-automation-id]=\"quickSelect.label\"\n            (click)=\"quickSelect.selected = !quickSelect.selected; onItemToggled(quickSelect)\"\n          >\n            <item-content>\n              <novo-checkbox\n                [label]=\"quickSelect.label\"\n                [name]=\"'selected'\"\n                [(ngModel)]=\"quickSelect.selected\"\n                (ngModelChange)=\"onItemToggled(quickSelect)\"\n              ></novo-checkbox>\n            </item-content>\n          </novo-list-item>\n        </novo-list>\n      </div>\n      <novo-list *ngIf=\"displayTab.data.length\" direction=\"vertical\">\n        <cdk-virtual-scroll-viewport\n          [itemSize]=\"virtualScrollItemSize\"\n          [maxBufferPx]=\"maxBufferPx\"\n          [minBufferPx]=\"minBufferPx\"\n          #tabbedGroupPickerVirtualScrollViewport\n        >\n          <novo-list-item\n            *cdkVirtualFor=\"let item of displayTab.data\"\n            [attr.data-automation-id]=\"item[displayTab.labelField]\"\n            (click)=\"item.selected = !item.selected; onItemToggled(item)\"\n          >\n            <item-content>\n              <novo-checkbox\n                [label]=\"item[displayTab.labelField]\"\n                [name]=\"'selected'\"\n                [indeterminate]=\"item.indeterminate\"\n                [(ngModel)]=\"item.selected\"\n                (ngModelChange)=\"onItemToggled(item)\"\n              >\n              </novo-checkbox>\n            </item-content>\n          </novo-list-item>\n        </cdk-virtual-scroll-viewport>\n      </novo-list>\n      <div class=\"tabbed-group-picker-empty-item\" *ngIf=\"!displayTab.data.length && (filterText | async)\">\n        <i class=\"{{ displayTab.icon || 'bhi-search' }}\"></i>\n        <div class=\"empty-item-main-message\">{{ labelService.tabbedGroupPickerEmpty }}</div>\n        <div class=\"empty-item-sub-message\">{{ labelService.tabbedGroupClearSuggestion(displayTab.typeLabel) }}</div>\n      </div>\n    </div>\n  </div>\n</novo-dropdown>\n",
+                changeDetection: ChangeDetectionStrategy.OnPush
+            }] }
+];
+/** @nocollapse */
+NovoTabbedGroupPickerElement.ctorParameters = () => [
+    { type: NovoLabelService },
+    { type: ChangeDetectorRef }
+];
+NovoTabbedGroupPickerElement.propDecorators = {
+    scrollableInstance: [{ type: ViewChild, args: ['tabbedGroupPickerVirtualScrollViewport',] }],
+    buttonConfig: [{ type: Input }],
+    tabs: [{ type: Input }],
+    quickSelectConfig: [{ type: Input }],
+    selectionChange: [{ type: Output }]
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class NovoTabbedGroupPickerModule {
+}
+NovoTabbedGroupPickerModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [
+                    CommonModule,
+                    FormsModule,
+                    ScrollingModule,
+                    NovoTabModule,
+                    NovoListModule,
+                    NovoFormExtrasModule,
+                    NovoButtonModule,
+                    NovoDropdownModule,
+                ],
+                providers: [NovoLabelService],
+                declarations: [NovoTabbedGroupPickerElement],
+                exports: [NovoTabbedGroupPickerElement],
+            },] }
+];
 
 /**
  * @fileoverview added by tsickle
@@ -50374,6 +50818,7 @@ NovoElementsModule.decorators = [
                     NovoCommonModule,
                     NovoStepperModule,
                     ScrollingModule,
+                    NovoTabbedGroupPickerModule,
                 ],
                 providers: [
                     { provide: ComponentUtils, useClass: ComponentUtils },
@@ -50431,6 +50876,6 @@ class ActivityTableRenderers {
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoDatePickerElement, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoVerticalStepper, NovoHorizontalStepper, NovoStep, NovoStepper, NovoTableExtrasModule, NovoFormModule, NovoDynamicFormElement, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTableFilterUtils, NovoDataTable, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, CalendarEventResponse, NovoAceEditor as ɵo, NovoButtonElement as ɵp, NovoEventTypeLegendElement as ɵz, NovoCalendarAllDayEventElement as ɵbj, NovoCalendarDayEventElement as ɵbh, NovoCalendarDayViewElement as ɵbg, NovoCalendarHourSegmentElement as ɵbi, NovoCalendarMonthDayElement as ɵbc, NovoCalendarMonthHeaderElement as ɵbb, NovoCalendarMonthViewElement as ɵba, DayOfMonthPipe as ɵbl, EndOfWeekDisplayPipe as ɵbq, HoursPipe as ɵbp, MonthPipe as ɵbm, MonthDayPipe as ɵbn, WeekdayPipe as ɵbk, YearPipe as ɵbo, NovoCalendarWeekEventElement as ɵbf, NovoCalendarWeekHeaderElement as ɵbe, NovoCalendarWeekViewElement as ɵbd, CardActionsElement as ɵx, CardElement as ɵy, NovoCategoryDropdownElement as ɵel, NovoChipElement as ɵct, NovoChipsElement as ɵcu, NovoRowChipElement as ɵcv, NovoRowChipsElement as ɵcw, NovoCKEditorElement as ɵdd, NovoDataTableCheckboxHeaderCell as ɵfe, NovoDataTableExpandHeaderCell as ɵfg, NovoDataTableCellHeader as ɵev, NovoDataTableHeaderCell as ɵey, NovoDataTableCell as ɵez, NovoDataTableCheckboxCell as ɵfd, NovoDataTableExpandCell as ɵff, NovoDataTableClearButton as ɵfi, NovoDataTableExpandDirective as ɵfh, DataTableBigDecimalRendererPipe as ɵet, DataTableInterpolatePipe as ɵeo, DateTableCurrencyRendererPipe as ɵeu, DateTableDateRendererPipe as ɵep, DateTableDateTimeRendererPipe as ɵeq, DateTableNumberRendererPipe as ɵes, DateTableTimeRendererPipe as ɵer, NovoDataTablePagination as ɵfc, NovoDataTableHeaderRow as ɵfa, NovoDataTableRow as ɵfb, NovoDataTableSortFilter as ɵex, DataTableState as ɵew, NovoDatePickerInputElement as ɵcx, NovoDateTimePickerElement as ɵdb, NovoDateTimePickerInputElement as ɵdc, NovoDragulaElement as ɵcr, NovoDropdownElement as ɵcj, NovoItemElement as ɵck, NovoItemHeaderElement$1 as ɵcm, NovoListElement$1 as ɵcl, NovoAccordion as ɵdz, novoExpansionAnimations as ɵec, NovoExpansionPanel as ɵea, NovoExpansionPanelActionRow as ɵeb, NovoExpansionPanelContent as ɵed, NovoExpansionPanelDescription as ɵef, NovoExpansionPanelHeader as ɵee, NovoExpansionPanelTitle as ɵeg, NovoAutoSize as ɵdh, NovoControlElement as ɵdi, NovoControlTemplates as ɵdm, NovoFieldsetElement as ɵb, NovoFieldsetHeaderElement as ɵa, ControlConfirmModal as ɵdk, ControlPromptModal as ɵdl, NovoFormElement as ɵdj, NovoAddressElement as ɵn, NovoCheckboxElement as ɵdf, NovoFileInputElement as ɵdg, NovoHeaderComponent as ɵbv, NovoHeaderSpacer as ɵbs, NovoUtilActionComponent as ɵbu, NovoUtilsComponent as ɵbt, NovoIconComponent as ɵdy, NovoItemAvatarElement as ɵg, NovoItemContentElement as ɵk, NovoItemDateElement as ɵj, NovoItemEndElement as ɵl, NovoItemHeaderElement as ɵi, NovoItemTitleElement as ɵh, NovoListItemElement as ɵf, NovoIsLoadingDirective as ɵu, NovoLoadedDirective as ɵt, NovoLoadingElement as ɵq, NovoSkeletonDirective as ɵs, NovoSpinnerElement as ɵr, NovoModalContainerElement as ɵc, NovoModalElement as ɵd, NovoModalNotificationElement as ɵe, NovoMultiPickerElement as ɵem, NovoOverlayTemplateComponent as ɵci, NovoOverlayModule as ɵch, NovoPickerElement as ɵcp, PlacesListComponent as ɵfq, GooglePlacesModule as ɵfp, PopOverDirective as ɵfo, NovoPopOverModule as ɵfm, PopOverContent as ɵfn, QuickNoteElement as ɵce, NovoRadioElement as ɵcg, NovoRadioGroup as ɵcf, NovoSearchBoxElement as ɵcq, NovoSelectElement as ɵcn, NovoSliderElement as ɵcs, NovoStepHeader as ɵeh, NovoStepLabel as ɵei, NovoStepStatus as ɵek, novoStepperAnimations as ɵej, NovoSwitchElement as ɵco, NovoTableKeepFilterFocus as ɵdq, Pagination as ɵdr, RowDetails as ɵds, NovoTableActionsElement as ɵdp, TableCell as ɵdt, TableFilter as ɵdu, NovoTableFooterElement as ɵdo, NovoTableHeaderElement as ɵdn, ThOrderable as ɵdv, ThSortable as ɵdw, NovoNavContentElement as ɵcb, NovoNavElement as ɵbw, NovoNavHeaderElement as ɵcc, NovoNavOutletElement as ɵca, NovoTabButtonElement as ɵby, NovoTabElement as ɵbx, NovoTabLinkElement as ɵbz, NovoTilesElement as ɵcd, NovoTimePickerElement as ɵcz, NovoTimePickerInputElement as ɵda, NovoTipWellElement as ɵde, NovoToastElement as ɵbr, NovoTooltip as ɵw, TooltipDirective as ɵv, Unless as ɵen, EntityList as ɵdx, NovoValueElement as ɵm, DateFormatService as ɵcy, BrowserGlobalRef as ɵfk, GlobalRef as ɵfj, LocalStorageService as ɵfl };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoDatePickerElement, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoVerticalStepper, NovoHorizontalStepper, NovoStep, NovoStepper, NovoTableExtrasModule, NovoFormModule, NovoDynamicFormElement, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTableFilterUtils, NovoDataTable, NovoCommonModule, NovoTabbedGroupPickerModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, CalendarEventResponse, NovoAceEditor as ɵp, NovoButtonElement as ɵq, NovoEventTypeLegendElement as ɵba, NovoCalendarAllDayEventElement as ɵbk, NovoCalendarDayEventElement as ɵbi, NovoCalendarDayViewElement as ɵbh, NovoCalendarHourSegmentElement as ɵbj, NovoCalendarMonthDayElement as ɵbd, NovoCalendarMonthHeaderElement as ɵbc, NovoCalendarMonthViewElement as ɵbb, DayOfMonthPipe as ɵbm, EndOfWeekDisplayPipe as ɵbr, HoursPipe as ɵbq, MonthPipe as ɵbn, MonthDayPipe as ɵbo, WeekdayPipe as ɵbl, YearPipe as ɵbp, NovoCalendarWeekEventElement as ɵbg, NovoCalendarWeekHeaderElement as ɵbf, NovoCalendarWeekViewElement as ɵbe, CardActionsElement as ɵy, CardElement as ɵz, NovoCategoryDropdownElement as ɵem, NovoChipElement as ɵcu, NovoChipsElement as ɵcv, NovoRowChipElement as ɵcw, NovoRowChipsElement as ɵcx, NovoCKEditorElement as ɵde, NovoDataTableCheckboxHeaderCell as ɵff, NovoDataTableExpandHeaderCell as ɵfh, NovoDataTableCellHeader as ɵew, NovoDataTableHeaderCell as ɵez, NovoDataTableCell as ɵfa, NovoDataTableCheckboxCell as ɵfe, NovoDataTableExpandCell as ɵfg, NovoDataTableClearButton as ɵfj, NovoDataTableExpandDirective as ɵfi, DataTableBigDecimalRendererPipe as ɵeu, DataTableInterpolatePipe as ɵep, DateTableCurrencyRendererPipe as ɵev, DateTableDateRendererPipe as ɵeq, DateTableDateTimeRendererPipe as ɵer, DateTableNumberRendererPipe as ɵet, DateTableTimeRendererPipe as ɵes, NovoDataTablePagination as ɵfd, NovoDataTableHeaderRow as ɵfb, NovoDataTableRow as ɵfc, NovoDataTableSortFilter as ɵey, DataTableState as ɵex, NovoDatePickerInputElement as ɵcy, NovoDateTimePickerElement as ɵdc, NovoDateTimePickerInputElement as ɵdd, NovoDragulaElement as ɵcs, NovoDropdownElement as ɵck, NovoItemElement as ɵcl, NovoItemHeaderElement$1 as ɵcn, NovoListElement$1 as ɵcm, NovoAccordion as ɵea, novoExpansionAnimations as ɵed, NovoExpansionPanel as ɵeb, NovoExpansionPanelActionRow as ɵec, NovoExpansionPanelContent as ɵee, NovoExpansionPanelDescription as ɵeg, NovoExpansionPanelHeader as ɵef, NovoExpansionPanelTitle as ɵeh, NovoAutoSize as ɵdi, NovoControlElement as ɵdj, NovoControlTemplates as ɵdn, NovoFieldsetElement as ɵb, NovoFieldsetHeaderElement as ɵa, ControlConfirmModal as ɵdl, ControlPromptModal as ɵdm, NovoFormElement as ɵdk, NovoAddressElement as ɵo, NovoCheckboxElement as ɵdg, NovoFileInputElement as ɵdh, NovoHeaderComponent as ɵbw, NovoHeaderSpacer as ɵbt, NovoUtilActionComponent as ɵbv, NovoUtilsComponent as ɵbu, NovoIconComponent as ɵdz, NovoItemAvatarElement as ɵh, NovoItemContentElement as ɵl, NovoItemDateElement as ɵk, NovoItemEndElement as ɵm, NovoItemHeaderElement as ɵj, NovoItemTitleElement as ɵi, NovoListItemElement as ɵg, NovoIsLoadingDirective as ɵv, NovoLoadedDirective as ɵu, NovoLoadingElement as ɵr, NovoSkeletonDirective as ɵt, NovoSpinnerElement as ɵs, NovoModalContainerElement as ɵd, NovoModalElement as ɵe, NovoModalNotificationElement as ɵf, NovoMultiPickerElement as ɵen, NovoOverlayTemplateComponent as ɵcj, NovoOverlayModule as ɵci, NovoPickerElement as ɵcq, PlacesListComponent as ɵfr, GooglePlacesModule as ɵfq, PopOverDirective as ɵfp, NovoPopOverModule as ɵfn, PopOverContent as ɵfo, QuickNoteElement as ɵcf, NovoRadioElement as ɵch, NovoRadioGroup as ɵcg, NovoSearchBoxElement as ɵcr, NovoSelectElement as ɵco, NovoSliderElement as ɵct, NovoStepHeader as ɵei, NovoStepLabel as ɵej, NovoStepStatus as ɵel, novoStepperAnimations as ɵek, NovoSwitchElement as ɵcp, NovoTabbedGroupPickerElement as ɵc, NovoTableKeepFilterFocus as ɵdr, Pagination as ɵds, RowDetails as ɵdt, NovoTableActionsElement as ɵdq, TableCell as ɵdu, TableFilter as ɵdv, NovoTableFooterElement as ɵdp, NovoTableHeaderElement as ɵdo, ThOrderable as ɵdw, ThSortable as ɵdx, NovoNavContentElement as ɵcc, NovoNavElement as ɵbx, NovoNavHeaderElement as ɵcd, NovoNavOutletElement as ɵcb, NovoTabButtonElement as ɵbz, NovoTabElement as ɵby, NovoTabLinkElement as ɵca, NovoTilesElement as ɵce, NovoTimePickerElement as ɵda, NovoTimePickerInputElement as ɵdb, NovoTipWellElement as ɵdf, NovoToastElement as ɵbs, NovoTooltip as ɵx, TooltipDirective as ɵw, Unless as ɵeo, EntityList as ɵdy, NovoValueElement as ɵn, DateFormatService as ɵcz, BrowserGlobalRef as ɵfl, GlobalRef as ɵfk, LocalStorageService as ɵfm };
 
 //# sourceMappingURL=novo-elements.js.map

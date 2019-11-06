@@ -22,6 +22,7 @@ export declare class DataTableState<T> {
     isForceRefresh: boolean;
     updates: EventEmitter<IDataTableChangeEvent>;
     readonly userFiltered: boolean;
+    readonly userFilteredInternal: boolean;
     readonly selected: T[];
     reset(fireUpdate?: boolean, persistUserFilters?: boolean): void;
     clearSort(fireUpdate?: boolean): void;
