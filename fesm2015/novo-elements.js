@@ -16718,6 +16718,24 @@ class FieldInteractionApi {
         return (/** @type {?} */ (control));
     }
     /**
+     * @param {?} associatedForm
+     * @param {?} key
+     * @return {?}
+     */
+    getAssoicatedFormControl(associatedForm, key) {
+        if (!key) {
+            console.error('[FieldInteractionAPI] - invalid or missing "key"'); // tslint:disable-line
+            return null;
+        }
+        /** @type {?} */
+        let control = associatedForm.controls[key];
+        if (!control) {
+            console.error('[FieldInteractionAPI] - could not find a control in the form by the key --', key); // tslint:disable-line
+            return null;
+        }
+        return (/** @type {?} */ (control));
+    }
+    /**
      * @param {?} key
      * @return {?}
      */
@@ -16762,6 +16780,21 @@ class FieldInteractionApi {
     setValue(key, value, options) {
         /** @type {?} */
         let control = this.getControl(key);
+        if (control && !control.restrictFieldInteractions) {
+            control.setValue(value, options);
+            this.triggerEvent({ controlKey: key, prop: 'value', value: value });
+        }
+    }
+    /**
+     * @param {?} associatedForm
+     * @param {?} key
+     * @param {?} value
+     * @param {?=} options
+     * @return {?}
+     */
+    setAssociatedFormValue(associatedForm, key, value, options) {
+        /** @type {?} */
+        let control = this.getAssoicatedFormControl(associatedForm, key);
         if (control && !control.restrictFieldInteractions) {
             control.setValue(value, options);
             this.triggerEvent({ controlKey: key, prop: 'value', value: value });
@@ -37327,6 +37360,9 @@ class NovoControlGroup {
         }
         /** @type {?} */
         const ctrl = this.formUtils.toFormGroup(newControls);
+        if (this.associatedKeyName && this.associatedKeyValue) {
+            ctrl.associatedKey = { name: this.associatedKeyName, value: this.associatedKeyValue };
+        }
         return ctrl;
     }
     /**
@@ -37451,6 +37487,8 @@ NovoControlGroup.propDecorators = {
     canEdit: [{ type: Input }],
     canRemove: [{ type: Input }],
     rowTemplate: [{ type: Input }],
+    associatedKeyName: [{ type: Input }],
+    associatedKeyValue: [{ type: Input }],
     onRemove: [{ type: Output }],
     onEdit: [{ type: Output }],
     onAdd: [{ type: Output }],

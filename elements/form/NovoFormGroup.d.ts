@@ -9,6 +9,10 @@ export declare class NovoFormGroup extends FormGroup {
     currentEntityId: string;
     associations: object;
     _value: any;
+    associatedKey?: {
+        name: string;
+        value: string | number | boolean;
+    };
     value: any;
     enableAllControls(): void;
     disableAllControls(): void;

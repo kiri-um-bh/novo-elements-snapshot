@@ -37,6 +37,8 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges {
     canEdit: Function;
     canRemove: Function;
     rowTemplate: TemplateRef<any>;
+    associatedKeyName: string;
+    associatedKeyValue: string | number | boolean;
     onRemove: EventEmitter<any>;
     onEdit: EventEmitter<any>;
     onAdd: EventEmitter<any>;

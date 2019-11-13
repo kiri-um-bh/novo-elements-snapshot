@@ -19276,6 +19276,29 @@ var FieldInteractionApi = /** @class */ (function () {
         return (/** @type {?} */ (control));
     };
     /**
+     * @param {?} associatedForm
+     * @param {?} key
+     * @return {?}
+     */
+    FieldInteractionApi.prototype.getAssoicatedFormControl = /**
+     * @param {?} associatedForm
+     * @param {?} key
+     * @return {?}
+     */
+    function (associatedForm, key) {
+        if (!key) {
+            console.error('[FieldInteractionAPI] - invalid or missing "key"'); // tslint:disable-line
+            return null;
+        }
+        /** @type {?} */
+        var control = associatedForm.controls[key];
+        if (!control) {
+            console.error('[FieldInteractionAPI] - could not find a control in the form by the key --', key); // tslint:disable-line
+            return null;
+        }
+        return (/** @type {?} */ (control));
+    };
+    /**
      * @param {?} key
      * @return {?}
      */
@@ -19338,6 +19361,28 @@ var FieldInteractionApi = /** @class */ (function () {
     function (key, value, options) {
         /** @type {?} */
         var control = this.getControl(key);
+        if (control && !control.restrictFieldInteractions) {
+            control.setValue(value, options);
+            this.triggerEvent({ controlKey: key, prop: 'value', value: value });
+        }
+    };
+    /**
+     * @param {?} associatedForm
+     * @param {?} key
+     * @param {?} value
+     * @param {?=} options
+     * @return {?}
+     */
+    FieldInteractionApi.prototype.setAssociatedFormValue = /**
+     * @param {?} associatedForm
+     * @param {?} key
+     * @param {?} value
+     * @param {?=} options
+     * @return {?}
+     */
+    function (associatedForm, key, value, options) {
+        /** @type {?} */
+        var control = this.getAssoicatedFormControl(associatedForm, key);
         if (control && !control.restrictFieldInteractions) {
             control.setValue(value, options);
             this.triggerEvent({ controlKey: key, prop: 'value', value: value });
@@ -40218,6 +40263,9 @@ var NovoControlGroup = /** @class */ (function () {
         }
         /** @type {?} */
         var ctrl = this.formUtils.toFormGroup(newControls);
+        if (this.associatedKeyName && this.associatedKeyValue) {
+            ctrl.associatedKey = { name: this.associatedKeyName, value: this.associatedKeyValue };
+        }
         return ctrl;
     };
     /**
@@ -40374,6 +40422,8 @@ var NovoControlGroup = /** @class */ (function () {
         canEdit: [{ type: Input }],
         canRemove: [{ type: Input }],
         rowTemplate: [{ type: Input }],
+        associatedKeyName: [{ type: Input }],
+        associatedKeyValue: [{ type: Input }],
         onRemove: [{ type: Output }],
         onEdit: [{ type: Output }],
         onAdd: [{ type: Output }],
