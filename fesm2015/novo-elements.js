@@ -49,6 +49,9 @@ class Helpers {
      * @return {?}
      */
     static interpolate(str, props) {
+        if (this.isDate(props)) {
+            props = this.dateToObject(props);
+        }
         return str.replace(/\$([\w\.]+)/g, (original, key) => {
             /** @type {?} */
             let keys = key.split('.');
@@ -430,6 +433,41 @@ class Helpers {
             }
             return e;
         }
+    }
+    /**
+     * @param {?} date
+     * @return {?}
+     */
+    static dateToObject(date) {
+        /** @type {?} */
+        let dateObj = {
+            day: '',
+            dayPeriod: '',
+            era: '',
+            hour: '',
+            minute: '',
+            month: '',
+            second: '',
+            weekday: '',
+            year: '',
+        };
+        Intl.DateTimeFormat('en-US', {
+            day: 'numeric',
+            era: 'short',
+            hour: 'numeric',
+            minute: 'numeric',
+            month: 'numeric',
+            second: 'numeric',
+            weekday: 'long',
+            year: 'numeric',
+        })
+            .formatToParts(date)
+            .forEach((dateTimeFormatPart) => {
+            if (dateTimeFormatPart.type !== 'literal') {
+                dateObj[dateTimeFormatPart.type] = dateTimeFormatPart.value;
+            }
+        });
+        return dateObj;
     }
 }
 class Can {
@@ -46075,9 +46113,7 @@ class DateTableDateRendererPipe {
      */
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
-            /** @type {?} */
-            let val = interpolateCell(value, column);
-            return this.labels.formatDate(val);
+            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
         }
         return '';
     }
@@ -46109,9 +46145,7 @@ class DateTableDateTimeRendererPipe {
      */
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
-            /** @type {?} */
-            let val = interpolateCell(value, column);
-            return this.labels.formatDateShort(val);
+            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
         }
         return '';
     }
@@ -46143,9 +46177,7 @@ class DateTableTimeRendererPipe {
      */
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
-            /** @type {?} */
-            let val = interpolateCell(value, column);
-            return this.labels.formatTime(val);
+            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
         }
         return '';
     }
