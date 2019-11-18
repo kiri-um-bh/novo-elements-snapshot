@@ -68,6 +68,9 @@ Helpers = /** @class */ (function () {
      * @return {?}
      */
     function (str, props) {
+        if (this.isDate(props)) {
+            props = this.dateToObject(props);
+        }
         return str.replace(/\$([\w\.]+)/g, function (original, key) {
             /** @type {?} */
             var keys = key.split('.');
@@ -564,6 +567,45 @@ Helpers = /** @class */ (function () {
             }
             return e;
         }
+    };
+    /**
+     * @param {?} date
+     * @return {?}
+     */
+    Helpers.dateToObject = /**
+     * @param {?} date
+     * @return {?}
+     */
+    function (date) {
+        /** @type {?} */
+        var dateObj = {
+            day: '',
+            dayPeriod: '',
+            era: '',
+            hour: '',
+            minute: '',
+            month: '',
+            second: '',
+            weekday: '',
+            year: '',
+        };
+        Intl.DateTimeFormat('en-US', {
+            day: 'numeric',
+            era: 'short',
+            hour: 'numeric',
+            minute: 'numeric',
+            month: 'numeric',
+            second: 'numeric',
+            weekday: 'long',
+            year: 'numeric',
+        })
+            .formatToParts(date)
+            .forEach(function (dateTimeFormatPart) {
+            if (dateTimeFormatPart.type !== 'literal') {
+                dateObj[dateTimeFormatPart.type] = dateTimeFormatPart.value;
+            }
+        });
+        return dateObj;
     };
     return Helpers;
 }());
@@ -50266,9 +50308,7 @@ var DateTableDateRendererPipe = /** @class */ (function () {
      */
     function (value, column) {
         if (!Helpers.isEmpty(value)) {
-            /** @type {?} */
-            var val = interpolateCell(value, column);
-            return this.labels.formatDate(val);
+            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
         }
         return '';
     };
@@ -50303,9 +50343,7 @@ var DateTableDateTimeRendererPipe = /** @class */ (function () {
      */
     function (value, column) {
         if (!Helpers.isEmpty(value)) {
-            /** @type {?} */
-            var val = interpolateCell(value, column);
-            return this.labels.formatDateShort(val);
+            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
         }
         return '';
     };
@@ -50340,9 +50378,7 @@ var DateTableTimeRendererPipe = /** @class */ (function () {
      */
     function (value, column) {
         if (!Helpers.isEmpty(value)) {
-            /** @type {?} */
-            var val = interpolateCell(value, column);
-            return this.labels.formatTime(val);
+            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
         }
         return '';
     };
