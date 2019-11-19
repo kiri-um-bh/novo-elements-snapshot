@@ -13816,9 +13816,11 @@ NovoNovoCKEditorModule.decorators = [
 class NovoTipWellElement {
     /**
      * @param {?} labels
+     * @param {?} sanitizer
      */
-    constructor(labels) {
+    constructor(labels, sanitizer) {
         this.labels = labels;
+        this.sanitizer = sanitizer;
         this.button = true;
         this.sanitize = true;
         this.confirmed = new EventEmitter();
@@ -13840,6 +13842,17 @@ class NovoTipWellElement {
             }
             return isEnabled;
         })();
+    }
+    // Trusts the HTML in order to show CSS styles
+    /**
+     * @return {?}
+     */
+    get tipWithStyles() {
+        if (!this._tipWithStyles || this._lastTipStyled !== this.tip) {
+            this._tipWithStyles = this.sanitizer.bypassSecurityTrustHtml(this.tip);
+            this._lastTipStyled = this.tip;
+        }
+        return this._tipWithStyles;
     }
     /**
      * @return {?}
@@ -13875,15 +13888,17 @@ NovoTipWellElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-tip-well',
                 template: `
-        <div *ngIf="isActive">
-            <div>
-                <i class="bhi-{{ icon }}" *ngIf="icon" [attr.data-automation-id]="'novo-tip-well-icon-' + name"></i>
-                <p *ngIf="sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name">{{ tip }}</p>
-                <p *ngIf="!sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name" [innerHTML]="tip"></p>
-            </div>
-            <button theme="dialogue" (click)="hideTip()" *ngIf="button" [attr.data-automation-id]="'novo-tip-well-button-' + name">{{ buttonText }}</button>
-        </div>
-    `,
+    <div *ngIf="isActive">
+      <div>
+        <i class="bhi-{{ icon }}" *ngIf="icon" [attr.data-automation-id]="'novo-tip-well-icon-' + name"></i>
+        <p *ngIf="sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name">{{ tip }}</p>
+        <p *ngIf="!sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name" [innerHTML]="tipWithStyles"></p>
+      </div>
+      <button theme="dialogue" (click)="hideTip()" *ngIf="button" [attr.data-automation-id]="'novo-tip-well-button-' + name">
+        {{ buttonText }}
+      </button>
+    </div>
+  `,
                 host: {
                     '[class.active]': 'isActive',
                 }
@@ -13891,7 +13906,8 @@ NovoTipWellElement.decorators = [
 ];
 /** @nocollapse */
 NovoTipWellElement.ctorParameters = () => [
-    { type: NovoLabelService }
+    { type: NovoLabelService },
+    { type: DomSanitizer }
 ];
 NovoTipWellElement.propDecorators = {
     name: [{ type: Input }],
@@ -16998,9 +17014,10 @@ class FieldInteractionApi {
      * @param {?} tip
      * @param {?=} icon
      * @param {?=} allowDismiss
+     * @param {?=} sanitize
      * @return {?}
      */
-    displayTip(key, tip, icon, allowDismiss) {
+    displayTip(key, tip, icon, allowDismiss, sanitize) {
         /** @type {?} */
         let control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
@@ -17008,6 +17025,7 @@ class FieldInteractionApi {
                 tip: tip,
                 icon: icon,
                 button: allowDismiss,
+                sanitize: sanitize !== false,
             };
             this.triggerEvent({ controlKey: key, prop: 'tipWell', value: tip });
         }
@@ -18226,7 +18244,7 @@ NovoControlElement.decorators = [
                         <span class="record-count" [class.zero-count]="itemCount === 0" [class.row-picker]="form.controls[this.control.key].config.columns" *ngIf="showCount && form.controls[control.key].controlType === 'picker'">{{ itemCount }}/{{ maxLength || form.controls[control.key].maxlength }}</span>
                     </div>
                     <!--Tip Wel-->
-                    <novo-tip-well *ngIf="form.controls[control.key].tipWell" [name]="control.key" [tip]="form.controls[control.key]?.tipWell?.tip" [icon]="form.controls[control.key]?.tipWell?.icon" [button]="form.controls[control.key]?.tipWell?.button"></novo-tip-well>
+                    <novo-tip-well *ngIf="form.controls[control.key].tipWell" [name]="control.key" [tip]="form.controls[control.key]?.tipWell?.tip" [icon]="form.controls[control.key]?.tipWell?.icon" [button]="form.controls[control.key]?.tipWell?.button" [sanitize]="form.controls[control.key]?.tipWell?.sanitize"></novo-tip-well>
                 </div>
                 <i *ngIf="form.controls[control.key].fieldInteractionloading" class="loading">
                     <svg version="1.1"
