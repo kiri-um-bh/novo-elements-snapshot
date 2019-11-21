@@ -1,7 +1,9 @@
 import { OnInit, EventEmitter } from '@angular/core';
 import { NovoLabelService } from '../../services/novo-label-service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export declare class NovoTipWellElement implements OnInit {
     private labels;
+    private sanitizer;
     name: string | number;
     tip: string;
     buttonText: string;
@@ -12,7 +14,10 @@ export declare class NovoTipWellElement implements OnInit {
     isActive: boolean;
     isLocalStorageEnabled: any;
     localStorageKey: string;
-    constructor(labels: NovoLabelService);
+    private _tipWithStyles;
+    private _lastTipStyled;
+    constructor(labels: NovoLabelService, sanitizer: DomSanitizer);
+    readonly tipWithStyles: SafeHtml;
     ngOnInit(): void;
     /**
      * @name hideTip

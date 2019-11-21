@@ -57,6 +57,7 @@ export declare class NovoFormControl extends FormControl {
         tip: string;
         icon?: string;
         button?: boolean;
+        sanitize?: boolean;
     };
     rawValue?: any;
     customControlConfig?: any;
