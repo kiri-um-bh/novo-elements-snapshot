@@ -18133,7 +18133,7 @@ var FormUtils = /** @class */ (function () {
             field.readOnly = false;
         }
         return (field.name !== 'id' &&
-            (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+            (['SYSTEM', 'SECTION_HEADER'].indexOf(field.dataSpecialization) === -1 || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
             !field.readOnly);
     };
     /**
@@ -18434,11 +18434,20 @@ var FormUtils = /** @class */ (function () {
      * @return {?}
      */
     function (fieldsets, field) {
-        fieldsets.push({
-            title: field.label,
-            icon: field.icon || 'bhi-section',
-            controls: [],
-        });
+        if (field.name && field.name.startsWith('customObject')) {
+            fieldsets.push({
+                title: field.associatedEntity.label,
+                icon: field.icon || 'bhi-section',
+                controls: [],
+            });
+        }
+        else {
+            fieldsets.push({
+                title: field.label,
+                icon: field.icon || 'bhi-section',
+                controls: [],
+            });
+        }
     };
     /**
      * @private
