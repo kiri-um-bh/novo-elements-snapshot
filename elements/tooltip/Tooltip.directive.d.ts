@@ -1,11 +1,14 @@
 import { OnDestroy, ViewContainerRef, ElementRef, OnInit } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
+export declare type NovoTooltipPosition = 'top' | 'right' | 'bottom' | 'left' | 'top-left' | 'bottom-left' | 'top-right' | 'bottom-right' | string;
 export declare class TooltipDirective implements OnDestroy, OnInit {
     protected overlay: Overlay;
     private viewContainerRef;
     private elementRef;
+    private POSITIONS;
+    private DEFAULT_POSITIONS;
     tooltip: string;
-    position: string;
+    position: NovoTooltipPosition;
     type: string;
     size: string;
     bounce: string;
@@ -16,7 +19,6 @@ export declare class TooltipDirective implements OnDestroy, OnInit {
     preline: boolean;
     removeArrow: boolean;
     autoPosition: boolean;
-    private tooltipInstance;
     private portal;
     private overlayRef;
     constructor(overlay: Overlay, viewContainerRef: ViewContainerRef, elementRef: ElementRef);
@@ -30,5 +32,4 @@ export declare class TooltipDirective implements OnDestroy, OnInit {
     private show;
     private hide;
     private getPosition;
-    private withFallbackStrategy;
 }

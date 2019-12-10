@@ -10,8 +10,8 @@ export declare class NovoAceEditor implements ControlValueAccessor, OnInit, OnDe
     options: any;
     mode: any;
     name: string;
-    blur: EventEmitter<{}>;
-    focus: EventEmitter<{}>;
+    blur: EventEmitter<any>;
+    focus: EventEmitter<any>;
     private _options;
     private _theme;
     private _mode;

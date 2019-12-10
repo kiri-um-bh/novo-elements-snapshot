@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, ElementRef, EventEmitter, NgZone, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
-import { ConnectedPositionStrategy, Overlay, OverlayConfig, OverlayRef, ScrollStrategy } from '@angular/cdk/overlay';
+import { Overlay, OverlayConfig, OverlayRef, ScrollStrategy, FlexibleConnectedPositionStrategy } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Observable, Subscription } from 'rxjs';
+export declare type OverlayPosition = 'default' | 'right' | 'above-below' | 'right-above-below' | 'center' | 'bottom' | 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
 export declare class NovoOverlayTemplateComponent implements OnDestroy {
     protected overlay: Overlay;
     protected viewContainerRef: ViewContainerRef;
@@ -11,7 +12,7 @@ export declare class NovoOverlayTemplateComponent implements OnDestroy {
     id: string;
     template: TemplateRef<any>;
     panel: ElementRef;
-    position: 'default' | 'right' | 'above-below' | 'right-above-below' | 'center' | 'bottom' | 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
+    position: OverlayPosition;
     scrollStrategy: 'reposition' | 'block' | 'close';
     width: number;
     height: number;
@@ -44,11 +45,8 @@ export declare class NovoOverlayTemplateComponent implements OnDestroy {
     protected createOverlay(template: TemplateRef<any>): void;
     protected destroyOverlay(): void;
     protected getOverlayConfig(): OverlayConfig;
-    /**
-     * Supports the following position strategies:
-     * 'default', 'right', 'bottom', 'center', 'bottom-left', 'bottom-right', 'top-left', 'top-right'
-     */
-    protected getPosition(): ConnectedPositionStrategy;
+    protected getPosition(position: OverlayPosition): FlexibleConnectedPositionStrategy;
+    private _getPositions;
     protected getScrollStrategy(): ScrollStrategy;
     protected checkSizes(): void;
     protected getConnectedElement(): ElementRef;

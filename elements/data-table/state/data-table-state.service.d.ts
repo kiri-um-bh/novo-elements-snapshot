@@ -2,12 +2,12 @@ import { EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
 import { IDataTableChangeEvent, IDataTableFilter } from '../interfaces';
 export declare class DataTableState<T> {
-    selectionSource: Subject<{}>;
-    paginationSource: Subject<{}>;
-    sortFilterSource: Subject<{}>;
-    resetSource: Subject<{}>;
-    expandSource: Subject<{}>;
-    dataLoaded: Subject<{}>;
+    selectionSource: Subject<unknown>;
+    paginationSource: Subject<unknown>;
+    sortFilterSource: Subject<unknown>;
+    resetSource: Subject<unknown>;
+    expandSource: Subject<unknown>;
+    dataLoaded: Subject<unknown>;
     sort: {
         id: string;
         value: string;
