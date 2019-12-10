@@ -63,7 +63,7 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
     process(filelist: any): void;
     download(file: any): void;
     remove(file: any): void;
-    readFile(file: any): Promise<{}>;
+    readFile(file: any): Promise<unknown>;
     customEdit(file: any): void;
     customSave(file: any): void;
     customDelete(file: any): void;

@@ -38,7 +38,7 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     itemToAdd: any;
     popup: any;
     _value: any;
-    _items: ReplaySubject<{}>;
+    _items: ReplaySubject<unknown>;
     onModelChange: Function;
     onModelTouched: Function;
     constructor(element: ElementRef, componentUtils: ComponentUtils, labels: NovoLabelService);
