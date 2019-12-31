@@ -14,12 +14,12 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit, Co
     startupFocus: boolean;
     fileBrowserImageUploadUrl: string;
     disabled: boolean;
-    change: EventEmitter<any>;
-    ready: EventEmitter<any>;
-    blur: EventEmitter<any>;
-    focus: EventEmitter<any>;
-    paste: EventEmitter<any>;
-    loaded: EventEmitter<any>;
+    change: EventEmitter<{}>;
+    ready: EventEmitter<{}>;
+    blur: EventEmitter<{}>;
+    focus: EventEmitter<{}>;
+    paste: EventEmitter<{}>;
+    loaded: EventEmitter<{}>;
     host: any;
     _value: string;
     instance: any;
