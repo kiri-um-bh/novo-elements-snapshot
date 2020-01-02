@@ -17737,7 +17737,9 @@ class NovoDynamicFormElement {
                  * @return {?}
                  */
                 (control) => {
-                    this.form.controls[control.key].hidden = false;
+                    if (!control.forceHide) {
+                        this.form.controls[control.key].hidden = false;
+                    }
                 }));
             }));
         }
@@ -17773,7 +17775,7 @@ class NovoDynamicFormElement {
             (control) => {
                 /** @type {?} */
                 const ctl = this.form.controls[control.key];
-                if (!this.fieldsAlreadyHidden.includes(control.key)) {
+                if (!this.fieldsAlreadyHidden.includes(control.key) && !ctl.forceHide) {
                     ctl.hidden = false;
                 }
             }));
@@ -17813,7 +17815,7 @@ class NovoDynamicFormElement {
                     ctl.hidden = true;
                 }
                 // Don't hide fields with errors
-                if (ctl.errors) {
+                if (ctl.errors && !ctl.forceHide) {
                     ctl.hidden = false;
                 }
             }));
@@ -18121,6 +18123,7 @@ class NovoFormControl extends FormControl {
     constructor(value, control) {
         super(value, control.validators, control.asyncValidators);
         this.displayValueChanges = new EventEmitter();
+        this.forceHide = false;
         this.valueHistory = [];
         this.validators = control.validators;
         this.initialValue = value;
@@ -18129,6 +18132,7 @@ class NovoFormControl extends FormControl {
         this.label = control.label;
         this.readOnly = control.readOnly;
         this.hidden = control.hidden;
+        this.forceHide = control.forceHide;
         this.encrypted = control.encrypted;
         this.config = control.config;
         this.type = control.type;
@@ -18310,6 +18314,8 @@ if (false) {
     /** @type {?} */
     NovoFormControl.prototype.hidden;
     /** @type {?} */
+    NovoFormControl.prototype.forceHide;
+    /** @type {?} */
     NovoFormControl.prototype.encrypted;
     /** @type {?} */
     NovoFormControl.prototype.key;
@@ -18485,6 +18491,8 @@ if (false) {
     /** @type {?} */
     ControlConfig.prototype.hidden;
     /** @type {?} */
+    ControlConfig.prototype.forceHide;
+    /** @type {?} */
     ControlConfig.prototype.interactions;
     /** @type {?} */
     ControlConfig.prototype.isEmpty;
@@ -18578,6 +18586,7 @@ class BaseControl extends ControlConfig {
         this.name = config.name || '';
         this.required = !!config.required;
         this.hidden = !!config.hidden;
+        this.forceHide = !!config.forceHide;
         this.encrypted = !!config.encrypted;
         this.sortOrder = config.sortOrder === undefined ? 1 : config.sortOrder;
         this.controlType = config.controlType || '';
@@ -19758,6 +19767,7 @@ class FormUtils {
             placeholder: field.hint || '',
             required: field.required || field.systemRequired,
             hidden: !field.required,
+            forceHide: !!field.forceHide,
             encrypted: this.isFieldEncrypted(field.name ? field.name.toString() : ''),
             value: field.value || field.defaultValue,
             sortOrder: field.sortOrder,
@@ -20387,7 +20397,9 @@ class FormUtils {
          * @return {?}
          */
         (control) => {
-            control.hidden = false;
+            if (!control.forceHide) {
+                control.hidden = false;
+            }
         }));
     }
     /**
@@ -20405,7 +20417,9 @@ class FormUtils {
              * @return {?}
              */
             (control) => {
-                control.hidden = false;
+                if (!control.forceHide) {
+                    control.hidden = false;
+                }
             }));
         }));
     }

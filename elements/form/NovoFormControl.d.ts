@@ -5,6 +5,7 @@ import { IMaskOptions } from './Control';
 export declare class NovoFormControl extends FormControl {
     displayValueChanges: EventEmitter<any>;
     hidden: boolean;
+    forceHide: boolean;
     encrypted: boolean;
     key: string;
     required: boolean;

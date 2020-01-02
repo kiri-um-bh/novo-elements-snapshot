@@ -19927,7 +19927,9 @@
                      * @return {?}
                      */
                     function (control) {
-                        _this.form.controls[control.key].hidden = false;
+                        if (!control.forceHide) {
+                            _this.form.controls[control.key].hidden = false;
+                        }
                     }));
                 }));
             }
@@ -19971,7 +19973,7 @@
                 function (control) {
                     /** @type {?} */
                     var ctl = _this.form.controls[control.key];
-                    if (!_this.fieldsAlreadyHidden.includes(control.key)) {
+                    if (!_this.fieldsAlreadyHidden.includes(control.key) && !ctl.forceHide) {
                         ctl.hidden = false;
                     }
                 }));
@@ -20016,7 +20018,7 @@
                         ctl.hidden = true;
                     }
                     // Don't hide fields with errors
-                    if (ctl.errors) {
+                    if (ctl.errors && !ctl.forceHide) {
                         ctl.hidden = false;
                     }
                 }));
@@ -20340,6 +20342,7 @@
         function NovoFormControl(value, control) {
             var _this = _super.call(this, value, control.validators, control.asyncValidators) || this;
             _this.displayValueChanges = new core.EventEmitter();
+            _this.forceHide = false;
             _this.valueHistory = [];
             _this.validators = control.validators;
             _this.initialValue = value;
@@ -20348,6 +20351,7 @@
             _this.label = control.label;
             _this.readOnly = control.readOnly;
             _this.hidden = control.hidden;
+            _this.forceHide = control.forceHide;
             _this.encrypted = control.encrypted;
             _this.config = control.config;
             _this.type = control.type;
@@ -20614,6 +20618,8 @@
         /** @type {?} */
         NovoFormControl.prototype.hidden;
         /** @type {?} */
+        NovoFormControl.prototype.forceHide;
+        /** @type {?} */
         NovoFormControl.prototype.encrypted;
         /** @type {?} */
         NovoFormControl.prototype.key;
@@ -20792,6 +20798,8 @@
         /** @type {?} */
         ControlConfig.prototype.hidden;
         /** @type {?} */
+        ControlConfig.prototype.forceHide;
+        /** @type {?} */
         ControlConfig.prototype.interactions;
         /** @type {?} */
         ControlConfig.prototype.isEmpty;
@@ -20884,6 +20892,7 @@
             _this.name = config.name || '';
             _this.required = !!config.required;
             _this.hidden = !!config.hidden;
+            _this.forceHide = !!config.forceHide;
             _this.encrypted = !!config.encrypted;
             _this.sortOrder = config.sortOrder === undefined ? 1 : config.sortOrder;
             _this.controlType = config.controlType || '';
@@ -22201,6 +22210,7 @@
                 placeholder: field.hint || '',
                 required: field.required || field.systemRequired,
                 hidden: !field.required,
+                forceHide: !!field.forceHide,
                 encrypted: this.isFieldEncrypted(field.name ? field.name.toString() : ''),
                 value: field.value || field.defaultValue,
                 sortOrder: field.sortOrder,
@@ -22964,7 +22974,9 @@
              * @return {?}
              */
             function (control) {
-                control.hidden = false;
+                if (!control.forceHide) {
+                    control.hidden = false;
+                }
             }));
         };
         /**
@@ -22986,7 +22998,9 @@
                  * @return {?}
                  */
                 function (control) {
-                    control.hidden = false;
+                    if (!control.forceHide) {
+                        control.hidden = false;
+                    }
                 }));
             }));
         };

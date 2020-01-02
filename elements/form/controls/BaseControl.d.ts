@@ -33,6 +33,7 @@ declare class ControlConfig {
     forceClear: EventEmitter<any>;
     headerConfig: any;
     hidden: boolean;
+    forceHide: boolean;
     interactions: Array<Object>;
     isEmpty?: Function;
     key: string;
