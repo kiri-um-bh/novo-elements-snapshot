@@ -57470,7 +57470,9 @@ var DateTableDateTimeRendererPipe = /** @class */ (function () {
      */
     function (value, column) {
         if (!Helpers.isEmpty(value)) {
-            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
+            /** @type {?} */
+            var val = interpolateCell(value, column);
+            return this.labels.formatDateShort(val);
         }
         return '';
     };
