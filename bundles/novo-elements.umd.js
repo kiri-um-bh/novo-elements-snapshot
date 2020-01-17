@@ -54176,6 +54176,9 @@
                     _this.totalSet = true;
                     _this.state.isForceRefresh = false;
                 }
+                else if (data.total > _this.total) {
+                    _this.total = data.total;
+                }
                 _this.currentTotal = data.total;
                 _this.current = data.results.length;
                 _this.data = data.results;
