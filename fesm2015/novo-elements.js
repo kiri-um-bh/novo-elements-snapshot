@@ -6765,7 +6765,7 @@ class NovoTilesElement {
              * @return {?}
              */
             (x) => {
-                x.checked = this.model === x.value;
+                x.checked = this.model === x.value || (this.model && this.model.id === x.value);
                 if (x.checked) {
                     this.setTile(x);
                 }
@@ -6874,16 +6874,32 @@ NovoTilesElement.decorators = [
                 selector: 'novo-tiles',
                 providers: [TILES_VALUE_ACCESSOR],
                 template: `
-        <div class="tile-container" [class.active]="focused" [class.disabled]="disabled">
-            <div class="tile" *ngFor="let option of _options; let i = index" [ngClass]="{active: option.checked, disabled: option.disabled}" (click)="select($event, option)" [attr.data-automation-id]="option.label || option">
-                <input class="tiles-input" [name]="name" type="radio" [value]="option.checked || option" [attr.id]="name + i" (change)="select($event, option)" (focus)="setFocus(true)" (blur)="setFocus(false)" [disabled]="disabled">
-                <label [attr.for]="name + i" [attr.data-automation-id]="option.label || option">
-                    {{ option.label || option }}
-                </label>
-            </div>
-            <span class="active-indicator" [@tileState]="state" [hidden]="activeTile === undefined || activeTile === null"></span>
-        </div>
-    `,
+    <div class="tile-container" [class.active]="focused" [class.disabled]="disabled">
+      <div
+        class="tile"
+        *ngFor="let option of _options; let i = index"
+        [ngClass]="{ active: option.checked, disabled: option.disabled }"
+        (click)="select($event, option)"
+        [attr.data-automation-id]="option.label || option"
+      >
+        <input
+          class="tiles-input"
+          [name]="name"
+          type="radio"
+          [value]="option.checked || option.value || option"
+          [attr.id]="name + i"
+          (change)="select($event, option)"
+          (focus)="setFocus(true)"
+          (blur)="setFocus(false)"
+          [disabled]="disabled"
+        />
+        <label [attr.for]="name + i" [attr.data-automation-id]="option.label || option">
+          {{ option.label || option }}
+        </label>
+      </div>
+      <span class="active-indicator" [@tileState]="state" [hidden]="activeTile === undefined || activeTile === null"></span>
+    </div>
+  `,
                 animations: [
                     trigger('tileState', [
                         state('inactive', style({
@@ -17615,6 +17631,8 @@ if (false) {
 class NovoFieldsetElement {
     constructor() {
         this.controls = [];
+        this.isEmbedded = false;
+        this.isInlineEmbedded = false;
     }
 }
 NovoFieldsetElement.decorators = [
@@ -17622,7 +17640,7 @@ NovoFieldsetElement.decorators = [
                 selector: 'novo-fieldset',
                 template: `
         <div class="novo-fieldset-container">
-            <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title"></novo-fieldset-header>
+            <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title" [class.embedded]="isEmbedded" [class.inline-embedded]="isInlineEmbedded"></novo-fieldset-header>
             <ng-container *ngFor="let control of controls;let controlIndex = index;">
                 <div class="novo-form-row" [class.disabled]="control.disabled" *ngIf="control.__type !== 'GroupedControl'">
                     <novo-control [autoFocus]="autoFocus && index === 0 && controlIndex === 0" [control]="control" [form]="form"></novo-control>
@@ -17639,7 +17657,9 @@ NovoFieldsetElement.propDecorators = {
     title: [{ type: Input }],
     icon: [{ type: Input }],
     index: [{ type: Input }],
-    autoFocus: [{ type: Input }]
+    autoFocus: [{ type: Input }],
+    isEmbedded: [{ type: Input }],
+    isInlineEmbedded: [{ type: Input }]
 };
 if (false) {
     /** @type {?} */
@@ -17654,6 +17674,10 @@ if (false) {
     NovoFieldsetElement.prototype.index;
     /** @type {?} */
     NovoFieldsetElement.prototype.autoFocus;
+    /** @type {?} */
+    NovoFieldsetElement.prototype.isEmbedded;
+    /** @type {?} */
+    NovoFieldsetElement.prototype.isInlineEmbedded;
 }
 class NovoDynamicFormElement {
     /**
@@ -17890,7 +17914,7 @@ NovoDynamicFormElement.decorators = [
             </header>
             <form class="novo-form" [formGroup]="form">
                 <ng-container *ngFor="let fieldset of form.fieldsets;let i = index">
-                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form"></novo-fieldset>
+                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form" [isEmbedded]="fieldset.isEmbedded" [isInlineEmbedded]="fieldset.isInlineEmbedded"></novo-fieldset>
                 </ng-container>
             </form>
         </div>
@@ -18436,6 +18460,10 @@ if (false) {
     NovoGroupedControlConfig.prototype.initialValue;
 }
 class ControlConfig {
+    constructor() {
+        this.isEmbedded = false;
+        this.isInlineEmbedded = false;
+    }
 }
 if (false) {
     /** @type {?} */
@@ -18558,6 +18586,10 @@ if (false) {
     ControlConfig.prototype.layoutOptions;
     /** @type {?} */
     ControlConfig.prototype.tipWell;
+    /** @type {?} */
+    ControlConfig.prototype.isEmbedded;
+    /** @type {?} */
+    ControlConfig.prototype.isInlineEmbedded;
 }
 class BaseControl extends ControlConfig {
     /**
@@ -19630,6 +19662,7 @@ class FormUtils {
             SPECIALIZED_OPTIONS: 'select',
             WorkflowOptionsLookup: 'select',
             SpecializedOptionsLookup: 'select',
+            SimplifiedOptionsLookup: 'select',
         };
         /** @type {?} */
         let dataTypeToTypeMap = {
@@ -19685,6 +19718,17 @@ class FormUtils {
             }
             else if (['WORKFLOW_OPTIONS', 'SPECIALIZED_OPTIONS'].includes(field.dataSpecialization)) {
                 type = dataSpecializationTypeMap[field.dataSpecialization];
+            }
+            else if (['SimplifiedOptionsLookup', 'SpecializedOptionsLookup'].includes(field.dataType)) {
+                if (field.options && Object.keys(inputTypeToTypeMap).indexOf(field.inputType) > -1 && !field.multiValue) {
+                    type = inputTypeToTypeMap[field.inputType];
+                }
+                else if (field.options && Object.keys(inputTypeMultiToTypeMap).indexOf(field.inputType) > -1 && field.multiValue) {
+                    type = inputTypeMultiToTypeMap[field.inputType];
+                }
+                else {
+                    type = dataSpecializationTypeMap[field.dataType];
+                }
             }
             else if (this.hasAssociatedEntity(field)) {
                 type = 'entitypicker'; // TODO!
@@ -20083,7 +20127,7 @@ class FormUtils {
                         if (this.shouldCreateControl(embeddedField)) {
                             /** @type {?} */
                             let control = this.createControl(embeddedField, data, http, config, overrides, currencyFormat);
-                            control = this.markControlAsEmbedded(control);
+                            control = this.markControlAsEmbedded(control, field.dataSpecialization ? field.dataSpecialization.toLowerCase() : null);
                             fieldsets[fieldsets.length - 1].controls.push(control);
                         }
                     }));
@@ -20115,7 +20159,7 @@ class FormUtils {
      * @return {?}
      */
     isEmbeddedField(field) {
-        return field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'embedded' && !field.readOnly;
+        return field.dataSpecialization && ['embedded', 'inline_embedded'].includes(field.dataSpecialization.toLowerCase()) && !field.readOnly;
     }
     /**
      * @private
@@ -20237,18 +20281,23 @@ class FormUtils {
             title: field.label,
             icon: field.icon || 'bhi-section',
             controls: [],
+            isEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'embedded',
+            isInlineEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'inline_embedded',
         });
     }
     /**
      * @private
      * @param {?} control
+     * @param {?=} dataSpecialization
      * @return {?}
      */
-    markControlAsEmbedded(control) {
+    markControlAsEmbedded(control, dataSpecialization) {
         if (Helpers.isBlank(control['config'])) {
             control['config'] = {};
         }
         control['config']['embedded'] = true;
+        control.isEmbedded = dataSpecialization === 'embedded';
+        control.isInlineEmbedded = dataSpecialization === 'inline_embedded';
         return control;
     }
     /**
@@ -20268,7 +20317,8 @@ class FormUtils {
         else if (field.workflowOptions && fieldData) {
             return this.getWorkflowOptions(field.workflowOptions, fieldData);
         }
-        else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS') {
+        else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS' ||
+            (field.options && ['SpecializedOptionsLookup', 'SimplifiedOptionsLookup'].includes(field.dataType))) {
             return field.options.filter((/**
              * @param {?} o
              * @return {?}
@@ -20502,6 +20552,33 @@ class FormUtils {
             }
             return startDate;
         }
+    }
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    inflateEmbeddedProperties(data) {
+        if (data) {
+            Object.keys(data)
+                .filter((/**
+             * @param {?} fieldName
+             * @return {?}
+             */
+            (fieldName) => fieldName.includes('.')))
+                .forEach((/**
+             * @param {?} field
+             * @return {?}
+             */
+            (field) => {
+                let [parentFieldName, fieldName] = field.split('.');
+                if (!data[parentFieldName]) {
+                    data[parentFieldName] = {};
+                }
+                data[parentFieldName][fieldName] = data[field];
+                delete data[field];
+            }));
+        }
+        return data;
     }
 }
 FormUtils.decorators = [
@@ -22814,6 +22891,8 @@ NovoControlElement.decorators = [
                     '[class.disabled]': 'form.controls[control.key].readOnly',
                     '[class.hidden]': 'form.controls[control.key].hidden',
                     '[attr.data-control-key]': 'control.key',
+                    '[class.inline-embedded]': 'control.isInlineEmbedded',
+                    '[class.embedded]': 'control.isEmbedded',
                 }
             }] }
 ];
@@ -42845,7 +42924,7 @@ NovoControlTemplates.decorators = [
         <!--Radio-->
         <ng-template novoTemplate="radio" let-control let-form="form" let-errors="errors" let-methods="methods">
           <div [formGroup]="form" class="novo-control-input-container">
-            <novo-radio [name]="control.key" [formControlName]="control.key" *ngFor="let option of control.options" [value]="option.value" [label]="option.label" [checked]="option.value === form.value[control.key]" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" [button]="!!option.icon" [icon]="option.icon" [attr.data-automation-id]="control.key + '-' + (option?.label || option?.value)"></novo-radio>
+            <novo-radio [name]="control.key" [formControlName]="control.key" *ngFor="let option of control.options" [value]="option.value" [label]="option.label" [checked]="option.value === form.value[control.key] || option.value === form.value[control.key].id" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" [button]="!!option.icon" [icon]="option.icon" [attr.data-automation-id]="control.key + '-' + (option?.label || option?.value)"></novo-radio>
           </div>
         </ng-template>
 

@@ -88,6 +88,8 @@ declare class ControlConfig {
         icon?: string;
         tip: string;
     };
+    isEmbedded: boolean;
+    isInlineEmbedded: boolean;
 }
 export declare type NovoControlConfig = Partial<ControlConfig>;
 export declare class BaseControl extends ControlConfig {
