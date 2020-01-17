@@ -49834,6 +49834,9 @@ class DataTableSource extends DataSource {
                 this.totalSet = true;
                 this.state.isForceRefresh = false;
             }
+            else if (data.total > this.total) {
+                this.total = data.total;
+            }
             this.currentTotal = data.total;
             this.current = data.results.length;
             this.data = data.results;
