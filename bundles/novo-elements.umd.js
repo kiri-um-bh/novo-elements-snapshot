@@ -19119,7 +19119,7 @@
          */
         function () {
             /** @type {?} */
-            var config = this.config || this.getBaseConfig();
+            var config = Object.assign(this.getBaseConfig(), this.config);
             if (this.startupFocus) {
                 config.startupFocus = true;
             }
@@ -20374,6 +20374,7 @@
             _this.sortOrder = control.sortOrder;
             _this.controlType = control.controlType;
             _this.placeholder = control.placeholder;
+            _this.minimal = control.minimal;
             _this.multiple = control.multiple;
             _this.headerConfig = control.headerConfig;
             _this.optionsType = control.optionsType;
@@ -20660,6 +20661,8 @@
         /** @type {?} */
         NovoFormControl.prototype.placeholder;
         /** @type {?} */
+        NovoFormControl.prototype.minimal;
+        /** @type {?} */
         NovoFormControl.prototype.multiple;
         /** @type {?} */
         NovoFormControl.prototype.headerConfig;
@@ -20817,6 +20820,8 @@
         ControlConfig.prototype.metaType;
         /** @type {?} */
         ControlConfig.prototype.military;
+        /** @type {?} */
+        ControlConfig.prototype.minimal;
         /** @type {?} */
         ControlConfig.prototype.minlength;
         /** @type {?} */

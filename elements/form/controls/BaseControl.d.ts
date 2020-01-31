@@ -41,6 +41,7 @@ declare class ControlConfig {
     maxlength: number;
     metaType: string;
     military?: boolean;
+    minimal?: boolean;
     minlength: number;
     multiple: boolean;
     name: string;

@@ -17008,7 +17008,7 @@ class NovoCKEditorElement {
      */
     ngAfterViewInit() {
         /** @type {?} */
-        let config = this.config || this.getBaseConfig();
+        let config = Object.assign(this.getBaseConfig(), this.config);
         if (this.startupFocus) {
             config.startupFocus = true;
         }
@@ -18171,6 +18171,7 @@ class NovoFormControl extends FormControl {
         this.sortOrder = control.sortOrder;
         this.controlType = control.controlType;
         this.placeholder = control.placeholder;
+        this.minimal = control.minimal;
         this.multiple = control.multiple;
         this.headerConfig = control.headerConfig;
         this.optionsType = control.optionsType;
@@ -18372,6 +18373,8 @@ if (false) {
     /** @type {?} */
     NovoFormControl.prototype.placeholder;
     /** @type {?} */
+    NovoFormControl.prototype.minimal;
+    /** @type {?} */
     NovoFormControl.prototype.multiple;
     /** @type {?} */
     NovoFormControl.prototype.headerConfig;
@@ -18528,6 +18531,8 @@ if (false) {
     ControlConfig.prototype.metaType;
     /** @type {?} */
     ControlConfig.prototype.military;
+    /** @type {?} */
+    ControlConfig.prototype.minimal;
     /** @type {?} */
     ControlConfig.prototype.minlength;
     /** @type {?} */
