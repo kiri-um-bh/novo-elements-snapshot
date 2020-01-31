@@ -30,32 +30,9 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit, Co
     ngAfterViewInit(): void;
     updateValue(value: any): void;
     private ckeditorInit;
-    getBaseConfig(): ({
-        enterMode: any;
-        shiftEnterMode: any;
-        disableNativeSpellChecker: boolean;
-        removePlugins: string;
-        extraAllowedContent: string;
-        font_names: string;
-    } & {
-        toolbar: {
-            name: string;
-            items: string[];
-        }[];
-    }) | ({
-        enterMode: any;
-        shiftEnterMode: any;
-        disableNativeSpellChecker: boolean;
-        removePlugins: string;
-        extraAllowedContent: string;
-        font_names: string;
-    } & {
-        toolbar: (string | {
-            name: string;
-            items: string[];
-        })[];
-        filebrowserImageUploadUrl: string;
-    });
+    getBaseConfig(): {
+        [key: string]: any;
+    };
     writeValue(value: any): void;
     onChange(value?: any): void;
     onTouched(event?: any): void;
