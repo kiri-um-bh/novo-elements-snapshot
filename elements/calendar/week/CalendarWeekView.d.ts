@@ -40,7 +40,7 @@ export declare class NovoCalendarWeekViewElement implements OnChanges, OnInit, O
     /**
      * The start number of the week
      */
-    weekStartsOn: number;
+    weekStartsOn: 0 | 1 | 2 | 6 | 5 | 4 | 3;
     /**
      * A custom template to use to replace the header
      */

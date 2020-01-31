@@ -69,6 +69,7 @@ export declare class FormUtils {
     }, fieldData?: any): any;
     private getWorkflowOptions;
     setInitialValues(controls: Array<NovoControlConfig>, values: any, keepClean?: boolean, keyOverride?: string): void;
+    private parseDate;
     setInitialValuesFieldsets(fieldsets: Array<NovoFieldset>, values: any, keepClean?: boolean): void;
     forceShowAllControls(controls: Array<NovoControlConfig>): void;
     forceShowAllControlsInFieldsets(fieldsets: Array<NovoFieldset>): void;

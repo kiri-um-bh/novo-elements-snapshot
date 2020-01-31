@@ -24,6 +24,7 @@ export declare class NovoDateTimePickerInputElement implements ControlValueAcces
     focusEvent: EventEmitter<FocusEvent>;
     constructor(element: ElementRef, labels: NovoLabelService, _changeDetectorRef: ChangeDetectorRef);
     writeValue(value: any): void;
+    private parseDate;
     updateDate(event: any): void;
     updateTime(event: any): void;
     handleBlur(event: any): void;

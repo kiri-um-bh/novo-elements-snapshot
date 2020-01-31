@@ -16712,12 +16712,20 @@ class NovoDateTimePickerInputElement {
      * @return {?}
      */
     writeValue(value) {
-        this.datePart = isDate(value) ? parse(value) : value;
-        this.timePart = isDate(value) ? parse(value) : value;
+        this.datePart = isDate(value) ? this.parseDate(value) : value;
+        this.timePart = isDate(value) ? this.parseDate(value) : value;
         Promise.resolve(null).then((/**
          * @return {?}
          */
         () => this._setTriggerValue(value)));
+    }
+    /**
+     * @private
+     * @param {?} value
+     * @return {?}
+     */
+    parseDate(value) {
+        return parse(value, 'yyyy-MM-dd', new Date());
     }
     /**
      * @param {?} event
@@ -20405,12 +20413,20 @@ class FormUtils {
                 continue;
             }
             if (control.dataType === 'Date' && typeof value === 'string' && control.optionsType !== 'skipConversion') {
-                value = startOfDay(value);
+                value = startOfDay(this.parseDate(value));
             }
             control.value = value;
             // TODO: keepClean is not required, but is always used. It should default (to true?)
             control.dirty = !keepClean;
         }
+    }
+    /**
+     * @private
+     * @param {?} value
+     * @return {?}
+     */
+    parseDate(value) {
+        return parse(value, 'yyyy-MM-dd', new Date());
     }
     /**
      * @param {?} fieldsets
@@ -20518,7 +20534,7 @@ class FormUtils {
      */
     getStartDateFromRange(dateRange) {
         if (dateRange.minDate) {
-            return parse(dateRange.minDate);
+            return this.parseDate(dateRange.minDate);
         }
         else if (dateRange.minOffset) {
             return addDays(startOfToday(), dateRange.minOffset);

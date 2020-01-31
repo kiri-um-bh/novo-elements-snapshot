@@ -18755,12 +18755,25 @@
          */
         function (value) {
             var _this = this;
-            this.datePart = dateFns.isDate(value) ? dateFns.parse(value) : value;
-            this.timePart = dateFns.isDate(value) ? dateFns.parse(value) : value;
+            this.datePart = dateFns.isDate(value) ? this.parseDate(value) : value;
+            this.timePart = dateFns.isDate(value) ? this.parseDate(value) : value;
             Promise.resolve(null).then((/**
              * @return {?}
              */
             function () { return _this._setTriggerValue(value); }));
+        };
+        /**
+         * @private
+         * @param {?} value
+         * @return {?}
+         */
+        NovoDateTimePickerInputElement.prototype.parseDate = /**
+         * @private
+         * @param {?} value
+         * @return {?}
+         */
+        function (value) {
+            return dateFns.parse(value, 'yyyy-MM-dd', new Date());
         };
         /**
          * @param {?} event
@@ -22954,12 +22967,25 @@
                     continue;
                 }
                 if (control.dataType === 'Date' && typeof value === 'string' && control.optionsType !== 'skipConversion') {
-                    value = dateFns.startOfDay(value);
+                    value = dateFns.startOfDay(this.parseDate(value));
                 }
                 control.value = value;
                 // TODO: keepClean is not required, but is always used. It should default (to true?)
                 control.dirty = !keepClean;
             }
+        };
+        /**
+         * @private
+         * @param {?} value
+         * @return {?}
+         */
+        FormUtils.prototype.parseDate = /**
+         * @private
+         * @param {?} value
+         * @return {?}
+         */
+        function (value) {
+            return dateFns.parse(value, 'yyyy-MM-dd', new Date());
         };
         /**
          * @param {?} fieldsets
@@ -23095,7 +23121,7 @@
          */
         function (dateRange) {
             if (dateRange.minDate) {
-                return dateFns.parse(dateRange.minDate);
+                return this.parseDate(dateRange.minDate);
             }
             else if (dateRange.minOffset) {
                 return dateFns.addDays(dateFns.startOfToday(), dateRange.minOffset);

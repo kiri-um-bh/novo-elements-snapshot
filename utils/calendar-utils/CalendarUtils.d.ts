@@ -122,13 +122,13 @@ export declare function getWeekViewEventOffset({ event, startOfWeek, excluded, }
 }): number;
 export declare function getWeekViewHeader({ viewDate, weekStartsOn, excluded, }: {
     viewDate: Date;
-    weekStartsOn: number;
+    weekStartsOn: 0 | 1 | 2 | 6 | 5 | 4 | 3;
     excluded?: number[];
 }): WeekDay[];
 export declare function getWeekView({ events, viewDate, weekStartsOn, excluded, hourSegments, segmentHeight, dayStart, dayEnd, }: {
     events?: CalendarEvent[];
     viewDate: Date;
-    weekStartsOn: number;
+    weekStartsOn: 0 | 1 | 2 | 6 | 5 | 4 | 3;
     excluded?: number[];
     hourSegments: number;
     segmentHeight: number;
@@ -138,7 +138,7 @@ export declare function getWeekView({ events, viewDate, weekStartsOn, excluded, 
 export declare function getMonthView({ events, viewDate, weekStartsOn, excluded, }: {
     events?: CalendarEvent[];
     viewDate: Date;
-    weekStartsOn: number;
+    weekStartsOn: 0 | 1 | 2 | 6 | 5 | 4 | 3;
     excluded?: number[];
 }): MonthView;
 export declare function getDayView({ events, viewDate, hourSegments, dayStart, dayEnd, eventWidth, segmentHeight }: GetDayViewArgs): DayView;

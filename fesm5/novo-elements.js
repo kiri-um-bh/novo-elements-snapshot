@@ -18579,12 +18579,25 @@ var NovoDateTimePickerInputElement = /** @class */ (function () {
      */
     function (value) {
         var _this = this;
-        this.datePart = isDate(value) ? parse(value) : value;
-        this.timePart = isDate(value) ? parse(value) : value;
+        this.datePart = isDate(value) ? this.parseDate(value) : value;
+        this.timePart = isDate(value) ? this.parseDate(value) : value;
         Promise.resolve(null).then((/**
          * @return {?}
          */
         function () { return _this._setTriggerValue(value); }));
+    };
+    /**
+     * @private
+     * @param {?} value
+     * @return {?}
+     */
+    NovoDateTimePickerInputElement.prototype.parseDate = /**
+     * @private
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
+        return parse(value, 'yyyy-MM-dd', new Date());
     };
     /**
      * @param {?} event
@@ -22778,12 +22791,25 @@ var FormUtils = /** @class */ (function () {
                 continue;
             }
             if (control.dataType === 'Date' && typeof value === 'string' && control.optionsType !== 'skipConversion') {
-                value = startOfDay(value);
+                value = startOfDay(this.parseDate(value));
             }
             control.value = value;
             // TODO: keepClean is not required, but is always used. It should default (to true?)
             control.dirty = !keepClean;
         }
+    };
+    /**
+     * @private
+     * @param {?} value
+     * @return {?}
+     */
+    FormUtils.prototype.parseDate = /**
+     * @private
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
+        return parse(value, 'yyyy-MM-dd', new Date());
     };
     /**
      * @param {?} fieldsets
@@ -22919,7 +22945,7 @@ var FormUtils = /** @class */ (function () {
      */
     function (dateRange) {
         if (dateRange.minDate) {
-            return parse(dateRange.minDate);
+            return this.parseDate(dateRange.minDate);
         }
         else if (dateRange.minOffset) {
             return addDays(startOfToday(), dateRange.minOffset);

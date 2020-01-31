@@ -45,7 +45,7 @@ export declare class NovoCalendarMonthViewElement implements OnChanges, OnInit, 
     /**
      * The start number of the week
      */
-    weekStartsOn: number;
+    weekStartsOn: 0 | 1 | 2 | 6 | 5 | 4 | 3;
     /**
      * A custom template to use to replace the header
      */
