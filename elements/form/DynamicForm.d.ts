@@ -13,8 +13,6 @@ export declare class NovoFieldsetElement {
     icon: string;
     index: number;
     autoFocus: boolean;
-    isEmbedded: boolean;
-    isInlineEmbedded: boolean;
 }
 export declare class NovoDynamicFormElement implements OnChanges, OnInit, AfterContentInit {
     private element;

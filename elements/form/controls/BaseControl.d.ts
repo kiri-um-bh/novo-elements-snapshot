@@ -41,7 +41,6 @@ declare class ControlConfig {
     maxlength: number;
     metaType: string;
     military?: boolean;
-    minimal?: boolean;
     minlength: number;
     multiple: boolean;
     name: string;
@@ -89,8 +88,6 @@ declare class ControlConfig {
         icon?: string;
         tip: string;
     };
-    isEmbedded: boolean;
-    isInlineEmbedded: boolean;
 }
 export declare type NovoControlConfig = Partial<ControlConfig>;
 export declare class BaseControl extends ControlConfig {

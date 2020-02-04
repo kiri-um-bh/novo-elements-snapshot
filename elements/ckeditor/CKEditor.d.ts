@@ -14,12 +14,12 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit, Co
     startupFocus: boolean;
     fileBrowserImageUploadUrl: string;
     disabled: boolean;
-    change: EventEmitter<any>;
-    ready: EventEmitter<any>;
-    blur: EventEmitter<any>;
-    focus: EventEmitter<any>;
-    paste: EventEmitter<any>;
-    loaded: EventEmitter<any>;
+    change: EventEmitter<{}>;
+    ready: EventEmitter<{}>;
+    blur: EventEmitter<{}>;
+    focus: EventEmitter<{}>;
+    paste: EventEmitter<{}>;
+    loaded: EventEmitter<{}>;
     host: any;
     _value: string;
     instance: any;
@@ -30,9 +30,32 @@ export declare class NovoCKEditorElement implements OnDestroy, AfterViewInit, Co
     ngAfterViewInit(): void;
     updateValue(value: any): void;
     private ckeditorInit;
-    getBaseConfig(): {
-        [key: string]: any;
-    };
+    getBaseConfig(): ({
+        enterMode: any;
+        shiftEnterMode: any;
+        disableNativeSpellChecker: boolean;
+        removePlugins: string;
+        extraAllowedContent: string;
+        font_names: string;
+    } & {
+        toolbar: {
+            name: string;
+            items: string[];
+        }[];
+    }) | ({
+        enterMode: any;
+        shiftEnterMode: any;
+        disableNativeSpellChecker: boolean;
+        removePlugins: string;
+        extraAllowedContent: string;
+        font_names: string;
+    } & {
+        toolbar: (string | {
+            name: string;
+            items: string[];
+        })[];
+        filebrowserImageUploadUrl: string;
+    });
     writeValue(value: any): void;
     onChange(value?: any): void;
     onTouched(event?: any): void;

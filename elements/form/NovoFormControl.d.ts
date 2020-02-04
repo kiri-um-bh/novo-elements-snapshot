@@ -24,7 +24,6 @@ export declare class NovoFormControl extends FormControl {
     sortOrder: number;
     controlType: string;
     placeholder: string;
-    minimal: boolean;
     multiple: boolean;
     headerConfig: any;
     optionsType: string;

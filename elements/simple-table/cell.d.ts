@@ -43,6 +43,7 @@ export declare class NovoSimpleCell<T> extends _NovoCell implements OnInit {
     role: string;
     row: any;
     column: SimpleTableColumn<T>;
+    private spanElement;
     constructor(columnDef: CdkColumnDef, elementRef: ElementRef, renderer: Renderer2);
     ngOnInit(): void;
     onClick(event: MouseEvent): void;

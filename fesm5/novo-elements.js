@@ -1,36 +1,35 @@
-import { forwardRef, EventEmitter, Component, ElementRef, Input, Output, NgModule, Pipe, Injectable, ChangeDetectionStrategy, Directive, HostBinding, ViewContainerRef, ContentChildren, TemplateRef, HostListener, Optional, Inject, LOCALE_ID, ChangeDetectorRef, Injector, ComponentFactoryResolver, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ViewEncapsulation, Host, ContentChild, PLATFORM_ID } from '@angular/core';
-import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import 'brace/index';
 import 'brace/theme/chrome';
 import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
-import { __values, __spread, __extends, __read, __assign } from 'tslib';
-import { OverlayConfig, Overlay, OverlayModule } from '@angular/cdk/overlay';
-import { ComponentPortal, TemplatePortal, PortalModule } from '@angular/cdk/portal';
-import { trigger, state, style, transition, animate, group, query, animateChild } from '@angular/animations';
-import { addDays, addWeeks, addMonths, startOfWeek, endOfWeek, differenceInDays, addMinutes, endOfDay, startOfDay, isSameSecond, setMinutes, setHours, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInSeconds, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, getYear, getMonth, getDate, setYear, setMonth, setDate, addSeconds, subMonths, isToday, isValid, format, setMilliseconds, setSeconds, getHours, getMinutes, getSeconds, getMilliseconds, isDate, parse, startOfToday, startOfTomorrow, endOfToday } from 'date-fns';
-import { from, merge, of, fromEvent, ReplaySubject, Subject, Subscription, BehaviorSubject } from 'rxjs';
-import { DomSanitizer } from '@angular/platform-browser';
-import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
-import { ScrollingModule } from '@angular/cdk/scrolling';
-import { FocusMonitor, A11yModule } from '@angular/cdk/a11y';
-import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
-import { ESCAPE, ENTER, TAB, SPACE } from '@angular/cdk/keycodes';
+import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
 import * as dragulaImported from '@bullhorn/dragula';
-import { TextMaskModule } from 'angular2-text-mask';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TextMaskModule } from 'angular2-text-mask';
+import { DomSanitizer } from '@angular/platform-browser';
 import { CdkAccordion, CdkAccordionItem, CdkAccordionModule } from '@angular/cdk/accordion';
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
+import { TAB, ENTER, ESCAPE, SPACE } from '@angular/cdk/keycodes';
+import { ComponentPortal, TemplatePortal, PortalModule } from '@angular/cdk/portal';
+import { FocusMonitor, A11yModule } from '@angular/cdk/a11y';
 import { CdkStepLabel, CdkStepHeader, CdkStep, CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
 import { Directionality } from '@angular/cdk/bidi';
-import { DataSource, CdkColumnDef, CdkCell, CDK_ROW_TEMPLATE, CdkHeaderRow, CdkRow, CdkHeaderCell, CdkTableModule, CdkTable, CDK_TABLE_TEMPLATE, CdkCellDef, CdkHeaderCellDef, CdkHeaderRowDef, CdkRowDef } from '@angular/cdk/table';
+import { trigger, state, style, animate, transition, animateChild, group, query } from '@angular/animations';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription, BehaviorSubject } from 'rxjs';
+import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
+import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
+import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
+import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, isValid, format, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { __extends, __values, __assign, __spread, __read } from 'tslib';
+import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, Injector, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/Helpers.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // @dynamic
 var  
@@ -72,12 +71,7 @@ Helpers = /** @class */ (function () {
         if (this.isDate(props)) {
             props = this.dateToObject(props);
         }
-        return str.replace(/\$([\w\.]+)/g, (/**
-         * @param {?} original
-         * @param {?} key
-         * @return {?}
-         */
-        function (original, key) {
+        return str.replace(/\$([\w\.]+)/g, function (original, key) {
             /** @type {?} */
             var keys = key.split('.');
             /** @type {?} */
@@ -88,7 +82,7 @@ Helpers = /** @class */ (function () {
                 value = k ? value[k] : value + ".";
             }
             return value !== undefined ? value : '';
-        }));
+        });
     };
     /**
      * @param {?} formatString
@@ -108,22 +102,11 @@ Helpers = /** @class */ (function () {
         if (Array.isArray(formatString)) {
             /** @type {?} */
             var successes_1 = [];
-            /** @type {?} */
-            var failures_1 = [];
-            formatString.forEach((/**
-             * @param {?} format
-             * @return {?}
-             */
-            function (format) {
+            formatString.forEach(function (format$$1) {
                 /** @type {?} */
                 var isSuccess = true;
                 /** @type {?} */
-                var attempt = format.replace(/\$([\w\.]+)/g, (/**
-                 * @param {?} original
-                 * @param {?} key
-                 * @return {?}
-                 */
-                function (original, key) {
+                var attempt = format$$1.replace(/\$([\w\.]+)/g, function (original, key) {
                     /** @type {?} */
                     var keys = key.split('.');
                     /** @type {?} */
@@ -137,14 +120,11 @@ Helpers = /** @class */ (function () {
                         isSuccess = false;
                     }
                     return Helpers.isEmpty(value) ? '' : value;
-                }));
+                });
                 if (isSuccess) {
                     successes_1.push(attempt);
                 }
-                else {
-                    failures_1.push(attempt);
-                }
-            }));
+            });
             if (successes_1.length !== 0) {
                 return successes_1[0];
             }
@@ -174,13 +154,9 @@ Helpers = /** @class */ (function () {
     function (str, props) {
         /** @type {?} */
         var keys = str.match(/\$([\w\.]+)/g);
-        return keys.every((/**
-         * @param {?} key
-         * @return {?}
-         */
-        function (key) {
+        return keys.every(function (key) {
             return props.hasOwnProperty(key.substr(1));
-        }));
+        });
     };
     /**
      * @param {?} item
@@ -337,12 +313,7 @@ Helpers = /** @class */ (function () {
      */
     function (fields, reverse) {
         if (reverse === void 0) { reverse = false; }
-        return (/**
-         * @param {?} previous
-         * @param {?} current
-         * @return {?}
-         */
-        function (previous, current) {
+        return function (previous, current) {
             if (Helpers.isFunction(fields)) {
                 return fields(reverse ? 'desc' : 'asc', previous, current);
             }
@@ -353,33 +324,33 @@ Helpers = /** @class */ (function () {
                 /** @type {?} */
                 var field = fields[i];
                 /** @type {?} */
-                var first = previous[field] || '';
+                var first$$1 = previous[field] || '';
                 /** @type {?} */
                 var second = current[field] || '';
-                if (Helpers.isDate(first) && Helpers.isDate(second)) {
+                if (Helpers.isDate(first$$1) && Helpers.isDate(second)) {
                     // Dates
-                    first = first.getTime();
+                    first$$1 = first$$1.getTime();
                     second = second.getTime();
                 }
-                else if (Helpers.isString(first) && Helpers.isString(second)) {
+                else if (Helpers.isString(first$$1) && Helpers.isString(second)) {
                     // Basic strings
-                    first = first.toLowerCase();
+                    first$$1 = first$$1.toLowerCase();
                     second = second.toLowerCase();
                 }
                 else {
                     // Numbers
-                    first = isNaN(Number(first)) ? first : Number(first);
+                    first$$1 = isNaN(Number(first$$1)) ? first$$1 : Number(first$$1);
                     second = isNaN(Number(second)) ? second : Number(second);
                 }
-                if (first > second) {
+                if (first$$1 > second) {
                     return reverse ? -1 : 1;
                 }
-                else if (first < second) {
+                else if (first$$1 < second) {
                     return reverse ? 1 : -1;
                 }
             }
             return 0;
-        });
+        };
     };
     /**
      * @param {?} key
@@ -392,11 +363,7 @@ Helpers = /** @class */ (function () {
      * @return {?}
      */
     function (key, value) {
-        return (/**
-         * @param {?} item
-         * @return {?}
-         */
-        function (item) {
+        return function (item) {
             /** @type {?} */
             var results = [];
             /** @type {?} */
@@ -419,22 +386,14 @@ Helpers = /** @class */ (function () {
                 }
                 if (value.any && Array.isArray(value.any)) {
                     if (Array.isArray(field)) {
-                        results.push(value.any.some((/**
-                         * @param {?} v
-                         * @return {?}
-                         */
-                        function (v) { return field.includes(v); })));
+                        results.push(value.any.some(function (v) { return field.includes(v); }));
                     }
                     else {
                         results.push(value.any.includes(field));
                     }
                 }
                 if (value.all && Array.isArray(value.all)) {
-                    results.push(value.all.every((/**
-                     * @param {?} v
-                     * @return {?}
-                     */
-                    function (v) { return field.includes(v); })));
+                    results.push(value.all.every(function (v) { return field.includes(v); }));
                 }
                 if (value.not) {
                     results.push(!Helpers.filterByField(key, value.not)(item));
@@ -450,12 +409,8 @@ Helpers = /** @class */ (function () {
             else {
                 results.push(JSON.stringify(field).match(new RegExp(value, 'gi')));
             }
-            return results.every((/**
-             * @param {?} x
-             * @return {?}
-             */
-            function (x) { return x; }));
-        });
+            return results.every(function (x) { return x; });
+        };
     };
     /**
      * @param {?} element
@@ -534,11 +489,7 @@ Helpers = /** @class */ (function () {
         var _loop_1 = function (i) {
             /** @type {?} */
             var source = Object.assign({}, objs[i]);
-            Object.keys(source).forEach((/**
-             * @param {?} prop
-             * @return {?}
-             */
-            function (prop) {
+            Object.keys(source).forEach(function (prop) {
                 /** @type {?} */
                 var value = source[prop];
                 if (Helpers.isObject(value)) {
@@ -553,12 +504,7 @@ Helpers = /** @class */ (function () {
                     if (target.hasOwnProperty(prop) && Array.isArray(target[prop])) {
                         /** @type {?} */
                         var targetArray_1 = target[prop];
-                        value.forEach((/**
-                         * @param {?} sourceItem
-                         * @param {?} itemIndex
-                         * @return {?}
-                         */
-                        function (sourceItem, itemIndex) {
+                        value.forEach(function (sourceItem, itemIndex) {
                             if (itemIndex < targetArray_1.length) {
                                 /** @type {?} */
                                 var targetItem = targetArray_1[itemIndex];
@@ -578,7 +524,7 @@ Helpers = /** @class */ (function () {
                             else {
                                 targetArray_1.push(sourceItem);
                             }
-                        }));
+                        });
                     }
                     else {
                         target[prop] = value;
@@ -587,7 +533,7 @@ Helpers = /** @class */ (function () {
                 else {
                     target[prop] = value;
                 }
-            }));
+            });
         };
         for (var i = 1; i < objs.length; i++) {
             _loop_1(i);
@@ -654,15 +600,11 @@ Helpers = /** @class */ (function () {
             year: 'numeric',
         })
             .formatToParts(date)
-            .forEach((/**
-         * @param {?} dateTimeFormatPart
-         * @return {?}
-         */
-        function (dateTimeFormatPart) {
+            .forEach(function (dateTimeFormatPart) {
             if (dateTimeFormatPart.type !== 'literal') {
                 dateObj[dateTimeFormatPart.type] = dateTimeFormatPart.value;
             }
-        }));
+        });
         return dateObj;
     };
     return Helpers;
@@ -705,10 +647,6 @@ var Can = /** @class */ (function () {
     };
     return Can;
 }());
-if (false) {
-    /** @type {?} */
-    Can.prototype.obj;
-}
 /**
  * @param {?} obj
  * @return {?}
@@ -756,16 +694,12 @@ function binarySearch(item, array, compare) {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/ace-editor/AceEditor.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 var ACE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoAceEditor; })),
+    useExisting: forwardRef(function () { return NovoAceEditor; }),
     multi: true,
 };
 var NovoAceEditor = /** @class */ (function () {
@@ -780,15 +714,8 @@ var NovoAceEditor = /** @class */ (function () {
         this._theme = 'chrome';
         this._mode = 'javascript';
         this.text = '';
-        this.onChange = (/**
-         * @param {?} _
-         * @return {?}
-         */
-        function (_) { });
-        this.onTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this.onChange = function (_) { };
+        this.onTouched = function () { };
     }
     Object.defineProperty(NovoAceEditor.prototype, "theme", {
         set: /**
@@ -882,24 +809,10 @@ var NovoAceEditor = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this.editor.on('focus', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) { return _this.focus.emit(event); }));
-        this.editor.on('blur', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) { return _this.focus.emit(event); }));
-        this.editor.on('change', (/**
-         * @return {?}
-         */
-        function () { return _this.updateText(); }));
-        this.editor.on('paste', (/**
-         * @return {?}
-         */
-        function () { return _this.updateText(); }));
+        this.editor.on('focus', function (event) { return _this.focus.emit(event); });
+        this.editor.on('blur', function (event) { return _this.focus.emit(event); });
+        this.editor.on('change', function () { return _this.updateText(); });
+        this.editor.on('paste', function () { return _this.updateText(); });
     };
     /**
      * @private
@@ -912,8 +825,6 @@ var NovoAceEditor = /** @class */ (function () {
     function () {
         /** @type {?} */
         var newVal = this.editor.getValue();
-        /** @type {?} */
-        var that = this;
         if (newVal === this.oldText) {
             return;
         }
@@ -1038,64 +949,10 @@ var NovoAceEditor = /** @class */ (function () {
     };
     return NovoAceEditor;
 }());
-if (false) {
-    /** @type {?} */
-    NovoAceEditor.prototype.name;
-    /** @type {?} */
-    NovoAceEditor.prototype.blur;
-    /** @type {?} */
-    NovoAceEditor.prototype.focus;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype._options;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype._theme;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype._mode;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype.text;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype.oldText;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype.editor;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype.onChange;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype.onTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype.elementRef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/ace-editor/AceEditor.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoAceEditorModule = /** @class */ (function () {
     function NovoAceEditorModule() {
@@ -1112,8 +969,7 @@ var NovoAceEditorModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: pipes/plural/Plural.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Rule storage - pluralize and singularize need to be run sequentially,
 // while other rules can be optimized using an object for instant lookups.
@@ -1172,14 +1028,9 @@ function restoreCase(word, token) {
  * @return {?}
  */
 function interpolate(str, args) {
-    return str.replace(/\$(\d{1,2})/g, (/**
-     * @param {?} match
-     * @param {?} index
-     * @return {?}
-     */
-    function (match, index) {
+    return str.replace(/\$(\d{1,2})/g, function (match, index) {
         return args[index] || '';
-    }));
+    });
 }
 /**
  * Sanitize a word by passing in the word and sanitization rules.
@@ -1200,20 +1051,14 @@ function sanitizeWord(token, word, collection) {
         var rule = collection[len];
         // If the rule passes, return the replacement.
         if (rule[0].test(word)) {
-            return { value: word.replace(rule[0], (/**
-                 * @param {?} match
-                 * @param {?} index
-                 * @param {?} words
-                 * @return {?}
-                 */
-                function (match, index, words) {
+            return { value: word.replace(rule[0], function (match, index, words) {
                     /** @type {?} */
                     var result = interpolate(rule[1], [match, index, words]);
                     if (match === '') {
                         return restoreCase(words[index - 1], result);
                     }
                     return restoreCase(match, result);
-                })) };
+                }) };
         }
     };
     // Iterate over the sanitization rules and use the first one to match.
@@ -1232,11 +1077,7 @@ function sanitizeWord(token, word, collection) {
  * @return {?}
  */
 function replaceWord(replaceMap, keepMap, rules) {
-    return (/**
-     * @param {?} word
-     * @return {?}
-     */
-    function (word) {
+    return function (word) {
         // Get the correct token and case restoration functions.
         /** @type {?} */
         var token = word.toLowerCase();
@@ -1250,7 +1091,7 @@ function replaceWord(replaceMap, keepMap, rules) {
         }
         // Run all the rules against the word.
         return sanitizeWord(token, word, rules);
-    });
+    };
 }
 var Pluralize = /** @class */ (function () {
     function Pluralize() {
@@ -1412,13 +1253,9 @@ var Pluralize = /** @class */ (function () {
     ['groove', 'grooves'],
     ['pickaxe', 'pickaxes'],
     ['whiskey', 'whiskies'],
-].forEach((/**
- * @param {?} rule
- * @return {?}
- */
-function (rule) {
+].forEach(function (rule) {
     return Pluralize.addIrregularRule(rule[0], rule[1]);
-}));
+});
 /**
  * Pluralization rules.
  */
@@ -1447,13 +1284,9 @@ function (rule) {
     [/eaux$/i, '$0'],
     [/m[ae]n$/i, 'men'],
     ['thou', 'you'],
-].forEach((/**
- * @param {?} rule
- * @return {?}
- */
-function (rule) {
+].forEach(function (rule) {
     return Pluralize.addPluralRule(rule[0], rule[1]);
-}));
+});
 /**
  * Singularization rules.
  */
@@ -1483,13 +1316,9 @@ function (rule) {
     [/(child)ren$/i, '$1'],
     [/(eau)x?$/i, '$1'],
     [/men$/i, 'man'],
-].forEach((/**
- * @param {?} rule
- * @return {?}
- */
-function (rule) {
+].forEach(function (rule) {
     return Pluralize.addSingularRule(rule[0], rule[1]);
-}));
+});
 /**
  * Uncountable rules.
  */
@@ -1607,8 +1436,7 @@ var PluralPipe = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: pipes/decode-uri/DecodeURI.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var DecodeURIPipe = /** @class */ (function () {
     function DecodeURIPipe() {
@@ -1638,8 +1466,7 @@ var DecodeURIPipe = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: pipes/group-by/GroupBy.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var GroupByPipe = /** @class */ (function () {
     function GroupByPipe() {
@@ -1679,11 +1506,7 @@ var GroupByPipe = /** @class */ (function () {
             }
             finally { if (e_1) throw e_1.error; }
         }
-        return Object.keys(arr).map((/**
-         * @param {?} key
-         * @return {?}
-         */
-        function (key) { return ({ key: key, value: arr[key] }); }));
+        return Object.keys(arr).map(function (key) { return ({ key: key, value: arr[key] }); });
     };
     GroupByPipe.decorators = [
         { type: Pipe, args: [{
@@ -1695,8 +1518,7 @@ var GroupByPipe = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: pipes/Pipes.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoPipesModule = /** @class */ (function () {
     function NovoPipesModule() {
@@ -1712,8 +1534,7 @@ var NovoPipesModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/button/Button.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoButtonElement = /** @class */ (function () {
     function NovoButtonElement() {
@@ -1761,26 +1582,10 @@ var NovoButtonElement = /** @class */ (function () {
     };
     return NovoButtonElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoButtonElement.prototype.color;
-    /** @type {?} */
-    NovoButtonElement.prototype.side;
-    /** @type {?} */
-    NovoButtonElement.prototype.theme;
-    /** @type {?} */
-    NovoButtonElement.prototype.loading;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoButtonElement.prototype._icon;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/button/Button.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoButtonModule = /** @class */ (function () {
     function NovoButtonModule() {
@@ -1797,8 +1602,7 @@ var NovoButtonModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/loading/Loading.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoLoadingElement = /** @class */ (function () {
     function NovoLoadingElement() {
@@ -1817,10 +1621,6 @@ var NovoLoadingElement = /** @class */ (function () {
     };
     return NovoLoadingElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoLoadingElement.prototype.theme;
-}
 var NovoSpinnerElement = /** @class */ (function () {
     function NovoSpinnerElement() {
     }
@@ -1837,14 +1637,6 @@ var NovoSpinnerElement = /** @class */ (function () {
     };
     return NovoSpinnerElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoSpinnerElement.prototype.theme;
-    /** @type {?} */
-    NovoSpinnerElement.prototype.inverse;
-    /** @type {?} */
-    NovoSpinnerElement.prototype.baseHref;
-}
 var NovoSkeletonDirective = /** @class */ (function () {
     function NovoSkeletonDirective() {
         this.skeleton = true;
@@ -1859,10 +1651,6 @@ var NovoSkeletonDirective = /** @class */ (function () {
     };
     return NovoSkeletonDirective;
 }());
-if (false) {
-    /** @type {?} */
-    NovoSkeletonDirective.prototype.skeleton;
-}
 var NovoLoadedDirective = /** @class */ (function () {
     function NovoLoadedDirective() {
     }
@@ -1910,11 +1698,7 @@ var NovoIsLoadingDirective = /** @class */ (function () {
      */
     function (templates) {
         var _this = this;
-        return templates && templates.map((/**
-         * @param {?} v
-         * @return {?}
-         */
-        function (v) { return _this.viewContainer.createEmbeddedView(v); }));
+        return templates && templates.map(function (v) { return _this.viewContainer.createEmbeddedView(v); });
     };
     /**
      * @param {?} views
@@ -1958,37 +1742,10 @@ var NovoIsLoadingDirective = /** @class */ (function () {
     };
     return NovoIsLoadingDirective;
 }());
-if (false) {
-    /** @type {?} */
-    NovoIsLoadingDirective.prototype.skeletonTemplates;
-    /** @type {?} */
-    NovoIsLoadingDirective.prototype.loadedTemplates;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoIsLoadingDirective.prototype.hasView;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoIsLoadingDirective.prototype.skeletonViews;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoIsLoadingDirective.prototype.loadedViews;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoIsLoadingDirective.prototype.viewContainer;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/loading/Loading.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoLoadingModule = /** @class */ (function () {
     function NovoLoadingModule() {
@@ -2005,8 +1762,7 @@ var NovoLoadingModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tooltip/Tooltip.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTooltip = /** @class */ (function () {
     function NovoTooltip() {
@@ -2040,31 +1796,10 @@ var NovoTooltip = /** @class */ (function () {
     ];
     return NovoTooltip;
 }());
-if (false) {
-    /** @type {?} */
-    NovoTooltip.prototype.message;
-    /** @type {?} */
-    NovoTooltip.prototype.hidden;
-    /** @type {?} */
-    NovoTooltip.prototype.tooltipType;
-    /** @type {?} */
-    NovoTooltip.prototype.rounded;
-    /** @type {?} */
-    NovoTooltip.prototype.size;
-    /** @type {?} */
-    NovoTooltip.prototype.positionStrategy;
-    /** @type {?} */
-    NovoTooltip.prototype.preline;
-    /** @type {?} */
-    NovoTooltip.prototype.noAnimate;
-    /** @type {?} */
-    NovoTooltip.prototype.position;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tooltip/Tooltip.directive.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var TooltipDirective = /** @class */ (function () {
     function TooltipDirective(overlay, viewContainerRef, elementRef) {
@@ -2337,67 +2072,10 @@ var TooltipDirective = /** @class */ (function () {
     };
     return TooltipDirective;
 }());
-if (false) {
-    /** @type {?} */
-    TooltipDirective.prototype.tooltip;
-    /** @type {?} */
-    TooltipDirective.prototype.position;
-    /** @type {?} */
-    TooltipDirective.prototype.type;
-    /** @type {?} */
-    TooltipDirective.prototype.size;
-    /** @type {?} */
-    TooltipDirective.prototype.bounce;
-    /** @type {?} */
-    TooltipDirective.prototype.noAnimate;
-    /** @type {?} */
-    TooltipDirective.prototype.rounded;
-    /** @type {?} */
-    TooltipDirective.prototype.always;
-    /** @type {?} */
-    TooltipDirective.prototype.active;
-    /** @type {?} */
-    TooltipDirective.prototype.preline;
-    /** @type {?} */
-    TooltipDirective.prototype.removeArrow;
-    /** @type {?} */
-    TooltipDirective.prototype.autoPosition;
-    /**
-     * @type {?}
-     * @private
-     */
-    TooltipDirective.prototype.tooltipInstance;
-    /**
-     * @type {?}
-     * @private
-     */
-    TooltipDirective.prototype.portal;
-    /**
-     * @type {?}
-     * @private
-     */
-    TooltipDirective.prototype.overlayRef;
-    /**
-     * @type {?}
-     * @protected
-     */
-    TooltipDirective.prototype.overlay;
-    /**
-     * @type {?}
-     * @private
-     */
-    TooltipDirective.prototype.viewContainerRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    TooltipDirective.prototype.elementRef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tooltip/Tooltip.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTooltipModule = /** @class */ (function () {
     function NovoTooltipModule() {
@@ -2415,21 +2093,8 @@ var NovoTooltipModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/novo-label-service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function TimeFormatParts() { }
-if (false) {
-    /** @type {?} */
-    TimeFormatParts.prototype.hour;
-    /** @type {?} */
-    TimeFormatParts.prototype.minute;
-    /** @type {?|undefined} */
-    TimeFormatParts.prototype.dayPeriod;
-}
 var NovoLabelService = /** @class */ (function () {
     function NovoLabelService(userLocale) {
         if (userLocale === void 0) { userLocale = 'en-US'; }
@@ -2656,13 +2321,13 @@ var NovoLabelService = /** @class */ (function () {
      * @param {?} format
      * @return {?}
      */
-    function (value, format) {
+    function (value, format$$1) {
         /** @type {?} */
         var date = value instanceof Date ? value : new Date(value);
         if (date.getTime() !== date.getTime()) {
             return value;
         }
-        return new Intl.DateTimeFormat(this.userLocale, format).format(date);
+        return new Intl.DateTimeFormat(this.userLocale, format$$1).format(date);
     };
     /**
      * @param {?} value
@@ -2674,24 +2339,19 @@ var NovoLabelService = /** @class */ (function () {
      * @param {?} format
      * @return {?}
      */
-    function (value, format) {
+    function (value, format$$1) {
         /** @type {?} */
         var date = value instanceof Date ? value : new Date(value);
         if (date.getTime() !== date.getTime()) {
             return value;
         }
         /** @type {?} */
-        var timeParts = Intl.DateTimeFormat(this.userLocale, format)
+        var timeParts = Intl.DateTimeFormat(this.userLocale, format$$1)
             .formatToParts(date)
-            .reduce((/**
-         * @param {?} obj
-         * @param {?} part
-         * @return {?}
-         */
-        function (obj, part) {
+            .reduce(function (obj, part) {
             obj[part.type] = part.value;
             return obj;
-        }), {});
+        }, {});
         /** @type {?} */
         var dayperiod = timeParts.dayperiod ? timeParts.dayperiod : '';
         return timeParts.hour + ":" + timeParts.minute + dayperiod;
@@ -2708,20 +2368,15 @@ var NovoLabelService = /** @class */ (function () {
          * @param {?} dayOfWeek
          * @return {?}
          */
-        function getDay(dayOfWeek) {
+        function getDay$$1(dayOfWeek) {
             /** @type {?} */
             var dt = new Date();
             return dt.setDate(dt.getDate() - dt.getDay() + dayOfWeek);
         }
-        return [getDay(0), getDay(1), getDay(2), getDay(3), getDay(4), getDay(5), getDay(6)].reduce((/**
-         * @param {?} weekdays
-         * @param {?} dt
-         * @return {?}
-         */
-        function (weekdays, dt) {
+        return [getDay$$1(0), getDay$$1(1), getDay$$1(2), getDay$$1(3), getDay$$1(4), getDay$$1(5), getDay$$1(6)].reduce(function (weekdays, dt) {
             weekdays.push(new Intl.DateTimeFormat(_this.userLocale, { weekday: 'long' }).format(dt));
             return weekdays;
-        }), []);
+        }, []);
     };
     /**
      * @return {?}
@@ -2735,33 +2390,28 @@ var NovoLabelService = /** @class */ (function () {
          * @param {?} month
          * @return {?}
          */
-        function getMonth(month) {
+        function getMonth$$1(month) {
             /** @type {?} */
             var dt = new Date();
             return dt.setMonth(month, 1);
         }
         return [
-            getMonth(0),
-            getMonth(1),
-            getMonth(2),
-            getMonth(3),
-            getMonth(4),
-            getMonth(5),
-            getMonth(6),
-            getMonth(7),
-            getMonth(8),
-            getMonth(9),
-            getMonth(10),
-            getMonth(11),
-        ].reduce((/**
-         * @param {?} months
-         * @param {?} dt
-         * @return {?}
-         */
-        function (months, dt) {
+            getMonth$$1(0),
+            getMonth$$1(1),
+            getMonth$$1(2),
+            getMonth$$1(3),
+            getMonth$$1(4),
+            getMonth$$1(5),
+            getMonth$$1(6),
+            getMonth$$1(7),
+            getMonth$$1(8),
+            getMonth$$1(9),
+            getMonth$$1(10),
+            getMonth$$1(11),
+        ].reduce(function (months, dt) {
             months.push(new Intl.DateTimeFormat(_this.userLocale, { month: 'long' }).format(dt));
             return months;
-        }), []);
+        }, []);
     };
     /**
      * @param {?} value
@@ -2925,201 +2575,10 @@ var NovoLabelService = /** @class */ (function () {
     ]; };
     return NovoLabelService;
 }());
-if (false) {
-    /** @type {?} */
-    NovoLabelService.prototype.filters;
-    /** @type {?} */
-    NovoLabelService.prototype.clear;
-    /** @type {?} */
-    NovoLabelService.prototype.sort;
-    /** @type {?} */
-    NovoLabelService.prototype.distributionListOwner;
-    /** @type {?} */
-    NovoLabelService.prototype.dateAdded;
-    /** @type {?} */
-    NovoLabelService.prototype.emptyTableMessage;
-    /** @type {?} */
-    NovoLabelService.prototype.noMatchingRecordsMessage;
-    /** @type {?} */
-    NovoLabelService.prototype.erroredTableMessage;
-    /** @type {?} */
-    NovoLabelService.prototype.pickerError;
-    /** @type {?} */
-    NovoLabelService.prototype.pickerTextFieldEmpty;
-    /** @type {?} */
-    NovoLabelService.prototype.pickerEmpty;
-    /** @type {?} */
-    NovoLabelService.prototype.tabbedGroupPickerEmpty;
-    /** @type {?} */
-    NovoLabelService.prototype.quickNoteError;
-    /** @type {?} */
-    NovoLabelService.prototype.quickNoteEmpty;
-    /** @type {?} */
-    NovoLabelService.prototype.required;
-    /** @type {?} */
-    NovoLabelService.prototype.numberTooLarge;
-    /** @type {?} */
-    NovoLabelService.prototype.save;
-    /** @type {?} */
-    NovoLabelService.prototype.cancel;
-    /** @type {?} */
-    NovoLabelService.prototype.next;
-    /** @type {?} */
-    NovoLabelService.prototype.itemsPerPage;
-    /** @type {?} */
-    NovoLabelService.prototype.select;
-    /** @type {?} */
-    NovoLabelService.prototype.selected;
-    /** @type {?} */
-    NovoLabelService.prototype.selectAllOnPage;
-    /** @type {?} */
-    NovoLabelService.prototype.deselectAll;
-    /** @type {?} */
-    NovoLabelService.prototype.refresh;
-    /** @type {?} */
-    NovoLabelService.prototype.close;
-    /** @type {?} */
-    NovoLabelService.prototype.move;
-    /** @type {?} */
-    NovoLabelService.prototype.startDate;
-    /** @type {?} */
-    NovoLabelService.prototype.endDate;
-    /** @type {?} */
-    NovoLabelService.prototype.more;
-    /** @type {?} */
-    NovoLabelService.prototype.clearAll;
-    /** @type {?} */
-    NovoLabelService.prototype.clearAllNormalCase;
-    /** @type {?} */
-    NovoLabelService.prototype.clearSort;
-    /** @type {?} */
-    NovoLabelService.prototype.clearFilter;
-    /** @type {?} */
-    NovoLabelService.prototype.today;
-    /** @type {?} */
-    NovoLabelService.prototype.now;
-    /** @type {?} */
-    NovoLabelService.prototype.isRequired;
-    /** @type {?} */
-    NovoLabelService.prototype.notValidYear;
-    /** @type {?} */
-    NovoLabelService.prototype.isTooLarge;
-    /** @type {?} */
-    NovoLabelService.prototype.invalidAddress;
-    /** @type {?} */
-    NovoLabelService.prototype.invalidEmail;
-    /** @type {?} */
-    NovoLabelService.prototype.minLength;
-    /** @type {?} */
-    NovoLabelService.prototype.past1Day;
-    /** @type {?} */
-    NovoLabelService.prototype.past7Days;
-    /** @type {?} */
-    NovoLabelService.prototype.past30Days;
-    /** @type {?} */
-    NovoLabelService.prototype.past90Days;
-    /** @type {?} */
-    NovoLabelService.prototype.past1Year;
-    /** @type {?} */
-    NovoLabelService.prototype.next1Day;
-    /** @type {?} */
-    NovoLabelService.prototype.next7Days;
-    /** @type {?} */
-    NovoLabelService.prototype.next30Days;
-    /** @type {?} */
-    NovoLabelService.prototype.next90Days;
-    /** @type {?} */
-    NovoLabelService.prototype.next1Year;
-    /** @type {?} */
-    NovoLabelService.prototype.customDateRange;
-    /** @type {?} */
-    NovoLabelService.prototype.backToPresetFilters;
-    /** @type {?} */
-    NovoLabelService.prototype.okGotIt;
-    /** @type {?} */
-    NovoLabelService.prototype.address;
-    /** @type {?} */
-    NovoLabelService.prototype.address1;
-    /** @type {?} */
-    NovoLabelService.prototype.apt;
-    /** @type {?} */
-    NovoLabelService.prototype.address2;
-    /** @type {?} */
-    NovoLabelService.prototype.city;
-    /** @type {?} */
-    NovoLabelService.prototype.state;
-    /** @type {?} */
-    NovoLabelService.prototype.zip;
-    /** @type {?} */
-    NovoLabelService.prototype.zipCode;
-    /** @type {?} */
-    NovoLabelService.prototype.country;
-    /** @type {?} */
-    NovoLabelService.prototype.or;
-    /** @type {?} */
-    NovoLabelService.prototype.clickToBrowse;
-    /** @type {?} */
-    NovoLabelService.prototype.chooseAFile;
-    /** @type {?} */
-    NovoLabelService.prototype.no;
-    /** @type {?} */
-    NovoLabelService.prototype.yes;
-    /** @type {?} */
-    NovoLabelService.prototype.search;
-    /** @type {?} */
-    NovoLabelService.prototype.noItems;
-    /** @type {?} */
-    NovoLabelService.prototype.dateFormat;
-    /** @type {?} */
-    NovoLabelService.prototype.dateFormatPlaceholder;
-    /** @type {?} */
-    NovoLabelService.prototype.timeFormatPlaceholderAM;
-    /** @type {?} */
-    NovoLabelService.prototype.timeFormatPlaceholder24Hour;
-    /** @type {?} */
-    NovoLabelService.prototype.timeFormatAM;
-    /** @type {?} */
-    NovoLabelService.prototype.timeFormatPM;
-    /** @type {?} */
-    NovoLabelService.prototype.confirmChangesModalMessage;
-    /** @type {?} */
-    NovoLabelService.prototype.promptModalMessage;
-    /** @type {?} */
-    NovoLabelService.prototype.asyncFailure;
-    /** @type {?} */
-    NovoLabelService.prototype.previous;
-    /** @type {?} */
-    NovoLabelService.prototype.actions;
-    /** @type {?} */
-    NovoLabelService.prototype.all;
-    /** @type {?} */
-    NovoLabelService.prototype.groupedMultiPickerEmpty;
-    /** @type {?} */
-    NovoLabelService.prototype.groupedMultiPickerSelectCategory;
-    /** @type {?} */
-    NovoLabelService.prototype.add;
-    /** @type {?} */
-    NovoLabelService.prototype.encryptedFieldTooltip;
-    /** @type {?} */
-    NovoLabelService.prototype.noStatesForCountry;
-    /** @type {?} */
-    NovoLabelService.prototype.selectCountryFirst;
-    /** @type {?} */
-    NovoLabelService.prototype.invalidIntegerInput;
-    /** @type {?} */
-    NovoLabelService.prototype.maxRecordsReached;
-    /** @type {?} */
-    NovoLabelService.prototype.selectFilterOptions;
-    /** @type {?} */
-    NovoLabelService.prototype.userLocale;
-}
-/** @type {?} */
-var NOVO_ELEMENTS_LABELS_PROVIDERS = [{ provide: NovoLabelService, useClass: NovoLabelService }];
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/card/Card.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var CardActionsElement = /** @class */ (function () {
     function CardActionsElement() {
@@ -3222,47 +2681,10 @@ var CardElement = /** @class */ (function () {
     };
     return CardElement;
 }());
-if (false) {
-    /** @type {?} */
-    CardElement.prototype.padding;
-    /** @type {?} */
-    CardElement.prototype.config;
-    /** @type {?} */
-    CardElement.prototype.title;
-    /** @type {?} */
-    CardElement.prototype.message;
-    /** @type {?} */
-    CardElement.prototype.messageIcon;
-    /** @type {?} */
-    CardElement.prototype.icon;
-    /** @type {?} */
-    CardElement.prototype.iconTooltip;
-    /** @type {?} */
-    CardElement.prototype.refresh;
-    /** @type {?} */
-    CardElement.prototype.close;
-    /** @type {?} */
-    CardElement.prototype.move;
-    /** @type {?} */
-    CardElement.prototype.loading;
-    /** @type {?} */
-    CardElement.prototype.onClose;
-    /** @type {?} */
-    CardElement.prototype.onRefresh;
-    /** @type {?} */
-    CardElement.prototype.cardAutomationId;
-    /** @type {?} */
-    CardElement.prototype.labels;
-    /** @type {?} */
-    CardElement.prototype.iconClass;
-    /** @type {?} */
-    CardElement.prototype.messageIconClass;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/card/Card.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCardModule = /** @class */ (function () {
     function NovoCardModule() {
@@ -3279,8 +2701,7 @@ var NovoCardModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/common/EventTypeLegend.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoEventTypeLegendElement = /** @class */ (function () {
     function NovoEventTypeLegendElement() {
@@ -3299,19 +2720,10 @@ var NovoEventTypeLegendElement = /** @class */ (function () {
     };
     return NovoEventTypeLegendElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoEventTypeLegendElement.prototype.events;
-    /** @type {?} */
-    NovoEventTypeLegendElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoEventTypeLegendElement.prototype.eventTypeClicked;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/common/CalendarDateChange.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCalendarDateChangeElement = /** @class */ (function () {
     function NovoCalendarDateChangeElement(locale) {
@@ -3399,30 +2811,10 @@ var NovoCalendarDateChangeElement = /** @class */ (function () {
     };
     return NovoCalendarDateChangeElement;
 }());
-if (false) {
-    /**
-     * The current view
-     * @type {?}
-     */
-    NovoCalendarDateChangeElement.prototype.view;
-    /**
-     * The current view date
-     * @type {?}
-     */
-    NovoCalendarDateChangeElement.prototype.viewDate;
-    /** @type {?} */
-    NovoCalendarDateChangeElement.prototype.locale;
-    /**
-     * Called when the view date is changed
-     * @type {?}
-     */
-    NovoCalendarDateChangeElement.prototype.viewDateChange;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/calendar-utils/CalendarUtils.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 var WEEKEND_DAY_NUMBERS = [0, 6];
@@ -3442,243 +2834,6 @@ CalendarEventResponse[CalendarEventResponse.Maybe] = 'Maybe';
 CalendarEventResponse[CalendarEventResponse.Accepted] = 'Accepted';
 CalendarEventResponse[CalendarEventResponse.Rejected] = 'Rejected';
 /**
- * @record
- */
-function CalendarEventTimesChangedEvent() { }
-if (false) {
-    /** @type {?} */
-    CalendarEventTimesChangedEvent.prototype.event;
-    /** @type {?} */
-    CalendarEventTimesChangedEvent.prototype.newStart;
-    /** @type {?|undefined} */
-    CalendarEventTimesChangedEvent.prototype.newEnd;
-}
-/**
- * @record
- */
-function WeekDay() { }
-if (false) {
-    /** @type {?} */
-    WeekDay.prototype.date;
-    /** @type {?} */
-    WeekDay.prototype.isPast;
-    /** @type {?} */
-    WeekDay.prototype.isToday;
-    /** @type {?} */
-    WeekDay.prototype.isFuture;
-    /** @type {?} */
-    WeekDay.prototype.isWeekend;
-}
-/**
- * @record
- */
-function EventColor() { }
-if (false) {
-    /** @type {?} */
-    EventColor.prototype.primary;
-    /** @type {?} */
-    EventColor.prototype.secondary;
-}
-/**
- * @record
- */
-function EventAction() { }
-if (false) {
-    /** @type {?} */
-    EventAction.prototype.label;
-    /** @type {?|undefined} */
-    EventAction.prototype.cssClass;
-    /**
-     * @param {?} __0
-     * @return {?}
-     */
-    EventAction.prototype.onClick = function (__0) { };
-}
-/**
- * @record
- */
-function CalendarEvent() { }
-if (false) {
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.id;
-    /** @type {?} */
-    CalendarEvent.prototype.start;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.end;
-    /** @type {?} */
-    CalendarEvent.prototype.title;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.description;
-    /** @type {?} */
-    CalendarEvent.prototype.color;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.type;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.response;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.actions;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.allDay;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.cssClass;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.resizable;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.draggable;
-}
-/**
- * @record
- */
-function WeekViewEvent() { }
-if (false) {
-    /** @type {?} */
-    WeekViewEvent.prototype.event;
-    /** @type {?} */
-    WeekViewEvent.prototype.offset;
-    /** @type {?} */
-    WeekViewEvent.prototype.span;
-    /** @type {?} */
-    WeekViewEvent.prototype.startsBeforeWeek;
-    /** @type {?} */
-    WeekViewEvent.prototype.endsAfterWeek;
-    /** @type {?|undefined} */
-    WeekViewEvent.prototype.top;
-    /** @type {?|undefined} */
-    WeekViewEvent.prototype.height;
-}
-/**
- * @record
- */
-function WeekViewEventRow() { }
-if (false) {
-    /** @type {?} */
-    WeekViewEventRow.prototype.row;
-}
-/**
- * @record
- */
-function MonthViewDay() { }
-if (false) {
-    /** @type {?} */
-    MonthViewDay.prototype.inMonth;
-    /** @type {?} */
-    MonthViewDay.prototype.events;
-    /** @type {?|undefined} */
-    MonthViewDay.prototype.backgroundColor;
-    /** @type {?|undefined} */
-    MonthViewDay.prototype.cssClass;
-    /** @type {?} */
-    MonthViewDay.prototype.badgeTotal;
-}
-/**
- * @record
- */
-function MonthView() { }
-if (false) {
-    /** @type {?} */
-    MonthView.prototype.rowOffsets;
-    /** @type {?} */
-    MonthView.prototype.days;
-    /** @type {?} */
-    MonthView.prototype.totalDaysVisibleInWeek;
-}
-/**
- * @record
- */
-function DayViewEvent() { }
-if (false) {
-    /** @type {?} */
-    DayViewEvent.prototype.event;
-    /** @type {?} */
-    DayViewEvent.prototype.height;
-    /** @type {?} */
-    DayViewEvent.prototype.width;
-    /** @type {?} */
-    DayViewEvent.prototype.top;
-    /** @type {?} */
-    DayViewEvent.prototype.left;
-    /** @type {?} */
-    DayViewEvent.prototype.startsBeforeDay;
-    /** @type {?} */
-    DayViewEvent.prototype.endsAfterDay;
-}
-/**
- * @record
- */
-function DayView() { }
-if (false) {
-    /** @type {?} */
-    DayView.prototype.events;
-    /** @type {?} */
-    DayView.prototype.width;
-    /** @type {?} */
-    DayView.prototype.allDayEvents;
-}
-/**
- * @record
- */
-function DayViewHourSegment() { }
-if (false) {
-    /** @type {?} */
-    DayViewHourSegment.prototype.isStart;
-    /** @type {?} */
-    DayViewHourSegment.prototype.date;
-    /** @type {?|undefined} */
-    DayViewHourSegment.prototype.cssClass;
-}
-/**
- * @record
- */
-function DayViewHour() { }
-if (false) {
-    /** @type {?} */
-    DayViewHour.prototype.segments;
-}
-/**
- * @record
- */
-function IsEventInPeriodArgs() { }
-if (false) {
-    /** @type {?} */
-    IsEventInPeriodArgs.prototype.event;
-    /** @type {?} */
-    IsEventInPeriodArgs.prototype.periodStart;
-    /** @type {?} */
-    IsEventInPeriodArgs.prototype.periodEnd;
-}
-/**
- * @record
- */
-function GetEventsInPeriodArgs() { }
-if (false) {
-    /** @type {?} */
-    GetEventsInPeriodArgs.prototype.events;
-    /** @type {?} */
-    GetEventsInPeriodArgs.prototype.periodStart;
-    /** @type {?} */
-    GetEventsInPeriodArgs.prototype.periodEnd;
-}
-/**
- * @record
- */
-function GetDayViewArgs() { }
-if (false) {
-    /** @type {?|undefined} */
-    GetDayViewArgs.prototype.events;
-    /** @type {?} */
-    GetDayViewArgs.prototype.viewDate;
-    /** @type {?} */
-    GetDayViewArgs.prototype.hourSegments;
-    /** @type {?} */
-    GetDayViewArgs.prototype.dayStart;
-    /** @type {?} */
-    GetDayViewArgs.prototype.dayEnd;
-    /** @type {?} */
-    GetDayViewArgs.prototype.eventWidth;
-    /** @type {?} */
-    GetDayViewArgs.prototype.segmentHeight;
-}
-/**
  * @param {?} __0
  * @return {?}
  */
@@ -3695,11 +2850,7 @@ function getExcludedDays(_a) {
         if (day === DAYS_IN_WEEK) {
             day = 0;
         }
-        if (excluded.some((/**
-         * @param {?} e
-         * @return {?}
-         */
-        function (e) { return e === day; }))) {
+        if (excluded.some(function (e) { return e === day; })) {
             reduce++;
         }
         day++;
@@ -3710,34 +2861,14 @@ function getExcludedDays(_a) {
  * @param {?} __0
  * @return {?}
  */
-function getWeekViewEventSpan(_a) {
-    var event = _a.event, offset = _a.offset, startOfWeek = _a.startOfWeek, excluded = _a.excluded;
-    /** @type {?} */
-    var begin = event.start < startOfWeek ? startOfWeek : event.start;
-    /** @type {?} */
-    var span = 1;
-    if (event.end) {
-        span = differenceInDays(addMinutes(endOfDay(event.end), 1), startOfDay(begin));
-    }
-    /** @type {?} */
-    var totalLength = offset + span;
-    if (totalLength > DAYS_IN_WEEK) {
-        span = DAYS_IN_WEEK - offset;
-    }
-    return span - getExcludedDays({ startDate: begin, days: span, excluded: excluded });
-}
-/**
- * @param {?} __0
- * @return {?}
- */
 function getWeekViewEventOffset(_a) {
-    var event = _a.event, startOfWeek = _a.startOfWeek, _b = _a.excluded, excluded = _b === void 0 ? [] : _b;
-    if (event.start < startOfWeek) {
+    var event = _a.event, startOfWeek$$1 = _a.startOfWeek, _b = _a.excluded, excluded = _b === void 0 ? [] : _b;
+    if (event.start < startOfWeek$$1) {
         return 0;
     }
     /** @type {?} */
-    var distance = differenceInDays(event.start, startOfWeek);
-    return distance - getExcludedDays({ startDate: startOfWeek, days: distance, excluded: excluded });
+    var distance = differenceInDays(event.start, startOfWeek$$1);
+    return distance - getExcludedDays({ startDate: startOfWeek$$1, days: distance, excluded: excluded });
 }
 /**
  * @param {?} __0
@@ -3772,11 +2903,7 @@ function isEventIsPeriod(_a) {
  */
 function getEventsInPeriod(_a) {
     var events = _a.events, periodStart = _a.periodStart, periodEnd = _a.periodEnd;
-    return events.filter((/**
-     * @param {?} event
-     * @return {?}
-     */
-    function (event) { return isEventIsPeriod({ event: event, periodStart: periodStart, periodEnd: periodEnd }); }));
+    return events.filter(function (event) { return isEventIsPeriod({ event: event, periodStart: periodStart, periodEnd: periodEnd }); });
 }
 /**
  * @param {?} events
@@ -3785,11 +2912,7 @@ function getEventsInPeriod(_a) {
  * @return {?}
  */
 function getEventsInTimeRange(events, dayStart, dayEnd) {
-    return events.filter((/**
-     * @param {?} event
-     * @return {?}
-     */
-    function (event) {
+    return events.filter(function (event) {
         /** @type {?} */
         var eventStart = event.start;
         /** @type {?} */
@@ -3799,7 +2922,7 @@ function getEventsInTimeRange(events, dayStart, dayEnd) {
         /** @type {?} */
         var endOfView = setMinutes(setHours(startOfMinute(eventStart), dayEnd.hour), dayEnd.minute);
         return isAfter(eventEnd, startOfView) && isBefore(eventStart, endOfView);
-    }));
+    });
 }
 /**
  * @param {?} __0
@@ -3830,11 +2953,7 @@ function getWeekViewHeader(_a) {
     var _loop_1 = function (i) {
         /** @type {?} */
         var date = addDays(start, i);
-        if (!excluded.some((/**
-         * @param {?} e
-         * @return {?}
-         */
-        function (e) { return date.getDay() === e; }))) {
+        if (!excluded.some(function (e) { return date.getDay() === e; })) {
             days.push(getWeekDay({ date: date }));
         }
     };
@@ -3860,57 +2979,32 @@ function getWeekView(_a) {
     var maxRange = DAYS_IN_WEEK - excluded.length;
     /** @type {?} */
     var eventsMapped = getEventsInTimeRange(getEventsInPeriod({ events: events, periodStart: startOfViewWeek, periodEnd: endOfViewWeek }), dayStart, dayEnd)
-        .map((/**
-     * @param {?} event
-     * @return {?}
-     */
-    function (event) {
+        .map(function (event) {
         /** @type {?} */
         var offset = getWeekViewEventOffset({ event: event, startOfWeek: startOfViewWeek, excluded: excluded });
         /** @type {?} */
         var span = 1;
         return { event: event, offset: offset, span: span };
-    }))
-        .filter((/**
-     * @param {?} e
-     * @return {?}
-     */
-    function (e) { return e.offset < maxRange; }))
-        .filter((/**
-     * @param {?} e
-     * @return {?}
-     */
-    function (e) { return e.span > 0; }))
-        .map((/**
-     * @param {?} entry
-     * @return {?}
-     */
-    function (entry) { return ({
+    })
+        .filter(function (e) { return e.offset < maxRange; })
+        .filter(function (e) { return e.span > 0; })
+        .map(function (entry) { return ({
         event: entry.event,
         offset: entry.offset,
         span: entry.span,
         startsBeforeWeek: entry.event.start < startOfViewWeek,
         endsAfterWeek: (entry.event.end || entry.event.start) > endOfViewWeek,
         top: 0,
-    }); }))
-        .sort((/**
-     * @param {?} itemA
-     * @param {?} itemB
-     * @return {?}
-     */
-    function (itemA, itemB) {
+    }); })
+        .sort(function (itemA, itemB) {
         /** @type {?} */
         var startSecondsDiff = differenceInSeconds(itemA.event.start, itemB.event.start);
         if (startSecondsDiff === 0) {
             return differenceInSeconds(itemB.event.end || itemB.event.start, itemA.event.end || itemA.event.start);
         }
         return startSecondsDiff;
-    }))
-        .map((/**
-     * @param {?} entry
-     * @return {?}
-     */
-    function (entry) {
+    })
+        .map(function (entry) {
         /** @type {?} */
         var startOfView = setMinutes(setHours(startOfDay(entry.event.start), dayStart.hour), dayStart.minute);
         /** @type {?} */
@@ -3943,49 +3037,36 @@ function getWeekView(_a) {
         }
         entry.height = height;
         return entry;
-    }));
+    });
     /** @type {?} */
     var eventRows = [];
     /** @type {?} */
     var allocatedEvents = [];
-    eventsMapped.forEach((/**
-     * @param {?} event
-     * @param {?} index
-     * @return {?}
-     */
-    function (event, index) {
+    eventsMapped.forEach(function (event, index) {
         if (allocatedEvents.indexOf(event) === -1) {
             allocatedEvents.push(event);
             /** @type {?} */
-            var otherRowEvents = eventsMapped.slice(index + 1).filter((/**
-             * @param {?} nextEvent
-             * @return {?}
-             */
-            function (nextEvent) {
+            var otherRowEvents = eventsMapped.slice(index + 1).filter(function (nextEvent) {
                 return nextEvent.top === event.top && nextEvent.offset === event.offset;
-            }));
+            });
             if (otherRowEvents.length > 0) {
                 /** @type {?} */
                 var totalEventsForRow = otherRowEvents.length + 1;
                 event.span = 1 / totalEventsForRow;
                 /** @type {?} */
                 var nextOffset_1 = event.span + event.offset;
-                otherRowEvents.forEach((/**
-                 * @param {?} nextEvent
-                 * @return {?}
-                 */
-                function (nextEvent) {
+                otherRowEvents.forEach(function (nextEvent) {
                     nextEvent.offset = nextOffset_1;
                     nextEvent.span = event.span;
                     nextOffset_1 = nextEvent.span + nextEvent.offset;
-                }));
+                });
                 allocatedEvents.push.apply(allocatedEvents, __spread(otherRowEvents));
             }
             eventRows.push({
                 row: __spread([event], otherRowEvents),
             });
         }
-    }));
+    });
     return eventRows;
 }
 /**
@@ -4012,11 +3093,7 @@ function getMonthView(_a) {
     var _loop_2 = function (i) {
         /** @type {?} */
         var date = addDays(start, i);
-        if (!excluded.some((/**
-         * @param {?} e
-         * @return {?}
-         */
-        function (e) { return date.getDay() === e; }))) {
+        if (!excluded.some(function (e) { return date.getDay() === e; })) {
             /** @type {?} */
             var day = (/** @type {?} */ (getWeekDay({ date: date })));
             /** @type {?} */
@@ -4066,27 +3143,14 @@ function getDayView(_a) {
     var previousDayEvents = [];
     /** @type {?} */
     var dayViewEvents = getEventsInTimeRange(getEventsInPeriod({
-        events: events.filter((/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) { return !event.allDay; })),
+        events: events.filter(function (event) { return !event.allDay; }),
         periodStart: startOfView,
         periodEnd: endOfView,
     }), dayStart, dayEnd)
-        .sort((/**
-     * @param {?} eventA
-     * @param {?} eventB
-     * @return {?}
-     */
-    function (eventA, eventB) {
+        .sort(function (eventA, eventB) {
         return eventA.start.valueOf() - eventB.start.valueOf();
-    }))
-        .map((/**
-     * @param {?} event
-     * @return {?}
-     */
-    function (event) {
+    })
+        .map(function (event) {
         /** @type {?} */
         var eventStart = event.start;
         /** @type {?} */
@@ -4118,11 +3182,7 @@ function getDayView(_a) {
         /** @type {?} */
         var bottom = top + height;
         /** @type {?} */
-        var overlappingPreviousEvents = previousDayEvents.filter((/**
-         * @param {?} previousEvent
-         * @return {?}
-         */
-        function (previousEvent) {
+        var overlappingPreviousEvents = previousDayEvents.filter(function (previousEvent) {
             /** @type {?} */
             var previousEventTop = previousEvent.top;
             /** @type {?} */
@@ -4134,14 +3194,10 @@ function getDayView(_a) {
                 return true;
             }
             return false;
-        }));
+        });
         /** @type {?} */
         var left = 0;
-        while (overlappingPreviousEvents.some((/**
-         * @param {?} previousEvent
-         * @return {?}
-         */
-        function (previousEvent) { return previousEvent.left === left; }))) {
+        while (overlappingPreviousEvents.some(function (previousEvent) { return previousEvent.left === left; })) {
             left += eventWidth;
         }
         /** @type {?} */
@@ -4158,25 +3214,13 @@ function getDayView(_a) {
             previousDayEvents.push(dayEvent);
         }
         return dayEvent;
-    }))
-        .filter((/**
-     * @param {?} dayEvent
-     * @return {?}
-     */
-    function (dayEvent) { return dayEvent.height > 0; }));
+    })
+        .filter(function (dayEvent) { return dayEvent.height > 0; });
     /** @type {?} */
-    var width = Math.max.apply(Math, __spread(dayViewEvents.map((/**
-     * @param {?} event
-     * @return {?}
-     */
-    function (event) { return event.left + event.width; }))));
+    var width = Math.max.apply(Math, __spread(dayViewEvents.map(function (event) { return event.left + event.width; })));
     /** @type {?} */
     var allDayEvents = getEventsInPeriod({
-        events: events.filter((/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) { return event.allDay; })),
+        events: events.filter(function (event) { return event.allDay; }),
         periodStart: startOfDay(startOfView),
         periodEnd: endOfDay(endOfView),
     });
@@ -4224,8 +3268,7 @@ function getDayViewHourGrid(_a) {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/month/CalendarMonthView.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Shows all events on a given month. Example usage:
@@ -4288,13 +3331,10 @@ var NovoCalendarMonthViewElement = /** @class */ (function () {
     function () {
         var _this = this;
         if (this.refresh) {
-            this.refreshSubscription = this.refresh.subscribe((/**
-             * @return {?}
-             */
-            function () {
+            this.refreshSubscription = this.refresh.subscribe(function () {
                 _this.refreshAll();
                 _this.cdr.markForCheck();
-            }));
+            });
         }
     };
     /**
@@ -4399,11 +3439,7 @@ var NovoCalendarMonthViewElement = /** @class */ (function () {
             excluded: this.excludeDays,
         });
         if (this.dayModifier) {
-            this.view.days.forEach((/**
-             * @param {?} day
-             * @return {?}
-             */
-            function (day) { return _this.dayModifier(day); }));
+            this.view.days.forEach(function (day) { return _this.dayModifier(day); });
         }
     };
     /**
@@ -4446,101 +3482,10 @@ var NovoCalendarMonthViewElement = /** @class */ (function () {
     };
     return NovoCalendarMonthViewElement;
 }());
-if (false) {
-    /**
-     * The current view date
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.viewDate;
-    /**
-     * An array of events to display on view
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.events;
-    /**
-     * An array of day indexes (0 = sunday, 1 = monday etc) that will be hidden on the view
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.excludeDays;
-    /**
-     * A function that will be called before each cell is rendered. The first argument will contain the calendar cell.
-     * If you add the `cssClass` property to the cell it will add that class to the cell in the template
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.dayModifier;
-    /**
-     * An observable that when emitted on will re-render the current view
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.refresh;
-    /**
-     * The locale used to format dates
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.locale;
-    /**
-     * The placement of the event tooltip
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.tooltipPosition;
-    /**
-     * The start number of the week
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.weekStartsOn;
-    /**
-     * A custom template to use to replace the header
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.headerTemplate;
-    /**
-     * A custom template to use to replace the day cell
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.cellTemplate;
-    /**
-     * Called when the day cell is clicked
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.dayClicked;
-    /**
-     * Called when the event title is clicked
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.eventClicked;
-    /**
-     * Called when an event is dragged and dropped
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.eventTimesChanged;
-    /** @type {?} */
-    NovoCalendarMonthViewElement.prototype.viewDateChange;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.columnHeaders;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.view;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.refreshSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoCalendarMonthViewElement.prototype.cdr;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/month/CalendarMonthHeader.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCalendarMonthHeaderElement = /** @class */ (function () {
     function NovoCalendarMonthHeaderElement() {
@@ -4586,26 +3531,10 @@ var NovoCalendarMonthHeaderElement = /** @class */ (function () {
     };
     return NovoCalendarMonthHeaderElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoCalendarMonthHeaderElement.prototype.viewDate;
-    /** @type {?} */
-    NovoCalendarMonthHeaderElement.prototype.days;
-    /** @type {?} */
-    NovoCalendarMonthHeaderElement.prototype.locale;
-    /** @type {?} */
-    NovoCalendarMonthHeaderElement.prototype.customTemplate;
-    /**
-     * Called when the view date is changed
-     * @type {?}
-     */
-    NovoCalendarMonthHeaderElement.prototype.viewDateChange;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/month/CalendarMonthDay.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCalendarMonthDayElement = /** @class */ (function () {
     function NovoCalendarMonthDayElement() {
@@ -4619,13 +3548,9 @@ var NovoCalendarMonthDayElement = /** @class */ (function () {
             if (!this.day) {
                 return [];
             }
-            return this.day.events.filter((/**
-             * @param {?} evt
-             * @return {?}
-             */
-            function (evt) {
+            return this.day.events.filter(function (evt) {
                 return evt.response === CalendarEventResponse.Accepted;
-            }));
+            });
         },
         enumerable: true,
         configurable: true
@@ -4638,13 +3563,9 @@ var NovoCalendarMonthDayElement = /** @class */ (function () {
             if (!this.day) {
                 return [];
             }
-            return this.day.events.filter((/**
-             * @param {?} evt
-             * @return {?}
-             */
-            function (evt) {
+            return this.day.events.filter(function (evt) {
                 return evt.response === CalendarEventResponse.Rejected;
-            }));
+            });
         },
         enumerable: true,
         configurable: true
@@ -4657,13 +3578,9 @@ var NovoCalendarMonthDayElement = /** @class */ (function () {
             if (!this.day) {
                 return [];
             }
-            return this.day.events.filter((/**
-             * @param {?} evt
-             * @return {?}
-             */
-            function (evt) {
+            return this.day.events.filter(function (evt) {
                 return evt.response === CalendarEventResponse.Maybe;
-            }));
+            });
         },
         enumerable: true,
         configurable: true
@@ -4696,34 +3613,16 @@ var NovoCalendarMonthDayElement = /** @class */ (function () {
     };
     return NovoCalendarMonthDayElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoCalendarMonthDayElement.prototype.day;
-    /** @type {?} */
-    NovoCalendarMonthDayElement.prototype.locale;
-    /** @type {?} */
-    NovoCalendarMonthDayElement.prototype.tooltipPosition;
-    /** @type {?} */
-    NovoCalendarMonthDayElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoCalendarMonthDayElement.prototype.eventClicked;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/week/CalendarWeekView.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @hidden
  * @type {?}
  */
 var SEGMENT_HEIGHT = 30;
-/**
- * @hidden
- * @type {?}
- */
-var MINUTES_IN_HOUR$1 = 60;
 /**
  * Shows all events on a given week. Example usage:
  *
@@ -4817,13 +3716,10 @@ var NovoCalendarWeekViewElement = /** @class */ (function () {
     function () {
         var _this = this;
         if (this.refresh) {
-            this.refreshSubscription = this.refresh.subscribe((/**
-             * @return {?}
-             */
-            function () {
+            this.refreshSubscription = this.refresh.subscribe(function () {
                 _this.refreshAll();
                 _this.cdr.detectChanges();
-            }));
+            });
         }
     };
     /**
@@ -5194,154 +4090,10 @@ var NovoCalendarWeekViewElement = /** @class */ (function () {
     };
     return NovoCalendarWeekViewElement;
 }());
-if (false) {
-    /**
-     * The current view date
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.viewDate;
-    /**
-     * An array of events to display on view
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.events;
-    /**
-     * An array of day indexes (0 = sunday, 1 = monday etc) that will be hidden on the view
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.excludeDays;
-    /**
-     * An observable that when emitted on will re-render the current view
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.refresh;
-    /**
-     * The locale used to format dates
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.locale;
-    /**
-     * The placement of the event tooltip
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.tooltipPosition;
-    /**
-     * The start number of the week
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.weekStartsOn;
-    /**
-     * A custom template to use to replace the header
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.headerTemplate;
-    /**
-     * A custom template to use for week view events
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.eventTemplate;
-    /**
-     * The precision to display events.
-     * `days` will round event start and end dates to the nearest day and `minutes` will not do this rounding
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.precision;
-    /**
-     * The number of segments in an hour. Must be <= 6
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.hourSegments;
-    /**
-     * The day start hours in 24 hour time. Must be 0-23
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.dayStartHour;
-    /**
-     * The day start minutes. Must be 0-59
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.dayStartMinute;
-    /**
-     * The day end hours in 24 hour time. Must be 0-23
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.dayEndHour;
-    /**
-     * The day end minutes. Must be 0-59
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.dayEndMinute;
-    /**
-     * A custom template to use to replace the hour segment
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.hourSegmentTemplate;
-    /**
-     * Called when an hour segment is clicked
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.hourSegmentClicked;
-    /**
-     * Called when a header week day is clicked
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.dayClicked;
-    /**
-     * Called when the event title is clicked
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.eventClicked;
-    /**
-     * Called when an event is resized or dragged and dropped
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.eventTimesChanged;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.days;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.hours;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.eventRows;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.refreshSubscription;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.currentResize;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.validateDrag;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.validateResize;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoCalendarWeekViewElement.prototype.cdr;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/week/CalendarWeekHeader.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCalendarWeekHeaderElement = /** @class */ (function () {
     function NovoCalendarWeekHeaderElement() {
@@ -5363,23 +4115,10 @@ var NovoCalendarWeekHeaderElement = /** @class */ (function () {
     };
     return NovoCalendarWeekHeaderElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoCalendarWeekHeaderElement.prototype.days;
-    /** @type {?} */
-    NovoCalendarWeekHeaderElement.prototype.locale;
-    /** @type {?} */
-    NovoCalendarWeekHeaderElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoCalendarWeekHeaderElement.prototype.dayClicked;
-    /** @type {?} */
-    NovoCalendarWeekHeaderElement.prototype.eventDropped;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/week/CalendarWeekEvent.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCalendarWeekEventElement = /** @class */ (function () {
     function NovoCalendarWeekEventElement() {
@@ -5399,32 +4138,16 @@ var NovoCalendarWeekEventElement = /** @class */ (function () {
     };
     return NovoCalendarWeekEventElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoCalendarWeekEventElement.prototype.weekEvent;
-    /** @type {?} */
-    NovoCalendarWeekEventElement.prototype.tooltipPosition;
-    /** @type {?} */
-    NovoCalendarWeekEventElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoCalendarWeekEventElement.prototype.eventClicked;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/day/CalendarDayView.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @hidden
  * @type {?}
  */
 var SEGMENT_HEIGHT$1 = 30;
-/**
- * @hidden
- * @type {?}
- */
-var MINUTES_IN_HOUR$2 = 60;
 /**
  * Shows all events on a given day. Example usage:
  *
@@ -5513,13 +4236,10 @@ var NovoCalendarDayViewElement = /** @class */ (function () {
     function () {
         var _this = this;
         if (this.refresh) {
-            this.refreshSubscription = this.refresh.subscribe((/**
-             * @return {?}
-             */
-            function () {
+            this.refreshSubscription = this.refresh.subscribe(function () {
                 _this.refreshAll();
                 _this.cdr.detectChanges();
-            }));
+            });
         }
     };
     /**
@@ -5801,17 +4521,9 @@ var NovoCalendarDayViewElement = /** @class */ (function () {
             },
         });
         if (this.hourSegmentModifier) {
-            this.hours.forEach((/**
-             * @param {?} hour
-             * @return {?}
-             */
-            function (hour) {
-                hour.segments.forEach((/**
-                 * @param {?} segment
-                 * @return {?}
-                 */
-                function (segment) { return _this.hourSegmentModifier(segment); }));
-            }));
+            this.hours.forEach(function (hour) {
+                hour.segments.forEach(function (segment) { return _this.hourSegmentModifier(segment); });
+            });
         }
     };
     /**
@@ -5885,149 +4597,10 @@ var NovoCalendarDayViewElement = /** @class */ (function () {
     };
     return NovoCalendarDayViewElement;
 }());
-if (false) {
-    /**
-     * The current view date
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.viewDate;
-    /**
-     * An array of events to display on view
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.events;
-    /**
-     * The number of segments in an hour. Must be <= 6
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.hourSegments;
-    /**
-     * The day start hours in 24 hour time. Must be 0-23
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.dayStartHour;
-    /**
-     * The day start minutes. Must be 0-59
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.dayStartMinute;
-    /**
-     * The day end hours in 24 hour time. Must be 0-23
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.dayEndHour;
-    /**
-     * The day end minutes. Must be 0-59
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.dayEndMinute;
-    /**
-     * The width in pixels of each event on the view
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.eventWidth;
-    /**
-     * An observable that when emitted on will re-render the current view
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.refresh;
-    /**
-     * The locale used to format dates
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.locale;
-    /**
-     * A function that will be called before each hour segment is called. The first argument will contain the hour segment.
-     * If you add the `cssClass` property to the segment it will add that class to the hour segment in the template
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.hourSegmentModifier;
-    /**
-     * The grid size to snap resizing and dragging of events to
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.eventSnapSize;
-    /**
-     * The placement of the event tooltip
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.tooltipPosition;
-    /**
-     * A custom template to use to replace the hour segment
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.hourSegmentTemplate;
-    /**
-     * A custom template to use for all day events
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.allDayEventTemplate;
-    /**
-     * A custom template to use for day view events
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.eventTemplate;
-    /**
-     * Called when an event title is clicked
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.eventClicked;
-    /**
-     * Called when an hour segment is clicked
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.hourSegmentClicked;
-    /**
-     * Called when an event is resized or dragged and dropped
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.eventTimesChanged;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.hours;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.view;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.width;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.refreshSubscription;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.currentResize;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.validateDrag;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.validateResize;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoCalendarDayViewElement.prototype.cdr;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/day/CalendarDayEvent.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCalendarDayEventElement = /** @class */ (function () {
     function NovoCalendarDayEventElement() {
@@ -6047,21 +4620,10 @@ var NovoCalendarDayEventElement = /** @class */ (function () {
     };
     return NovoCalendarDayEventElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoCalendarDayEventElement.prototype.dayEvent;
-    /** @type {?} */
-    NovoCalendarDayEventElement.prototype.tooltipPosition;
-    /** @type {?} */
-    NovoCalendarDayEventElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoCalendarDayEventElement.prototype.eventClicked;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/day/CalendarHourSegment.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCalendarHourSegmentElement = /** @class */ (function () {
     function NovoCalendarHourSegmentElement() {
@@ -6079,19 +4641,10 @@ var NovoCalendarHourSegmentElement = /** @class */ (function () {
     };
     return NovoCalendarHourSegmentElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoCalendarHourSegmentElement.prototype.segment;
-    /** @type {?} */
-    NovoCalendarHourSegmentElement.prototype.locale;
-    /** @type {?} */
-    NovoCalendarHourSegmentElement.prototype.customTemplate;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/day/CalendarAllDayEvent.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCalendarAllDayEventElement = /** @class */ (function () {
     function NovoCalendarAllDayEventElement() {
@@ -6110,19 +4663,10 @@ var NovoCalendarAllDayEventElement = /** @class */ (function () {
     };
     return NovoCalendarAllDayEventElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoCalendarAllDayEventElement.prototype.event;
-    /** @type {?} */
-    NovoCalendarAllDayEventElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoCalendarAllDayEventElement.prototype.eventClicked;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/Weekday.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var WeekdayPipe = /** @class */ (function () {
     function WeekdayPipe(locale) {
@@ -6155,18 +4699,10 @@ var WeekdayPipe = /** @class */ (function () {
     ]; };
     return WeekdayPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    WeekdayPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/Month.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var MonthPipe = /** @class */ (function () {
     function MonthPipe(locale) {
@@ -6199,18 +4735,10 @@ var MonthPipe = /** @class */ (function () {
     ]; };
     return MonthPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    MonthPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/MonthDay.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var MonthDayPipe = /** @class */ (function () {
     function MonthDayPipe(locale) {
@@ -6243,18 +4771,10 @@ var MonthDayPipe = /** @class */ (function () {
     ]; };
     return MonthDayPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    MonthDayPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/Year.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var YearPipe = /** @class */ (function () {
     function YearPipe(locale) {
@@ -6287,18 +4807,10 @@ var YearPipe = /** @class */ (function () {
     ]; };
     return YearPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    YearPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/Hours.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var HoursPipe = /** @class */ (function () {
     function HoursPipe(locale) {
@@ -6331,18 +4843,10 @@ var HoursPipe = /** @class */ (function () {
     ]; };
     return HoursPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    HoursPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/DayOfMonth.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var DayOfMonthPipe = /** @class */ (function () {
     function DayOfMonthPipe(locale) {
@@ -6375,18 +4879,10 @@ var DayOfMonthPipe = /** @class */ (function () {
     ]; };
     return DayOfMonthPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DayOfMonthPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/EndOfWeekDisplayPipe.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var EndOfWeekDisplayPipe = /** @class */ (function () {
     function EndOfWeekDisplayPipe(locale) {
@@ -6407,13 +4903,13 @@ var EndOfWeekDisplayPipe = /** @class */ (function () {
      * @param {?=} method
      * @return {?}
      */
-    function (endOfWeek, startOfWeek, locale, method) {
+    function (endOfWeek$$1, startOfWeek$$1, locale, method) {
         if (locale === void 0) { locale = this.locale; }
         if (method === void 0) { method = 'short'; }
-        if (endOfWeek.getMonth() === startOfWeek.getMonth()) {
-            return new Intl.DateTimeFormat(locale, { day: 'numeric' }).format(endOfWeek);
+        if (endOfWeek$$1.getMonth() === startOfWeek$$1.getMonth()) {
+            return new Intl.DateTimeFormat(locale, { day: 'numeric' }).format(endOfWeek$$1);
         }
-        return new Intl.DateTimeFormat(locale, { month: method, day: 'numeric' }).format(endOfWeek);
+        return new Intl.DateTimeFormat(locale, { month: method, day: 'numeric' }).format(endOfWeek$$1);
     };
     EndOfWeekDisplayPipe.decorators = [
         { type: Pipe, args: [{ name: 'endofweekdisplay' },] }
@@ -6424,18 +4920,10 @@ var EndOfWeekDisplayPipe = /** @class */ (function () {
     ]; };
     return EndOfWeekDisplayPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    EndOfWeekDisplayPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/Calendar.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCalendarModule = /** @class */ (function () {
     function NovoCalendarModule() {
@@ -6492,8 +4980,7 @@ var NovoCalendarModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/toast/Toast.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoToastElement = /** @class */ (function () {
     function NovoToastElement(sanitizer) {
@@ -6625,52 +5112,10 @@ var NovoToastElement = /** @class */ (function () {
     };
     return NovoToastElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoToastElement.prototype.theme;
-    /** @type {?} */
-    NovoToastElement.prototype.icon;
-    /** @type {?} */
-    NovoToastElement.prototype.title;
-    /** @type {?} */
-    NovoToastElement.prototype.hasDialogue;
-    /** @type {?} */
-    NovoToastElement.prototype.link;
-    /** @type {?} */
-    NovoToastElement.prototype.isCloseable;
-    /** @type {?} */
-    NovoToastElement.prototype.closed;
-    /** @type {?} */
-    NovoToastElement.prototype._message;
-    /** @type {?} */
-    NovoToastElement.prototype.show;
-    /** @type {?} */
-    NovoToastElement.prototype.animate;
-    /** @type {?} */
-    NovoToastElement.prototype.parent;
-    /** @type {?} */
-    NovoToastElement.prototype.launched;
-    /** @type {?} */
-    NovoToastElement.prototype.position;
-    /** @type {?} */
-    NovoToastElement.prototype.time;
-    /** @type {?} */
-    NovoToastElement.prototype.iconClass;
-    /** @type {?} */
-    NovoToastElement.prototype.alertTheme;
-    /** @type {?} */
-    NovoToastElement.prototype.embedded;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoToastElement.prototype.sanitizer;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/toast/Toast.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoToastModule = /** @class */ (function () {
     function NovoToastModule() {
@@ -6688,8 +5133,7 @@ var NovoToastModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/header/Header.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoHeaderSpacer = /** @class */ (function () {
     function NovoHeaderSpacer() {
@@ -6729,14 +5173,6 @@ var NovoUtilActionComponent = /** @class */ (function () {
     };
     return NovoUtilActionComponent;
 }());
-if (false) {
-    /** @type {?} */
-    NovoUtilActionComponent.prototype.icon;
-    /** @type {?} */
-    NovoUtilActionComponent.prototype.inverse;
-    /** @type {?} */
-    NovoUtilActionComponent.prototype.disabled;
-}
 var NovoHeaderComponent = /** @class */ (function () {
     function NovoHeaderComponent() {
         this.headerClass = 'novo-header';
@@ -6794,33 +5230,10 @@ var NovoHeaderComponent = /** @class */ (function () {
     };
     return NovoHeaderComponent;
 }());
-if (false) {
-    /** @type {?} */
-    NovoHeaderComponent.prototype.headerClass;
-    /** @type {?} */
-    NovoHeaderComponent.prototype.condensed;
-    /** @type {?} */
-    NovoHeaderComponent.prototype.title;
-    /** @type {?} */
-    NovoHeaderComponent.prototype.subTitle;
-    /** @type {?} */
-    NovoHeaderComponent.prototype.inverse;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoHeaderComponent.prototype._theme;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoHeaderComponent.prototype._icon;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/header/Header.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoHeaderModule = /** @class */ (function () {
     function NovoHeaderModule() {
@@ -6837,8 +5250,7 @@ var NovoHeaderModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tabs/Tabs.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoNavElement = /** @class */ (function () {
     function NovoNavElement() {
@@ -6862,16 +5274,10 @@ var NovoNavElement = /** @class */ (function () {
          * @return {?}
          */
         function _deactivateAllItems(items) {
-            items.forEach((/**
-             * @param {?} t
-             * @return {?}
-             */
-            function (t) {
-                if (t.active === true) {
-                    // t.deselected.next();
-                }
+            items.forEach(function (t) {
+                if (t.active === true) ;
                 t.active = false;
-            }));
+            });
         }
         _deactivateAllItems(this.items);
         item.active = true;
@@ -6883,12 +5289,9 @@ var NovoNavElement = /** @class */ (function () {
         var element = (/** @type {?} */ (document.querySelector('novo-tab-link.active span.indicator')));
         if (element) {
             element.style.opacity = 0.99;
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            setTimeout(function () {
                 element.style.opacity = 1;
-            }), 10);
+            }, 10);
         }
     };
     /**
@@ -6921,20 +5324,6 @@ var NovoNavElement = /** @class */ (function () {
     };
     return NovoNavElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoNavElement.prototype.theme;
-    /** @type {?} */
-    NovoNavElement.prototype.direction;
-    /** @type {?} */
-    NovoNavElement.prototype.outlet;
-    /** @type {?} */
-    NovoNavElement.prototype.router;
-    /** @type {?} */
-    NovoNavElement.prototype.condensed;
-    /** @type {?} */
-    NovoNavElement.prototype.items;
-}
 var NovoTabElement = /** @class */ (function () {
     function NovoTabElement(nav) {
         this.active = false;
@@ -6977,16 +5366,6 @@ var NovoTabElement = /** @class */ (function () {
     };
     return NovoTabElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoTabElement.prototype.active;
-    /** @type {?} */
-    NovoTabElement.prototype.disabled;
-    /** @type {?} */
-    NovoTabElement.prototype.activeChange;
-    /** @type {?} */
-    NovoTabElement.prototype.nav;
-}
 var NovoTabButtonElement = /** @class */ (function () {
     function NovoTabButtonElement(nav) {
         this.active = false;
@@ -7026,14 +5405,6 @@ var NovoTabButtonElement = /** @class */ (function () {
     };
     return NovoTabButtonElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoTabButtonElement.prototype.active;
-    /** @type {?} */
-    NovoTabButtonElement.prototype.disabled;
-    /** @type {?} */
-    NovoTabButtonElement.prototype.nav;
-}
 var NovoTabLinkElement = /** @class */ (function () {
     function NovoTabLinkElement(nav) {
         this.active = false;
@@ -7073,14 +5444,6 @@ var NovoTabLinkElement = /** @class */ (function () {
     };
     return NovoTabLinkElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoTabLinkElement.prototype.active;
-    /** @type {?} */
-    NovoTabLinkElement.prototype.disabled;
-    /** @type {?} */
-    NovoTabLinkElement.prototype.nav;
-}
 var NovoNavOutletElement = /** @class */ (function () {
     function NovoNavOutletElement() {
         this.items = [];
@@ -7102,16 +5465,10 @@ var NovoNavOutletElement = /** @class */ (function () {
          * @return {?}
          */
         function _deactivateAllItems(items) {
-            items.forEach((/**
-             * @param {?} t
-             * @return {?}
-             */
-            function (t) {
-                if (t.active === true) {
-                    // t.deselected.next();
-                }
+            items.forEach(function (t) {
+                if (t.active === true) ;
                 t.active = false;
-            }));
+            });
         }
         _deactivateAllItems(this.items);
         item.active = true;
@@ -7138,10 +5495,6 @@ var NovoNavOutletElement = /** @class */ (function () {
     ];
     return NovoNavOutletElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoNavOutletElement.prototype.items;
-}
 var NovoNavContentElement = /** @class */ (function () {
     function NovoNavContentElement(outlet) {
         this.active = false;
@@ -7165,10 +5518,6 @@ var NovoNavContentElement = /** @class */ (function () {
     };
     return NovoNavContentElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoNavContentElement.prototype.active;
-}
 var NovoNavHeaderElement = /** @class */ (function () {
     function NovoNavHeaderElement(outlet) {
         this.active = false;
@@ -7215,19 +5564,10 @@ var NovoNavHeaderElement = /** @class */ (function () {
     };
     return NovoNavHeaderElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoNavHeaderElement.prototype.active;
-    /** @type {?} */
-    NovoNavHeaderElement.prototype.forElement;
-    /** @type {?} */
-    NovoNavHeaderElement.prototype.outlet;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tabs/Tabs.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTabModule = /** @class */ (function () {
     function NovoTabModule() {
@@ -7260,17 +5600,13 @@ var NovoTabModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tiles/Tiles.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var TILES_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoTilesElement; })),
+    useExisting: forwardRef(function () { return NovoTilesElement; }),
     multi: true,
 };
 var NovoTilesElement = /** @class */ (function () {
@@ -7286,14 +5622,8 @@ var NovoTilesElement = /** @class */ (function () {
         this.activeTile = null;
         this.state = 'inactive';
         this.focused = false;
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
     }
     /**
      * @param {?} focus
@@ -7340,31 +5670,23 @@ var NovoTilesElement = /** @class */ (function () {
     function () {
         var _this = this;
         if (this.options && this.options.length && (this.options[0].value === undefined || this.options[0].value === null)) {
-            this._options = this.options.map((/**
-             * @param {?} x
-             * @return {?}
-             */
-            function (x) {
+            this._options = this.options.map(function (x) {
                 /** @type {?} */
                 var item = { value: x, label: x, checked: _this.model === x };
                 if (item.checked) {
                     _this.setTile(item);
                 }
                 return item;
-            }));
+            });
         }
         else {
-            this._options = this.options.map((/**
-             * @param {?} x
-             * @return {?}
-             */
-            function (x) {
-                x.checked = _this.model === x.value || (_this.model && _this.model.id === x.value);
+            this._options = this.options.map(function (x) {
+                x.checked = _this.model === x.value;
                 if (x.checked) {
                     _this.setTile(x);
                 }
                 return x;
-            }));
+            });
         }
         this.ref.markForCheck();
     };
@@ -7435,10 +5757,7 @@ var NovoTilesElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        setTimeout(function () {
             /** @type {?} */
             var ind = _this.element.nativeElement.querySelector('.active-indicator');
             /** @type {?} */
@@ -7453,7 +5772,7 @@ var NovoTilesElement = /** @class */ (function () {
                 _this.state = 'active';
                 _this.ref.markForCheck();
             }
-        }));
+        });
     };
     /**
      * @param {?} model
@@ -7506,7 +5825,7 @@ var NovoTilesElement = /** @class */ (function () {
         { type: Component, args: [{
                     selector: 'novo-tiles',
                     providers: [TILES_VALUE_ACCESSOR],
-                    template: "\n    <div class=\"tile-container\" [class.active]=\"focused\" [class.disabled]=\"disabled\">\n      <div\n        class=\"tile\"\n        *ngFor=\"let option of _options; let i = index\"\n        [ngClass]=\"{ active: option.checked, disabled: option.disabled }\"\n        (click)=\"select($event, option)\"\n        [attr.data-automation-id]=\"option.label || option\"\n      >\n        <input\n          class=\"tiles-input\"\n          [name]=\"name\"\n          type=\"radio\"\n          [value]=\"option.checked || option.value || option\"\n          [attr.id]=\"name + i\"\n          (change)=\"select($event, option)\"\n          (focus)=\"setFocus(true)\"\n          (blur)=\"setFocus(false)\"\n          [disabled]=\"disabled\"\n        />\n        <label [attr.for]=\"name + i\" [attr.data-automation-id]=\"option.label || option\">\n          {{ option.label || option }}\n        </label>\n      </div>\n      <span class=\"active-indicator\" [@tileState]=\"state\" [hidden]=\"activeTile === undefined || activeTile === null\"></span>\n    </div>\n  ",
+                    template: "\n        <div class=\"tile-container\" [class.active]=\"focused\" [class.disabled]=\"disabled\">\n            <div class=\"tile\" *ngFor=\"let option of _options; let i = index\" [ngClass]=\"{active: option.checked, disabled: option.disabled}\" (click)=\"select($event, option)\" [attr.data-automation-id]=\"option.label || option\">\n                <input class=\"tiles-input\" [name]=\"name\" type=\"radio\" [value]=\"option.checked || option\" [attr.id]=\"name + i\" (change)=\"select($event, option)\" (focus)=\"setFocus(true)\" (blur)=\"setFocus(false)\" [disabled]=\"disabled\">\n                <label [attr.for]=\"name + i\" [attr.data-automation-id]=\"option.label || option\">\n                    {{ option.label || option }}\n                </label>\n            </div>\n            <span class=\"active-indicator\" [@tileState]=\"state\" [hidden]=\"activeTile === undefined || activeTile === null\"></span>\n        </div>\n    ",
                     animations: [
                         trigger('tileState', [
                             state('inactive', style({
@@ -7538,51 +5857,10 @@ var NovoTilesElement = /** @class */ (function () {
     };
     return NovoTilesElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoTilesElement.prototype.name;
-    /** @type {?} */
-    NovoTilesElement.prototype.options;
-    /** @type {?} */
-    NovoTilesElement.prototype.required;
-    /** @type {?} */
-    NovoTilesElement.prototype.disabled;
-    /** @type {?} */
-    NovoTilesElement.prototype.onChange;
-    /** @type {?} */
-    NovoTilesElement.prototype.onSelectedOptionClick;
-    /** @type {?} */
-    NovoTilesElement.prototype.onDisabledOptionClick;
-    /** @type {?} */
-    NovoTilesElement.prototype._options;
-    /** @type {?} */
-    NovoTilesElement.prototype.activeTile;
-    /** @type {?} */
-    NovoTilesElement.prototype.state;
-    /** @type {?} */
-    NovoTilesElement.prototype.focused;
-    /** @type {?} */
-    NovoTilesElement.prototype.model;
-    /** @type {?} */
-    NovoTilesElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoTilesElement.prototype.onModelTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTilesElement.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTilesElement.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tiles/Tiles.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTilesModule = /** @class */ (function () {
     function NovoTilesModule() {
@@ -7599,8 +5877,7 @@ var NovoTilesModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/deferred/Deferred.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * A Promise that uses the deferred anti-pattern
@@ -7610,15 +5887,10 @@ function Deferred() {
     /** @type {?} */
     var temp = {};
     /** @type {?} */
-    var promise = new Promise((/**
-     * @param {?} resolve
-     * @param {?} reject
-     * @return {?}
-     */
-    function (resolve, reject) {
+    var promise = new Promise(function (resolve, reject) {
         temp.resolve = resolve;
         temp.reject = reject;
-    }));
+    });
     promise.resolve = temp.resolve;
     promise.reject = temp.reject;
     return promise;
@@ -7626,13 +5898,70 @@ function Deferred() {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/component-utils/ComponentUtils.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var ComponentUtils = /** @class */ (function () {
     function ComponentUtils(componentFactoryResolver) {
         this.componentFactoryResolver = componentFactoryResolver;
     }
+    /**
+     * @deprecated use append() instead.
+     */
+    /**
+     * @deprecated use append() instead.
+     * @param {?} ComponentClass
+     * @param {?} location
+     * @param {?=} providers
+     * @return {?}
+     */
+    ComponentUtils.prototype.appendNextToLocation = /**
+     * @deprecated use append() instead.
+     * @param {?} ComponentClass
+     * @param {?} location
+     * @param {?=} providers
+     * @return {?}
+     */
+    function (ComponentClass, location, providers) {
+        /** @type {?} */
+        var componentFactory = this.componentFactoryResolver.resolveComponentFactory(ComponentClass);
+        /** @type {?} */
+        var parentInjector = location.parentInjector;
+        /** @type {?} */
+        var childInjector = parentInjector;
+        if (providers && providers.length > 0) {
+            childInjector = ReflectiveInjector.fromResolvedProviders(providers, parentInjector);
+        }
+        return location.createComponent(componentFactory, location.length, childInjector);
+    };
+    /**
+     * @deprecated
+     */
+    /**
+     * @deprecated
+     * @param {?} ComponentClass
+     * @param {?} location
+     * @param {?=} providers
+     * @return {?}
+     */
+    ComponentUtils.prototype.appendTopOfLocation = /**
+     * @deprecated
+     * @param {?} ComponentClass
+     * @param {?} location
+     * @param {?=} providers
+     * @return {?}
+     */
+    function (ComponentClass, location, providers) {
+        /** @type {?} */
+        var componentFactory = this.componentFactoryResolver.resolveComponentFactory(ComponentClass);
+        /** @type {?} */
+        var parentInjector = location.parentInjector;
+        /** @type {?} */
+        var childInjector = parentInjector;
+        if (providers && providers.length > 0) {
+            childInjector = ReflectiveInjector.fromResolvedProviders(providers, parentInjector);
+        }
+        return location.createComponent(componentFactory, 0, childInjector);
+    };
     /**
      * @template T
      * @param {?} ComponentClass
@@ -7667,21 +5996,11 @@ var ComponentUtils = /** @class */ (function () {
     ]; };
     return ComponentUtils;
 }());
-if (false) {
-    /** @type {?} */
-    ComponentUtils.prototype.componentFactoryResolver;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/modal/Modal.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * Params that can be passed to the Modal
- * @record
- */
-function ModalParams() { }
 var NovoModalParams = /** @class */ (function () {
     function NovoModalParams() {
     }
@@ -7743,18 +6062,6 @@ var NovoModalRef = /** @class */ (function () {
     ];
     return NovoModalRef;
 }());
-if (false) {
-    /** @type {?} */
-    NovoModalRef.prototype.component;
-    /** @type {?} */
-    NovoModalRef.prototype.contentRef;
-    /** @type {?} */
-    NovoModalRef.prototype.containerRef;
-    /** @type {?} */
-    NovoModalRef.prototype.isClosed;
-    /** @type {?} */
-    NovoModalRef.prototype._onClosed;
-}
 var NovoModalContainerElement = /** @class */ (function () {
     function NovoModalContainerElement(modalRef, componentUtils) {
         this.modalRef = modalRef;
@@ -7768,12 +6075,9 @@ var NovoModalContainerElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        setTimeout(function () {
             _this.modalRef.contentRef = _this.componentUtils.append(_this.modalRef.component, _this.container);
-        }));
+        });
     };
     NovoModalContainerElement.decorators = [
         { type: Component, args: [{
@@ -7787,24 +6091,10 @@ var NovoModalContainerElement = /** @class */ (function () {
         { type: ComponentUtils }
     ]; };
     NovoModalContainerElement.propDecorators = {
-        container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef, static: false },] }]
+        container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }]
     };
     return NovoModalContainerElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoModalContainerElement.prototype.container;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoModalContainerElement.prototype.modalRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoModalContainerElement.prototype.componentUtils;
-}
 var NovoModalElement = /** @class */ (function () {
     function NovoModalElement(modalRef) {
         this.modalRef = modalRef;
@@ -7830,13 +6120,6 @@ var NovoModalElement = /** @class */ (function () {
     ]; };
     return NovoModalElement;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoModalElement.prototype.modalRef;
-}
 var NovoModalNotificationElement = /** @class */ (function () {
     function NovoModalNotificationElement(modalRef) {
         this.modalRef = modalRef;
@@ -7894,26 +6177,10 @@ var NovoModalNotificationElement = /** @class */ (function () {
     };
     return NovoModalNotificationElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoModalNotificationElement.prototype.type;
-    /** @type {?} */
-    NovoModalNotificationElement.prototype.icon;
-    /** @type {?} */
-    NovoModalNotificationElement.prototype.cancel;
-    /** @type {?} */
-    NovoModalNotificationElement.prototype.iconType;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoModalNotificationElement.prototype.modalRef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/modal/Modal.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoModalModule = /** @class */ (function () {
     function NovoModalModule() {
@@ -7931,8 +6198,7 @@ var NovoModalModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/list/List.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoListElement = /** @class */ (function () {
     function NovoListElement(element) {
@@ -7959,14 +6225,6 @@ var NovoListElement = /** @class */ (function () {
     };
     return NovoListElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoListElement.prototype.theme;
-    /** @type {?} */
-    NovoListElement.prototype.direction;
-    /** @type {?} */
-    NovoListElement.prototype.element;
-}
 var NovoListItemElement = /** @class */ (function () {
     function NovoListItemElement(element) {
         this.element = element;
@@ -7993,15 +6251,6 @@ var NovoListItemElement = /** @class */ (function () {
     ]; };
     return NovoListItemElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoListItemElement.prototype.avatar;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoListItemElement.prototype.element;
-}
 var NovoItemAvatarElement = /** @class */ (function () {
     function NovoItemAvatarElement() {
     }
@@ -8037,14 +6286,6 @@ var NovoItemAvatarElement = /** @class */ (function () {
     };
     return NovoItemAvatarElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoItemAvatarElement.prototype.icon;
-    /** @type {?} */
-    NovoItemAvatarElement.prototype.iconClass;
-    /** @type {?} */
-    NovoItemAvatarElement.prototype.classMap;
-}
 var NovoItemTitleElement = /** @class */ (function () {
     function NovoItemTitleElement() {
     }
@@ -8096,10 +6337,6 @@ var NovoItemContentElement = /** @class */ (function () {
     };
     return NovoItemContentElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoItemContentElement.prototype.direction;
-}
 var NovoItemEndElement = /** @class */ (function () {
     function NovoItemEndElement() {
     }
@@ -8114,8 +6351,7 @@ var NovoItemEndElement = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/list/List.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoListModule = /** @class */ (function () {
     function NovoListModule() {
@@ -8150,8 +6386,7 @@ var NovoListModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/outside-click/OutsideClick.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Outside click helper, makes to set the element as inactive when clicking outside of it
@@ -8240,23 +6475,10 @@ OutsideClick = /** @class */ (function () {
     };
     return OutsideClick;
 }());
-if (false) {
-    /** @type {?} */
-    OutsideClick.prototype.element;
-    /** @type {?} */
-    OutsideClick.prototype.otherElement;
-    /** @type {?} */
-    OutsideClick.prototype.active;
-    /** @type {?} */
-    OutsideClick.prototype.onOutsideClick;
-    /** @type {?} */
-    OutsideClick.prototype.onActiveChange;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/key-codes/KeyCodes.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Helper to keep track of key codes
 /** @type {?} */
@@ -8356,8 +6578,7 @@ var KeyCodes = {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/base-picker-results/BasePickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * \@name: PickerResults
@@ -8510,11 +6731,7 @@ var BasePickerResults = /** @class */ (function () {
         this.hasError = false;
         this.isLoading = true;
         this.ref.markForCheck();
-        this.search(this.term).subscribe((/**
-         * @param {?} results
-         * @return {?}
-         */
-        function (results) {
+        this.search(this.term).subscribe(function (results) {
             if (shouldReset) {
                 _this.matches = [];
             }
@@ -8530,18 +6747,11 @@ var BasePickerResults = /** @class */ (function () {
             }
             _this.isLoading = false;
             _this.ref.markForCheck();
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            setTimeout(function () {
                 _this.overlay.updatePosition();
                 _this.addScrollListener();
-            })); // @bkimball: This was added for Dylan Schulte, 9.18.2017 4:14PM EST, you're welcome!
-        }), (/**
-         * @param {?} err
-         * @return {?}
-         */
-        function (err) {
+            }); // @bkimball: This was added for Dylan Schulte, 9.18.2017 4:14PM EST, you're welcome!
+        }, function (err) {
             _this.hasError = _this.term && _this.term.length !== 0;
             _this.isLoading = false;
             _this.lastPage = true;
@@ -8549,7 +6759,7 @@ var BasePickerResults = /** @class */ (function () {
                 console.error(err); // tslint:disable-lineno
             }
             _this.ref.markForCheck();
-        }));
+        });
     };
     /**
      * @param {?} term
@@ -8565,12 +6775,7 @@ var BasePickerResults = /** @class */ (function () {
         var _this = this;
         /** @type {?} */
         var options = this.config.options;
-        return from(new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return from(new Promise(function (resolve, reject) {
             // Check if there is match data
             if (options) {
                 // Resolve the data
@@ -8626,7 +6831,7 @@ var BasePickerResults = /** @class */ (function () {
                 // No data gets rejected
                 reject('error');
             }
-        })));
+        }));
     };
     /**
      * @param {?} term
@@ -8672,22 +6877,14 @@ var BasePickerResults = /** @class */ (function () {
         /** @type {?} */
         var dataArray = collection.data ? collection.data : collection;
         if (dataArray && (typeof dataArray[0] === 'string' || typeof dataArray[0] === 'number')) {
-            return collection.map((/**
-             * @param {?} item
-             * @return {?}
-             */
-            function (item) {
+            return collection.map(function (item) {
                 return {
                     value: item,
                     label: item,
                 };
-            }));
+            });
         }
-        return dataArray.map((/**
-         * @param {?} data
-         * @return {?}
-         */
-        function (data) {
+        return dataArray.map(function (data) {
             /** @type {?} */
             var value = _this.config.field ? data[_this.config.field] : data.value || data;
             if (_this.config.valueFormat) {
@@ -8696,7 +6893,7 @@ var BasePickerResults = /** @class */ (function () {
             /** @type {?} */
             var label = _this.config.format ? Helpers.interpolate(_this.config.format, data) : data.label || String(value);
             return { value: value, label: label, data: data };
-        }));
+        });
     };
     /**
      * @name filterData=
@@ -8724,15 +6921,11 @@ var BasePickerResults = /** @class */ (function () {
     function (matches) {
         var _this = this;
         if (this.term && matches) {
-            return matches.filter((/**
-             * @param {?} match
-             * @return {?}
-             */
-            function (match) {
+            return matches.filter(function (match) {
                 return ~String(match.label)
                     .toLowerCase()
                     .indexOf(_this.term.toLowerCase());
-            }));
+            });
         }
         // Show no recent results template
         return matches;
@@ -8984,9 +7177,9 @@ var BasePickerResults = /** @class */ (function () {
      *
      * @return {?}
      */
-    function (match, query) {
+    function (match, query$$1) {
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query ? match.replace(new RegExp(this.escapeRegexp(query.trim()), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 ? match.replace(new RegExp(this.escapeRegexp(query$$1.trim()), 'gi'), '<strong>$&</strong>') : match;
     };
     /**
      * @param {?} match
@@ -9000,19 +7193,11 @@ var BasePickerResults = /** @class */ (function () {
         if (this.config.preselected) {
             /** @type {?} */
             var preselectedFunc_1 = this.config.preselected;
-            return (this.selected.findIndex((/**
-             * @param {?} item
-             * @return {?}
-             */
-            function (item) {
+            return (this.selected.findIndex(function (item) {
                 return preselectedFunc_1(match, item);
-            })) !== -1);
+            }) !== -1);
         }
-        return (this.selected.findIndex((/**
-         * @param {?} item
-         * @return {?}
-         */
-        function (item) {
+        return (this.selected.findIndex(function (item) {
             /** @type {?} */
             var isPreselected = false;
             if (item && item.value && match && match.value) {
@@ -9027,62 +7212,17 @@ var BasePickerResults = /** @class */ (function () {
                 }
             }
             return isPreselected;
-        })) !== -1);
+        }) !== -1);
     };
     BasePickerResults.propDecorators = {
         matches: [{ type: Input }]
     };
     return BasePickerResults;
 }());
-if (false) {
-    /** @type {?} */
-    BasePickerResults.prototype._term;
-    /** @type {?} */
-    BasePickerResults.prototype.selected;
-    /** @type {?} */
-    BasePickerResults.prototype.matches;
-    /** @type {?} */
-    BasePickerResults.prototype.hasError;
-    /** @type {?} */
-    BasePickerResults.prototype.isLoading;
-    /** @type {?} */
-    BasePickerResults.prototype.isStatic;
-    /** @type {?} */
-    BasePickerResults.prototype._config;
-    /** @type {?} */
-    BasePickerResults.prototype.activeMatch;
-    /** @type {?} */
-    BasePickerResults.prototype.parent;
-    /** @type {?} */
-    BasePickerResults.prototype.element;
-    /** @type {?} */
-    BasePickerResults.prototype.ref;
-    /** @type {?} */
-    BasePickerResults.prototype.page;
-    /** @type {?} */
-    BasePickerResults.prototype.lastPage;
-    /** @type {?} */
-    BasePickerResults.prototype.autoSelectFirstOption;
-    /** @type {?} */
-    BasePickerResults.prototype.overlay;
-    /** @type {?} */
-    BasePickerResults.prototype.optionsFunctionHasChanged;
-    /**
-     * @type {?}
-     * @private
-     */
-    BasePickerResults.prototype.selectingMatches;
-    /**
-     * @type {?}
-     * @private
-     */
-    BasePickerResults.prototype.scrollHandler;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/picker-results/PickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var PickerResults = /** @class */ (function (_super) {
     __extends(PickerResults, _super);
@@ -9151,15 +7291,10 @@ var PickerResults = /** @class */ (function (_super) {
     ]; };
     return PickerResults;
 }(BasePickerResults));
-if (false) {
-    /** @type {?} */
-    PickerResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/quick-note/extras/quick-note-results/QuickNoteResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var QuickNoteResults = /** @class */ (function (_super) {
     __extends(QuickNoteResults, _super);
@@ -9187,20 +7322,13 @@ var QuickNoteResults = /** @class */ (function (_super) {
             this.taggingMode = value.taggingMode;
             this.hasError = false;
             this.isLoading = true;
-            this.search(value, this.taggingMode).subscribe((/**
-             * @param {?} results
-             * @return {?}
-             */
-            function (results) {
+            this.search(value, this.taggingMode).subscribe(function (results) {
                 _this.matches = _this.isStatic ? _this.filterData(results) : results;
                 _this.isLoading = false;
-            }), (/**
-             * @return {?}
-             */
-            function () {
+            }, function () {
                 _this.hasError = true;
                 _this.isLoading = false;
-            }));
+            });
         },
         enumerable: true,
         configurable: true
@@ -9219,12 +7347,7 @@ var QuickNoteResults = /** @class */ (function (_super) {
         var _this = this;
         /** @type {?} */
         var searchCall = this.config.options[taggingMode];
-        return from(new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return from(new Promise(function (resolve, reject) {
             // Check if there is match data
             if (searchCall) {
                 // Resolve the data
@@ -9256,7 +7379,7 @@ var QuickNoteResults = /** @class */ (function (_super) {
                 // No data gets rejected
                 reject('error');
             }
-        })));
+        }));
     };
     /**
      * @name structureArray
@@ -9284,28 +7407,20 @@ var QuickNoteResults = /** @class */ (function (_super) {
     function (collection) {
         var _this = this;
         if (collection && (typeof collection[0] === 'string' || typeof collection[0] === 'number')) {
-            return collection.map((/**
-             * @param {?} item
-             * @return {?}
-             */
-            function (item) {
+            return collection.map(function (item) {
                 return {
                     value: item,
                     label: item,
                 };
-            }));
+            });
         }
-        return collection.map((/**
-         * @param {?} data
-         * @return {?}
-         */
-        function (data) {
+        return collection.map(function (data) {
             /** @type {?} */
             var value = _this.config.field ? data[_this.config.field[_this.taggingMode]] : data.value || data;
             /** @type {?} */
             var label = _this.config.format ? Helpers.interpolate(_this.config.format[_this.taggingMode], data) : data.label || String(value);
             return { value: value, label: label, data: data };
-        }));
+        });
     };
     /**
      * @name selectMatch
@@ -9357,26 +7472,16 @@ var QuickNoteResults = /** @class */ (function (_super) {
     ]; };
     return QuickNoteResults;
 }(PickerResults));
-if (false) {
-    /** @type {?} */
-    QuickNoteResults.prototype.taggingMode;
-    /** @type {?} */
-    QuickNoteResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/quick-note/QuickNote.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var QUICK_NOTE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return QuickNoteElement; })),
+    useExisting: forwardRef(function () { return QuickNoteElement; }),
     multi: true,
 };
 var QuickNoteElement = /** @class */ (function (_super) {
@@ -9393,29 +7498,16 @@ var QuickNoteElement = /** @class */ (function (_super) {
         _this.placeholderVisible = false;
         _this._placeholderElement = null;
         // in pixels - configured by stylesheet
-        _this.onModelChange = (/**
-         * @return {?}
-         */
-        function () { });
-        _this.onModelTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        _this.onModelChange = function () { };
+        _this.onModelTouched = function () { };
         // Bind to the active change event from the OutsideClick
-        _this.onActiveChange.subscribe((/**
-         * @param {?} active
-         * @return {?}
-         */
-        function (active) {
+        _this.onActiveChange.subscribe(function (active) {
             if (!active) {
-                setTimeout((/**
-                 * @return {?}
-                 */
-                function () {
+                setTimeout(function () {
                     _this.hideResults();
-                }));
+                });
             }
-        }));
+        });
         return _this;
     }
     /**
@@ -9451,15 +7543,12 @@ var QuickNoteElement = /** @class */ (function (_super) {
         // Tear down the CKEditor instance
         if (this.ckeInstance) {
             this.ckeInstance.focusManager.blur(true); // Remove focus from editor
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            setTimeout(function () {
                 _this.ckeInstance.removeAllListeners();
                 CKEDITOR.instances[_this.ckeInstance.name].destroy();
                 _this.ckeInstance.destroy();
                 _this.ckeInstance = null;
-            }));
+            });
         }
     };
     /**
@@ -9484,68 +7573,43 @@ var QuickNoteElement = /** @class */ (function (_super) {
         // Set initial value of the note in the editor
         this.writeValue(this.model);
         // Connect to the key event in CKEditor for showing results dropdown
-        this.ckeInstance.on('key', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        this.ckeInstance.on('key', function (event) {
             if (!_this.onKey(event.data.domEvent.$)) {
                 event.cancel();
             }
-        }));
+        });
         // Connect to the change event in CKEditor for debouncing user modifications
-        this.ckeInstance.on('change', (/**
-         * @return {?}
-         */
-        function () {
+        this.ckeInstance.on('change', function () {
             // Debounce update
             if (_this.debounceTimeout) {
                 clearTimeout(_this.debounceTimeout);
             }
-            _this.debounceTimeout = setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            _this.debounceTimeout = setTimeout(function () {
                 // Run within the context of this angular element since we don't need to cancel event
-                _this.zone.run((/**
-                 * @return {?}
-                 */
-                function () {
+                _this.zone.run(function () {
                     _this.onValueChange();
-                }));
+                });
                 _this.debounceTimeout = null;
-            }), 250);
-        }));
+            }, 250);
+        });
         // Propagate blur events from CKEditor to the Element's listeners
-        this.ckeInstance.on('blur', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        this.ckeInstance.on('blur', function (event) {
             _this.showPlaceholder();
             _this.blur.emit(event);
-        }));
+        });
         // Propagate blur events from CKEditor to the Element's listeners
-        this.ckeInstance.on('focus', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        this.ckeInstance.on('focus', function (event) {
             _this.hidePlaceholder();
             _this.focus.emit(event);
-        }));
+        });
         // Show placeholder if the note is empty, after the editor is instantiated
-        this.ckeInstance.on('instanceReady', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        this.ckeInstance.on('instanceReady', function (event) {
             _this.showPlaceholder();
             // Set editor to readOnly
             if (_this.config.readOnly) {
                 _this.ckeInstance.setReadOnly(_this.config.readOnly);
             }
-        }));
+        });
     };
     // Set touched on blur
     // Set touched on blur
@@ -9696,40 +7760,28 @@ var QuickNoteElement = /** @class */ (function (_super) {
             if (this.quickNoteResults) {
                 // Hide results on escape key
                 if (event.keyCode === KeyCodes.ESC) {
-                    this.zone.run((/**
-                     * @return {?}
-                     */
-                    function () {
+                    this.zone.run(function () {
                         _this.hideResults();
-                    }));
+                    });
                     return false;
                 }
                 // Navigation inside the results
                 if (event.keyCode === KeyCodes.UP) {
-                    this.zone.run((/**
-                     * @return {?}
-                     */
-                    function () {
+                    this.zone.run(function () {
                         _this.quickNoteResults.instance.prevActiveMatch();
-                    }));
+                    });
                     return false;
                 }
                 if (event.keyCode === KeyCodes.DOWN) {
-                    this.zone.run((/**
-                     * @return {?}
-                     */
-                    function () {
+                    this.zone.run(function () {
                         _this.quickNoteResults.instance.nextActiveMatch();
-                    }));
+                    });
                     return false;
                 }
                 if (event.keyCode === KeyCodes.ENTER) {
-                    this.zone.run((/**
-                     * @return {?}
-                     */
-                    function () {
+                    this.zone.run(function () {
                         _this.quickNoteResults.instance.selectActiveMatch();
-                    }));
+                    });
                     return false;
                 }
             }
@@ -9737,18 +7789,14 @@ var QuickNoteElement = /** @class */ (function (_super) {
                 // Loop through all triggers and turn on tagging mode if the user just pressed a trigger character
                 /** @type {?} */
                 var triggers_1 = this.config.triggers || {};
-                Object.keys(triggers_1).forEach((/**
-                 * @param {?} key
-                 * @return {?}
-                 */
-                function (key) {
+                Object.keys(triggers_1).forEach(function (key) {
                     /** @type {?} */
-                    var trigger = triggers_1[key] || {};
-                    if (event.key === trigger) {
+                    var trigger$$1 = triggers_1[key] || {};
+                    if (event.key === trigger$$1) {
                         _this.isTagging = true;
                         _this.taggingMode = key;
                     }
-                }));
+                });
             }
         }
         return true;
@@ -9903,11 +7951,7 @@ var QuickNoteElement = /** @class */ (function (_super) {
         this.model.references = this.model.references || {};
         this.model.references[taggingMode] = this.model.references[taggingMode] || [];
         /** @type {?} */
-        var matchingItems = this.model.references[taggingMode].filter((/**
-         * @param {?} item
-         * @return {?}
-         */
-        function (item) { return JSON.stringify(item) === JSON.stringify(selected); }));
+        var matchingItems = this.model.references[taggingMode].filter(function (item) { return JSON.stringify(item) === JSON.stringify(selected); });
         if (matchingItems.length === 0) {
             this.model.references[taggingMode].push(selected);
         }
@@ -10072,31 +8116,23 @@ var QuickNoteElement = /** @class */ (function (_super) {
         /** @type {?} */
         var ampRegex = new RegExp('&amp;', 'g');
         html = html.replace(ampRegex, '&');
-        Object.keys(this.model.references).forEach((/**
-         * @param {?} taggingMode
-         * @return {?}
-         */
-        function (taggingMode) {
+        Object.keys(this.model.references).forEach(function (taggingMode) {
             /** @type {?} */
             var array = _this.model.references[taggingMode] || [];
             /** @type {?} */
             var symbol = _this.config.triggers[taggingMode];
             /** @type {?} */
             var renderer = _this.getRenderer(taggingMode);
-            _this.model.references[taggingMode] = array.filter((/**
-             * @param {?} item
-             * @return {?}
-             */
-            function (item) {
+            _this.model.references[taggingMode] = array.filter(function (item) {
                 /** @type {?} */
                 var renderedText = renderer(symbol, item);
                 return html.includes(renderedText);
-            }));
+            });
             // If no references, then delete the key
             if (_this.model.references[taggingMode].length === 0) {
                 delete _this.model.references[taggingMode];
             }
-        }));
+        });
     };
     /**
      * Configures the CKEditor for QuickNote functionality.
@@ -10324,7 +8360,7 @@ var QuickNoteElement = /** @class */ (function (_super) {
         { type: Component, args: [{
                     selector: 'novo-quick-note',
                     providers: [QUICK_NOTE_VALUE_ACCESSOR],
-                    template: "\n    <div class=\"quick-note-wrapper\" #wrapper><textarea #host></textarea> <span #results></span></div>\n  "
+                    template: "\n        <div class=\"quick-note-wrapper\" #wrapper>\n            <textarea #host></textarea>\n            <span #results></span>\n        </div>\n    "
                 }] }
     ];
     /** @nocollapse */
@@ -10334,9 +8370,9 @@ var QuickNoteElement = /** @class */ (function (_super) {
         { type: ComponentUtils }
     ]; };
     QuickNoteElement.propDecorators = {
-        wrapper: [{ type: ViewChild, args: ['wrapper', { static: true },] }],
-        host: [{ type: ViewChild, args: ['host', { static: true },] }],
-        results: [{ type: ViewChild, args: ['results', { read: ViewContainerRef, static: true },] }],
+        wrapper: [{ type: ViewChild, args: ['wrapper',] }],
+        host: [{ type: ViewChild, args: ['host',] }],
+        results: [{ type: ViewChild, args: ['results', { read: ViewContainerRef },] }],
         config: [{ type: Input }],
         startupFocus: [{ type: Input }],
         placeholder: [{ type: Input }],
@@ -10346,101 +8382,10 @@ var QuickNoteElement = /** @class */ (function (_super) {
     };
     return QuickNoteElement;
 }(OutsideClick));
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.TOOLBAR_HEIGHT;
-    /** @type {?} */
-    QuickNoteElement.prototype.wrapper;
-    /** @type {?} */
-    QuickNoteElement.prototype.host;
-    /** @type {?} */
-    QuickNoteElement.prototype.results;
-    /** @type {?} */
-    QuickNoteElement.prototype.config;
-    /** @type {?} */
-    QuickNoteElement.prototype.startupFocus;
-    /** @type {?} */
-    QuickNoteElement.prototype.placeholder;
-    /** @type {?} */
-    QuickNoteElement.prototype.focus;
-    /** @type {?} */
-    QuickNoteElement.prototype.blur;
-    /** @type {?} */
-    QuickNoteElement.prototype.change;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.resultsComponent;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.quickNoteResults;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.isTagging;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.taggingMode;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.model;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.ckeInstance;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.debounceTimeout;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.placeholderVisible;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype._placeholderElement;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.onModelChange;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.onModelTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.zone;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.componentUtils;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/quick-note/QuickNote.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoQuickNoteModule = /** @class */ (function () {
     function NovoQuickNoteModule() {
@@ -10458,17 +8403,13 @@ var NovoQuickNoteModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/radio/Radio.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var RADIO_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoRadioElement; })),
+    useExisting: forwardRef(function () { return NovoRadioElement; }),
     multi: true,
 };
 var NovoRadioGroup = /** @class */ (function () {
@@ -10489,14 +8430,8 @@ var NovoRadioElement = /** @class */ (function () {
         this.theme = 'secondary';
         this.disabled = false;
         this.change = new EventEmitter();
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
     }
     /**
      * @param {?} event
@@ -10589,44 +8524,10 @@ var NovoRadioElement = /** @class */ (function () {
     };
     return NovoRadioElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoRadioElement.prototype.name;
-    /** @type {?} */
-    NovoRadioElement.prototype.value;
-    /** @type {?} */
-    NovoRadioElement.prototype.checked;
-    /** @type {?} */
-    NovoRadioElement.prototype.vertical;
-    /** @type {?} */
-    NovoRadioElement.prototype.label;
-    /** @type {?} */
-    NovoRadioElement.prototype.button;
-    /** @type {?} */
-    NovoRadioElement.prototype.theme;
-    /** @type {?} */
-    NovoRadioElement.prototype.icon;
-    /** @type {?} */
-    NovoRadioElement.prototype.disabled;
-    /** @type {?} */
-    NovoRadioElement.prototype.change;
-    /** @type {?} */
-    NovoRadioElement.prototype.model;
-    /** @type {?} */
-    NovoRadioElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoRadioElement.prototype.onModelTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoRadioElement.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/radio/Radio.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoRadioModule = /** @class */ (function () {
     function NovoRadioModule() {
@@ -10643,8 +8544,7 @@ var NovoRadioModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/overlay/Overlay.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoOverlayTemplateComponent = /** @class */ (function () {
     function NovoOverlayTemplateComponent(overlay, viewContainerRef, zone, changeDetectorRef, document) {
@@ -10716,14 +8616,11 @@ var NovoOverlayTemplateComponent = /** @class */ (function () {
             this.closingActionsSubscription = this.subscribeToClosingActions();
         }
         this.changeDetectorRef.markForCheck();
-        setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        setTimeout(function () {
             if (_this.overlayRef) {
                 _this.overlayRef.updatePosition();
             }
-        }));
+        });
     };
     /**
      * @return {?}
@@ -10733,10 +8630,7 @@ var NovoOverlayTemplateComponent = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this.zone.run((/**
-         * @return {?}
-         */
-        function () {
+        this.zone.run(function () {
             if (_this.overlayRef && _this.overlayRef.hasAttached()) {
                 _this.overlayRef.detach();
                 _this.closingActionsSubscription.unsubscribe();
@@ -10745,7 +8639,7 @@ var NovoOverlayTemplateComponent = /** @class */ (function () {
             if (_this.panelOpen) {
                 _this.changeDetectorRef.markForCheck();
             }
-        }));
+        });
     };
     /**
      * @param {?} event
@@ -10788,11 +8682,7 @@ var NovoOverlayTemplateComponent = /** @class */ (function () {
             if (!this.document) {
                 return of();
             }
-            return merge(fromEvent(this.document, 'mousedown'), fromEvent(this.document, 'touchend')).pipe(filter((/**
-             * @param {?} event
-             * @return {?}
-             */
-            function (event) {
+            return merge(fromEvent(this.document, 'mousedown'), fromEvent(this.document, 'touchend')).pipe(filter(function (event) {
                 /** @type {?} */
                 var clickTarget = (/** @type {?} */ (event.target));
                 /** @type {?} */
@@ -10804,7 +8694,7 @@ var NovoOverlayTemplateComponent = /** @class */ (function () {
                     _this.select.emit(event);
                 }
                 return clicked;
-            })));
+            }));
         },
         enumerable: true,
         configurable: true
@@ -10835,20 +8725,13 @@ var NovoOverlayTemplateComponent = /** @class */ (function () {
             .pipe(
         // create a new stream of panelClosingActions, replacing any previous streams
         // that were created, and flatten it so our stream only emits closing events...
-        switchMap((/**
-         * @return {?}
-         */
-        function () {
+        switchMap(function () {
             return _this.panelClosingActions;
-        })), 
+        }), 
         // when the first closing event occurs...
         first())
             // set the value, close the panel, and complete.
-            .subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) { return _this.onClosingAction(event); })));
+            .subscribe(function (event) { return _this.onClosingAction(event); }));
     };
     /**
      * @protected
@@ -10864,10 +8747,7 @@ var NovoOverlayTemplateComponent = /** @class */ (function () {
         var _this = this;
         this.portal = new TemplatePortal(template, this.viewContainerRef);
         this.overlayRef = this.overlay.create(this.getOverlayConfig());
-        this.overlayRef.backdropClick().subscribe((/**
-         * @return {?}
-         */
-        function () { return _this.closePanel(); }));
+        this.overlayRef.backdropClick().subscribe(function () { return _this.closePanel(); });
     };
     /**
      * @protected
@@ -11021,7 +8901,7 @@ var NovoOverlayTemplateComponent = /** @class */ (function () {
     NovoOverlayTemplateComponent.decorators = [
         { type: Component, args: [{
                     selector: 'novo-overlay-template',
-                    template: "\n    <ng-template>\n      <div class=\"novo-overlay-panel\" role=\"listbox\" [id]=\"id\" #panel><ng-content></ng-content></div>\n    </ng-template>\n  ",
+                    template: "\n    <ng-template>\n      <div class=\"novo-overlay-panel\" role=\"listbox\" [id]=\"id\" #panel>\n        <ng-content></ng-content>\n      </div>\n    </ng-template>\n  ",
                     changeDetection: ChangeDetectionStrategy.OnPush
                 }] }
     ];
@@ -11034,8 +8914,8 @@ var NovoOverlayTemplateComponent = /** @class */ (function () {
         { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] }] }
     ]; };
     NovoOverlayTemplateComponent.propDecorators = {
-        template: [{ type: ViewChild, args: [TemplateRef, { static: false },] }],
-        panel: [{ type: ViewChild, args: ['panel', { static: false },] }],
+        template: [{ type: ViewChild, args: [TemplateRef,] }],
+        panel: [{ type: ViewChild, args: ['panel',] }],
         position: [{ type: Input }],
         scrollStrategy: [{ type: Input }],
         width: [{ type: Input }],
@@ -11047,72 +8927,10 @@ var NovoOverlayTemplateComponent = /** @class */ (function () {
     };
     return NovoOverlayTemplateComponent;
 }());
-if (false) {
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.id;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.template;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.panel;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.position;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.scrollStrategy;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.width;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.height;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.closeOnSelect;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.select;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.closing;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.overlayRef;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.portal;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoOverlayTemplateComponent.prototype.closingActionsSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoOverlayTemplateComponent.prototype._parent;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoOverlayTemplateComponent.prototype.overlay;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoOverlayTemplateComponent.prototype.viewContainerRef;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoOverlayTemplateComponent.prototype.zone;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoOverlayTemplateComponent.prototype.changeDetectorRef;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoOverlayTemplateComponent.prototype.document;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/notifier/notifier.util.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 var notifications = {};
@@ -11130,8 +8948,7 @@ function notify(message) {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/dropdown/Dropdown.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoDropdownElement = /** @class */ (function () {
     function NovoDropdownElement(element, ref) {
@@ -11193,13 +9010,9 @@ var NovoDropdownElement = /** @class */ (function () {
         function (items) {
             this._items = items;
             // Get the innerText of all the items to allow for searching
-            this._textItems = items.map((/**
-             * @param {?} item
-             * @return {?}
-             */
-            function (item) {
+            this._textItems = items.map(function (item) {
                 return item.element.nativeElement.innerText;
-            }));
+            });
         },
         enumerable: true,
         configurable: true
@@ -11326,23 +9139,16 @@ var NovoDropdownElement = /** @class */ (function () {
             // A-Z, 0-9, space -- filter the list and scroll to active filter
             // filter has hard reset after 2s
             clearTimeout(this.filterTermTimeout);
-            this.filterTermTimeout = setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            this.filterTermTimeout = setTimeout(function () {
                 _this.filterTerm = '';
-            }), 2000);
+            }, 2000);
             /** @type {?} */
             var char = String.fromCharCode(event.keyCode);
             this.filterTerm = this.filterTerm.concat(char);
             /** @type {?} */
-            var index = this._textItems.findIndex((/**
-             * @param {?} value
-             * @return {?}
-             */
-            function (value) {
+            var index = this._textItems.findIndex(function (value) {
                 return new RegExp("^" + _this.filterTerm.toLowerCase()).test(value.trim().toLowerCase());
-            }));
+            });
             if (index !== -1) {
                 if (this.activeIndex !== -1) {
                     this._items.toArray()[this.activeIndex].active = false;
@@ -11356,12 +9162,9 @@ var NovoDropdownElement = /** @class */ (function () {
             Helpers.swallowEvent(event);
             // backspace, delete -- remove partial filters
             clearTimeout(this.filterTermTimeout);
-            this.filterTermTimeout = setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            this.filterTermTimeout = setTimeout(function () {
                 _this.filterTerm = '';
-            }), 2000);
+            }, 2000);
             this.filterTerm = this.filterTerm.slice(0, -1);
         }
     };
@@ -11417,71 +9220,11 @@ var NovoDropdownElement = /** @class */ (function () {
         width: [{ type: Input }],
         appendToBody: [{ type: Input }],
         toggled: [{ type: Output }],
-        overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: false },] }],
+        overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }],
         onKeyDown: [{ type: HostListener, args: ['keydown', ['$event'],] }]
     };
     return NovoDropdownElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDropdownElement.prototype.parentScrollSelector;
-    /** @type {?} */
-    NovoDropdownElement.prototype.parentScrollAction;
-    /** @type {?} */
-    NovoDropdownElement.prototype.containerClass;
-    /** @type {?} */
-    NovoDropdownElement.prototype.side;
-    /** @type {?} */
-    NovoDropdownElement.prototype.scrollStrategy;
-    /** @type {?} */
-    NovoDropdownElement.prototype.height;
-    /** @type {?} */
-    NovoDropdownElement.prototype.width;
-    /** @type {?} */
-    NovoDropdownElement.prototype.appendToBody;
-    /** @type {?} */
-    NovoDropdownElement.prototype.toggled;
-    /** @type {?} */
-    NovoDropdownElement.prototype.overlay;
-    /** @type {?} */
-    NovoDropdownElement.prototype.clickHandler;
-    /** @type {?} */
-    NovoDropdownElement.prototype.closeHandler;
-    /** @type {?} */
-    NovoDropdownElement.prototype.parentScrollElement;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDropdownElement.prototype._items;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDropdownElement.prototype._textItems;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDropdownElement.prototype.activeIndex;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDropdownElement.prototype.filterTerm;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDropdownElement.prototype.filterTermTimeout;
-    /** @type {?} */
-    NovoDropdownElement.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDropdownElement.prototype.ref;
-}
 var NovoItemElement = /** @class */ (function () {
     function NovoItemElement(dropdown, element) {
         this.dropdown = dropdown;
@@ -11532,23 +9275,6 @@ var NovoItemElement = /** @class */ (function () {
     };
     return NovoItemElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoItemElement.prototype.disabled;
-    /** @type {?} */
-    NovoItemElement.prototype.keepOpen;
-    /** @type {?} */
-    NovoItemElement.prototype.action;
-    /** @type {?} */
-    NovoItemElement.prototype.active;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoItemElement.prototype.dropdown;
-    /** @type {?} */
-    NovoItemElement.prototype.element;
-}
 var NovoListElement$1 = /** @class */ (function () {
     function NovoListElement(dropdown) {
         this.dropdown = dropdown;
@@ -11577,15 +9303,6 @@ var NovoListElement$1 = /** @class */ (function () {
     };
     return NovoListElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoListElement$1.prototype.items;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoListElement$1.prototype.dropdown;
-}
 var NovoItemHeaderElement$1 = /** @class */ (function () {
     function NovoItemHeaderElement() {
     }
@@ -11600,8 +9317,7 @@ var NovoItemHeaderElement$1 = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/overlay/Overlay.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoOverlayModule = /** @class */ (function () {
     function NovoOverlayModule() {
@@ -11618,8 +9334,7 @@ var NovoOverlayModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/dropdown/Dropdown.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoDropdownModule = /** @class */ (function () {
     function NovoDropdownModule() {
@@ -11636,17 +9351,13 @@ var NovoDropdownModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/select/Select.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoSelectElement; })),
+    useExisting: forwardRef(function () { return NovoSelectElement; }),
     multi: true,
 };
 var NovoSelectElement = /** @class */ (function () {
@@ -11665,14 +9376,8 @@ var NovoSelectElement = /** @class */ (function () {
             valid: true,
             value: '',
         };
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
         this.filterTerm = '';
         this.disabled = false;
     }
@@ -11684,20 +9389,13 @@ var NovoSelectElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this.focusMonitor.monitor(this.dropdown.nativeElement).subscribe((/**
-         * @param {?} origin
-         * @return {?}
-         */
-        function (origin) {
-            return _this.ngZone.run((/**
-             * @return {?}
-             */
-            function () {
+        this.focusMonitor.monitor(this.dropdown.nativeElement).subscribe(function (origin) {
+            return _this.ngZone.run(function () {
                 if (origin === 'keyboard' && !_this.disabled) {
                     _this.openPanel();
                 }
-            }));
-        }));
+            });
+        });
         this.ngOnChanges();
     };
     /**
@@ -11712,41 +9410,25 @@ var NovoSelectElement = /** @class */ (function () {
         var _this = this;
         this.readonly = this.readonly === true;
         if (this.options && this.options.length && typeof this.options[0] === 'string') {
-            this.filteredOptions = this.options.map((/**
-             * @param {?} item
-             * @return {?}
-             */
-            function (item) {
+            this.filteredOptions = this.options.map(function (item) {
                 return { value: item, label: item };
-            }));
+            });
         }
         else {
             this.filteredOptions = (this.options || [])
-                .filter((/**
-             * @param {?} item
-             * @return {?}
-             */
-            function (item) {
+                .filter(function (item) {
                 return !item.readOnly;
-            }))
-                .map((/**
-             * @param {?} element
-             * @return {?}
-             */
-            function (element) {
+            })
+                .map(function (element) {
                 return __assign({}, element, { active: false });
-            }));
+            });
         }
         if (!this.model && !this.createdItem) {
             this.clear();
         }
         else if (this.createdItem) {
             /** @type {?} */
-            var item = this.options.find((/**
-             * @param {?} i
-             * @return {?}
-             */
-            function (i) { return i.label === _this.createdItem; }));
+            var item = this.options.find(function (i) { return i.label === _this.createdItem; });
             /** @type {?} */
             var index = this.options.indexOf(item);
             this.select(item, index);
@@ -11800,12 +9482,9 @@ var NovoSelectElement = /** @class */ (function () {
             this.closePanel();
         }
         else {
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            setTimeout(function () {
                 _this.dropdown.nativeElement.focus();
-            }));
+            });
             this.openPanel();
         }
     };
@@ -11959,21 +9638,14 @@ var NovoSelectElement = /** @class */ (function () {
                 this.openPanel();
             }
             clearTimeout(this.filterTermTimeout);
-            this.filterTermTimeout = setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            this.filterTermTimeout = setTimeout(function () {
                 _this.filterTerm = '';
-            }), 2000);
+            }, 2000);
             /** @type {?} */
             var char = String.fromCharCode(event.keyCode);
             this.filterTerm = this.filterTerm.concat(char);
             /** @type {?} */
-            var item = this.filteredOptions.find((/**
-             * @param {?} i
-             * @return {?}
-             */
-            function (i) { return i.label.toUpperCase().indexOf(_this.filterTerm) === 0; }));
+            var item = this.filteredOptions.find(function (i) { return i.label.toUpperCase().indexOf(_this.filterTerm) === 0; });
             if (item) {
                 this.select(item, this.filteredOptions.indexOf(item));
                 this.scrollToSelected();
@@ -11981,12 +9653,9 @@ var NovoSelectElement = /** @class */ (function () {
         }
         else if ([KeyCodes.BACKSPACE, KeyCodes.DELETE].includes(event.keyCode)) {
             clearTimeout(this.filterTermTimeout);
-            this.filterTermTimeout = setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            this.filterTermTimeout = setTimeout(function () {
                 _this.filterTerm = '';
-            }), 2000);
+            }, 2000);
             this.filterTerm = this.filterTerm.slice(0, -1);
         }
     };
@@ -12053,9 +9722,9 @@ var NovoSelectElement = /** @class */ (function () {
      * @param {?} query
      * @return {?}
      */
-    function (match, query) {
+    function (match, query$$1) {
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query ? match.replace(new RegExp(this.escapeRegexp(query), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
     };
     /**
      * @param {?} queryToEscape
@@ -12097,11 +9766,7 @@ var NovoSelectElement = /** @class */ (function () {
         this.model = model;
         if (this.options) {
             /** @type {?} */
-            var item = this.filteredOptions.find((/**
-             * @param {?} i
-             * @return {?}
-             */
-            function (i) { return i.value === model || (model && i.value === model.id); }));
+            var item = this.filteredOptions.find(function (i) { return i.value === model || (model && i.value === model.id); });
             if (!item && !Helpers.isEmpty(model)) {
                 item = {
                     label: model,
@@ -12158,7 +9823,7 @@ var NovoSelectElement = /** @class */ (function () {
         { type: Component, args: [{
                     selector: 'novo-select',
                     providers: [SELECT_VALUE_ACCESSOR],
-                    template: "\n    <div #dropdownElement (click)=\"togglePanel(); (false)\" tabIndex=\"{{ disabled ? -1 : 0 }}\" type=\"button\" [class.empty]=\"empty\">\n      {{ selected.label }}<i class=\"bhi-collapse\"></i>\n    </div>\n    <novo-overlay-template [parent]=\"element\" position=\"center\" (closing)=\"dropdown.nativeElement.focus()\">\n      <ul class=\"novo-select-list\" tabIndex=\"-1\" [class.header]=\"headerConfig\" [class.active]=\"panelOpen\">\n        <ng-content></ng-content>\n        <li *ngIf=\"headerConfig\" class=\"select-header\" [class.open]=\"header.open\">\n          <button *ngIf=\"!header.open\" (click)=\"toggleHeader($event); (false)\" tabIndex=\"-1\" type=\"button\" class=\"header\">\n            <i class=\"bhi-add-thin\"></i>&nbsp;{{ headerConfig.label }}\n          </button>\n          <div *ngIf=\"header.open\" [ngClass]=\"{ active: header.open }\">\n            <input\n              autofocus\n              type=\"text\"\n              [placeholder]=\"headerConfig.placeholder\"\n              [attr.id]=\"name\"\n              autocomplete=\"false\"\n              [(ngModel)]=\"header.value\"\n              [ngClass]=\"{ invalid: !header.valid }\"\n            />\n            <footer>\n              <button (click)=\"toggleHeader($event, false)\">{{ labels.cancel }}</button>\n              <button (click)=\"saveHeader()\" class=\"primary\">{{ labels.save }}</button>\n            </footer>\n          </div>\n        </li>\n        <li\n          *ngFor=\"let option of filteredOptions; let i = index\"\n          [ngClass]=\"{ active: option.active }\"\n          (click)=\"setValueAndClose({ value: option, index: i })\"\n          [attr.data-automation-value]=\"option.label\"\n        >\n          <span [innerHtml]=\"highlight(option.label, filterTerm)\"></span> <i *ngIf=\"option.active\" class=\"bhi-check\"></i>\n        </li>\n      </ul>\n    </novo-overlay-template>\n  ",
+                    template: "\n    <div #dropdownElement (click)=\"togglePanel(); (false)\" tabIndex=\"{{ disabled ? -1 : 0 }}\" type=\"button\" [class.empty]=\"empty\">\n      {{ selected.label }}<i class=\"bhi-collapse\"></i>\n    </div>\n    <novo-overlay-template [parent]=\"element\" position=\"center\" (closing)=\"dropdown.nativeElement.focus()\">\n      <ul class=\"novo-select-list\" tabIndex=\"-1\" [class.header]=\"headerConfig\" [class.active]=\"panelOpen\">\n        <ng-content></ng-content>\n        <li *ngIf=\"headerConfig\" class=\"select-header\" [class.open]=\"header.open\">\n          <button *ngIf=\"!header.open\" (click)=\"toggleHeader($event); (false)\" tabIndex=\"-1\" type=\"button\" class=\"header\">\n            <i class=\"bhi-add-thin\"></i>&nbsp;{{ headerConfig.label }}\n          </button>\n          <div *ngIf=\"header.open\" [ngClass]=\"{ active: header.open }\">\n            <input\n              autofocus\n              type=\"text\"\n              [placeholder]=\"headerConfig.placeholder\"\n              [attr.id]=\"name\"\n              autocomplete=\"false\"\n              [(ngModel)]=\"header.value\"\n              [ngClass]=\"{ invalid: !header.valid }\"\n            />\n            <footer>\n              <button (click)=\"toggleHeader($event, false)\">{{ labels.cancel }}</button>\n              <button (click)=\"saveHeader()\" class=\"primary\">{{ labels.save }}</button>\n            </footer>\n          </div>\n        </li>\n        <li\n          *ngFor=\"let option of filteredOptions; let i = index\"\n          [ngClass]=\"{ active: option.active }\"\n          (click)=\"setValueAndClose({ value: option, index: i })\"\n          [attr.data-automation-value]=\"option.label\"\n        >\n          <span [innerHtml]=\"highlight(option.label, filterTerm)\"></span>\n          <i *ngIf=\"option.active\" class=\"bhi-check\"></i>\n        </li>\n      </ul>\n    </novo-overlay-template>\n  ",
                     host: {
                         '(keydown)': 'onKeyDown($event)',
                     }
@@ -12179,78 +9844,16 @@ var NovoSelectElement = /** @class */ (function () {
         readonly: [{ type: Input }],
         headerConfig: [{ type: Input }],
         onSelect: [{ type: Output }],
-        overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: true },] }],
-        dropdown: [{ type: ViewChild, args: ['dropdownElement', { static: true },] }],
+        overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }],
+        dropdown: [{ type: ViewChild, args: ['dropdownElement',] }],
         onKeyDown: [{ type: HostListener, args: ['keydown', ['$event'],] }]
     };
     return NovoSelectElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoSelectElement.prototype.name;
-    /** @type {?} */
-    NovoSelectElement.prototype.options;
-    /** @type {?} */
-    NovoSelectElement.prototype.placeholder;
-    /** @type {?} */
-    NovoSelectElement.prototype.readonly;
-    /** @type {?} */
-    NovoSelectElement.prototype.headerConfig;
-    /** @type {?} */
-    NovoSelectElement.prototype.onSelect;
-    /** @type {?} */
-    NovoSelectElement.prototype.selectedIndex;
-    /** @type {?} */
-    NovoSelectElement.prototype.empty;
-    /** @type {?} */
-    NovoSelectElement.prototype.header;
-    /** @type {?} */
-    NovoSelectElement.prototype.createdItem;
-    /** @type {?} */
-    NovoSelectElement.prototype.selected;
-    /** @type {?} */
-    NovoSelectElement.prototype.model;
-    /** @type {?} */
-    NovoSelectElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoSelectElement.prototype.onModelTouched;
-    /** @type {?} */
-    NovoSelectElement.prototype.filterTerm;
-    /** @type {?} */
-    NovoSelectElement.prototype.filterTermTimeout;
-    /** @type {?} */
-    NovoSelectElement.prototype.filteredOptions;
-    /** @type {?} */
-    NovoSelectElement.prototype.disabled;
-    /**
-     * Element for the panel containing the autocomplete options.
-     * @type {?}
-     */
-    NovoSelectElement.prototype.overlay;
-    /** @type {?} */
-    NovoSelectElement.prototype.dropdown;
-    /** @type {?} */
-    NovoSelectElement.prototype.element;
-    /** @type {?} */
-    NovoSelectElement.prototype.labels;
-    /** @type {?} */
-    NovoSelectElement.prototype.ref;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSelectElement.prototype.focusMonitor;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSelectElement.prototype.ngZone;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/select/Select.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoSelectModule = /** @class */ (function () {
     function NovoSelectModule() {
@@ -12267,17 +9870,13 @@ var NovoSelectModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/switch/Switch.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var SWITCH_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoSwitchElement; })),
+    useExisting: forwardRef(function () { return NovoSwitchElement; }),
     multi: true,
 };
 var NovoSwitchElement = /** @class */ (function () {
@@ -12285,14 +9884,8 @@ var NovoSwitchElement = /** @class */ (function () {
         this.ref = ref;
         this.onChange = new EventEmitter();
         this._disabled = false;
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
     }
     Object.defineProperty(NovoSwitchElement.prototype, "disabled", {
         get: /**
@@ -12405,30 +9998,10 @@ var NovoSwitchElement = /** @class */ (function () {
     };
     return NovoSwitchElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoSwitchElement.prototype.theme;
-    /** @type {?} */
-    NovoSwitchElement.prototype.onChange;
-    /** @type {?} */
-    NovoSwitchElement.prototype._disabled;
-    /** @type {?} */
-    NovoSwitchElement.prototype.model;
-    /** @type {?} */
-    NovoSwitchElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoSwitchElement.prototype.onModelTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSwitchElement.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/switch/Switch.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoSwitchModule = /** @class */ (function () {
     function NovoSwitchModule() {
@@ -12445,17 +10018,13 @@ var NovoSwitchModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/Picker.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var PICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoPickerElement; })),
+    useExisting: forwardRef(function () { return NovoPickerElement; }),
     multi: true,
 };
 /**
@@ -12489,14 +10058,8 @@ var NovoPickerElement = /** @class */ (function () {
         this.blur = new EventEmitter();
         this.typing = new EventEmitter();
         this.term = '';
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
     }
     Object.defineProperty(NovoPickerElement.prototype, "disablePickerInput", {
         get: /**
@@ -12538,26 +10101,10 @@ var NovoPickerElement = /** @class */ (function () {
         // let input = this.element.nativeElement.querySelector('input');
         /** @type {?} */
         var pasteObserver = fromEvent(this.input.nativeElement, 'paste').pipe(debounceTime(250), distinctUntilChanged());
-        pasteObserver.subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) { return _this.onDebouncedKeyup(event); }), (/**
-         * @param {?} err
-         * @return {?}
-         */
-        function (err) { return _this.hideResults(err); }));
+        pasteObserver.subscribe(function (event) { return _this.onDebouncedKeyup(event); }, function (err) { return _this.hideResults(err); });
         /** @type {?} */
         var keyboardObserver = fromEvent(this.input.nativeElement, 'keyup').pipe(debounceTime(250), distinctUntilChanged());
-        keyboardObserver.subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) { return _this.onDebouncedKeyup(event); }), (/**
-         * @param {?} err
-         * @return {?}
-         */
-        function (err) { return _this.hideResults(err); }));
+        keyboardObserver.subscribe(function (event) { return _this.onDebouncedKeyup(event); }, function (err) { return _this.hideResults(err); });
     };
     /**
      * @private
@@ -12649,11 +10196,7 @@ var NovoPickerElement = /** @class */ (function () {
             if (event.keyCode === KeyCodes.ENTER) {
                 /** @type {?} */
                 var activeMatch_1 = this.popup.instance.activeMatch;
-                if (!this.selected.find((/**
-                 * @param {?} selected
-                 * @return {?}
-                 */
-                function (selected) { return activeMatch_1 && activeMatch_1.value && selected.value === activeMatch_1.value; }))) {
+                if (!this.selected.find(function (selected) { return activeMatch_1 && activeMatch_1.value && selected.value === activeMatch_1.value; })) {
                     this.popup.instance.selectActiveMatch();
                     this.ref.markForCheck();
                 }
@@ -12888,11 +10431,7 @@ var NovoPickerElement = /** @class */ (function () {
                 this.term = value.name;
             }
             else if (typeof this.config.getLabels === 'function') {
-                this.config.getLabels(value).then((/**
-                 * @param {?} result
-                 * @return {?}
-                 */
-                function (result) {
+                this.config.getLabels(value).then(function (result) {
                     if (result) {
                         _this.term = result.length ? result[0].label || '' : result.label || '';
                     }
@@ -12900,7 +10439,7 @@ var NovoPickerElement = /** @class */ (function () {
                         _this.term = value;
                     }
                     _this.ref.markForCheck();
-                }));
+                });
             }
             else if (value && value.title) {
                 this.term = value.title;
@@ -12959,7 +10498,7 @@ var NovoPickerElement = /** @class */ (function () {
         { type: ChangeDetectorRef }
     ]; };
     NovoPickerElement.propDecorators = {
-        results: [{ type: ViewChild, args: ['results', { read: ViewContainerRef, static: true },] }],
+        results: [{ type: ViewChild, args: ['results', { read: ViewContainerRef },] }],
         config: [{ type: Input }],
         placeholder: [{ type: Input }],
         clearValueOnSelect: [{ type: Input }],
@@ -12978,90 +10517,15 @@ var NovoPickerElement = /** @class */ (function () {
         focus: [{ type: Output }],
         blur: [{ type: Output }],
         typing: [{ type: Output }],
-        container: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: true },] }],
-        input: [{ type: ViewChild, args: ['input', { static: true },] }]
+        container: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }],
+        input: [{ type: ViewChild, args: ['input',] }]
     };
     return NovoPickerElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoPickerElement.prototype.results;
-    /** @type {?} */
-    NovoPickerElement.prototype.config;
-    /** @type {?} */
-    NovoPickerElement.prototype.placeholder;
-    /** @type {?} */
-    NovoPickerElement.prototype.clearValueOnSelect;
-    /** @type {?} */
-    NovoPickerElement.prototype.closeOnSelect;
-    /** @type {?} */
-    NovoPickerElement.prototype.selected;
-    /** @type {?} */
-    NovoPickerElement.prototype.appendToBody;
-    /** @type {?} */
-    NovoPickerElement.prototype.parentScrollSelector;
-    /** @type {?} */
-    NovoPickerElement.prototype.parentScrollAction;
-    /** @type {?} */
-    NovoPickerElement.prototype.containerClass;
-    /** @type {?} */
-    NovoPickerElement.prototype.side;
-    /** @type {?} */
-    NovoPickerElement.prototype.autoSelectFirstOption;
-    /** @type {?} */
-    NovoPickerElement.prototype.overrideElement;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoPickerElement.prototype._disablePickerInput;
-    /** @type {?} */
-    NovoPickerElement.prototype.changed;
-    /** @type {?} */
-    NovoPickerElement.prototype.select;
-    /** @type {?} */
-    NovoPickerElement.prototype.focus;
-    /** @type {?} */
-    NovoPickerElement.prototype.blur;
-    /** @type {?} */
-    NovoPickerElement.prototype.typing;
-    /** @type {?} */
-    NovoPickerElement.prototype.container;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoPickerElement.prototype.input;
-    /** @type {?} */
-    NovoPickerElement.prototype.term;
-    /** @type {?} */
-    NovoPickerElement.prototype.resultsComponent;
-    /** @type {?} */
-    NovoPickerElement.prototype.popup;
-    /** @type {?} */
-    NovoPickerElement.prototype._value;
-    /** @type {?} */
-    NovoPickerElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoPickerElement.prototype.onModelTouched;
-    /** @type {?} */
-    NovoPickerElement.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoPickerElement.prototype.componentUtils;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoPickerElement.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/entity-picker-results/EntityPickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var EntityPickerResult = /** @class */ (function () {
     function EntityPickerResult(labels) {
@@ -13117,9 +10581,9 @@ var EntityPickerResult = /** @class */ (function () {
      *
      * @return {?}
      */
-    function (match, query) {
+    function (match, query$$1) {
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query && match ? match.replace(new RegExp(this.escapeRegexp(query.trim()), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 && match ? match.replace(new RegExp(this.escapeRegexp(query$$1.trim()), 'gi'), '<strong>$&</strong>') : match;
     };
     /**
      * @param {?=} result
@@ -13234,14 +10698,6 @@ var EntityPickerResult = /** @class */ (function () {
     };
     return EntityPickerResult;
 }());
-if (false) {
-    /** @type {?} */
-    EntityPickerResult.prototype.match;
-    /** @type {?} */
-    EntityPickerResult.prototype.term;
-    /** @type {?} */
-    EntityPickerResult.prototype.labels;
-}
 var EntityPickerResults = /** @class */ (function (_super) {
     __extends(EntityPickerResults, _super);
     function EntityPickerResults(element, labels, ref) {
@@ -13300,17 +10756,10 @@ var EntityPickerResults = /** @class */ (function (_super) {
     };
     return EntityPickerResults;
 }(BasePickerResults));
-if (false) {
-    /** @type {?} */
-    EntityPickerResults.prototype.select;
-    /** @type {?} */
-    EntityPickerResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/checklist-picker-results/ChecklistPickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * \@name: ChecklistPickerResults
@@ -13335,12 +10784,7 @@ var ChecklistPickerResults = /** @class */ (function (_super) {
         /** @type {?} */
         var options = this.config.options;
         // only set this the first time
-        return from(new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return from(new Promise(function (resolve, reject) {
             // Check if there is match data
             if (options) {
                 // Resolve the data
@@ -13359,7 +10803,7 @@ var ChecklistPickerResults = /** @class */ (function (_super) {
                 // No data gets rejected
                 reject('error');
             }
-        })));
+        }));
     };
     /**
      * @name filterData=
@@ -13387,34 +10831,22 @@ var ChecklistPickerResults = /** @class */ (function (_super) {
     function (matches) {
         var _this = this;
         if (this.term && matches) {
-            this.filteredMatches = matches.map((/**
-             * @param {?} section
-             * @return {?}
-             */
-            function (section) {
+            this.filteredMatches = matches.map(function (section) {
                 /** @type {?} */
-                var items = section.originalData.filter((/**
-                 * @param {?} match
-                 * @return {?}
-                 */
-                function (match) {
+                var items = section.originalData.filter(function (match) {
                     return ~String(match.label)
                         .toLowerCase()
                         .indexOf(_this.term.toLowerCase());
-                }));
+                });
                 section.data = items;
                 return section;
-            }), this);
+            }, this);
             return this.filteredMatches;
         }
         else if (this.term === '') {
-            matches.forEach((/**
-             * @param {?} section
-             * @return {?}
-             */
-            function (section) {
+            matches.forEach(function (section) {
                 section.data = section.originalData;
-            }));
+            });
             return matches;
         }
         // Show no recent results template
@@ -13477,17 +10909,10 @@ var ChecklistPickerResults = /** @class */ (function (_super) {
     ]; };
     return ChecklistPickerResults;
 }(BasePickerResults));
-if (false) {
-    /** @type {?} */
-    ChecklistPickerResults.prototype.filteredMatches;
-    /** @type {?} */
-    ChecklistPickerResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/grouped-multi-picker-results/GroupedMultiPickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var GroupedMultiPickerResults = /** @class */ (function (_super) {
     __extends(GroupedMultiPickerResults, _super);
@@ -13533,12 +10958,9 @@ var GroupedMultiPickerResults = /** @class */ (function (_super) {
                 this.placeholder = this.config.placeholder;
             }
             // Focus
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            setTimeout(function () {
                 _this.inputElement.nativeElement.focus();
-            }));
+            });
         },
         enumerable: true,
         configurable: true
@@ -13550,13 +10972,9 @@ var GroupedMultiPickerResults = /** @class */ (function (_super) {
         function () {
             if (this.config.categories || this.config.categoryMap) {
                 return (this.config.categories ||
-                    Array.from(this.config.categoryMap.values()).filter((/**
-                     * @param {?} category
-                     * @return {?}
-                     */
-                    function (category) {
+                    Array.from(this.config.categoryMap.values()).filter(function (category) {
                         return category.value !== 'all';
-                    })));
+                    }));
             }
             return [];
         },
@@ -13574,15 +10992,11 @@ var GroupedMultiPickerResults = /** @class */ (function (_super) {
         // Subscribe to keyboard events and debounce
         this.keyboardSubscription = fromEvent(this.inputElement.nativeElement, 'keyup')
             .pipe(debounceTime(350), distinctUntilChanged())
-            .subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+            .subscribe(function (event) {
             _this.searchTerm = event.target['value'];
             _this.matches = _this.filterData();
             _this.ref.markForCheck();
-        }));
+        });
     };
     /**
      * @return {?}
@@ -13607,18 +11021,10 @@ var GroupedMultiPickerResults = /** @class */ (function (_super) {
             /** @type {?} */
             var allItems_1 = [];
             Array.from(this.config.categoryMap.values())
-                .filter((/**
-             * @param {?} category
-             * @return {?}
-             */
-            function (category) {
+                .filter(function (category) {
                 return category.value !== 'all';
-            }))
-                .forEach((/**
-             * @param {?} v
-             * @return {?}
-             */
-            function (v) { return allItems_1.push.apply(allItems_1, __spread(v.items)); }));
+            })
+                .forEach(function (v) { return allItems_1.push.apply(allItems_1, __spread(v.items)); });
             this.matches = this.filter(allItems_1);
             this.config.categoryMap.set('all', { value: 'all', label: 'All', items: allItems_1 });
             this.ref.markForCheck();
@@ -13699,12 +11105,9 @@ var GroupedMultiPickerResults = /** @class */ (function (_super) {
             this.ref.markForCheck();
         }
         // Focus
-        setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        setTimeout(function () {
             _this.inputElement.nativeElement.focus();
-        }));
+        });
     };
     /**
      * @return {?}
@@ -13748,22 +11151,15 @@ var GroupedMultiPickerResults = /** @class */ (function (_super) {
             }
             if (!this.internalMap.get(key)) {
                 this.isLoading = true;
-                this.config.getItemsForCategoryAsync(key, this.customFilterValue).then((/**
-                 * @param {?} items
-                 * @return {?}
-                 */
-                function (items) {
+                this.config.getItemsForCategoryAsync(key, this.customFilterValue).then(function (items) {
                     _this.internalMap.set(key, { value: category.value, label: category.label, items: items });
                     _this.matches = _this.filter(items, true);
                     _this.isLoading = false;
                     _this.ref.markForCheck();
-                    setTimeout((/**
-                     * @return {?}
-                     */
-                    function () {
+                    setTimeout(function () {
                         _this.inputElement.nativeElement.focus();
-                    }));
-                }));
+                    });
+                });
             }
             else {
                 this.matches = this.filter(this.internalMap.get(key).items);
@@ -13789,22 +11185,14 @@ var GroupedMultiPickerResults = /** @class */ (function (_super) {
         /** @type {?} */
         var matches = array;
         if (this.searchTerm && this.searchTerm.length !== 0 && this.selectedCategory) {
-            matches = matches.filter((/**
-             * @param {?} match
-             * @return {?}
-             */
-            function (match) {
+            matches = matches.filter(function (match) {
                 /** @type {?} */
                 var searchTerm = _this.searchTerm.toLowerCase();
                 return match.label.toLowerCase().indexOf(searchTerm) > -1 || match.value.toLowerCase().indexOf(searchTerm) > -1;
-            }));
+            });
         }
         if (this.customFilterEnabled && this.config.customFilter.matchFunction && !ignoreCustomFilter) {
-            matches = matches.filter((/**
-             * @param {?} match
-             * @return {?}
-             */
-            function (match) { return _this.config.customFilter.matchFunction(match, _this.customFilterValue); }));
+            matches = matches.filter(function (match) { return _this.config.customFilter.matchFunction(match, _this.customFilterValue); });
         }
         return matches;
     };
@@ -13822,57 +11210,15 @@ var GroupedMultiPickerResults = /** @class */ (function (_super) {
         { type: ChangeDetectorRef }
     ]; };
     GroupedMultiPickerResults.propDecorators = {
-        inputElement: [{ type: ViewChild, args: ['input', { static: true },] }],
-        listElement: [{ type: ViewChild, args: ['list', { static: false },] }]
+        inputElement: [{ type: ViewChild, args: ['input',] }],
+        listElement: [{ type: ViewChild, args: ['list',] }]
     };
     return GroupedMultiPickerResults;
 }(BasePickerResults));
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    GroupedMultiPickerResults.prototype.inputElement;
-    /**
-     * @type {?}
-     * @private
-     */
-    GroupedMultiPickerResults.prototype.listElement;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.selectedCategory;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.searchTerm;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.customFilterEnabled;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.customFilterLabel;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.placeholder;
-    /**
-     * @type {?}
-     * @private
-     */
-    GroupedMultiPickerResults.prototype.keyboardSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    GroupedMultiPickerResults.prototype.internalMap;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.customFilterValue;
-    /**
-     * @type {?}
-     * @private
-     */
-    GroupedMultiPickerResults.prototype.renderer;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/skills-picker-results/SkillsSpecialtyPickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var SkillsSpecialtyPickerResults = /** @class */ (function (_super) {
     __extends(SkillsSpecialtyPickerResults, _super);
@@ -13949,25 +11295,10 @@ var SkillsSpecialtyPickerResults = /** @class */ (function (_super) {
     };
     return SkillsSpecialtyPickerResults;
 }(BasePickerResults));
-if (false) {
-    /** @type {?} */
-    SkillsSpecialtyPickerResults.prototype.active;
-    /** @type {?} */
-    SkillsSpecialtyPickerResults.prototype.limitedTo;
-    /** @type {?} */
-    SkillsSpecialtyPickerResults.prototype.limit;
-    /** @type {?} */
-    SkillsSpecialtyPickerResults.prototype.total;
-    /** @type {?} */
-    SkillsSpecialtyPickerResults.prototype.element;
-    /** @type {?} */
-    SkillsSpecialtyPickerResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/distributionlist-picker-results/DistributionListPickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var DistributionListPickerResults = /** @class */ (function (_super) {
     __extends(DistributionListPickerResults, _super);
@@ -14028,22 +11359,10 @@ var DistributionListPickerResults = /** @class */ (function (_super) {
     };
     return DistributionListPickerResults;
 }(BasePickerResults));
-if (false) {
-    /** @type {?} */
-    DistributionListPickerResults.prototype.active;
-    /**
-     * @type {?}
-     * @private
-     */
-    DistributionListPickerResults.prototype.sanitizer;
-    /** @type {?} */
-    DistributionListPickerResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/Picker.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoPickerModule = /** @class */ (function () {
     function NovoPickerModule() {
@@ -14087,17 +11406,13 @@ var NovoPickerModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/search/SearchBox.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var SEARCH_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoSearchBoxElement; })),
+    useExisting: forwardRef(function () { return NovoSearchBoxElement; }),
     multi: true,
 };
 var NovoSearchBoxElement = /** @class */ (function () {
@@ -14116,17 +11431,11 @@ var NovoSearchBoxElement = /** @class */ (function () {
         /**
          * View -> model callback called when value changes
          */
-        this._onChange = (/**
-         * @return {?}
-         */
-        function () { });
+        this._onChange = function () { };
         /**
          * View -> model callback called when autocomplete has been touched
          */
-        this._onTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this._onTouched = function () { };
     }
     /**
      * @name showFasterFind
@@ -14152,16 +11461,13 @@ var NovoSearchBoxElement = /** @class */ (function () {
         if (!this.panelOpen) {
             // Reset search
             // Set focus on search
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            setTimeout(function () {
                 /** @type {?} */
                 var element = _this.input.nativeElement;
                 if (element) {
                     element.focus();
                 }
-            }), 10);
+            }, 10);
         }
     };
     /**
@@ -14172,13 +11478,10 @@ var NovoSearchBoxElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this._zone.run((/**
-         * @return {?}
-         */
-        function () {
+        this._zone.run(function () {
             _this.focused = true;
             _this.openPanel();
-        }));
+        });
     };
     /**
      * @return {?}
@@ -14262,12 +11565,9 @@ var NovoSearchBoxElement = /** @class */ (function () {
             if (this.debounceSearchChange) {
                 clearTimeout(this.debounceSearchChange);
             }
-            this.debounceSearchChange = setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            this.debounceSearchChange = setTimeout(function () {
                 _this.searchChanged.emit(((/** @type {?} */ (event.target))).value);
-            }), 400);
+            }, 400);
         }
     };
     /**
@@ -14374,7 +11674,7 @@ var NovoSearchBoxElement = /** @class */ (function () {
                     selector: 'novo-search',
                     providers: [SEARCH_VALUE_ACCESSOR],
                     changeDetection: ChangeDetectionStrategy.OnPush,
-                    template: "\n    <!-- SEARCH ICON -->\n    <button\n      theme=\"fab\"\n      [color]=\"theme\"\n      [icon]=\"icon\"\n      (click)=\"showSearch()\"\n      [tooltip]=\"hint\"\n      tooltipPosition=\"bottom\"\n      data-automation-id=\"novo-search-fab\"\n    ></button>\n    <!-- SEARCH INPUT -->\n    <input\n      type=\"text\"\n      [attr.name]=\"name\"\n      [attr.value]=\"displayValue\"\n      [attr.placeholder]=\"placeholder\"\n      (focus)=\"onFocus()\"\n      (blur)=\"onBlur()\"\n      (keydown)=\"_handleKeydown($event)\"\n      (input)=\"_handleInput($event)\"\n      #input\n      data-automation-id=\"novo-search-input\"\n    />\n    <!-- SEARCH OVERLAY -->\n    <novo-overlay-template\n      [parent]=\"element\"\n      [closeOnSelect]=\"closeOnSelect\"\n      position=\"above-below\"\n      (select)=\"closePanel()\"\n      (closing)=\"onBlur()\"\n    >\n      <ng-content></ng-content>\n    </novo-overlay-template>\n  "
+                    template: "\n        <!-- SEARCH ICON -->\n        <button theme=\"fab\" [color]=\"theme\" [icon]=\"icon\" (click)=\"showSearch()\" [tooltip]=\"hint\" tooltipPosition=\"bottom\" data-automation-id=\"novo-search-fab\"></button>\n        <!-- SEARCH INPUT -->\n        <input type=\"text\" [attr.name]=\"name\" [attr.value]=\"displayValue\" [attr.placeholder]=\"placeholder\" (focus)=\"onFocus()\" (blur)=\"onBlur()\" (keydown)=\"_handleKeydown($event)\" (input)=\"_handleInput($event)\" #input data-automation-id=\"novo-search-input\"/>\n        <!-- SEARCH OVERLAY -->\n        <novo-overlay-template [parent]=\"element\" [closeOnSelect]=\"closeOnSelect\" position=\"above-below\" (select)=\"closePanel()\" (closing)=\"onBlur()\">\n            <ng-content></ng-content>\n        </novo-overlay-template>\n    "
                 }] }
     ];
     /** @nocollapse */
@@ -14396,79 +11696,16 @@ var NovoSearchBoxElement = /** @class */ (function () {
         hint: [{ type: Input }],
         searchChanged: [{ type: Output }],
         focused: [{ type: HostBinding, args: ['class.focused',] }],
-        overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: false },] }],
-        input: [{ type: ViewChild, args: ['input', { static: true },] }],
+        overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }],
+        input: [{ type: ViewChild, args: ['input',] }],
         active: [{ type: HostBinding, args: ['class.active',] }]
     };
     return NovoSearchBoxElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.name;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.icon;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.placeholder;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.alwaysOpen;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.theme;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.closeOnSelect;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.displayField;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.displayValue;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.hint;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.searchChanged;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.focused;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.value;
-    /**
-     * View -> model callback called when value changes
-     * @type {?}
-     */
-    NovoSearchBoxElement.prototype._onChange;
-    /**
-     * View -> model callback called when autocomplete has been touched
-     * @type {?}
-     */
-    NovoSearchBoxElement.prototype._onTouched;
-    /**
-     * Element for the panel containing the autocomplete options.
-     * @type {?}
-     */
-    NovoSearchBoxElement.prototype.overlay;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.input;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSearchBoxElement.prototype.debounceSearchChange;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.element;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSearchBoxElement.prototype._changeDetectorRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSearchBoxElement.prototype._zone;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/search/SearchBox.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoSearchBoxModule = /** @class */ (function () {
     function NovoSearchBoxModule() {
@@ -14485,8 +11722,7 @@ var NovoSearchBoxModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/dragula/DragulaService.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 var dragula = dragulaImported;
@@ -14636,35 +11872,19 @@ var NovoDragulaService = /** @class */ (function () {
         var dropIndex;
         /** @type {?} */
         var sourceModel;
-        drake.on('remove', (/**
-         * @param {?} el
-         * @param {?} source
-         * @return {?}
-         */
-        function (el, source) {
+        drake.on('remove', function (el, source) {
             if (!drake.models) {
                 return;
             }
             sourceModel = drake.models[drake.containers.indexOf(source)];
             sourceModel.splice(dragIndex, 1);
             _this.removeModel.emit([name, el, source]);
-        }));
-        drake.on('drag', (/**
-         * @param {?} el
-         * @param {?} source
-         * @return {?}
-         */
-        function (el, source) {
+        });
+        drake.on('drag', function (el, source) {
             dragElm = el;
             dragIndex = _this.domIndexOf(el, source);
-        }));
-        drake.on('drop', (/**
-         * @param {?} dropElm
-         * @param {?} target
-         * @param {?} source
-         * @return {?}
-         */
-        function (dropElm, target, source) {
+        });
+        drake.on('drop', function (dropElm, target, source) {
             if (!drake.models) {
                 return;
             }
@@ -14687,7 +11907,7 @@ var NovoDragulaService = /** @class */ (function () {
                 target.removeChild(dropElm); // element must be removed for ngFor to apply correctly
             }
             _this.dropModel.emit([name, dropElm, target, source]);
-        }));
+        });
     };
     /**
      * @name setupEvents
@@ -14708,11 +11928,7 @@ var NovoDragulaService = /** @class */ (function () {
         /** @type {?} */
         var that = this;
         /** @type {?} */
-        var emitter = (/**
-         * @param {?} type
-         * @return {?}
-         */
-        function (type) {
+        var emitter = function (type) {
             /**
              * @return {?}
              */
@@ -14722,7 +11938,7 @@ var NovoDragulaService = /** @class */ (function () {
                 that[type].emit([bag.name].concat(args));
             }
             bag.drake.on(type, replicate);
-        });
+        };
         this.events.forEach(emitter);
     };
     /**
@@ -14750,39 +11966,10 @@ var NovoDragulaService = /** @class */ (function () {
     ];
     return NovoDragulaService;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDragulaService.prototype.cancel;
-    /** @type {?} */
-    NovoDragulaService.prototype.cloned;
-    /** @type {?} */
-    NovoDragulaService.prototype.drag;
-    /** @type {?} */
-    NovoDragulaService.prototype.dragend;
-    /** @type {?} */
-    NovoDragulaService.prototype.drop;
-    /** @type {?} */
-    NovoDragulaService.prototype.out;
-    /** @type {?} */
-    NovoDragulaService.prototype.over;
-    /** @type {?} */
-    NovoDragulaService.prototype.remove;
-    /** @type {?} */
-    NovoDragulaService.prototype.shadow;
-    /** @type {?} */
-    NovoDragulaService.prototype.dropModel;
-    /** @type {?} */
-    NovoDragulaService.prototype.removeModel;
-    /** @type {?} */
-    NovoDragulaService.prototype.events;
-    /** @type {?} */
-    NovoDragulaService.prototype.bags;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/dragula/Dragula.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 var dragula$1 = dragulaImported;
@@ -14868,26 +12055,10 @@ var NovoDragulaElement = /** @class */ (function () {
     };
     return NovoDragulaElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDragulaElement.prototype.bag;
-    /** @type {?} */
-    NovoDragulaElement.prototype.dragulaModel;
-    /** @type {?} */
-    NovoDragulaElement.prototype.drake;
-    /** @type {?} */
-    NovoDragulaElement.prototype.container;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDragulaElement.prototype.dragulaService;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/dragula/Dragula.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoDragulaModule = /** @class */ (function () {
     function NovoDragulaModule() {
@@ -14903,8 +12074,7 @@ var NovoDragulaModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/slider/Slider.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoSliderElement = /** @class */ (function () {
     function NovoSliderElement(element, labels) {
@@ -15000,34 +12170,10 @@ var NovoSliderElement = /** @class */ (function () {
     };
     return NovoSliderElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoSliderElement.prototype.slides;
-    /** @type {?} */
-    NovoSliderElement.prototype.currentSlide;
-    /** @type {?} */
-    NovoSliderElement.prototype.start;
-    /** @type {?} */
-    NovoSliderElement.prototype.end;
-    /** @type {?} */
-    NovoSliderElement.prototype.currSlides;
-    /** @type {?} */
-    NovoSliderElement.prototype.handleKeyDownFunc;
-    /** @type {?} */
-    NovoSliderElement.prototype.currentClass;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSliderElement.prototype.element;
-    /** @type {?} */
-    NovoSliderElement.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/slider/Slider.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoSliderModule = /** @class */ (function () {
     function NovoSliderModule() {
@@ -15044,17 +12190,13 @@ var NovoSliderModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/chips/Chips.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var CHIPS_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoChipsElement; })),
+    useExisting: forwardRef(function () { return NovoChipsElement; }),
     multi: true,
 };
 var NovoChipElement = /** @class */ (function () {
@@ -15138,20 +12280,6 @@ var NovoChipElement = /** @class */ (function () {
     };
     return NovoChipElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoChipElement.prototype.disabled;
-    /** @type {?} */
-    NovoChipElement.prototype.select;
-    /** @type {?} */
-    NovoChipElement.prototype.remove;
-    /** @type {?} */
-    NovoChipElement.prototype.deselect;
-    /** @type {?} */
-    NovoChipElement.prototype.entity;
-    /** @type {?} */
-    NovoChipElement.prototype._type;
-}
 var NovoChipsElement = /** @class */ (function () {
     function NovoChipsElement(element, componentUtils, labels) {
         this.element = element;
@@ -15171,14 +12299,8 @@ var NovoChipsElement = /** @class */ (function () {
         this._value = '';
         this._items = new ReplaySubject(1);
         // Placeholders for the callbacks
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
     }
     Object.defineProperty(NovoChipsElement.prototype, "disablePickerInput", {
         get: /**
@@ -15248,8 +12370,8 @@ var NovoChipsElement = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        var e_1, _a;
         var _this = this;
+        var e_1, _a;
         this.items = [];
         if (this.model && Array.isArray(this.model)) {
             /** @type {?} */
@@ -15293,11 +12415,7 @@ var NovoChipsElement = /** @class */ (function () {
                 finally { if (e_1) throw e_1.error; }
             }
             if (noLabels.length > 0 && this.source && this.source.getLabels && typeof this.source.getLabels === 'function') {
-                this.source.getLabels(noLabels).then((/**
-                 * @param {?} result
-                 * @return {?}
-                 */
-                function (result) {
+                this.source.getLabels(noLabels).then(function (result) {
                     var e_2, _a;
                     try {
                         for (var result_1 = __values(result), result_1_1 = result_1.next(); !result_1_1.done; result_1_1 = result_1.next()) {
@@ -15324,7 +12442,7 @@ var NovoChipsElement = /** @class */ (function () {
                         finally { if (e_2) throw e_2.error; }
                     }
                     _this._items.next(_this.items);
-                }));
+                });
             }
         }
         this.changed.emit({ value: this.model, rawValue: this.items });
@@ -15340,11 +12458,7 @@ var NovoChipsElement = /** @class */ (function () {
      */
     function (value) {
         /** @type {?} */
-        var optLabel = this.source.options.find((/**
-         * @param {?} val
-         * @return {?}
-         */
-        function (val) { return val.value === value; }));
+        var optLabel = this.source.options.find(function (val) { return val.value === value; });
         return {
             value: value,
             label: optLabel ? optLabel.label : value,
@@ -15427,11 +12541,7 @@ var NovoChipsElement = /** @class */ (function () {
     function (event) {
         if (event && !(event instanceof Event)) {
             this.items.push(event);
-            this.value = this.source && this.source.valueFormatter ? this.source.valueFormatter(this.items) : this.items.map((/**
-             * @param {?} i
-             * @return {?}
-             */
-            function (i) { return i.value; }));
+            this.value = this.source && this.source.valueFormatter ? this.source.valueFormatter(this.items) : this.items.map(function (i) { return i.value; });
             // Set focus on the picker
             /** @type {?} */
             var input = this.element.nativeElement.querySelector('novo-picker > input');
@@ -15458,11 +12568,7 @@ var NovoChipsElement = /** @class */ (function () {
         }
         this.items.splice(this.items.indexOf(item), 1);
         this.deselectAll();
-        this.value = this.source && this.source.valueFormatter ? this.source.valueFormatter(this.items) : this.items.map((/**
-         * @param {?} i
-         * @return {?}
-         */
-        function (i) { return i.value; }));
+        this.value = this.source && this.source.valueFormatter ? this.source.valueFormatter(this.items) : this.items.map(function (i) { return i.value; });
         this.changed.emit({ value: this.value.length ? this.value : '', rawValue: this.items });
         this.onModelChange(this.value.length ? this.value : '');
         this._items.next(this.items);
@@ -15635,81 +12741,21 @@ var NovoChipsElement = /** @class */ (function () {
         focus: [{ type: Output }],
         blur: [{ type: Output }],
         typing: [{ type: Output }],
-        preview: [{ type: ViewChild, args: ['preview', { read: ViewContainerRef, static: false },] }],
+        preview: [{ type: ViewChild, args: ['preview', { read: ViewContainerRef },] }],
         value: [{ type: Input }]
     };
     return NovoChipsElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoChipsElement.prototype.closeOnSelect;
-    /** @type {?} */
-    NovoChipsElement.prototype.placeholder;
-    /** @type {?} */
-    NovoChipsElement.prototype.source;
-    /** @type {?} */
-    NovoChipsElement.prototype.maxlength;
-    /** @type {?} */
-    NovoChipsElement.prototype.type;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoChipsElement.prototype._disablePickerInput;
-    /** @type {?} */
-    NovoChipsElement.prototype.changed;
-    /** @type {?} */
-    NovoChipsElement.prototype.focus;
-    /** @type {?} */
-    NovoChipsElement.prototype.blur;
-    /** @type {?} */
-    NovoChipsElement.prototype.typing;
-    /** @type {?} */
-    NovoChipsElement.prototype.preview;
-    /** @type {?} */
-    NovoChipsElement.prototype.items;
-    /** @type {?} */
-    NovoChipsElement.prototype.selected;
-    /** @type {?} */
-    NovoChipsElement.prototype.config;
-    /** @type {?} */
-    NovoChipsElement.prototype.model;
-    /** @type {?} */
-    NovoChipsElement.prototype.itemToAdd;
-    /** @type {?} */
-    NovoChipsElement.prototype.popup;
-    /** @type {?} */
-    NovoChipsElement.prototype._value;
-    /** @type {?} */
-    NovoChipsElement.prototype._items;
-    /** @type {?} */
-    NovoChipsElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoChipsElement.prototype.onModelTouched;
-    /** @type {?} */
-    NovoChipsElement.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoChipsElement.prototype.componentUtils;
-    /** @type {?} */
-    NovoChipsElement.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/chips/RowChips.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var CHIPS_VALUE_ACCESSOR$1 = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoRowChipsElement; })),
+    useExisting: forwardRef(function () { return NovoRowChipsElement; }),
     multi: true,
 };
 var NovoRowChipElement = /** @class */ (function (_super) {
@@ -15775,15 +12821,10 @@ var NovoRowChipsElement = /** @class */ (function (_super) {
     };
     return NovoRowChipsElement;
 }(NovoChipsElement));
-if (false) {
-    /** @type {?} */
-    NovoRowChipsElement.prototype.closeOnSelect;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/chips/Chips.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoChipsModule = /** @class */ (function () {
     function NovoChipsModule() {
@@ -15800,45 +12841,15 @@ var NovoChipsModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/date-picker/DatePicker.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var DATE_PICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoDatePickerElement; })),
+    useExisting: forwardRef(function () { return NovoDatePickerElement; }),
     multi: true,
 };
-/**
- * @record
- */
-function RangeModal() { }
-if (false) {
-    /** @type {?} */
-    RangeModal.prototype.startDate;
-    /** @type {?} */
-    RangeModal.prototype.endDate;
-}
-/**
- * @record
- */
-function Day() { }
-if (false) {
-    /** @type {?} */
-    Day.prototype.date;
-    /** @type {?|undefined} */
-    Day.prototype.isCurrentMonth;
-    /** @type {?|undefined} */
-    Day.prototype.isToday;
-    /** @type {?|undefined} */
-    Day.prototype.name;
-    /** @type {?|undefined} */
-    Day.prototype.number;
-}
 var NovoDatePickerElement = /** @class */ (function () {
     function NovoDatePickerElement(labels, element) {
         this.labels = labels;
@@ -15855,14 +12866,8 @@ var NovoDatePickerElement = /** @class */ (function () {
         // Default view mode (select days)
         this.view = 'days';
         this.rangeSelectMode = 'startDate';
-        this._onChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this._onTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this._onChange = function () { };
+        this._onTouched = function () { };
     }
     /**
      * @return {?}
@@ -16313,10 +13318,7 @@ var NovoDatePickerElement = /** @class */ (function () {
         }
         // Make sure to scroll the selected one into view
         if (this.view === 'years' || this.view === 'months') {
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            setTimeout(function () {
                 /** @type {?} */
                 var container = _this.element.nativeElement.querySelector(".calendar-content." + _this.view);
                 /** @type {?} */
@@ -16324,7 +13326,7 @@ var NovoDatePickerElement = /** @class */ (function () {
                 if (container && selectedItem) {
                     container.scrollTop = selectedItem.offsetTop - 100;
                 }
-            }));
+            });
         }
         this.updateHeading();
     };
@@ -16573,72 +13575,10 @@ var NovoDatePickerElement = /** @class */ (function () {
     };
     return NovoDatePickerElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDatePickerElement.prototype.minYear;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.maxYear;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.start;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.end;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.inline;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.range;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.weekRangeSelect;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.weekStart;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.onSelect;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.weekdays;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.months;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.years;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.view;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.heading;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.model;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.month;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.monthLabel;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.weeks;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.selected;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.selectedLabel;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.selected2;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.selected2Label;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.hoverDay;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.rangeSelectMode;
-    /** @type {?} */
-    NovoDatePickerElement.prototype._onChange;
-    /** @type {?} */
-    NovoDatePickerElement.prototype._onTouched;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDatePickerElement.prototype.element;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/date-format/DateFormat.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var DateFormatService = /** @class */ (function () {
     function DateFormatService(labels) {
@@ -16658,8 +13598,6 @@ var DateFormatService = /** @class */ (function () {
         var mask = [/\d/, /\d/, /:/, /\d/, /\d/];
         /** @type {?} */
         var timeFormatArray = [];
-        /** @type {?} */
-        var timeFormatPartsArray = [];
         /** @type {?} */
         var timeFormat = this.labels.timeFormatPlaceholderAM.toLowerCase();
         if (militaryTime) {
@@ -16815,8 +13753,6 @@ var DateFormatService = /** @class */ (function () {
         /** @type {?} */
         var timeStringParts;
         /** @type {?} */
-        var timeFormat;
-        /** @type {?} */
         var amFormat = this.labels.timeFormatAM;
         /** @type {?} */
         var pmFormat = this.labels.timeFormatPM;
@@ -16925,16 +13861,16 @@ var DateFormatService = /** @class */ (function () {
      * @param {?} format
      * @return {?}
      */
-    function (value, format) {
+    function (value, format$$1) {
         /** @type {?} */
         var datePart = parseInt(value);
-        if (format.includes('m') && (datePart >= 2 || value.length === 2)) {
+        if (format$$1.includes('m') && (datePart >= 2 || value.length === 2)) {
             return true;
         }
-        else if (format.includes('d') && (datePart >= 4 || value.length === 2)) {
+        else if (format$$1.includes('d') && (datePart >= 4 || value.length === 2)) {
             return true;
         }
-        else if (format.includes('y') && datePart >= 1000) {
+        else if (format$$1.includes('y') && datePart >= 1000) {
             return true;
         }
         return false;
@@ -16948,27 +13884,16 @@ var DateFormatService = /** @class */ (function () {
     ]; };
     return DateFormatService;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DateFormatService.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/date-picker/DatePickerInput.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var DATE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoDatePickerInputElement; })),
+    useExisting: forwardRef(function () { return NovoDatePickerInputElement; }),
     multi: true,
 };
 var NovoDatePickerInputElement = /** @class */ (function () {
@@ -16981,17 +13906,11 @@ var NovoDatePickerInputElement = /** @class */ (function () {
         /**
          * View -> model callback called when value changes
          */
-        this._onChange = (/**
-         * @return {?}
-         */
-        function () { });
+        this._onChange = function () { };
         /**
          * View -> model callback called when autocomplete has been touched
          */
-        this._onTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this._onTouched = function () { };
         this.textMaskEnabled = true;
         this.allowInvalidDate = false;
         this.disabled = false;
@@ -17158,10 +14077,7 @@ var NovoDatePickerInputElement = /** @class */ (function () {
      */
     function (value) {
         var _this = this;
-        Promise.resolve(null).then((/**
-         * @return {?}
-         */
-        function () { return _this._setTriggerValue(value); }));
+        Promise.resolve(null).then(function () { return _this._setTriggerValue(value); });
     };
     /**
      * @param {?} fn
@@ -17381,74 +14297,14 @@ var NovoDatePickerInputElement = /** @class */ (function () {
         disabled: [{ type: HostBinding, args: ['class.disabled',] }, { type: Input }],
         blurEvent: [{ type: Output }],
         focusEvent: [{ type: Output }],
-        overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: false },] }]
+        overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }]
     };
     return NovoDatePickerInputElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.value;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.formattedValue;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDatePickerInputElement.prototype.userDefinedFormat;
-    /**
-     * View -> model callback called when value changes
-     * @type {?}
-     */
-    NovoDatePickerInputElement.prototype._onChange;
-    /**
-     * View -> model callback called when autocomplete has been touched
-     * @type {?}
-     */
-    NovoDatePickerInputElement.prototype._onTouched;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.name;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.start;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.end;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.placeholder;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.maskOptions;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.format;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.textMaskEnabled;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.allowInvalidDate;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.disabled;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.blurEvent;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.focusEvent;
-    /**
-     * Element for the panel containing the autocomplete options.
-     * @type {?}
-     */
-    NovoDatePickerInputElement.prototype.overlay;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.element;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDatePickerInputElement.prototype._changeDetectorRef;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.dateFormatService;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/date-picker/DatePicker.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoDatePickerModule = /** @class */ (function () {
     function NovoDatePickerModule() {
@@ -17465,17 +14321,13 @@ var NovoDatePickerModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/time-picker/TimePicker.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var TIME_PICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoTimePickerElement; })),
+    useExisting: forwardRef(function () { return NovoTimePickerElement; }),
     multi: true,
 };
 var NovoTimePickerElement = /** @class */ (function () {
@@ -17491,14 +14343,8 @@ var NovoTimePickerElement = /** @class */ (function () {
         this.MERIDIANS = ['am', 'pm'];
         this.MINUTES = ['05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '00'];
         this.HOURS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-        this._onChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this._onTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this._onChange = function () { };
+        this._onTouched = function () { };
     }
     /**
      * @param {?} arr
@@ -17521,24 +14367,12 @@ var NovoTimePickerElement = /** @class */ (function () {
     function () {
         if (this.military) {
             this.HOURS = __spread(['0'], this.HOURS, ['13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']);
-            this.increments = this.flatten(__spread(this.HOURS.map((/**
-             * @param {?} hour
-             * @return {?}
-             */
-            function (hour) { return [hour + ":00", hour + ":15", hour + ":30", hour + ":45"]; }))));
+            this.increments = this.flatten(__spread(this.HOURS.map(function (hour) { return [hour + ":00", hour + ":15", hour + ":30", hour + ":45"]; })));
         }
         else {
             /** @type {?} */
             var hours = ['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
-            this.increments = this.flatten(__spread(hours.map((/**
-             * @param {?} hour
-             * @return {?}
-             */
-            function (hour) { return [hour + ":00 AM", hour + ":15 AM", hour + ":30 AM", hour + ":45 AM"]; })), hours.map((/**
-             * @param {?} hour
-             * @return {?}
-             */
-            function (hour) { return [hour + ":00 PM", hour + ":15 PM", hour + ":30 PM", hour + ":45 PM"]; }))));
+            this.increments = this.flatten(__spread(hours.map(function (hour) { return [hour + ":00 AM", hour + ":15 AM", hour + ":30 AM", hour + ":45 AM"]; }), hours.map(function (hour) { return [hour + ":00 PM", hour + ":15 PM", hour + ":30 PM", hour + ":45 PM"]; })));
         }
         this.ngOnChanges();
     };
@@ -17771,64 +14605,16 @@ var NovoTimePickerElement = /** @class */ (function () {
     };
     return NovoTimePickerElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoTimePickerElement.prototype.military;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.analog;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.inline;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.onSelect;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.hours;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.minutes;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.value;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.meridian;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.inBetween;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.hoursClass;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.activeHour;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.minutesClass;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.activeMinute;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.increments;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.selected;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.MERIDIANS;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.MINUTES;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.HOURS;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.model;
-    /** @type {?} */
-    NovoTimePickerElement.prototype._onChange;
-    /** @type {?} */
-    NovoTimePickerElement.prototype._onTouched;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/time-picker/TimePickerInput.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var DATE_VALUE_ACCESSOR$1 = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoTimePickerInputElement; })),
+    useExisting: forwardRef(function () { return NovoTimePickerInputElement; }),
     multi: true,
 };
 var NovoTimePickerInputElement = /** @class */ (function () {
@@ -17841,17 +14627,11 @@ var NovoTimePickerInputElement = /** @class */ (function () {
         /**
          * View -> model callback called when value changes
          */
-        this._onChange = (/**
-         * @return {?}
-         */
-        function () { });
+        this._onChange = function () { };
         /**
          * View -> model callback called when autocomplete has been touched
          */
-        this._onTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this._onTouched = function () { };
         this.military = false;
         this.disabled = false;
         this.blurEvent = new EventEmitter();
@@ -17887,10 +14667,7 @@ var NovoTimePickerInputElement = /** @class */ (function () {
             this.overlay.openPanel();
             /** @type {?} */
             var hour_1 = new Date().getHours();
-            Promise.resolve(null).then((/**
-             * @return {?}
-             */
-            function () { return _this.scrollToIndex(hour_1 * 4); }));
+            Promise.resolve(null).then(function () { return _this.scrollToIndex(hour_1 * 4); });
         }
     };
     /**
@@ -17989,10 +14766,7 @@ var NovoTimePickerInputElement = /** @class */ (function () {
      */
     function (value) {
         var _this = this;
-        Promise.resolve(null).then((/**
-         * @return {?}
-         */
-        function () { return _this._setTriggerValue(value); }));
+        Promise.resolve(null).then(function () { return _this._setTriggerValue(value); });
     };
     /**
      * @param {?} fn
@@ -18117,15 +14891,15 @@ var NovoTimePickerInputElement = /** @class */ (function () {
             return '';
         }
         /** @type {?} */
-        var format = this.labels.formatTimeWithFormat(value, {
+        var format$$1 = this.labels.formatTimeWithFormat(value, {
             hour: 'numeric',
             minute: '2-digit',
             hour12: !this.military,
         });
-        if (format.split(':')[0].length === 1) {
-            return "0" + format;
+        if (format$$1.split(':')[0].length === 1) {
+            return "0" + format$$1;
         }
-        return format;
+        return format$$1;
     };
     Object.defineProperty(NovoTimePickerInputElement.prototype, "hasValue", {
         get: /**
@@ -18180,61 +14954,14 @@ var NovoTimePickerInputElement = /** @class */ (function () {
         disabled: [{ type: HostBinding, args: ['class.disabled',] }, { type: Input }],
         blurEvent: [{ type: Output }],
         focusEvent: [{ type: Output }],
-        overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: false },] }]
+        overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }]
     };
     return NovoTimePickerInputElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.value;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.formattedValue;
-    /**
-     * View -> model callback called when value changes
-     * @type {?}
-     */
-    NovoTimePickerInputElement.prototype._onChange;
-    /**
-     * View -> model callback called when autocomplete has been touched
-     * @type {?}
-     */
-    NovoTimePickerInputElement.prototype._onTouched;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.name;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.placeholder;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.military;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.maskOptions;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.disabled;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.blurEvent;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.focusEvent;
-    /**
-     * Element for the panel containing the autocomplete options.
-     * @type {?}
-     */
-    NovoTimePickerInputElement.prototype.overlay;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.element;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.labels;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.dateFormatService;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoTimePickerInputElement.prototype._changeDetectorRef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/time-picker/TimePicker.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTimePickerModule = /** @class */ (function () {
     function NovoTimePickerModule() {
@@ -18251,17 +14978,13 @@ var NovoTimePickerModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/date-time-picker/DateTimePicker.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var DATE_TIME_PICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoDateTimePickerElement; })),
+    useExisting: forwardRef(function () { return NovoDateTimePickerElement; }),
     multi: true,
 };
 var NovoDateTimePickerElement = /** @class */ (function () {
@@ -18273,14 +14996,8 @@ var NovoDateTimePickerElement = /** @class */ (function () {
         this.componentTabState = 'date';
         this.datePickerValue = new Date();
         this.timePickerValue = new Date();
-        this._onChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this._onTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this._onChange = function () { };
+        this._onTouched = function () { };
     }
     /**
      * @param {?} tab
@@ -18488,61 +15205,16 @@ var NovoDateTimePickerElement = /** @class */ (function () {
     };
     return NovoDateTimePickerElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.minYear;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.maxYear;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.start;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.end;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.military;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.onSelect;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.componentTabState;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.selectedLabel;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.hours;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.minutes;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.meridian;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.datePickerValue;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.timePickerValue;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.model;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype._onChange;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype._onTouched;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDateTimePickerElement.prototype.element;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/date-time-picker/DateTimePickerInput.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var DATE_VALUE_ACCESSOR$2 = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoDateTimePickerInputElement; })),
+    useExisting: forwardRef(function () { return NovoDateTimePickerInputElement; }),
     multi: true,
 };
 var NovoDateTimePickerInputElement = /** @class */ (function () {
@@ -18553,17 +15225,11 @@ var NovoDateTimePickerInputElement = /** @class */ (function () {
         /**
          * View -> model callback called when value changes
          */
-        this._onChange = (/**
-         * @return {?}
-         */
-        function () { });
+        this._onChange = function () { };
         /**
          * View -> model callback called when autocomplete has been touched
          */
-        this._onTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this._onTouched = function () { };
         this.military = false;
         this.disabled = false;
         this.blurEvent = new EventEmitter();
@@ -18581,10 +15247,7 @@ var NovoDateTimePickerInputElement = /** @class */ (function () {
         var _this = this;
         this.datePart = isDate(value) ? parse(value) : value;
         this.timePart = isDate(value) ? parse(value) : value;
-        Promise.resolve(null).then((/**
-         * @return {?}
-         */
-        function () { return _this._setTriggerValue(value); }));
+        Promise.resolve(null).then(function () { return _this._setTriggerValue(value); });
     };
     /**
      * @param {?} event
@@ -18790,58 +15453,10 @@ var NovoDateTimePickerInputElement = /** @class */ (function () {
     };
     return NovoDateTimePickerInputElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.value;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.datePart;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.timePart;
-    /**
-     * View -> model callback called when value changes
-     * @type {?}
-     */
-    NovoDateTimePickerInputElement.prototype._onChange;
-    /**
-     * View -> model callback called when autocomplete has been touched
-     * @type {?}
-     */
-    NovoDateTimePickerInputElement.prototype._onTouched;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.name;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.start;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.end;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.placeholder;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.maskOptions;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.military;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.disabled;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.format;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.blurEvent;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.focusEvent;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.element;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDateTimePickerInputElement.prototype._changeDetectorRef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/date-time-picker/DateTimePicker.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoDateTimePickerModule = /** @class */ (function () {
     function NovoDateTimePickerModule() {
@@ -18858,17 +15473,13 @@ var NovoDateTimePickerModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/ckeditor/CKEditor.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var CKEDITOR_CONTROL_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoCKEditorElement; })),
+    useExisting: forwardRef(function () { return NovoCKEditorElement; }),
     multi: true,
 };
 /**
@@ -18920,10 +15531,7 @@ var NovoCKEditorElement = /** @class */ (function () {
         var _this = this;
         if (this.instance) {
             this.instance.focusManager.blur(true); // Remove focus from editor
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            setTimeout(function () {
                 _this.instance.removeAllListeners();
                 /** @type {?} */
                 var aInstance = CKEDITOR.instances[_this.instance.name];
@@ -18932,7 +15540,7 @@ var NovoCKEditorElement = /** @class */ (function () {
                 }
                 _this.instance.destroy();
                 _this.instance = null;
-            }));
+            });
         }
     };
     /**
@@ -18943,7 +15551,7 @@ var NovoCKEditorElement = /** @class */ (function () {
      */
     function () {
         /** @type {?} */
-        var config = Object.assign(this.getBaseConfig(), this.config);
+        var config = this.config || this.getBaseConfig();
         if (this.startupFocus) {
             config.startupFocus = true;
         }
@@ -18962,15 +15570,12 @@ var NovoCKEditorElement = /** @class */ (function () {
      */
     function (value) {
         var _this = this;
-        this.zone.run((/**
-         * @return {?}
-         */
-        function () {
+        this.zone.run(function () {
             _this.value = value;
             _this.onChange(value);
             _this.onTouched();
             _this.change.emit(value);
-        }));
+        });
     };
     /**
      * @private
@@ -18993,19 +15598,12 @@ var NovoCKEditorElement = /** @class */ (function () {
         // Set initial value
         this.instance.setData(this.value);
         // listen for instanceReady event
-        this.instance.on('instanceReady', (/**
-         * @param {?} evt
-         * @return {?}
-         */
-        function (evt) {
+        this.instance.on('instanceReady', function (evt) {
             // send the evt to the EventEmitter
             _this.ready.emit(evt);
-        }));
+        });
         // CKEditor change event
-        this.instance.on('change', (/**
-         * @return {?}
-         */
-        function () {
+        this.instance.on('change', function () {
             _this.onTouched();
             /** @type {?} */
             var value = _this.instance.getData();
@@ -19014,46 +15612,27 @@ var NovoCKEditorElement = /** @class */ (function () {
                 if (_this.debounceTimeout) {
                     clearTimeout(_this.debounceTimeout);
                 }
-                _this.debounceTimeout = setTimeout((/**
-                 * @return {?}
-                 */
-                function () {
+                _this.debounceTimeout = setTimeout(function () {
                     _this.updateValue(value);
                     _this.debounceTimeout = null;
-                }), parseInt(_this.debounce));
+                }, parseInt(_this.debounce));
             }
             else {
                 _this.updateValue(value);
             }
-        }));
-        this.instance.on('blur', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        });
+        this.instance.on('blur', function (event) {
             _this.blur.emit(event);
-        }));
-        this.instance.on('focus', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        });
+        this.instance.on('focus', function (event) {
             _this.focus.emit(event);
-        }));
-        this.instance.on('paste', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        });
+        this.instance.on('paste', function (event) {
             _this.paste.emit(event);
-        }));
-        this.instance.on('loaded', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        });
+        this.instance.on('loaded', function (event) {
             _this.loaded.emit(event);
-        }));
+        });
     };
     /**
      * @return {?}
@@ -19242,57 +15821,15 @@ var NovoCKEditorElement = /** @class */ (function () {
         focus: [{ type: Output }],
         paste: [{ type: Output }],
         loaded: [{ type: Output }],
-        host: [{ type: ViewChild, args: ['host', { static: false },] }],
+        host: [{ type: ViewChild, args: ['host',] }],
         value: [{ type: Input }]
     };
     return NovoCKEditorElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoCKEditorElement.prototype.config;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.debounce;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.name;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.minimal;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.startupFocus;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.fileBrowserImageUploadUrl;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.disabled;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.change;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.ready;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.blur;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.focus;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.paste;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.loaded;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.host;
-    /** @type {?} */
-    NovoCKEditorElement.prototype._value;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.instance;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.debounceTimeout;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoCKEditorElement.prototype.zone;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/ckeditor/CKEditor.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoNovoCKEditorModule = /** @class */ (function () {
     function NovoNovoCKEditorModule() {
@@ -19309,8 +15846,7 @@ var NovoNovoCKEditorModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tip-well/TipWell.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTipWellElement = /** @class */ (function () {
     function NovoTipWellElement(labels, sanitizer) {
@@ -19322,10 +15858,7 @@ var NovoTipWellElement = /** @class */ (function () {
         this.isActive = true;
         this.isActive = true;
         // Check if localStorage is enabled
-        this.isLocalStorageEnabled = ((/**
-         * @return {?}
-         */
-        function () {
+        this.isLocalStorageEnabled = (function () {
             /** @type {?} */
             var isEnabled = false;
             if (typeof localStorage === 'object') {
@@ -19339,7 +15872,7 @@ var NovoTipWellElement = /** @class */ (function () {
                 }
             }
             return isEnabled;
-        }))();
+        })();
     }
     Object.defineProperty(NovoTipWellElement.prototype, "tipWithStyles", {
         // Trusts the HTML in order to show CSS styles
@@ -19422,53 +15955,10 @@ var NovoTipWellElement = /** @class */ (function () {
     };
     return NovoTipWellElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoTipWellElement.prototype.name;
-    /** @type {?} */
-    NovoTipWellElement.prototype.tip;
-    /** @type {?} */
-    NovoTipWellElement.prototype.buttonText;
-    /** @type {?} */
-    NovoTipWellElement.prototype.button;
-    /** @type {?} */
-    NovoTipWellElement.prototype.icon;
-    /** @type {?} */
-    NovoTipWellElement.prototype.sanitize;
-    /** @type {?} */
-    NovoTipWellElement.prototype.confirmed;
-    /** @type {?} */
-    NovoTipWellElement.prototype.isActive;
-    /** @type {?} */
-    NovoTipWellElement.prototype.isLocalStorageEnabled;
-    /** @type {?} */
-    NovoTipWellElement.prototype.localStorageKey;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTipWellElement.prototype._tipWithStyles;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTipWellElement.prototype._lastTipStyled;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTipWellElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTipWellElement.prototype.sanitizer;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tip-well/TipWell.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTipWellModule = /** @class */ (function () {
     function NovoTipWellModule() {
@@ -19485,8 +15975,7 @@ var NovoTipWellModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/template/NovoTemplateService.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTemplateService = /** @class */ (function () {
     function NovoTemplateService() {
@@ -19509,20 +15998,12 @@ var NovoTemplateService = /** @class */ (function () {
         var customTemplateTypes = Object.keys(this.templates.custom);
         /** @type {?} */
         var defaultTemplateTypes = Object.keys(this.templates.default);
-        defaultTemplateTypes.forEach((/**
-         * @param {?} type
-         * @return {?}
-         */
-        function (type) {
+        defaultTemplateTypes.forEach(function (type) {
             templates[type] = _this.templates.default[type];
-        }));
-        customTemplateTypes.forEach((/**
-         * @param {?} type
-         * @return {?}
-         */
-        function (type) {
+        });
+        customTemplateTypes.forEach(function (type) {
             templates[type] = _this.templates.custom[type];
-        }));
+        });
         return templates;
     };
     /**
@@ -19558,15 +16039,10 @@ var NovoTemplateService = /** @class */ (function () {
     NovoTemplateService.ctorParameters = function () { return []; };
     return NovoTemplateService;
 }());
-if (false) {
-    /** @type {?} */
-    NovoTemplateService.prototype.templates;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/common/novo-template/novo-template.directive.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTemplate = /** @class */ (function () {
     function NovoTemplate(template) {
@@ -19596,19 +16072,10 @@ var NovoTemplate = /** @class */ (function () {
     };
     return NovoTemplate;
 }());
-if (false) {
-    /** @type {?} */
-    NovoTemplate.prototype.type;
-    /** @type {?} */
-    NovoTemplate.prototype.name;
-    /** @type {?} */
-    NovoTemplate.prototype.template;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/DynamicForm.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoFieldsetHeaderElement = /** @class */ (function () {
     function NovoFieldsetHeaderElement() {
@@ -19625,22 +16092,14 @@ var NovoFieldsetHeaderElement = /** @class */ (function () {
     };
     return NovoFieldsetHeaderElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoFieldsetHeaderElement.prototype.title;
-    /** @type {?} */
-    NovoFieldsetHeaderElement.prototype.icon;
-}
 var NovoFieldsetElement = /** @class */ (function () {
     function NovoFieldsetElement() {
         this.controls = [];
-        this.isEmbedded = false;
-        this.isInlineEmbedded = false;
     }
     NovoFieldsetElement.decorators = [
         { type: Component, args: [{
                     selector: 'novo-fieldset',
-                    template: "\n        <div class=\"novo-fieldset-container\">\n            <novo-fieldset-header [icon]=\"icon\" [title]=\"title\" *ngIf=\"title\" [class.embedded]=\"isEmbedded\" [class.inline-embedded]=\"isInlineEmbedded\"></novo-fieldset-header>\n            <ng-container *ngFor=\"let control of controls;let controlIndex = index;\">\n                <div class=\"novo-form-row\" [class.disabled]=\"control.disabled\" *ngIf=\"control.__type !== 'GroupedControl'\">\n                    <novo-control [autoFocus]=\"autoFocus && index === 0 && controlIndex === 0\" [control]=\"control\" [form]=\"form\"></novo-control>\n                </div>\n                <div *ngIf=\"control.__type === 'GroupedControl'\">TODO - GroupedControl</div>\n            </ng-container>\n        </div>\n    "
+                    template: "\n        <div class=\"novo-fieldset-container\">\n            <novo-fieldset-header [icon]=\"icon\" [title]=\"title\" *ngIf=\"title\"></novo-fieldset-header>\n            <ng-container *ngFor=\"let control of controls;let controlIndex = index;\">\n                <div class=\"novo-form-row\" [class.disabled]=\"control.disabled\" *ngIf=\"control.__type !== 'GroupedControl'\">\n                    <novo-control [autoFocus]=\"autoFocus && index === 0 && controlIndex === 0\" [control]=\"control\" [form]=\"form\"></novo-control>\n                </div>\n                <div *ngIf=\"control.__type === 'GroupedControl'\">TODO - GroupedControl</div>\n            </ng-container>\n        </div>\n    "
                 }] }
     ];
     NovoFieldsetElement.propDecorators = {
@@ -19649,30 +16108,10 @@ var NovoFieldsetElement = /** @class */ (function () {
         title: [{ type: Input }],
         icon: [{ type: Input }],
         index: [{ type: Input }],
-        autoFocus: [{ type: Input }],
-        isEmbedded: [{ type: Input }],
-        isInlineEmbedded: [{ type: Input }]
+        autoFocus: [{ type: Input }]
     };
     return NovoFieldsetElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoFieldsetElement.prototype.controls;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.form;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.title;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.icon;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.index;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.autoFocus;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.isEmbedded;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.isInlineEmbedded;
-}
 var NovoDynamicFormElement = /** @class */ (function () {
     function NovoDynamicFormElement(element, templates) {
         this.element = element;
@@ -19716,52 +16155,32 @@ var NovoDynamicFormElement = /** @class */ (function () {
             this.numControls = this.controls.length;
         }
         else if (this.fieldsets) {
-            this.fieldsets.forEach((/**
-             * @param {?} fieldset
-             * @return {?}
-             */
-            function (fieldset) {
+            this.fieldsets.forEach(function (fieldset) {
                 _this.numControls = _this.numControls + fieldset.controls.length;
-            }));
+            });
         }
         /** @type {?} */
         var requiredFields = [];
         /** @type {?} */
         var nonRequiredFields = [];
-        this.fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        function (fieldset) {
-            fieldset.controls.forEach((/**
-             * @param {?} control
-             * @return {?}
-             */
-            function (control) {
+        this.fieldsets.forEach(function (fieldset) {
+            fieldset.controls.forEach(function (control) {
                 if (control.required) {
                     requiredFields.push(control);
                 }
                 else {
                     nonRequiredFields.push(control);
                 }
-            }));
-        }));
+            });
+        });
         this.allFieldsRequired = requiredFields.length === this.numControls;
         this.allFieldsNotRequired = nonRequiredFields.length === this.numControls;
         if (this.allFieldsNotRequired && this.hideNonRequiredFields) {
-            this.fieldsets.forEach((/**
-             * @param {?} fieldset
-             * @return {?}
-             */
-            function (fieldset) {
-                fieldset.controls.forEach((/**
-                 * @param {?} control
-                 * @return {?}
-                 */
-                function (control) {
+            this.fieldsets.forEach(function (fieldset) {
+                fieldset.controls.forEach(function (control) {
                     _this.form.controls[control.key].hidden = false;
-                }));
-            }));
+                });
+            });
         }
         this.form.fieldsets = __spread(this.fieldsets);
     };
@@ -19774,13 +16193,9 @@ var NovoDynamicFormElement = /** @class */ (function () {
     function () {
         var _this = this;
         if (this.customTemplates && this.customTemplates.length) {
-            this.customTemplates.forEach((/**
-             * @param {?} template
-             * @return {?}
-             */
-            function (template) {
+            this.customTemplates.forEach(function (template) {
                 _this.templates.addCustom(template.name, template.template);
-            }));
+            });
         }
     };
     /**
@@ -19791,23 +16206,15 @@ var NovoDynamicFormElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this.form.fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        function (fieldset) {
-            fieldset.controls.forEach((/**
-             * @param {?} control
-             * @return {?}
-             */
-            function (control) {
+        this.form.fieldsets.forEach(function (fieldset) {
+            fieldset.controls.forEach(function (control) {
                 /** @type {?} */
                 var ctl = _this.form.controls[control.key];
                 if (!_this.fieldsAlreadyHidden.includes(control.key)) {
                     ctl.hidden = false;
                 }
-            }));
-        }));
+            });
+        });
         this.showingAllFields = true;
         this.showingRequiredFields = false;
     };
@@ -19822,16 +16229,8 @@ var NovoDynamicFormElement = /** @class */ (function () {
     function (hideRequiredWithValue) {
         var _this = this;
         this.fieldsAlreadyHidden = [];
-        this.form.fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        function (fieldset) {
-            fieldset.controls.forEach((/**
-             * @param {?} control
-             * @return {?}
-             */
-            function (control) {
+        this.form.fieldsets.forEach(function (fieldset) {
+            fieldset.controls.forEach(function (control) {
                 /** @type {?} */
                 var ctl = _this.form.controls[control.key];
                 if (ctl.hidden) {
@@ -19851,8 +16250,8 @@ var NovoDynamicFormElement = /** @class */ (function () {
                 if (ctl.errors) {
                     ctl.hidden = false;
                 }
-            }));
-        }));
+            });
+        });
         this.showingAllFields = false;
         this.showingRequiredFields = true;
         this.forceValidation();
@@ -19887,24 +16286,16 @@ var NovoDynamicFormElement = /** @class */ (function () {
         var _this = this;
         /** @type {?} */
         var ret = null;
-        this.form.fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        function (fieldset) {
-            fieldset.controls.forEach((/**
-             * @param {?} control
-             * @return {?}
-             */
-            function (control) {
+        this.form.fieldsets.forEach(function (fieldset) {
+            fieldset.controls.forEach(function (control) {
                 if (_this.form.controls[control.key].dirty || control.dirty) {
                     if (!ret) {
                         ret = {};
                     }
                     ret[control.key] = _this.form.value[control.key];
                 }
-            }));
-        }));
+            });
+        });
         return ret;
     };
     /**
@@ -19915,23 +16306,19 @@ var NovoDynamicFormElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        Object.keys(this.form.controls).forEach((/**
-         * @param {?} key
-         * @return {?}
-         */
-        function (key) {
+        Object.keys(this.form.controls).forEach(function (key) {
             /** @type {?} */
             var control = _this.form.controls[key];
             if (control.required && Helpers.isBlank(_this.form.value[control.key])) {
                 control.markAsDirty();
                 control.markAsTouched();
             }
-        }));
+        });
     };
     NovoDynamicFormElement.decorators = [
         { type: Component, args: [{
                     selector: 'novo-dynamic-form',
-                    template: "\n        <novo-control-templates></novo-control-templates>\n        <div class=\"novo-form-container\">\n            <header>\n                <ng-content select=\"form-title\"></ng-content>\n                <ng-content select=\"form-subtitle\"></ng-content>\n            </header>\n            <form class=\"novo-form\" [formGroup]=\"form\">\n                <ng-container *ngFor=\"let fieldset of form.fieldsets;let i = index\">\n                    <novo-fieldset *ngIf=\"fieldset.controls.length\" [index]=\"i\" [autoFocus]=\"autoFocusFirstField\" [icon]=\"fieldset.icon\" [controls]=\"fieldset.controls\" [title]=\"fieldset.title\" [form]=\"form\" [isEmbedded]=\"fieldset.isEmbedded\" [isInlineEmbedded]=\"fieldset.isInlineEmbedded\"></novo-fieldset>\n                </ng-container>\n            </form>\n        </div>\n    ",
+                    template: "\n        <novo-control-templates></novo-control-templates>\n        <div class=\"novo-form-container\">\n            <header>\n                <ng-content select=\"form-title\"></ng-content>\n                <ng-content select=\"form-subtitle\"></ng-content>\n            </header>\n            <form class=\"novo-form\" [formGroup]=\"form\">\n                <ng-container *ngFor=\"let fieldset of form.fieldsets;let i = index\">\n                    <novo-fieldset *ngIf=\"fieldset.controls.length\" [index]=\"i\" [autoFocus]=\"autoFocusFirstField\" [icon]=\"fieldset.icon\" [controls]=\"fieldset.controls\" [title]=\"fieldset.title\" [form]=\"form\"></novo-fieldset>\n                </ng-container>\n            </form>\n        </div>\n    ",
                     providers: [NovoTemplateService]
                 }] }
     ];
@@ -19951,52 +16338,10 @@ var NovoDynamicFormElement = /** @class */ (function () {
     };
     return NovoDynamicFormElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.controls;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.fieldsets;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.form;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.layout;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.hideNonRequiredFields;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.autoFocusFirstField;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.customTemplates;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDynamicFormElement.prototype.fieldsAlreadyHidden;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.allFieldsRequired;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.allFieldsNotRequired;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.showingAllFields;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.showingRequiredFields;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.numControls;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDynamicFormElement.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDynamicFormElement.prototype.templates;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/Form.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoFormElement = /** @class */ (function () {
     function NovoFormElement(templates) {
@@ -20043,13 +16388,9 @@ var NovoFormElement = /** @class */ (function () {
     function () {
         var _this = this;
         if (this.customTemplates && this.customTemplates.length) {
-            this.customTemplates.forEach((/**
-             * @param {?} template
-             * @return {?}
-             */
-            function (template) {
+            this.customTemplates.forEach(function (template) {
                 _this.templates.addCustom(template.name, template.template);
-            }));
+            });
         }
     };
     /**
@@ -20060,13 +16401,9 @@ var NovoFormElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        Object.keys(this.form.controls).forEach((/**
-         * @param {?} key
-         * @return {?}
-         */
-        function (key) {
+        Object.keys(this.form.controls).forEach(function (key) {
             _this.form.controls[key].hidden = false;
-        }));
+        });
         this.showingAllFields = true;
         this.showingRequiredFields = false;
     };
@@ -20080,11 +16417,7 @@ var NovoFormElement = /** @class */ (function () {
      */
     function (hideRequiredWithValue) {
         var _this = this;
-        Object.keys(this.form.controls).forEach((/**
-         * @param {?} key
-         * @return {?}
-         */
-        function (key) {
+        Object.keys(this.form.controls).forEach(function (key) {
             // Hide any non-required fields
             if (!_this.form.controls[key].required) {
                 _this.form.controls[key].hidden = true;
@@ -20097,7 +16430,7 @@ var NovoFormElement = /** @class */ (function () {
             if (_this.form.controls[key].errors) {
                 _this.form.controls[key].hidden = false;
             }
-        }));
+        });
         this.showingAllFields = false;
         this.showingRequiredFields = true;
         this.forceValidation();
@@ -20110,18 +16443,14 @@ var NovoFormElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        Object.keys(this.form.controls).forEach((/**
-         * @param {?} key
-         * @return {?}
-         */
-        function (key) {
+        Object.keys(this.form.controls).forEach(function (key) {
             /** @type {?} */
             var control = _this.form.controls[key];
             if (control.required && Helpers.isBlank(_this.form.value[control.key])) {
                 control.markAsDirty();
                 control.markAsTouched();
             }
-        }));
+        });
     };
     NovoFormElement.decorators = [
         { type: Component, args: [{
@@ -20142,30 +16471,10 @@ var NovoFormElement = /** @class */ (function () {
     };
     return NovoFormElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoFormElement.prototype.form;
-    /** @type {?} */
-    NovoFormElement.prototype.layout;
-    /** @type {?} */
-    NovoFormElement.prototype.hideHeader;
-    /** @type {?} */
-    NovoFormElement.prototype.customTemplates;
-    /** @type {?} */
-    NovoFormElement.prototype.showingAllFields;
-    /** @type {?} */
-    NovoFormElement.prototype.showingRequiredFields;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoFormElement.prototype.templates;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/NovoFormControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoFormControl = /** @class */ (function (_super) {
     __extends(NovoFormControl, _super);
@@ -20198,7 +16507,6 @@ var NovoFormControl = /** @class */ (function (_super) {
         _this.sortOrder = control.sortOrder;
         _this.controlType = control.controlType;
         _this.placeholder = control.placeholder;
-        _this.minimal = control.minimal;
         _this.multiple = control.multiple;
         _this.headerConfig = control.headerConfig;
         _this.optionsType = control.optionsType;
@@ -20302,11 +16610,7 @@ var NovoFormControl = /** @class */ (function (_super) {
         else if (!this.required && this.hasRequiredValidator) {
             /** @type {?} */
             var validators = __spread(this.validators);
-            validators = validators.filter((/**
-             * @param {?} val
-             * @return {?}
-             */
-            function (val) { return val !== Validators.required; }));
+            validators = validators.filter(function (val) { return val !== Validators.required; });
             // TODO: duplicated above
             this.setValidators(validators);
             this.updateValueAndValidity({ emitEvent: false });
@@ -20346,12 +16650,9 @@ var NovoFormControl = /** @class */ (function (_super) {
         _super.prototype.setValue.call(this, value, { onlySelf: onlySelf, emitEvent: emitEvent, emitModelToViewChange: emitModelToViewChange, emitViewToModelChange: emitViewToModelChange });
         // History
         clearTimeout(this.historyTimeout);
-        this.historyTimeout = setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        this.historyTimeout = setTimeout(function () {
             _this.valueHistory.push(value);
-        }), 300);
+        }, 300);
     };
     /**
      * @name setReadOnly
@@ -20441,274 +16742,16 @@ var NovoFormControl = /** @class */ (function (_super) {
     };
     return NovoFormControl;
 }(FormControl));
-if (false) {
-    /** @type {?} */
-    NovoFormControl.prototype.displayValueChanges;
-    /** @type {?} */
-    NovoFormControl.prototype.hidden;
-    /** @type {?} */
-    NovoFormControl.prototype.encrypted;
-    /** @type {?} */
-    NovoFormControl.prototype.key;
-    /** @type {?} */
-    NovoFormControl.prototype.required;
-    /** @type {?} */
-    NovoFormControl.prototype.readOnly;
-    /** @type {?} */
-    NovoFormControl.prototype.hasRequiredValidator;
-    /** @type {?} */
-    NovoFormControl.prototype.label;
-    /** @type {?} */
-    NovoFormControl.prototype.tooltip;
-    /** @type {?} */
-    NovoFormControl.prototype.tooltipPosition;
-    /** @type {?} */
-    NovoFormControl.prototype.tooltipSize;
-    /** @type {?} */
-    NovoFormControl.prototype.tooltipPreline;
-    /** @type {?} */
-    NovoFormControl.prototype.removeTooltipArrow;
-    /** @type {?} */
-    NovoFormControl.prototype.tooltipAutoPosition;
-    /** @type {?} */
-    NovoFormControl.prototype.initialValue;
-    /** @type {?} */
-    NovoFormControl.prototype.valueHistory;
-    /** @type {?} */
-    NovoFormControl.prototype.validators;
-    /** @type {?} */
-    NovoFormControl.prototype.config;
-    /** @type {?} */
-    NovoFormControl.prototype.sortOrder;
-    /** @type {?} */
-    NovoFormControl.prototype.controlType;
-    /** @type {?} */
-    NovoFormControl.prototype.placeholder;
-    /** @type {?} */
-    NovoFormControl.prototype.minimal;
-    /** @type {?} */
-    NovoFormControl.prototype.multiple;
-    /** @type {?} */
-    NovoFormControl.prototype.headerConfig;
-    /** @type {?} */
-    NovoFormControl.prototype.optionsType;
-    /** @type {?} */
-    NovoFormControl.prototype.maxlength;
-    /** @type {?} */
-    NovoFormControl.prototype.minlength;
-    /** @type {?} */
-    NovoFormControl.prototype.options;
-    /** @type {?} */
-    NovoFormControl.prototype.type;
-    /** @type {?} */
-    NovoFormControl.prototype.subType;
-    /** @type {?} */
-    NovoFormControl.prototype.name;
-    /** @type {?} */
-    NovoFormControl.prototype.closeOnSelect;
-    /** @type {?} */
-    NovoFormControl.prototype.interactions;
-    /** @type {?} */
-    NovoFormControl.prototype.appendToBody;
-    /** @type {?} */
-    NovoFormControl.prototype.parentScrollSelector;
-    /** @type {?} */
-    NovoFormControl.prototype.description;
-    /** @type {?} */
-    NovoFormControl.prototype.layoutOptions;
-    /** @type {?} */
-    NovoFormControl.prototype.military;
-    /** @type {?} */
-    NovoFormControl.prototype.dateFormat;
-    /** @type {?} */
-    NovoFormControl.prototype.currencyFormat;
-    /** @type {?} */
-    NovoFormControl.prototype.startDate;
-    /** @type {?} */
-    NovoFormControl.prototype.endDate;
-    /** @type {?} */
-    NovoFormControl.prototype.textMaskEnabled;
-    /** @type {?} */
-    NovoFormControl.prototype.maskOptions;
-    /** @type {?} */
-    NovoFormControl.prototype.allowInvalidDate;
-    /** @type {?} */
-    NovoFormControl.prototype.tipWell;
-    /** @type {?} */
-    NovoFormControl.prototype.rawValue;
-    /** @type {?} */
-    NovoFormControl.prototype.customControlConfig;
-    /** @type {?} */
-    NovoFormControl.prototype.checkboxLabel;
-    /** @type {?} */
-    NovoFormControl.prototype.restrictFieldInteractions;
-    /** @type {?} */
-    NovoFormControl.prototype.warning;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoFormControl.prototype.historyTimeout;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/BaseControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function NovoGroupedControlConfig() { }
-if (false) {
-    /** @type {?|undefined} */
-    NovoGroupedControlConfig.prototype.label;
-    /** @type {?|undefined} */
-    NovoGroupedControlConfig.prototype.icon;
-    /** @type {?|undefined} */
-    NovoGroupedControlConfig.prototype.add;
-    /** @type {?|undefined} */
-    NovoGroupedControlConfig.prototype.remove;
-    /** @type {?} */
-    NovoGroupedControlConfig.prototype.key;
-    /** @type {?|undefined} */
-    NovoGroupedControlConfig.prototype.initialValue;
-}
 var ControlConfig = /** @class */ (function () {
     function ControlConfig() {
-        this.isEmbedded = false;
-        this.isInlineEmbedded = false;
     }
     return ControlConfig;
 }());
-if (false) {
-    /** @type {?} */
-    ControlConfig.prototype.allowInvalidDate;
-    /** @type {?} */
-    ControlConfig.prototype.appendToBody;
-    /** @type {?} */
-    ControlConfig.prototype.associatedEntity;
-    /** @type {?} */
-    ControlConfig.prototype.asyncValidators;
-    /** @type {?} */
-    ControlConfig.prototype.checkboxLabel;
-    /** @type {?} */
-    ControlConfig.prototype.closeOnSelect;
-    /** @type {?} */
-    ControlConfig.prototype.config;
-    /** @type {?} */
-    ControlConfig.prototype.controlType;
-    /** @type {?} */
-    ControlConfig.prototype.currencyFormat;
-    /** @type {?} */
-    ControlConfig.prototype.customControl;
-    /** @type {?} */
-    ControlConfig.prototype.customControlConfig;
-    /** @type {?} */
-    ControlConfig.prototype.dataSpecialization;
-    /** @type {?} */
-    ControlConfig.prototype.dataType;
-    /** @type {?} */
-    ControlConfig.prototype.dateFormat;
-    /** @type {?} */
-    ControlConfig.prototype.description;
-    /** @type {?} */
-    ControlConfig.prototype.dirty;
-    /** @type {?} */
-    ControlConfig.prototype.disabled;
-    /** @type {?} */
-    ControlConfig.prototype.encrypted;
-    /** @type {?} */
-    ControlConfig.prototype.endDate;
-    /** @type {?} */
-    ControlConfig.prototype.fileBrowserImageUploadUrl;
-    /** @type {?} */
-    ControlConfig.prototype.forceClear;
-    /** @type {?} */
-    ControlConfig.prototype.headerConfig;
-    /** @type {?} */
-    ControlConfig.prototype.hidden;
-    /** @type {?} */
-    ControlConfig.prototype.interactions;
-    /** @type {?} */
-    ControlConfig.prototype.isEmpty;
-    /** @type {?} */
-    ControlConfig.prototype.key;
-    /** @type {?} */
-    ControlConfig.prototype.label;
-    /** @type {?} */
-    ControlConfig.prototype.maskOptions;
-    /** @type {?} */
-    ControlConfig.prototype.maxlength;
-    /** @type {?} */
-    ControlConfig.prototype.metaType;
-    /** @type {?} */
-    ControlConfig.prototype.military;
-    /** @type {?} */
-    ControlConfig.prototype.minimal;
-    /** @type {?} */
-    ControlConfig.prototype.minlength;
-    /** @type {?} */
-    ControlConfig.prototype.multiple;
-    /** @type {?} */
-    ControlConfig.prototype.name;
-    /** @type {?} */
-    ControlConfig.prototype.options;
-    /** @type {?} */
-    ControlConfig.prototype.optionsType;
-    /** @type {?} */
-    ControlConfig.prototype.parentScrollSelector;
-    /** @type {?} */
-    ControlConfig.prototype.placeholder;
-    /** @type {?} */
-    ControlConfig.prototype.readOnly;
-    /** @type {?} */
-    ControlConfig.prototype.removeTooltipArrow;
-    /** @type {?} */
-    ControlConfig.prototype.required;
-    /** @type {?} */
-    ControlConfig.prototype.restrictFieldInteractions;
-    /** @type {?} */
-    ControlConfig.prototype.sortOrder;
-    /** @type {?} */
-    ControlConfig.prototype.startDate;
-    /** @type {?} */
-    ControlConfig.prototype.startupFocus;
-    /** @type {?} */
-    ControlConfig.prototype.subType;
-    /** @type {?} */
-    ControlConfig.prototype.template;
-    /** @type {?} */
-    ControlConfig.prototype.textMaskEnabled;
-    /** @type {?} */
-    ControlConfig.prototype.tooltip;
-    /** @type {?} */
-    ControlConfig.prototype.tooltipAutoPosition;
-    /** @type {?} */
-    ControlConfig.prototype.tooltipPosition;
-    /** @type {?} */
-    ControlConfig.prototype.tooltipPreline;
-    /** @type {?} */
-    ControlConfig.prototype.tooltipSize;
-    /** @type {?} */
-    ControlConfig.prototype.type;
-    /** @type {?} */
-    ControlConfig.prototype.validators;
-    /** @type {?} */
-    ControlConfig.prototype.value;
-    /** @type {?} */
-    ControlConfig.prototype.warning;
-    /** @type {?} */
-    ControlConfig.prototype.width;
-    /** @type {?} */
-    ControlConfig.prototype.layoutOptions;
-    /** @type {?} */
-    ControlConfig.prototype.tipWell;
-    /** @type {?} */
-    ControlConfig.prototype.isEmbedded;
-    /** @type {?} */
-    ControlConfig.prototype.isInlineEmbedded;
-}
 var BaseControl = /** @class */ (function (_super) {
     __extends(BaseControl, _super);
     function BaseControl(type, config) {
@@ -20801,17 +16844,10 @@ var BaseControl = /** @class */ (function (_super) {
     }
     return BaseControl;
 }(ControlConfig));
-if (false) {
-    /** @type {?} */
-    BaseControl.prototype.__type;
-    /** @type {?} */
-    BaseControl.prototype.__config;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/FormValidators.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 var MAX_INTEGER = 2147483647;
@@ -20932,25 +16968,15 @@ var FormValidators = /** @class */ (function () {
         /** @type {?} */
         var maxlengthError = false;
         /** @type {?} */
-        var showCountryRequiredFlag = (/**
-         * @param {?} subfield
-         * @param {?} ctrl
-         * @return {?}
-         */
-        function (subfield, ctrl) {
+        var showCountryRequiredFlag = function (subfield, ctrl) {
             return (subfield === 'countryID' &&
                 !Helpers.isEmpty(ctrl.config.countryID) &&
                 ctrl.config.countryID.required &&
                 Helpers.isBlank(ctrl.value.countryName) &&
                 ctrl.config.countryID.updated);
-        });
+        };
         /** @type {?} */
-        var showStateRequiredFlag = (/**
-         * @param {?} subfield
-         * @param {?} ctrl
-         * @return {?}
-         */
-        function (subfield, ctrl) {
+        var showStateRequiredFlag = function (subfield, ctrl) {
             return (subfield === 'state' &&
                 !Helpers.isEmpty(ctrl.config.state) &&
                 ctrl.config.state.required &&
@@ -20960,17 +16986,13 @@ var FormValidators = /** @class */ (function () {
                 ctrl.config.state.pickerConfig &&
                 ctrl.config.state.pickerConfig.defaultOptions &&
                 ctrl.config.state.pickerConfig.defaultOptions.length > 0);
-        });
+        };
         if (control.value && control.config) {
             /** @type {?} */
             var valid_1 = true;
             /** @type {?} */
             var formValidity_1 = true;
-            fieldList.forEach((/**
-             * @param {?} subfield
-             * @return {?}
-             */
-            function (subfield) {
+            fieldList.forEach(function (subfield) {
                 if (!Helpers.isEmpty(control.config[subfield])) {
                     if ((['countryID', 'state'].indexOf(subfield) === -1 &&
                         control.config[subfield].required &&
@@ -21001,7 +17023,7 @@ var FormValidators = /** @class */ (function () {
                         formValidity_1 = false;
                     }
                 }
-            }));
+            });
             if (!valid_1 || !formValidity_1 || maxlengthError) {
                 returnVal = {};
             }
@@ -21025,8 +17047,7 @@ var FormValidators = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/address/AddressControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var AddressControl = /** @class */ (function (_super) {
     __extends(AddressControl, _super);
@@ -21038,15 +17059,10 @@ var AddressControl = /** @class */ (function (_super) {
     }
     return AddressControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    AddressControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/check-list/CheckListControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var CheckListControl = /** @class */ (function (_super) {
     __extends(CheckListControl, _super);
@@ -21058,15 +17074,10 @@ var CheckListControl = /** @class */ (function (_super) {
     }
     return CheckListControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    CheckListControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/checkbox/CheckboxControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var CheckboxControl = /** @class */ (function (_super) {
     __extends(CheckboxControl, _super);
@@ -21077,15 +17088,10 @@ var CheckboxControl = /** @class */ (function (_super) {
     }
     return CheckboxControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    CheckboxControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/date/DateControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var DateControl = /** @class */ (function (_super) {
     __extends(DateControl, _super);
@@ -21096,15 +17102,10 @@ var DateControl = /** @class */ (function (_super) {
     }
     return DateControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    DateControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/date-time/DateTimeControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var DateTimeControl = /** @class */ (function (_super) {
     __extends(DateTimeControl, _super);
@@ -21115,15 +17116,10 @@ var DateTimeControl = /** @class */ (function (_super) {
     }
     return DateTimeControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    DateTimeControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/editor/EditorControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var EditorControl = /** @class */ (function (_super) {
     __extends(EditorControl, _super);
@@ -21135,17 +17131,10 @@ var EditorControl = /** @class */ (function (_super) {
     }
     return EditorControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    EditorControl.prototype.controlType;
-    /** @type {?} */
-    EditorControl.prototype.minimal;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/ace-editor/AceEditorControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var AceEditorControl = /** @class */ (function (_super) {
     __extends(AceEditorControl, _super);
@@ -21156,15 +17145,10 @@ var AceEditorControl = /** @class */ (function (_super) {
     }
     return AceEditorControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    AceEditorControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/file/FileControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var FileControl = /** @class */ (function (_super) {
     __extends(FileControl, _super);
@@ -21178,15 +17162,10 @@ var FileControl = /** @class */ (function (_super) {
     }
     return FileControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    FileControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/native-select/NativeSelectControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NativeSelectControl = /** @class */ (function (_super) {
     __extends(NativeSelectControl, _super);
@@ -21199,17 +17178,10 @@ var NativeSelectControl = /** @class */ (function (_super) {
     }
     return NativeSelectControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    NativeSelectControl.prototype.controlType;
-    /** @type {?} */
-    NativeSelectControl.prototype.options;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/picker/PickerControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var PickerControl = /** @class */ (function (_super) {
     __extends(PickerControl, _super);
@@ -21222,12 +17194,6 @@ var PickerControl = /** @class */ (function (_super) {
     }
     return PickerControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    PickerControl.prototype.controlType;
-    /** @type {?} */
-    PickerControl.prototype.options;
-}
 var TablePickerControl = /** @class */ (function (_super) {
     __extends(TablePickerControl, _super);
     function TablePickerControl(config) {
@@ -21240,8 +17206,7 @@ var TablePickerControl = /** @class */ (function (_super) {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/quick-note/QuickNoteControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var QuickNoteControl = /** @class */ (function (_super) {
     __extends(QuickNoteControl, _super);
@@ -21254,17 +17219,10 @@ var QuickNoteControl = /** @class */ (function (_super) {
     }
     return QuickNoteControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    QuickNoteControl.prototype.controlType;
-    /** @type {?} */
-    QuickNoteControl.prototype.options;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/radio/RadioControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var RadioControl = /** @class */ (function (_super) {
     __extends(RadioControl, _super);
@@ -21277,17 +17235,10 @@ var RadioControl = /** @class */ (function (_super) {
     }
     return RadioControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    RadioControl.prototype.controlType;
-    /** @type {?} */
-    RadioControl.prototype.options;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/read-only/ReadOnlyControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var ReadOnlyControl = /** @class */ (function (_super) {
     __extends(ReadOnlyControl, _super);
@@ -21299,15 +17250,10 @@ var ReadOnlyControl = /** @class */ (function (_super) {
     }
     return ReadOnlyControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    ReadOnlyControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/select/SelectControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var SelectControl = /** @class */ (function (_super) {
     __extends(SelectControl, _super);
@@ -21321,17 +17267,10 @@ var SelectControl = /** @class */ (function (_super) {
     }
     return SelectControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    SelectControl.prototype.controlType;
-    /** @type {?} */
-    SelectControl.prototype.options;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/text-area/TextAreaControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var TextAreaControl = /** @class */ (function (_super) {
     __extends(TextAreaControl, _super);
@@ -21342,15 +17281,10 @@ var TextAreaControl = /** @class */ (function (_super) {
     }
     return TextAreaControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    TextAreaControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/textbox/TextBoxControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var TextBoxControl = /** @class */ (function (_super) {
     __extends(TextBoxControl, _super);
@@ -21411,19 +17345,10 @@ var TextBoxControl = /** @class */ (function (_super) {
     };
     return TextBoxControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    TextBoxControl.prototype.controlType;
-    /** @type {?} */
-    TextBoxControl.prototype.type;
-    /** @type {?} */
-    TextBoxControl.prototype.subType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/tiles/TilesControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var TilesControl = /** @class */ (function (_super) {
     __extends(TilesControl, _super);
@@ -21436,17 +17361,10 @@ var TilesControl = /** @class */ (function (_super) {
     }
     return TilesControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    TilesControl.prototype.controlType;
-    /** @type {?} */
-    TilesControl.prototype.options;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/time/TimeControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var TimeControl = /** @class */ (function (_super) {
     __extends(TimeControl, _super);
@@ -21457,45 +17375,28 @@ var TimeControl = /** @class */ (function (_super) {
     }
     return TimeControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    TimeControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/grouped/GroupedControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var GroupedControl = /** @class */ (function () {
     function GroupedControl(config) {
         var _this = this;
         this.__type = 'GroupedControl';
-        Object.keys(config).forEach((/**
-         * @param {?} key
-         * @return {?}
-         */
-        function (key) { return (_this[key] = config[key]); }));
+        Object.keys(config).forEach(function (key) { return (_this[key] = config[key]); });
     }
     return GroupedControl;
 }());
-if (false) {
-    /** @type {?} */
-    GroupedControl.prototype.__type;
-    /** @type {?} */
-    GroupedControl.prototype.key;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/index.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/ControlFactory.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var ControlFactory = /** @class */ (function () {
     function ControlFactory() {
@@ -21558,8 +17459,7 @@ var ControlFactory = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/custom/CustomControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var CustomControl = /** @class */ (function (_super) {
     __extends(CustomControl, _super);
@@ -21571,21 +17471,15 @@ var CustomControl = /** @class */ (function (_super) {
     }
     return CustomControl;
 }(BaseControl));
-if (false) {
-    /** @type {?} */
-    CustomControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/FormControls.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/NovoFormGroup.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoFormGroup = /** @class */ (function (_super) {
     __extends(NovoFormGroup, _super);
@@ -21641,27 +17535,10 @@ var NovoFormGroup = /** @class */ (function (_super) {
     };
     return NovoFormGroup;
 }(FormGroup));
-if (false) {
-    /** @type {?} */
-    NovoFormGroup.prototype.fieldInteractionEvents;
-    /** @type {?} */
-    NovoFormGroup.prototype.layout;
-    /** @type {?} */
-    NovoFormGroup.prototype.edit;
-    /** @type {?} */
-    NovoFormGroup.prototype.currentEntity;
-    /** @type {?} */
-    NovoFormGroup.prototype.currentEntityId;
-    /** @type {?} */
-    NovoFormGroup.prototype.associations;
-    /** @type {?} */
-    NovoFormGroup.prototype._value;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/options/OptionsService.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // App
 var OptionsService = /** @class */ (function () {
@@ -21683,25 +17560,16 @@ var OptionsService = /** @class */ (function () {
         return {
             field: 'value',
             format: '$label',
-            options: (/**
-             * @param {?} query
-             * @return {?}
-             */
-            function (query) {
-                return new Promise((/**
-                 * @param {?} resolve
-                 * @param {?} reject
-                 * @return {?}
-                 */
-                function (resolve, reject) {
-                    if (query && query.length) {
-                        http.get(field.optionsUrl + "?filter=" + (query || '')).subscribe(resolve, reject);
+            options: function (query$$1) {
+                return new Promise(function (resolve, reject) {
+                    if (query$$1 && query$$1.length) {
+                        http.get(field.optionsUrl + "?filter=" + (query$$1 || '')).subscribe(resolve, reject);
                     }
                     else {
                         resolve([]);
                     }
-                }));
-            }),
+                });
+            },
         };
     };
     OptionsService.decorators = [
@@ -21714,8 +17582,7 @@ var OptionsService = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/form-utils/FormUtils.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var FormUtils = /** @class */ (function () {
     function FormUtils(labels, optionsService) {
@@ -21765,17 +17632,13 @@ var FormUtils = /** @class */ (function () {
      */
     function (controls) {
         /** @type {?} */
-        var group = {};
-        controls.forEach((/**
-         * @param {?} control
-         * @return {?}
-         */
-        function (control) {
+        var group$$1 = {};
+        controls.forEach(function (control) {
             /** @type {?} */
             var value = Helpers.isBlank(control.value) ? '' : control.value;
-            group[control.key] = new NovoFormControl(value, control);
-        }));
-        return new NovoFormGroup(group);
+            group$$1[control.key] = new NovoFormControl(value, control);
+        });
+        return new NovoFormGroup(group$$1);
     };
     /**
      * @return {?}
@@ -21797,17 +17660,13 @@ var FormUtils = /** @class */ (function () {
      * @return {?}
      */
     function (formGroup, controls) {
-        controls.forEach((/**
-         * @param {?} control
-         * @return {?}
-         */
-        function (control) {
+        controls.forEach(function (control) {
             /** @type {?} */
             var value = Helpers.isBlank(control.value) ? '' : control.value;
             /** @type {?} */
             var formControl = new NovoFormControl(value, control);
             formGroup.addControl(control.key, formControl);
-        }));
+        });
     };
     /**
      * @param {?} formGroup
@@ -21820,13 +17679,9 @@ var FormUtils = /** @class */ (function () {
      * @return {?}
      */
     function (formGroup, controls) {
-        controls.forEach((/**
-         * @param {?} control
-         * @return {?}
-         */
-        function (control) {
+        controls.forEach(function (control) {
             formGroup.removeControl(control.key);
-        }));
+        });
     };
     /**
      * @name toFormGroupFromFieldset
@@ -21845,13 +17700,9 @@ var FormUtils = /** @class */ (function () {
     function (fieldsets) {
         /** @type {?} */
         var controls = [];
-        fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        function (fieldset) {
+        fieldsets.forEach(function (fieldset) {
             controls.push.apply(controls, __spread(fieldset.controls));
-        }));
+        });
         return this.toFormGroup(controls);
     };
     /**
@@ -21901,7 +17752,6 @@ var FormUtils = /** @class */ (function () {
             SPECIALIZED_OPTIONS: 'select',
             WorkflowOptionsLookup: 'select',
             SpecializedOptionsLookup: 'select',
-            SimplifiedOptionsLookup: 'select',
         };
         /** @type {?} */
         var dataTypeToTypeMap = {
@@ -21957,17 +17807,6 @@ var FormUtils = /** @class */ (function () {
             }
             else if (['WORKFLOW_OPTIONS', 'SPECIALIZED_OPTIONS'].includes(field.dataSpecialization)) {
                 type = dataSpecializationTypeMap[field.dataSpecialization];
-            }
-            else if (['SimplifiedOptionsLookup', 'SpecializedOptionsLookup'].includes(field.dataType)) {
-                if (field.options && Object.keys(inputTypeToTypeMap).indexOf(field.inputType) > -1 && !field.multiValue) {
-                    type = inputTypeToTypeMap[field.inputType];
-                }
-                else if (field.options && Object.keys(inputTypeMultiToTypeMap).indexOf(field.inputType) > -1 && field.multiValue) {
-                    type = inputTypeMultiToTypeMap[field.inputType];
-                }
-                else {
-                    type = dataSpecializationTypeMap[field.dataType];
-                }
             }
             else if (this.hasAssociatedEntity(field)) {
                 type = 'entitypicker'; // TODO!
@@ -22039,8 +17878,8 @@ var FormUtils = /** @class */ (function () {
      * @return {?}
      */
     function (field, http, config, overrides, forTable, fieldData) {
-        var e_1, _a;
         if (forTable === void 0) { forTable = false; }
+        var e_1, _a;
         // TODO: if field.type overrides `determineInputType` we should use it in that method or use this method
         // TODO: (cont.) as the setter of the field argument
         /** @type {?} */
@@ -22102,8 +17941,6 @@ var FormUtils = /** @class */ (function () {
         // TODO: Overrides should be an iterable of all properties (potentially a private method)
         /** @type {?} */
         var overrideResultsTemplate;
-        /** @type {?} */
-        var overridePreviewTemplate;
         if (overrides && overrides[field.name]) {
             if (overrides[field.name].resultsTemplate) {
                 overrideResultsTemplate = overrides[field.name].resultsTemplate;
@@ -22136,7 +17973,7 @@ var FormUtils = /** @class */ (function () {
                 // TODO: This doesn't belong in this codebase
                 controlConfig.multiple = true;
                 controlConfig.config.resultsTemplate = overrideResultsTemplate || EntityPickerResults;
-                controlConfig.config.previewTemplate = overridePreviewTemplate || EntityPickerResult;
+                controlConfig.config.previewTemplate = EntityPickerResult;
                 // TODO: When appendToBody picker works better in table/form
                 control = new PickerControl(controlConfig);
                 break;
@@ -22325,11 +18162,7 @@ var FormUtils = /** @class */ (function () {
         if (meta && meta.fields) {
             /** @type {?} */
             var fields = meta.fields;
-            fields.forEach((/**
-             * @param {?} field
-             * @return {?}
-             */
-            function (field) {
+            fields.forEach(function (field) {
                 if (_this.shouldCreateControl(field)) {
                     /** @type {?} */
                     var control = _this.getControlForField(field, http, config, overrides, forTable);
@@ -22340,7 +18173,7 @@ var FormUtils = /** @class */ (function () {
                     // Add to controls
                     controls.push(control);
                 }
-            }));
+            });
         }
         return controls;
     };
@@ -22365,16 +18198,12 @@ var FormUtils = /** @class */ (function () {
         var controls = this.toControls(meta, currencyFormat, http, config, overrides, true);
         /** @type {?} */
         var ret = {};
-        controls.forEach((/**
-         * @param {?} control
-         * @return {?}
-         */
-        function (control) {
+        controls.forEach(function (control) {
             ret[control.key] = {
                 editorType: control.__type,
                 editorConfig: control.__config,
             };
-        }));
+        });
         return ret;
     };
     /**
@@ -22403,11 +18232,7 @@ var FormUtils = /** @class */ (function () {
         var formFields = [];
         if (meta && meta.fields) {
             formFields = this.getFormFields(meta);
-            formFields.forEach((/**
-             * @param {?} field
-             * @return {?}
-             */
-            function (field) {
+            formFields.forEach(function (field) {
                 if (_this.isHeader(field)) {
                     if (field.enabled) {
                         _this.insertHeaderToFieldsets(fieldsets, field);
@@ -22417,18 +18242,14 @@ var FormUtils = /** @class */ (function () {
                     _this.insertHeaderToFieldsets(fieldsets, field);
                     /** @type {?} */
                     var embeddedFields = _this.getEmbeddedFields(field);
-                    embeddedFields.forEach((/**
-                     * @param {?} embeddedField
-                     * @return {?}
-                     */
-                    function (embeddedField) {
+                    embeddedFields.forEach(function (embeddedField) {
                         if (_this.shouldCreateControl(embeddedField)) {
                             /** @type {?} */
                             var control = _this.createControl(embeddedField, data, http, config, overrides, currencyFormat);
-                            control = _this.markControlAsEmbedded(control, field.dataSpecialization ? field.dataSpecialization.toLowerCase() : null);
+                            control = _this.markControlAsEmbedded(control);
                             fieldsets[fieldsets.length - 1].controls.push(control);
                         }
-                    }));
+                    });
                 }
                 else if (_this.shouldCreateControl(field)) {
                     /** @type {?} */
@@ -22438,7 +18259,7 @@ var FormUtils = /** @class */ (function () {
                     }
                     fieldsets[fieldsets.length - 1].controls.push(control);
                 }
-            }));
+            });
         }
         if (fieldsets.length > 0) {
             return fieldsets;
@@ -22462,7 +18283,7 @@ var FormUtils = /** @class */ (function () {
      * @return {?}
      */
     function (field) {
-        return field.dataSpecialization && ['embedded', 'inline_embedded'].includes(field.dataSpecialization.toLowerCase()) && !field.readOnly;
+        return field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'embedded' && !field.readOnly;
     };
     /**
      * @private
@@ -22554,26 +18375,18 @@ var FormUtils = /** @class */ (function () {
     function (meta) {
         /** @type {?} */
         var sectionHeaders = meta.sectionHeaders
-            ? meta.sectionHeaders.map((/**
-             * @param {?} element
-             * @return {?}
-             */
-            function (element) {
+            ? meta.sectionHeaders.map(function (element) {
                 element.isSectionHeader = true;
                 return element;
-            }))
+            })
             : [];
         /** @type {?} */
-        var fields = meta.fields.map((/**
-         * @param {?} field
-         * @return {?}
-         */
-        function (field) {
+        var fields = meta.fields.map(function (field) {
             if (!field.hasOwnProperty('sortOrder')) {
                 field.sortOrder = Number.MAX_SAFE_INTEGER - 1;
             }
             return field;
-        }));
+        });
         return __spread(sectionHeaders, fields).sort(Helpers.sortByField(['sortOrder', 'name']));
     };
     /**
@@ -22588,19 +18401,11 @@ var FormUtils = /** @class */ (function () {
      */
     function (subHeader) {
         return subHeader.associatedEntity.fields
-            .filter((/**
-         * @param {?} field
-         * @return {?}
-         */
-        function (field) { return field.name !== 'id'; }))
-            .map((/**
-         * @param {?} field
-         * @return {?}
-         */
-        function (field) {
+            .filter(function (field) { return field.name !== 'id'; })
+            .map(function (field) {
             field.name = subHeader.name + "." + field.name;
             return field;
-        }))
+        })
             .sort(Helpers.sortByField(['sortOrder', 'name']));
     };
     /**
@@ -22633,29 +18438,23 @@ var FormUtils = /** @class */ (function () {
             title: field.label,
             icon: field.icon || 'bhi-section',
             controls: [],
-            isEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'embedded',
-            isInlineEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'inline_embedded',
         });
     };
     /**
      * @private
      * @param {?} control
-     * @param {?=} dataSpecialization
      * @return {?}
      */
     FormUtils.prototype.markControlAsEmbedded = /**
      * @private
      * @param {?} control
-     * @param {?=} dataSpecialization
      * @return {?}
      */
-    function (control, dataSpecialization) {
+    function (control) {
         if (Helpers.isBlank(control['config'])) {
             control['config'] = {};
         }
         control['config']['embedded'] = true;
-        control.isEmbedded = dataSpecialization === 'embedded';
-        control.isInlineEmbedded = dataSpecialization === 'inline_embedded';
         return control;
     };
     /**
@@ -22682,13 +18481,8 @@ var FormUtils = /** @class */ (function () {
         else if (field.workflowOptions && fieldData) {
             return this.getWorkflowOptions(field.workflowOptions, fieldData);
         }
-        else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS' ||
-            (field.options && ['SpecializedOptionsLookup', 'SimplifiedOptionsLookup'].includes(field.dataType))) {
-            return field.options.filter((/**
-             * @param {?} o
-             * @return {?}
-             */
-            function (o) { return !o.readOnly; }));
+        else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS') {
+            return field.options.filter(function (o) { return !o.readOnly; });
         }
         else if (field.optionsUrl) {
             return this.optionsService.getOptionsConfig(http, field, config);
@@ -22729,11 +18523,7 @@ var FormUtils = /** @class */ (function () {
         var currentWorkflowOption = fieldData.id ? fieldData.id : 'initial';
         /** @type {?} */
         var updateWorkflowOptions = workflowOptions[currentWorkflowOption] || [];
-        if (currentValue && !updateWorkflowOptions.find((/**
-         * @param {?} option
-         * @return {?}
-         */
-        function (option) { return option.value === currentValue.value; }))) {
+        if (currentValue && !updateWorkflowOptions.find(function (option) { return option.value === currentValue.value; })) {
             updateWorkflowOptions.unshift(currentValue);
         }
         return updateWorkflowOptions;
@@ -22767,11 +18557,7 @@ var FormUtils = /** @class */ (function () {
                 continue;
             }
             if (Array.isArray(value) && value.length > 0) {
-                value = value.filter((/**
-                 * @param {?} val
-                 * @return {?}
-                 */
-                function (val) { return !(Object.keys(val).length === 0 && val.constructor === Object); }));
+                value = value.filter(function (val) { return !(Object.keys(val).length === 0 && val.constructor === Object); });
                 if (value.length === 0) {
                     continue;
                 }
@@ -22804,13 +18590,9 @@ var FormUtils = /** @class */ (function () {
      */
     function (fieldsets, values, keepClean) {
         var _this = this;
-        fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        function (fieldset) {
+        fieldsets.forEach(function (fieldset) {
             _this.setInitialValues(fieldset.controls, values, keepClean);
-        }));
+        });
     };
     /**
      * @param {?} controls
@@ -22821,13 +18603,9 @@ var FormUtils = /** @class */ (function () {
      * @return {?}
      */
     function (controls) {
-        controls.forEach((/**
-         * @param {?} control
-         * @return {?}
-         */
-        function (control) {
+        controls.forEach(function (control) {
             control.hidden = false;
-        }));
+        });
     };
     /**
      * @param {?} fieldsets
@@ -22838,19 +18616,11 @@ var FormUtils = /** @class */ (function () {
      * @return {?}
      */
     function (fieldsets) {
-        fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        function (fieldset) {
-            fieldset.controls.forEach((/**
-             * @param {?} control
-             * @return {?}
-             */
-            function (control) {
+        fieldsets.forEach(function (fieldset) {
+            fieldset.controls.forEach(function (control) {
                 control.hidden = false;
-            }));
-        }));
+            });
+        });
     };
     /**
      * @param {?} form
@@ -22861,18 +18631,14 @@ var FormUtils = /** @class */ (function () {
      * @return {?}
      */
     function (form) {
-        Object.keys(form.controls).forEach((/**
-         * @param {?} key
-         * @return {?}
-         */
-        function (key) {
+        Object.keys(form.controls).forEach(function (key) {
             /** @type {?} */
             var control = form.controls[key];
             if (control.required && Helpers.isBlank(form.value[control.key])) {
                 control.markAsDirty();
                 control.markAsTouched();
             }
-        }));
+        });
     };
     /**
      * @param {?} control
@@ -22888,11 +18654,7 @@ var FormUtils = /** @class */ (function () {
         /** @type {?} */
         var valid = true;
         if (control.value && control.config) {
-            fieldList.forEach((/**
-             * @param {?} subfield
-             * @return {?}
-             */
-            function (subfield) {
+            fieldList.forEach(function (subfield) {
                 if (((subfield !== 'countryID' &&
                     !Helpers.isEmpty(control.config[subfield]) &&
                     control.config[subfield].required &&
@@ -22908,7 +18670,7 @@ var FormUtils = /** @class */ (function () {
                         control.config.state.pickerConfig.defaultOptions.length === 0)) {
                     valid = false;
                 }
-            }));
+            });
         }
         return valid;
     };
@@ -22974,37 +18736,6 @@ var FormUtils = /** @class */ (function () {
             return startDate;
         }
     };
-    /**
-     * @param {?} data
-     * @return {?}
-     */
-    FormUtils.prototype.inflateEmbeddedProperties = /**
-     * @param {?} data
-     * @return {?}
-     */
-    function (data) {
-        if (data) {
-            Object.keys(data)
-                .filter((/**
-             * @param {?} fieldName
-             * @return {?}
-             */
-            function (fieldName) { return fieldName.includes('.'); }))
-                .forEach((/**
-             * @param {?} field
-             * @return {?}
-             */
-            function (field) {
-                var _a = __read(field.split('.'), 2), parentFieldName = _a[0], fieldName = _a[1];
-                if (!data[parentFieldName]) {
-                    data[parentFieldName] = {};
-                }
-                data[parentFieldName][fieldName] = data[field];
-                delete data[field];
-            }));
-        }
-        return data;
-    };
     FormUtils.decorators = [
         { type: Injectable }
     ];
@@ -23015,44 +18746,11 @@ var FormUtils = /** @class */ (function () {
     ]; };
     return FormUtils;
 }());
-if (false) {
-    /** @type {?} */
-    FormUtils.prototype.ASSOCIATED_ENTITY_LIST;
-    /** @type {?} */
-    FormUtils.prototype.ENTITY_PICKER_LIST;
-    /** @type {?} */
-    FormUtils.prototype.labels;
-    /** @type {?} */
-    FormUtils.prototype.optionsService;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/toast/ToastService.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function ToastOptions() { }
-if (false) {
-    /** @type {?|undefined} */
-    ToastOptions.prototype.title;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.message;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.icon;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.theme;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.hideDelay;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.position;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.isCloseable;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.customClass;
-}
 var NovoToastService = /** @class */ (function () {
     function NovoToastService(componentUtils) {
         this.componentUtils = componentUtils;
@@ -23084,11 +18782,7 @@ var NovoToastService = /** @class */ (function () {
     function (options, toastElement) {
         var _this = this;
         if (toastElement === void 0) { toastElement = NovoToastElement; }
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        function (resolve) {
+        return new Promise(function (resolve) {
             if (!_this._parentViewContainer) {
                 console.error('No parent view container specified for the ToastService. Set it inside your main application. \nthis.toastService.parentViewContainer = view (ViewContainerRef)');
                 return;
@@ -23098,7 +18792,7 @@ var NovoToastService = /** @class */ (function () {
             _this.references.push(toast);
             _this.handleAlert(toast.instance, options);
             resolve(toast);
-        }));
+        });
     };
     /**
      * @param {?} toast
@@ -23122,22 +18816,15 @@ var NovoToastService = /** @class */ (function () {
     function (toast) {
         var _this = this;
         toast.animate = false;
-        setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        setTimeout(function () {
             toast.show = false;
             /** @type {?} */
-            var REF = _this.references.filter((/**
-             * @param {?} x
-             * @return {?}
-             */
-            function (x) { return x.instance === toast; }))[0];
+            var REF = _this.references.filter(function (x) { return x.instance === toast; })[0];
             if (REF) {
                 _this.references.splice(_this.references.indexOf(REF), 1);
                 REF.destroy();
             }
-        }), 300);
+        }, 300);
     };
     /**
      * @param {?} toast
@@ -23152,12 +18839,9 @@ var NovoToastService = /** @class */ (function () {
     function (toast, options) {
         var _this = this;
         this.setToastOnSession(toast, options);
-        setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        setTimeout(function () {
             _this.show(toast);
-        }), 20);
+        }, 20);
         if (!toast.isCloseable) {
             this.toastTimer(toast);
         }
@@ -23226,12 +18910,9 @@ var NovoToastService = /** @class */ (function () {
         if (toast.hideDelay < 0) {
             return;
         }
-        setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        setTimeout(function () {
             _this.hide(toast);
-        }), toast.hideDelay);
+        }, toast.hideDelay);
     };
     NovoToastService.decorators = [
         { type: Injectable }
@@ -23242,26 +18923,10 @@ var NovoToastService = /** @class */ (function () {
     ]; };
     return NovoToastService;
 }());
-if (false) {
-    /** @type {?} */
-    NovoToastService.prototype._parentViewContainer;
-    /** @type {?} */
-    NovoToastService.prototype.references;
-    /** @type {?} */
-    NovoToastService.prototype.icons;
-    /** @type {?} */
-    NovoToastService.prototype.defaults;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoToastService.prototype.componentUtils;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/modal/ModalService.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoModalService = /** @class */ (function () {
     function NovoModalService(componentUtils) {
@@ -23313,20 +18978,10 @@ var NovoModalService = /** @class */ (function () {
     ]; };
     return NovoModalService;
 }());
-if (false) {
-    /** @type {?} */
-    NovoModalService.prototype._parentViewContainer;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoModalService.prototype.componentUtils;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/FieldInteractionModals.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var ControlConfirmModal = /** @class */ (function () {
     function ControlConfirmModal(modalRef, params, labels) {
@@ -23359,17 +19014,6 @@ var ControlConfirmModal = /** @class */ (function () {
     ]; };
     return ControlConfirmModal;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    ControlConfirmModal.prototype.modalRef;
-    /** @type {?} */
-    ControlConfirmModal.prototype.params;
-    /** @type {?} */
-    ControlConfirmModal.prototype.labels;
-}
 var ControlPromptModal = /** @class */ (function () {
     function ControlPromptModal(modalRef, params, labels) {
         this.modalRef = modalRef;
@@ -23401,31 +19045,15 @@ var ControlPromptModal = /** @class */ (function () {
     ]; };
     return ControlPromptModal;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    ControlPromptModal.prototype.modalRef;
-    /** @type {?} */
-    ControlPromptModal.prototype.params;
-    /** @type {?} */
-    ControlPromptModal.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/FieldInteractionApi.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var CustomHttpImpl = /** @class */ (function () {
     function CustomHttpImpl(http) {
         this.http = http;
-        this.mapFn = (/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) { return x; });
+        this.mapFn = function (x) { return x; };
     }
     /**
      * @param {?} url
@@ -23472,19 +19100,6 @@ var CustomHttpImpl = /** @class */ (function () {
     };
     return CustomHttpImpl;
 }());
-if (false) {
-    /** @type {?} */
-    CustomHttpImpl.prototype.url;
-    /** @type {?} */
-    CustomHttpImpl.prototype.options;
-    /** @type {?} */
-    CustomHttpImpl.prototype.mapFn;
-    /**
-     * @type {?}
-     * @private
-     */
-    CustomHttpImpl.prototype.http;
-}
 var FieldInteractionApi = /** @class */ (function () {
     function FieldInteractionApi(toaster, modalService, formUtils, http, labels) {
         var _this = this;
@@ -23493,18 +19108,11 @@ var FieldInteractionApi = /** @class */ (function () {
         this.formUtils = formUtils;
         this.http = http;
         this.labels = labels;
-        this.getOptionsConfig = (/**
-         * @param {?} args
-         * @param {?=} mapper
-         * @param {?=} filteredOptionsCreator
-         * @param {?=} pickerConfigFormat
-         * @return {?}
-         */
-        function (args, mapper, filteredOptionsCreator, pickerConfigFormat) {
+        this.getOptionsConfig = function (args, mapper, filteredOptionsCreator, pickerConfigFormat) {
             if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
                 /** @type {?} */
-                var format = ('format' in args && args.format) || pickerConfigFormat;
-                return __assign({ options: _this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, ('emptyPickerMessage' in args && { emptyPickerMessage: args.emptyPickerMessage }), (format && { format: format }));
+                var format$$1 = ('format' in args && args.format) || pickerConfigFormat;
+                return __assign({ options: _this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, ('emptyPickerMessage' in args && { emptyPickerMessage: args.emptyPickerMessage }), (format$$1 && { format: format$$1 }));
             }
             else if ('options' in args && Array.isArray(args.options)) {
                 return {
@@ -23514,55 +19122,35 @@ var FieldInteractionApi = /** @class */ (function () {
             else {
                 return undefined;
             }
-        });
-        this.createOptionsFunction = (/**
-         * @param {?} config
-         * @param {?=} mapper
-         * @param {?=} filteredOptionsCreator
-         * @return {?}
-         */
-        function (config, mapper, filteredOptionsCreator) { return (/**
-         * @param {?} query
-         * @param {?=} page
-         * @return {?}
-         */
-        function (query, page) {
+        };
+        this.createOptionsFunction = function (config, mapper, filteredOptionsCreator) { return function (query$$1, page) {
             if ('optionsPromise' in config && config.optionsPromise) {
-                return config.optionsPromise(query, new CustomHttpImpl(_this.http), page);
+                return config.optionsPromise(query$$1, new CustomHttpImpl(_this.http));
             }
             else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
-                return new Promise((/**
-                 * @param {?} resolve
-                 * @param {?} reject
-                 * @return {?}
-                 */
-                function (resolve, reject) {
+                return new Promise(function (resolve, reject) {
                     /** @type {?} */
-                    var url = 'optionsUrlBuilder' in config ? config.optionsUrlBuilder(query) : config.optionsUrl + "?filter=" + (query || '');
+                    var url = 'optionsUrlBuilder' in config ? config.optionsUrlBuilder(query$$1) : config.optionsUrl + "?filter=" + (query$$1 || '');
                     _this.http
                         .get(url)
-                        .pipe(map((/**
-                     * @param {?} results
-                     * @return {?}
-                     */
-                    function (results) {
+                        .pipe(map(function (results) {
                         if (mapper) {
                             return results.map(mapper);
                         }
                         return results;
-                    })))
+                    }))
                         .subscribe(resolve, reject);
-                }));
+                });
             }
             else if (filteredOptionsCreator) {
                 if ('where' in config) {
-                    return filteredOptionsCreator(config.where)(query, page);
+                    return filteredOptionsCreator(config.where)(query$$1, page);
                 }
                 else {
-                    return filteredOptionsCreator()(query, page);
+                    return filteredOptionsCreator()(query$$1, page);
                 }
             }
-        }); });
+        }; };
     }
     Object.defineProperty(FieldInteractionApi.prototype, "form", {
         get: /**
@@ -24154,15 +19742,11 @@ var FieldInteractionApi = /** @class */ (function () {
         /** @type {?} */
         var label = this.getProperty(key, 'label');
         ((/** @type {?} */ (document.activeElement))).blur();
-        return this.modalService.open(ControlConfirmModal, { oldValue: oldValue, newValue: newValue, label: label, message: message, key: key }).onClosed.then((/**
-         * @param {?} result
-         * @return {?}
-         */
-        function (result) {
+        return this.modalService.open(ControlConfirmModal, { oldValue: oldValue, newValue: newValue, label: label, message: message, key: key }).onClosed.then(function (result) {
             if (!result) {
                 _this.setValue(key, oldValue, { emitEvent: false });
             }
-        }));
+        });
     };
     /**
      * @param {?} key
@@ -24175,8 +19759,6 @@ var FieldInteractionApi = /** @class */ (function () {
      * @return {?}
      */
     function (key, changes) {
-        /** @type {?} */
-        var showYes = true;
         ((/** @type {?} */ (document.activeElement))).blur();
         return this.modalService.open(ControlPromptModal, { changes: changes, key: key }).onClosed;
     };
@@ -24294,15 +19876,11 @@ var FieldInteractionApi = /** @class */ (function () {
                     optionToAdd = { value: newOption, label: newOption };
                 }
                 // Ensure duplicate values are not added
-                currentOptions.forEach((/**
-                 * @param {?} option
-                 * @return {?}
-                 */
-                function (option) {
+                currentOptions.forEach(function (option) {
                     if ((option.value && option.value === optionToAdd.value) || option === optionToAdd) {
                         isUnique = false;
                     }
-                }));
+                });
                 if (isUnique) {
                     this.setProperty(key, 'options', __spread(currentOptions, [optionToAdd]));
                 }
@@ -24336,12 +19914,7 @@ var FieldInteractionApi = /** @class */ (function () {
                     if (currentOptions && Array.isArray(currentOptions)) {
                         /** @type {?} */
                         var index_1 = -1;
-                        currentOptions.forEach((/**
-                         * @param {?} opt
-                         * @param {?} i
-                         * @return {?}
-                         */
-                        function (opt, i) {
+                        currentOptions.forEach(function (opt, i) {
                             if (opt.value || opt.label) {
                                 if (opt.value === optionToRemove || opt.label === optionToRemove) {
                                     index_1 = i;
@@ -24352,7 +19925,7 @@ var FieldInteractionApi = /** @class */ (function () {
                                     index_1 = i;
                                 }
                             }
-                        }));
+                        });
                         if (index_1 !== -1) {
                             currentOptions.splice(index_1, 1);
                         }
@@ -24364,12 +19937,7 @@ var FieldInteractionApi = /** @class */ (function () {
             else {
                 /** @type {?} */
                 var index_2 = -1;
-                currentOptions.forEach((/**
-                 * @param {?} opt
-                 * @param {?} i
-                 * @return {?}
-                 */
-                function (opt, i) {
+                currentOptions.forEach(function (opt, i) {
                     if (opt.value || opt.label) {
                         if (opt.value === optionToRemove || opt.label === optionToRemove) {
                             index_2 = i;
@@ -24380,7 +19948,7 @@ var FieldInteractionApi = /** @class */ (function () {
                             index_2 = i;
                         }
                     }
-                }));
+                });
                 if (index_2 !== -1) {
                     currentOptions.splice(index_2, 1);
                 }
@@ -24421,9 +19989,9 @@ var FieldInteractionApi = /** @class */ (function () {
         /** @type {?} */
         var control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
-            var _a = control.config, minSearchLength = _a.minSearchLength, enableInfiniteScroll = _a.enableInfiniteScroll, filteredOptionsCreator = _a.filteredOptionsCreator, format = _a.format, getLabels = _a.getLabels, emptyPickerMessage = _a.emptyPickerMessage;
+            var _a = control.config, minSearchLength = _a.minSearchLength, enableInfiniteScroll = _a.enableInfiniteScroll, filteredOptionsCreator = _a.filteredOptionsCreator, format$$1 = _a.format, getLabels = _a.getLabels, emptyPickerMessage = _a.emptyPickerMessage;
             /** @type {?} */
-            var optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format);
+            var optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format$$1);
             /** @type {?} */
             var newConfig = __assign({}, (emptyPickerMessage && { emptyPickerMessage: emptyPickerMessage }), (Number.isInteger(minSearchLength) && { minSearchLength: minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll: enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator: filteredOptionsCreator }), (getLabels && { getLabels: getLabels }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
             this.setProperty(key, 'config', newConfig);
@@ -24471,14 +20039,11 @@ var FieldInteractionApi = /** @class */ (function () {
                 control.setErrors({ loading: true });
                 // History
                 clearTimeout(this.asyncBlockTimeout);
-                this.asyncBlockTimeout = setTimeout((/**
-                 * @return {?}
-                 */
-                function () {
+                this.asyncBlockTimeout = setTimeout(function () {
                     _this.setLoading(key, false);
                     _this.displayTip(key, _this.labels.asyncFailure, 'info', false);
                     _this.setProperty(key, '_displayedAsyncFailure', true);
-                }), 10000);
+                }, 10000);
             }
             else {
                 this.form.controls[key].fieldInteractionloading = false;
@@ -24529,24 +20094,14 @@ var FieldInteractionApi = /** @class */ (function () {
         if (control) {
             fieldsetIndex = -1;
             controlIndex = -1;
-            this.form.fieldsets.forEach((/**
-             * @param {?} fieldset
-             * @param {?} fi
-             * @return {?}
-             */
-            function (fieldset, fi) {
-                fieldset.controls.forEach((/**
-                 * @param {?} fieldsetControl
-                 * @param {?} ci
-                 * @return {?}
-                 */
-                function (fieldsetControl, ci) {
+            this.form.fieldsets.forEach(function (fieldset, fi) {
+                fieldset.controls.forEach(function (fieldsetControl, ci) {
                     if (fieldsetControl.key === key) {
                         fieldsetIndex = fi;
                         controlIndex = ci;
                     }
-                }));
-            }));
+                });
+            });
             // Change the position of the newly added field
             switch (position) {
                 case FieldInteractionApi.FIELD_POSITIONS.ABOVE_FIELD:
@@ -24602,24 +20157,14 @@ var FieldInteractionApi = /** @class */ (function () {
             var fieldsetIndex_1 = -1;
             /** @type {?} */
             var controlIndex_1 = -1;
-            this.form.fieldsets.forEach((/**
-             * @param {?} fieldset
-             * @param {?} fi
-             * @return {?}
-             */
-            function (fieldset, fi) {
-                fieldset.controls.forEach((/**
-                 * @param {?} fieldsetControl
-                 * @param {?} ci
-                 * @return {?}
-                 */
-                function (fieldsetControl, ci) {
+            this.form.fieldsets.forEach(function (fieldset, fi) {
+                fieldset.controls.forEach(function (fieldsetControl, ci) {
                     if (fieldsetControl.key === key) {
                         fieldsetIndex_1 = fi;
                         controlIndex_1 = ci;
                     }
-                }));
-            }));
+                });
+            });
             if (fieldsetIndex_1 !== -1 && controlIndex_1 !== -1) {
                 this.form.removeControl(key);
                 this.form.fieldsets[fieldsetIndex_1].controls.splice(controlIndex_1, 1);
@@ -24642,10 +20187,7 @@ var FieldInteractionApi = /** @class */ (function () {
         /** @type {?} */
         var h;
         clearTimeout(h);
-        h = setTimeout((/**
-         * @return {?}
-         */
-        function () { return func(); }), wait);
+        h = setTimeout(function () { return func(); }, wait);
     };
     /**
      * @private
@@ -24681,82 +20223,11 @@ var FieldInteractionApi = /** @class */ (function () {
     ]; };
     return FieldInteractionApi;
 }());
-if (false) {
-    /** @type {?} */
-    FieldInteractionApi.FIELD_POSITIONS;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype._globals;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype._form;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype._currentKey;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype._appBridge;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype.asyncBlockTimeout;
-    /** @type {?} */
-    FieldInteractionApi.prototype.getOptionsConfig;
-    /** @type {?} */
-    FieldInteractionApi.prototype.createOptionsFunction;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype.toaster;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype.modalService;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype.formUtils;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype.http;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/Control.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function IMaskOptions() { }
-if (false) {
-    /** @type {?} */
-    IMaskOptions.prototype.mask;
-    /** @type {?} */
-    IMaskOptions.prototype.keepCharPositions;
-    /** @type {?} */
-    IMaskOptions.prototype.guide;
-}
 var NovoAutoSize = /** @class */ (function () {
     function NovoAutoSize(element) {
         this.element = element;
@@ -24780,12 +20251,9 @@ var NovoAutoSize = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        setTimeout(function () {
             _this.adjust();
-        }));
+        });
     };
     /**
      * @return {?}
@@ -24813,10 +20281,6 @@ var NovoAutoSize = /** @class */ (function () {
     };
     return NovoAutoSize;
 }());
-if (false) {
-    /** @type {?} */
-    NovoAutoSize.prototype.element;
-}
 // undo all template context references!
 var NovoControlElement = /** @class */ (function (_super) {
     __extends(NovoControlElement, _super);
@@ -24876,11 +20340,7 @@ var NovoControlElement = /** @class */ (function (_super) {
         function () {
             var _this = this;
             if (this.maxLengthMetErrorfields && this.maxLengthMetErrorfields.length) {
-                return this.maxLengthMetErrorfields.find((/**
-                 * @param {?} field
-                 * @return {?}
-                 */
-                function (field) { return field === _this.focusedField; })) || '';
+                return this.maxLengthMetErrorfields.find(function (field) { return field === _this.focusedField; }) || '';
             }
             else {
                 return '';
@@ -24896,11 +20356,7 @@ var NovoControlElement = /** @class */ (function (_super) {
         function () {
             var _this = this;
             if (this.errors && this.errors.maxlengthFields && this.errors.maxlengthFields.length) {
-                return this.errors.maxlengthFields.find((/**
-                 * @param {?} field
-                 * @return {?}
-                 */
-                function (field) { return field === _this.focusedField; })) || '';
+                return this.errors.maxlengthFields.find(function (field) { return field === _this.focusedField; }) || '';
             }
             else {
                 return '';
@@ -25001,16 +20457,13 @@ var NovoControlElement = /** @class */ (function (_super) {
         /** @type {?} */
         var DO_NOT_FOCUS_ME = ['picker', 'time', 'date', 'date-time'];
         if (this.autoFocus && !DO_NOT_FOCUS_ME.includes(this.control.controlType)) {
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            setTimeout(function () {
                 /** @type {?} */
                 var input = _this.element.nativeElement.querySelector('input');
                 if (input) {
                     input.focus();
                 }
-            }));
+            });
         }
     };
     /**
@@ -25020,41 +20473,32 @@ var NovoControlElement = /** @class */ (function (_super) {
      * @return {?}
      */
     function () {
-        var e_1, _a;
         var _this = this;
+        var e_1, _a;
         // Subscribe to control interactions
         if (this.control.interactions && !this.form.controls[this.control.key].restrictFieldInteractions) {
             var _loop_1 = function (interaction) {
                 switch (interaction.event) {
                     case 'blur':
-                        this_1.valueChangeSubscription = this_1.onBlur.pipe(debounceTime(300)).subscribe((/**
-                         * @return {?}
-                         */
-                        function () {
+                        this_1.valueChangeSubscription = this_1.onBlur.pipe(debounceTime(300)).subscribe(function () {
                             if (!_this.form.controls[_this.control.key].restrictFieldInteractions) {
                                 _this.executeInteraction(interaction);
                             }
-                        }));
+                        });
                         break;
                     case 'focus':
-                        this_1.valueChangeSubscription = this_1.onFocus.pipe(debounceTime(300)).subscribe((/**
-                         * @return {?}
-                         */
-                        function () {
+                        this_1.valueChangeSubscription = this_1.onFocus.pipe(debounceTime(300)).subscribe(function () {
                             if (!_this.form.controls[_this.control.key].restrictFieldInteractions) {
                                 _this.executeInteraction(interaction);
                             }
-                        }));
+                        });
                         break;
                     case 'change':
-                        this_1.valueChangeSubscription = this_1.form.controls[this_1.control.key].valueChanges.pipe(debounceTime(300)).subscribe((/**
-                         * @return {?}
-                         */
-                        function () {
+                        this_1.valueChangeSubscription = this_1.form.controls[this_1.control.key].valueChanges.pipe(debounceTime(300)).subscribe(function () {
                             if (!_this.form.controls[_this.control.key].restrictFieldInteractions) {
                                 _this.executeInteraction(interaction);
                             }
-                        }));
+                        });
                         break;
                     case 'init':
                         interaction.invokeOnInit = true;
@@ -25083,14 +20527,11 @@ var NovoControlElement = /** @class */ (function (_super) {
                 finally { if (e_1) throw e_1.error; }
             }
         }
-        setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        setTimeout(function () {
             _this.templates = _this.templateService.getAll();
             _this.loading = false;
             _this.changeDetectorRef.markForCheck();
-        }));
+        });
     };
     /**
      * @return {?}
@@ -25110,23 +20551,16 @@ var NovoControlElement = /** @class */ (function (_super) {
         }
         if (this.control) {
             // Listen to clear events
-            this.forceClearSubscription = this.control.forceClear.subscribe((/**
-             * @return {?}
-             */
-            function () {
+            this.forceClearSubscription = this.control.forceClear.subscribe(function () {
                 _this.clearValue();
-            }));
+            });
             // For Asynchronous validations
-            this.statusChangeSubscription = this.form.controls[this.control.key].statusChanges.subscribe((/**
-             * @param {?} validity
-             * @return {?}
-             */
-            function (validity) {
+            this.statusChangeSubscription = this.form.controls[this.control.key].statusChanges.subscribe(function (validity) {
                 _this.form.controls[_this.control.key] = _this.templateContext.$implicit;
                 if (validity !== 'PENDING' && _this.form.updateValueAndValidity) {
                     _this.form.updateValueAndValidity();
                 }
-            }));
+            });
         }
         this.templateContext = {
             $implicit: this.form.controls[this.control.key],
@@ -25167,15 +20601,11 @@ var NovoControlElement = /** @class */ (function (_super) {
             if (!Helpers.isEmpty(this.form.controls[this.control.key].value)) {
                 this.templateContext.$implicit.percentValue = Number((this.form.controls[this.control.key].value * 100).toFixed(6).replace(/\.?0*$/, ''));
             }
-            this.percentChangeSubscription = this.form.controls[this.control.key].displayValueChanges.subscribe((/**
-             * @param {?} value
-             * @return {?}
-             */
-            function (value) {
+            this.percentChangeSubscription = this.form.controls[this.control.key].displayValueChanges.subscribe(function (value) {
                 if (!Helpers.isEmpty(value)) {
                     _this.templateContext.$implicit.percentValue = Number((value * 100).toFixed(6).replace(/\.?0*$/, ''));
                 }
-            }));
+            });
         }
     };
     /**
@@ -25374,10 +20804,7 @@ var NovoControlElement = /** @class */ (function (_super) {
     function (interaction) {
         var _this = this;
         if (interaction.script && Helpers.isFunction(interaction.script)) {
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            setTimeout(function () {
                 _this.fieldInteractionApi.form = _this.form;
                 _this.fieldInteractionApi.currentKey = _this.control.key;
                 try {
@@ -25387,7 +20814,7 @@ var NovoControlElement = /** @class */ (function (_super) {
                     console.info('Field Interaction Error!', _this.control.key); // tslint:disable-line
                     console.error(err); // tslint:disable-line
                 }
-            }));
+            });
         }
     };
     /**
@@ -25690,11 +21117,7 @@ var NovoControlElement = /** @class */ (function (_super) {
                 this.maxLengthMetErrorfields.push(data.field);
             }
             else {
-                this.maxLengthMetErrorfields = this.maxLengthMetErrorfields.filter((/**
-                 * @param {?} field
-                 * @return {?}
-                 */
-                function (field) { return field !== data.field; }));
+                this.maxLengthMetErrorfields = this.maxLengthMetErrorfields.filter(function (field) { return field !== data.field; });
             }
         }
     };
@@ -25721,8 +21144,6 @@ var NovoControlElement = /** @class */ (function (_super) {
                         '[class.disabled]': 'form.controls[control.key].readOnly',
                         '[class.hidden]': 'form.controls[control.key].hidden',
                         '[attr.data-control-key]': 'control.key',
-                        '[class.inline-embedded]': 'control.isInlineEmbedded',
-                        '[class.embedded]': 'control.isEmbedded',
                     }
                 }] }
     ];
@@ -25751,138 +21172,10 @@ var NovoControlElement = /** @class */ (function (_super) {
     };
     return NovoControlElement;
 }(OutsideClick));
-if (false) {
-    /** @type {?} */
-    NovoControlElement.prototype.control;
-    /** @type {?} */
-    NovoControlElement.prototype.form;
-    /** @type {?} */
-    NovoControlElement.prototype.condensed;
-    /** @type {?} */
-    NovoControlElement.prototype.autoFocus;
-    /** @type {?} */
-    NovoControlElement.prototype.change;
-    /** @type {?} */
-    NovoControlElement.prototype.edit;
-    /** @type {?} */
-    NovoControlElement.prototype.save;
-    /** @type {?} */
-    NovoControlElement.prototype.delete;
-    /** @type {?} */
-    NovoControlElement.prototype.upload;
-    /** @type {?} */
-    NovoControlElement.prototype.maxLength;
-    /** @type {?} */
-    NovoControlElement.prototype.focusedField;
-    /** @type {?} */
-    NovoControlElement.prototype.formattedValue;
-    /** @type {?} */
-    NovoControlElement.prototype.percentValue;
-    /** @type {?} */
-    NovoControlElement.prototype.maxLengthMet;
-    /** @type {?} */
-    NovoControlElement.prototype.itemCount;
-    /** @type {?} */
-    NovoControlElement.prototype.maskOptions;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype._blurEmitter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype._focusEmitter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype._focused;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype._enteredText;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.forceClearSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.percentChangeSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.valueChangeSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.dateChangeSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype._showCount;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.characterCountField;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.maxLengthMetErrorfields;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.statusChangeSubscription;
-    /** @type {?} */
-    NovoControlElement.prototype.templates;
-    /** @type {?} */
-    NovoControlElement.prototype.templateContext;
-    /** @type {?} */
-    NovoControlElement.prototype.loading;
-    /** @type {?} */
-    NovoControlElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.dateFormatService;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.fieldInteractionApi;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.templateService;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.changeDetectorRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/countries/Countries.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /* tslint:disable:quotemark */
 /**
@@ -43383,11 +38676,7 @@ var COUNTRIES = [
  * @return {?}
  */
 function getCountries() {
-    return COUNTRIES.map((/**
-     * @param {?} country
-     * @return {?}
-     */
-    function (country) { return country.name; }));
+    return COUNTRIES.map(function (country) { return country.name; });
 }
 /**
  * Gets a country by country ID
@@ -43395,11 +38684,7 @@ function getCountries() {
  * @return {?}
  */
 function findByCountryId(id) {
-    return COUNTRIES.find((/**
-     * @param {?} country
-     * @return {?}
-     */
-    function (country) { return country.id === id; }));
+    return COUNTRIES.find(function (country) { return country.id === id; });
 }
 /**
  * Gets a country by country name
@@ -43407,11 +38692,7 @@ function findByCountryId(id) {
  * @return {?}
  */
 function findByCountryName(name) {
-    return COUNTRIES.find((/**
-     * @param {?} country
-     * @return {?}
-     */
-    function (country) { return country.name === name.trim(); }));
+    return COUNTRIES.find(function (country) { return country.name === name.trim(); });
 }
 /**
  * Gets a country by country code
@@ -43419,11 +38700,7 @@ function findByCountryName(name) {
  * @return {?}
  */
 function findByCountryCode(code) {
-    return COUNTRIES.find((/**
-     * @param {?} country
-     * @return {?}
-     */
-    function (country) { return country.code === code.trim(); }));
+    return COUNTRIES.find(function (country) { return country.code === code.trim(); });
 }
 /**
  * Gets states by country name
@@ -43433,11 +38710,7 @@ function findByCountryCode(code) {
 function getStateObjects(name) {
     if (name) {
         /** @type {?} */
-        var foundCountry = COUNTRIES.find((/**
-         * @param {?} country
-         * @return {?}
-         */
-        function (country) { return country.name === name.trim(); }));
+        var foundCountry = COUNTRIES.find(function (country) { return country.name === name.trim(); });
         return (foundCountry && foundCountry.states) || [];
     }
     return [];
@@ -43448,84 +38721,28 @@ function getStateObjects(name) {
  * @return {?}
  */
 function getStates(name) {
-    return getStateObjects(name).map((/**
-     * @param {?} state
-     * @return {?}
-     */
-    function (state) { return state.name; }));
+    return getStateObjects(name).map(function (state$$1) { return state$$1.name; });
 }
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/extras/address/Address.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var ADDRESS_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoAddressElement; })),
+    useExisting: forwardRef(function () { return NovoAddressElement; }),
     multi: true,
 };
-/**
- * @record
- */
-function NovoAddressSubfieldConfig() { }
-if (false) {
-    /** @type {?} */
-    NovoAddressSubfieldConfig.prototype.label;
-    /** @type {?} */
-    NovoAddressSubfieldConfig.prototype.required;
-    /** @type {?} */
-    NovoAddressSubfieldConfig.prototype.maxlength;
-    /** @type {?|undefined} */
-    NovoAddressSubfieldConfig.prototype.pickerConfig;
-    /** @type {?} */
-    NovoAddressSubfieldConfig.prototype.hidden;
-    /** @type {?|undefined} */
-    NovoAddressSubfieldConfig.prototype.updated;
-    /** @type {?|undefined} */
-    NovoAddressSubfieldConfig.prototype.readOnly;
-}
-/**
- * @record
- */
-function NovoAddressConfig() { }
-if (false) {
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.required;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.readOnly;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.address1;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.address2;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.city;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.state;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.zip;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.countryID;
-}
 var NovoAddressElement = /** @class */ (function () {
     function NovoAddressElement(labels) {
         this.labels = labels;
         this._readOnly = false;
         this.states = [];
         this.fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'countryID'];
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
         this.focused = {};
         this.invalid = {};
         this.disabled = {};
@@ -43552,13 +38769,9 @@ var NovoAddressElement = /** @class */ (function () {
         function (readOnly) {
             var _this = this;
             this._readOnly = readOnly;
-            this.fieldList.forEach((/**
-             * @param {?} field
-             * @return {?}
-             */
-            function (field) {
+            this.fieldList.forEach(function (field) {
                 _this.disabled[field] = _this._readOnly;
-            }));
+            });
             if (this.model) {
                 this.updateStates();
             }
@@ -43596,11 +38809,7 @@ var NovoAddressElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this.fieldList.forEach((/**
-         * @param {?} field
-         * @return {?}
-         */
-        function (field) {
+        this.fieldList.forEach(function (field) {
             if (!_this.config.hasOwnProperty(field)) {
                 _this.config[field] = {
                     hidden: true,
@@ -43628,17 +38837,13 @@ var NovoAddressElement = /** @class */ (function () {
                     _this.config[field].pickerConfig.defaultOptions = _this.config[field].pickerConfig.options;
                 }
                 _this.stateOptions = _this.config[field].pickerConfig.options;
-                _this.config[field].pickerConfig.options = (/**
-                 * @param {?=} query
-                 * @return {?}
-                 */
-                function (query) {
-                    if (query === void 0) { query = ''; }
-                    return _this.stateOptions(query, _this.model.countryID);
-                });
+                _this.config[field].pickerConfig.options = function (query$$1) {
+                    if (query$$1 === void 0) { query$$1 = ''; }
+                    return _this.stateOptions(query$$1, _this.model.countryID);
+                };
                 _this.config[field].pickerConfig.defaultOptions = _this.stateOptions;
             }
-        }));
+        });
     };
     /**
      * @param {?} field
@@ -43807,9 +39012,9 @@ var NovoAddressElement = /** @class */ (function () {
      */
     function (evt) {
         /** @type {?} */
-        var state = evt && evt.value ? evt.value : null;
+        var state$$1 = evt && evt.value ? evt.value : null;
         this.config.state.updated = true;
-        this.model.state = state;
+        this.model.state = state$$1;
         this.updateControl();
         this.onInput(null, 'state');
     };
@@ -43823,12 +39028,12 @@ var NovoAddressElement = /** @class */ (function () {
      */
     function (model) {
         /** @type {?} */
-        var state = model.state;
-        if (!Helpers.isBlank(state)) {
+        var state$$1 = model.state;
+        if (!Helpers.isBlank(state$$1)) {
             if (this.config.state.required) {
                 this.valid.state = true;
             }
-            this.model.state = state;
+            this.model.state = state$$1;
         }
         else {
             this.model.state = undefined;
@@ -43846,19 +39051,11 @@ var NovoAddressElement = /** @class */ (function () {
     function () {
         var _this = this;
         if (this.config.state.pickerConfig.options && !Helpers.isBlank(this.model.countryID)) {
-            this.config.state.pickerConfig.options = (/**
-             * @param {?=} query
-             * @return {?}
-             */
-            function (query) {
-                if (query === void 0) { query = ''; }
-                return _this.stateOptions(query, _this.model.countryID);
-            });
-            this.stateOptions('', this.model.countryID).then((/**
-             * @param {?} results
-             * @return {?}
-             */
-            function (results) {
+            this.config.state.pickerConfig.options = function (query$$1) {
+                if (query$$1 === void 0) { query$$1 = ''; }
+                return _this.stateOptions(query$$1, _this.model.countryID);
+            };
+            this.stateOptions('', this.model.countryID).then(function (results) {
                 _this.config.state.pickerConfig.defaultOptions = results;
                 if (results.length) {
                     _this.tooltip.state = undefined;
@@ -43874,7 +39071,7 @@ var NovoAddressElement = /** @class */ (function () {
                 }
                 _this.validityChange.emit();
                 _this.onInput(null, 'state');
-            }));
+            });
         }
         else {
             this.config.state.pickerConfig.defaultOptions = [];
@@ -43895,19 +39092,15 @@ var NovoAddressElement = /** @class */ (function () {
      * @param {?=} countryID
      * @return {?}
      */
-    function (filter, countryID) {
-        if (filter === void 0) { filter = ''; }
+    function (filter$$1, countryID) {
+        if (filter$$1 === void 0) { filter$$1 = ''; }
         if (countryID) {
             /** @type {?} */
             var country = findByCountryId(countryID);
             /** @type {?} */
             var states = getStates(country.name);
-            if (filter) {
-                return states.filter((/**
-                 * @param {?} name
-                 * @return {?}
-                 */
-                function (name) { return new RegExp("" + filter, 'gi').test(name); }));
+            if (filter$$1) {
+                return states.filter(function (name) { return new RegExp("" + filter$$1, 'gi').test(name); });
             }
             return states;
         }
@@ -43951,16 +39144,12 @@ var NovoAddressElement = /** @class */ (function () {
                         var promise = this.config.countryID.pickerConfig.getLabels(model.countryID);
                         loadingCountries = true;
                         if (promise.then) {
-                            promise.then((/**
-                             * @param {?} result
-                             * @return {?}
-                             */
-                            function (result) {
+                            promise.then(function (result) {
                                 loadingCountries = false;
                                 countryName_1 = Helpers.interpolateWithFallback(_this.config.countryID.pickerConfig.format, result);
                                 _this.model = Object.assign(model, { countryName: countryName_1 });
                                 _this.updateStates();
-                            }));
+                            });
                         }
                     }
                 }
@@ -43977,13 +39166,9 @@ var NovoAddressElement = /** @class */ (function () {
                 this.updateStates();
             }
         }
-        this.fieldList.forEach((/**
-         * @param {?} field
-         * @return {?}
-         */
-        function (field) {
+        this.fieldList.forEach(function (field) {
             _this.onInput(null, field);
-        }));
+        });
     };
     /**
      * @param {?} fn
@@ -44020,22 +39205,13 @@ var NovoAddressElement = /** @class */ (function () {
         return {
             field: 'value',
             format: '$label',
-            options: (/**
-             * @param {?=} query
-             * @param {?=} countryID
-             * @return {?}
-             */
-            function (query, countryID) {
-                if (query === void 0) { query = ''; }
-                return Promise.resolve(_this.getStateOptions(query, countryID));
-            }),
-            getLabels: (/**
-             * @param {?} state
-             * @return {?}
-             */
-            function (state) {
-                return Promise.resolve(state);
-            }),
+            options: function (query$$1, countryID) {
+                if (query$$1 === void 0) { query$$1 = ''; }
+                return Promise.resolve(_this.getStateOptions(query$$1, countryID));
+            },
+            getLabels: function (state$$1) {
+                return Promise.resolve(state$$1);
+            },
         };
     };
     /**
@@ -44050,43 +39226,19 @@ var NovoAddressElement = /** @class */ (function () {
         return {
             field: 'value',
             format: '$label',
-            options: (/**
-             * @param {?=} query
-             * @return {?}
-             */
-            function (query) {
-                if (query === void 0) { query = ''; }
-                return new Promise((/**
-                 * @param {?} resolve
-                 * @return {?}
-                 */
-                function (resolve) {
+            options: function (query$$1) {
+                if (query$$1 === void 0) { query$$1 = ''; }
+                return new Promise(function (resolve) {
                     /** @type {?} */
                     var countries = COUNTRIES;
-                    if (query) {
-                        countries = countries.filter((/**
-                         * @param {?} country
-                         * @return {?}
-                         */
-                        function (country) { return new RegExp("" + query, 'gi').test(country.name); }));
+                    if (query$$1) {
+                        countries = countries.filter(function (country) { return new RegExp("" + query$$1, 'gi').test(country.name); });
                     }
-                    return resolve(countries.map((/**
-                     * @param {?} country
-                     * @return {?}
-                     */
-                    function (country) { return ({ value: country.id, label: country.name }); })));
-                }));
-            }),
-            getLabels: (/**
-             * @param {?} countryID
-             * @return {?}
-             */
-            function (countryID) {
-                return new Promise((/**
-                 * @param {?} resolve
-                 * @return {?}
-                 */
-                function (resolve) {
+                    return resolve(countries.map(function (country) { return ({ value: country.id, label: country.name }); }));
+                });
+            },
+            getLabels: function (countryID) {
+                return new Promise(function (resolve) {
                     /** @type {?} */
                     var country = findByCountryId(countryID);
                     if (country) {
@@ -44095,8 +39247,8 @@ var NovoAddressElement = /** @class */ (function () {
                     else {
                         resolve('');
                     }
-                }));
-            }),
+                });
+            },
         };
     };
     NovoAddressElement.decorators = [
@@ -44120,65 +39272,16 @@ var NovoAddressElement = /** @class */ (function () {
     };
     return NovoAddressElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoAddressElement.prototype.config;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAddressElement.prototype._readOnly;
-    /** @type {?} */
-    NovoAddressElement.prototype.states;
-    /** @type {?} */
-    NovoAddressElement.prototype.fieldList;
-    /** @type {?} */
-    NovoAddressElement.prototype.model;
-    /** @type {?} */
-    NovoAddressElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoAddressElement.prototype.onModelTouched;
-    /** @type {?} */
-    NovoAddressElement.prototype.focused;
-    /** @type {?} */
-    NovoAddressElement.prototype.invalid;
-    /** @type {?} */
-    NovoAddressElement.prototype.disabled;
-    /** @type {?} */
-    NovoAddressElement.prototype.invalidMaxlength;
-    /** @type {?} */
-    NovoAddressElement.prototype.valid;
-    /** @type {?} */
-    NovoAddressElement.prototype.stateOptions;
-    /** @type {?} */
-    NovoAddressElement.prototype.tooltip;
-    /** @type {?} */
-    NovoAddressElement.prototype.initComplete;
-    /** @type {?} */
-    NovoAddressElement.prototype.change;
-    /** @type {?} */
-    NovoAddressElement.prototype.focus;
-    /** @type {?} */
-    NovoAddressElement.prototype.blur;
-    /** @type {?} */
-    NovoAddressElement.prototype.validityChange;
-    /** @type {?} */
-    NovoAddressElement.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/extras/checkbox/Checkbox.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var CHECKBOX_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoCheckboxElement; })),
+    useExisting: forwardRef(function () { return NovoCheckboxElement; }),
     multi: true,
 };
 /** @type {?} */
@@ -44191,14 +39294,8 @@ var NovoCheckboxElement = /** @class */ (function () {
         // TODO - avoid configs like this
         this.onSelect = new EventEmitter();
         this.boxIcon = true;
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
     }
     /**
      * @return {?}
@@ -44292,60 +39389,23 @@ var NovoCheckboxElement = /** @class */ (function () {
     };
     return NovoCheckboxElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoCheckboxElement.prototype.name;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.label;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.indeterminate;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.disabled;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.layoutOptions;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.onSelect;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.boxIcon;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.model;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.onModelTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoCheckboxElement.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/extras/checkbox/CheckList.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var CHECKLIST_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoCheckListElement; })),
+    useExisting: forwardRef(function () { return NovoCheckListElement; }),
     multi: true,
 };
 var NovoCheckListElement = /** @class */ (function () {
     function NovoCheckListElement() {
         this.onSelect = new EventEmitter();
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
     }
     /**
      * @return {?}
@@ -44371,15 +39431,7 @@ var NovoCheckListElement = /** @class */ (function () {
         Helpers.swallowEvent(event);
         if (!this.disabled) {
             item.checked = !item.checked;
-            this.model = this._options.filter((/**
-             * @param {?} checkBox
-             * @return {?}
-             */
-            function (checkBox) { return checkBox.checked; })).map((/**
-             * @param {?} x
-             * @return {?}
-             */
-            function (x) { return x.value; }));
+            this.model = this._options.filter(function (checkBox) { return checkBox.checked; }).map(function (x) { return x.value; });
             this.onModelChange(this.model.length > 0 ? this.model : '');
             this.onSelect.emit({ selected: this.model });
         }
@@ -44395,11 +39447,7 @@ var NovoCheckListElement = /** @class */ (function () {
         this.options = this.options || [];
         this._options = [];
         if (this.options.length && !this.options[0].value) {
-            this.options.forEach((/**
-             * @param {?} option
-             * @return {?}
-             */
-            function (option) {
+            this.options.forEach(function (option) {
                 /** @type {?} */
                 var formattedOption = {
                     value: option,
@@ -44407,19 +39455,15 @@ var NovoCheckListElement = /** @class */ (function () {
                     checked: _this.model && _this.model.length && _this.model.indexOf(option.value) !== -1,
                 };
                 _this._options.push(formattedOption);
-            }));
+            });
         }
         else {
-            this.options.forEach((/**
-             * @param {?} option
-             * @return {?}
-             */
-            function (option) {
+            this.options.forEach(function (option) {
                 /** @type {?} */
                 var formattedOption = option;
                 formattedOption.checked = _this.model && _this.model.length && _this.model.indexOf(option.value) !== -1;
                 _this._options.push(formattedOption);
-            }));
+            });
         }
     };
     /**
@@ -44430,15 +39474,7 @@ var NovoCheckListElement = /** @class */ (function () {
      */
     function () {
         /** @type {?} */
-        var checkedOptions = this.options.filter((/**
-         * @param {?} checkBox
-         * @return {?}
-         */
-        function (checkBox) { return checkBox.checked; })).map((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) { return x.value; }));
+        var checkedOptions = this.options.filter(function (checkBox) { return checkBox.checked; }).map(function (x) { return x.value; });
         this.writeValue(checkedOptions);
     };
     /**
@@ -44503,29 +39539,10 @@ var NovoCheckListElement = /** @class */ (function () {
     };
     return NovoCheckListElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoCheckListElement.prototype.name;
-    /** @type {?} */
-    NovoCheckListElement.prototype.options;
-    /** @type {?} */
-    NovoCheckListElement.prototype.disabled;
-    /** @type {?} */
-    NovoCheckListElement.prototype.onSelect;
-    /** @type {?} */
-    NovoCheckListElement.prototype._options;
-    /** @type {?} */
-    NovoCheckListElement.prototype.model;
-    /** @type {?} */
-    NovoCheckListElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoCheckListElement.prototype.onModelTouched;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/extras/file/extras/file/File.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoFile = /** @class */ (function () {
     function NovoFile(file) {
@@ -44541,15 +39558,11 @@ var NovoFile = /** @class */ (function () {
         this.lastModified = file.lastModified;
         this.size = file.size;
         this.file = file;
-        this.reader.onload = (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        this.reader.onload = function (event) {
             _this.fileContents = event.target.result.split(',')[1];
             _this.dataURL = event.target.result;
             _this.loaded = true;
-        });
+        };
     }
     /**
      * @return {?}
@@ -44559,15 +39572,11 @@ var NovoFile = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        function (resolve) {
+        return new Promise(function (resolve) {
             resolve(_this);
             // when the file is read it triggers the onload event above.
             _this.reader.readAsDataURL(_this.file);
-        }));
+        });
     };
     /**
      * @return {?}
@@ -44586,42 +39595,16 @@ var NovoFile = /** @class */ (function () {
     };
     return NovoFile;
 }());
-if (false) {
-    /** @type {?} */
-    NovoFile.prototype.name;
-    /** @type {?} */
-    NovoFile.prototype.file;
-    /** @type {?} */
-    NovoFile.prototype.type;
-    /** @type {?} */
-    NovoFile.prototype.contentType;
-    /** @type {?} */
-    NovoFile.prototype.lastModified;
-    /** @type {?} */
-    NovoFile.prototype.size;
-    /** @type {?} */
-    NovoFile.prototype.loaded;
-    /** @type {?} */
-    NovoFile.prototype.fileContents;
-    /** @type {?} */
-    NovoFile.prototype.dataURL;
-    /** @type {?} */
-    NovoFile.prototype.reader;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/extras/file/FileInput.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var FILE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoFileInputElement; })),
+    useExisting: forwardRef(function () { return NovoFileInputElement; }),
     multi: true,
 };
 /** @type {?} */
@@ -44641,14 +39624,8 @@ var NovoFileInputElement = /** @class */ (function () {
         this.elements = [];
         this.files = [];
         this.active = false;
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
         this.commands = {
             dragenter: this.dragEnterHandler.bind(this),
             dragleave: this.dragLeaveHandler.bind(this),
@@ -44664,13 +39641,9 @@ var NovoFileInputElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        ['dragenter', 'dragleave', 'dragover', 'drop'].forEach((/**
-         * @param {?} type
-         * @return {?}
-         */
-        function (type) {
+        ['dragenter', 'dragleave', 'dragover', 'drop'].forEach(function (type) {
             _this.element.nativeElement.addEventListener(type, _this.commands[type]);
-        }));
+        });
         this.updateLayout();
         this.initializeDragula();
         this.setInitialFileList();
@@ -44684,19 +39657,11 @@ var NovoFileInputElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        ['dragenter', 'dragleave', 'dragover', 'drop'].forEach((/**
-         * @param {?} type
-         * @return {?}
-         */
-        function (type) {
+        ['dragenter', 'dragleave', 'dragover', 'drop'].forEach(function (type) {
             _this.element.nativeElement.removeEventListener(type, _this.commands[type]);
-        }));
+        });
         /** @type {?} */
-        var dragulaHasFileOutputBag = this.dragula.bags.length > 0 && this.dragula.bags.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) { return x.name === _this.fileOutputBag; })).length > 0;
+        var dragulaHasFileOutputBag = this.dragula.bags.length > 0 && this.dragula.bags.filter(function (x) { return x.name === _this.fileOutputBag; }).length > 0;
         if (dragulaHasFileOutputBag) {
             this.dragula.destroy(this.fileOutputBag);
         }
@@ -44739,13 +39704,9 @@ var NovoFileInputElement = /** @class */ (function () {
             default:
                 order = ['fileOutput', 'fileInput'];
         }
-        order.forEach((/**
-         * @param {?} template
-         * @return {?}
-         */
-        function (template) {
+        order.forEach(function (template) {
             _this.container.createEmbeddedView(_this[template], 0);
-        }));
+        });
         return order;
     };
     /**
@@ -44758,15 +39719,9 @@ var NovoFileInputElement = /** @class */ (function () {
         var _this = this;
         this.fileOutputBag = "file-output-" + this.dragula.bags.length;
         this.dragula.setOptions(this.fileOutputBag, {
-            moves: (/**
-             * @param {?} el
-             * @param {?} container
-             * @param {?} handle
-             * @return {?}
-             */
-            function (el, container, handle) {
+            moves: function (el, container, handle) {
                 return _this.layoutOptions.draggable;
-            }),
+            },
         });
     };
     /**
@@ -44903,18 +39858,10 @@ var NovoFileInputElement = /** @class */ (function () {
         var passedValidation = true;
         if (this.layoutOptions.customValidation) {
             this.layoutOptions.customValidation
-                .filter((/**
-             * @param {?} validation
-             * @return {?}
-             */
-            function (validation) { return validation.action === 'upload'; }))
-                .forEach((/**
-             * @param {?} uploadValidation
-             * @return {?}
-             */
-            function (uploadValidation) {
+                .filter(function (validation) { return validation.action === 'upload'; })
+                .forEach(function (uploadValidation) {
                 passedValidation = uploadValidation.fn(files) && passedValidation;
-            }));
+            });
         }
         return passedValidation;
     };
@@ -44929,15 +39876,7 @@ var NovoFileInputElement = /** @class */ (function () {
     function (filelist) {
         var _this = this;
         if (this.validate(filelist)) {
-            Promise.all(filelist.map((/**
-             * @param {?} file
-             * @return {?}
-             */
-            function (file) { return _this.readFile(file); }))).then((/**
-             * @param {?} files
-             * @return {?}
-             */
-            function (files) {
+            Promise.all(filelist.map(function (file) { return _this.readFile(file); })).then(function (files) {
                 var _a;
                 if (_this.multiple) {
                     (_a = _this.files).push.apply(_a, __spread(files));
@@ -44947,7 +39886,7 @@ var NovoFileInputElement = /** @class */ (function () {
                 }
                 _this.model = _this.files;
                 _this.onModelChange(_this.model);
-            }));
+            });
         }
     };
     /**
@@ -44970,11 +39909,7 @@ var NovoFileInputElement = /** @class */ (function () {
      * @return {?}
      */
     function (file) {
-        this.files.splice(this.files.findIndex((/**
-         * @param {?} f
-         * @return {?}
-         */
-        function (f) { return f.name === file.name && f.size === file.size; })), 1);
+        this.files.splice(this.files.findIndex(function (f) { return f.name === file.name && f.size === file.size; }), 1);
         this.model = this.files;
         this.onModelChange(this.model);
     };
@@ -45058,9 +39993,9 @@ var NovoFileInputElement = /** @class */ (function () {
         { type: NovoDragulaService }
     ]; };
     NovoFileInputElement.propDecorators = {
-        fileInput: [{ type: ViewChild, args: ['fileInput', { static: true },] }],
-        fileOutput: [{ type: ViewChild, args: ['fileOutput', { static: true },] }],
-        container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef, static: true },] }],
+        fileInput: [{ type: ViewChild, args: ['fileInput',] }],
+        fileOutput: [{ type: ViewChild, args: ['fileOutput',] }],
+        container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }],
         name: [{ type: Input }],
         multiple: [{ type: Input }],
         disabled: [{ type: Input }],
@@ -45075,73 +40010,10 @@ var NovoFileInputElement = /** @class */ (function () {
     };
     return NovoFileInputElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoFileInputElement.prototype.fileInput;
-    /** @type {?} */
-    NovoFileInputElement.prototype.fileOutput;
-    /** @type {?} */
-    NovoFileInputElement.prototype.container;
-    /** @type {?} */
-    NovoFileInputElement.prototype.name;
-    /** @type {?} */
-    NovoFileInputElement.prototype.multiple;
-    /** @type {?} */
-    NovoFileInputElement.prototype.disabled;
-    /** @type {?} */
-    NovoFileInputElement.prototype.placeholder;
-    /** @type {?} */
-    NovoFileInputElement.prototype.layoutOptions;
-    /** @type {?} */
-    NovoFileInputElement.prototype.value;
-    /** @type {?} */
-    NovoFileInputElement.prototype.dataFeatureId;
-    /** @type {?} */
-    NovoFileInputElement.prototype.edit;
-    /** @type {?} */
-    NovoFileInputElement.prototype.save;
-    /** @type {?} */
-    NovoFileInputElement.prototype.delete;
-    /** @type {?} */
-    NovoFileInputElement.prototype.upload;
-    /** @type {?} */
-    NovoFileInputElement.prototype.elements;
-    /** @type {?} */
-    NovoFileInputElement.prototype.files;
-    /** @type {?} */
-    NovoFileInputElement.prototype.model;
-    /** @type {?} */
-    NovoFileInputElement.prototype.active;
-    /** @type {?} */
-    NovoFileInputElement.prototype.commands;
-    /** @type {?} */
-    NovoFileInputElement.prototype.visible;
-    /** @type {?} */
-    NovoFileInputElement.prototype.target;
-    /** @type {?} */
-    NovoFileInputElement.prototype.fileOutputBag;
-    /** @type {?} */
-    NovoFileInputElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoFileInputElement.prototype.onModelTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoFileInputElement.prototype.element;
-    /** @type {?} */
-    NovoFileInputElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoFileInputElement.prototype.dragula;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/extras/FormExtras.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoFormExtrasModule = /** @class */ (function () {
     function NovoFormExtrasModule() {
@@ -45168,27 +40040,8 @@ var NovoFormExtrasModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/ControlGroup.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function NovoControlGroupAddConfig() { }
-if (false) {
-    /** @type {?} */
-    NovoControlGroupAddConfig.prototype.label;
-}
-/**
- * @record
- */
-function NovoControlGroupRowConfig() { }
-if (false) {
-    /** @type {?} */
-    NovoControlGroupRowConfig.prototype.edit;
-    /** @type {?} */
-    NovoControlGroupRowConfig.prototype.remove;
-}
 var NovoControlGroup = /** @class */ (function () {
     function NovoControlGroup(formUtils, fb, ref, labels) {
         this.formUtils = formUtils;
@@ -45339,11 +40192,7 @@ var NovoControlGroup = /** @class */ (function () {
         if (this.initialValue && Array.isArray(this.initialValue)) {
             if (this.initialValue.length !== 0) {
                 this.currentIndex = 0;
-                this.initialValue.forEach((/**
-                 * @param {?} value
-                 * @return {?}
-                 */
-                function (value) { return _this.addNewControl(value); }));
+                this.initialValue.forEach(function (value) { return _this.addNewControl(value); });
             }
         }
         else if (this.initialValue) {
@@ -45352,18 +40201,14 @@ var NovoControlGroup = /** @class */ (function () {
         }
         // If we are horizontal, grab the labels to help with layout
         if (!this.vertical) {
-            this.controlLabels = (this.controls || []).map((/**
-             * @param {?} control
-             * @return {?}
-             */
-            function (control) {
+            this.controlLabels = (this.controls || []).map(function (control) {
                 return {
                     value: control.label,
                     width: control.width,
                     required: control.required,
                     key: control.key,
                 };
-            }));
+            });
             this.ref.markForCheck();
         }
     };
@@ -45386,15 +40231,10 @@ var NovoControlGroup = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this.disabledArray.forEach((/**
-         * @param {?} item
-         * @param {?} idx
-         * @return {?}
-         */
-        function (item, idx) {
+        this.disabledArray.forEach(function (item, idx) {
             item.edit = _this.checkCanEdit(idx);
             item.remove = _this.checkCanRemove(idx);
-        }));
+        });
     };
     /**
      * @param {?=} value
@@ -45462,12 +40302,7 @@ var NovoControlGroup = /** @class */ (function () {
             this.onRemove.emit({ value: control.at(index).value, index: index });
         }
         control.removeAt(index);
-        this.disabledArray = this.disabledArray.filter((/**
-         * @param {?} value
-         * @param {?} idx
-         * @return {?}
-         */
-        function (value, idx) { return idx !== index; }));
+        this.disabledArray = this.disabledArray.filter(function (value, idx) { return idx !== index; });
         this.resetAddRemove();
         this.currentIndex--;
         this.ref.markForCheck();
@@ -45567,13 +40402,9 @@ var NovoControlGroup = /** @class */ (function () {
     function (controls) {
         /** @type {?} */
         var ret = [];
-        (this.controls || []).forEach((/**
-         * @param {?} control
-         * @return {?}
-         */
-        function (control) {
+        (this.controls || []).forEach(function (control) {
             ret.push(new BaseControl(control.__type, control));
-        }));
+        });
         return ret;
     };
     NovoControlGroup.decorators = [
@@ -45614,96 +40445,10 @@ var NovoControlGroup = /** @class */ (function () {
     };
     return NovoControlGroup;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype._vertical;
-    /** @type {?} */
-    NovoControlGroup.prototype.add;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype._remove;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype._edit;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype._collapsible;
-    /** @type {?} */
-    NovoControlGroup.prototype.form;
-    /** @type {?} */
-    NovoControlGroup.prototype.controls;
-    /** @type {?} */
-    NovoControlGroup.prototype.key;
-    /** @type {?} */
-    NovoControlGroup.prototype.label;
-    /** @type {?} */
-    NovoControlGroup.prototype.description;
-    /** @type {?} */
-    NovoControlGroup.prototype.emptyMessage;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype._icon;
-    /** @type {?} */
-    NovoControlGroup.prototype.initialValue;
-    /** @type {?} */
-    NovoControlGroup.prototype.canEdit;
-    /** @type {?} */
-    NovoControlGroup.prototype.canRemove;
-    /** @type {?} */
-    NovoControlGroup.prototype.rowTemplate;
-    /** @type {?} */
-    NovoControlGroup.prototype.onRemove;
-    /** @type {?} */
-    NovoControlGroup.prototype.onEdit;
-    /** @type {?} */
-    NovoControlGroup.prototype.onAdd;
-    /** @type {?} */
-    NovoControlGroup.prototype.change;
-    /** @type {?} */
-    NovoControlGroup.prototype.controlLabels;
-    /** @type {?} */
-    NovoControlGroup.prototype.toggled;
-    /** @type {?} */
-    NovoControlGroup.prototype.disabledArray;
-    /** @type {?} */
-    NovoControlGroup.prototype.currentIndex;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype.formUtils;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype.fb;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype.ref;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/ControlTemplates.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoControlTemplates = /** @class */ (function () {
     function NovoControlTemplates(templates) {
@@ -45718,19 +40463,15 @@ var NovoControlTemplates = /** @class */ (function () {
     function () {
         var _this = this;
         if (this.defaultTemplates && this.defaultTemplates.length) {
-            this.defaultTemplates.forEach((/**
-             * @param {?} template
-             * @return {?}
-             */
-            function (template) {
+            this.defaultTemplates.forEach(function (template) {
                 _this.templates.addDefault(template.name, template.template);
-            }));
+            });
         }
     };
     NovoControlTemplates.decorators = [
         { type: Component, args: [{
                     selector: 'novo-control-templates',
-                    template: "\n        <!---Readonly--->\n        <ng-template novoTemplate=\"read-only\" let-form=\"form\" let-control>\n          <div>{{ form.value[control.key] }}</div>\n        </ng-template>\n        <!--Textbox--->\n        <ng-template novoTemplate=\"textbox\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container novo-control-input-with-label\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <input *ngIf=\"control?.type !== 'number' && control?.textMaskEnabled\" [textMask]=\"control.maskOptions\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (input)=\"methods.emitChange($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" autocomplete>\n            <input *ngIf=\"control?.type !== 'number' && !control?.textMaskEnabled\" [class.maxlength-error]=\"errors?.maxlength\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (input)=\"methods.emitChange($event)\" [maxlength]=\"control?.maxlength\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" autocomplete>\n            <input *ngIf=\"control?.type === 'number' && control?.subType !== 'percentage'\" [class.maxlength-error]=\"errors?.maxlength\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (keydown)=\"methods.restrictKeys($event)\" (input)=\"methods.emitChange($event)\" [maxlength]=\"control?.maxlength\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" step=\"any\" (mousewheel)=\"numberInput.blur()\" #numberInput>\n            <input *ngIf=\"control?.type === 'number' && control?.subType === 'percentage'\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (keydown)=\"methods.restrictKeys($event)\" [value]=\"control?.percentValue\" (input)=\"methods.handlePercentChange($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" step=\"any\" (mousewheel)=\"percentInput.blur()\" #percentInput>\n            <label class=\"input-label\" *ngIf=\"control?.subType === 'currency'\">{{ control.currencyFormat }}</label>\n            <label class=\"input-label\" *ngIf=\"control?.subType === 'percentage'\">%</label>\n          </div>\n        </ng-template>\n\n        <!--Textarea--->\n        <ng-template novoTemplate=\"text-area\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div class=\"textarea-container\" [formGroup]=\"form\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <textarea [class.maxlength-error]=\"errors?.maxlength\" [name]=\"control.key\" [attr.id]=\"control.key\" [placeholder]=\"control.placeholder\" [formControlName]=\"control.key\" autosize (input)=\"methods.handleTextAreaInput($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [maxlength]=\"control?.maxlength\"></textarea>\n          </div>\n        </ng-template>\n\n        <!--Editor-->\n        <ng-template novoTemplate=\"editor\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-editor [name]=\"control.key\" [formControlName]=\"control.key\" [startupFocus]=\"control.startupFocus\" [minimal]=\"control.minimal\" [fileBrowserImageUploadUrl]=\"control.fileBrowserImageUploadUrl\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [config]=\"control.config\"></novo-editor>\n          </div>\n        </ng-template>\n\n        <!--AceEditor-->\n        <ng-template novoTemplate=\"ace-editor\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-ace-editor [name]=\"control.key\" [formControlName]=\"control.key\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\"></novo-ace-editor>\n          </div>\n        </ng-template>\n\n        <!--HTML5 Select-->\n        <ng-template novoTemplate=\"native-select\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <select [id]=\"control.key\" [formControlName]=\"control.key\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n                <option *ngIf=\"control.placeholder\" value=\"\" disabled selected hidden>{{ control.placeholder }}</option>\n                <option *ngFor=\"let opt of control.options\" [value]=\"opt.key\">{{opt.value}}</option>\n            </select>\n          </div>\n        </ng-template>\n\n        <!--File-->\n        <ng-template novoTemplate=\"file\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-file-input [formControlName]=\"control.key\" [id]=\"control.key\" [name]=\"control.key\" [placeholder]=\"control.placeholder\" [value]=\"control.value\" [multiple]=\"control.multiple\" [layoutOptions]=\"control.layoutOptions\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" (edit)=\"methods.handleEdit($event)\" (save)=\"methods.handleSave($event)\" (delete)=\"methods.handleDelete($event)\" (upload)=\"methods.handleUpload($event)\"></novo-file-input>\n          </div>\n        </ng-template>\n\n        <!--Tiles-->\n        <ng-template novoTemplate=\"tiles\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-tiles [options]=\"control.options\" [formControlName]=\"control.key\" (onChange)=\"methods.modelChange($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [controlDisabled]=\"control.disabled\"></novo-tiles>\n          </div>\n        </ng-template>\n\n        <!--Picker-->\n        <ng-template novoTemplate=\"picker\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\">\n            <novo-picker [config]=\"control.config\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" [parentScrollSelector]=\"control.parentScrollSelector\" *ngIf=\"!control.multiple\" (select)=\"methods.modelChange($event);\" (changed)=\"methods.modelChangeWithRaw($event)\" (typing)=\"methods.handleTyping($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\"></novo-picker>\n            <novo-chips [source]=\"control.config\" [type]=\"control.config.type\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" [maxlength]=\"control?.maxlength\" *ngIf=\"control.multiple && !control.config.columns\" [closeOnSelect]=\"control.closeOnSelect\" (changed)=\"methods.modelChangeWithRaw($event)\" (typing)=\"methods.handleTyping($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\"></novo-chips>\n            <novo-row-chips [source]=\"control.config\" [type]=\"control.config.type\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" *ngIf=\"control.multiple && control.config.columns\" [closeOnSelect]=\"control.closeOnSelect\" (changed)=\"methods.modelChangeWithRaw($event)\" (typing)=\"methods.handleTyping($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\"></novo-row-chips>\n          </div>\n        </ng-template>\n\n        <!--Novo Select-->\n        <ng-template novoTemplate=\"select\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-select [options]=\"control.options\" [headerConfig]=\"control.headerConfig\" [placeholder]=\"control.placeholder\" [formControlName]=\"control.key\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" (onSelect)=\"methods.modelChange($event)\"></novo-select>\n          </div>\n        </ng-template>\n\n        <!--Radio-->\n        <ng-template novoTemplate=\"radio\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\">\n            <novo-radio [name]=\"control.key\" [formControlName]=\"control.key\" *ngFor=\"let option of control.options\" [value]=\"option.value\" [label]=\"option.label\" [checked]=\"option.value === form.value[control.key] || option.value === form.value[control.key].id\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [button]=\"!!option.icon\" [icon]=\"option.icon\" [attr.data-automation-id]=\"control.key + '-' + (option?.label || option?.value)\"></novo-radio>\n          </div>\n        </ng-template>\n\n        <!--Time-->\n        <ng-template novoTemplate=\"time\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <novo-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" [military]=\"control.military\"></novo-time-picker-input>\n          </div>\n        </ng-template>\n\n        <!--Date-->\n        <ng-template novoTemplate=\"date\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <novo-date-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [start]=\"control.startDate\" [end]=\"control.endDate\" [format]=\"control.dateFormat\" [allowInvalidDate]=\"control.allowInvalidDate\" [textMaskEnabled]=\"control.textMaskEnabled\" [placeholder]=\"control.placeholder\" (focusEvent)=\"methods.handleFocus($event)\" (blurEvent)=\"methods.handleBlur($event)\"></novo-date-picker-input>\n          </div>\n        </ng-template>\n\n\n        <!--Date and Time-->\n        <ng-template novoTemplate=\"date-time\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <novo-date-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [start]=\"control.startDate\" [end]=\"control.endDate\" [placeholder]=\"control.placeholder\" [military]=\"control.military\" (focusEvent)=\"methods.handleFocus($event)\" (blurEvent)=\"methods.handleBlur($event)\"></novo-date-time-picker-input>\n          </div>\n        </ng-template>\n\n        <!--Address-->\n        <ng-template novoTemplate=\"address\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-address [formControlName]=\"control.key\" [config]=\"control?.config\" [readOnly]=\"control?.readOnly\" (change)=\"methods.handleAddressChange($event)\" (focus)=\"methods.handleFocus($event.event, $event.field)\" (blur)=\"methods.handleBlur($event.event, $event.field)\"  (validityChange)=\"methods.updateValidity()\"></novo-address>\n          </div>\n        </ng-template>\n\n        <!--Checkbox-->\n        <ng-template novoTemplate=\"checkbox\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-checkbox [formControlName]=\"control?.key\" [name]=\"control?.key\" [label]=\"control?.checkboxLabel\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [layoutOptions]=\"control?.layoutOptions\"></novo-checkbox>\n          </div>\n        </ng-template>\n\n        <!--Checklist-->\n        <ng-template novoTemplate=\"checklist\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-check-list [formControlName]=\"control.key\" [name]=\"control.key\" [options]=\"control?.options\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" (onSelect)=\"methods.modelChange($event)\"></novo-check-list>\n          </div>\n        </ng-template>\n\n        <!--QuickNote-->\n        <ng-template novoTemplate=\"quick-note\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-quick-note [formControlName]=\"control.key\" [startupFocus]=\"control?.startupFocus\" [placeholder]=\"control?.placeholder\" [config]=\"control?.config\" (change)=\"methods.modelChange($event)\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [tooltipPreline]=\"control?.tooltipPreline\"></novo-quick-note>\n          </div>\n        </ng-template>\n    "
+                    template: "\n        <!---Readonly--->\n        <ng-template novoTemplate=\"read-only\" let-form=\"form\" let-control>\n          <div>{{ form.value[control.key] }}</div>\n        </ng-template>\n        <!--Textbox--->\n        <ng-template novoTemplate=\"textbox\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container novo-control-input-with-label\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <input *ngIf=\"control?.type !== 'number' && control?.textMaskEnabled\" [textMask]=\"control.maskOptions\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (input)=\"methods.emitChange($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" autocomplete>\n            <input *ngIf=\"control?.type !== 'number' && !control?.textMaskEnabled\" [class.maxlength-error]=\"errors?.maxlength\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (input)=\"methods.emitChange($event)\" [maxlength]=\"control?.maxlength\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" autocomplete>\n            <input *ngIf=\"control?.type === 'number' && control?.subType !== 'percentage'\" [class.maxlength-error]=\"errors?.maxlength\" [formControlName]=\"control.key\" [id]=\"control.key\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (keydown)=\"methods.restrictKeys($event)\" (input)=\"methods.emitChange($event)\" [maxlength]=\"control?.maxlength\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" step=\"any\" (mousewheel)=\"numberInput.blur()\" #numberInput>\n            <input *ngIf=\"control?.type === 'number' && control?.subType === 'percentage'\" [type]=\"control?.type\" [placeholder]=\"control?.placeholder\" (keydown)=\"methods.restrictKeys($event)\" [value]=\"control?.percentValue\" (input)=\"methods.handlePercentChange($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" step=\"any\" (mousewheel)=\"percentInput.blur()\" #percentInput>\n            <label class=\"input-label\" *ngIf=\"control?.subType === 'currency'\">{{ control.currencyFormat }}</label>\n            <label class=\"input-label\" *ngIf=\"control?.subType === 'percentage'\">%</label>\n          </div>\n        </ng-template>\n\n        <!--Textarea--->\n        <ng-template novoTemplate=\"text-area\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div class=\"textarea-container\" [formGroup]=\"form\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <textarea [class.maxlength-error]=\"errors?.maxlength\" [name]=\"control.key\" [attr.id]=\"control.key\" [placeholder]=\"control.placeholder\" [formControlName]=\"control.key\" autosize (input)=\"methods.handleTextAreaInput($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [maxlength]=\"control?.maxlength\"></textarea>\n          </div>\n        </ng-template>\n\n        <!--Editor-->\n        <ng-template novoTemplate=\"editor\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-editor [name]=\"control.key\" [formControlName]=\"control.key\" [startupFocus]=\"control.startupFocus\" [minimal]=\"control.minimal\" [fileBrowserImageUploadUrl]=\"control.fileBrowserImageUploadUrl\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [config]=\"control.config\"></novo-editor>\n          </div>\n        </ng-template>\n\n        <!--AceEditor-->\n        <ng-template novoTemplate=\"ace-editor\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-ace-editor [name]=\"control.key\" [formControlName]=\"control.key\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\"></novo-ace-editor>\n          </div>\n        </ng-template>\n\n        <!--HTML5 Select-->\n        <ng-template novoTemplate=\"native-select\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <select [id]=\"control.key\" [formControlName]=\"control.key\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n                <option *ngIf=\"control.placeholder\" value=\"\" disabled selected hidden>{{ control.placeholder }}</option>\n                <option *ngFor=\"let opt of control.options\" [value]=\"opt.key\">{{opt.value}}</option>\n            </select>\n          </div>\n        </ng-template>\n\n        <!--File-->\n        <ng-template novoTemplate=\"file\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-file-input [formControlName]=\"control.key\" [id]=\"control.key\" [name]=\"control.key\" [placeholder]=\"control.placeholder\" [value]=\"control.value\" [multiple]=\"control.multiple\" [layoutOptions]=\"control.layoutOptions\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" (edit)=\"methods.handleEdit($event)\" (save)=\"methods.handleSave($event)\" (delete)=\"methods.handleDelete($event)\" (upload)=\"methods.handleUpload($event)\"></novo-file-input>\n          </div>\n        </ng-template>\n\n        <!--Tiles-->\n        <ng-template novoTemplate=\"tiles\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-tiles [options]=\"control.options\" [formControlName]=\"control.key\" (onChange)=\"methods.modelChange($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\"  [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [controlDisabled]=\"control.disabled\"></novo-tiles>\n          </div>\n        </ng-template>\n\n        <!--Picker-->\n        <ng-template novoTemplate=\"picker\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\">\n            <novo-picker [config]=\"control.config\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" [parentScrollSelector]=\"control.parentScrollSelector\" *ngIf=\"!control.multiple\" (select)=\"methods.modelChange($event);\" (changed)=\"methods.modelChangeWithRaw($event)\" (typing)=\"methods.handleTyping($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\"></novo-picker>\n            <novo-chips [source]=\"control.config\" [type]=\"control.config.type\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" [maxlength]=\"control?.maxlength\" *ngIf=\"control.multiple && !control.config.columns\" [closeOnSelect]=\"control.closeOnSelect\" (changed)=\"methods.modelChangeWithRaw($event)\" (typing)=\"methods.handleTyping($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\"></novo-chips>\n            <novo-row-chips [source]=\"control.config\" [type]=\"control.config.type\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" *ngIf=\"control.multiple && control.config.columns\" [closeOnSelect]=\"control.closeOnSelect\" (changed)=\"methods.modelChangeWithRaw($event)\" (typing)=\"methods.handleTyping($event)\" (focus)=\"methods.handleFocus($event)\" (blur)=\"methods.handleBlur($event)\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\"></novo-row-chips>\n          </div>\n        </ng-template>\n\n        <!--Novo Select-->\n        <ng-template novoTemplate=\"select\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-select [options]=\"control.options\" [headerConfig]=\"control.headerConfig\" [placeholder]=\"control.placeholder\" [formControlName]=\"control.key\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" (onSelect)=\"methods.modelChange($event)\"></novo-select>\n          </div>\n        </ng-template>\n\n        <!--Radio-->\n        <ng-template novoTemplate=\"radio\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\">\n            <novo-radio [name]=\"control.key\" [formControlName]=\"control.key\" *ngFor=\"let option of control.options\" [value]=\"option.value\" [label]=\"option.label\" [checked]=\"option.value === form.value[control.key]\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [button]=\"!!option.icon\" [icon]=\"option.icon\" [attr.data-automation-id]=\"control.key + '-' + (option?.label || option?.value)\"></novo-radio>\n          </div>\n        </ng-template>\n\n        <!--Time-->\n        <ng-template novoTemplate=\"time\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <novo-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [placeholder]=\"control.placeholder\" [military]=\"control.military\"></novo-time-picker-input>\n          </div>\n        </ng-template>\n\n        <!--Date-->\n        <ng-template novoTemplate=\"date\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <novo-date-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [start]=\"control.startDate\" [end]=\"control.endDate\" [format]=\"control.dateFormat\" [allowInvalidDate]=\"control.allowInvalidDate\" [textMaskEnabled]=\"control.textMaskEnabled\" [placeholder]=\"control.placeholder\" (focusEvent)=\"methods.handleFocus($event)\" (blurEvent)=\"methods.handleBlur($event)\"></novo-date-picker-input>\n          </div>\n        </ng-template>\n\n\n        <!--Date and Time-->\n        <ng-template novoTemplate=\"date-time\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\" class=\"novo-control-input-container\" [tooltip]=\"control.tooltip\" [tooltipPosition]=\"control.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\">\n            <novo-date-time-picker-input [attr.id]=\"control.key\" [name]=\"control.key\" [formControlName]=\"control.key\" [start]=\"control.startDate\" [end]=\"control.endDate\" [placeholder]=\"control.placeholder\" [military]=\"control.military\" (focusEvent)=\"methods.handleFocus($event)\" (blurEvent)=\"methods.handleBlur($event)\"></novo-date-time-picker-input>\n          </div>\n        </ng-template>\n\n        <!--Address-->\n        <ng-template novoTemplate=\"address\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-address [formControlName]=\"control.key\" [config]=\"control?.config\" [readOnly]=\"control?.readOnly\" (change)=\"methods.handleAddressChange($event)\" (focus)=\"methods.handleFocus($event.event, $event.field)\" (blur)=\"methods.handleBlur($event.event, $event.field)\"  (validityChange)=\"methods.updateValidity()\"></novo-address>\n          </div>\n        </ng-template>\n\n        <!--Checkbox-->\n        <ng-template novoTemplate=\"checkbox\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-checkbox [formControlName]=\"control?.key\" [name]=\"control?.key\" [label]=\"control?.checkboxLabel\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [layoutOptions]=\"control?.layoutOptions\"></novo-checkbox>\n          </div>\n        </ng-template>\n\n        <!--Checklist-->\n        <ng-template novoTemplate=\"checklist\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-check-list [formControlName]=\"control.key\" [name]=\"control.key\" [options]=\"control?.options\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [tooltipPreline]=\"control?.tooltipPreline\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" (onSelect)=\"methods.modelChange($event)\"></novo-check-list>\n          </div>\n        </ng-template>\n\n        <!--QuickNote-->\n        <ng-template novoTemplate=\"quick-note\" let-control let-form=\"form\" let-errors=\"errors\" let-methods=\"methods\">\n          <div [formGroup]=\"form\">\n            <novo-quick-note [formControlName]=\"control.key\" [startupFocus]=\"control?.startupFocus\" [placeholder]=\"control?.placeholder\" [config]=\"control?.config\" (change)=\"methods.modelChange($event)\" [tooltip]=\"control?.tooltip\" [tooltipPosition]=\"control?.tooltipPosition\" [tooltipSize]=\"control?.tooltipSize\" [removeTooltipArrow]=\"control?.removeTooltipArrow\" [tooltipAutoPosition]=\"control?.tooltipAutoPosition\" [tooltipPreline]=\"control?.tooltipPreline\"></novo-quick-note>\n          </div>\n        </ng-template>\n    "
                 }] }
     ];
     /** @nocollapse */
@@ -45742,20 +40483,10 @@ var NovoControlTemplates = /** @class */ (function () {
     };
     return NovoControlTemplates;
 }());
-if (false) {
-    /** @type {?} */
-    NovoControlTemplates.prototype.defaultTemplates;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlTemplates.prototype.templates;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/common/common.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCommonModule = /** @class */ (function () {
     function NovoCommonModule() {
@@ -45772,8 +40503,7 @@ var NovoCommonModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/Form.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoFormModule = /** @class */ (function () {
     function NovoFormModule() {
@@ -45834,8 +40564,7 @@ var NovoFormModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/pagination/Pagination.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var Pagination = /** @class */ (function () {
     function Pagination(labels) {
@@ -46051,39 +40780,10 @@ var Pagination = /** @class */ (function () {
     };
     return Pagination;
 }());
-if (false) {
-    /** @type {?} */
-    Pagination.prototype.page;
-    /** @type {?} */
-    Pagination.prototype.totalItems;
-    /** @type {?} */
-    Pagination.prototype.itemsPerPage;
-    /** @type {?} */
-    Pagination.prototype.rowOptions;
-    /** @type {?} */
-    Pagination.prototype.label;
-    /** @type {?} */
-    Pagination.prototype.pageChange;
-    /** @type {?} */
-    Pagination.prototype.itemsPerPageChange;
-    /** @type {?} */
-    Pagination.prototype.onPageChange;
-    /** @type {?} */
-    Pagination.prototype.pageSelectDisabled;
-    /** @type {?} */
-    Pagination.prototype.maxPagesDisplayed;
-    /** @type {?} */
-    Pagination.prototype.totalPages;
-    /** @type {?} */
-    Pagination.prototype.pages;
-    /** @type {?} */
-    Pagination.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/base-renderer/BaseRenderer.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var BaseRenderer = /** @class */ (function () {
     function BaseRenderer() {
@@ -46093,19 +40793,10 @@ var BaseRenderer = /** @class */ (function () {
     }
     return BaseRenderer;
 }());
-if (false) {
-    /** @type {?} */
-    BaseRenderer.prototype.data;
-    /** @type {?} */
-    BaseRenderer.prototype.value;
-    /** @type {?} */
-    BaseRenderer.prototype.meta;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/row-details/RowDetails.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var RowDetails = /** @class */ (function () {
     function RowDetails(element, componentUtils) {
@@ -46130,14 +40821,11 @@ var RowDetails = /** @class */ (function () {
                 this.value = this.renderer(this.data);
             }
         }
-        else {
-            // this.value = this.row[this.column.name];
-        }
     };
     RowDetails.decorators = [
         { type: Component, args: [{
                     selector: 'novo-row-details',
-                    template: "\n    <span #container></span> <span>{{ value }}</span>\n  "
+                    template: "\n        <span #container></span>\n        <span>{{value}}</span>\n    "
                 }] }
     ];
     /** @nocollapse */
@@ -46146,37 +40834,16 @@ var RowDetails = /** @class */ (function () {
         { type: ComponentUtils }
     ]; };
     RowDetails.propDecorators = {
-        container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef, static: true },] }],
+        container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }],
         data: [{ type: Input }],
         renderer: [{ type: Input }]
     };
     return RowDetails;
 }());
-if (false) {
-    /** @type {?} */
-    RowDetails.prototype.container;
-    /** @type {?} */
-    RowDetails.prototype.data;
-    /** @type {?} */
-    RowDetails.prototype.renderer;
-    /** @type {?} */
-    RowDetails.prototype.value;
-    /**
-     * @type {?}
-     * @private
-     */
-    RowDetails.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    RowDetails.prototype.componentUtils;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/table-cell/TableCell.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var TableCell = /** @class */ (function () {
     function TableCell(element, componentUtils) {
@@ -46216,13 +40883,9 @@ var TableCell = /** @class */ (function () {
         if (this.form && this.hasEditor) {
             this.valueChangeSubscription = this.form.valueChanges
                 .pipe(debounceTime(300), distinctUntilChanged())
-                .subscribe((/**
-             * @param {?} value
-             * @return {?}
-             */
-            function (value) {
+                .subscribe(function (value) {
                 _this.value = value[_this.column.name];
-            }));
+            });
         }
     };
     /**
@@ -46256,7 +40919,7 @@ var TableCell = /** @class */ (function () {
     TableCell.decorators = [
         { type: Component, args: [{
                     selector: 'novo-table-cell',
-                    template: "\n    <div [ngSwitch]=\"column._type\">\n      <span #container></span>\n      <date-cell *ngSwitchCase=\"'date'\" [value]=\"value\"></date-cell>\n      <a *ngSwitchCase=\"'link'\" (click)=\"onClick($event)\">{{ value }}</a> <span *ngSwitchDefault>{{ value }}</span>\n    </div>\n  "
+                    template: "\n        <div [ngSwitch]=\"column._type\">\n            <span #container></span>\n            <date-cell *ngSwitchCase=\"'date'\" [value]=\"value\"></date-cell>\n            <a *ngSwitchCase=\"'link'\" (click)=\"onClick($event);\">{{ value }}</a>\n            <span *ngSwitchDefault>{{ value }}</span>\n        </div>\n    "
                 }] }
     ];
     /** @nocollapse */
@@ -46265,7 +40928,7 @@ var TableCell = /** @class */ (function () {
         { type: ComponentUtils }
     ]; };
     TableCell.propDecorators = {
-        container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef, static: true },] }],
+        container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }],
         column: [{ type: Input }],
         row: [{ type: Input }],
         form: [{ type: Input }],
@@ -46273,40 +40936,10 @@ var TableCell = /** @class */ (function () {
     };
     return TableCell;
 }());
-if (false) {
-    /** @type {?} */
-    TableCell.prototype.container;
-    /** @type {?} */
-    TableCell.prototype.column;
-    /** @type {?} */
-    TableCell.prototype.row;
-    /** @type {?} */
-    TableCell.prototype.form;
-    /** @type {?} */
-    TableCell.prototype.hasEditor;
-    /** @type {?} */
-    TableCell.prototype.value;
-    /**
-     * @type {?}
-     * @private
-     */
-    TableCell.prototype.valueChangeSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    TableCell.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    TableCell.prototype.componentUtils;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/table-filter/TableFilter.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var TableFilter = /** @class */ (function () {
     function TableFilter(element, renderer) {
@@ -46360,13 +40993,10 @@ var TableFilter = /** @class */ (function () {
             this.onFilterChange.emit({ filtering: this.config });
         }
         else {
-            this.filterThrottle = setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            this.filterThrottle = setTimeout(function () {
                 _this.config.filter = ((/** @type {?} */ (event.target))).value;
                 _this.onFilterChange.emit({ filtering: _this.config });
-            }), 300);
+            }, 300);
         }
     };
     /**
@@ -46398,29 +41028,10 @@ var TableFilter = /** @class */ (function () {
     };
     return TableFilter;
 }());
-if (false) {
-    /** @type {?} */
-    TableFilter.prototype.config;
-    /** @type {?} */
-    TableFilter.prototype.onFilterChange;
-    /** @type {?} */
-    TableFilter.prototype.filterThrottle;
-    /**
-     * @type {?}
-     * @private
-     */
-    TableFilter.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    TableFilter.prototype.renderer;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/th-orderable/ThOrderable.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var ThOrderable = /** @class */ (function () {
     function ThOrderable(element) {
@@ -46653,28 +41264,10 @@ var ThOrderable = /** @class */ (function () {
     };
     return ThOrderable;
 }());
-if (false) {
-    /** @type {?} */
-    ThOrderable.prototype.column;
-    /** @type {?} */
-    ThOrderable.prototype.onOrderChange;
-    /** @type {?} */
-    ThOrderable.prototype.table;
-    /** @type {?} */
-    ThOrderable.prototype.clone;
-    /** @type {?} */
-    ThOrderable.prototype.target;
-    /**
-     * @type {?}
-     * @private
-     */
-    ThOrderable.prototype.element;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/th-sortable/ThSortable.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var ThSortable = /** @class */ (function () {
     function ThSortable() {
@@ -46719,19 +41312,10 @@ var ThSortable = /** @class */ (function () {
     };
     return ThSortable;
 }());
-if (false) {
-    /** @type {?} */
-    ThSortable.prototype.config;
-    /** @type {?} */
-    ThSortable.prototype.column;
-    /** @type {?} */
-    ThSortable.prototype.onSortChange;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/date-cell/DateCell.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var DateCell = /** @class */ (function (_super) {
     __extends(DateCell, _super);
@@ -46764,17 +41348,10 @@ var DateCell = /** @class */ (function (_super) {
     };
     return DateCell;
 }(BaseRenderer));
-if (false) {
-    /** @type {?} */
-    DateCell.prototype.value;
-    /** @type {?} */
-    DateCell.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/percentage-cell/PercentageCell.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var PercentageCell = /** @class */ (function (_super) {
     __extends(PercentageCell, _super);
@@ -46792,21 +41369,8 @@ var PercentageCell = /** @class */ (function (_super) {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/dropdown-cell/DropdownCell.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function INovoDropdownCellConfig() { }
-if (false) {
-    /** @type {?|undefined} */
-    INovoDropdownCellConfig.prototype.category;
-    /** @type {?|undefined} */
-    INovoDropdownCellConfig.prototype.callback;
-    /** @type {?} */
-    INovoDropdownCellConfig.prototype.options;
-}
 var NovoDropdownCell = /** @class */ (function (_super) {
     __extends(NovoDropdownCell, _super);
     function NovoDropdownCell() {
@@ -46853,17 +41417,10 @@ var NovoDropdownCell = /** @class */ (function (_super) {
     };
     return NovoDropdownCell;
 }(BaseRenderer));
-if (false) {
-    /** @type {?} */
-    NovoDropdownCell.prototype.meta;
-    /** @type {?} */
-    NovoDropdownCell.prototype.value;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/keep-filter-focus/KeepFilterFocus.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTableKeepFilterFocus = /** @class */ (function () {
     function NovoTableKeepFilterFocus(element) {
@@ -46889,18 +41446,10 @@ var NovoTableKeepFilterFocus = /** @class */ (function () {
     ]; };
     return NovoTableKeepFilterFocus;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTableKeepFilterFocus.prototype.element;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/table-actions/TableActions.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTableActionsElement = /** @class */ (function () {
     function NovoTableActionsElement() {
@@ -46916,8 +41465,7 @@ var NovoTableActionsElement = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/table-footer/TableFooter.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTableFooterElement = /** @class */ (function () {
     function NovoTableFooterElement() {
@@ -46933,8 +41481,7 @@ var NovoTableFooterElement = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/table-header/TableHeader.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTableHeaderElement = /** @class */ (function () {
     function NovoTableHeaderElement() {
@@ -46950,8 +41497,7 @@ var NovoTableHeaderElement = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/TableExtras.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTableExtrasModule = /** @class */ (function () {
     function NovoTableExtrasModule() {
@@ -46997,8 +41543,7 @@ var NovoTableExtrasModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/data-provider/CollectionEvent.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var CollectionEvent = /** @class */ (function () {
     function CollectionEvent(type, data) {
@@ -47023,41 +41568,10 @@ var CollectionEvent = /** @class */ (function () {
     CollectionEvent.NUMBEROFPAGES_CHANGE = 'Collection.NUMBEROFPAGES_CHANGE';
     return CollectionEvent;
 }());
-if (false) {
-    /** @type {?} */
-    CollectionEvent.REFRESH;
-    /** @type {?} */
-    CollectionEvent.ADD;
-    /** @type {?} */
-    CollectionEvent.REMOVE;
-    /** @type {?} */
-    CollectionEvent.REMOVE_ALL;
-    /** @type {?} */
-    CollectionEvent.REPLACE;
-    /** @type {?} */
-    CollectionEvent.INVALIDATE_ALL;
-    /** @type {?} */
-    CollectionEvent.SORT;
-    /** @type {?} */
-    CollectionEvent.FILTER;
-    /** @type {?} */
-    CollectionEvent.CHANGE;
-    /** @type {?} */
-    CollectionEvent.CURRENTPAGE_CHANGE;
-    /** @type {?} */
-    CollectionEvent.PAGESIZE_CHANGE;
-    /** @type {?} */
-    CollectionEvent.NUMBEROFPAGES_CHANGE;
-    /** @type {?} */
-    CollectionEvent.prototype.type;
-    /** @type {?} */
-    CollectionEvent.prototype.data;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/data-provider/ArrayCollection.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Base Class for all Collection based data providers
@@ -47874,27 +42388,10 @@ ArrayCollection = /** @class */ (function () {
     };
     return ArrayCollection;
 }());
-if (false) {
-    /** @type {?} */
-    ArrayCollection.prototype.dataChange;
-    /** @type {?} */
-    ArrayCollection.prototype.source;
-    /** @type {?} */
-    ArrayCollection.prototype.editData;
-    /** @type {?} */
-    ArrayCollection.prototype.isEditing;
-    /** @type {?} */
-    ArrayCollection.prototype.filterData;
-    /** @type {?} */
-    ArrayCollection.prototype._filter;
-    /** @type {?} */
-    ArrayCollection.prototype._sort;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/data-provider/PagedArrayCollection.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -48055,50 +42552,11 @@ PagedArrayCollection = /** @class */ (function (_super) {
     };
     return PagedArrayCollection;
 }(ArrayCollection));
-if (false) {
-    /** @type {?} */
-    PagedArrayCollection.prototype._page;
-    /** @type {?} */
-    PagedArrayCollection.prototype._numberOfPages;
-    /** @type {?} */
-    PagedArrayCollection.prototype._pageSize;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/Table.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function NovoTableConfig() { }
-if (false) {
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.paging;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.footers;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.filtering;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.sorting;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.ordering;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.resizing;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.rowSelectionStyle;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.rowSelect;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.hasDetails;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.detailsRenderer;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.expandAll;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.selectAllEnabled;
-}
 /** @enum {number} */
 var NovoTableMode = {
     VIEW: 1,
@@ -48179,11 +42637,7 @@ var NovoTableElement = /** @class */ (function () {
         function (dp) {
             var _this = this;
             this._dataProvider = Array.isArray(dp) ? new PagedArrayCollection(dp) : dp;
-            this._dataProvider.dataChange.pipe(debounceTime(100)).subscribe((/**
-             * @param {?} event
-             * @return {?}
-             */
-            function (event) {
+            this._dataProvider.dataChange.pipe(debounceTime(100)).subscribe(function (event) {
                 switch (event.type) {
                     case CollectionEvent.CHANGE:
                         _this._rows = event.data;
@@ -48194,11 +42648,7 @@ var NovoTableElement = /** @class */ (function () {
                         // Remove all selection on sort change if selection is on
                         if (_this.config.rowSelectionStyle === 'checkbox') {
                             _this.pagedData = event.data;
-                            _this.pageSelected = _this.pagedData.filter((/**
-                             * @param {?} r
-                             * @return {?}
-                             */
-                            function (r) { return r._selected; }));
+                            _this.pageSelected = _this.pagedData.filter(function (r) { return r._selected; });
                             _this.rowSelectHandler();
                         }
                         // Find that columns we might need to sum up via the footer
@@ -48207,42 +42657,23 @@ var NovoTableElement = /** @class */ (function () {
                         /** @type {?} */
                         var columnSums_1 = {};
                         if (_this.config.footers) {
-                            _this.config.footers.forEach((/**
-                             * @param {?} config
-                             * @return {?}
-                             */
-                            function (config) {
+                            _this.config.footers.forEach(function (config) {
                                 columnsToSum_1.push.apply(columnsToSum_1, __spread(config.columns));
-                            }));
+                            });
                             // Only have unique columns, filter out duplicates
-                            columnsToSum_1 = columnsToSum_1.filter((/**
-                             * @param {?} item
-                             * @param {?} index
-                             * @param {?} array
-                             * @return {?}
-                             */
-                            function (item, index, array) { return array.indexOf(item) === index; }));
+                            columnsToSum_1 = columnsToSum_1.filter(function (item, index, array) { return array.indexOf(item) === index; });
                         }
                         // Make a form for each row
                         /** @type {?} */
                         var tableFormRows_1 = (/** @type {?} */ (_this.tableForm.controls['rows']));
-                        _this._rows.forEach((/**
-                         * @param {?} row
-                         * @param {?} index
-                         * @return {?}
-                         */
-                        function (row, index) {
+                        _this._rows.forEach(function (row, index) {
                             /** @type {?} */
                             var rowControls = [];
                             row.controls = {};
                             row._editing = {};
                             row._expanded = _this.config.expandAll;
                             row.rowId = _this._rows.length;
-                            _this.columns.forEach((/**
-                             * @param {?} column
-                             * @return {?}
-                             */
-                            function (column) {
+                            _this.columns.forEach(function (column) {
                                 // Use the control passed or use a ReadOnlyControl so that the form has the values
                                 /** @type {?} */
                                 var control = column.editorConfig
@@ -48250,59 +42681,46 @@ var NovoTableElement = /** @class */ (function () {
                                     : new ReadOnlyControl({ key: column.name });
                                 row.controls[column.name] = control;
                                 rowControls.push(control);
-                            }));
+                            });
                             _this.formUtils.setInitialValues(rowControls, row, false);
                             tableFormRows_1.push(_this.formUtils.toFormGroup(rowControls));
                             // Setup the total footer if configured
                             // Array of keys to total
                             if (columnsToSum_1.length !== 0) {
-                                columnsToSum_1.forEach((/**
-                                 * @param {?} column
-                                 * @return {?}
-                                 */
-                                function (column) {
+                                columnsToSum_1.forEach(function (column) {
                                     if (Helpers.isBlank(columnSums_1[column])) {
                                         columnSums_1[column] = 0;
                                     }
                                     columnSums_1[column] += row[column];
-                                }));
+                                });
                             }
-                        }));
+                        });
                         if (_this.mode === NovoTableMode.EDIT) {
                             _this.setTableEdit();
                         }
                         // Setup the footers (if any)
                         if (_this.config.footers) {
                             _this.footers = [];
-                            _this.config.footers.forEach((/**
-                             * @param {?} footerConfig
-                             * @param {?} footerConfigIndex
-                             * @return {?}
-                             */
-                            function (footerConfig, footerConfigIndex) {
+                            _this.config.footers.forEach(function (footerConfig, footerConfigIndex) {
                                 /** @type {?} */
                                 var footer = {};
                                 footer[footerConfig.labelColumn] = footerConfig.label;
-                                footerConfig.columns.forEach((/**
-                                 * @param {?} column
-                                 * @return {?}
-                                 */
-                                function (column) {
+                                footerConfig.columns.forEach(function (column) {
                                     if (footerConfig.method === 'AVG' && _this._rows.length !== 0) {
                                         footer[column] = columnSums_1[column] / _this._rows.length;
                                     }
                                     else {
                                         footer[column] = columnSums_1[column];
                                     }
-                                }));
+                                });
                                 _this.footers.push(footer);
-                            }));
+                            });
                         }
                         break;
                     default:
                         break;
                 }
-            }));
+            });
             if (this.config.paging) {
                 this._dataProvider.page = this.config.paging.current;
                 this._dataProvider.pageSize = this.config.paging.itemsPerPage;
@@ -48361,18 +42779,11 @@ var NovoTableElement = /** @class */ (function () {
      */
     function () {
         if (this.filterInputs && this.filterInputs.length) {
-            this.filterInputs.forEach((/**
-             * @param {?} filterInput
-             * @return {?}
-             */
-            function (filterInput) {
+            this.filterInputs.forEach(function (filterInput) {
                 if (filterInput.nativeElement) {
-                    setTimeout((/**
-                     * @return {?}
-                     */
-                    function () { return filterInput.nativeElement.focus(); }), 0);
+                    setTimeout(function () { return filterInput.nativeElement.focus(); }, 0);
                 }
-            }));
+            });
         }
     };
     /**
@@ -48415,11 +42826,7 @@ var NovoTableElement = /** @class */ (function () {
     function () {
         var _this = this;
         // Check columns for cell option types
-        this.columns.forEach((/**
-         * @param {?} column
-         * @return {?}
-         */
-        function (column) {
+        this.columns.forEach(function (column) {
             if (column && column.type) {
                 switch (column.type) {
                     case 'date':
@@ -48430,7 +42837,7 @@ var NovoTableElement = /** @class */ (function () {
                         break;
                 }
             }
-        }));
+        });
     };
     /**
      * @name ngDoCheck
@@ -48508,16 +42915,16 @@ var NovoTableElement = /** @class */ (function () {
      * @param {?} filter
      * @return {?}
      */
-    function (column, filter) {
-        if (filter.range && !column.calendarShow) {
+    function (column, filter$$1) {
+        if (filter$$1.range && !column.calendarShow) {
             column.calenderShow = true;
             return;
         }
         if (Array.isArray(column.filter) && column.multiple) {
-            if (~column.filter.indexOf(filter)) {
+            if (~column.filter.indexOf(filter$$1)) {
                 // Remove filter
-                column.filter.splice(column.filter.indexOf(filter), 1);
-                if (filter.range) {
+                column.filter.splice(column.filter.indexOf(filter$$1), 1);
+                if (filter$$1.range) {
                     column.calenderShow = false;
                 }
                 if (column.filter.length === 0) {
@@ -48526,15 +42933,15 @@ var NovoTableElement = /** @class */ (function () {
             }
             else {
                 // Add filter
-                column.filter.push(filter);
+                column.filter.push(filter$$1);
             }
         }
         else if (column.multiple) {
             column.filter = new Array();
-            column.filter.push(Helpers.isBlank(filter.value) ? filter : filter.value);
+            column.filter.push(Helpers.isBlank(filter$$1.value) ? filter$$1 : filter$$1.value);
         }
         else {
-            column.filter = Helpers.isBlank(filter.value) ? filter : filter.value;
+            column.filter = Helpers.isBlank(filter$$1.value) ? filter$$1 : filter$$1.value;
         }
         this.onFilterChange();
     };
@@ -48554,17 +42961,14 @@ var NovoTableElement = /** @class */ (function () {
      */
     function (column) {
         var _this = this;
-        setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        setTimeout(function () {
             column.filter = null;
             column.freetextFilter = null;
             _this.onFilterChange();
             if (column.originalOptions) {
                 column.options = column.originalOptions;
             }
-        }));
+        });
     };
     /**
      * @return {?}
@@ -48574,14 +42978,10 @@ var NovoTableElement = /** @class */ (function () {
      */
     function () {
         if (this.config.filtering) {
-            this.columns.forEach((/**
-             * @param {?} column
-             * @return {?}
-             */
-            function (column) {
+            this.columns.forEach(function (column) {
                 column.filter = null;
                 column.sort = null;
-            }));
+            });
         }
     };
     /**
@@ -48608,27 +43008,18 @@ var NovoTableElement = /** @class */ (function () {
         if (this.config.filtering) {
             // Array of filters
             /** @type {?} */
-            var filters = this.columns.filter((/**
-             * @param {?} col
-             * @return {?}
-             */
-            function (col) { return !Helpers.isEmpty(col.filter); }));
+            var filters = this.columns.filter(function (col) { return !Helpers.isEmpty(col.filter); });
             if (filters.length) {
                 /** @type {?} */
-                var query = {};
+                var query$$1 = {};
                 var _loop_1 = function (column) {
                     if (Helpers.isFunction(column.match)) {
-                        query[column.name] = (/**
-                         * @param {?} value
-                         * @param {?} record
-                         * @return {?}
-                         */
-                        function (value, record) {
+                        query$$1[column.name] = function (value, record) {
                             return column.match(record, column.filter);
-                        });
+                        };
                     }
                     else if (column.preFilter && Helpers.isFunction(column.preFilter)) {
-                        query = Object.assign({}, query, column.preFilter(this_1.escapeCharacters(column.filter)));
+                        query$$1 = Object.assign({}, query$$1, column.preFilter(this_1.escapeCharacters(column.filter)));
                     }
                     else if (Array.isArray(column.filter)) {
                         // The filters are an array (multi-select), check value
@@ -48636,30 +43027,26 @@ var NovoTableElement = /** @class */ (function () {
                         var options = column.filter;
                         // We have an array of {value: '', labels: ''}
                         if (options[0].value || options[0].label) {
-                            options = column.filter.map((/**
-                             * @param {?} opt
-                             * @return {?}
-                             */
-                            function (opt) { return opt.value; }));
+                            options = column.filter.map(function (opt) { return opt.value; });
                         }
-                        query[column.name] = { any: options };
+                        query$$1[column.name] = { any: options };
                     }
                     else if (column.type && column.type === 'date') {
                         if (column.filter.startDate && column.filter.endDate) {
-                            query[column.name] = {
+                            query$$1[column.name] = {
                                 min: startOfDay(column.filter.startDate),
                                 max: startOfDay(addDays(startOfDay(column.filter.endDate), 1)),
                             };
                         }
                         else {
-                            query[column.name] = {
+                            query$$1[column.name] = {
                                 min: column.filter.min ? addDays(startOfToday(), column.filter.min) : startOfToday(),
                                 max: column.filter.max ? addDays(startOfTomorrow(), column.filter.max) : startOfTomorrow(),
                             };
                         }
                     }
                     else {
-                        query[column.name] = column.filter;
+                        query$$1[column.name] = column.filter;
                     }
                 };
                 var this_1 = this;
@@ -48677,10 +43064,10 @@ var NovoTableElement = /** @class */ (function () {
                     finally { if (e_1) throw e_1.error; }
                 }
                 if (Helpers.isFunction(this.config.filtering)) {
-                    this.config.filtering(query);
+                    this.config.filtering(query$$1);
                 }
                 else {
-                    this._dataProvider.filter = query;
+                    this._dataProvider.filter = query$$1;
                 }
             }
             else {
@@ -48707,11 +43094,11 @@ var NovoTableElement = /** @class */ (function () {
      * @param {?} filter
      * @return {?}
      */
-    function (filter) {
-        if (typeof filter === 'string') {
-            return filter.replace(/'/g, '\'\'');
+    function (filter$$1) {
+        if (typeof filter$$1 === 'string') {
+            return filter$$1.replace(/'/g, '\'\'');
         }
-        return filter;
+        return filter$$1;
     };
     /**
      * @param {?} column
@@ -48723,31 +43110,27 @@ var NovoTableElement = /** @class */ (function () {
      * @param {?} filter
      * @return {?}
      */
-    function (column, filter) {
+    function (column, filter$$1) {
         // TODO: This needs to be refactored
         /** @type {?} */
         var isActive = false;
-        if (column && !Helpers.isBlank(column.filter) && !Helpers.isBlank(filter)) {
+        if (column && !Helpers.isBlank(column.filter) && !Helpers.isBlank(filter$$1)) {
             if (Array.isArray(column.filter)) {
-                if (typeof filter !== 'string') {
-                    isActive = column.filter.some((/**
-                     * @param {?} item
-                     * @return {?}
-                     */
-                    function (item) {
-                        return item.label === filter.label;
-                    }));
+                if (typeof filter$$1 !== 'string') {
+                    isActive = column.filter.some(function (item) {
+                        return item.label === filter$$1.label;
+                    });
                 }
                 else {
-                    isActive = column.filter.includes(filter);
+                    isActive = column.filter.includes(filter$$1);
                 }
             }
             else {
-                if (typeof column.filter === typeof filter) {
-                    isActive = column.filter === filter;
+                if (typeof column.filter === typeof filter$$1) {
+                    isActive = column.filter === filter$$1;
                 }
                 else {
-                    isActive = column.filter === filter.value;
+                    isActive = column.filter === filter$$1.value;
                 }
             }
         }
@@ -48768,17 +43151,13 @@ var NovoTableElement = /** @class */ (function () {
      * @return {?}
      */
     function (column) {
-        var e_2, _a;
         var _this = this;
+        var e_2, _a;
         this.currentSortColumn = column;
         /** @type {?} */
-        var sortedColumns = this.columns.filter((/**
-         * @param {?} thisColumn
-         * @return {?}
-         */
-        function (thisColumn) {
+        var sortedColumns = this.columns.filter(function (thisColumn) {
             return thisColumn.sort && thisColumn !== _this.currentSortColumn;
-        }));
+        });
         try {
             for (var sortedColumns_1 = __values(sortedColumns), sortedColumns_1_1 = sortedColumns_1.next(); !sortedColumns_1_1.done; sortedColumns_1_1 = sortedColumns_1.next()) {
                 var sortedColumn = sortedColumns_1_1.value;
@@ -48830,11 +43209,7 @@ var NovoTableElement = /** @class */ (function () {
         /** @type {?} */
         var onTableChange = {};
         /** @type {?} */
-        var filters = this.columns.filter((/**
-         * @param {?} col
-         * @return {?}
-         */
-        function (col) { return col.filter && col.filter.length; }));
+        var filters = this.columns.filter(function (col) { return col.filter && col.filter.length; });
         onTableChange.filter = filters.length ? filters : false;
         onTableChange.sort = this.currentSortColumn ? this.currentSortColumn : false;
         onTableChange.rows = this.rows;
@@ -48946,16 +43321,8 @@ var NovoTableElement = /** @class */ (function () {
                 }
                 finally { if (e_4) throw e_4.error; }
             }
-            this.selected = this.dataProvider.list.filter((/**
-             * @param {?} r
-             * @return {?}
-             */
-            function (r) { return r._selected; }));
-            this.pageSelected = this.pagedData.filter((/**
-             * @param {?} r
-             * @return {?}
-             */
-            function (r) { return r._selected; }));
+            this.selected = this.dataProvider.list.filter(function (r) { return r._selected; });
+            this.pageSelected = this.pagedData.filter(function (r) { return r._selected; });
             this.emitSelected(this.selected);
             // Only show the select all message when there is only one new page selected at a time
             this.selectedPageCount++;
@@ -49012,16 +43379,8 @@ var NovoTableElement = /** @class */ (function () {
      */
     function (data) {
         // this.pagedData = this.rows.slice(this.getPageStart(), this.getPageEnd());
-        this.pageSelected = this.pagedData.filter((/**
-         * @param {?} r
-         * @return {?}
-         */
-        function (r) { return r._selected; }));
-        this.selected = this.dataProvider.list.filter((/**
-         * @param {?} r
-         * @return {?}
-         */
-        function (r) { return r._selected; }));
+        this.pageSelected = this.pagedData.filter(function (r) { return r._selected; });
+        this.selected = this.dataProvider.list.filter(function (r) { return r._selected; });
         if (this.pageSelected.length === 0) {
             this.master = false;
             this.indeterminate = false;
@@ -49119,14 +43478,11 @@ var NovoTableElement = /** @class */ (function () {
      */
     function (column, event) {
         var _this = this;
-        setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        setTimeout(function () {
             if (event.startDate && event.endDate) {
                 _this.onFilterChange();
             }
-        }), 10);
+        }, 10);
     };
     /**
      * @param {?} config
@@ -49144,11 +43500,7 @@ var NovoTableElement = /** @class */ (function () {
                 config.filtering.originalOptions = config.filtering.options;
             }
             /** @type {?} */
-            var newOptions = config.filtering.originalOptions.filter((/**
-             * @param {?} option
-             * @return {?}
-             */
-            function (option) {
+            var newOptions = config.filtering.originalOptions.filter(function (option) {
                 /** @type {?} */
                 var value = option && option.label ? option.label : option;
                 value = value.toLowerCase() ? value.toLowerCase() : value;
@@ -49159,7 +43511,7 @@ var NovoTableElement = /** @class */ (function () {
                     return true;
                 }
                 return false;
-            }));
+            });
             config.filtering.options = newOptions;
             config.filtering.filter = config.filtering.freetextFilter;
         }
@@ -49204,19 +43556,9 @@ var NovoTableElement = /** @class */ (function () {
         var _this = this;
         this.mode = NovoTableMode.EDIT;
         this._dataProvider.edit();
-        this._rows.forEach((/**
-         * @param {?} row
-         * @param {?} rowIndex
-         * @return {?}
-         */
-        function (row, rowIndex) {
+        this._rows.forEach(function (row, rowIndex) {
             row._editing = row._editing || {};
-            _this.columns.forEach((/**
-             * @param {?} column
-             * @param {?} columnIndex
-             * @return {?}
-             */
-            function (column, columnIndex) {
+            _this.columns.forEach(function (column, columnIndex) {
                 if (column.viewOnly) {
                     row._editing[column.name] = false;
                 }
@@ -49235,8 +43577,8 @@ var NovoTableElement = /** @class */ (function () {
                 else {
                     row._editing[column.name] = false;
                 }
-            }));
-        }));
+            });
+        });
     };
     /**
      * @name leaveEditMode
@@ -49263,20 +43605,12 @@ var NovoTableElement = /** @class */ (function () {
     function (cancel) {
         var _this = this;
         this.mode = NovoTableMode.VIEW;
-        this._rows.forEach((/**
-         * @param {?} row
-         * @return {?}
-         */
-        function (row) {
+        this._rows.forEach(function (row) {
             row._editing = row._editing || {};
-            _this.columns.forEach((/**
-             * @param {?} column
-             * @return {?}
-             */
-            function (column) {
+            _this.columns.forEach(function (column) {
                 row._editing[column.name] = false;
-            }));
-        }));
+            });
+        });
         if (cancel) {
             this._dataProvider.undo();
         }
@@ -49316,11 +43650,7 @@ var NovoTableElement = /** @class */ (function () {
         row.controls = {};
         row._editing = {};
         row.rowId = this._rows.length + 1;
-        this.columns.forEach((/**
-         * @param {?} column
-         * @return {?}
-         */
-        function (column) {
+        this.columns.forEach(function (column) {
             // Use the control passed or use a ReadOnlyControl so that the form has the values
             /** @type {?} */
             var control = column.editorConfig
@@ -49330,7 +43660,7 @@ var NovoTableElement = /** @class */ (function () {
             row.controls[column.name] = control;
             row._editing[column.name] = !column.viewOnly;
             rowControls.push(control);
-        }));
+        });
         this.formUtils.setInitialValues(rowControls, defaultValue, false);
         tableFormRows.push(this.formUtils.toFormGroup(rowControls));
         this._rows.push(row);
@@ -49369,22 +43699,13 @@ var NovoTableElement = /** @class */ (function () {
             /** @type {?} */
             var errors_1 = [];
             // Go over the FormArray's controls
-            ((/** @type {?} */ (this.tableForm.controls['rows']))).controls.forEach((/**
-             * @param {?} formGroup
-             * @param {?} index
-             * @return {?}
-             */
-            function (formGroup, index) {
+            ((/** @type {?} */ (this.tableForm.controls['rows']))).controls.forEach(function (formGroup, index) {
                 /** @type {?} */
                 var changedRow = null;
                 /** @type {?} */
                 var error = null;
                 // Go over the form group controls
-                Object.keys(formGroup.controls).forEach((/**
-                 * @param {?} key
-                 * @return {?}
-                 */
-                function (key) {
+                Object.keys(formGroup.controls).forEach(function (key) {
                     /** @type {?} */
                     var control = formGroup.controls[key];
                     // Handle value changing
@@ -49410,16 +43731,14 @@ var NovoTableElement = /** @class */ (function () {
                         control.markAsDirty();
                         control.markAsTouched();
                     }
-                }));
+                });
                 if (changedRow) {
                     changedRows_1.push(changedRow);
                 }
                 if (error) {
                     errors_1.push({ errors: error, row: _this._rows[index], index: index });
                 }
-            }));
-            /** @type {?} */
-            var ret = {};
+            });
             // Return errors if any, otherwise return the changed rows
             if (errors_1.length === 0) {
                 return { changed: changedRows_1 };
@@ -49495,10 +43814,7 @@ var NovoTableElement = /** @class */ (function () {
         this.loading = false;
         this.toast = toast;
         if (hideDelay) {
-            setTimeout((/**
-             * @return {?}
-             */
-            function () { return _this.hideToastMessage(); }), hideDelay);
+            setTimeout(function () { return _this.hideToastMessage(); }, hideDelay);
         }
     };
     /**
@@ -49523,12 +43839,9 @@ var NovoTableElement = /** @class */ (function () {
         this.toast = null;
         // Hack to make the table display properly after hiding the toast
         this.grossFlagToAvoidTheTableFromBeingUglyWhenHidingTheToast = true;
-        setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        setTimeout(function () {
             _this.grossFlagToAvoidTheTableFromBeingUglyWhenHidingTheToast = false;
-        }));
+        });
     };
     /**
      * @name toggleLoading
@@ -49612,89 +43925,10 @@ var NovoTableElement = /** @class */ (function () {
     };
     return NovoTableElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoTableElement.prototype.filterInputs;
-    /** @type {?} */
-    NovoTableElement.prototype.config;
-    /** @type {?} */
-    NovoTableElement.prototype.columns;
-    /** @type {?} */
-    NovoTableElement.prototype.theme;
-    /** @type {?} */
-    NovoTableElement.prototype.skipSortAndFilterClear;
-    /** @type {?} */
-    NovoTableElement.prototype.mode;
-    /** @type {?} */
-    NovoTableElement.prototype.editable;
-    /** @type {?} */
-    NovoTableElement.prototype.rowIdentifier;
-    /** @type {?} */
-    NovoTableElement.prototype.name;
-    /** @type {?} */
-    NovoTableElement.prototype.onRowClick;
-    /** @type {?} */
-    NovoTableElement.prototype.onRowSelect;
-    /** @type {?} */
-    NovoTableElement.prototype.onTableChange;
-    /** @type {?} */
-    NovoTableElement.prototype._dataProvider;
-    /** @type {?} */
-    NovoTableElement.prototype._rows;
-    /** @type {?} */
-    NovoTableElement.prototype.selected;
-    /** @type {?} */
-    NovoTableElement.prototype.activeId;
-    /** @type {?} */
-    NovoTableElement.prototype.master;
-    /** @type {?} */
-    NovoTableElement.prototype.expandAll;
-    /** @type {?} */
-    NovoTableElement.prototype.indeterminate;
-    /** @type {?} */
-    NovoTableElement.prototype.lastPage;
-    /** @type {?} */
-    NovoTableElement.prototype.selectedPageCount;
-    /** @type {?} */
-    NovoTableElement.prototype.showSelectAllMessage;
-    /** @type {?} */
-    NovoTableElement.prototype.currentSortColumn;
-    /** @type {?} */
-    NovoTableElement.prototype.pagedData;
-    /** @type {?} */
-    NovoTableElement.prototype.pageSelected;
-    /** @type {?} */
-    NovoTableElement.prototype.toggledDropdownMap;
-    /** @type {?} */
-    NovoTableElement.prototype.NovoTableMode;
-    /** @type {?} */
-    NovoTableElement.prototype.tableForm;
-    /** @type {?} */
-    NovoTableElement.prototype.toast;
-    /** @type {?} */
-    NovoTableElement.prototype.footers;
-    /** @type {?} */
-    NovoTableElement.prototype.grossFlagToAvoidTheTableFromBeingUglyWhenHidingTheToast;
-    /** @type {?} */
-    NovoTableElement.prototype.loading;
-    /** @type {?} */
-    NovoTableElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTableElement.prototype.formUtils;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTableElement.prototype.builder;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/Table.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTableModule = /** @class */ (function () {
     function NovoTableModule() {
@@ -49724,8 +43958,7 @@ var NovoTableModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/value/Value.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @enum {number} */
 var NOVO_VALUE_TYPE = {
@@ -49989,29 +44222,10 @@ var NovoValueElement = /** @class */ (function () {
     };
     return NovoValueElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoValueElement.prototype.data;
-    /** @type {?} */
-    NovoValueElement.prototype.meta;
-    /** @type {?} */
-    NovoValueElement.prototype.theme;
-    /** @type {?} */
-    NovoValueElement.prototype._type;
-    /** @type {?} */
-    NovoValueElement.prototype.NOVO_VALUE_TYPE;
-    /** @type {?} */
-    NovoValueElement.prototype.NOVO_VALUE_THEME;
-    /** @type {?} */
-    NovoValueElement.prototype.url;
-    /** @type {?} */
-    NovoValueElement.prototype.customClass;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/value/Render.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * \@classdesc
@@ -50197,8 +44411,6 @@ var RenderPipe = /** @class */ (function () {
         var type = null;
         /** @type {?} */
         var text = value;
-        /** @type {?} */
-        var rezonedTime;
         // Handle when we don't have meta, but passing an entity
         if (value && value._subtype && !args) {
             return this.getEntityLabel(value, value._subtype);
@@ -50445,11 +44657,11 @@ var RenderPipe = /** @class */ (function () {
      * @return {?}
      */
     function (list) {
-        var e_1, _a, e_2, _b;
         var fields = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             fields[_i - 1] = arguments[_i];
         }
+        var e_1, _a, e_2, _b;
         /** @type {?} */
         var data = [];
         try {
@@ -50458,7 +44670,7 @@ var RenderPipe = /** @class */ (function () {
                 /** @type {?} */
                 var label = [];
                 try {
-                    for (var fields_1 = (e_2 = void 0, __values(fields)), fields_1_1 = fields_1.next(); !fields_1_1.done; fields_1_1 = fields_1.next()) {
+                    for (var fields_1 = __values(fields), fields_1_1 = fields_1.next(); !fields_1_1.done; fields_1_1 = fields_1.next()) {
                         var field = fields_1_1.value;
                         label.push("" + item[field]);
                     }
@@ -50509,11 +44721,7 @@ var RenderPipe = /** @class */ (function () {
             value = [value];
         }
         try {
-            return value.map((/**
-             * @param {?} item
-             * @return {?}
-             */
-            function (item) {
+            return value.map(function (item) {
                 var e_3, _a;
                 try {
                     for (var list_2 = __values(list), list_2_1 = list_2.next(); !list_2_1.done; list_2_1 = list_2.next()) {
@@ -50531,7 +44739,7 @@ var RenderPipe = /** @class */ (function () {
                     finally { if (e_3) throw e_3.error; }
                 }
                 return item;
-            }));
+            });
         }
         catch (e) {
             if (!args.optionsType) {
@@ -50592,34 +44800,10 @@ var RenderPipe = /** @class */ (function () {
     ]; };
     return RenderPipe;
 }());
-if (false) {
-    /** @type {?} */
-    RenderPipe.prototype.value;
-    /** @type {?} */
-    RenderPipe.prototype.lastValue;
-    /** @type {?} */
-    RenderPipe.prototype.lastArgs;
-    /**
-     * @type {?}
-     * @private
-     */
-    RenderPipe.prototype.changeDetector;
-    /**
-     * @type {?}
-     * @private
-     */
-    RenderPipe.prototype.sanitizationService;
-    /**
-     * @type {?}
-     * @private
-     */
-    RenderPipe.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/value/EntityList.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var EntityList = /** @class */ (function () {
     function EntityList() {
@@ -50732,23 +44916,10 @@ var EntityList = /** @class */ (function () {
     };
     return EntityList;
 }());
-if (false) {
-    /** @type {?} */
-    EntityList.prototype.data;
-    /** @type {?} */
-    EntityList.prototype.meta;
-    /** @type {?} */
-    EntityList.prototype.baseEntity;
-    /** @type {?} */
-    EntityList.prototype.metaDisplay;
-    /** @type {?} */
-    EntityList.prototype.ENTITY_SHORT_NAMES;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/value/Value.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoValueModule = /** @class */ (function () {
     function NovoValueModule() {
@@ -50765,8 +44936,7 @@ var NovoValueModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/icon/Icon.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoIconComponent = /** @class */ (function () {
     function NovoIconComponent(element, cdr) {
@@ -50818,13 +44988,10 @@ var NovoIconComponent = /** @class */ (function () {
     function () {
         var _this = this;
         if (this.element.nativeElement.textContent.trim()) {
-            Promise.resolve().then((/**
-             * @return {?}
-             */
-            function () {
+            Promise.resolve().then(function () {
                 _this.name = _this.element.nativeElement.textContent.trim();
                 _this.cdr.markForCheck();
-            }));
+            });
         }
     };
     NovoIconComponent.decorators = [
@@ -50851,34 +45018,10 @@ var NovoIconComponent = /** @class */ (function () {
     };
     return NovoIconComponent;
 }());
-if (false) {
-    /** @type {?} */
-    NovoIconComponent.prototype.raised;
-    /** @type {?} */
-    NovoIconComponent.prototype.size;
-    /** @type {?} */
-    NovoIconComponent.prototype.theme;
-    /** @type {?} */
-    NovoIconComponent.prototype.color;
-    /** @type {?} */
-    NovoIconComponent.prototype.role;
-    /** @type {?} */
-    NovoIconComponent.prototype.ariaLabel;
-    /** @type {?} */
-    NovoIconComponent.prototype.iconName;
-    /** @type {?} */
-    NovoIconComponent.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoIconComponent.prototype.cdr;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/icon/Icon.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoIconModule = /** @class */ (function () {
     function NovoIconModule() {
@@ -50894,8 +45037,7 @@ var NovoIconModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/expansion/accordion.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Directive for a Material Design Accordion.
@@ -50950,28 +45092,10 @@ var NovoAccordion = /** @class */ (function (_super) {
     };
     return NovoAccordion;
 }(CdkAccordion));
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAccordion.prototype._hideToggle;
-    /**
-     * The display mode used for all expansion panels in the accordion. Currently two display
-     * modes exist:
-     *  default - a gutter-like spacing is placed around any expanded panel, placing the expanded
-     *     panel at a different elevation from the reset of the accordion.
-     *  flat - no spacing is placed around expanded panels, showing all panels at the same
-     *     elevation.
-     * @type {?}
-     */
-    NovoAccordion.prototype.displayMode;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/expansion/expansion-animations.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Time and timing curve for expansion panel animations.
@@ -51019,8 +45143,7 @@ var novoExpansionAnimations = {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/expansion/expansion-panel-content.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Expansion panel content that will be rendered lazily
@@ -51041,15 +45164,10 @@ var NovoExpansionPanelContent = /** @class */ (function () {
     ]; };
     return NovoExpansionPanelContent;
 }());
-if (false) {
-    /** @type {?} */
-    NovoExpansionPanelContent.prototype._template;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/expansion/expansion-panel.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Counter for generating unique element ids.
@@ -51172,16 +45290,10 @@ var NovoExpansionPanel = /** @class */ (function (_super) {
         if (this._lazyContent) {
             // Render the content as soon as the panel becomes open.
             this.opened
-                .pipe(startWith(null), filter((/**
-             * @return {?}
-             */
-            function () { return _this.expanded && !_this._portal; })), take(1))
-                .subscribe((/**
-             * @return {?}
-             */
-            function () {
+                .pipe(startWith(null), filter(function () { return _this.expanded && !_this._portal; }), take(1))
+                .subscribe(function () {
                 _this._portal = new TemplatePortal(_this._lazyContent._template, _this._viewContainerRef);
-            }));
+            });
         }
     };
     /**
@@ -51244,7 +45356,7 @@ var NovoExpansionPanel = /** @class */ (function (_super) {
                         '[class.novo-expansion-panel-spacing]': '_hasSpacing()',
                         '[class.novo-expansion-panel-padding]': 'padding',
                     },
-                    styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-expansion-panel{background:#fff;color:#3d464d;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);box-sizing:content-box;display:block;margin:0 16px;-webkit-transition:margin 225ms ease-in-out;transition:margin 225ms ease-in-out}.novo-action-row{border-top-color:#3d464d}.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]):hover{background:rgba(0,0,0,.04)}.novo-expansion-panel-header-title{color:#3d464d}.novo-expansion-indicator::after,.novo-expansion-panel-header-description{color:#999}.novo-expansion-panel-header[aria-disabled=true]{color:#999;pointer-events:none}.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-description,.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-title{color:inherit}.novo-expansion-panel.novo-expanded[theme=company]{border-top:3px solid #39d}.novo-expansion-panel.novo-expanded[theme=candidate]{border-top:3px solid #4b7}.novo-expansion-panel.novo-expanded[theme=navigation]{border-top:3px solid #2f384f}.novo-expansion-panel.novo-expanded[theme=lead]{border-top:3px solid #a69}.novo-expansion-panel.novo-expanded[theme=contact]{border-top:3px solid #fa4}.novo-expansion-panel.novo-expanded[theme=opportunity]{border-top:3px solid #625}.novo-expansion-panel.novo-expanded[theme=job]{border-top:3px solid #b56}.novo-expansion-panel.novo-expanded[theme=earnCode],.novo-expansion-panel.novo-expanded[theme=jobCode]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=sendout]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=placement]{border-top:3px solid #0b344f}.novo-expansion-panel.novo-expanded[theme=corporateuser],.novo-expansion-panel.novo-expanded[theme=credential],.novo-expansion-panel.novo-expanded[theme=distributionList],.novo-expansion-panel.novo-expanded[theme=task],.novo-expansion-panel.novo-expanded[theme=user]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=aqua]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=ocean]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=mint]{border-top:3px solid #37bc9b}.novo-expansion-panel.novo-expanded[theme=grass]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=sunflower]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=bittersweet]{border-top:3px solid #eb6845}.novo-expansion-panel.novo-expanded[theme=grapefruit]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=carnation]{border-top:3px solid #d770ad}.novo-expansion-panel.novo-expanded[theme=lavender]{border-top:3px solid #967adc}.novo-expansion-panel.novo-expanded[theme=positive]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=success]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=negative]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=warning]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=black]{border-top:3px solid #000}.novo-expansion-panel.novo-expanded[theme=dark]{border-top:3px solid #3d464d}.novo-expansion-panel.novo-expanded[theme=pulse]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=neutral]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=navy]{border-top:3px solid #0d2d42}.novo-expansion-panel.novo-expanded[theme=contract]{border-top:3px solid #454ea0}.novo-expansion-panel.novo-expanded[theme=mountain]{border-top:3px solid #9678b6}.novo-expansion-panel.novo-expanded[theme=billableCharge],.novo-expansion-panel.novo-expanded[theme=invoiceStatement],.novo-expansion-panel.novo-expanded[theme=payableCharge]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=submission]{border-top:3px solid #a9adbb}.novo-expansion-panel.novo-expanded[theme=note]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=empty]{border-top:3px solid #cccdcc}.novo-expansion-panel.novo-expanded[theme=background]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=white]{border-top:3px solid #fff}.novo-expansion-panel.novo-expanded[theme=grey]{border-top:3px solid #999}.novo-expansion-panel.novo-expanded[theme=off-white]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=light]{border-top:3px solid #d9dadc}.novo-expansion-panel.novo-expanded{margin:16px 4px}.novo-expansion-panel.novo-expanded:first-child{margin-top:0}.novo-expansion-panel.novo-expanded:last-child{margin-bottom:0}.novo-expansion-panel-content{overflow:hidden}.novo-expansion-panel-content.novo-expanded{overflow:visible}.novo-expansion-panel-padding .novo-expansion-panel-body{padding:0 24px 16px}.novo-accordion .novo-expansion-panel-spacing:first-child{margin-top:0}.novo-accordion .novo-expansion-panel-spacing:last-child{margin-bottom:0}.novo-action-row{border-top-style:solid;border-top-width:1px;display:-webkit-box;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-pack:end;justify-content:flex-end;padding:16px 8px 16px 24px}.novo-action-row button.novo-button{margin-left:8px}[dir=rtl] .novo-action-row button.novo-button{margin-left:0;margin-right:8px}"]
+                    styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-expansion-panel{background:#fff;color:#3d464d;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);box-sizing:content-box;display:block;margin:0 16px;transition:margin 225ms ease-in-out}.novo-action-row{border-top-color:#3d464d}.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]):hover{background:rgba(0,0,0,.04)}.novo-expansion-panel-header-title{color:#3d464d}.novo-expansion-indicator::after,.novo-expansion-panel-header-description{color:#999}.novo-expansion-panel-header[aria-disabled=true]{color:#999;pointer-events:none}.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-description,.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-title{color:inherit}.novo-expansion-panel.novo-expanded[theme=company]{border-top:3px solid #39d}.novo-expansion-panel.novo-expanded[theme=candidate]{border-top:3px solid #4b7}.novo-expansion-panel.novo-expanded[theme=navigation]{border-top:3px solid #2f384f}.novo-expansion-panel.novo-expanded[theme=lead]{border-top:3px solid #a69}.novo-expansion-panel.novo-expanded[theme=contact]{border-top:3px solid #fa4}.novo-expansion-panel.novo-expanded[theme=opportunity]{border-top:3px solid #625}.novo-expansion-panel.novo-expanded[theme=job]{border-top:3px solid #b56}.novo-expansion-panel.novo-expanded[theme=earnCode],.novo-expansion-panel.novo-expanded[theme=jobCode]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=sendout]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=placement]{border-top:3px solid #0b344f}.novo-expansion-panel.novo-expanded[theme=corporateuser],.novo-expansion-panel.novo-expanded[theme=credential],.novo-expansion-panel.novo-expanded[theme=distributionList],.novo-expansion-panel.novo-expanded[theme=task],.novo-expansion-panel.novo-expanded[theme=user]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=aqua]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=ocean]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=mint]{border-top:3px solid #37bc9b}.novo-expansion-panel.novo-expanded[theme=grass]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=sunflower]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=bittersweet]{border-top:3px solid #eb6845}.novo-expansion-panel.novo-expanded[theme=grapefruit]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=carnation]{border-top:3px solid #d770ad}.novo-expansion-panel.novo-expanded[theme=lavender]{border-top:3px solid #967adc}.novo-expansion-panel.novo-expanded[theme=positive]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=success]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=negative]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=warning]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=black]{border-top:3px solid #000}.novo-expansion-panel.novo-expanded[theme=dark]{border-top:3px solid #3d464d}.novo-expansion-panel.novo-expanded[theme=pulse]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=neutral]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=navy]{border-top:3px solid #0d2d42}.novo-expansion-panel.novo-expanded[theme=contract]{border-top:3px solid #454ea0}.novo-expansion-panel.novo-expanded[theme=mountain]{border-top:3px solid #9678b6}.novo-expansion-panel.novo-expanded[theme=billableCharge],.novo-expansion-panel.novo-expanded[theme=invoiceStatement],.novo-expansion-panel.novo-expanded[theme=payableCharge]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=submission]{border-top:3px solid #a9adbb}.novo-expansion-panel.novo-expanded[theme=note]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=empty]{border-top:3px solid #cccdcc}.novo-expansion-panel.novo-expanded[theme=background]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=white]{border-top:3px solid #fff}.novo-expansion-panel.novo-expanded[theme=grey]{border-top:3px solid #999}.novo-expansion-panel.novo-expanded[theme=off-white]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=light]{border-top:3px solid #d9dadc}.novo-expansion-panel.novo-expanded{margin:16px 4px}.novo-expansion-panel.novo-expanded:first-child{margin-top:0}.novo-expansion-panel.novo-expanded:last-child{margin-bottom:0}.novo-expansion-panel-content{overflow:hidden}.novo-expansion-panel-content.novo-expanded{overflow:visible}.novo-expansion-panel-padding .novo-expansion-panel-body{padding:0 24px 16px}.novo-accordion .novo-expansion-panel-spacing:first-child{margin-top:0}.novo-accordion .novo-expansion-panel-spacing:last-child{margin-bottom:0}.novo-action-row{border-top-style:solid;border-top-width:1px;display:flex;flex-direction:row;justify-content:flex-end;padding:16px 8px 16px 24px}.novo-action-row button.novo-button{margin-left:8px}[dir=rtl] .novo-action-row button.novo-button{margin-left:0;margin-right:8px}"]
                 }] }
     ];
     /** @nocollapse */
@@ -51262,62 +45374,10 @@ var NovoExpansionPanel = /** @class */ (function (_super) {
         opened: [{ type: Output }],
         closed: [{ type: Output }],
         expandedChange: [{ type: Output }],
-        _lazyContent: [{ type: ContentChild, args: [NovoExpansionPanelContent, { static: false },] }]
+        _lazyContent: [{ type: ContentChild, args: [NovoExpansionPanelContent,] }]
     };
     return NovoExpansionPanel;
 }(CdkAccordionItem));
-if (false) {
-    /** @type {?} */
-    NovoExpansionPanel.prototype.disabled;
-    /** @type {?} */
-    NovoExpansionPanel.prototype.expanded;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanel.prototype._hideToggle;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanel.prototype._padding;
-    /** @type {?} */
-    NovoExpansionPanel.prototype.opened;
-    /** @type {?} */
-    NovoExpansionPanel.prototype.closed;
-    /** @type {?} */
-    NovoExpansionPanel.prototype.expandedChange;
-    /**
-     * Stream that emits for changes in `\@Input` properties.
-     * @type {?}
-     */
-    NovoExpansionPanel.prototype._inputChanges;
-    /**
-     * Optionally defined accordion the expansion panel belongs to.
-     * @type {?}
-     */
-    NovoExpansionPanel.prototype.accordion;
-    /**
-     * Content that will be rendered lazily.
-     * @type {?}
-     */
-    NovoExpansionPanel.prototype._lazyContent;
-    /**
-     * Portal holding the user's content.
-     * @type {?}
-     */
-    NovoExpansionPanel.prototype._portal;
-    /**
-     * ID for the associated header element. Used for a11y labelling.
-     * @type {?}
-     */
-    NovoExpansionPanel.prototype._headerId;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanel.prototype._viewContainerRef;
-}
 var NovoExpansionPanelActionRow = /** @class */ (function () {
     function NovoExpansionPanelActionRow() {
     }
@@ -51334,8 +45394,7 @@ var NovoExpansionPanelActionRow = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/expansion/expansion-panel-header.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * `<novo-expansion-panel-header>`
@@ -51351,14 +45410,7 @@ var NovoExpansionPanelHeader = /** @class */ (function () {
         this._parentChangeSubscription = Subscription.EMPTY;
         // Since the toggle state depends on an @Input on the panel, we
         // need to  subscribe and trigger change detection manually.
-        this._parentChangeSubscription = merge(panel.opened, panel.closed, panel._inputChanges.pipe(filter((/**
-         * @param {?} changes
-         * @return {?}
-         */
-        function (changes) { return !!(changes.hideToggle || changes.disabled); })))).subscribe((/**
-         * @return {?}
-         */
-        function () { return _this._changeDetectorRef.markForCheck(); }));
+        this._parentChangeSubscription = merge(panel.opened, panel.closed, panel._inputChanges.pipe(filter(function (changes) { return !!(changes.hideToggle || changes.disabled); }))).subscribe(function () { return _this._changeDetectorRef.markForCheck(); });
         // _focusMonitor.monitor(_element.nativeElement);
     }
     /** Toggles the expanded state of the panel. */
@@ -51474,7 +45526,7 @@ var NovoExpansionPanelHeader = /** @class */ (function () {
                         '(keydown)': '_keydown($event)',
                         '[@expansionHeight]': "{\n        value: _getExpandedState(),\n        params: {\n          collapsedHeight: collapsedHeight,\n          expandedHeight: expandedHeight\n        }\n    }",
                     },
-                    styles: [".novo-expansion-panel-header{display:-webkit-box;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-align:center;align-items:center;padding:0 24px}.novo-expansion-panel-header:focus,.novo-expansion-panel-header:hover{outline:0}.novo-expansion-panel-header.novo-expanded:focus,.novo-expansion-panel-header.novo-expanded:hover{background:inherit}.novo-expansion-panel-header:not([aria-disabled=true]){cursor:pointer}.novo-content{display:-webkit-box;display:flex;-webkit-box-flex:1;flex:1;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;overflow:hidden}.novo-expansion-panel-header-description,.novo-expansion-panel-header-title{display:-webkit-box;display:flex;-webkit-box-flex:1;flex-grow:1;margin-right:16px;-webkit-box-align:center;align-items:center}[dir=rtl] .novo-expansion-panel-header-description,[dir=rtl] .novo-expansion-panel-header-title{margin-right:0;margin-left:16px}.novo-expansion-panel-header-description{-webkit-box-flex:2;flex-grow:2}.novo-expansion-indicator::after{border-style:solid;border-width:0 2px 2px 0;content:'';display:inline-block;padding:3px;-webkit-transform:rotate(45deg);transform:rotate(45deg);vertical-align:middle}"]
+                    styles: [".novo-expansion-panel-header{display:flex;flex-direction:row;align-items:center;padding:0 24px}.novo-expansion-panel-header:focus,.novo-expansion-panel-header:hover{outline:0}.novo-expansion-panel-header.novo-expanded:focus,.novo-expansion-panel-header.novo-expanded:hover{background:inherit}.novo-expansion-panel-header:not([aria-disabled=true]){cursor:pointer}.novo-content{display:flex;flex:1;flex-direction:row;overflow:hidden}.novo-expansion-panel-header-description,.novo-expansion-panel-header-title{display:flex;flex-grow:1;margin-right:16px;align-items:center}[dir=rtl] .novo-expansion-panel-header-description,[dir=rtl] .novo-expansion-panel-header-title{margin-right:0;margin-left:16px}.novo-expansion-panel-header-description{flex-grow:2}.novo-expansion-indicator::after{border-style:solid;border-width:0 2px 2px 0;content:'';display:inline-block;padding:3px;-webkit-transform:rotate(45deg);transform:rotate(45deg);vertical-align:middle}"]
                 }] }
     ];
     /** @nocollapse */
@@ -51489,35 +45541,6 @@ var NovoExpansionPanelHeader = /** @class */ (function () {
     };
     return NovoExpansionPanelHeader;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanelHeader.prototype._parentChangeSubscription;
-    /**
-     * Height of the header while the panel is expanded.
-     * @type {?}
-     */
-    NovoExpansionPanelHeader.prototype.expandedHeight;
-    /**
-     * Height of the header while the panel is collapsed.
-     * @type {?}
-     */
-    NovoExpansionPanelHeader.prototype.collapsedHeight;
-    /** @type {?} */
-    NovoExpansionPanelHeader.prototype.panel;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanelHeader.prototype._element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanelHeader.prototype._changeDetectorRef;
-}
 /**
  * `<novo-panel-description>`
  *
@@ -51557,8 +45580,7 @@ var NovoExpansionPanelTitle = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/expansion/expansion.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoExpansionModule = /** @class */ (function () {
     function NovoExpansionModule() {
@@ -51591,8 +45613,7 @@ var NovoExpansionModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/stepper/step-label.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoStepLabel = /** @class */ (function (_super) {
     __extends(NovoStepLabel, _super);
@@ -51613,8 +45634,7 @@ var NovoStepLabel = /** @class */ (function (_super) {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/stepper/step-header.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoStepHeader = /** @class */ (function (_super) {
     __extends(NovoStepHeader, _super);
@@ -51768,7 +45788,7 @@ var NovoStepHeader = /** @class */ (function (_super) {
                     },
                     preserveWhitespaces: false,
                     changeDetection: ChangeDetectionStrategy.OnPush,
-                    styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-step-header{overflow:visible;outline:0;cursor:pointer;position:relative}.novo-step-optional{font-size:12px}.novo-step-icon,.novo-step-icon-not-touched{border-radius:50%;height:24px;width:24px;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;display:-webkit-box;display:flex}.novo-step-icon .novo-step-number,.novo-step-icon-not-touched .novo-step-number{font-size:1em;min-width:1.6em;height:1.6em;box-shadow:2px 2px 0 rgba(0,0,0,.2);display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;border-radius:4px}.novo-step-icon .novo-step-number{background:#4a89dc;color:#fff}.novo-step-icon-not-touched .novo-step-number{background:#a9adbb;color:#fff}.novo-step-label{display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:50px;vertical-align:middle;text-align:center;padding:4px 0}.novo-step-text-label{text-align:center;text-overflow:ellipsis;overflow:hidden}"]
+                    styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-step-header{overflow:visible;outline:0;cursor:pointer;position:relative}.novo-step-optional{font-size:12px}.novo-step-icon,.novo-step-icon-not-touched{border-radius:50%;height:24px;width:24px;align-items:center;justify-content:center;display:flex}.novo-step-icon .novo-step-number,.novo-step-icon-not-touched .novo-step-number{font-size:1em;min-width:1.6em;height:1.6em;box-shadow:2px 2px 0 rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;border-radius:4px}.novo-step-icon .novo-step-number{background:#4a89dc;color:#fff}.novo-step-icon-not-touched .novo-step-number{background:#a9adbb;color:#fff}.novo-step-label{display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:50px;vertical-align:middle;text-align:center;padding:4px 0}.novo-step-text-label{text-align:center;text-overflow:ellipsis;overflow:hidden}"]
                 }] }
     ];
     /** @nocollapse */
@@ -51790,64 +45810,10 @@ var NovoStepHeader = /** @class */ (function (_super) {
     };
     return NovoStepHeader;
 }(CdkStepHeader));
-if (false) {
-    /** @type {?} */
-    NovoStepHeader.prototype.theme;
-    /** @type {?} */
-    NovoStepHeader.prototype.color;
-    /** @type {?} */
-    NovoStepHeader.prototype.icon;
-    /**
-     * State of the given step.
-     * @type {?}
-     */
-    NovoStepHeader.prototype.state;
-    /**
-     * Label of the given step.
-     * @type {?}
-     */
-    NovoStepHeader.prototype.label;
-    /**
-     * Overrides for the header icons, passed in via the stepper.
-     * @type {?}
-     */
-    NovoStepHeader.prototype.iconOverrides;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoStepHeader.prototype._index;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoStepHeader.prototype._selected;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoStepHeader.prototype._active;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoStepHeader.prototype._optional;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoStepHeader.prototype._focusMonitor;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoStepHeader.prototype._element;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/stepper/stepper.animations.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Animations used by the Novo steppers.
@@ -51876,13 +45842,8 @@ var novoStepperAnimations = {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/stepper/stepper.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/** @type {?} */
-var _NovoStep = CdkStep;
-/** @type {?} */
-var _NovoStepper = CdkStepper;
 var NovoStep = /** @class */ (function (_super) {
     __extends(NovoStep, _super);
     function NovoStep(stepper) {
@@ -51898,32 +45859,16 @@ var NovoStep = /** @class */ (function (_super) {
     ];
     /** @nocollapse */
     NovoStep.ctorParameters = function () { return [
-        { type: CdkStepper, decorators: [{ type: Inject, args: [forwardRef((/**
-                         * @return {?}
-                         */
-                        function () { return NovoStepper; })),] }] }
+        { type: CdkStepper, decorators: [{ type: Inject, args: [forwardRef(function () { return NovoStepper; }),] }] }
     ]; };
     NovoStep.propDecorators = {
-        stepLabel: [{ type: ContentChild, args: [NovoStepLabel, { static: false },] }],
+        stepLabel: [{ type: ContentChild, args: [NovoStepLabel,] }],
         theme: [{ type: Input }],
         color: [{ type: Input }],
         icon: [{ type: Input }]
     };
     return NovoStep;
 }(CdkStep));
-if (false) {
-    /**
-     * Content for step label given by `<ng-template novoStepLabel>`.
-     * @type {?}
-     */
-    NovoStep.prototype.stepLabel;
-    /** @type {?} */
-    NovoStep.prototype.theme;
-    /** @type {?} */
-    NovoStep.prototype.color;
-    /** @type {?} */
-    NovoStep.prototype.icon;
-}
 var NovoStepper = /** @class */ (function (_super) {
     __extends(NovoStepper, _super);
     function NovoStepper() {
@@ -51962,10 +45907,7 @@ var NovoStepper = /** @class */ (function (_super) {
     function () {
         var _this = this;
         // Mark the component for change detection whenever the content children query changes
-        this._steps.changes.pipe(takeUntil(this._destroyed)).subscribe((/**
-         * @return {?}
-         */
-        function () { return _this._stateChanged(); }));
+        this._steps.changes.pipe(takeUntil(this._destroyed)).subscribe(function () { return _this._stateChanged(); });
     };
     /**
      * @return {?}
@@ -52019,28 +45961,6 @@ var NovoStepper = /** @class */ (function (_super) {
     };
     return NovoStepper;
 }(CdkStepper));
-if (false) {
-    /**
-     * The list of step headers of the steps in the stepper.
-     * @type {?}
-     */
-    NovoStepper.prototype._stepHeader;
-    /**
-     * Steps that the stepper holds.
-     * @type {?}
-     */
-    NovoStepper.prototype._steps;
-    /**
-     * Custom icon overrides passed in by the consumer.
-     * @type {?}
-     */
-    NovoStepper.prototype._icons;
-    /**
-     * Consumer-specified template-refs to be used to override the header icons.
-     * @type {?}
-     */
-    NovoStepper.prototype._iconOverrides;
-}
 var NovoHorizontalStepper = /** @class */ (function (_super) {
     __extends(NovoHorizontalStepper, _super);
     function NovoHorizontalStepper() {
@@ -52060,7 +45980,7 @@ var NovoHorizontalStepper = /** @class */ (function (_super) {
                     // encapsulation: ViewEncapsulation.None,
                     preserveWhitespaces: false,
                     changeDetection: ChangeDetectionStrategy.OnPush,
-                    styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-stepper-horizontal,.novo-stepper-vertical{display:block}.novo-horizontal-stepper-header-container{white-space:nowrap;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;margin-bottom:1em;background:#f4f4f4}.novo-stepper-horizontal-line{border-bottom:1px solid #d9dadc;-webkit-box-flex:1;flex:auto;min-width:0;height:80px}.novo-stepper-horizontal-line.complete{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header{display:-webkit-box;display:flex;height:80px;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-flow:column;overflow:visible;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;padding:0 24px}.novo-horizontal-stepper-header .novo-step-status{display:-webkit-box;display:flex;width:100%;-webkit-box-pack:center;justify-content:center;-webkit-box-align:center;align-items:center;position:absolute;height:1px;bottom:0}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line{width:100%;position:absolute}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before{content:'';display:block;width:calc(50% - 8px);margin-right:8px;border-bottom:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after{content:'';display:block;width:calc(50% - 8px);margin-left:calc(50% + 8px);margin-top:-1px;border-top:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before,.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after{border-top:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon{position:relative}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before{content:'';display:block;background:#fff;border-radius:50%;position:absolute;z-index:0;top:1px;left:1px;bottom:1px;right:1px}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon>*{position:relative;z-index:1}.novo-vertical-stepper-header{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;padding:24px;max-height:24px}.novo-vertical-stepper-header .novo-step-icon,.novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:12px}[dir=rtl] .novo-vertical-stepper-header .novo-step-icon,[dir=rtl] .novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:0;margin-left:12px}.novo-horizontal-stepper-content{overflow:hidden}.novo-horizontal-stepper-content[aria-expanded=false]{height:0}.novo-horizontal-content-container{overflow:hidden;padding:0 24px 24px}.novo-vertical-content-container{margin-left:36px;border:0;position:relative}[dir=rtl] .novo-vertical-content-container{margin-left:0;margin-right:36px}.novo-stepper-vertical-line:before{content:'';position:absolute;top:-16px;bottom:-16px;left:0;z-index:-1;border-left:1px solid #d9dadc}[dir=rtl] .novo-stepper-vertical-line:before{left:auto;right:0}.novo-stepper-vertical-line.done:after,.novo-stepper-vertical-line.done:before,.novo-stepper-vertical-line.edit:before{border-left-color:1px solid #4a89dc}.novo-stepper-vertical novo-step-status{position:absolute;left:35px;top:25px;-webkit-transform:scale(.8);transform:scale(.8)}.novo-vertical-stepper-content{overflow:hidden}.novo-vertical-content{padding:0 24px 24px}.novo-step:last-child .novo-vertical-content-container{border:none}"]
+                    styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-stepper-horizontal,.novo-stepper-vertical{display:block}.novo-horizontal-stepper-header-container{white-space:nowrap;display:flex;align-items:center;justify-content:center;margin-bottom:1em;background:#f4f4f4}.novo-stepper-horizontal-line{border-bottom:1px solid #d9dadc;flex:auto;min-width:0;height:80px}.novo-stepper-horizontal-line.complete{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header{display:flex;height:80px;flex-flow:column;overflow:visible;align-items:center;justify-content:center;padding:0 24px}.novo-horizontal-stepper-header .novo-step-status{display:flex;width:100%;justify-content:center;align-items:center;position:absolute;height:1px;bottom:0}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line{width:100%;position:absolute}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before{content:'';display:block;width:calc(50% - 8px);margin-right:8px;border-bottom:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after{content:'';display:block;width:calc(50% - 8px);margin-left:calc(50% + 8px);margin-top:-1px;border-top:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before,.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after{border-top:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon{position:relative}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before{content:'';display:block;background:#fff;border-radius:50%;position:absolute;z-index:0;top:1px;left:1px;bottom:1px;right:1px}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon>*{position:relative;z-index:1}.novo-vertical-stepper-header{display:flex;align-items:center;padding:24px;max-height:24px}.novo-vertical-stepper-header .novo-step-icon,.novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:12px}[dir=rtl] .novo-vertical-stepper-header .novo-step-icon,[dir=rtl] .novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:0;margin-left:12px}.novo-horizontal-stepper-content{overflow:hidden}.novo-horizontal-stepper-content[aria-expanded=false]{height:0}.novo-horizontal-content-container{overflow:hidden;padding:0 24px 24px}.novo-vertical-content-container{margin-left:36px;border:0;position:relative}[dir=rtl] .novo-vertical-content-container{margin-left:0;margin-right:36px}.novo-stepper-vertical-line:before{content:'';position:absolute;top:-16px;bottom:-16px;left:0;z-index:-1;border-left:1px solid #d9dadc}[dir=rtl] .novo-stepper-vertical-line:before{left:auto;right:0}.novo-stepper-vertical-line.done:after,.novo-stepper-vertical-line.done:before,.novo-stepper-vertical-line.edit:before{border-left-color:1px solid #4a89dc}.novo-stepper-vertical novo-step-status{position:absolute;left:35px;top:25px;-webkit-transform:scale(.8);transform:scale(.8)}.novo-vertical-stepper-content{overflow:hidden}.novo-vertical-content{padding:0 24px 24px}.novo-step:last-child .novo-vertical-content-container{border:none}"]
                 }] }
     ];
     NovoHorizontalStepper.propDecorators = {
@@ -52068,10 +45988,6 @@ var NovoHorizontalStepper = /** @class */ (function (_super) {
     };
     return NovoHorizontalStepper;
 }(NovoStepper));
-if (false) {
-    /** @type {?} */
-    NovoHorizontalStepper.prototype.selectedIndex;
-}
 var NovoVerticalStepper = /** @class */ (function (_super) {
     __extends(NovoVerticalStepper, _super);
     function NovoVerticalStepper(dir, changeDetectorRef) {
@@ -52092,7 +46008,7 @@ var NovoVerticalStepper = /** @class */ (function (_super) {
                     providers: [{ provide: NovoStepper, useExisting: NovoVerticalStepper }],
                     preserveWhitespaces: false,
                     changeDetection: ChangeDetectionStrategy.OnPush,
-                    styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-stepper-horizontal,.novo-stepper-vertical{display:block}.novo-horizontal-stepper-header-container{white-space:nowrap;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;margin-bottom:1em;background:#f4f4f4}.novo-stepper-horizontal-line{border-bottom:1px solid #d9dadc;-webkit-box-flex:1;flex:auto;min-width:0;height:80px}.novo-stepper-horizontal-line.complete{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header{display:-webkit-box;display:flex;height:80px;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-flow:column;overflow:visible;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;padding:0 24px}.novo-horizontal-stepper-header .novo-step-status{display:-webkit-box;display:flex;width:100%;-webkit-box-pack:center;justify-content:center;-webkit-box-align:center;align-items:center;position:absolute;height:1px;bottom:0}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line{width:100%;position:absolute}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before{content:'';display:block;width:calc(50% - 8px);margin-right:8px;border-bottom:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after{content:'';display:block;width:calc(50% - 8px);margin-left:calc(50% + 8px);margin-top:-1px;border-top:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before,.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after{border-top:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon{position:relative}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before{content:'';display:block;background:#fff;border-radius:50%;position:absolute;z-index:0;top:1px;left:1px;bottom:1px;right:1px}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon>*{position:relative;z-index:1}.novo-vertical-stepper-header{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;padding:24px;max-height:24px}.novo-vertical-stepper-header .novo-step-icon,.novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:12px}[dir=rtl] .novo-vertical-stepper-header .novo-step-icon,[dir=rtl] .novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:0;margin-left:12px}.novo-horizontal-stepper-content{overflow:hidden}.novo-horizontal-stepper-content[aria-expanded=false]{height:0}.novo-horizontal-content-container{overflow:hidden;padding:0 24px 24px}.novo-vertical-content-container{margin-left:36px;border:0;position:relative}[dir=rtl] .novo-vertical-content-container{margin-left:0;margin-right:36px}.novo-stepper-vertical-line:before{content:'';position:absolute;top:-16px;bottom:-16px;left:0;z-index:-1;border-left:1px solid #d9dadc}[dir=rtl] .novo-stepper-vertical-line:before{left:auto;right:0}.novo-stepper-vertical-line.done:after,.novo-stepper-vertical-line.done:before,.novo-stepper-vertical-line.edit:before{border-left-color:1px solid #4a89dc}.novo-stepper-vertical novo-step-status{position:absolute;left:35px;top:25px;-webkit-transform:scale(.8);transform:scale(.8)}.novo-vertical-stepper-content{overflow:hidden}.novo-vertical-content{padding:0 24px 24px}.novo-step:last-child .novo-vertical-content-container{border:none}"]
+                    styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-stepper-horizontal,.novo-stepper-vertical{display:block}.novo-horizontal-stepper-header-container{white-space:nowrap;display:flex;align-items:center;justify-content:center;margin-bottom:1em;background:#f4f4f4}.novo-stepper-horizontal-line{border-bottom:1px solid #d9dadc;flex:auto;min-width:0;height:80px}.novo-stepper-horizontal-line.complete{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header{display:flex;height:80px;flex-flow:column;overflow:visible;align-items:center;justify-content:center;padding:0 24px}.novo-horizontal-stepper-header .novo-step-status{display:flex;width:100%;justify-content:center;align-items:center;position:absolute;height:1px;bottom:0}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line{width:100%;position:absolute}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before{content:'';display:block;width:calc(50% - 8px);margin-right:8px;border-bottom:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after{content:'';display:block;width:calc(50% - 8px);margin-left:calc(50% + 8px);margin-top:-1px;border-top:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before,.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after{border-top:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon{position:relative}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before{content:'';display:block;background:#fff;border-radius:50%;position:absolute;z-index:0;top:1px;left:1px;bottom:1px;right:1px}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon>*{position:relative;z-index:1}.novo-vertical-stepper-header{display:flex;align-items:center;padding:24px;max-height:24px}.novo-vertical-stepper-header .novo-step-icon,.novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:12px}[dir=rtl] .novo-vertical-stepper-header .novo-step-icon,[dir=rtl] .novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:0;margin-left:12px}.novo-horizontal-stepper-content{overflow:hidden}.novo-horizontal-stepper-content[aria-expanded=false]{height:0}.novo-horizontal-content-container{overflow:hidden;padding:0 24px 24px}.novo-vertical-content-container{margin-left:36px;border:0;position:relative}[dir=rtl] .novo-vertical-content-container{margin-left:0;margin-right:36px}.novo-stepper-vertical-line:before{content:'';position:absolute;top:-16px;bottom:-16px;left:0;z-index:-1;border-left:1px solid #d9dadc}[dir=rtl] .novo-stepper-vertical-line:before{left:auto;right:0}.novo-stepper-vertical-line.done:after,.novo-stepper-vertical-line.done:before,.novo-stepper-vertical-line.edit:before{border-left-color:1px solid #4a89dc}.novo-stepper-vertical novo-step-status{position:absolute;left:35px;top:25px;-webkit-transform:scale(.8);transform:scale(.8)}.novo-vertical-stepper-content{overflow:hidden}.novo-vertical-content{padding:0 24px 24px}.novo-step:last-child .novo-vertical-content-container{border:none}"]
                 }] }
     ];
     /** @nocollapse */
@@ -52105,15 +46021,10 @@ var NovoVerticalStepper = /** @class */ (function (_super) {
     };
     return NovoVerticalStepper;
 }(NovoStepper));
-if (false) {
-    /** @type {?} */
-    NovoVerticalStepper.prototype.selectedIndex;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/stepper/step-status.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoStepStatus = /** @class */ (function () {
     function NovoStepStatus(stepper, step) {
@@ -52132,29 +46043,18 @@ var NovoStepStatus = /** @class */ (function () {
     ];
     /** @nocollapse */
     NovoStepStatus.ctorParameters = function () { return [
-        { type: NovoStepper, decorators: [{ type: Inject, args: [forwardRef((/**
-                         * @return {?}
-                         */
-                        function () { return NovoStepper; })),] }] },
-        { type: NovoStepHeader, decorators: [{ type: Inject, args: [forwardRef((/**
-                         * @return {?}
-                         */
-                        function () { return NovoStepHeader; })),] }] }
+        { type: NovoStepper, decorators: [{ type: Inject, args: [forwardRef(function () { return NovoStepper; }),] }] },
+        { type: NovoStepHeader, decorators: [{ type: Inject, args: [forwardRef(function () { return NovoStepHeader; }),] }] }
     ]; };
     NovoStepStatus.propDecorators = {
         state: [{ type: Input }]
     };
     return NovoStepStatus;
 }());
-if (false) {
-    /** @type {?} */
-    NovoStepStatus.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/stepper/stepper.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoStepperModule = /** @class */ (function () {
     function NovoStepperModule() {
@@ -52171,8 +46071,7 @@ var NovoStepperModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/category-dropdown/CategoryDropdown.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCategoryDropdownElement = /** @class */ (function (_super) {
     __extends(NovoCategoryDropdownElement, _super);
@@ -52251,19 +46150,11 @@ var NovoCategoryDropdownElement = /** @class */ (function (_super) {
      */
     function () {
         var _this = this;
-        this._categories.forEach((/**
-         * @param {?} category
-         * @return {?}
-         */
-        function (category) {
-            _this._categoryMap[category].forEach((/**
-             * @param {?} item
-             * @return {?}
-             */
-            function (item) {
+        this._categories.forEach(function (category) {
+            _this._categoryMap[category].forEach(function (item) {
                 item.selected = false;
-            }));
-        }));
+            });
+        });
     };
     /**
      * @param {?} event
@@ -52313,13 +46204,9 @@ var NovoCategoryDropdownElement = /** @class */ (function (_super) {
         Helpers.swallowEvent(event);
         this._query = '';
         // Reset the categories
-        this._categories.forEach((/**
-         * @param {?} category
-         * @return {?}
-         */
-        function (category) {
+        this._categories.forEach(function (category) {
             _this._categoryMap[category] = _this._masterCategoryMap[category];
-        }));
+        });
     };
     /**
      * @param {?} query
@@ -52329,40 +46216,25 @@ var NovoCategoryDropdownElement = /** @class */ (function (_super) {
      * @param {?} query
      * @return {?}
      */
-    function (query) {
+    function (query$$1) {
         var _this = this;
         // Save the query
-        this._query = query;
+        this._query = query$$1;
         // Check timeout
         if (this._queryTimeout) {
             clearTimeout(this._queryTimeout);
         }
         // Store a timeout, to debounce user input
-        this._queryTimeout = setTimeout((/**
-         * @return {?}
-         */
-        function () {
-            _this._categories.forEach((/**
-             * @param {?} category
-             * @return {?}
-             */
-            function (category) {
+        this._queryTimeout = setTimeout(function () {
+            _this._categories.forEach(function (category) {
                 if (_this.search.compare) {
-                    _this._categoryMap[category] = _this._masterCategoryMap[category].filter((/**
-                     * @param {?} item
-                     * @return {?}
-                     */
-                    function (item) { return _this.search.compare(query, item); }));
+                    _this._categoryMap[category] = _this._masterCategoryMap[category].filter(function (item) { return _this.search.compare(query$$1, item); });
                 }
                 else {
-                    _this._categoryMap[category] = _this._masterCategoryMap[category].filter((/**
-                     * @param {?} item
-                     * @return {?}
-                     */
-                    function (item) { return ~item.label.toLowerCase().indexOf(query.toLowerCase()); }));
+                    _this._categoryMap[category] = _this._masterCategoryMap[category].filter(function (item) { return ~item.label.toLowerCase().indexOf(query$$1.toLowerCase()); });
                 }
-            }));
-        }), this.search.debounce || 300);
+            });
+        }, this.search.debounce || 300);
     };
     /**
      * @param {?} event
@@ -52407,39 +46279,10 @@ var NovoCategoryDropdownElement = /** @class */ (function (_super) {
     };
     return NovoCategoryDropdownElement;
 }(OutsideClick));
-if (false) {
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype._query;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype._categoryMap;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype._categories;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.clickHandler;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype._masterCategoryMap;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype._queryTimeout;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.persistSelection;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.closeOnSelect;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.search;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.footer;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype._select;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.categorySelected;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/category-dropdown/CategoryDropdown.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoCategoryDropdownModule = /** @class */ (function () {
     function NovoCategoryDropdownModule() {
@@ -52456,31 +46299,15 @@ var NovoCategoryDropdownModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/multi-picker/MultiPicker.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 var CHIPS_VALUE_ACCESSOR$2 = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    function () { return NovoMultiPickerElement; })),
+    useExisting: forwardRef(function () { return NovoMultiPickerElement; }),
     multi: true,
 };
-/**
- * @record
- */
-function Item() { }
-if (false) {
-    /** @type {?} */
-    Item.prototype.type;
-    /** @type {?} */
-    Item.prototype.label;
-    /** @type {?} */
-    Item.prototype.value;
-}
 var NovoMultiPickerElement = /** @class */ (function () {
     function NovoMultiPickerElement(element, labels) {
         this.element = element;
@@ -52496,14 +46323,8 @@ var NovoMultiPickerElement = /** @class */ (function () {
         // private data model
         this._value = {};
         this.notShown = {};
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        function () { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        function () { });
+        this.onModelChange = function () { };
+        this.onModelTouched = function () { };
         this.chipsCount = 4;
     }
     Object.defineProperty(NovoMultiPickerElement.prototype, "value", {
@@ -52520,19 +46341,11 @@ var NovoMultiPickerElement = /** @class */ (function () {
         function (selectedItems) {
             var _this = this;
             if (selectedItems) {
-                this.types.forEach((/**
-                 * @param {?} x
-                 * @return {?}
-                 */
-                function (x) { return (_this._value[x.value] = selectedItems[x.value]); }));
+                this.types.forEach(function (x) { return (_this._value[x.value] = selectedItems[x.value]); });
             }
             else {
                 this._value = {};
-                this.types.forEach((/**
-                 * @param {?} x
-                 * @return {?}
-                 */
-                function (x) { return (_this._value[x.value] = []); }));
+                this.types.forEach(function (x) { return (_this._value[x.value] = []); });
             }
             this.changed.emit(selectedItems);
             this.onModelChange(selectedItems);
@@ -52560,11 +46373,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this.types.forEach((/**
-         * @param {?} type
-         * @return {?}
-         */
-        function (type) { return _this.modifyAllOfType(type.value, 'unselect'); }));
+        this.types.forEach(function (type) { return _this.modifyAllOfType(type.value, 'unselect'); });
         this.items = [];
         this._items.next(this.items);
         this.setInitialValue(null);
@@ -52595,15 +46404,11 @@ var NovoMultiPickerElement = /** @class */ (function () {
         this.options = this.source.options || [];
         this._options = [];
         if (this.options) {
-            this.options.forEach((/**
-             * @param {?} option
-             * @return {?}
-             */
-            function (option) {
+            this.options.forEach(function (option) {
                 /** @type {?} */
                 var formattedOption = _this.setupOptionsByType(option);
                 _this._options.push(formattedOption);
-            }));
+            });
         }
         this.source.options = this._options;
     };
@@ -52622,13 +46427,9 @@ var NovoMultiPickerElement = /** @class */ (function () {
             type: section.type,
             label: section.label || section.type,
         };
-        formattedSection.data = section.data.map((/**
-         * @param {?} item
-         * @return {?}
-         */
-        function (item) {
+        formattedSection.data = section.data.map(function (item) {
             return _this.formatOption(section, item);
-        }));
+        });
         if (this.selectAllOption) {
             /** @type {?} */
             var selectAll = this.createSelectAllOption(section);
@@ -52682,14 +46483,9 @@ var NovoMultiPickerElement = /** @class */ (function () {
         };
         if (section.isChildOf) {
             /** @type {?} */
-            var allParents = section.data.reduce((/**
-             * @param {?} accum
-             * @param {?} next
-             * @return {?}
-             */
-            function (accum, next) {
+            var allParents = section.data.reduce(function (accum, next) {
                 return accum.concat(next[section.isChildOf]);
-            }), []);
+            }, []);
             selectAll[section.isChildOf] = allParents;
         }
         return selectAll;
@@ -52850,19 +46646,11 @@ var NovoMultiPickerElement = /** @class */ (function () {
         /** @type {?} */
         var notShown = items.slice(this.chipsCount);
         if (notShown.length > 0) {
-            this.types.forEach((/**
-             * @param {?} type
-             * @return {?}
-             */
-            function (type) {
+            this.types.forEach(function (type) {
                 /** @type {?} */
                 var count;
                 /** @type {?} */
-                var selectedOfType = notShown.filter((/**
-                 * @param {?} x
-                 * @return {?}
-                 */
-                function (x) { return x.type === type.value; }));
+                var selectedOfType = notShown.filter(function (x) { return x.type === type.value; });
                 if (selectedOfType.length === 1 && selectedOfType[0].value === 'ALL') {
                     count = _this.getAllOfType(type.value).length - 1;
                 }
@@ -52874,7 +46662,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
                 if (count > 0) {
                     _this.notShown.push({ type: displayType, count: count });
                 }
-            }));
+            });
         }
     };
     /**
@@ -52935,11 +46723,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
      */
     function (item) {
         /** @type {?} */
-        var updatedValues = this.value[item.type].filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) { return x !== item.value; }));
+        var updatedValues = this.value[item.type].filter(function (x) { return x !== item.value; });
         this.value[item.type] = updatedValues;
         this.triggerValueUpdate();
         this.updateDisplayItems(item, 'remove');
@@ -52977,11 +46761,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
      * @return {?}
      */
     function (type) {
-        return this.items.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) { return x.type === type && x.value === 'ALL'; })).length > 0;
+        return this.items.filter(function (x) { return x.type === type && x.value === 'ALL'; }).length > 0;
     };
     /**
      * @param {?} type
@@ -52998,23 +46778,15 @@ var NovoMultiPickerElement = /** @class */ (function () {
         var selecting = action === 'select';
         /** @type {?} */
         var allOfType = this.getAllOfType(type);
-        allOfType.forEach((/**
-         * @param {?} item
-         * @return {?}
-         */
-        function (item) {
+        allOfType.forEach(function (item) {
             item.checked = selecting;
             item.indeterminate = false;
-        }));
+        });
         if (selecting) {
             this.selectAll(allOfType, type);
         }
         else {
-            this.items = __spread(this.items.filter((/**
-             * @param {?} x
-             * @return {?}
-             */
-            function (x) { return x.type !== type; })));
+            this.items = __spread(this.items.filter(function (x) { return x.type !== type; }));
             this._items.next(this.items);
             this.value[type] = [];
         }
@@ -53033,11 +46805,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
         var _this = this;
         /** @type {?} */
         var updatedObject = {};
-        this.types.forEach((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) { return (updatedObject[x.value] = _this.value[x.value]); }));
+        this.types.forEach(function (x) { return (updatedObject[x.value] = _this.value[x.value]); });
         this.value = updatedObject;
     };
     /**
@@ -53056,22 +46824,14 @@ var NovoMultiPickerElement = /** @class */ (function () {
         }
         allOfType[0].checked = true;
         /** @type {?} */
-        var values = allOfType.map((/**
-         * @param {?} i
-         * @return {?}
-         */
-        function (i) {
+        var values = allOfType.map(function (i) {
             return i.value;
-        }));
+        });
         // remove 'ALL' value
         values.splice(0, 1);
         this.value[type] = values;
         /** @type {?} */
-        var updatedItems = this.items.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) { return x.type !== type; }));
+        var updatedItems = this.items.filter(function (x) { return x.type !== type; });
         this.items = updatedItems;
         this.updateDisplayItems(allOfType[0], 'add');
     };
@@ -53096,20 +46856,12 @@ var NovoMultiPickerElement = /** @class */ (function () {
         this.removeItem(allItem);
         allItem.indeterminate = true;
         /** @type {?} */
-        var selectedItems = allOfType.filter((/**
-         * @param {?} i
-         * @return {?}
-         */
-        function (i) { return i.checked === true; }));
+        var selectedItems = allOfType.filter(function (i) { return i.checked === true; });
         this.items = __spread(this.items, selectedItems);
         /** @type {?} */
-        var values = selectedItems.map((/**
-         * @param {?} i
-         * @return {?}
-         */
-        function (i) {
+        var values = selectedItems.map(function (i) {
             return i.value;
-        }));
+        });
         this.value[type] = __spread(values);
     };
     /**
@@ -53136,11 +46888,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
      * @return {?}
      */
     function (type) {
-        return this._options.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) { return x.type === type; }))[0].originalData;
+        return this._options.filter(function (x) { return x.type === type; })[0].originalData;
     };
     /**
      * @param {?} item
@@ -53176,11 +46924,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
             return;
         }
         /** @type {?} */
-        var parent = this.types.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) { return !!x.isParentOf; }))[0];
+        var parent = this.types.filter(function (x) { return !!x.isParentOf; })[0];
         /** @type {?} */
         var parentType = parent.value;
         /** @type {?} */
@@ -53190,31 +46934,15 @@ var NovoMultiPickerElement = /** @class */ (function () {
         /** @type {?} */
         var allChildren = this.getAllOfType(childType);
         /** @type {?} */
-        var allCheckedChildren = allChildren.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) { return !!x.checked; }));
-        allParentType.forEach((/**
-         * @param {?} obj
-         * @return {?}
-         */
-        function (obj) {
+        var allCheckedChildren = allChildren.filter(function (x) { return !!x.checked; });
+        allParentType.forEach(function (obj) {
             if (obj.value === 'ALL') {
                 return;
             }
             /** @type {?} */
-            var selectedChildrenOfParent = allCheckedChildren.filter((/**
-             * @param {?} x
-             * @return {?}
-             */
-            function (x) {
-                return x[parentType].filter((/**
-                 * @param {?} y
-                 * @return {?}
-                 */
-                function (y) { return y === obj.value; })).length > 0;
-            }));
+            var selectedChildrenOfParent = allCheckedChildren.filter(function (x) {
+                return x[parentType].filter(function (y) { return y === obj.value; }).length > 0;
+            });
             if (selecting) {
                 if (obj.checked) {
                     return;
@@ -53223,17 +46951,9 @@ var NovoMultiPickerElement = /** @class */ (function () {
             }
             else {
                 /** @type {?} */
-                var allChildrenOfParent = allChildren.filter((/**
-                 * @param {?} x
-                 * @return {?}
-                 */
-                function (x) {
-                    return x.value !== 'ALL' && x[parentType].filter((/**
-                     * @param {?} y
-                     * @return {?}
-                     */
-                    function (y) { return y === obj.value; })).length > 0;
-                }));
+                var allChildrenOfParent = allChildren.filter(function (x) {
+                    return x.value !== 'ALL' && x[parentType].filter(function (y) { return y === obj.value; }).length > 0;
+                });
                 if (selectedChildrenOfParent.length > 0) {
                     if (obj.checked) {
                         if (_this.strictRelationship && allChildrenOfParent.length !== selectedChildrenOfParent.length) {
@@ -53265,7 +46985,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
                     }
                 }
             }
-        }));
+        });
         if (this.selectAllOption) {
             this.updateIndeterminateStates(allParentType, allChildren, allCheckedChildren);
         }
@@ -53310,11 +47030,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
             this.remove(null, potentialChildren[0]);
             return;
         }
-        potentialChildren.forEach((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) {
+        potentialChildren.forEach(function (x) {
             if (x.value === 'ALL' && !x.checked) {
                 if (selecting) {
                     x.checked = true;
@@ -53327,7 +47043,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
                 }
                 x.checked = selecting;
             }
-        }));
+        });
     };
     /**
      * @param {?} item
@@ -53346,15 +47062,11 @@ var NovoMultiPickerElement = /** @class */ (function () {
         var parentType = item.isChildOf;
         /** @type {?} */
         var potentialParents = this.getAllOfType(parentType);
-        potentialParents.forEach((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) {
+        potentialParents.forEach(function (x) {
             if (!x.checked) {
                 x.indeterminate = selecting;
             }
-        }));
+        });
     };
     /**
      * @param {?} allParentType
@@ -53370,11 +47082,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
      */
     function (allParentType, allChildren, allCheckedChildren) {
         /** @type {?} */
-        var allCheckedOrIndeterminateParents = allParentType.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) { return (!!x.checked || !!x.indeterminate) && x.value !== 'ALL'; }));
+        var allCheckedOrIndeterminateParents = allParentType.filter(function (x) { return (!!x.checked || !!x.indeterminate) && x.value !== 'ALL'; });
         /** @type {?} */
         var isParentIndeterminate = !!allParentType[0].checked ? false : allCheckedOrIndeterminateParents.length > 0;
         /** @type {?} */
@@ -53400,19 +47108,11 @@ var NovoMultiPickerElement = /** @class */ (function () {
         var childType = parent.isParentOf;
         /** @type {?} */
         var potentialChildren = this.getAllOfType(childType);
-        potentialChildren.forEach((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) {
+        potentialChildren.forEach(function (x) {
             if (x.value === 'ALL') {
                 return;
             }
-            if (x[parent.type].filter((/**
-             * @param {?} y
-             * @return {?}
-             */
-            function (y) { return y === parent.value; })).length > 0) {
+            if (x[parent.type].filter(function (y) { return y === parent.value; }).length > 0) {
                 if (x.checked && !selecting) {
                     x.checked = false;
                     if (_this.allOfTypeSelected(childType)) {
@@ -53424,7 +47124,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
                 }
                 x.checked = selecting;
             }
-        }));
+        });
     };
     /**
      * @param {?} child
@@ -53455,35 +47155,19 @@ var NovoMultiPickerElement = /** @class */ (function () {
         var _this = this;
         /** @type {?} */
         var parentAlreadySelected = false;
-        children.forEach((/**
-         * @param {?} x
-         * @return {?}
-         */
-        function (x) {
+        children.forEach(function (x) {
             if (x.isChildOf) {
                 // only add children if their parents are not already selected
-                x[x.isChildOf].forEach((/**
-                 * @param {?} parent
-                 * @return {?}
-                 */
-                function (parent) {
-                    if (_this.value[x.isChildOf].filter((/**
-                     * @param {?} p
-                     * @return {?}
-                     */
-                    function (p) { return p === parent; })).length > 0) {
+                x[x.isChildOf].forEach(function (parent) {
+                    if (_this.value[x.isChildOf].filter(function (p) { return p === parent; }).length > 0) {
                         parentAlreadySelected = true;
                     }
-                }));
+                });
             }
-            if (_this.value[x.type].filter((/**
-             * @param {?} item
-             * @return {?}
-             */
-            function (item) { return item === x.value; })).length === 0 && !parentAlreadySelected) {
+            if (_this.value[x.type].filter(function (item) { return item === x.value; }).length === 0 && !parentAlreadySelected) {
                 _this.add(x);
             }
-        }));
+        });
     };
     /**
      * @param {?} model
@@ -53500,11 +47184,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
         if (!this.types) {
             return;
         }
-        this.types.forEach((/**
-         * @param {?} typeObj
-         * @return {?}
-         */
-        function (typeObj) {
+        this.types.forEach(function (typeObj) {
             /** @type {?} */
             var type = typeObj.value;
             if (_this.value[type]) {
@@ -53516,21 +47196,13 @@ var NovoMultiPickerElement = /** @class */ (function () {
                 var optionsByType_1 = options.allOfType;
                 /** @type {?} */
                 var allSelected_1 = options.allOfTypeSelected;
-                _this.value[type].forEach((/**
-                 * @param {?} item
-                 * @return {?}
-                 */
-                function (item) {
+                _this.value[type].forEach(function (item) {
                     if (!allSelected_1 && !indeterminateIsSet_1) {
                         indeterminateIsSet_1 = true;
                         _this.setIndeterminateState(optionsByType_1, true);
                     }
                     /** @type {?} */
-                    var value = optionsByType_1.filter((/**
-                     * @param {?} x
-                     * @return {?}
-                     */
-                    function (x) { return x.value === item; }))[0];
+                    var value = optionsByType_1.filter(function (x) { return x.value === item; })[0];
                     value.checked = true;
                     if (!allSelected_1) {
                         _this.updateDisplayItems(value, 'add');
@@ -53538,7 +47210,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
                     if (_this.strictRelationship && value.isParentOf) {
                         _this.updateChildrenValue(value, 'select');
                     }
-                }));
+                });
                 if (typeObj.isChildOf) {
                     _this.modifyAffectedParentsOrChildren(true, { value: type, isChildOf: true });
                 }
@@ -53546,7 +47218,7 @@ var NovoMultiPickerElement = /** @class */ (function () {
             else {
                 _this.value[type] = [];
             }
-        }));
+        });
     };
     /**
      * @param {?} optionsByType
@@ -53638,57 +47310,10 @@ var NovoMultiPickerElement = /** @class */ (function () {
     };
     return NovoMultiPickerElement;
 }());
-if (false) {
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.source;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.placeholder;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.types;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.changed;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.focus;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.blur;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.items;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype._items;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.options;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype._options;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.selected;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.config;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.chipsCount;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.selectAllOption;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.strictRelationship;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype._value;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.notShown;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.model;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.onModelTouched;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.element;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/multi-picker/MultiPicker.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoMultiPickerModule = /** @class */ (function () {
     function NovoMultiPickerModule() {
@@ -53705,8 +47330,7 @@ var NovoMultiPickerModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/security/Security.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var Security = /** @class */ (function () {
     function Security() {
@@ -53744,7 +47368,7 @@ var Security = /** @class */ (function () {
             for (var key in data) {
                 if (data[key] instanceof Array) {
                     try {
-                        for (var _c = (e_2 = void 0, __values(data[key])), _d = _c.next(); !_d.done; _d = _c.next()) {
+                        for (var _c = __values(data[key]), _d = _c.next(); !_d.done; _d = _c.next()) {
                             var permission = _d.value;
                             parsed.push(key + "." + permission);
                         }
@@ -53819,8 +47443,8 @@ var Security = /** @class */ (function () {
      * @return {?}
      */
     function (routes, options) {
-        var e_3, _a;
         var _this = this;
+        var e_3, _a;
         /** @type {?} */
         var filtered = [];
         try {
@@ -53833,11 +47457,7 @@ var Security = /** @class */ (function () {
                         }
                     }
                     else if (route.permissions && route.permissions.length) {
-                        if (route.permissions.every((/**
-                         * @param {?} perm
-                         * @return {?}
-                         */
-                        function (perm) { return _this.has(perm); }))) {
+                        if (route.permissions.every(function (perm) { return _this.has(perm); })) {
                             filtered.push(route);
                         }
                     }
@@ -53861,17 +47481,10 @@ var Security = /** @class */ (function () {
     ];
     return Security;
 }());
-if (false) {
-    /** @type {?} */
-    Security.prototype.credentials;
-    /** @type {?} */
-    Security.prototype.change;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/unless/Unless.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var Unless = /** @class */ (function () {
     function Unless(templateRef, viewContainer, security) {
@@ -53901,8 +47514,8 @@ var Unless = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        var e_1, _a;
         var _this = this;
+        var e_1, _a;
         /** @type {?} */
         var display = false;
         if (~this.permissions.indexOf('||')) {
@@ -53925,11 +47538,7 @@ var Unless = /** @class */ (function () {
             }
         }
         else {
-            display = this.permissions.split('&&').every((/**
-             * @param {?} p
-             * @return {?}
-             */
-            function (p) { return _this.security.has(p.trim()); }));
+            display = this.permissions.split('&&').every(function (p) { return _this.security.has(p.trim()); });
         }
         if (display) {
             if (!this.isDisplayed) {
@@ -53958,32 +47567,10 @@ var Unless = /** @class */ (function () {
     };
     return Unless;
 }());
-if (false) {
-    /** @type {?} */
-    Unless.prototype.permissions;
-    /** @type {?} */
-    Unless.prototype.isDisplayed;
-    /**
-     * @type {?}
-     * @private
-     */
-    Unless.prototype.templateRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    Unless.prototype.viewContainer;
-    /**
-     * @type {?}
-     * @private
-     */
-    Unless.prototype.security;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/unless/Unless.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var UnlessModule = /** @class */ (function () {
     function UnlessModule() {
@@ -54000,8 +47587,7 @@ var UnlessModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table.source.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -54011,10 +47597,10 @@ var /**
  */
 DataTableSource = /** @class */ (function (_super) {
     __extends(DataTableSource, _super);
-    function DataTableSource(tableService, state, ref) {
+    function DataTableSource(tableService, state$$1, ref) {
         var _this = _super.call(this) || this;
         _this.tableService = tableService;
-        _this.state = state;
+        _this.state = state$$1;
         _this.ref = ref;
         _this.total = 0;
         _this.currentTotal = 0;
@@ -54054,25 +47640,15 @@ DataTableSource = /** @class */ (function (_super) {
         var _this = this;
         /** @type {?} */
         var displayDataChanges = [this.state.updates];
-        return merge.apply(void 0, __spread(displayDataChanges)).pipe(startWith(null), switchMap((/**
-         * @return {?}
-         */
-        function () {
+        return merge.apply(void 0, __spread(displayDataChanges)).pipe(startWith(null), switchMap(function () {
             _this.pristine = false;
             _this.loading = true;
             return _this.tableService.getTableResults(_this.state.sort, _this.state.filter, _this.state.page, _this.state.pageSize, _this.state.globalSearch, _this.state.outsideFilter);
-        })), map((/**
-         * @param {?} data
-         * @return {?}
-         */
-        function (data) {
+        }), map(function (data) {
             if (!_this.totalSet || _this.state.isForceRefresh) {
                 _this.total = data.total;
                 _this.totalSet = true;
                 _this.state.isForceRefresh = false;
-            }
-            else if (data.total > _this.total) {
-                _this.total = data.total;
             }
             _this.currentTotal = data.total;
             _this.current = data.results.length;
@@ -54081,31 +47657,20 @@ DataTableSource = /** @class */ (function (_super) {
             _this.state.selectedRows.clear();
             _this.state.onSelectionChange();
             // Mark changes
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            setTimeout(function () {
                 _this.ref.markForCheck();
-                setTimeout((/**
-                 * @return {?}
-                 */
-                function () {
+                setTimeout(function () {
                     _this.loading = false;
                     _this.state.dataLoaded.next();
                     _this.ref.markForCheck();
-                }));
-            }));
+                });
+            });
             return data.results;
-        })), catchError((/**
-         * @param {?} err
-         * @param {?} caught
-         * @return {?}
-         */
-        function (err, caught) {
+        }), catchError(function (err, caught) {
             console.error(err, caught); // tslint: disable-line
             _this.loading = false;
             return of(null);
-        })));
+        }));
     };
     /**
      * @return {?}
@@ -54116,45 +47681,10 @@ DataTableSource = /** @class */ (function (_super) {
     function () { };
     return DataTableSource;
 }(DataSource));
-if (false) {
-    /** @type {?} */
-    DataTableSource.prototype.total;
-    /** @type {?} */
-    DataTableSource.prototype.currentTotal;
-    /** @type {?} */
-    DataTableSource.prototype.current;
-    /** @type {?} */
-    DataTableSource.prototype.loading;
-    /** @type {?} */
-    DataTableSource.prototype.pristine;
-    /** @type {?} */
-    DataTableSource.prototype.data;
-    /**
-     * @type {?}
-     * @private
-     */
-    DataTableSource.prototype.totalSet;
-    /**
-     * @type {?}
-     * @private
-     */
-    DataTableSource.prototype.tableService;
-    /**
-     * @type {?}
-     * @private
-     */
-    DataTableSource.prototype.state;
-    /**
-     * @type {?}
-     * @private
-     */
-    DataTableSource.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/services/data-table-filter-utils.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoDataTableFilterUtils = /** @class */ (function () {
     function NovoDataTableFilterUtils() {
@@ -54171,38 +47701,34 @@ var NovoDataTableFilterUtils = /** @class */ (function () {
      * @param {?=} multiSelect
      * @return {?}
      */
-    function (filter, type, multiSelect) {
+    function (filter$$1, type, multiSelect) {
         /** @type {?} */
-        var actualFilter = filter;
-        if (filter) {
+        var actualFilter = filter$$1;
+        if (filter$$1) {
             if (type && type === 'date') {
-                if (filter.startDate && filter.endDate) {
+                if (filter$$1.startDate && filter$$1.endDate) {
                     actualFilter = {
-                        min: startOfDay(filter.startDate.date),
-                        max: startOfDay(addDays(startOfDay(filter.endDate.date), 1)),
+                        min: startOfDay(filter$$1.startDate.date),
+                        max: startOfDay(addDays(startOfDay(filter$$1.endDate.date), 1)),
                     };
                 }
                 else {
                     actualFilter = {
-                        min: filter.min ? addDays(startOfToday(), filter.min) : startOfToday(),
-                        max: filter.max ? addDays(endOfToday(), filter.max) : endOfToday(),
+                        min: filter$$1.min ? addDays(startOfToday(), filter$$1.min) : startOfToday(),
+                        max: filter$$1.max ? addDays(endOfToday(), filter$$1.max) : endOfToday(),
                     };
                 }
             }
-            if (multiSelect && Array.isArray(filter)) {
-                actualFilter = filter.map((/**
-                 * @param {?} filterItem
-                 * @return {?}
-                 */
-                function (filterItem) {
+            if (multiSelect && Array.isArray(filter$$1)) {
+                actualFilter = filter$$1.map(function (filterItem) {
                     if (filterItem && filterItem.hasOwnProperty('value')) {
                         return filterItem.value;
                     }
                     return filterItem;
-                }));
+                });
             }
             else if (actualFilter && actualFilter.hasOwnProperty('value')) {
-                actualFilter = filter.value;
+                actualFilter = filter$$1.value;
             }
         }
         return actualFilter;
@@ -54212,8 +47738,7 @@ var NovoDataTableFilterUtils = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/state/data-table-state.service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -54407,61 +47932,22 @@ DataTableState = /** @class */ (function () {
             if (preferences.filter) {
                 /** @type {?} */
                 var filters = Helpers.convertToArray(preferences.filter);
-                filters.forEach((/**
-                 * @param {?} filter
-                 * @return {?}
-                 */
-                function (filter) {
-                    filter.value =
-                        filter.selectedOption && filter.type
-                            ? NovoDataTableFilterUtils.constructFilter(filter.selectedOption, filter.type)
-                            : filter.value;
-                }));
+                filters.forEach(function (filter$$1) {
+                    filter$$1.value =
+                        filter$$1.selectedOption && filter$$1.type
+                            ? NovoDataTableFilterUtils.constructFilter(filter$$1.selectedOption, filter$$1.type)
+                            : filter$$1.value;
+                });
                 this.filter = filters;
             }
         }
     };
     return DataTableState;
 }());
-if (false) {
-    /** @type {?} */
-    DataTableState.prototype.selectionSource;
-    /** @type {?} */
-    DataTableState.prototype.paginationSource;
-    /** @type {?} */
-    DataTableState.prototype.sortFilterSource;
-    /** @type {?} */
-    DataTableState.prototype.resetSource;
-    /** @type {?} */
-    DataTableState.prototype.expandSource;
-    /** @type {?} */
-    DataTableState.prototype.dataLoaded;
-    /** @type {?} */
-    DataTableState.prototype.sort;
-    /** @type {?} */
-    DataTableState.prototype.filter;
-    /** @type {?} */
-    DataTableState.prototype.page;
-    /** @type {?} */
-    DataTableState.prototype.pageSize;
-    /** @type {?} */
-    DataTableState.prototype.globalSearch;
-    /** @type {?} */
-    DataTableState.prototype.selectedRows;
-    /** @type {?} */
-    DataTableState.prototype.expandedRows;
-    /** @type {?} */
-    DataTableState.prototype.outsideFilter;
-    /** @type {?} */
-    DataTableState.prototype.isForceRefresh;
-    /** @type {?} */
-    DataTableState.prototype.updates;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/services/static-data-table.service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -54493,35 +47979,27 @@ StaticDataTableService = /** @class */ (function () {
      * @param {?=} outsideFilter
      * @return {?}
      */
-    function (sort, filter, page, pageSize, globalSearch, outsideFilter) {
+    function (sort, filter$$1, page, pageSize, globalSearch, outsideFilter) {
         if (page === void 0) { page = 0; }
         this.currentData = __spread(this.originalData);
         /** @type {?} */
         var total = this.originalData.length;
         if (this.currentData.length !== 0) {
             if (globalSearch) {
-                this.currentData = this.currentData.filter((/**
-                 * @param {?} item
-                 * @return {?}
-                 */
-                function (item) {
-                    return Object.keys(item).some((/**
-                     * @param {?} key
-                     * @return {?}
-                     */
-                    function (key) { return ("" + item[key]).toLowerCase().includes(globalSearch.toLowerCase()); }));
-                }));
+                this.currentData = this.currentData.filter(function (item) {
+                    return Object.keys(item).some(function (key) { return ("" + item[key]).toLowerCase().includes(globalSearch.toLowerCase()); });
+                });
                 total = this.currentData.length;
             }
-            if (filter) {
-                this.currentData = this.filterData(this.currentData, filter);
+            if (filter$$1) {
+                this.currentData = this.filterData(this.currentData, filter$$1);
                 total = this.currentData.length;
             }
             if (sort) {
                 this.currentData = this.currentData.sort(Helpers.sortByField(sort.id, sort.value === 'desc'));
                 total = this.currentData.length;
             }
-            if (!sort && !filter && !globalSearch && !outsideFilter) {
+            if (!sort && !filter$$1 && !globalSearch && !outsideFilter) {
                 this.currentData = __spread(this.originalData);
             }
             if (!Helpers.isBlank(page) && !Helpers.isBlank(pageSize)) {
@@ -54540,14 +48018,10 @@ StaticDataTableService = /** @class */ (function () {
      * @param {?} filter
      * @return {?}
      */
-    function (currentData, filter) {
+    function (currentData, filter$$1) {
         /** @type {?} */
-        var filters = Helpers.convertToArray(filter);
-        filters.forEach((/**
-         * @param {?} aFilter
-         * @return {?}
-         */
-        function (aFilter) {
+        var filters = Helpers.convertToArray(filter$$1);
+        filters.forEach(function (aFilter) {
             if (Array.isArray(aFilter.value)) {
                 /** @type {?} */
                 var values = Helpers.convertToArray(aFilter.value).map(Helpers.escapeString);
@@ -54558,35 +48032,25 @@ StaticDataTableService = /** @class */ (function () {
                 var value = Helpers.escapeString(aFilter.value);
                 currentData = currentData.filter(Helpers.filterByField(aFilter.id, value));
             }
-        }));
+        });
         return currentData;
     };
     return StaticDataTableService;
 }());
-if (false) {
-    /** @type {?} */
-    StaticDataTableService.prototype.originalData;
-    /**
-     * @type {?}
-     * @private
-     */
-    StaticDataTableService.prototype.currentData;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
  */
 var NovoDataTable = /** @class */ (function () {
-    function NovoDataTable(labels, ref, state) {
+    function NovoDataTable(labels, ref, state$$1) {
         var _this = this;
         this.labels = labels;
         this.ref = ref;
-        this.state = state;
+        this.state = state$$1;
         this.globalSearchHiddenClassToggle = false;
         this.resized = new EventEmitter();
         this.name = 'novo-data-table';
@@ -54594,12 +48058,7 @@ var NovoDataTable = /** @class */ (function () {
         this.rowIdentifier = 'id';
         this.activeRowIdentifier = '';
         // prettier-ignore
-        this.trackByFn = (/**
-         * @param {?} index
-         * @param {?} item
-         * @return {?}
-         */
-        function (index, item) { return item.id; });
+        this.trackByFn = function (index, item) { return item.id; };
         this.templates = {};
         this.fixedHeader = false;
         this._hideGlobalSearch = true;
@@ -54612,23 +48071,15 @@ var NovoDataTable = /** @class */ (function () {
         this.expandable = false;
         this.initialized = false;
         this.scrollListenerHandler = this.scrollListener.bind(this);
-        this.sortFilterSubscription = this.state.sortFilterSource.subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        this.sortFilterSubscription = this.state.sortFilterSource.subscribe(function (event) {
             if (_this.name !== 'novo-data-table') {
                 _this.preferencesChanged.emit({ name: _this.name, sort: event.sort, filter: event.filter, globalSearch: event.globalSearch });
             }
             else {
                 notify('Must have [name] set on data-table to use preferences!');
             }
-        }));
-        this.paginationSubscription = this.state.paginationSource.subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        });
+        this.paginationSubscription = this.state.paginationSource.subscribe(function (event) {
             if (_this.name !== 'novo-data-table') {
                 if (event.isPageSizeChange) {
                     _this.preferencesChanged.emit({ name: _this.name, pageSize: event.pageSize });
@@ -54637,18 +48088,12 @@ var NovoDataTable = /** @class */ (function () {
             else {
                 notify('Must have [name] set on data-table to use preferences!');
             }
-        }));
-        this.resetSubscription = this.state.resetSource.subscribe((/**
-         * @return {?}
-         */
-        function () {
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+        });
+        this.resetSubscription = this.state.resetSource.subscribe(function () {
+            setTimeout(function () {
                 _this.ref.detectChanges();
-            }), 300);
-        }));
+            }, 300);
+        });
     }
     Object.defineProperty(NovoDataTable.prototype, "displayedColumns", {
         get: /**
@@ -54677,12 +48122,9 @@ var NovoDataTable = /** @class */ (function () {
             this._disabledColumns = displayedColumns;
             this.configureLastDisplayedColumn();
             if (this.initialized) {
-                setTimeout((/**
-                 * @return {?}
-                 */
-                function () {
+                setTimeout(function () {
                     _this.scrollListener();
-                }));
+                });
             }
         },
         enumerable: true,
@@ -54732,15 +48174,11 @@ var NovoDataTable = /** @class */ (function () {
             }
             if (outsideFilter) {
                 // Re-subscribe
-                this.outsideFilterSubscription = outsideFilter.subscribe((/**
-                 * @param {?} filter
-                 * @return {?}
-                 */
-                function (filter) {
-                    _this.state.outsideFilter = filter;
+                this.outsideFilterSubscription = outsideFilter.subscribe(function (filter$$1) {
+                    _this.state.outsideFilter = filter$$1;
                     _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort });
                     _this.ref.markForCheck();
-                }));
+                });
             }
         },
         enumerable: true,
@@ -54759,15 +48197,11 @@ var NovoDataTable = /** @class */ (function () {
             }
             if (refreshSubject) {
                 // Re-subscribe
-                this.refreshSubscription = refreshSubject.subscribe((/**
-                 * @param {?} filter
-                 * @return {?}
-                 */
-                function (filter) {
+                this.refreshSubscription = refreshSubject.subscribe(function (filter$$1) {
                     _this.state.isForceRefresh = true;
                     _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort });
                     _this.ref.markForCheck();
-                }));
+                });
             }
         },
         enumerable: true,
@@ -54915,25 +48349,17 @@ var NovoDataTable = /** @class */ (function () {
             this.expandable = this.displayedColumns.includes('expand');
         }
         // Default templates defined here
-        this.defaultTemplates.forEach((/**
-         * @param {?} item
-         * @return {?}
-         */
-        function (item) {
+        this.defaultTemplates.forEach(function (item) {
             // Only override if it doesn't already exist
             if (!_this.templates[item.getType()]) {
                 _this.templates[item.getType()] = item.template;
             }
-        }));
+        });
         // Custom templates passed in
-        this.customTemplates.forEach((/**
-         * @param {?} item
-         * @return {?}
-         */
-        function (item) {
+        this.customTemplates.forEach(function (item) {
             // Override anything that is custom and in HTML
             _this.templates[item.getType()] = item.template;
-        }));
+        });
         // Load columns
         this.configureColumns();
         // State
@@ -55041,18 +48467,14 @@ var NovoDataTable = /** @class */ (function () {
      */
     function (expand) {
         var _this = this;
-        (this.dataSource.data || []).forEach((/**
-         * @param {?} row
-         * @return {?}
-         */
-        function (row) {
+        (this.dataSource.data || []).forEach(function (row) {
             if (!expand) {
                 _this.state.expandedRows.delete("" + row[_this.rowIdentifier]);
             }
             else {
                 _this.state.expandedRows.add("" + row[_this.rowIdentifier]);
             }
-        }));
+        });
         this.state.onExpandChange();
     };
     /**
@@ -55112,18 +48534,14 @@ var NovoDataTable = /** @class */ (function () {
      */
     function (selected) {
         var _this = this;
-        (this.dataSource.data || []).forEach((/**
-         * @param {?} row
-         * @return {?}
-         */
-        function (row) {
+        (this.dataSource.data || []).forEach(function (row) {
             if (!selected) {
                 _this.state.selectedRows.delete("" + row[_this.rowIdentifier]);
             }
             else {
                 _this.state.selectedRows.set("" + row[_this.rowIdentifier], row);
             }
-        }));
+        });
         this.state.onSelectionChange();
     };
     /**
@@ -55151,40 +48569,24 @@ var NovoDataTable = /** @class */ (function () {
     function () {
         var _this = this;
         if (this.columns && this.displayedColumns && 0 !== this.columns.length && 0 !== this.displayedColumns.length) {
-            this.columns.forEach((/**
-             * @param {?} column
-             * @return {?}
-             */
-            function (column) {
+            this.columns.forEach(function (column) {
                 if (column.initialResizable) {
                     column.resizable = column.initialResizable.resizable;
                     column.width = column.initialResizable.width;
                     column.initialResizable = undefined;
                 }
-            }));
+            });
             /** @type {?} */
-            var resizableColumns_1 = this.displayedColumns.filter((/**
-             * @param {?} name
-             * @return {?}
-             */
-            function (name) {
-                return (_this.columns.findIndex((/**
-                 * @param {?} column
-                 * @return {?}
-                 */
-                function (column) {
+            var resizableColumns_1 = this.displayedColumns.filter(function (name) {
+                return (_this.columns.findIndex(function (column) {
                     return column.resizable && column.id === name;
-                })) !== -1);
-            }));
+                }) !== -1);
+            });
             if (resizableColumns_1 && resizableColumns_1.length > 0) {
                 /** @type {?} */
-                var lastResizableColumn = this.columns.find((/**
-                 * @param {?} column
-                 * @return {?}
-                 */
-                function (column) {
+                var lastResizableColumn = this.columns.find(function (column) {
                     return column.id === resizableColumns_1[resizableColumns_1.length - 1];
-                }));
+                });
                 lastResizableColumn.initialResizable = {
                     resizable: lastResizableColumn.resizable,
                     width: lastResizableColumn.width,
@@ -55206,11 +48608,7 @@ var NovoDataTable = /** @class */ (function () {
         var _this = this;
         if (this.columns && this.columns.length !== 0 && Object.keys(this.templates).length !== 0) {
             // Figure the column templates
-            this.columns.forEach((/**
-             * @param {?} column
-             * @return {?}
-             */
-            function (column) {
+            this.columns.forEach(function (column) {
                 // Figure the template
                 /** @type {?} */
                 var templateName;
@@ -55245,7 +48643,7 @@ var NovoDataTable = /** @class */ (function () {
                     }
                 }
                 _this.columnToTemplate[column.id] = _this.templates[templateName];
-            }));
+            });
             this.configureLastDisplayedColumn();
             this.columnsLoaded = true;
         }
@@ -55293,7 +48691,7 @@ var NovoDataTable = /** @class */ (function () {
         globalSearchHiddenClassToggle: [{ type: HostBinding, args: ['class.global-search-hidden',] }],
         customTemplates: [{ type: ContentChildren, args: [NovoTemplate,] }],
         defaultTemplates: [{ type: ViewChildren, args: [NovoTemplate,] }],
-        novoDataTableContainer: [{ type: ViewChild, args: ['novoDataTableContainer', { static: false },] }],
+        novoDataTableContainer: [{ type: ViewChild, args: ['novoDataTableContainer',] }],
         resized: [{ type: Output }],
         displayedColumns: [{ type: Input }],
         paginationOptions: [{ type: Input }],
@@ -55322,135 +48720,10 @@ var NovoDataTable = /** @class */ (function () {
     };
     return NovoDataTable;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDataTable.prototype.globalSearchHiddenClassToggle;
-    /** @type {?} */
-    NovoDataTable.prototype.customTemplates;
-    /** @type {?} */
-    NovoDataTable.prototype.defaultTemplates;
-    /** @type {?} */
-    NovoDataTable.prototype.novoDataTableContainer;
-    /** @type {?} */
-    NovoDataTable.prototype.resized;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._disabledColumns;
-    /** @type {?} */
-    NovoDataTable.prototype.paginationOptions;
-    /** @type {?} */
-    NovoDataTable.prototype.searchOptions;
-    /** @type {?} */
-    NovoDataTable.prototype.defaultSort;
-    /** @type {?} */
-    NovoDataTable.prototype.name;
-    /** @type {?} */
-    NovoDataTable.prototype.allowMultipleFilters;
-    /** @type {?} */
-    NovoDataTable.prototype.rowIdentifier;
-    /** @type {?} */
-    NovoDataTable.prototype.activeRowIdentifier;
-    /** @type {?} */
-    NovoDataTable.prototype.trackByFn;
-    /** @type {?} */
-    NovoDataTable.prototype.templates;
-    /** @type {?} */
-    NovoDataTable.prototype.fixedHeader;
-    /** @type {?} */
-    NovoDataTable.prototype.paginatorDataFeatureId;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._customFilter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._hasExandedRows;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._forceShowHeader;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._hideGlobalSearch;
-    /** @type {?} */
-    NovoDataTable.prototype.preferencesChanged;
-    /** @type {?} */
-    NovoDataTable.prototype.dataSource;
-    /** @type {?} */
-    NovoDataTable.prototype.loading;
-    /** @type {?} */
-    NovoDataTable.prototype.columnToTemplate;
-    /** @type {?} */
-    NovoDataTable.prototype.columnsLoaded;
-    /** @type {?} */
-    NovoDataTable.prototype.selection;
-    /** @type {?} */
-    NovoDataTable.prototype.scrollLeft;
-    /** @type {?} */
-    NovoDataTable.prototype.expandable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.outsideFilterSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.refreshSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.resetSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.paginationSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.sortFilterSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._columns;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.scrollListenerHandler;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.initialized;
-    /** @type {?} */
-    NovoDataTable.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.ref;
-    /** @type {?} */
-    NovoDataTable.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cells/data-table-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -55483,15 +48756,11 @@ var NovoDataTableCell = /** @class */ (function (_super) {
             this.renderer.addClass(this.elementRef.nativeElement, 'novo-data-table-cell-align-right');
         }
         this.calculateWidths();
-        this.subscriptions.push(this.resized.subscribe((/**
-         * @param {?} column
-         * @return {?}
-         */
-        function (column) {
+        this.subscriptions.push(this.resized.subscribe(function (column) {
             if (column === _this.column) {
                 _this.calculateWidths();
             }
-        })));
+        }));
     };
     /**
      * @return {?}
@@ -55500,13 +48769,9 @@ var NovoDataTableCell = /** @class */ (function (_super) {
      * @return {?}
      */
     function () {
-        this.subscriptions.forEach((/**
-         * @param {?} subscription
-         * @return {?}
-         */
-        function (subscription) {
+        this.subscriptions.forEach(function (subscription) {
             subscription.unsubscribe();
-        }));
+        });
     };
     /**
      * @private
@@ -55545,38 +48810,10 @@ var NovoDataTableCell = /** @class */ (function (_super) {
     };
     return NovoDataTableCell;
 }(CdkCell));
-if (false) {
-    /** @type {?} */
-    NovoDataTableCell.prototype.role;
-    /** @type {?} */
-    NovoDataTableCell.prototype.row;
-    /** @type {?} */
-    NovoDataTableCell.prototype.template;
-    /** @type {?} */
-    NovoDataTableCell.prototype.column;
-    /** @type {?} */
-    NovoDataTableCell.prototype.resized;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCell.prototype.subscriptions;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCell.prototype.elementRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCell.prototype.renderer;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cells/data-table-checkbox-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -55593,20 +48830,14 @@ var NovoDataTableCheckboxCell = /** @class */ (function (_super) {
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-checkbox-column-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, "novo-checkbox-column-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, 'novo-data-table-checkbox-cell');
-        _this.selectionSubscription = _this.dataTable.state.selectionSource.subscribe((/**
-         * @return {?}
-         */
-        function () {
+        _this.selectionSubscription = _this.dataTable.state.selectionSource.subscribe(function () {
             _this.checked = _this.dataTable.isSelected(_this.row);
             _this.ref.markForCheck();
-        }));
-        _this.resetSubscription = _this.dataTable.state.resetSource.subscribe((/**
-         * @return {?}
-         */
-        function () {
+        });
+        _this.resetSubscription = _this.dataTable.state.resetSource.subscribe(function () {
             _this.checked = false;
             _this.ref.markForCheck();
-        }));
+        });
         return _this;
     }
     /**
@@ -55662,38 +48893,10 @@ var NovoDataTableCheckboxCell = /** @class */ (function (_super) {
     };
     return NovoDataTableCheckboxCell;
 }(CdkCell));
-if (false) {
-    /** @type {?} */
-    NovoDataTableCheckboxCell.prototype.role;
-    /** @type {?} */
-    NovoDataTableCheckboxCell.prototype.row;
-    /** @type {?} */
-    NovoDataTableCheckboxCell.prototype.checked;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxCell.prototype.selectionSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxCell.prototype.resetSubscription;
-    /** @type {?} */
-    NovoDataTableCheckboxCell.prototype.columnDef;
-    /** @type {?} */
-    NovoDataTableCheckboxCell.prototype.dataTable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxCell.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cells/data-table-expand-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -55710,13 +48913,10 @@ var NovoDataTableExpandCell = /** @class */ (function (_super) {
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-expand-column-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, "novo-expand-column-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, 'novo-data-table-expand-cell');
-        _this.expandSubscription = _this.dataTable.state.expandSource.subscribe((/**
-         * @return {?}
-         */
-        function () {
+        _this.expandSubscription = _this.dataTable.state.expandSource.subscribe(function () {
             _this.expanded = _this.dataTable.isExpanded(_this.row);
             _this.ref.markForCheck();
-        }));
+        });
         return _this;
     }
     /**
@@ -55769,33 +48969,10 @@ var NovoDataTableExpandCell = /** @class */ (function (_super) {
     };
     return NovoDataTableExpandCell;
 }(CdkCell));
-if (false) {
-    /** @type {?} */
-    NovoDataTableExpandCell.prototype.role;
-    /** @type {?} */
-    NovoDataTableExpandCell.prototype.row;
-    /** @type {?} */
-    NovoDataTableExpandCell.prototype.expanded;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandCell.prototype.expandSubscription;
-    /** @type {?} */
-    NovoDataTableExpandCell.prototype.columnDef;
-    /** @type {?} */
-    NovoDataTableExpandCell.prototype.dataTable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandCell.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/rows/data-table-header-row.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoDataTableHeaderRow = /** @class */ (function (_super) {
     __extends(NovoDataTableHeaderRow, _super);
@@ -55820,19 +48997,10 @@ var NovoDataTableHeaderRow = /** @class */ (function (_super) {
     };
     return NovoDataTableHeaderRow;
 }(CdkHeaderRow));
-if (false) {
-    /** @type {?} */
-    NovoDataTableHeaderRow.prototype.rowClass;
-    /** @type {?} */
-    NovoDataTableHeaderRow.prototype.fixedHeader;
-    /** @type {?} */
-    NovoDataTableHeaderRow.prototype.role;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/rows/data-table-row.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoDataTableRow = /** @class */ (function (_super) {
     __extends(NovoDataTableRow, _super);
@@ -55857,28 +49025,17 @@ var NovoDataTableRow = /** @class */ (function (_super) {
     };
     return NovoDataTableRow;
 }(CdkRow));
-if (false) {
-    /** @type {?} */
-    NovoDataTableRow.prototype.rowClass;
-    /** @type {?} */
-    NovoDataTableRow.prototype.role;
-    /** @type {?} */
-    NovoDataTableRow.prototype.id;
-    /** @type {?} */
-    NovoDataTableRow.prototype.dataAutomationId;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/sort-filter/sort-filter.directive.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
  */
 var NovoDataTableSortFilter = /** @class */ (function () {
-    function NovoDataTableSortFilter(state) {
-        this.state = state;
+    function NovoDataTableSortFilter(state$$1) {
+        this.state = state$$1;
     }
     /**
      * @param {?} id
@@ -55901,21 +49058,21 @@ var NovoDataTableSortFilter = /** @class */ (function () {
     function (id, type, value, transform, allowMultipleFilters, selectedOption) {
         if (allowMultipleFilters === void 0) { allowMultipleFilters = false; }
         /** @type {?} */
-        var filter;
+        var filter$$1;
         if (allowMultipleFilters) {
-            filter = this.resolveMultiFilter(id, type, value, transform, selectedOption);
+            filter$$1 = this.resolveMultiFilter(id, type, value, transform, selectedOption);
         }
         else {
             if (!Helpers.isBlank(value)) {
-                filter = __assign({ id: id, type: type, value: value, transform: transform }, (selectedOption && { selectedOption: selectedOption }));
+                filter$$1 = __assign({ id: id, type: type, value: value, transform: transform }, (selectedOption && { selectedOption: selectedOption }));
             }
             else {
-                filter = undefined;
+                filter$$1 = undefined;
             }
         }
-        this.state.filter = filter;
+        this.state.filter = filter$$1;
         this.state.reset(false, true);
-        this.state.updates.next({ filter: filter, sort: this.state.sort });
+        this.state.updates.next({ filter: filter$$1, sort: this.state.sort });
         this.state.onSortFilterChange();
     };
     /**
@@ -55956,24 +49113,20 @@ var NovoDataTableSortFilter = /** @class */ (function () {
      */
     function (id, type, value, transform, selectedOption) {
         /** @type {?} */
-        var filter;
-        filter = Helpers.convertToArray(this.state.filter);
+        var filter$$1;
+        filter$$1 = Helpers.convertToArray(this.state.filter);
         /** @type {?} */
-        var filterIndex = filter.findIndex((/**
-         * @param {?} aFilter
-         * @return {?}
-         */
-        function (aFilter) { return aFilter && aFilter.id === id; }));
+        var filterIndex = filter$$1.findIndex(function (aFilter) { return aFilter && aFilter.id === id; });
         if (filterIndex > -1) {
-            filter.splice(filterIndex, 1);
+            filter$$1.splice(filterIndex, 1);
         }
         if (!Helpers.isBlank(value)) {
-            filter = __spread(filter, [__assign({ id: id, type: type, value: value, transform: transform }, (selectedOption && { selectedOption: selectedOption }))]);
+            filter$$1 = __spread(filter$$1, [__assign({ id: id, type: type, value: value, transform: transform }, (selectedOption && { selectedOption: selectedOption }))]);
         }
-        if (filter.length < 1) {
-            filter = undefined;
+        if (filter$$1.length < 1) {
+            filter$$1 = undefined;
         }
-        return filter;
+        return filter$$1;
     };
     NovoDataTableSortFilter.decorators = [
         { type: Directive, args: [{
@@ -55986,28 +49139,20 @@ var NovoDataTableSortFilter = /** @class */ (function () {
     ]; };
     return NovoDataTableSortFilter;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableSortFilter.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cell-headers/data-table-header-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
  */
 var NovoDataTableCellHeader = /** @class */ (function () {
-    function NovoDataTableCellHeader(changeDetectorRef, labels, state, renderer, elementRef, _sort, _cdkColumnDef) {
+    function NovoDataTableCellHeader(changeDetectorRef, labels, state$$1, renderer, elementRef, _sort, _cdkColumnDef) {
         var _this = this;
         this.changeDetectorRef = changeDetectorRef;
         this.labels = labels;
-        this.state = state;
+        this.state = state$$1;
         this.renderer = renderer;
         this.elementRef = elementRef;
         this._sort = _sort;
@@ -56023,11 +49168,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
         this.optionFilter = '';
         this.error = false;
         this.subscriptions = [];
-        this._rerenderSubscription = state.updates.subscribe((/**
-         * @param {?} change
-         * @return {?}
-         */
-        function (change) { return _this.checkSortFilterState(change); }));
+        this._rerenderSubscription = state$$1.updates.subscribe(function (change) { return _this.checkSortFilterState(change); });
     }
     Object.defineProperty(NovoDataTableCellHeader.prototype, "column", {
         set: /**
@@ -56096,13 +49237,9 @@ var NovoDataTableCellHeader = /** @class */ (function () {
      */
     function () {
         this._rerenderSubscription.unsubscribe();
-        this.subscriptions.forEach((/**
-         * @param {?} subscription
-         * @return {?}
-         */
-        function (subscription) {
+        this.subscriptions.forEach(function (subscription) {
             subscription.unsubscribe();
-        }));
+        });
     };
     /**
      * @param {?} sortFilterState
@@ -56128,11 +49265,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
         /** @type {?} */
         var tableFilter = Helpers.convertToArray(sortFilterState.filter);
         /** @type {?} */
-        var thisFilter = tableFilter.find((/**
-         * @param {?} filter
-         * @return {?}
-         */
-        function (filter) { return filter && filter.id === _this.id; }));
+        var thisFilter = tableFilter.find(function (filter$$1) { return filter$$1 && filter$$1.id === _this.id; });
         if (thisFilter) {
             this.filterActive = true;
             if (initialConfig && thisFilter.type === 'date' && thisFilter.selectedOption) {
@@ -56155,21 +49288,13 @@ var NovoDataTableCellHeader = /** @class */ (function () {
             this.multiSelectedOptions = this.filter ? __spread(this.filter) : [];
             if (this.config.filterConfig.options) {
                 if (typeof this.config.filterConfig.options[0] === 'string') {
-                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((/**
-                     * @param {?} option
-                     * @return {?}
-                     */
-                    function (option) { return ({ option: option, hidden: false }); }));
+                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map(function (option) { return ({ option: option, hidden: false }); });
                 }
                 else {
-                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((/**
-                     * @param {?} option
-                     * @return {?}
-                     */
-                    function (option) { return ({
+                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map(function (option) { return ({
                         option: option,
                         hidden: false,
-                    }); }));
+                    }); });
                 }
             }
         }
@@ -56191,11 +49316,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
             /** @type {?} */
             var optionValue_1 = option.hasOwnProperty('value') ? option.value : option;
             /** @type {?} */
-            var found = optionsList.find((/**
-             * @param {?} item
-             * @return {?}
-             */
-            function (item) { return _this.optionPresentCheck(item, optionValue_1); }));
+            var found = optionsList.find(function (item) { return _this.optionPresentCheck(item, optionValue_1); });
             return found !== undefined;
         }
         return false;
@@ -56213,11 +49334,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
         /** @type {?} */
         var optionValue = option.hasOwnProperty('value') ? option.value : option;
         /** @type {?} */
-        var optionIndex = this.multiSelectedOptions.findIndex((/**
-         * @param {?} item
-         * @return {?}
-         */
-        function (item) { return _this.optionPresentCheck(item, optionValue); }));
+        var optionIndex = this.multiSelectedOptions.findIndex(function (item) { return _this.optionPresentCheck(item, optionValue); });
         this.error = false;
         if (optionIndex > -1) {
             this.multiSelectedOptions.splice(optionIndex, 1);
@@ -56225,11 +49342,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
                 !this.getOptionText(option)
                     .toLowerCase()
                     .startsWith(this.optionFilter.toLowerCase())) {
-                this.multiSelectedOptionIsHidden[this.multiSelectedOptionIsHidden.findIndex((/**
-                 * @param {?} record
-                 * @return {?}
-                 */
-                function (record) { return record.option === option; }))].hidden = true;
+                this.multiSelectedOptionIsHidden[this.multiSelectedOptionIsHidden.findIndex(function (record) { return record.option === option; })].hidden = true;
             }
         }
         else {
@@ -56293,17 +49406,13 @@ var NovoDataTableCellHeader = /** @class */ (function () {
      */
     function (optionFilter) {
         var _this = this;
-        this.multiSelectedOptionIsHidden.forEach((/**
-         * @param {?} record
-         * @return {?}
-         */
-        function (record) {
+        this.multiSelectedOptionIsHidden.forEach(function (record) {
             if (record.option) {
                 record.hidden = !(_this.getOptionText(record.option)
                     .toLowerCase()
                     .startsWith(optionFilter.toLowerCase()) || _this.isSelected(record.option, _this.multiSelectedOptions));
             }
-        }));
+        });
     };
     /**
      * @param {?} option
@@ -56314,11 +49423,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
      * @return {?}
      */
     function (option) {
-        return this.multiSelectedOptionIsHidden.find((/**
-         * @param {?} record
-         * @return {?}
-         */
-        function (record) { return record.option === option; })).hidden;
+        return this.multiSelectedOptionIsHidden.find(function (record) { return record.option === option; }).hidden;
     };
     /**
      * @return {?}
@@ -56327,11 +49432,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        return this.multiSelectedOptionIsHidden.some((/**
-         * @param {?} record
-         * @return {?}
-         */
-        function (record) { return !record.hidden; }));
+        return this.multiSelectedOptionIsHidden.some(function (record) { return !record.hidden; });
     };
     /**
      * @private
@@ -56393,13 +49494,9 @@ var NovoDataTableCellHeader = /** @class */ (function () {
         this.error = false;
         if (this.optionFilter.length > 0) {
             this.optionFilter = '';
-            this.multiSelectedOptionIsHidden.forEach((/**
-             * @param {?} record
-             * @return {?}
-             */
-            function (record) {
+            this.multiSelectedOptionIsHidden.forEach(function (record) {
                 record.hidden = false;
-            }));
+            });
         }
     };
     /**
@@ -56418,11 +49515,7 @@ var NovoDataTableCellHeader = /** @class */ (function () {
         /** @type {?} */
         var startingWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
         /** @type {?} */
-        var mouseMoveSubscription = fromEvent(window.document, 'mousemove').subscribe((/**
-         * @param {?} middleMouseEvent
-         * @return {?}
-         */
-        function (middleMouseEvent) {
+        var mouseMoveSubscription = fromEvent(window.document, 'mousemove').subscribe(function (middleMouseEvent) {
             /** @type {?} */
             var differenceWidth = middleMouseEvent.clientX - mouseDownEvent.clientX;
             /** @type {?} */
@@ -56436,16 +49529,13 @@ var NovoDataTableCellHeader = /** @class */ (function () {
             _this.renderer.setStyle(_this.elementRef.nativeElement, 'width', _this._column.width + "px");
             _this.changeDetectorRef.markForCheck();
             _this.resized.next(_this._column);
-        }));
+        });
         /** @type {?} */
-        var mouseUpSubscription = fromEvent(window.document, 'mouseup').subscribe((/**
-         * @return {?}
-         */
-        function () {
+        var mouseUpSubscription = fromEvent(window.document, 'mouseup').subscribe(function () {
             mouseUpSubscription.unsubscribe();
             mouseMoveSubscription.unsubscribe();
             _this.changeDetectorRef.markForCheck();
-        }));
+        });
         this.subscriptions.push(mouseMoveSubscription);
         this.subscriptions.push(mouseUpSubscription);
     };
@@ -56474,23 +49564,13 @@ var NovoDataTableCellHeader = /** @class */ (function () {
     function () {
         var _this = this;
         if (this.filterInput && this.filterInput.nativeElement) {
-            setTimeout((/**
-             * @return {?}
-             */
-            function () { return _this.filterInput.nativeElement.focus(); }), 0);
+            setTimeout(function () { return _this.filterInput.nativeElement.focus(); }, 0);
         }
         if (this.multiSelect && this.dropdown) {
-            this.dropdown.onKeyDown = (/**
-             * @param {?} event
-             * @return {?}
-             */
-            function (event) {
+            this.dropdown.onKeyDown = function (event) {
                 _this.multiSelectOptionFilterHandleKeydown(event);
-            });
-            setTimeout((/**
-             * @return {?}
-             */
-            function () { return _this.optionFilterInput.nativeElement.focus(); }), 0);
+            };
+            setTimeout(function () { return _this.optionFilterInput.nativeElement.focus(); }, 0);
             this.changeDetectorRef.markForCheck();
         }
     };
@@ -56505,14 +49585,11 @@ var NovoDataTableCellHeader = /** @class */ (function () {
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
         }
-        this.changeTimeout = setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        this.changeTimeout = setTimeout(function () {
             _this.direction = _this.getNextSortDirection(_this.direction);
             _this._sort.sort(_this.id, _this.direction, _this.config.transforms.sort);
             _this.changeDetectorRef.markForCheck();
-        }), 300);
+        }, 300);
     };
     /**
      * @param {?=} filter
@@ -56522,25 +49599,22 @@ var NovoDataTableCellHeader = /** @class */ (function () {
      * @param {?=} filter
      * @return {?}
      */
-    function (filter) {
+    function (filter$$1) {
         var _this = this;
         /** @type {?} */
-        var actualFilter = NovoDataTableFilterUtils.constructFilter(filter, this.config.filterConfig.type, this.multiSelect);
+        var actualFilter = NovoDataTableFilterUtils.constructFilter(filter$$1, this.config.filterConfig.type, this.multiSelect);
         /** @type {?} */
-        var selectedOption = this.config.filterConfig.type === 'date' && filter ? filter : undefined;
+        var selectedOption = this.config.filterConfig.type === 'date' && filter$$1 ? filter$$1 : undefined;
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
         }
-        this.changeTimeout = setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        this.changeTimeout = setTimeout(function () {
             if (actualFilter === '') {
                 actualFilter = undefined;
             }
             _this._sort.filter(_this.id, _this.config.filterConfig.type, actualFilter, _this.config.transforms.filter, _this.allowMultipleFilters, selectedOption);
             _this.changeDetectorRef.markForCheck();
-        }), 300);
+        }, 300);
     };
     /**
      * @return {?}
@@ -56617,9 +49691,9 @@ var NovoDataTableCellHeader = /** @class */ (function () {
         { type: CdkColumnDef, decorators: [{ type: Optional }] }
     ]; };
     NovoDataTableCellHeader.propDecorators = {
-        filterInput: [{ type: ViewChild, args: ['filterInput', { static: false },] }],
-        dropdown: [{ type: ViewChild, args: [NovoDropdownElement, { static: false },] }],
-        optionFilterInput: [{ type: ViewChild, args: ['optionFilterInput', { static: false },] }],
+        filterInput: [{ type: ViewChild, args: ['filterInput',] }],
+        dropdown: [{ type: ViewChild, args: [NovoDropdownElement,] }],
+        optionFilterInput: [{ type: ViewChild, args: ['optionFilterInput',] }],
         defaultSort: [{ type: Input }],
         allowMultipleFilters: [{ type: Input }],
         resized: [{ type: Input }],
@@ -56630,110 +49704,10 @@ var NovoDataTableCellHeader = /** @class */ (function () {
     };
     return NovoDataTableCellHeader;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.filterInput;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.dropdown;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.optionFilterInput;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.defaultSort;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.allowMultipleFilters;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.resized;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.filterTemplate;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.resizable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype._rerenderSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.changeTimeout;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.label;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.icon;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.labelIcon;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.id;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.filter;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.direction;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.filterActive;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.sortActive;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.showCustomRange;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.activeDateFilter;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.config;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.multiSelect;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.multiSelectedOptions;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.multiSelectedOptionIsHidden;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.optionFilter;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.error;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.subscriptions;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype._column;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.changeDetectorRef;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.state;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.renderer;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.elementRef;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype._sort;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype._cdkColumnDef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cell-headers/data-table-expand-header-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -56749,13 +49723,10 @@ var NovoDataTableExpandHeaderCell = /** @class */ (function (_super) {
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-expand-column-header-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, "novo-expand-column-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, 'novo-data-table-expand-header-cell');
-        _this.expandSubscription = _this.dataTable.state.expandSource.subscribe((/**
-         * @return {?}
-         */
-        function () {
+        _this.expandSubscription = _this.dataTable.state.expandSource.subscribe(function () {
             _this.expanded = _this.dataTable.allCurrentRowsExpanded();
             _this.ref.markForCheck();
-        }));
+        });
         return _this;
     }
     /**
@@ -56798,32 +49769,10 @@ var NovoDataTableExpandHeaderCell = /** @class */ (function (_super) {
     };
     return NovoDataTableExpandHeaderCell;
 }(CdkHeaderCell));
-if (false) {
-    /** @type {?} */
-    NovoDataTableExpandHeaderCell.prototype.role;
-    /** @type {?} */
-    NovoDataTableExpandHeaderCell.prototype.expanded;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandHeaderCell.prototype.expandSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandHeaderCell.prototype.dataTable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandHeaderCell.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cell-headers/data-table-checkbox-header-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -56839,18 +49788,11 @@ var NovoDataTableCheckboxHeaderCell = /** @class */ (function (_super) {
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-checkbox-column-header-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, "novo-checkbox-column-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, 'novo-data-table-checkbox-header-cell');
-        _this.selectionSubscription = _this.dataTable.state.selectionSource.subscribe((/**
-         * @return {?}
-         */
-        function () {
+        _this.selectionSubscription = _this.dataTable.state.selectionSource.subscribe(function () {
             _this.checked = _this.dataTable.allCurrentRowsSelected();
             _this.ref.markForCheck();
-        }));
-        _this.paginationSubscription = _this.dataTable.state.paginationSource.subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        });
+        _this.paginationSubscription = _this.dataTable.state.paginationSource.subscribe(function (event) {
             if (event.isPageSizeChange) {
                 _this.checked = false;
                 _this.dataTable.selectRows(false);
@@ -56859,14 +49801,11 @@ var NovoDataTableCheckboxHeaderCell = /** @class */ (function (_super) {
                 _this.checked = _this.dataTable.allCurrentRowsSelected();
             }
             _this.ref.markForCheck();
-        }));
-        _this.resetSubscription = _this.dataTable.state.resetSource.subscribe((/**
-         * @return {?}
-         */
-        function () {
+        });
+        _this.resetSubscription = _this.dataTable.state.resetSource.subscribe(function () {
             _this.checked = false;
             _this.ref.markForCheck();
-        }));
+        });
         return _this;
     }
     /**
@@ -56915,42 +49854,10 @@ var NovoDataTableCheckboxHeaderCell = /** @class */ (function (_super) {
     };
     return NovoDataTableCheckboxHeaderCell;
 }(CdkHeaderCell));
-if (false) {
-    /** @type {?} */
-    NovoDataTableCheckboxHeaderCell.prototype.role;
-    /** @type {?} */
-    NovoDataTableCheckboxHeaderCell.prototype.checked;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxHeaderCell.prototype.selectionSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxHeaderCell.prototype.paginationSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxHeaderCell.prototype.resetSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxHeaderCell.prototype.dataTable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxHeaderCell.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cell-headers/data-table-header-cell.directive.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -56997,27 +49904,10 @@ var NovoDataTableHeaderCell = /** @class */ (function (_super) {
     };
     return NovoDataTableHeaderCell;
 }(CdkHeaderCell));
-if (false) {
-    /** @type {?} */
-    NovoDataTableHeaderCell.prototype.role;
-    /** @type {?} */
-    NovoDataTableHeaderCell.prototype.column;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableHeaderCell.prototype.elementRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableHeaderCell.prototype.renderer;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/pagination/data-table-pagination.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 var MAX_PAGES_DISPLAYED = 5;
@@ -57025,23 +49915,20 @@ var MAX_PAGES_DISPLAYED = 5;
  * @template T
  */
 var NovoDataTablePagination = /** @class */ (function () {
-    function NovoDataTablePagination(changeDetectorRef, labels, state) {
+    function NovoDataTablePagination(changeDetectorRef, labels, state$$1) {
         var _this = this;
         this.changeDetectorRef = changeDetectorRef;
         this.labels = labels;
-        this.state = state;
+        this.state = state$$1;
         this.theme = 'standard';
         this._page = 0;
         this._pageSizeOptions = [];
         this._length = 0;
         this.pageChange = new EventEmitter();
-        this.resetSubscription = this.state.resetSource.subscribe((/**
-         * @return {?}
-         */
-        function () {
+        this.resetSubscription = this.state.resetSource.subscribe(function () {
             _this.page = 0;
             _this.changeDetectorRef.markForCheck();
-        }));
+        });
     }
     Object.defineProperty(NovoDataTablePagination.prototype, "page", {
         get: /**
@@ -57230,11 +50117,7 @@ var NovoDataTablePagination = /** @class */ (function () {
         }
         if (!this.displayedPageSizeOptions) {
             this.displayedPageSizeOptions = [];
-            this.pageSizeOptions.forEach((/**
-             * @param {?} option
-             * @return {?}
-             */
-            function (option) {
+            this.pageSizeOptions.forEach(function (option) {
                 if (option.hasOwnProperty('value')) {
                     _this.displayedPageSizeOptions.push(option);
                 }
@@ -57244,7 +50127,7 @@ var NovoDataTablePagination = /** @class */ (function () {
                         label: option,
                     });
                 }
-            }));
+            });
         }
         this.longRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, false);
         this.shortRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, true);
@@ -57381,65 +50264,10 @@ var NovoDataTablePagination = /** @class */ (function () {
     };
     return NovoDataTablePagination;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDataTablePagination.prototype.theme;
-    /** @type {?} */
-    NovoDataTablePagination.prototype._page;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTablePagination.prototype._pageSize;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.dataFeatureId;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTablePagination.prototype._pageSizeOptions;
-    /** @type {?} */
-    NovoDataTablePagination.prototype._length;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.pageChange;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.displayedPageSizeOptions;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.longRangeLabel;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.shortRangeLabel;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.pages;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTablePagination.prototype.resetSubscription;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.totalPages;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTablePagination.prototype._initialized;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTablePagination.prototype.changeDetectorRef;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTablePagination.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table.pipes.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -57518,13 +50346,6 @@ var DateTableDateRendererPipe = /** @class */ (function () {
     ]; };
     return DateTableDateRendererPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DateTableDateRendererPipe.prototype.labels;
-}
 /**
  * @template T
  */
@@ -57562,13 +50383,6 @@ var DateTableDateTimeRendererPipe = /** @class */ (function () {
     ]; };
     return DateTableDateTimeRendererPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DateTableDateTimeRendererPipe.prototype.labels;
-}
 /**
  * @template T
  */
@@ -57604,13 +50418,6 @@ var DateTableTimeRendererPipe = /** @class */ (function () {
     ]; };
     return DateTableTimeRendererPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DateTableTimeRendererPipe.prototype.labels;
-}
 /**
  * @template T
  */
@@ -57654,13 +50461,6 @@ var DateTableNumberRendererPipe = /** @class */ (function () {
     ]; };
     return DateTableNumberRendererPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DateTableNumberRendererPipe.prototype.labels;
-}
 /**
  * @template T
  */
@@ -57698,13 +50498,6 @@ var DataTableBigDecimalRendererPipe = /** @class */ (function () {
     ]; };
     return DataTableBigDecimalRendererPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DataTableBigDecimalRendererPipe.prototype.labels;
-}
 /**
  * @template T
  */
@@ -57742,43 +50535,23 @@ var DateTableCurrencyRendererPipe = /** @class */ (function () {
     ]; };
     return DateTableCurrencyRendererPipe;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DateTableCurrencyRendererPipe.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table-expand.directive.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
  */
 var NovoDataTableExpandDirective = /** @class */ (function () {
-    function NovoDataTableExpandDirective(vcRef, state, dataTable) {
+    function NovoDataTableExpandDirective(vcRef, state$$1, dataTable) {
         var _this = this;
         this.vcRef = vcRef;
-        this.state = state;
+        this.state = state$$1;
         this.dataTable = dataTable;
-        this.shouldExpandAllRows = (/**
-         * @param {?} targetId
-         * @return {?}
-         */
-        function (targetId) { return targetId === undefined; });
-        this.shouldExpandOneRow = (/**
-         * @param {?} targetId
-         * @return {?}
-         */
-        function (targetId) { return targetId === ((/** @type {?} */ (((/** @type {?} */ (_this.row)))))).id; });
-        this.subscription = this.state.expandSource.subscribe((/**
-         * @param {?=} targetId
-         * @return {?}
-         */
-        function (targetId) {
+        this.shouldExpandAllRows = function (targetId) { return targetId === undefined; };
+        this.shouldExpandOneRow = function (targetId) { return targetId === ((/** @type {?} */ (((/** @type {?} */ (_this.row)))))).id; };
+        this.subscription = this.state.expandSource.subscribe(function (targetId) {
             if (_this.shouldExpandAllRows(targetId) || _this.shouldExpandOneRow(targetId)) {
                 if (dataTable.isExpanded(_this.row)) {
                     _this.render();
@@ -57787,7 +50560,7 @@ var NovoDataTableExpandDirective = /** @class */ (function () {
                     _this.clear();
                 }
             }
-        }));
+        });
     }
     /**
      * @return {?}
@@ -57855,45 +50628,17 @@ var NovoDataTableExpandDirective = /** @class */ (function () {
     };
     return NovoDataTableExpandDirective;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDataTableExpandDirective.prototype.row;
-    /** @type {?} */
-    NovoDataTableExpandDirective.prototype.template;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandDirective.prototype.subscription;
-    /** @type {?} */
-    NovoDataTableExpandDirective.prototype.shouldExpandAllRows;
-    /** @type {?} */
-    NovoDataTableExpandDirective.prototype.shouldExpandOneRow;
-    /** @type {?} */
-    NovoDataTableExpandDirective.prototype.vcRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandDirective.prototype.state;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandDirective.prototype.dataTable;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table-clear-button.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
  */
 var NovoDataTableClearButton = /** @class */ (function () {
-    function NovoDataTableClearButton(state, ref, labels) {
-        this.state = state;
+    function NovoDataTableClearButton(state$$1, ref, labels) {
+        this.state = state$$1;
         this.ref = ref;
         this.labels = labels;
         this.sortClear = new EventEmitter();
@@ -57952,28 +50697,10 @@ var NovoDataTableClearButton = /** @class */ (function () {
     };
     return NovoDataTableClearButton;
 }());
-if (false) {
-    /** @type {?} */
-    NovoDataTableClearButton.prototype.sortClear;
-    /** @type {?} */
-    NovoDataTableClearButton.prototype.filterClear;
-    /** @type {?} */
-    NovoDataTableClearButton.prototype.allClear;
-    /** @type {?} */
-    NovoDataTableClearButton.prototype.state;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableClearButton.prototype.ref;
-    /** @type {?} */
-    NovoDataTableClearButton.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoDataTableModule = /** @class */ (function () {
     function NovoDataTableModule() {
@@ -58037,8 +50764,7 @@ var NovoDataTableModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/services/remote-data-table.service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @abstract
@@ -58053,24 +50779,10 @@ RemoteDataTableService = /** @class */ (function () {
     }
     return RemoteDataTableService;
 }());
-if (false) {
-    /**
-     * @abstract
-     * @param {?} sort
-     * @param {?} filter
-     * @param {?} page
-     * @param {?} pageSize
-     * @param {?=} globalSearch
-     * @param {?=} outsideFilter
-     * @return {?}
-     */
-    RemoteDataTableService.prototype.getTableResults = function (sort, filter, page, pageSize, globalSearch, outsideFilter) { };
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tabbed-group-picker/TabbedGroupPicker.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTabbedGroupPickerElement = /** @class */ (function () {
     function NovoTabbedGroupPickerElement(labelService, ref) {
@@ -58085,46 +50797,25 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
         // Initial height based on 13 px font rendered in chrome. Actual height retrieved onDropdownToggled.
         this.scrollViewportHeight = 351;
         this.virtualScrollItemSize = 39;
-        this.getSelectedState = (/**
-         * @param {?} childArray
-         * @return {?}
-         */
-        function (childArray) {
+        this.getSelectedState = function (childArray) {
             /** @type {?} */
-            var numberOfSelectedItems = childArray.filter((/**
-             * @param {?} __0
-             * @return {?}
-             */
-            function (_a) {
+            var numberOfSelectedItems = childArray.filter(function (_a) {
                 var selected = _a.selected;
                 return selected;
-            })).length;
+            }).length;
             if (!numberOfSelectedItems) {
                 return undefined;
             }
             return numberOfSelectedItems === childArray.length ? 'selected' : 'indeterminate';
-        });
-        this.filter = (/**
-         * @param {?} searchTerm
-         * @return {?}
-         */
-        function (searchTerm) {
-            _this.displayTabs.forEach((/**
-             * @param {?} displayTab
-             * @param {?} i
-             * @return {?}
-             */
-            function (displayTab, i) {
-                return (displayTab.data = _this.tabs[i].data.filter((/**
-                 * @param {?} item
-                 * @return {?}
-                 */
-                function (item) {
+        };
+        this.filter = function (searchTerm) {
+            _this.displayTabs.forEach(function (displayTab, i) {
+                return (displayTab.data = _this.tabs[i].data.filter(function (item) {
                     return item[displayTab.labelField].toLowerCase().includes(searchTerm.toLowerCase());
-                })));
-            }));
+                }));
+            });
             _this.ref.markForCheck();
-        });
+        };
     }
     Object.defineProperty(NovoTabbedGroupPickerElement.prototype, "displayTab", {
         get: /**
@@ -58138,14 +50829,10 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
          * @return {?}
          */
         function (tab) {
-            this.displayTabIndex = this.tabs.map((/**
-             * @param {?} __0
-             * @return {?}
-             */
-            function (_a) {
+            this.displayTabIndex = this.tabs.map(function (_a) {
                 var typeName = _a.typeName;
                 return typeName;
-            })).indexOf(tab.typeName);
+            }).indexOf(tab.typeName);
         },
         enumerable: true,
         configurable: true
@@ -58232,11 +50919,7 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
     function () {
         // shallow copy here so that reassigning displayTabs[i].data doesn't mutate tabs[i].data
         // but both data values point to the same items
-        this.displayTabs = this.tabs.map((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        function (tab) { return (__assign({}, tab)); }));
+        this.displayTabs = this.tabs.map(function (tab) { return (__assign({}, tab)); });
         this.displayTab = this.tabs[0];
     };
     // Replace each parent's child object with a reference to the child to avoid
@@ -58257,22 +50940,14 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this.tabs.forEach((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        function (tab) {
+        this.tabs.forEach(function (tab) {
             // would rather filter but TypeScript still wants a type narrowing here
             if ('childTypeName' in tab) {
                 /** @type {?} */
-                var childTab = _this.tabs.find((/**
-                 * @param {?} __0
-                 * @return {?}
-                 */
-                function (_a) {
+                var childTab = _this.tabs.find(function (_a) {
                     var typeName = _a.typeName;
                     return typeName === tab.childTypeName;
-                }));
+                });
                 /** @type {?} */
                 var compareFunction_1 = _this.makeCompareFunction(childTab.valueField);
                 /** @type {?} */
@@ -58280,64 +50955,32 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
                 /** @type {?} */
                 var sortedChildren_1 = childTab.data.slice().sort(compareFunction_1);
                 tab.data
-                    .filter((/**
-                 * @param {?} __0
-                 * @return {?}
-                 */
-                function (_a) {
+                    .filter(function (_a) {
                     var children = _a.children;
                     return children && children.length;
-                }))
-                    .forEach((/**
-                 * @param {?} parent
-                 * @return {?}
-                 */
-                function (parent) {
+                })
+                    .forEach(function (parent) {
                     return _this.replaceChildrenWithReferences((/** @type {?} */ (parent)), sortedChildren_1, compareFunction_1, warnFunction_1);
-                }));
+                });
             }
-        }));
+        });
         if (this.quickSelectConfig) {
             this.quickSelectConfig.items
-                .filter((/**
-             * @param {?} parent
-             * @return {?}
-             */
-            function (parent) { return 'all' in parent; }))
-                .forEach((/**
-             * @param {?} parent
-             * @return {?}
-             */
-            function (parent) {
-                parent.children = _this.tabs.find((/**
-                 * @param {?} __0
-                 * @return {?}
-                 */
-                function (_a) {
+                .filter(function (parent) { return 'all' in parent; })
+                .forEach(function (parent) {
+                parent.children = _this.tabs.find(function (_a) {
                     var typeName = _a.typeName;
                     return parent.childTypeName === typeName;
-                })).data;
-            }));
+                }).data;
+            });
             this.quickSelectConfig.items
-                .filter((/**
-             * @param {?} parent
-             * @return {?}
-             */
-            function (parent) { return !('all' in parent); }))
-                .forEach((/**
-             * @param {?} parent
-             * @return {?}
-             */
-            function (parent) {
+                .filter(function (parent) { return !('all' in parent); })
+                .forEach(function (parent) {
                 /** @type {?} */
-                var childTab = _this.tabs.find((/**
-                 * @param {?} __0
-                 * @return {?}
-                 */
-                function (_a) {
+                var childTab = _this.tabs.find(function (_a) {
                     var typeName = _a.typeName;
                     return typeName === parent.childTypeName;
-                }));
+                });
                 /** @type {?} */
                 var compareFunction = _this.makeCompareFunction(childTab.valueField);
                 /** @type {?} */
@@ -58345,7 +50988,7 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
                 /** @type {?} */
                 var sortedChildren = childTab.data.slice().sort(compareFunction);
                 _this.replaceChildrenWithReferences((/** @type {?} */ (parent)), sortedChildren, compareFunction, warnFunction);
-            }));
+            });
         }
     };
     /**
@@ -58359,12 +51002,7 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
      * @return {?}
      */
     function (key) {
-        return (/**
-         * @param {?} a
-         * @param {?} b
-         * @return {?}
-         */
-        function (a, b) {
+        return function (a, b) {
             /** @type {?} */
             var aValue = (a && a[key]) || a;
             /** @type {?} */
@@ -58381,7 +51019,7 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
             else {
                 return undefined;
             }
-        });
+        };
     };
     /**
      * @param {?} parent
@@ -58399,11 +51037,7 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
      */
     function (parent, sortedData, compareFunction, warnFunction) {
         parent.children = parent.children
-            .map((/**
-         * @param {?} child
-         * @return {?}
-         */
-        function (child) { return binarySearch(child, sortedData, compareFunction) || warnFunction(child); }))
+            .map(function (child) { return binarySearch(child, sortedData, compareFunction) || warnFunction(child); })
             .filter(Boolean); // since map can return undefined, remove undefined elements
     };
     /**
@@ -58419,15 +51053,11 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
      * @return {?}
      */
     function (parentLabel, childLabel, childValueField) {
-        return (/**
-         * @param {?} child
-         * @return {?}
-         */
-        function (child) {
+        return function (child) {
             /** @type {?} */
             var childValue = child[childValueField] || child;
             console.warn("No " + childLabel + " found with value " + childValue + " for parent " + parentLabel);
-        });
+        };
     };
     /**
      * @param {?} event
@@ -58467,29 +51097,17 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        this.tabs.forEach((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        function (tab) {
+        this.tabs.forEach(function (tab) {
             if ('childTypeName' in tab && tab.data && tab.data.length) {
-                tab.data.forEach((/**
-                 * @param {?} parent
-                 * @return {?}
-                 */
-                function (parent) {
+                tab.data.forEach(function (parent) {
                     if (parent.selected && parent.children && parent.children.length) {
-                        parent.children.forEach((/**
-                         * @param {?} child
-                         * @return {?}
-                         */
-                        function (child) {
+                        parent.children.forEach(function (child) {
                             child.selected = true;
-                        }));
+                        });
                     }
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * @param {?} parentIsSelected
@@ -58503,16 +51121,12 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
      */
     function (parentIsSelected, children) {
         var _this = this;
-        children.forEach((/**
-         * @param {?} item
-         * @return {?}
-         */
-        function (item) {
+        children.forEach(function (item) {
             parentIsSelected ? (item.selected = true) : delete item.selected;
             if (Array.isArray(item.children)) {
                 _this.updateDescendants(item.selected, item.children);
             }
-        }));
+        });
     };
     /**
      * @param {?=} itemWasJustSelected
@@ -58525,32 +51139,20 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
     function (itemWasJustSelected) {
         this.showClearAll = itemWasJustSelected
             ? true
-            : this.tabs.some((/**
-             * @param {?} tab
-             * @return {?}
-             */
-            function (tab) {
+            : this.tabs.some(function (tab) {
                 if (((/** @type {?} */ (tab))).childTypeName) {
-                    return tab.data.some((/**
-                     * @param {?} __0
-                     * @return {?}
-                     */
-                    function (_a) {
+                    return tab.data.some(function (_a) {
                         var selected = _a.selected, indeterminate = _a.indeterminate;
                         return selected || indeterminate;
-                    }));
+                    });
                 }
                 else {
-                    return tab.data.some((/**
-                     * @param {?} __0
-                     * @return {?}
-                     */
-                    function (_a) {
+                    return tab.data.some(function (_a) {
                         var selected = _a.selected;
                         return selected;
-                    }));
+                    });
                 }
-            }));
+            });
     };
     /**
      * @return {?}
@@ -58562,55 +51164,31 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
         var _this = this;
         // mutate here to avoid dereferencing the objects in displayTabs
         this.tabs
-            .filter((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        function (tab) { return 'childTypeName' in tab && !!tab.childTypeName; }))
-            .forEach((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        function (tab) {
+            .filter(function (tab) { return 'childTypeName' in tab && !!tab.childTypeName; })
+            .forEach(function (tab) {
             /** @type {?} */
-            var parents = tab.data.filter((/**
-             * @param {?} __0
-             * @return {?}
-             */
-            function (_a) {
+            var parents = tab.data.filter(function (_a) {
                 var children = _a.children;
                 return children && children.length;
-            }));
-            parents.forEach((/**
-             * @param {?} parent
-             * @return {?}
-             */
-            function (parent) {
-                ['indeterminate', 'selected'].forEach((/**
-                 * @param {?} selectedStateOption
-                 * @return {?}
-                 */
-                function (selectedStateOption) { return delete parent[selectedStateOption]; }));
+            });
+            parents.forEach(function (parent) {
+                ['indeterminate', 'selected'].forEach(function (selectedStateOption) { return delete parent[selectedStateOption]; });
                 /** @type {?} */
                 var selectedState = _this.getSelectedState(parent.children);
                 if (selectedState) {
                     parent[selectedState] = true;
                 }
-            }));
-        }));
+            });
+        });
         if (this.quickSelectConfig) {
-            this.quickSelectConfig.items.forEach((/**
-             * @param {?} quickSelect
-             * @return {?}
-             */
-            function (quickSelect) {
+            this.quickSelectConfig.items.forEach(function (quickSelect) {
                 delete quickSelect.selected;
                 /** @type {?} */
                 var selectedState = _this.getSelectedState((/** @type {?} */ (quickSelect.children)));
                 if (selectedState) {
                     quickSelect[selectedState] = true;
                 }
-            }));
+            });
         }
     };
     /**
@@ -58621,18 +51199,10 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
      */
     function () {
         /** @type {?} */
-        var selectedValues = this.tabs.map((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        function (tab) { return (__assign({}, tab, { data: tab.data.filter((/**
-             * @param {?} __0
-             * @return {?}
-             */
-            function (_a) {
+        var selectedValues = this.tabs.map(function (tab) { return (__assign({}, tab, { data: tab.data.filter(function (_a) {
                 var selected = _a.selected;
                 return selected;
-            })) })); }));
+            }) })); });
         this.selectionChange.emit(selectedValues);
     };
     /**
@@ -58647,42 +51217,22 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
         Helpers.swallowEvent(event);
         this.showClearAll = false;
         if (this.quickSelectConfig) {
-            this.quickSelectConfig.items.forEach((/**
-             * @param {?} quickSelect
-             * @return {?}
-             */
-            function (quickSelect) {
+            this.quickSelectConfig.items.forEach(function (quickSelect) {
                 delete quickSelect.selected;
-            }));
+            });
         }
-        this.tabs.forEach((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        function (tab) {
+        this.tabs.forEach(function (tab) {
             if (((/** @type {?} */ (tab))).childTypeName) {
-                tab.data.forEach((/**
-                 * @param {?} item
-                 * @return {?}
-                 */
-                function (item) {
+                tab.data.forEach(function (item) {
                     delete item.selected;
                     delete item.indeterminate;
-                    item.children.forEach((/**
-                     * @param {?} child
-                     * @return {?}
-                     */
-                    function (child) { return delete child.selected; }));
-                }));
+                    item.children.forEach(function (child) { return delete child.selected; });
+                });
             }
             else {
-                ((/** @type {?} */ (tab))).data.forEach((/**
-                 * @param {?} item
-                 * @return {?}
-                 */
-                function (item) { return delete item.selected; }));
+                ((/** @type {?} */ (tab))).data.forEach(function (item) { return delete item.selected; });
             }
-        }));
+        });
         this.emitSelectedValues();
         this.ref.markForCheck();
     };
@@ -58722,7 +51272,7 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
         { type: ChangeDetectorRef }
     ]; };
     NovoTabbedGroupPickerElement.propDecorators = {
-        scrollableInstance: [{ type: ViewChild, args: ['tabbedGroupPickerVirtualScrollViewport', { static: false },] }],
+        scrollableInstance: [{ type: ViewChild, args: ['tabbedGroupPickerVirtualScrollViewport',] }],
         buttonConfig: [{ type: Input }],
         tabs: [{ type: Input }],
         quickSelectConfig: [{ type: Input }],
@@ -58730,53 +51280,10 @@ var NovoTabbedGroupPickerElement = /** @class */ (function () {
     };
     return NovoTabbedGroupPickerElement;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTabbedGroupPickerElement.prototype.scrollableInstance;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.buttonConfig;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.tabs;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.quickSelectConfig;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.selectionChange;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.displayTabs;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.displayTabIndex;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.filterText;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.filterTextSubscription;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.loading;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.showClearAll;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.scrollViewportHeight;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.virtualScrollItemSize;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.getSelectedState;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.filter;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.labelService;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTabbedGroupPickerElement.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tabbed-group-picker/TabbedGroupPicker.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoTabbedGroupPickerModule = /** @class */ (function () {
     function NovoTabbedGroupPickerModule() {
@@ -58803,13 +51310,8 @@ var NovoTabbedGroupPickerModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/global/global.service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function Global() { }
 /**
  * @abstract
  */
@@ -58821,13 +51323,6 @@ GlobalRef = /** @class */ (function () {
     }
     return GlobalRef;
 }());
-if (false) {
-    /**
-     * @abstract
-     * @return {?}
-     */
-    GlobalRef.prototype.nativeGlobal = function () { };
-}
 var BrowserGlobalRef = /** @class */ (function (_super) {
     __extends(BrowserGlobalRef, _super);
     function BrowserGlobalRef() {
@@ -58866,8 +51361,7 @@ var NodeGlobalRef = /** @class */ (function (_super) {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/storage/storage.service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var LocalStorageService = /** @class */ (function () {
     function LocalStorageService() {
@@ -58915,8 +51409,7 @@ var LocalStorageService = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/places/places.service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var GooglePlacesService = /** @class */ (function () {
     function GooglePlacesService(_http, platformId, _global, _localStorageService) {
@@ -58935,26 +51428,18 @@ var GooglePlacesService = /** @class */ (function () {
      * @param {?} query
      * @return {?}
      */
-    function (url, query) {
+    function (url, query$$1) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        function (resolve) {
-            _this._http.get(url + '?query=' + query).subscribe((/**
-             * @param {?} data
-             * @return {?}
-             */
-            function (data) {
+        return new Promise(function (resolve) {
+            _this._http.get(url + '?query=' + query$$1).subscribe(function (data) {
                 if (data) {
                     resolve(data);
                 }
                 else {
                     resolve(false);
                 }
-            }));
-        }));
+            });
+        });
     };
     /**
      * @param {?} url
@@ -58970,24 +51455,16 @@ var GooglePlacesService = /** @class */ (function () {
      */
     function (url, lat, lng) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        function (resolve) {
-            _this._http.get(url + '?lat=' + lat + '&lng=' + lng).subscribe((/**
-             * @param {?} data
-             * @return {?}
-             */
-            function (data) {
+        return new Promise(function (resolve) {
+            _this._http.get(url + '?lat=' + lat + '&lng=' + lng).subscribe(function (data) {
                 if (data) {
                     resolve(data);
                 }
                 else {
                     resolve(false);
                 }
-            }));
-        }));
+            });
+        });
     };
     /**
      * @param {?} url
@@ -59001,24 +51478,16 @@ var GooglePlacesService = /** @class */ (function () {
      */
     function (url, placeId) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        function (resolve) {
-            _this._http.get(url + '?query=' + placeId).subscribe((/**
-             * @param {?} data
-             * @return {?}
-             */
-            function (data) {
+        return new Promise(function (resolve) {
+            _this._http.get(url + '?query=' + placeId).subscribe(function (data) {
                 if (data) {
                     resolve(data);
                 }
                 else {
                     resolve(false);
                 }
-            }));
-        }));
+            });
+        });
     };
     /**
      * @return {?}
@@ -59028,24 +51497,16 @@ var GooglePlacesService = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        function (resolve) {
+        return new Promise(function (resolve) {
             if (isPlatformBrowser(_this.platformId)) {
                 /** @type {?} */
                 var _window = _this._global.nativeGlobal;
                 if (_window.navigator.geolocation) {
-                    _window.navigator.geolocation.getCurrentPosition((/**
-                     * @param {?} pos
-                     * @return {?}
-                     */
-                    function (pos) {
+                    _window.navigator.geolocation.getCurrentPosition(function (pos) {
                         /** @type {?} */
                         var latlng = { lat: parseFloat(pos.coords.latitude + ''), lng: parseFloat(pos.coords.longitude + '') };
                         resolve(latlng);
-                    }));
+                    });
                 }
                 else {
                     resolve(false);
@@ -59054,7 +51515,7 @@ var GooglePlacesService = /** @class */ (function () {
             else {
                 resolve(false);
             }
-        }));
+        });
     };
     /**
      * @param {?} latlng
@@ -59066,45 +51527,32 @@ var GooglePlacesService = /** @class */ (function () {
      */
     function (latlng) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        function (resolve) {
+        return new Promise(function (resolve) {
             if (isPlatformBrowser(_this.platformId)) {
                 /** @type {?} */
                 var _window = _this._global.nativeGlobal;
                 /** @type {?} */
                 var geocoder = new _window.google.maps.Geocoder();
-                geocoder.geocode({ location: latlng }, (/**
-                 * @param {?} results
-                 * @param {?} status
-                 * @return {?}
-                 */
-                function (results, status) {
+                geocoder.geocode({ location: latlng }, function (results, status) {
                     if (status === 'OK') {
-                        _this.getGeoPlaceDetail(results[0].place_id).then((/**
-                         * @param {?} result
-                         * @return {?}
-                         */
-                        function (result) {
+                        _this.getGeoPlaceDetail(results[0].place_id).then(function (result) {
                             if (result) {
                                 resolve(result);
                             }
                             else {
                                 resolve(false);
                             }
-                        }));
+                        });
                     }
                     else {
                         resolve(false);
                     }
-                }));
+                });
             }
             else {
                 resolve(false);
             }
-        }));
+        });
     };
     /**
      * @param {?} params
@@ -59116,11 +51564,7 @@ var GooglePlacesService = /** @class */ (function () {
      */
     function (params) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        function (resolve) {
+        return new Promise(function (resolve) {
             if (isPlatformBrowser(_this.platformId)) {
                 /** @type {?} */
                 var _window = _this._global.nativeGlobal;
@@ -59156,11 +51600,7 @@ var GooglePlacesService = /** @class */ (function () {
                 else {
                     promiseArr.push(_this.geoPredictionCall(placesService, queryInput));
                 }
-                Promise.all(promiseArr).then((/**
-                 * @param {?} values
-                 * @return {?}
-                 */
-                function (values) {
+                Promise.all(promiseArr).then(function (values) {
                     /** @type {?} */
                     var val = values;
                     if (val.length > 1) {
@@ -59177,12 +51617,12 @@ var GooglePlacesService = /** @class */ (function () {
                     else {
                         resolve(values[0]);
                     }
-                }));
+                });
             }
             else {
                 resolve(false);
             }
-        }));
+        });
     };
     /**
      * @param {?} placeId
@@ -59194,45 +51634,32 @@ var GooglePlacesService = /** @class */ (function () {
      */
     function (placeId) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        function (resolve) {
+        return new Promise(function (resolve) {
             if (isPlatformBrowser(_this.platformId)) {
                 /** @type {?} */
                 var _window = _this._global.nativeGlobal;
                 /** @type {?} */
                 var placesService = new _window.google.maps.places.PlacesService(document.createElement('div'));
-                placesService.getDetails({ placeId: placeId }, (/**
-                 * @param {?} result
-                 * @param {?} status
-                 * @return {?}
-                 */
-                function (result, status) {
+                placesService.getDetails({ placeId: placeId }, function (result, status) {
                     if (result === null || result.length === 0) {
-                        _this.getGeoPaceDetailByReferance(result.referance).then((/**
-                         * @param {?} referanceData
-                         * @return {?}
-                         */
-                        function (referanceData) {
+                        _this.getGeoPaceDetailByReferance(result.referance).then(function (referanceData) {
                             if (!referanceData) {
                                 resolve(false);
                             }
                             else {
                                 resolve(referanceData);
                             }
-                        }));
+                        });
                     }
                     else {
                         resolve(result);
                     }
-                }));
+                });
             }
             else {
                 resolve(false);
             }
-        }));
+        });
     };
     /**
      * @param {?} referance
@@ -59244,34 +51671,25 @@ var GooglePlacesService = /** @class */ (function () {
      */
     function (referance) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        function (resolve) {
+        return new Promise(function (resolve) {
             if (isPlatformBrowser(_this.platformId)) {
                 /** @type {?} */
                 var _window_1 = _this._global.nativeGlobal;
                 /** @type {?} */
                 var placesService = new _window_1.google.maps.places.PlacesService();
-                placesService.getDetails({ reference: referance }, (/**
-                 * @param {?} result
-                 * @param {?} status
-                 * @return {?}
-                 */
-                function (result, status) {
+                placesService.getDetails({ reference: referance }, function (result, status) {
                     if (status === _window_1.google.maps.places.PlacesServiceStatus.OK) {
                         resolve(result);
                     }
                     else {
                         resolve(false);
                     }
-                }));
+                });
             }
             else {
                 resolve(false);
             }
-        }));
+        });
     };
     /**
      * @param {?} localStorageName
@@ -59287,11 +51705,7 @@ var GooglePlacesService = /** @class */ (function () {
      */
     function (localStorageName, result, itemSavedLength) {
         var _this = this;
-        this.getRecentList(localStorageName).then((/**
-         * @param {?} data
-         * @return {?}
-         */
-        function (data) {
+        this.getRecentList(localStorageName).then(function (data) {
             if (data) {
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].description === result.description) {
@@ -59305,7 +51719,7 @@ var GooglePlacesService = /** @class */ (function () {
                 }
                 _this._localStorageService.setItem(localStorageName, JSON.stringify(data));
             }
-        }));
+        });
     };
     /**
      * @param {?} localStorageName
@@ -59317,11 +51731,7 @@ var GooglePlacesService = /** @class */ (function () {
      */
     function (localStorageName) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        function (resolve) {
+        return new Promise(function (resolve) {
             /** @type {?} */
             var value = _this._localStorageService.getItem(localStorageName);
             if (value) {
@@ -59331,7 +51741,7 @@ var GooglePlacesService = /** @class */ (function () {
                 value = [];
             }
             resolve(value);
-        }));
+        });
     };
     /**
      * @private
@@ -59344,12 +51754,7 @@ var GooglePlacesService = /** @class */ (function () {
      * @return {?}
      */
     function (arr) {
-        return Array.from(arr.reduce((/**
-         * @param {?} m
-         * @param {?} t
-         * @return {?}
-         */
-        function (m, t) { return m.set(t.place_id, t); }), new Map()).values());
+        return Array.from(arr.reduce(function (m, t) { return m.set(t.place_id, t); }, new Map()).values());
     };
     /**
      * @private
@@ -59366,25 +51771,16 @@ var GooglePlacesService = /** @class */ (function () {
     function (placesService, queryInput) {
         /** @type {?} */
         var _window = this._global.nativeGlobal;
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        function (resolve) {
-            placesService.getPlacePredictions(queryInput, (/**
-             * @param {?} result
-             * @param {?} status
-             * @return {?}
-             */
-            function (result, status) {
+        return new Promise(function (resolve) {
+            placesService.getPlacePredictions(queryInput, function (result, status) {
                 if (status === _window.google.maps.places.PlacesServiceStatus.OK) {
                     resolve(result);
                 }
                 else {
                     resolve(false);
                 }
-            }));
-        }));
+            });
+        });
     };
     GooglePlacesService.decorators = [
         { type: Injectable }
@@ -59398,33 +51794,10 @@ var GooglePlacesService = /** @class */ (function () {
     ]; };
     return GooglePlacesService;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    GooglePlacesService.prototype._http;
-    /**
-     * @type {?}
-     * @private
-     */
-    GooglePlacesService.prototype.platformId;
-    /**
-     * @type {?}
-     * @private
-     */
-    GooglePlacesService.prototype._global;
-    /**
-     * @type {?}
-     * @private
-     */
-    GooglePlacesService.prototype._localStorageService;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/app-bridge/AppBridge.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @enum {number} */
 var AppBridgeHandler = {
@@ -59449,44 +51822,6 @@ AppBridgeHandler[AppBridgeHandler.REGISTER] = 'REGISTER';
 AppBridgeHandler[AppBridgeHandler.UPDATE] = 'UPDATE';
 AppBridgeHandler[AppBridgeHandler.REQUEST_DATA] = 'REQUEST_DATA';
 AppBridgeHandler[AppBridgeHandler.CALLBACK] = 'CALLBACK';
-/**
- * @record
- */
-function IAppBridgeOpenEvent() { }
-if (false) {
-    /** @type {?} */
-    IAppBridgeOpenEvent.prototype.type;
-    /** @type {?} */
-    IAppBridgeOpenEvent.prototype.entityType;
-    /** @type {?|undefined} */
-    IAppBridgeOpenEvent.prototype.entityId;
-    /** @type {?|undefined} */
-    IAppBridgeOpenEvent.prototype.tab;
-    /** @type {?|undefined} */
-    IAppBridgeOpenEvent.prototype.data;
-    /** @type {?|undefined} */
-    IAppBridgeOpenEvent.prototype.passthrough;
-}
-/**
- * @record
- */
-function IAppBridgeOpenListEvent() { }
-if (false) {
-    /** @type {?} */
-    IAppBridgeOpenListEvent.prototype.type;
-    /** @type {?} */
-    IAppBridgeOpenListEvent.prototype.keywords;
-    /** @type {?} */
-    IAppBridgeOpenListEvent.prototype.criteria;
-}
-/**
- * @record
- */
-function IAppBridgeRequestDataEvent() { }
-if (false) {
-    /** @type {?} */
-    IAppBridgeRequestDataEvent.prototype.type;
-}
 /** @type {?} */
 var HTTP_VERBS = {
     GET: 'get',
@@ -59544,13 +51879,6 @@ var DevAppBridgeService = /** @class */ (function () {
     };
     return DevAppBridgeService;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DevAppBridgeService.prototype.http;
-}
 var AppBridge = /** @class */ (function () {
     // Type?
     function AppBridge(traceName) {
@@ -59623,235 +51951,115 @@ var AppBridge = /** @class */ (function () {
     function () {
         var _this = this;
         // Register
-        postRobot.on(MESSAGE_TYPES.REGISTER, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.REGISTER, function (event) {
             _this._trace(MESSAGE_TYPES.REGISTER, event);
             _this._registeredFrames.push(event);
-            return _this.register(event.data).then((/**
-             * @param {?} windowName
-             * @return {?}
-             */
-            function (windowName) {
+            return _this.register(event.data).then(function (windowName) {
                 return { windowName: windowName };
-            }));
-        }));
+            });
+        });
         // Update
-        postRobot.on(MESSAGE_TYPES.UPDATE, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.UPDATE, function (event) {
             _this._trace(MESSAGE_TYPES.UPDATE, event);
-            return _this.update(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            function (success) {
+            return _this.update(event.data).then(function (success) {
                 return { success: success };
-            }));
-        }));
+            });
+        });
         // Open
-        postRobot.on(MESSAGE_TYPES.OPEN, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.OPEN, function (event) {
             _this._trace(MESSAGE_TYPES.OPEN, event);
-            return _this.open(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            function (success) {
+            return _this.open(event.data).then(function (success) {
                 return { success: success };
-            }));
-        }));
-        postRobot.on(MESSAGE_TYPES.OPEN_LIST, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+            });
+        });
+        postRobot.on(MESSAGE_TYPES.OPEN_LIST, function (event) {
             _this._trace(MESSAGE_TYPES.OPEN_LIST, event);
-            return _this.openList(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            function (success) {
+            return _this.openList(event.data).then(function (success) {
                 return { success: success };
-            }));
-        }));
+            });
+        });
         // Close
-        postRobot.on(MESSAGE_TYPES.CLOSE, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.CLOSE, function (event) {
             _this._trace(MESSAGE_TYPES.CLOSE, event);
             /** @type {?} */
-            var index = _this._registeredFrames.findIndex((/**
-             * @param {?} frame
-             * @return {?}
-             */
-            function (frame) { return frame.data.id === event.data.id; }));
+            var index = _this._registeredFrames.findIndex(function (frame) { return frame.data.id === event.data.id; });
             if (index !== -1) {
                 _this._registeredFrames.splice(index, 1);
             }
-            return _this.close(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            function (success) {
+            return _this.close(event.data).then(function (success) {
                 return { success: success };
-            }));
-        }));
+            });
+        });
         // Refresh
-        postRobot.on(MESSAGE_TYPES.REFRESH, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.REFRESH, function (event) {
             _this._trace(MESSAGE_TYPES.REFRESH, event);
-            return _this.refresh(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            function (success) {
+            return _this.refresh(event.data).then(function (success) {
                 return { success: success };
-            }));
-        }));
+            });
+        });
         // PIN
-        postRobot.on(MESSAGE_TYPES.PIN, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.PIN, function (event) {
             _this._trace(MESSAGE_TYPES.PIN, event);
-            return _this.pin(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            function (success) {
+            return _this.pin(event.data).then(function (success) {
                 return { success: success };
-            }));
-        }));
+            });
+        });
         // REQUEST_DATA
-        postRobot.on(MESSAGE_TYPES.REQUEST_DATA, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.REQUEST_DATA, function (event) {
             _this._trace(MESSAGE_TYPES.REQUEST_DATA, event);
-            return _this.requestData(event.data).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            function (result) {
+            return _this.requestData(event.data).then(function (result) {
                 return { data: result.data, error: result.error };
-            }));
-        }));
+            });
+        });
         // CALLBACKS
-        postRobot.on(MESSAGE_TYPES.CALLBACK, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.CALLBACK, function (event) {
             _this._trace(MESSAGE_TYPES.CALLBACK, event);
-            return _this.callback(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            function (success) {
+            return _this.callback(event.data).then(function (success) {
                 return { success: success };
-            }));
-        }));
+            });
+        });
         // HTTP-GET
-        postRobot.on(MESSAGE_TYPES.HTTP_GET, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.HTTP_GET, function (event) {
             _this._trace(MESSAGE_TYPES.HTTP_GET, event);
-            return _this.httpGET(event.data.relativeURL).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            function (result) {
+            return _this.httpGET(event.data.relativeURL).then(function (result) {
                 return { data: result.data, error: result.error };
-            }));
-        }));
+            });
+        });
         // HTTP-POST
-        postRobot.on(MESSAGE_TYPES.HTTP_POST, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.HTTP_POST, function (event) {
             _this._trace(MESSAGE_TYPES.HTTP_POST, event);
-            return _this.httpPOST(event.data.relativeURL, event.data.data).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            function (result) {
+            return _this.httpPOST(event.data.relativeURL, event.data.data).then(function (result) {
                 return { data: result.data, error: result.error };
-            }));
-        }));
+            });
+        });
         // HTTP-PUT
-        postRobot.on(MESSAGE_TYPES.HTTP_PUT, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.HTTP_PUT, function (event) {
             _this._trace(MESSAGE_TYPES.HTTP_PUT, event);
-            return _this.httpPUT(event.data.relativeURL, event.data.data).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            function (result) {
+            return _this.httpPUT(event.data.relativeURL, event.data.data).then(function (result) {
                 return { data: result.data, error: result.error };
-            }));
-        }));
+            });
+        });
         // HTTP-DELETE
-        postRobot.on(MESSAGE_TYPES.HTTP_DELETE, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.HTTP_DELETE, function (event) {
             _this._trace(MESSAGE_TYPES.HTTP_DELETE, event);
-            return _this.httpDELETE(event.data.relativeURL).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            function (result) {
+            return _this.httpDELETE(event.data.relativeURL).then(function (result) {
                 return { data: result.data, error: result.error };
-            }));
-        }));
+            });
+        });
         // Custom Events
-        postRobot.on(MESSAGE_TYPES.CUSTOM_EVENT, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        postRobot.on(MESSAGE_TYPES.CUSTOM_EVENT, function (event) {
             _this._trace(MESSAGE_TYPES.CUSTOM_EVENT, event);
             if (_this._eventListeners[event.data.event]) {
-                _this._eventListeners[event.data.event].forEach((/**
-                 * @param {?} listener
-                 * @return {?}
-                 */
-                function (listener) {
+                _this._eventListeners[event.data.event].forEach(function (listener) {
                     listener(event.data.data);
-                }));
+                });
             }
             if (_this._registeredFrames.length > 0) {
-                _this._registeredFrames.forEach((/**
-                 * @param {?} frame
-                 * @return {?}
-                 */
-                function (frame) {
+                _this._registeredFrames.forEach(function (frame) {
                     postRobot.send(frame.source, MESSAGE_TYPES.CUSTOM_EVENT, event.data);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires or responds to an open event
@@ -59869,35 +52077,22 @@ var AppBridge = /** @class */ (function () {
      */
     function (packet) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.OPEN]) {
-                _this._handlers[AppBridgeHandler.OPEN](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                function (success) {
+                _this._handlers[AppBridgeHandler.OPEN](packet, function (success) {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 Object.assign(packet, { id: _this.id, windowName: _this.windowName });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.OPEN, packet)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.OPEN + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -59905,16 +52100,12 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires or responds to an openList event
@@ -59932,25 +52123,16 @@ var AppBridge = /** @class */ (function () {
      */
     function (packet) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.OPEN_LIST]) {
-                _this._handlers[AppBridgeHandler.OPEN_LIST](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                function (success) {
+                _this._handlers[AppBridgeHandler.OPEN_LIST](packet, function (success) {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 /** @type {?} */
@@ -59958,11 +52140,7 @@ var AppBridge = /** @class */ (function () {
                 Object.assign(openListPacket, { type: 'List', entityType: packet.type, keywords: packet.keywords, criteria: packet.criteria });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.OPEN_LIST, packet)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.OPEN_LIST + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -59970,16 +52148,12 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires or responds to an close event
@@ -59997,35 +52171,22 @@ var AppBridge = /** @class */ (function () {
      */
     function (packet) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.UPDATE]) {
-                _this._handlers[AppBridgeHandler.UPDATE](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                function (success) {
+                _this._handlers[AppBridgeHandler.UPDATE](packet, function (success) {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 Object.assign(packet, { id: _this.id, windowName: _this.windowName });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.UPDATE, packet)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.UPDATE + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -60033,16 +52194,12 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires or responds to an close event
@@ -60059,25 +52216,16 @@ var AppBridge = /** @class */ (function () {
      */
     function (packet) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.CLOSE]) {
-                _this._handlers[AppBridgeHandler.CLOSE](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                function (success) {
+                _this._handlers[AppBridgeHandler.CLOSE](packet, function (success) {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 if (packet) {
@@ -60087,11 +52235,7 @@ var AppBridge = /** @class */ (function () {
                 var realPacket = { id: _this.id, windowName: _this.windowName };
                 postRobot
                     .sendToParent(MESSAGE_TYPES.CLOSE, realPacket)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.CLOSE + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -60099,16 +52243,12 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires or responds to an close event
@@ -60125,25 +52265,16 @@ var AppBridge = /** @class */ (function () {
      */
     function (packet) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.REFRESH]) {
-                _this._handlers[AppBridgeHandler.REFRESH](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                function (success) {
+                _this._handlers[AppBridgeHandler.REFRESH](packet, function (success) {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 if (packet) {
@@ -60153,11 +52284,7 @@ var AppBridge = /** @class */ (function () {
                 var realPacket = { id: _this.id, windowName: _this.windowName };
                 postRobot
                     .sendToParent(MESSAGE_TYPES.REFRESH, realPacket)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.REFRESH + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -60165,16 +52292,12 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires or responds to a pin event
@@ -60191,25 +52314,16 @@ var AppBridge = /** @class */ (function () {
      */
     function (packet) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.PIN]) {
-                _this._handlers[AppBridgeHandler.PIN](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                function (success) {
+                _this._handlers[AppBridgeHandler.PIN](packet, function (success) {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 if (packet) {
@@ -60219,11 +52333,7 @@ var AppBridge = /** @class */ (function () {
                 var realPacket = { id: _this.id, windowName: _this.windowName };
                 postRobot
                     .sendToParent(MESSAGE_TYPES.PIN, realPacket)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.PIN + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -60231,16 +52341,12 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires or responds to a requestData event
@@ -60258,35 +52364,22 @@ var AppBridge = /** @class */ (function () {
      */
     function (packet) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.REQUEST_DATA]) {
-                _this._handlers[AppBridgeHandler.REQUEST_DATA](packet, (/**
-                 * @param {?} data
-                 * @return {?}
-                 */
-                function (data) {
+                _this._handlers[AppBridgeHandler.REQUEST_DATA](packet, function (data) {
                     if (data) {
                         resolve({ data: data });
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 Object.assign(packet, { id: _this.id, windowName: _this.windowName });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.REQUEST_DATA, packet)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.REQUEST_DATA + " (callback)", event);
                     if (event.data) {
                         resolve({ data: event.data.data });
@@ -60294,16 +52387,12 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires a generic callback command
@@ -60321,35 +52410,22 @@ var AppBridge = /** @class */ (function () {
      */
     function (packet) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.CALLBACK]) {
-                _this._handlers[AppBridgeHandler.CALLBACK](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                function (success) {
+                _this._handlers[AppBridgeHandler.CALLBACK](packet, function (success) {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 Object.assign(packet, { id: _this.id, windowName: _this.windowName });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.CALLBACK, packet)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.CALLBACK + " (callback)", event);
                     if (event.data) {
                         resolve(true);
@@ -60357,16 +52433,12 @@ var AppBridge = /** @class */ (function () {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires or responds to an register event
@@ -60385,35 +52457,22 @@ var AppBridge = /** @class */ (function () {
     function (packet) {
         var _this = this;
         if (packet === void 0) { packet = {}; }
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.REGISTER]) {
-                _this._handlers[AppBridgeHandler.REGISTER](packet, (/**
-                 * @param {?} windowName
-                 * @return {?}
-                 */
-                function (windowName) {
+                _this._handlers[AppBridgeHandler.REGISTER](packet, function (windowName) {
                     if (windowName) {
                         resolve(windowName);
                     }
                     else {
                         resolve(null);
                     }
-                }));
+                });
             }
             else {
                 Object.assign(packet, { id: _this.id });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.REGISTER, packet)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     _this._trace(MESSAGE_TYPES.REGISTER + " (callback)", event);
                     if (event.data) {
                         _this.windowName = event.data.windowName;
@@ -60422,17 +52481,13 @@ var AppBridge = /** @class */ (function () {
                     else {
                         resolve(null);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     _this._trace(MESSAGE_TYPES.REGISTER + " - FAILED - (no parent)", err);
                     reject(err);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires or responds to an HTTP_GET event
@@ -60450,41 +52505,23 @@ var AppBridge = /** @class */ (function () {
      */
     function (relativeURL) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.HTTP]) {
-                _this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.GET, relativeURL: relativeURL }, (/**
-                 * @param {?} data
-                 * @param {?} error
-                 * @return {?}
-                 */
-                function (data, error) {
+                _this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.GET, relativeURL: relativeURL }, function (data, error) {
                     resolve({ data: data, error: error });
-                }));
+                });
             }
             else {
                 postRobot
                     .sendToParent(MESSAGE_TYPES.HTTP_GET, { relativeURL: relativeURL })
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     resolve({ data: event.data.data, error: event.data.error });
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     reject(null);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires or responds to an HTTP_POST event
@@ -60504,41 +52541,23 @@ var AppBridge = /** @class */ (function () {
      */
     function (relativeURL, postData) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.HTTP]) {
-                _this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.POST, relativeURL: relativeURL, data: postData }, (/**
-                 * @param {?} data
-                 * @param {?} error
-                 * @return {?}
-                 */
-                function (data, error) {
+                _this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.POST, relativeURL: relativeURL, data: postData }, function (data, error) {
                     resolve({ data: data, error: error });
-                }));
+                });
             }
             else {
                 postRobot
                     .sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL: relativeURL, data: postData })
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     resolve({ data: event.data.data, error: event.data.error });
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     reject(null);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires or responds to an HTTP_PUT event
@@ -60558,41 +52577,23 @@ var AppBridge = /** @class */ (function () {
      */
     function (relativeURL, putData) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.HTTP]) {
-                _this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.PUT, relativeURL: relativeURL, data: putData }, (/**
-                 * @param {?} data
-                 * @param {?} error
-                 * @return {?}
-                 */
-                function (data, error) {
+                _this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.PUT, relativeURL: relativeURL, data: putData }, function (data, error) {
                     resolve({ data: data, error: error });
-                }));
+                });
             }
             else {
                 postRobot
                     .sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL: relativeURL, data: putData })
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     resolve({ data: event.data.data, error: event.data.error });
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     reject(null);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires or responds to an HTTP_DELETE event
@@ -60610,41 +52611,23 @@ var AppBridge = /** @class */ (function () {
      */
     function (relativeURL) {
         var _this = this;
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (_this._handlers[AppBridgeHandler.HTTP]) {
-                _this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.DELETE, relativeURL: relativeURL }, (/**
-                 * @param {?} data
-                 * @param {?} error
-                 * @return {?}
-                 */
-                function (data, error) {
+                _this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.DELETE, relativeURL: relativeURL }, function (data, error) {
                     resolve({ data: data, error: error });
-                }));
+                });
             }
             else {
                 postRobot
                     .sendToParent(MESSAGE_TYPES.HTTP_DELETE, { relativeURL: relativeURL })
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                function (event) {
+                    .then(function (event) {
                     resolve({ data: event.data.data, error: event.data.error });
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                function (err) {
+                })
+                    .catch(function (err) {
                     reject(null);
-                }));
+                });
             }
-        }));
+        });
     };
     /**
      * Fires a custom event to anywhere in the application
@@ -60664,29 +52647,16 @@ var AppBridge = /** @class */ (function () {
      * @return {?}
      */
     function (event, data) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             postRobot
                 .sendToParent(MESSAGE_TYPES.CUSTOM_EVENT, { event: event, data: data })
-                .then((/**
-             * @param {?} e
-             * @return {?}
-             */
-            function (e) {
+                .then(function (e) {
                 resolve(e);
-            }))
-                .catch((/**
-             * @param {?} err
-             * @return {?}
-             */
-            function (err) {
+            })
+                .catch(function (err) {
                 reject(null);
-            }));
-        }));
+            });
+        });
     };
     /**
      * Fires a custom event to all registered frames
@@ -60707,16 +52677,12 @@ var AppBridge = /** @class */ (function () {
      */
     function (event, data) {
         if (this._registeredFrames.length > 0) {
-            this._registeredFrames.forEach((/**
-             * @param {?} frame
-             * @return {?}
-             */
-            function (frame) {
+            this._registeredFrames.forEach(function (frame) {
                 postRobot.send(frame.source, MESSAGE_TYPES.CUSTOM_EVENT, {
                     eventType: event,
                     data: data,
                 });
-            }));
+            });
         }
     };
     /**
@@ -60744,34 +52710,6 @@ var AppBridge = /** @class */ (function () {
     };
     return AppBridge;
 }());
-if (false) {
-    /** @type {?} */
-    AppBridge.prototype.id;
-    /** @type {?} */
-    AppBridge.prototype.traceName;
-    /** @type {?} */
-    AppBridge.prototype.windowName;
-    /**
-     * @type {?}
-     * @private
-     */
-    AppBridge.prototype._registeredFrames;
-    /**
-     * @type {?}
-     * @private
-     */
-    AppBridge.prototype._handlers;
-    /**
-     * @type {?}
-     * @private
-     */
-    AppBridge.prototype._tracing;
-    /**
-     * @type {?}
-     * @private
-     */
-    AppBridge.prototype._eventListeners;
-}
 var DevAppBridge = /** @class */ (function (_super) {
     __extends(DevAppBridge, _super);
     function DevAppBridge(traceName, http) {
@@ -60784,15 +52722,10 @@ var DevAppBridge = /** @class */ (function (_super) {
             /** @type {?} */
             var identity = JSON.parse(decodeURIComponent(cookie));
             /** @type {?} */
-            var endpoints = identity.sessions.reduce((/**
-             * @param {?} obj
-             * @param {?} session
-             * @return {?}
-             */
-            function (obj, session) {
+            var endpoints = identity.sessions.reduce(function (obj, session) {
                 obj[session.name] = session.value.endpoint;
                 return obj;
-            }), {});
+            }, {});
             _this.baseURL = endpoints.rest;
         }
         return _this;
@@ -60909,23 +52842,10 @@ var DevAppBridge = /** @class */ (function (_super) {
     };
     return DevAppBridge;
 }(AppBridge));
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DevAppBridge.prototype.baseURL;
-    /**
-     * @type {?}
-     * @private
-     */
-    DevAppBridge.prototype.http;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: novo-elements.providers.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 var NOVO_ELEMENTS_PROVIDERS = [
@@ -60979,26 +52899,8 @@ var NovoElementProviders = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/table-source.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- * @template T
- */
-function ActivityTableService() { }
-if (false) {
-    /**
-     * @param {?} sort
-     * @param {?} filter
-     * @param {?} page
-     * @param {?} pageSize
-     * @param {?=} globalSearch
-     * @param {?=} outsideFilter
-     * @return {?}
-     */
-    ActivityTableService.prototype.getTableResults = function (sort, filter, page, pageSize, globalSearch, outsideFilter) { };
-}
 /**
  * @abstract
  * @template T
@@ -61012,19 +52914,6 @@ RemoteActivityTableService = /** @class */ (function () {
     }
     return RemoteActivityTableService;
 }());
-if (false) {
-    /**
-     * @abstract
-     * @param {?} sort
-     * @param {?} filter
-     * @param {?} page
-     * @param {?} pageSize
-     * @param {?=} globalSearch
-     * @param {?=} outsideFilter
-     * @return {?}
-     */
-    RemoteActivityTableService.prototype.getTableResults = function (sort, filter, page, pageSize, globalSearch, outsideFilter) { };
-}
 /**
  * @template T
  */
@@ -61054,26 +52943,18 @@ StaticActivityTableService = /** @class */ (function () {
      * @param {?=} outsideFilter
      * @return {?}
      */
-    function (sort, filter, page, pageSize, globalSearch, outsideFilter) {
+    function (sort, filter$$1, page, pageSize, globalSearch, outsideFilter) {
         if (page === void 0) { page = 0; }
         /** @type {?} */
         var ret = Helpers.deepClone(this.data);
         if (ret.length !== 0) {
             if (globalSearch) {
-                ret = ret.filter((/**
-                 * @param {?} item
-                 * @return {?}
-                 */
-                function (item) { return Object.keys(item).some((/**
-                 * @param {?} key
-                 * @return {?}
-                 */
-                function (key) { return ("" + item[key]).toLowerCase().includes(globalSearch.toLowerCase()); })); }));
+                ret = ret.filter(function (item) { return Object.keys(item).some(function (key) { return ("" + item[key]).toLowerCase().includes(globalSearch.toLowerCase()); }); });
             }
-            if (filter) {
+            if (filter$$1) {
                 /** @type {?} */
-                var value = Helpers.isString(filter.value) ? filter.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter.value;
-                ret = ret.filter(Helpers.filterByField(filter.id, value));
+                var value = Helpers.isString(filter$$1.value) ? filter$$1.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter$$1.value;
+                ret = ret.filter(Helpers.filterByField(filter$$1.id, value));
             }
             if (sort) {
                 ret = ret.sort(Helpers.sortByField(sort.id, sort.value === 'desc'));
@@ -61086,13 +52967,6 @@ StaticActivityTableService = /** @class */ (function () {
     };
     return StaticActivityTableService;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    StaticActivityTableService.prototype.data;
-}
 /**
  * @template T
  */
@@ -61101,10 +52975,10 @@ var  /**
  */
 ActivityTableDataSource = /** @class */ (function (_super) {
     __extends(ActivityTableDataSource, _super);
-    function ActivityTableDataSource(tableService, state, ref) {
+    function ActivityTableDataSource(tableService, state$$1, ref) {
         var _this = _super.call(this) || this;
         _this.tableService = tableService;
-        _this.state = state;
+        _this.state = state$$1;
         _this.ref = ref;
         _this.total = 0;
         _this.current = 0;
@@ -61142,37 +53016,23 @@ ActivityTableDataSource = /** @class */ (function (_super) {
         var _this = this;
         /** @type {?} */
         var displayDataChanges = [this.state.updates];
-        return merge.apply(void 0, __spread(displayDataChanges)).pipe(startWith(null), switchMap((/**
-         * @return {?}
-         */
-        function () {
+        return merge.apply(void 0, __spread(displayDataChanges)).pipe(startWith(null), switchMap(function () {
             _this.pristine = false;
             _this.loading = true;
             return _this.tableService.getTableResults(_this.state.sort, _this.state.filter, _this.state.page, _this.state.pageSize, _this.state.globalSearch, _this.state.outsideFilter);
-        })), map((/**
-         * @param {?} data
-         * @return {?}
-         */
-        function (data) {
+        }), map(function (data) {
             _this.loading = false;
             _this.total = data.total;
             _this.current = data.results.length;
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
+            setTimeout(function () {
                 _this.ref.markForCheck();
-            }));
+            });
             return data.results;
-        })), catchError((/**
-         * @param {?} error
-         * @return {?}
-         */
-        function (error) {
+        }), catchError(function (error) {
             console.error(error); // tslint: disable-line
             _this.loading = false;
             return of(null);
-        })));
+        }));
     };
     /**
      * @return {?}
@@ -61183,36 +53043,10 @@ ActivityTableDataSource = /** @class */ (function (_super) {
     function () { };
     return ActivityTableDataSource;
 }(DataSource));
-if (false) {
-    /** @type {?} */
-    ActivityTableDataSource.prototype.total;
-    /** @type {?} */
-    ActivityTableDataSource.prototype.current;
-    /** @type {?} */
-    ActivityTableDataSource.prototype.loading;
-    /** @type {?} */
-    ActivityTableDataSource.prototype.pristine;
-    /**
-     * @type {?}
-     * @private
-     */
-    ActivityTableDataSource.prototype.tableService;
-    /**
-     * @type {?}
-     * @private
-     */
-    ActivityTableDataSource.prototype.state;
-    /**
-     * @type {?}
-     * @private
-     */
-    ActivityTableDataSource.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/state.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoActivityTableState = /** @class */ (function () {
     function NovoActivityTableState() {
@@ -61266,33 +53100,10 @@ var NovoActivityTableState = /** @class */ (function () {
     };
     return NovoActivityTableState;
 }());
-if (false) {
-    /** @type {?} */
-    NovoActivityTableState.prototype.id;
-    /** @type {?} */
-    NovoActivityTableState.prototype.sort;
-    /** @type {?} */
-    NovoActivityTableState.prototype.filter;
-    /** @type {?} */
-    NovoActivityTableState.prototype.page;
-    /** @type {?} */
-    NovoActivityTableState.prototype.pageSize;
-    /** @type {?} */
-    NovoActivityTableState.prototype.globalSearch;
-    /** @type {?} */
-    NovoActivityTableState.prototype.selectedRows;
-    /** @type {?} */
-    NovoActivityTableState.prototype.outsideFilter;
-    /** @type {?} */
-    NovoActivityTableState.prototype.updates;
-    /** @type {?} */
-    NovoActivityTableState.prototype.onReset;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/table.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
@@ -61371,10 +53182,10 @@ var NovoActivityTableNoResultsMessage = /** @class */ (function () {
  * @template T
  */
 var NovoActivityTable = /** @class */ (function () {
-    function NovoActivityTable(labels, ref, state) {
+    function NovoActivityTable(labels, ref, state$$1) {
         this.labels = labels;
         this.ref = ref;
-        this.state = state;
+        this.state = state$$1;
         this.globalSearchHiddenClassToggle = false;
         this.loading = true;
         notify('[Deprecated]: The simple table is deprecated. Please migrate to novo-data-tables!');
@@ -61487,15 +53298,11 @@ var NovoActivityTable = /** @class */ (function () {
         }
         if (changes['outsideFilter'] && changes['outsideFilter'].currentValue) {
             if (!this.outsideFilterSubscription) {
-                this.outsideFilterSubscription = this.outsideFilter.subscribe((/**
-                 * @param {?} filter
-                 * @return {?}
-                 */
-                function (filter) {
-                    _this.state.outsideFilter = filter;
+                this.outsideFilterSubscription = this.outsideFilter.subscribe(function (filter$$1) {
+                    _this.state.outsideFilter = filter$$1;
                     _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort });
                     _this.ref.markForCheck();
-                }));
+                });
             }
         }
     };
@@ -61576,73 +53383,14 @@ var NovoActivityTable = /** @class */ (function () {
     };
     return NovoActivityTable;
 }());
-if (false) {
-    /** @type {?} */
-    NovoActivityTable.prototype.globalSearchHiddenClassToggle;
-    /** @type {?} */
-    NovoActivityTable.prototype.activityService;
-    /** @type {?} */
-    NovoActivityTable.prototype.columns;
-    /** @type {?} */
-    NovoActivityTable.prototype.displayedColumns;
-    /** @type {?} */
-    NovoActivityTable.prototype.actionColumns;
-    /** @type {?} */
-    NovoActivityTable.prototype.paginationOptions;
-    /** @type {?} */
-    NovoActivityTable.prototype.searchOptions;
-    /** @type {?} */
-    NovoActivityTable.prototype.defaultSort;
-    /** @type {?} */
-    NovoActivityTable.prototype.outsideFilter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoActivityTable.prototype._customFilter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoActivityTable.prototype._forceShowHeader;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoActivityTable.prototype._hideGlobalSearch;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoActivityTable.prototype._debug;
-    /** @type {?} */
-    NovoActivityTable.prototype.dataSource;
-    /** @type {?} */
-    NovoActivityTable.prototype.loading;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoActivityTable.prototype.outsideFilterSubscription;
-    /** @type {?} */
-    NovoActivityTable.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoActivityTable.prototype.ref;
-    /** @type {?} */
-    NovoActivityTable.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/sort.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoSortFilter = /** @class */ (function () {
-    function NovoSortFilter(state) {
-        this.state = state;
+    function NovoSortFilter(state$$1) {
+        this.state = state$$1;
     }
     /**
      * @param {?} id
@@ -61658,16 +53406,16 @@ var NovoSortFilter = /** @class */ (function () {
      */
     function (id, value, transform) {
         /** @type {?} */
-        var filter;
+        var filter$$1;
         if (!Helpers.isBlank(value)) {
-            filter = { id: id, value: value, transform: transform };
+            filter$$1 = { id: id, value: value, transform: transform };
         }
         else {
-            filter = undefined;
+            filter$$1 = undefined;
         }
-        this.state.filter = filter;
+        this.state.filter = filter$$1;
         this.state.reset(false, true);
-        this.state.updates.next({ filter: filter, sort: this.state.sort });
+        this.state.updates.next({ filter: filter$$1, sort: this.state.sort });
     };
     /**
      * @param {?} id
@@ -61699,16 +53447,9 @@ var NovoSortFilter = /** @class */ (function () {
     ]; };
     return NovoSortFilter;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSortFilter.prototype.state;
-}
 var NovoSelection = /** @class */ (function () {
-    function NovoSelection(state) {
-        this.state = state;
+    function NovoSelection(state$$1) {
+        this.state = state$$1;
         this.novoSelectAllToggle = new EventEmitter();
         this.allRows = new Map();
     }
@@ -61738,14 +53479,11 @@ var NovoSelection = /** @class */ (function () {
         this.allRows.delete(id);
         this.state.selectedRows.delete(id);
         clearTimeout(this.throttleTimeout);
-        this.throttleTimeout = setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        this.throttleTimeout = setTimeout(function () {
             if (_this.state.selectedRows.size === 0) {
                 _this.novoSelectAllToggle.emit(false);
             }
-        }));
+        });
     };
     /**
      * @return {?}
@@ -61808,24 +53546,10 @@ var NovoSelection = /** @class */ (function () {
     };
     return NovoSelection;
 }());
-if (false) {
-    /** @type {?} */
-    NovoSelection.prototype.novoSelectAllToggle;
-    /** @type {?} */
-    NovoSelection.prototype.allRows;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSelection.prototype.throttleTimeout;
-    /** @type {?} */
-    NovoSelection.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/cell.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
@@ -61882,10 +53606,6 @@ var NovoSimpleColumnDef = /** @class */ (function (_super) {
     };
     return NovoSimpleColumnDef;
 }(_NovoColumnDef));
-if (false) {
-    /** @type {?} */
-    NovoSimpleColumnDef.prototype.name;
-}
 /**
  * @template T
  */
@@ -61931,22 +53651,6 @@ var NovoSimpleHeaderCell = /** @class */ (function (_super) {
     };
     return NovoSimpleHeaderCell;
 }(_NovoHeaderCell));
-if (false) {
-    /** @type {?} */
-    NovoSimpleHeaderCell.prototype.role;
-    /** @type {?} */
-    NovoSimpleHeaderCell.prototype.column;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleHeaderCell.prototype.elementRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleHeaderCell.prototype.renderer;
-}
 var NovoSimpleEmptyHeaderCell = /** @class */ (function (_super) {
     __extends(NovoSimpleEmptyHeaderCell, _super);
     function NovoSimpleEmptyHeaderCell(columnDef, elementRef, renderer) {
@@ -61973,10 +53677,6 @@ var NovoSimpleEmptyHeaderCell = /** @class */ (function (_super) {
     };
     return NovoSimpleEmptyHeaderCell;
 }(_NovoHeaderCell));
-if (false) {
-    /** @type {?} */
-    NovoSimpleEmptyHeaderCell.prototype.role;
-}
 var NovoSimpleCheckboxHeaderCell = /** @class */ (function (_super) {
     __extends(NovoSimpleCheckboxHeaderCell, _super);
     function NovoSimpleCheckboxHeaderCell(columnDef, elementRef, renderer, ref, _selection) {
@@ -61987,14 +53687,10 @@ var NovoSimpleCheckboxHeaderCell = /** @class */ (function (_super) {
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-checkbox-column-header-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, "novo-checkbox-column-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, 'novo-simple-checkbox-header-cell');
-        _this.selectAllSubscription = _selection.novoSelectAllToggle.subscribe((/**
-         * @param {?} value
-         * @return {?}
-         */
-        function (value) {
+        _this.selectAllSubscription = _selection.novoSelectAllToggle.subscribe(function (value) {
             _this.selectAll = value;
             ref.markForCheck();
-        }));
+        });
         return _this;
     }
     /**
@@ -62036,22 +53732,6 @@ var NovoSimpleCheckboxHeaderCell = /** @class */ (function (_super) {
     };
     return NovoSimpleCheckboxHeaderCell;
 }(_NovoHeaderCell));
-if (false) {
-    /** @type {?} */
-    NovoSimpleCheckboxHeaderCell.prototype.role;
-    /** @type {?} */
-    NovoSimpleCheckboxHeaderCell.prototype.selectAll;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCheckboxHeaderCell.prototype.selectAllSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCheckboxHeaderCell.prototype._selection;
-}
 /**
  * @template T
  */
@@ -62124,28 +53804,11 @@ var NovoSimpleCell = /** @class */ (function (_super) {
     NovoSimpleCell.propDecorators = {
         role: [{ type: HostBinding, args: ['attr.role',] }],
         row: [{ type: Input }],
-        column: [{ type: Input }]
+        column: [{ type: Input }],
+        spanElement: [{ type: ViewChild, args: ['span',] }]
     };
     return NovoSimpleCell;
 }(_NovoCell));
-if (false) {
-    /** @type {?} */
-    NovoSimpleCell.prototype.role;
-    /** @type {?} */
-    NovoSimpleCell.prototype.row;
-    /** @type {?} */
-    NovoSimpleCell.prototype.column;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCell.prototype.elementRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCell.prototype.renderer;
-}
 var NovoSimpleCheckboxCell = /** @class */ (function (_super) {
     __extends(NovoSimpleCheckboxCell, _super);
     function NovoSimpleCheckboxCell(columnDef, elementRef, renderer, _selection) {
@@ -62157,13 +53820,9 @@ var NovoSimpleCheckboxCell = /** @class */ (function (_super) {
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', "novo-checkbox-column-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, "novo-checkbox-column-" + columnDef.cssClassFriendlyName);
         renderer.addClass(elementRef.nativeElement, 'novo-simple-checkbox-cell');
-        _this.selectAllSubscription = _selection.novoSelectAllToggle.subscribe((/**
-         * @param {?} value
-         * @return {?}
-         */
-        function (value) {
+        _this.selectAllSubscription = _selection.novoSelectAllToggle.subscribe(function (value) {
             _this.selected = value;
-        }));
+        });
         return _this;
     }
     /**
@@ -62217,25 +53876,6 @@ var NovoSimpleCheckboxCell = /** @class */ (function (_super) {
     };
     return NovoSimpleCheckboxCell;
 }(_NovoCell));
-if (false) {
-    /** @type {?} */
-    NovoSimpleCheckboxCell.prototype.role;
-    /** @type {?} */
-    NovoSimpleCheckboxCell.prototype.row;
-    /** @type {?} */
-    NovoSimpleCheckboxCell.prototype.index;
-    /** @type {?} */
-    NovoSimpleCheckboxCell.prototype.selected;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCheckboxCell.prototype.selectAllSubscription;
-    /** @type {?} */
-    NovoSimpleCheckboxCell.prototype.columnDef;
-    /** @type {?} */
-    NovoSimpleCheckboxCell.prototype._selection;
-}
 /**
  * @template T
  */
@@ -62304,31 +53944,10 @@ var NovoSimpleActionCell = /** @class */ (function (_super) {
     };
     return NovoSimpleActionCell;
 }(_NovoCell));
-if (false) {
-    /** @type {?} */
-    NovoSimpleActionCell.prototype.role;
-    /** @type {?} */
-    NovoSimpleActionCell.prototype.row;
-    /** @type {?} */
-    NovoSimpleActionCell.prototype.column;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleActionCell.prototype.elementRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleActionCell.prototype.renderer;
-    /** @type {?} */
-    NovoSimpleActionCell.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/row.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
@@ -62357,10 +53976,6 @@ var NovoSimpleHeaderRowDef = /** @class */ (function (_super) {
     };
     return NovoSimpleHeaderRowDef;
 }(_NovoHeaderRowDef));
-if (false) {
-    /** @type {?} */
-    NovoSimpleHeaderRowDef.prototype.columns;
-}
 /**
  * @template T
  */
@@ -62380,10 +53995,6 @@ var NovoSimpleRowDef = /** @class */ (function (_super) {
     };
     return NovoSimpleRowDef;
 }(_NovoCdkRowDef));
-if (false) {
-    /** @type {?} */
-    NovoSimpleRowDef.prototype.columns;
-}
 var NovoSimpleHeaderRow = /** @class */ (function (_super) {
     __extends(NovoSimpleHeaderRow, _super);
     function NovoSimpleHeaderRow() {
@@ -62405,12 +54016,6 @@ var NovoSimpleHeaderRow = /** @class */ (function (_super) {
     };
     return NovoSimpleHeaderRow;
 }(_NovoHeaderRow));
-if (false) {
-    /** @type {?} */
-    NovoSimpleHeaderRow.prototype.rowClass;
-    /** @type {?} */
-    NovoSimpleHeaderRow.prototype.role;
-}
 var NovoSimpleRow = /** @class */ (function (_super) {
     __extends(NovoSimpleRow, _super);
     function NovoSimpleRow() {
@@ -62432,17 +54037,10 @@ var NovoSimpleRow = /** @class */ (function (_super) {
     };
     return NovoSimpleRow;
 }(_NovoRow));
-if (false) {
-    /** @type {?} */
-    NovoSimpleRow.prototype.rowClass;
-    /** @type {?} */
-    NovoSimpleRow.prototype.role;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/cell-header.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoSimpleFilterFocus = /** @class */ (function () {
     function NovoSimpleFilterFocus(element) {
@@ -62468,30 +54066,19 @@ var NovoSimpleFilterFocus = /** @class */ (function () {
     ]; };
     return NovoSimpleFilterFocus;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleFilterFocus.prototype.element;
-}
 var NovoSimpleCellHeader = /** @class */ (function () {
-    function NovoSimpleCellHeader(changeDetectorRef, labels, state, _sort, _cdkColumnDef) {
+    function NovoSimpleCellHeader(changeDetectorRef, labels, state$$1, _sort, _cdkColumnDef) {
         var _this = this;
         this.changeDetectorRef = changeDetectorRef;
         this.labels = labels;
-        this.state = state;
+        this.state = state$$1;
         this._sort = _sort;
         this._cdkColumnDef = _cdkColumnDef;
         this.icon = 'sortable';
         this.filterActive = false;
         this.sortActive = false;
         this.showCustomRange = false;
-        this._rerenderSubscription = state.updates.subscribe((/**
-         * @param {?} change
-         * @return {?}
-         */
-        function (change) {
+        this._rerenderSubscription = state$$1.updates.subscribe(function (change) {
             if (change.sort && change.sort.id === _this.id) {
                 _this.icon = "sort-" + change.sort.value;
                 _this.sortActive = true;
@@ -62509,7 +54096,7 @@ var NovoSimpleCellHeader = /** @class */ (function () {
                 _this.filter = undefined;
             }
             changeDetectorRef.markForCheck();
-        }));
+        });
     }
     Object.defineProperty(NovoSimpleCellHeader.prototype, "config", {
         get: /**
@@ -62585,14 +54172,11 @@ var NovoSimpleCellHeader = /** @class */ (function () {
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
         }
-        this.changeTimeout = setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        this.changeTimeout = setTimeout(function () {
             _this.direction = _this.getNextSortDirection(_this.direction);
             _this._sort.sort(_this.id, _this.direction, _this._config.transforms.sort);
             _this.changeDetectorRef.markForCheck();
-        }), 300);
+        }, 300);
     };
     /**
      * @param {?} event
@@ -62618,41 +54202,38 @@ var NovoSimpleCellHeader = /** @class */ (function () {
      * @param {?=} filter
      * @return {?}
      */
-    function (filter) {
+    function (filter$$1) {
         var _this = this;
         /** @type {?} */
-        var actualFilter = filter;
-        if (this.config.filterConfig.type === 'date' && filter) {
-            this.activeDateFilter = filter.label || this.labels.customDateRange;
-            if (filter.startDate && filter.endDate) {
+        var actualFilter = filter$$1;
+        if (this.config.filterConfig.type === 'date' && filter$$1) {
+            this.activeDateFilter = filter$$1.label || this.labels.customDateRange;
+            if (filter$$1.startDate && filter$$1.endDate) {
                 actualFilter = {
-                    min: startOfDay(filter.startDate.date),
-                    max: startOfDay(addDays(startOfDay(filter.endDate.date), 1)),
+                    min: startOfDay(filter$$1.startDate.date),
+                    max: startOfDay(addDays(startOfDay(filter$$1.endDate.date), 1)),
                 };
             }
             else {
                 actualFilter = {
-                    min: filter.min ? addDays(startOfToday(), filter.min) : startOfToday(),
-                    max: filter.max ? addDays(startOfTomorrow(), filter.max) : startOfTomorrow(),
+                    min: filter$$1.min ? addDays(startOfToday(), filter$$1.min) : startOfToday(),
+                    max: filter$$1.max ? addDays(startOfTomorrow(), filter$$1.max) : startOfTomorrow(),
                 };
             }
         }
         if (actualFilter && actualFilter.hasOwnProperty('value')) {
-            actualFilter = filter.value;
+            actualFilter = filter$$1.value;
         }
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
         }
-        this.changeTimeout = setTimeout((/**
-         * @return {?}
-         */
-        function () {
+        this.changeTimeout = setTimeout(function () {
             if (actualFilter === '') {
                 actualFilter = undefined;
             }
             _this._sort.filter(_this.id, actualFilter, _this.config.transforms.filter);
             _this.changeDetectorRef.markForCheck();
-        }), 300);
+        }, 300);
     };
     /**
      * @return {?}
@@ -62725,94 +54306,36 @@ var NovoSimpleCellHeader = /** @class */ (function () {
         { type: CdkColumnDef, decorators: [{ type: Optional }] }
     ]; };
     NovoSimpleCellHeader.propDecorators = {
-        dropdown: [{ type: ViewChild, args: [NovoDropdownElement, { static: false },] }],
+        dropdown: [{ type: ViewChild, args: [NovoDropdownElement,] }],
         defaultSort: [{ type: Input }],
         config: [{ type: Input, args: ['novo-simple-cell-config',] }]
     };
     return NovoSimpleCellHeader;
 }());
-if (false) {
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.dropdown;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.defaultSort;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCellHeader.prototype._config;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCellHeader.prototype._rerenderSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCellHeader.prototype.changeTimeout;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.icon;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.id;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.filter;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.direction;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.filterActive;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.sortActive;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.showCustomRange;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.activeDateFilter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCellHeader.prototype.changeDetectorRef;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCellHeader.prototype.state;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype._sort;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype._cdkColumnDef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/pagination.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 var DEFAULT_PAGE_SIZE = 50;
 var NovoSimpleTablePagination = /** @class */ (function () {
-    function NovoSimpleTablePagination(changeDetectorRef, labels, state) {
+    function NovoSimpleTablePagination(changeDetectorRef, labels, state$$1) {
         var _this = this;
         this.changeDetectorRef = changeDetectorRef;
         this.labels = labels;
-        this.state = state;
+        this.state = state$$1;
         this._page = 0;
         this._length = 0;
         this._pageSizeOptions = [];
         this.pageChange = new EventEmitter();
-        if (state && state.onReset) {
-            this.resetSubscription = this.state.onReset.subscribe((/**
-             * @param {?} clear
-             * @return {?}
-             */
-            function (clear) {
+        if (state$$1 && state$$1.onReset) {
+            this.resetSubscription = this.state.onReset.subscribe(function (clear) {
                 if (clear) {
                     _this.page = 0;
                     _this.changeDetectorRef.markForCheck();
                 }
-            }));
+            });
         }
     }
     Object.defineProperty(NovoSimpleTablePagination.prototype, "page", {
@@ -62990,12 +54513,7 @@ var NovoSimpleTablePagination = /** @class */ (function () {
         if (this.displayedPageSizeOptions.indexOf(this.pageSize) === -1) {
             this.displayedPageSizeOptions.push(this.pageSize);
         }
-        this.displayedPageSizeOptions.sort((/**
-         * @param {?} a
-         * @param {?} b
-         * @return {?}
-         */
-        function (a, b) { return a - b; }));
+        this.displayedPageSizeOptions.sort(function (a, b) { return a - b; });
         this.changeDetectorRef.markForCheck();
         this.longRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, false);
         this.shortRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, true);
@@ -63044,57 +54562,10 @@ var NovoSimpleTablePagination = /** @class */ (function () {
     };
     return NovoSimpleTablePagination;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleTablePagination.prototype._initialized;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype._page;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype._length;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleTablePagination.prototype._pageSize;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleTablePagination.prototype._pageSizeOptions;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype.pageChange;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype.displayedPageSizeOptions;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype.longRangeLabel;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype.shortRangeLabel;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleTablePagination.prototype.resetSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleTablePagination.prototype.changeDetectorRef;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleTablePagination.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/simple-table.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoSimpleTableModule = /** @class */ (function () {
     function NovoSimpleTableModule() {
@@ -63175,8 +54646,7 @@ var NovoSimpleTableModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/popover/PopOverContent.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var PopOverContent = /** @class */ (function () {
     function PopOverContent(element, cdr) {
@@ -63285,45 +54755,27 @@ var PopOverContent = /** @class */ (function () {
         var targetElHeight = targetEl.offsetHeight;
         /** @type {?} */
         var shiftWidth = {
-            center: (/**
-             * @return {?}
-             */
-            function () {
+            center: function () {
                 return hostElPos.left + (hostElPos.width - targetElWidth) / 2;
-            }),
-            right: (/**
-             * @return {?}
-             */
-            function () {
+            },
+            right: function () {
                 return hostElPos.left;
-            }),
-            left: (/**
-             * @return {?}
-             */
-            function () {
+            },
+            left: function () {
                 return hostElPos.left + (hostElPos.width - targetElWidth);
-            }),
+            },
         };
         /** @type {?} */
         var shiftHeight = {
-            center: (/**
-             * @return {?}
-             */
-            function () {
+            center: function () {
                 return hostElPos.top + (hostElPos.height - targetElHeight) / 2;
-            }),
-            bottom: (/**
-             * @return {?}
-             */
-            function () {
+            },
+            bottom: function () {
                 return hostElPos.top;
-            }),
-            top: (/**
-             * @return {?}
-             */
-            function () {
+            },
+            top: function () {
                 return hostElPos.top + (hostElPos.height - targetElHeight);
-            }),
+            },
         };
         /** @type {?} */
         var targetElPos;
@@ -63505,53 +54957,14 @@ var PopOverContent = /** @class */ (function () {
         placement: [{ type: Input }],
         title: [{ type: Input }],
         animation: [{ type: Input }],
-        popoverDiv: [{ type: ViewChild, args: ['popoverDiv', { static: false },] }]
+        popoverDiv: [{ type: ViewChild, args: ['popoverDiv',] }]
     };
     return PopOverContent;
 }());
-if (false) {
-    /** @type {?} */
-    PopOverContent.prototype.content;
-    /** @type {?} */
-    PopOverContent.prototype.placement;
-    /** @type {?} */
-    PopOverContent.prototype.title;
-    /** @type {?} */
-    PopOverContent.prototype.animation;
-    /** @type {?} */
-    PopOverContent.prototype.popoverDiv;
-    /** @type {?} */
-    PopOverContent.prototype.popover;
-    /** @type {?} */
-    PopOverContent.prototype.onCloseFromOutside;
-    /** @type {?} */
-    PopOverContent.prototype.top;
-    /** @type {?} */
-    PopOverContent.prototype.left;
-    /** @type {?} */
-    PopOverContent.prototype.displayType;
-    /** @type {?} */
-    PopOverContent.prototype.effectivePlacement;
-    /** @type {?} */
-    PopOverContent.prototype.effectiveAlignment;
-    /** @type {?} */
-    PopOverContent.prototype.isHidden;
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverContent.prototype.element;
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverContent.prototype.cdr;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/popover/PopOver.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var PopOverDirective = /** @class */ (function () {
     function PopOverDirective(viewContainerRef, resolver) {
@@ -63675,15 +55088,9 @@ var PopOverDirective = /** @class */ (function () {
             if (this.popoverTitle !== undefined) {
                 popover.title = this.popoverTitle;
             }
-            popover.onCloseFromOutside.subscribe((/**
-             * @return {?}
-             */
-            function () { return _this.hide(); }));
+            popover.onCloseFromOutside.subscribe(function () { return _this.hide(); });
             if (this.popoverDismissTimeout > 0) {
-                setTimeout((/**
-                 * @return {?}
-                 */
-                function () { return _this.hide(); }), this.popoverDismissTimeout);
+                setTimeout(function () { return _this.hide(); }, this.popoverDismissTimeout);
             }
         }
         else {
@@ -63699,15 +55106,9 @@ var PopOverDirective = /** @class */ (function () {
             if (this.popoverTitle !== undefined) {
                 popover.title = this.popoverTitle;
             }
-            popover.onCloseFromOutside.subscribe((/**
-             * @return {?}
-             */
-            function () { return _this.hide(); }));
+            popover.onCloseFromOutside.subscribe(function () { return _this.hide(); });
             if (this.popoverDismissTimeout > 0) {
-                setTimeout((/**
-                 * @return {?}
-                 */
-                function () { return _this.hide(); }), this.popoverDismissTimeout);
+                setTimeout(function () { return _this.hide(); }, this.popoverDismissTimeout);
             }
             popover.show();
         }
@@ -63768,58 +55169,10 @@ var PopOverDirective = /** @class */ (function () {
     };
     return PopOverDirective;
 }());
-if (false) {
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverDirective.prototype.PopoverComponent;
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverDirective.prototype.popover;
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverDirective.prototype.visible;
-    /** @type {?} */
-    PopOverDirective.prototype.content;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverDisabled;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverAlways;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverAnimation;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverPlacement;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverTitle;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverOnHover;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverDismissTimeout;
-    /** @type {?} */
-    PopOverDirective.prototype.onShown;
-    /** @type {?} */
-    PopOverDirective.prototype.onHidden;
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverDirective.prototype.viewContainerRef;
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverDirective.prototype.resolver;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/popover/PopOver.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoPopOverModule = /** @class */ (function () {
     function NovoPopOverModule() {
@@ -63836,59 +55189,8 @@ var NovoPopOverModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/places/places.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function Settings() { }
-if (false) {
-    /** @type {?|undefined} */
-    Settings.prototype.geoPredictionServerUrl;
-    /** @type {?|undefined} */
-    Settings.prototype.geoLatLangServiceUrl;
-    /** @type {?|undefined} */
-    Settings.prototype.geoLocDetailServerUrl;
-    /** @type {?|undefined} */
-    Settings.prototype.geoCountryRestriction;
-    /** @type {?|undefined} */
-    Settings.prototype.geoTypes;
-    /** @type {?|undefined} */
-    Settings.prototype.geoLocation;
-    /** @type {?|undefined} */
-    Settings.prototype.geoRadius;
-    /** @type {?|undefined} */
-    Settings.prototype.serverResponseListHierarchy;
-    /** @type {?|undefined} */
-    Settings.prototype.serverResponseatLangHierarchy;
-    /** @type {?|undefined} */
-    Settings.prototype.serverResponseDetailHierarchy;
-    /** @type {?|undefined} */
-    Settings.prototype.resOnSearchButtonClickOnly;
-    /** @type {?|undefined} */
-    Settings.prototype.useGoogleGeoApi;
-    /** @type {?|undefined} */
-    Settings.prototype.inputPlaceholderText;
-    /** @type {?|undefined} */
-    Settings.prototype.inputString;
-    /** @type {?|undefined} */
-    Settings.prototype.showSearchButton;
-    /** @type {?|undefined} */
-    Settings.prototype.showRecentSearch;
-    /** @type {?|undefined} */
-    Settings.prototype.showCurrentLocation;
-    /** @type {?|undefined} */
-    Settings.prototype.recentStorageName;
-    /** @type {?|undefined} */
-    Settings.prototype.noOfRecentSearchSave;
-    /** @type {?|undefined} */
-    Settings.prototype.currentLocIconUrl;
-    /** @type {?|undefined} */
-    Settings.prototype.searchIconUrl;
-    /** @type {?|undefined} */
-    Settings.prototype.locationIconUrl;
-}
 var PlacesListComponent = /** @class */ (function () {
     function PlacesListComponent(platformId, _elmRef, _global, _googlePlacesService) {
         this.platformId = platformId;
@@ -64087,9 +55389,6 @@ var PlacesListComponent = /** @class */ (function () {
         if (_userOption) {
             this.select.emit(this.userSelectedOption);
         }
-        else {
-            // this.select.emit(false);
-        }
     };
     // function to get user current location from the device.
     // function to get user current location from the device.
@@ -64106,18 +55405,14 @@ var PlacesListComponent = /** @class */ (function () {
         if (isPlatformBrowser(this.platformId)) {
             this.gettingCurrentLocationFlag = true;
             this.dropdownOpen = false;
-            this._googlePlacesService.getGeoCurrentLocation().then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            function (result) {
+            this._googlePlacesService.getGeoCurrentLocation().then(function (result) {
                 if (!result) {
                     _this.gettingCurrentLocationFlag = false;
                 }
                 else {
                     _this.getCurrentLocationInfo(result);
                 }
-            }));
+            });
         }
     };
     // module initialization happens. function called by ngOninit and ngOnChange
@@ -64256,23 +55551,15 @@ var PlacesListComponent = /** @class */ (function () {
                 _tempParams.geoLocation = this.settings.geoLocation;
                 _tempParams.radius = this.settings.geoRadius;
             }
-            this._googlePlacesService.getGeoPrediction(_tempParams).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            function (result) {
+            this._googlePlacesService.getGeoPrediction(_tempParams).then(function (result) {
                 _this.updateListItem(result);
-            }));
+            });
         }
         else {
-            this._googlePlacesService.getPredictions(this.settings.geoPredictionServerUrl, value).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            function (result) {
+            this._googlePlacesService.getPredictions(this.settings.geoPredictionServerUrl, value).then(function (result) {
                 result = _this.extractServerList(_this.settings.serverResponseListHierarchy, result);
                 _this.updateListItem(result);
-            }));
+            });
         }
     };
     // function to extratc custom data which is send by the server.
@@ -64349,18 +55636,14 @@ var PlacesListComponent = /** @class */ (function () {
         var _this = this;
         this.recentDropdownOpen = true;
         this.dropdownOpen = true;
-        this._googlePlacesService.getRecentList(this.settings.recentStorageName).then((/**
-         * @param {?} result
-         * @return {?}
-         */
-        function (result) {
+        this._googlePlacesService.getRecentList(this.settings.recentStorageName).then(function (result) {
             if (result) {
                 _this.queryItems = result;
             }
             else {
                 _this.queryItems = [];
             }
-        }));
+        });
     };
     // //function to navigate through list when up and down keyboard key is pressed;
     // private navigateInList(keyCode: number): any {
@@ -64439,29 +55722,21 @@ var PlacesListComponent = /** @class */ (function () {
     function (latlng) {
         var _this = this;
         if (this.settings.useGoogleGeoApi) {
-            this._googlePlacesService.getGeoLatLngDetail(latlng).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            function (result) {
+            this._googlePlacesService.getGeoLatLngDetail(latlng).then(function (result) {
                 if (result) {
                     _this.setRecentLocation(result);
                 }
                 _this.gettingCurrentLocationFlag = false;
-            }));
+            });
         }
         else {
-            this._googlePlacesService.getLatLngDetail(this.settings.geoLatLangServiceUrl, latlng.lat, latlng.lng).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            function (result) {
+            this._googlePlacesService.getLatLngDetail(this.settings.geoLatLangServiceUrl, latlng.lat, latlng.lng).then(function (result) {
                 if (result) {
                     result = _this.extractServerList(_this.settings.serverResponseatLangHierarchy, result);
                     _this.setRecentLocation(result);
                 }
                 _this.gettingCurrentLocationFlag = false;
-            }));
+            });
         }
     };
     // function to retrive the location info based on goovle place id.
@@ -64481,27 +55756,19 @@ var PlacesListComponent = /** @class */ (function () {
     function (selectedData) {
         var _this = this;
         if (this.settings.useGoogleGeoApi) {
-            this._googlePlacesService.getGeoPlaceDetail(selectedData.place_id).then((/**
-             * @param {?} data
-             * @return {?}
-             */
-            function (data) {
+            this._googlePlacesService.getGeoPlaceDetail(selectedData.place_id).then(function (data) {
                 if (data) {
                     _this.setRecentLocation(data);
                 }
-            }));
+            });
         }
         else {
-            this._googlePlacesService.getPlaceDetails(this.settings.geoLocDetailServerUrl, selectedData.place_id).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            function (result) {
+            this._googlePlacesService.getPlaceDetails(this.settings.geoLocDetailServerUrl, selectedData.place_id).then(function (result) {
                 if (result) {
                     result = _this.extractServerList(_this.settings.serverResponseDetailHierarchy, result);
                     _this.setRecentLocation(result);
                 }
-            }));
+            });
         }
     };
     // function to store the selected user search in the localstorage.
@@ -64549,13 +55816,9 @@ var PlacesListComponent = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this._googlePlacesService.getRecentList(this.settings.recentStorageName).then((/**
-         * @param {?} data
-         * @return {?}
-         */
-        function (data) {
+        this._googlePlacesService.getRecentList(this.settings.recentStorageName).then(function (data) {
             _this.recentSearchData = data && data.length ? data : [];
-        }));
+        });
     };
     PlacesListComponent.decorators = [
         { type: Component, args: [{
@@ -64578,82 +55841,10 @@ var PlacesListComponent = /** @class */ (function () {
     };
     return PlacesListComponent;
 }());
-if (false) {
-    /** @type {?} */
-    PlacesListComponent.prototype.userSettings;
-    /** @type {?} */
-    PlacesListComponent.prototype.term;
-    /** @type {?} */
-    PlacesListComponent.prototype.termChange;
-    /** @type {?} */
-    PlacesListComponent.prototype.select;
-    /** @type {?} */
-    PlacesListComponent.prototype.locationInput;
-    /** @type {?} */
-    PlacesListComponent.prototype.gettingCurrentLocationFlag;
-    /** @type {?} */
-    PlacesListComponent.prototype.dropdownOpen;
-    /** @type {?} */
-    PlacesListComponent.prototype.recentDropdownOpen;
-    /** @type {?} */
-    PlacesListComponent.prototype.queryItems;
-    /** @type {?} */
-    PlacesListComponent.prototype.isSettingsError;
-    /** @type {?} */
-    PlacesListComponent.prototype.settingsErrorMsg;
-    /** @type {?} */
-    PlacesListComponent.prototype.settings;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype.moduleinit;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype.selectedDataIndex;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype.recentSearchData;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype.userSelectedOption;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype.defaultSettings;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype.platformId;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype._elmRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype._global;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype._googlePlacesService;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/places/places.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var GooglePlacesModule = /** @class */ (function () {
     function GooglePlacesModule() {
@@ -64671,8 +55862,7 @@ var GooglePlacesModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: novo-elements.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var NovoElementsModule = /** @class */ (function () {
     function NovoElementsModule() {
@@ -64747,8 +55937,7 @@ var NovoElementsModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/activity-table-renderers.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var ActivityTableRenderers = /** @class */ (function () {
     function ActivityTableRenderers() {
@@ -64765,14 +55954,10 @@ var ActivityTableRenderers = /** @class */ (function () {
      */
     function (prop) {
         /** @type {?} */
-        var ret = (/**
-         * @param {?} data
-         * @return {?}
-         */
-        function (data) {
+        var ret = function (data) {
             // TODO - allow for dots and sub props
             return data[prop];
-        });
+        };
         return ret;
     };
     /**
@@ -64787,13 +55972,9 @@ var ActivityTableRenderers = /** @class */ (function () {
      */
     function (prop) {
         /** @type {?} */
-        var ret = (/**
-         * @param {?} data
-         * @return {?}
-         */
-        function (data) {
+        var ret = function (data) {
             return data[prop] ? new Date(data[prop]).toLocaleDateString() : '';
-        });
+        };
         return ret;
     };
     return ActivityTableRenderers;
@@ -64801,15 +55982,14 @@ var ActivityTableRenderers = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: index.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * Generated from: novo-elements.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { AceEditorControl, ActivityTableDataSource, ActivityTableRenderers, AddressControl, AppBridge, AppBridgeHandler, AppBridgeService, ArrayCollection, BaseControl, BasePickerResults, BaseRenderer, COUNTRIES, CalendarEventResponse, CheckListControl, CheckboxControl, ChecklistPickerResults, CollectionEvent, ComponentUtils, ControlFactory, CustomControl, DateCell, DateControl, DateTimeControl, DecodeURIPipe, Deferred, DevAppBridge, DevAppBridgeService, DistributionListPickerResults, EditorControl, EntityPickerResult, EntityPickerResults, FieldInteractionApi, FileControl, FormUtils, FormValidators, GooglePlacesService, GroupByPipe, GroupedControl, GroupedMultiPickerResults, Helpers, KeyCodes, NOVO_VALUE_THEME, NOVO_VALUE_TYPE, NativeSelectControl, NovoAceEditorModule, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableCustomHeader, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableState, NovoButtonModule, NovoCalendarDateChangeElement, NovoCalendarModule, NovoCardModule, NovoCategoryDropdownModule, NovoCheckListElement, NovoChipsModule, NovoCommonModule, NovoControlGroup, NovoDataTable, NovoDataTableFilterUtils, NovoDataTableModule, NovoDatePickerElement, NovoDatePickerModule, NovoDateTimePickerModule, NovoDragulaModule, NovoDragulaService, NovoDropdownCell, NovoDropdownModule, NovoDynamicFormElement, NovoElementProviders, NovoElementsModule, NovoExpansionModule, NovoFile, NovoFormControl, NovoFormExtrasModule, NovoFormGroup, NovoFormModule, NovoHeaderModule, NovoHorizontalStepper, NovoIconModule, NovoLabelService, NovoListElement, NovoListModule, NovoLoadingModule, NovoModalModule, NovoModalParams, NovoModalRef, NovoModalService, NovoMultiPickerModule, NovoNovoCKEditorModule, NovoPickerModule, NovoPipesModule, NovoQuickNoteModule, NovoRadioModule, NovoSearchBoxModule, NovoSelectModule, NovoSelection, NovoSimpleActionCell, NovoSimpleCell, NovoSimpleCellDef, NovoSimpleCellHeader, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleColumnDef, NovoSimpleEmptyHeaderCell, NovoSimpleFilterFocus, NovoSimpleHeaderCell, NovoSimpleHeaderCellDef, NovoSimpleHeaderRow, NovoSimpleHeaderRowDef, NovoSimpleRow, NovoSimpleRowDef, NovoSimpleTableModule, NovoSimpleTablePagination, NovoSliderModule, NovoSortFilter, NovoStep, NovoStepper, NovoStepperModule, NovoSwitchModule, NovoTabModule, NovoTabbedGroupPickerModule, NovoTable, NovoTableElement, NovoTableExtrasModule, NovoTableMode, NovoTableModule, NovoTemplate, NovoTemplateService, NovoTilesModule, NovoTimePickerModule, NovoTipWellModule, NovoToastModule, NovoToastService, NovoTooltipModule, NovoValueModule, NovoVerticalStepper, OptionsService, OutsideClick, PagedArrayCollection, PercentageCell, PickerControl, PickerResults, PluralPipe, QuickNoteControl, QuickNoteResults, RadioControl, ReadOnlyControl, RemoteActivityTableService, RemoteDataTableService, RenderPipe, Security, SelectControl, SkillsSpecialtyPickerResults, StaticActivityTableService, StaticDataTableService, TablePickerControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, UnlessModule, findByCountryCode, findByCountryId, findByCountryName, getCountries, getDayView, getDayViewHourGrid, getMonthView, getStateObjects, getStates, getWeekView, getWeekViewEventOffset, getWeekViewHeader, notify, NovoFieldsetHeaderElement as ɵa, NovoFieldsetElement as ɵb, NovoEventTypeLegendElement as ɵba, NovoCalendarMonthViewElement as ɵbb, NovoCalendarMonthHeaderElement as ɵbc, NovoCalendarMonthDayElement as ɵbd, NovoCalendarWeekViewElement as ɵbe, NovoCalendarWeekHeaderElement as ɵbf, NovoCalendarWeekEventElement as ɵbg, NovoCalendarDayViewElement as ɵbh, NovoCalendarDayEventElement as ɵbi, NovoCalendarHourSegmentElement as ɵbj, NovoCalendarAllDayEventElement as ɵbk, WeekdayPipe as ɵbl, DayOfMonthPipe as ɵbm, MonthPipe as ɵbn, MonthDayPipe as ɵbo, YearPipe as ɵbp, HoursPipe as ɵbq, EndOfWeekDisplayPipe as ɵbr, NovoToastElement as ɵbs, NovoHeaderSpacer as ɵbt, NovoUtilsComponent as ɵbu, NovoUtilActionComponent as ɵbv, NovoHeaderComponent as ɵbw, NovoNavElement as ɵbx, NovoTabElement as ɵby, NovoTabButtonElement as ɵbz, NovoTabbedGroupPickerElement as ɵc, NovoTabLinkElement as ɵca, NovoNavOutletElement as ɵcb, NovoNavContentElement as ɵcc, NovoNavHeaderElement as ɵcd, NovoTilesElement as ɵce, QuickNoteElement as ɵcf, NovoRadioGroup as ɵcg, NovoRadioElement as ɵch, NovoOverlayModule as ɵci, NovoOverlayTemplateComponent as ɵcj, NovoDropdownElement as ɵck, NovoItemElement as ɵcl, NovoListElement$1 as ɵcm, NovoItemHeaderElement$1 as ɵcn, NovoSelectElement as ɵco, NovoSwitchElement as ɵcp, NovoPickerElement as ɵcq, NovoSearchBoxElement as ɵcr, NovoDragulaElement as ɵcs, NovoSliderElement as ɵct, NovoChipElement as ɵcu, NovoChipsElement as ɵcv, NovoRowChipElement as ɵcw, NovoRowChipsElement as ɵcx, NovoDatePickerInputElement as ɵcy, DateFormatService as ɵcz, NovoModalContainerElement as ɵd, NovoTimePickerElement as ɵda, NovoTimePickerInputElement as ɵdb, NovoDateTimePickerElement as ɵdc, NovoDateTimePickerInputElement as ɵdd, NovoCKEditorElement as ɵde, NovoTipWellElement as ɵdf, NovoCheckboxElement as ɵdg, NovoFileInputElement as ɵdh, NovoAutoSize as ɵdi, NovoControlElement as ɵdj, NovoFormElement as ɵdk, ControlConfirmModal as ɵdl, ControlPromptModal as ɵdm, NovoControlTemplates as ɵdn, NovoTableHeaderElement as ɵdo, NovoTableFooterElement as ɵdp, NovoTableActionsElement as ɵdq, NovoTableKeepFilterFocus as ɵdr, Pagination as ɵds, RowDetails as ɵdt, TableCell as ɵdu, TableFilter as ɵdv, ThOrderable as ɵdw, ThSortable as ɵdx, EntityList as ɵdy, NovoIconComponent as ɵdz, NovoModalElement as ɵe, NovoAccordion as ɵea, NovoExpansionPanel as ɵeb, NovoExpansionPanelActionRow as ɵec, novoExpansionAnimations as ɵed, NovoExpansionPanelContent as ɵee, NovoExpansionPanelHeader as ɵef, NovoExpansionPanelDescription as ɵeg, NovoExpansionPanelTitle as ɵeh, NovoStepHeader as ɵei, NovoStepLabel as ɵej, novoStepperAnimations as ɵek, NovoStepStatus as ɵel, NovoCategoryDropdownElement as ɵem, NovoMultiPickerElement as ɵen, Unless as ɵeo, DataTableInterpolatePipe as ɵep, DateTableDateRendererPipe as ɵeq, DateTableDateTimeRendererPipe as ɵer, DateTableTimeRendererPipe as ɵes, DateTableNumberRendererPipe as ɵet, DataTableBigDecimalRendererPipe as ɵeu, DateTableCurrencyRendererPipe as ɵev, NovoDataTableCellHeader as ɵew, DataTableState as ɵex, NovoDataTableSortFilter as ɵey, NovoDataTableHeaderCell as ɵez, NovoModalNotificationElement as ɵf, NovoDataTableCell as ɵfa, NovoDataTableHeaderRow as ɵfb, NovoDataTableRow as ɵfc, NovoDataTablePagination as ɵfd, NovoDataTableCheckboxCell as ɵfe, NovoDataTableCheckboxHeaderCell as ɵff, NovoDataTableExpandCell as ɵfg, NovoDataTableExpandHeaderCell as ɵfh, NovoDataTableExpandDirective as ɵfi, NovoDataTableClearButton as ɵfj, GlobalRef as ɵfk, BrowserGlobalRef as ɵfl, LocalStorageService as ɵfm, NovoPopOverModule as ɵfn, PopOverContent as ɵfo, PopOverDirective as ɵfp, GooglePlacesModule as ɵfq, PlacesListComponent as ɵfr, NovoListItemElement as ɵg, NovoItemAvatarElement as ɵh, NovoItemTitleElement as ɵi, NovoItemHeaderElement as ɵj, NovoItemDateElement as ɵk, NovoItemContentElement as ɵl, NovoItemEndElement as ɵm, NovoValueElement as ɵn, NovoAddressElement as ɵo, NovoAceEditor as ɵp, NovoButtonElement as ɵq, NovoLoadingElement as ɵr, NovoSpinnerElement as ɵs, NovoSkeletonDirective as ɵt, NovoLoadedDirective as ɵu, NovoIsLoadingDirective as ɵv, TooltipDirective as ɵw, NovoTooltip as ɵx, CardActionsElement as ɵy, CardElement as ɵz };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoDatePickerElement, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoVerticalStepper, NovoHorizontalStepper, NovoStep, NovoStepper, NovoTableExtrasModule, NovoFormModule, NovoDynamicFormElement, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTableFilterUtils, NovoDataTable, NovoCommonModule, NovoTabbedGroupPickerModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, CalendarEventResponse, NovoAceEditor as ɵp, NovoButtonElement as ɵq, NovoEventTypeLegendElement as ɵba, NovoCalendarAllDayEventElement as ɵbk, NovoCalendarDayEventElement as ɵbi, NovoCalendarDayViewElement as ɵbh, NovoCalendarHourSegmentElement as ɵbj, NovoCalendarMonthDayElement as ɵbd, NovoCalendarMonthHeaderElement as ɵbc, NovoCalendarMonthViewElement as ɵbb, DayOfMonthPipe as ɵbm, EndOfWeekDisplayPipe as ɵbr, HoursPipe as ɵbq, MonthPipe as ɵbn, MonthDayPipe as ɵbo, WeekdayPipe as ɵbl, YearPipe as ɵbp, NovoCalendarWeekEventElement as ɵbg, NovoCalendarWeekHeaderElement as ɵbf, NovoCalendarWeekViewElement as ɵbe, CardActionsElement as ɵy, CardElement as ɵz, NovoCategoryDropdownElement as ɵem, NovoChipElement as ɵcu, NovoChipsElement as ɵcv, NovoRowChipElement as ɵcw, NovoRowChipsElement as ɵcx, NovoCKEditorElement as ɵde, NovoDataTableCheckboxHeaderCell as ɵff, NovoDataTableExpandHeaderCell as ɵfh, NovoDataTableCellHeader as ɵew, NovoDataTableHeaderCell as ɵez, NovoDataTableCell as ɵfa, NovoDataTableCheckboxCell as ɵfe, NovoDataTableExpandCell as ɵfg, NovoDataTableClearButton as ɵfj, NovoDataTableExpandDirective as ɵfi, DataTableBigDecimalRendererPipe as ɵeu, DataTableInterpolatePipe as ɵep, DateTableCurrencyRendererPipe as ɵev, DateTableDateRendererPipe as ɵeq, DateTableDateTimeRendererPipe as ɵer, DateTableNumberRendererPipe as ɵet, DateTableTimeRendererPipe as ɵes, NovoDataTablePagination as ɵfd, NovoDataTableHeaderRow as ɵfb, NovoDataTableRow as ɵfc, NovoDataTableSortFilter as ɵey, DataTableState as ɵex, NovoDatePickerInputElement as ɵcy, NovoDateTimePickerElement as ɵdc, NovoDateTimePickerInputElement as ɵdd, NovoDragulaElement as ɵcs, NovoDropdownElement as ɵck, NovoItemElement as ɵcl, NovoItemHeaderElement$1 as ɵcn, NovoListElement$1 as ɵcm, NovoAccordion as ɵea, novoExpansionAnimations as ɵed, NovoExpansionPanel as ɵeb, NovoExpansionPanelActionRow as ɵec, NovoExpansionPanelContent as ɵee, NovoExpansionPanelDescription as ɵeg, NovoExpansionPanelHeader as ɵef, NovoExpansionPanelTitle as ɵeh, NovoAutoSize as ɵdi, NovoControlElement as ɵdj, NovoControlTemplates as ɵdn, NovoFieldsetElement as ɵb, NovoFieldsetHeaderElement as ɵa, ControlConfirmModal as ɵdl, ControlPromptModal as ɵdm, NovoFormElement as ɵdk, NovoAddressElement as ɵo, NovoCheckboxElement as ɵdg, NovoFileInputElement as ɵdh, NovoHeaderComponent as ɵbw, NovoHeaderSpacer as ɵbt, NovoUtilActionComponent as ɵbv, NovoUtilsComponent as ɵbu, NovoIconComponent as ɵdz, NovoItemAvatarElement as ɵh, NovoItemContentElement as ɵl, NovoItemDateElement as ɵk, NovoItemEndElement as ɵm, NovoItemHeaderElement as ɵj, NovoItemTitleElement as ɵi, NovoListItemElement as ɵg, NovoIsLoadingDirective as ɵv, NovoLoadedDirective as ɵu, NovoLoadingElement as ɵr, NovoSkeletonDirective as ɵt, NovoSpinnerElement as ɵs, NovoModalContainerElement as ɵd, NovoModalElement as ɵe, NovoModalNotificationElement as ɵf, NovoMultiPickerElement as ɵen, NovoOverlayTemplateComponent as ɵcj, NovoOverlayModule as ɵci, NovoPickerElement as ɵcq, PlacesListComponent as ɵfr, GooglePlacesModule as ɵfq, PopOverDirective as ɵfp, NovoPopOverModule as ɵfn, PopOverContent as ɵfo, QuickNoteElement as ɵcf, NovoRadioElement as ɵch, NovoRadioGroup as ɵcg, NovoSearchBoxElement as ɵcr, NovoSelectElement as ɵco, NovoSliderElement as ɵct, NovoStepHeader as ɵei, NovoStepLabel as ɵej, NovoStepStatus as ɵel, novoStepperAnimations as ɵek, NovoSwitchElement as ɵcp, NovoTabbedGroupPickerElement as ɵc, NovoTableKeepFilterFocus as ɵdr, Pagination as ɵds, RowDetails as ɵdt, NovoTableActionsElement as ɵdq, TableCell as ɵdu, TableFilter as ɵdv, NovoTableFooterElement as ɵdp, NovoTableHeaderElement as ɵdo, ThOrderable as ɵdw, ThSortable as ɵdx, NovoNavContentElement as ɵcc, NovoNavElement as ɵbx, NovoNavHeaderElement as ɵcd, NovoNavOutletElement as ɵcb, NovoTabButtonElement as ɵbz, NovoTabElement as ɵby, NovoTabLinkElement as ɵca, NovoTilesElement as ɵce, NovoTimePickerElement as ɵda, NovoTimePickerInputElement as ɵdb, NovoTipWellElement as ɵdf, NovoToastElement as ɵbs, NovoTooltip as ɵx, TooltipDirective as ɵw, Unless as ɵeo, EntityList as ɵdy, NovoValueElement as ɵn, DateFormatService as ɵcz, BrowserGlobalRef as ɵfl, GlobalRef as ɵfk, LocalStorageService as ɵfm };
+
 //# sourceMappingURL=novo-elements.js.map

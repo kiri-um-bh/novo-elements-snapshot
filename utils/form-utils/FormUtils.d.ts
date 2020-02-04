@@ -80,5 +80,4 @@ export declare class FormUtils {
      */
     private getStartDate;
     private inferStartDate;
-    inflateEmbeddedProperties(data: object): object;
 }
