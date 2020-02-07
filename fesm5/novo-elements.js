@@ -21612,14 +21612,16 @@ var NovoFormGroup = /** @class */ (function (_super) {
         configurable: true
     });
     /**
+     * @param {?=} overrides
      * @return {?}
      */
     NovoFormGroup.prototype.enableAllControls = /**
+     * @param {?=} overrides
      * @return {?}
      */
-    function () {
+    function (overrides) {
         for (var key in this.controls) {
-            if (((/** @type {?} */ (this.controls[key]))).readOnly) {
+            if (((/** @type {?} */ (this.controls[key]))).readOnly && (!overrides || (overrides && !overrides.includes(key)))) {
                 ((/** @type {?} */ (this.controls[key]))).readOnly = false;
                 this.controls[key].enable();
             }

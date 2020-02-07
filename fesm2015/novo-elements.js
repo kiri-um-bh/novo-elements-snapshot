@@ -19433,11 +19433,12 @@ class NovoFormGroup extends FormGroup {
         this._value = v;
     }
     /**
+     * @param {?=} overrides
      * @return {?}
      */
-    enableAllControls() {
+    enableAllControls(overrides) {
         for (let key in this.controls) {
-            if (((/** @type {?} */ (this.controls[key]))).readOnly) {
+            if (((/** @type {?} */ (this.controls[key]))).readOnly && (!overrides || (overrides && !overrides.includes(key)))) {
                 ((/** @type {?} */ (this.controls[key]))).readOnly = false;
                 this.controls[key].enable();
             }
