@@ -52,16 +52,6 @@ export declare class FormUtils {
     }, overrides?: any, data?: {
         [key: string]: any;
     }): NovoFieldset[];
-    private isEmbeddedField;
-    private createControl;
-    private isEmbeddedFieldData;
-    private getFieldData;
-    private getEmbeddedFieldData;
-    private getFormFields;
-    private getEmbeddedFields;
-    private isHeader;
-    private insertHeaderToFieldsets;
-    private markControlAsEmbedded;
     getControlOptions(field: any, http: any, config: {
         token?: string;
         restUrl?: string;
@@ -80,5 +70,4 @@ export declare class FormUtils {
      */
     private getStartDate;
     private inferStartDate;
-    inflateEmbeddedProperties(data: object): object;
 }

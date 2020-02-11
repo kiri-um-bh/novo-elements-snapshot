@@ -11,8 +11,6 @@ export interface NovoFieldset {
     title?: string;
     icon?: string;
     controls: any[];
-    isEmbedded?: boolean;
-    isInlineEmbedded?: boolean;
 }
 export interface IFieldInteractionEvent {
     controlKey: string;

@@ -87,7 +87,7 @@ export declare class FieldInteractionApi {
         emitEvent?: boolean;
     }): void;
     displayToast(toastConfig: ToastOptions): void;
-    displayTip(key: string, tip: string, icon?: string, allowDismiss?: boolean, sanitize?: boolean): void;
+    displayTip(key: string, tip: string, icon?: string, allowDismiss?: boolean): void;
     setTooltip(key: string, tooltip: string): void;
     confirmChanges(key: string, message?: string): Promise<boolean>;
     promptUser(key: string, changes: string[]): Promise<boolean>;

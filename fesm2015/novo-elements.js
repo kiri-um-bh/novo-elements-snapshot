@@ -1,35 +1,34 @@
-import { forwardRef, EventEmitter, Component, ElementRef, Input, Output, NgModule, Pipe, Injectable, ChangeDetectionStrategy, Directive, HostBinding, ViewContainerRef, ContentChildren, TemplateRef, HostListener, Optional, Inject, LOCALE_ID, ChangeDetectorRef, Injector, ComponentFactoryResolver, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ViewEncapsulation, Host, ContentChild, PLATFORM_ID } from '@angular/core';
-import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import 'brace/index';
 import 'brace/theme/chrome';
 import 'brace/mode/javascript';
 import 'brace/ext/language_tools.js';
-import { OverlayConfig, Overlay, OverlayModule } from '@angular/cdk/overlay';
-import { ComponentPortal, TemplatePortal, PortalModule } from '@angular/cdk/portal';
-import { trigger, state, style, transition, animate, group, query, animateChild } from '@angular/animations';
-import { addDays, addWeeks, addMonths, startOfWeek, endOfWeek, differenceInDays, addMinutes, endOfDay, startOfDay, isSameSecond, setMinutes, setHours, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInSeconds, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, getYear, getMonth, getDate, setYear, setMonth, setDate, addSeconds, subMonths, isToday, isValid, format, setMilliseconds, setSeconds, getHours, getMinutes, getSeconds, getMilliseconds, isDate, parse, startOfToday, startOfTomorrow, endOfToday } from 'date-fns';
-import { from, merge, of, fromEvent, ReplaySubject, Subject, Subscription, BehaviorSubject } from 'rxjs';
-import { DomSanitizer } from '@angular/platform-browser';
-import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
-import { ScrollingModule } from '@angular/cdk/scrolling';
-import { FocusMonitor, A11yModule } from '@angular/cdk/a11y';
-import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
-import { ESCAPE, ENTER, TAB, SPACE } from '@angular/cdk/keycodes';
+import { Overlay, OverlayConfig, OverlayModule } from '@angular/cdk/overlay';
 import * as dragulaImported from '@bullhorn/dragula';
-import { TextMaskModule } from 'angular2-text-mask';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TextMaskModule } from 'angular2-text-mask';
+import { DomSanitizer } from '@angular/platform-browser';
 import { CdkAccordion, CdkAccordionItem, CdkAccordionModule } from '@angular/cdk/accordion';
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
+import { TAB, ENTER, ESCAPE, SPACE } from '@angular/cdk/keycodes';
+import { ComponentPortal, TemplatePortal, PortalModule } from '@angular/cdk/portal';
+import { FocusMonitor, A11yModule } from '@angular/cdk/a11y';
 import { CdkStepLabel, CdkStepHeader, CdkStep, CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
 import { Directionality } from '@angular/cdk/bidi';
-import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CdkTable, CDK_TABLE_TEMPLATE, CdkCellDef, CdkHeaderCellDef, CdkHeaderRowDef, CdkRowDef } from '@angular/cdk/table';
+import { trigger, state, style, animate, transition, animateChild, group, query } from '@angular/animations';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { Subject, from, of, merge, fromEvent, ReplaySubject, Subscription } from 'rxjs';
+import { filter, first, switchMap, debounceTime, distinctUntilChanged, map, startWith, take, takeUntil, catchError } from 'rxjs/operators';
+import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
+import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CDK_TABLE_TEMPLATE, CdkTable, CdkCellDef, CdkHeaderCellDef, CdkRowDef, CdkHeaderRowDef } from '@angular/cdk/table';
+import { subMonths, addMonths, isDate, parse, getYear, getMonth, getDate, setYear, setMonth, setDate, differenceInSeconds, addSeconds, isValid, format, setMilliseconds, setSeconds, setMinutes, setHours, getHours, getMinutes, getSeconds, getMilliseconds, startOfDay, addDays, startOfToday, endOfToday, addWeeks, startOfWeek, endOfWeek, startOfTomorrow, differenceInDays, addMinutes, endOfDay, isSameSecond, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, isToday } from 'date-fns';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule, FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Component, EventEmitter, Output, ElementRef, Input, forwardRef, NgModule, Injectable, Pipe, ChangeDetectionStrategy, Directive, TemplateRef, ViewContainerRef, ContentChildren, HostBinding, HostListener, Inject, Optional, LOCALE_ID, ChangeDetectorRef, ComponentFactoryResolver, Injector, ReflectiveInjector, ViewChild, NgZone, isDevMode, Renderer2, ViewChildren, ContentChild, Host, ViewEncapsulation, PLATFORM_ID } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/Helpers.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // @dynamic
 class Helpers {
@@ -50,15 +49,7 @@ class Helpers {
      * @return {?}
      */
     static interpolate(str, props) {
-        if (this.isDate(props)) {
-            props = this.dateToObject(props);
-        }
-        return str.replace(/\$([\w\.]+)/g, (/**
-         * @param {?} original
-         * @param {?} key
-         * @return {?}
-         */
-        (original, key) => {
+        return str.replace(/\$([\w\.]+)/g, (original, key) => {
             /** @type {?} */
             let keys = key.split('.');
             /** @type {?} */
@@ -69,7 +60,7 @@ class Helpers {
                 value = k ? value[k] : `${value}.`;
             }
             return value !== undefined ? value : '';
-        }));
+        });
     }
     /**
      * @param {?} formatString
@@ -84,22 +75,11 @@ class Helpers {
         if (Array.isArray(formatString)) {
             /** @type {?} */
             let successes = [];
-            /** @type {?} */
-            let failures = [];
-            formatString.forEach((/**
-             * @param {?} format
-             * @return {?}
-             */
-            (format) => {
+            formatString.forEach((format$$1) => {
                 /** @type {?} */
                 let isSuccess = true;
                 /** @type {?} */
-                let attempt = format.replace(/\$([\w\.]+)/g, (/**
-                 * @param {?} original
-                 * @param {?} key
-                 * @return {?}
-                 */
-                (original, key) => {
+                let attempt = format$$1.replace(/\$([\w\.]+)/g, (original, key) => {
                     /** @type {?} */
                     let keys = key.split('.');
                     /** @type {?} */
@@ -113,14 +93,11 @@ class Helpers {
                         isSuccess = false;
                     }
                     return Helpers.isEmpty(value) ? '' : value;
-                }));
+                });
                 if (isSuccess) {
                     successes.push(attempt);
                 }
-                else {
-                    failures.push(attempt);
-                }
-            }));
+            });
             if (successes.length !== 0) {
                 return successes[0];
             }
@@ -139,13 +116,9 @@ class Helpers {
     static validateInterpolationProps(str, props) {
         /** @type {?} */
         let keys = str.match(/\$([\w\.]+)/g);
-        return keys.every((/**
-         * @param {?} key
-         * @return {?}
-         */
-        (key) => {
+        return keys.every((key) => {
             return props.hasOwnProperty(key.substr(1));
-        }));
+        });
     }
     /**
      * @param {?} item
@@ -238,12 +211,7 @@ class Helpers {
      * @return {?}
      */
     static sortByField(fields, reverse = false) {
-        return (/**
-         * @param {?} previous
-         * @param {?} current
-         * @return {?}
-         */
-        (previous, current) => {
+        return (previous, current) => {
             if (Helpers.isFunction(fields)) {
                 return fields(reverse ? 'desc' : 'asc', previous, current);
             }
@@ -254,33 +222,33 @@ class Helpers {
                 /** @type {?} */
                 let field = fields[i];
                 /** @type {?} */
-                let first = previous[field] || '';
+                let first$$1 = previous[field] || '';
                 /** @type {?} */
                 let second = current[field] || '';
-                if (Helpers.isDate(first) && Helpers.isDate(second)) {
+                if (Helpers.isDate(first$$1) && Helpers.isDate(second)) {
                     // Dates
-                    first = first.getTime();
+                    first$$1 = first$$1.getTime();
                     second = second.getTime();
                 }
-                else if (Helpers.isString(first) && Helpers.isString(second)) {
+                else if (Helpers.isString(first$$1) && Helpers.isString(second)) {
                     // Basic strings
-                    first = first.toLowerCase();
+                    first$$1 = first$$1.toLowerCase();
                     second = second.toLowerCase();
                 }
                 else {
                     // Numbers
-                    first = isNaN(Number(first)) ? first : Number(first);
+                    first$$1 = isNaN(Number(first$$1)) ? first$$1 : Number(first$$1);
                     second = isNaN(Number(second)) ? second : Number(second);
                 }
-                if (first > second) {
+                if (first$$1 > second) {
                     return reverse ? -1 : 1;
                 }
-                else if (first < second) {
+                else if (first$$1 < second) {
                     return reverse ? 1 : -1;
                 }
             }
             return 0;
-        });
+        };
     }
     /**
      * @param {?} key
@@ -288,11 +256,7 @@ class Helpers {
      * @return {?}
      */
     static filterByField(key, value) {
-        return (/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => {
+        return (item) => {
             /** @type {?} */
             let results = [];
             /** @type {?} */
@@ -315,22 +279,14 @@ class Helpers {
                 }
                 if (value.any && Array.isArray(value.any)) {
                     if (Array.isArray(field)) {
-                        results.push(value.any.some((/**
-                         * @param {?} v
-                         * @return {?}
-                         */
-                        (v) => field.includes(v))));
+                        results.push(value.any.some((v) => field.includes(v)));
                     }
                     else {
                         results.push(value.any.includes(field));
                     }
                 }
                 if (value.all && Array.isArray(value.all)) {
-                    results.push(value.all.every((/**
-                     * @param {?} v
-                     * @return {?}
-                     */
-                    (v) => field.includes(v))));
+                    results.push(value.all.every((v) => field.includes(v)));
                 }
                 if (value.not) {
                     results.push(!Helpers.filterByField(key, value.not)(item));
@@ -346,12 +302,8 @@ class Helpers {
             else {
                 results.push(JSON.stringify(field).match(new RegExp(value, 'gi')));
             }
-            return results.every((/**
-             * @param {?} x
-             * @return {?}
-             */
-            (x) => x));
-        });
+            return results.every((x) => x);
+        };
     }
     /**
      * @param {?} element
@@ -413,11 +365,7 @@ class Helpers {
         for (let i = 1; i < objs.length; i++) {
             /** @type {?} */
             const source = Object.assign({}, objs[i]);
-            Object.keys(source).forEach((/**
-             * @param {?} prop
-             * @return {?}
-             */
-            (prop) => {
+            Object.keys(source).forEach((prop) => {
                 /** @type {?} */
                 const value = source[prop];
                 if (Helpers.isObject(value)) {
@@ -432,12 +380,7 @@ class Helpers {
                     if (target.hasOwnProperty(prop) && Array.isArray(target[prop])) {
                         /** @type {?} */
                         const targetArray = target[prop];
-                        value.forEach((/**
-                         * @param {?} sourceItem
-                         * @param {?} itemIndex
-                         * @return {?}
-                         */
-                        (sourceItem, itemIndex) => {
+                        value.forEach((sourceItem, itemIndex) => {
                             if (itemIndex < targetArray.length) {
                                 /** @type {?} */
                                 const targetItem = targetArray[itemIndex];
@@ -457,7 +400,7 @@ class Helpers {
                             else {
                                 targetArray.push(sourceItem);
                             }
-                        }));
+                        });
                     }
                     else {
                         target[prop] = value;
@@ -466,7 +409,7 @@ class Helpers {
                 else {
                     target[prop] = value;
                 }
-            }));
+            });
         }
         return target;
     }
@@ -487,45 +430,6 @@ class Helpers {
             }
             return e;
         }
-    }
-    /**
-     * @param {?} date
-     * @return {?}
-     */
-    static dateToObject(date) {
-        /** @type {?} */
-        let dateObj = {
-            day: '',
-            dayPeriod: '',
-            era: '',
-            hour: '',
-            minute: '',
-            month: '',
-            second: '',
-            weekday: '',
-            year: '',
-        };
-        Intl.DateTimeFormat('en-US', {
-            day: 'numeric',
-            era: 'short',
-            hour: 'numeric',
-            minute: 'numeric',
-            month: 'numeric',
-            second: 'numeric',
-            weekday: 'long',
-            year: 'numeric',
-        })
-            .formatToParts(date)
-            .forEach((/**
-         * @param {?} dateTimeFormatPart
-         * @return {?}
-         */
-        (dateTimeFormatPart) => {
-            if (dateTimeFormatPart.type !== 'literal') {
-                dateObj[dateTimeFormatPart.type] = dateTimeFormatPart.value;
-            }
-        }));
-        return dateObj;
     }
 }
 class Can {
@@ -560,10 +464,6 @@ class Can {
         return thing !== void 0;
     }
 }
-if (false) {
-    /** @type {?} */
-    Can.prototype.obj;
-}
 /**
  * @param {?} obj
  * @return {?}
@@ -571,56 +471,15 @@ if (false) {
 function can(obj) {
     return new Can(obj);
 }
-// Assumes data is already sorted
-/**
- * @template T
- * @param {?} item
- * @param {?} array
- * @param {?} compare
- * @return {?}
- */
-function binarySearch(item, array, compare) {
-    return search(0, array.length - 1);
-    /**
-     * @param {?} min
-     * @param {?} max
-     * @return {?}
-     */
-    function search(min, max) {
-        if (min > max) {
-            return undefined;
-        }
-        /** @type {?} */
-        const guess = min + Math.floor((max - min) / 2);
-        /** @type {?} */
-        const comparison = compare(item, array[guess]);
-        if (comparison === 0) {
-            return array[guess];
-        }
-        else if (comparison === -1) {
-            return search(min, guess - 1);
-        }
-        else if (comparison === 1) {
-            return search(guess + 1, max);
-        }
-        else {
-            throw new Error(`Input mismatch: ${JSON.stringify(item)} not comparable to ${JSON.stringify(array[guess])}`);
-        }
-    }
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/ace-editor/AceEditor.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 const ACE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoAceEditor)),
+    useExisting: forwardRef(() => NovoAceEditor),
     multi: true,
 };
 class NovoAceEditor {
@@ -638,15 +497,8 @@ class NovoAceEditor {
         this._theme = 'chrome';
         this._mode = 'javascript';
         this.text = '';
-        this.onChange = (/**
-         * @param {?} _
-         * @return {?}
-         */
-        (_) => { });
-        this.onTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onChange = (_) => { };
+        this.onTouched = () => { };
     }
     /**
      * @param {?} theme
@@ -709,24 +561,10 @@ class NovoAceEditor {
      * @return {?}
      */
     initializeEvents() {
-        this.editor.on('focus', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => this.focus.emit(event)));
-        this.editor.on('blur', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => this.focus.emit(event)));
-        this.editor.on('change', (/**
-         * @return {?}
-         */
-        () => this.updateText()));
-        this.editor.on('paste', (/**
-         * @return {?}
-         */
-        () => this.updateText()));
+        this.editor.on('focus', (event) => this.focus.emit(event));
+        this.editor.on('blur', (event) => this.focus.emit(event));
+        this.editor.on('change', () => this.updateText());
+        this.editor.on('paste', () => this.updateText());
     }
     /**
      * @private
@@ -735,8 +573,6 @@ class NovoAceEditor {
     updateText() {
         /** @type {?} */
         let newVal = this.editor.getValue();
-        /** @type {?} */
-        let that = this;
         if (newVal === this.oldText) {
             return;
         }
@@ -828,64 +664,10 @@ NovoAceEditor.propDecorators = {
     blur: [{ type: Output }],
     focus: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoAceEditor.prototype.name;
-    /** @type {?} */
-    NovoAceEditor.prototype.blur;
-    /** @type {?} */
-    NovoAceEditor.prototype.focus;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype._options;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype._theme;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype._mode;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype.text;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype.oldText;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype.editor;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype.onChange;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype.onTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAceEditor.prototype.elementRef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/ace-editor/AceEditor.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoAceEditorModule {
 }
@@ -899,8 +681,7 @@ NovoAceEditorModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: pipes/plural/Plural.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Rule storage - pluralize and singularize need to be run sequentially,
 // while other rules can be optimized using an object for instant lookups.
@@ -959,14 +740,9 @@ function restoreCase(word, token) {
  * @return {?}
  */
 function interpolate(str, args) {
-    return str.replace(/\$(\d{1,2})/g, (/**
-     * @param {?} match
-     * @param {?} index
-     * @return {?}
-     */
-    (match, index) => {
+    return str.replace(/\$(\d{1,2})/g, (match, index) => {
         return args[index] || '';
-    }));
+    });
 }
 /**
  * Sanitize a word by passing in the word and sanitization rules.
@@ -988,20 +764,14 @@ function sanitizeWord(token, word, collection) {
         let rule = collection[len];
         // If the rule passes, return the replacement.
         if (rule[0].test(word)) {
-            return word.replace(rule[0], (/**
-             * @param {?} match
-             * @param {?} index
-             * @param {?} words
-             * @return {?}
-             */
-            (match, index, words) => {
+            return word.replace(rule[0], (match, index, words) => {
                 /** @type {?} */
                 let result = interpolate(rule[1], [match, index, words]);
                 if (match === '') {
                     return restoreCase(words[index - 1], result);
                 }
                 return restoreCase(match, result);
-            }));
+            });
         }
     }
     return word;
@@ -1014,11 +784,7 @@ function sanitizeWord(token, word, collection) {
  * @return {?}
  */
 function replaceWord(replaceMap, keepMap, rules) {
-    return (/**
-     * @param {?} word
-     * @return {?}
-     */
-    (word) => {
+    return (word) => {
         // Get the correct token and case restoration functions.
         /** @type {?} */
         let token = word.toLowerCase();
@@ -1032,7 +798,7 @@ function replaceWord(replaceMap, keepMap, rules) {
         }
         // Run all the rules against the word.
         return sanitizeWord(token, word, rules);
-    });
+    };
 }
 class Pluralize {
     /**
@@ -1157,13 +923,9 @@ class Pluralize {
     ['groove', 'grooves'],
     ['pickaxe', 'pickaxes'],
     ['whiskey', 'whiskies'],
-].forEach((/**
- * @param {?} rule
- * @return {?}
- */
-(rule) => {
+].forEach((rule) => {
     return Pluralize.addIrregularRule(rule[0], rule[1]);
-}));
+});
 /**
  * Pluralization rules.
  */
@@ -1192,13 +954,9 @@ class Pluralize {
     [/eaux$/i, '$0'],
     [/m[ae]n$/i, 'men'],
     ['thou', 'you'],
-].forEach((/**
- * @param {?} rule
- * @return {?}
- */
-(rule) => {
+].forEach((rule) => {
     return Pluralize.addPluralRule(rule[0], rule[1]);
-}));
+});
 /**
  * Singularization rules.
  */
@@ -1228,13 +986,9 @@ class Pluralize {
     [/(child)ren$/i, '$1'],
     [/(eau)x?$/i, '$1'],
     [/men$/i, 'man'],
-].forEach((/**
- * @param {?} rule
- * @return {?}
- */
-(rule) => {
+].forEach((rule) => {
     return Pluralize.addSingularRule(rule[0], rule[1]);
-}));
+});
 /**
  * Uncountable rules.
  */
@@ -1345,8 +1099,7 @@ PluralPipe.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: pipes/decode-uri/DecodeURI.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class DecodeURIPipe {
     /**
@@ -1369,8 +1122,7 @@ DecodeURIPipe.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: pipes/group-by/GroupBy.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class GroupByPipe {
     /**
@@ -1392,11 +1144,7 @@ class GroupByPipe {
             }
             arr[field].push(value);
         }
-        return Object.keys(arr).map((/**
-         * @param {?} key
-         * @return {?}
-         */
-        (key) => ({ key, value: arr[key] })));
+        return Object.keys(arr).map((key) => ({ key, value: arr[key] }));
     }
 }
 GroupByPipe.decorators = [
@@ -1407,8 +1155,7 @@ GroupByPipe.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: pipes/Pipes.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoPipesModule {
 }
@@ -1421,8 +1168,7 @@ NovoPipesModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/button/Button.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoButtonElement {
     constructor() {
@@ -1502,26 +1248,10 @@ NovoButtonElement.propDecorators = {
     loading: [{ type: Input }],
     icon: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoButtonElement.prototype.color;
-    /** @type {?} */
-    NovoButtonElement.prototype.side;
-    /** @type {?} */
-    NovoButtonElement.prototype.theme;
-    /** @type {?} */
-    NovoButtonElement.prototype.loading;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoButtonElement.prototype._icon;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/button/Button.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoButtonModule {
 }
@@ -1535,8 +1265,7 @@ NovoButtonModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/loading/Loading.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoLoadingElement {
 }
@@ -1558,10 +1287,6 @@ NovoLoadingElement.decorators = [
 NovoLoadingElement.propDecorators = {
     theme: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoLoadingElement.prototype.theme;
-}
 class NovoSpinnerElement {
 }
 NovoSpinnerElement.decorators = [
@@ -1650,14 +1375,6 @@ NovoSpinnerElement.propDecorators = {
     inverse: [{ type: Input }],
     baseHref: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSpinnerElement.prototype.theme;
-    /** @type {?} */
-    NovoSpinnerElement.prototype.inverse;
-    /** @type {?} */
-    NovoSpinnerElement.prototype.baseHref;
-}
 class NovoSkeletonDirective {
     constructor() {
         this.skeleton = true;
@@ -1671,10 +1388,6 @@ NovoSkeletonDirective.decorators = [
 NovoSkeletonDirective.propDecorators = {
     skeleton: [{ type: HostBinding, args: ['class.skeleton',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSkeletonDirective.prototype.skeleton;
-}
 class NovoLoadedDirective {
 }
 NovoLoadedDirective.decorators = [
@@ -1713,11 +1426,7 @@ class NovoIsLoadingDirective {
      * @return {?}
      */
     createViews(templates) {
-        return templates && templates.map((/**
-         * @param {?} v
-         * @return {?}
-         */
-        (v) => this.viewContainer.createEmbeddedView(v)));
+        return templates && templates.map((v) => this.viewContainer.createEmbeddedView(v));
     }
     /**
      * @param {?} views
@@ -1745,37 +1454,10 @@ NovoIsLoadingDirective.propDecorators = {
     loadedTemplates: [{ type: ContentChildren, args: [NovoLoadedDirective, { read: TemplateRef },] }],
     isLoading: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoIsLoadingDirective.prototype.skeletonTemplates;
-    /** @type {?} */
-    NovoIsLoadingDirective.prototype.loadedTemplates;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoIsLoadingDirective.prototype.hasView;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoIsLoadingDirective.prototype.skeletonViews;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoIsLoadingDirective.prototype.loadedViews;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoIsLoadingDirective.prototype.viewContainer;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/loading/Loading.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoLoadingModule {
 }
@@ -1789,8 +1471,7 @@ NovoLoadingModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tooltip/Tooltip.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTooltip {
 }
@@ -1822,31 +1503,10 @@ NovoTooltip.decorators = [
                 styles: ["novo-tooltip div{background:#383838;color:#fff;padding:8px 10px;font-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;line-height:12px;white-space:nowrap;text-shadow:0 -1px 0 #000;box-shadow:4px 4px 8px rgba(0,0,0,.3)}novo-tooltip div.error{background-color:#b34e4d;text-shadow:0 -1px 0 #592726}novo-tooltip div.info{background-color:#3986ac;text-shadow:0 -1px 0 #1a3c4d}novo-tooltip div.warning{background-color:#c09854;text-shadow:0 -1px 0 #6c5328}novo-tooltip div.success{background-color:#458746;text-shadow:0 -1px 0 #1a321a}novo-tooltip div.rounded{border-radius:4px}novo-tooltip div.extra-large,novo-tooltip div.large,novo-tooltip div.medium,novo-tooltip div.small{white-space:normal;line-height:1.4em;word-wrap:break-word}novo-tooltip div.extra-large{width:400px;font-size:1.2vh}novo-tooltip div.large{width:300px}novo-tooltip div.medium{width:150px}novo-tooltip div.small{width:80px}novo-tooltip div.preline{white-space:pre-line}novo-tooltip div.top:before{margin-bottom:-11px;left:calc(50% - 6px);bottom:0;border-top-color:#383838}novo-tooltip div.top.error:before{border-top-color:#b34e4d}novo-tooltip div.top.info:before{border-top-color:#3986ac}novo-tooltip div.top.warning:before{border-top-color:#c09854}novo-tooltip div.top.success:before{border-top-color:#458746}novo-tooltip div.top-left:before{border-top-color:#383838;margin-right:0;margin-bottom:-11px;right:0;bottom:0}novo-tooltip div.top-left.error:before{border-top-color:#b34e4d}novo-tooltip div.top-left.info:before{border-top-color:#3986ac}novo-tooltip div.top-left.warning:before{border-top-color:#c09854}novo-tooltip div.top-left.success:before{border-top-color:#458746}novo-tooltip div.top-right:before{border-top-color:#383838;margin-left:0;margin-bottom:-11px;left:0;bottom:0}novo-tooltip div.top-right.error:before{border-top-color:#b34e4d}novo-tooltip div.top-right.info:before{border-top-color:#3986ac}novo-tooltip div.top-right.warning:before{border-top-color:#c09854}novo-tooltip div.top-right.success:before{border-top-color:#458746}novo-tooltip div.bottom:before{margin-top:-11px;left:calc(50% - 6px);top:0;border-bottom-color:#383838}novo-tooltip div.bottom.error:before{border-top-color:#b34e4d}novo-tooltip div.bottom.info:before{border-top-color:#3986ac}novo-tooltip div.bottom.warning:before{border-top-color:#c09854}novo-tooltip div.bottom.success:before{border-top-color:#458746}novo-tooltip div.bottom-left:before{border-bottom-color:#383838;margin-right:0;margin-top:-11px;right:0;top:0}novo-tooltip div.bottom-left.error:before{border-bottom-color:#b34e4d}novo-tooltip div.bottom-left.info:before{border-bottom-color:#3986ac}novo-tooltip div.bottom-left.warning:before{border-bottom-color:#c09854}novo-tooltip div.bottom-left.success:before{border-bottom-color:#458746}novo-tooltip div.bottom-right:before{border-bottom-color:#383838;margin-left:0;margin-top:-11px;left:0;top:0}novo-tooltip div.bottom-right.error:before{border-bottom-color:#b34e4d}novo-tooltip div.bottom-right.info:before{border-bottom-color:#3986ac}novo-tooltip div.bottom-right.warning:before{border-bottom-color:#c09854}novo-tooltip div.bottom-right.success:before{border-bottom-color:#458746}novo-tooltip div.left:before{border-left-color:#383838;margin-right:-11px;margin-bottom:-6px;right:0;bottom:50%}novo-tooltip div.left.error:before{border-left-color:#b34e4d}novo-tooltip div.left.info:before{border-left-color:#3986ac}novo-tooltip div.left.warning:before{border-left-color:#c09854}novo-tooltip div.left.success:before{border-left-color:#458746}novo-tooltip div.right:before{left:0;bottom:50%;border-right-color:#383838;margin-left:-11px;margin-bottom:-6px}novo-tooltip div.right.error:before{border-right-color:#b34e4d}novo-tooltip div.right.info:before{border-right-color:#3986ac}novo-tooltip div.right.warning:before{border-right-color:#c09854}novo-tooltip div.right.success:before{border-right-color:#458746}novo-tooltip div:before{content:'';position:absolute;background:0 0;border:6px solid transparent;box-sizing:border-box}"]
             }] }
 ];
-if (false) {
-    /** @type {?} */
-    NovoTooltip.prototype.message;
-    /** @type {?} */
-    NovoTooltip.prototype.hidden;
-    /** @type {?} */
-    NovoTooltip.prototype.tooltipType;
-    /** @type {?} */
-    NovoTooltip.prototype.rounded;
-    /** @type {?} */
-    NovoTooltip.prototype.size;
-    /** @type {?} */
-    NovoTooltip.prototype.positionStrategy;
-    /** @type {?} */
-    NovoTooltip.prototype.preline;
-    /** @type {?} */
-    NovoTooltip.prototype.noAnimate;
-    /** @type {?} */
-    NovoTooltip.prototype.position;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tooltip/Tooltip.directive.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class TooltipDirective {
     /**
@@ -2082,67 +1742,10 @@ TooltipDirective.propDecorators = {
     onMouseEnter: [{ type: HostListener, args: ['mouseenter',] }],
     onMouseLeave: [{ type: HostListener, args: ['mouseleave',] }]
 };
-if (false) {
-    /** @type {?} */
-    TooltipDirective.prototype.tooltip;
-    /** @type {?} */
-    TooltipDirective.prototype.position;
-    /** @type {?} */
-    TooltipDirective.prototype.type;
-    /** @type {?} */
-    TooltipDirective.prototype.size;
-    /** @type {?} */
-    TooltipDirective.prototype.bounce;
-    /** @type {?} */
-    TooltipDirective.prototype.noAnimate;
-    /** @type {?} */
-    TooltipDirective.prototype.rounded;
-    /** @type {?} */
-    TooltipDirective.prototype.always;
-    /** @type {?} */
-    TooltipDirective.prototype.active;
-    /** @type {?} */
-    TooltipDirective.prototype.preline;
-    /** @type {?} */
-    TooltipDirective.prototype.removeArrow;
-    /** @type {?} */
-    TooltipDirective.prototype.autoPosition;
-    /**
-     * @type {?}
-     * @private
-     */
-    TooltipDirective.prototype.tooltipInstance;
-    /**
-     * @type {?}
-     * @private
-     */
-    TooltipDirective.prototype.portal;
-    /**
-     * @type {?}
-     * @private
-     */
-    TooltipDirective.prototype.overlayRef;
-    /**
-     * @type {?}
-     * @protected
-     */
-    TooltipDirective.prototype.overlay;
-    /**
-     * @type {?}
-     * @private
-     */
-    TooltipDirective.prototype.viewContainerRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    TooltipDirective.prototype.elementRef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tooltip/Tooltip.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTooltipModule {
 }
@@ -2157,21 +1760,8 @@ NovoTooltipModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/novo-label-service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function TimeFormatParts() { }
-if (false) {
-    /** @type {?} */
-    TimeFormatParts.prototype.hour;
-    /** @type {?} */
-    TimeFormatParts.prototype.minute;
-    /** @type {?|undefined} */
-    TimeFormatParts.prototype.dayPeriod;
-}
 class NovoLabelService {
     /**
      * @param {?=} userLocale
@@ -2189,7 +1779,6 @@ class NovoLabelService {
         this.pickerError = 'Oops! An error occurred.';
         this.pickerTextFieldEmpty = 'Begin typing to see results.';
         this.pickerEmpty = 'No results to display...';
-        this.tabbedGroupPickerEmpty = 'No results found';
         this.quickNoteError = 'Oops! An error occurred.';
         this.quickNoteEmpty = 'No results to display...';
         this.required = 'Required';
@@ -2340,48 +1929,36 @@ class NovoLabelService {
         return this.dateFormat;
     }
     /**
-     * @param {?} tabLabelPlural
+     * @param {?} value
+     * @param {?} format
      * @return {?}
      */
-    tabbedGroupClearSuggestion(tabLabelPlural) {
-        return `Clear your search to see all ${tabLabelPlural}.`;
+    formatDateWithFormat(value, format$$1) {
+        /** @type {?} */
+        let date = value instanceof Date ? value : new Date(value);
+        if (date.getTime() !== date.getTime()) {
+            return value;
+        }
+        return new Intl.DateTimeFormat(this.userLocale, format$$1).format(date);
     }
     /**
      * @param {?} value
      * @param {?} format
      * @return {?}
      */
-    formatDateWithFormat(value, format) {
-        /** @type {?} */
-        let date = value instanceof Date ? value : new Date(value);
-        if (date.getTime() !== date.getTime()) {
-            return value;
-        }
-        return new Intl.DateTimeFormat(this.userLocale, format).format(date);
-    }
-    /**
-     * @param {?} value
-     * @param {?} format
-     * @return {?}
-     */
-    formatTimeWithFormat(value, format) {
+    formatTimeWithFormat(value, format$$1) {
         /** @type {?} */
         let date = value instanceof Date ? value : new Date(value);
         if (date.getTime() !== date.getTime()) {
             return value;
         }
         /** @type {?} */
-        let timeParts = Intl.DateTimeFormat(this.userLocale, format)
+        let timeParts = Intl.DateTimeFormat(this.userLocale, format$$1)
             .formatToParts(date)
-            .reduce((/**
-         * @param {?} obj
-         * @param {?} part
-         * @return {?}
-         */
-        (obj, part) => {
+            .reduce((obj, part) => {
             obj[part.type] = part.value;
             return obj;
-        }), {});
+        }, {});
         /** @type {?} */
         const dayperiod = timeParts.dayperiod ? timeParts.dayperiod : '';
         return `${timeParts.hour}:${timeParts.minute}${dayperiod}`;
@@ -2394,20 +1971,15 @@ class NovoLabelService {
          * @param {?} dayOfWeek
          * @return {?}
          */
-        function getDay(dayOfWeek) {
+        function getDay$$1(dayOfWeek) {
             /** @type {?} */
             let dt = new Date();
             return dt.setDate(dt.getDate() - dt.getDay() + dayOfWeek);
         }
-        return [getDay(0), getDay(1), getDay(2), getDay(3), getDay(4), getDay(5), getDay(6)].reduce((/**
-         * @param {?} weekdays
-         * @param {?} dt
-         * @return {?}
-         */
-        (weekdays, dt) => {
+        return [getDay$$1(0), getDay$$1(1), getDay$$1(2), getDay$$1(3), getDay$$1(4), getDay$$1(5), getDay$$1(6)].reduce((weekdays, dt) => {
             weekdays.push(new Intl.DateTimeFormat(this.userLocale, { weekday: 'long' }).format(dt));
             return weekdays;
-        }), []);
+        }, []);
     }
     /**
      * @return {?}
@@ -2417,33 +1989,28 @@ class NovoLabelService {
          * @param {?} month
          * @return {?}
          */
-        function getMonth(month) {
+        function getMonth$$1(month) {
             /** @type {?} */
             let dt = new Date();
             return dt.setMonth(month, 1);
         }
         return [
-            getMonth(0),
-            getMonth(1),
-            getMonth(2),
-            getMonth(3),
-            getMonth(4),
-            getMonth(5),
-            getMonth(6),
-            getMonth(7),
-            getMonth(8),
-            getMonth(9),
-            getMonth(10),
-            getMonth(11),
-        ].reduce((/**
-         * @param {?} months
-         * @param {?} dt
-         * @return {?}
-         */
-        (months, dt) => {
+            getMonth$$1(0),
+            getMonth$$1(1),
+            getMonth$$1(2),
+            getMonth$$1(3),
+            getMonth$$1(4),
+            getMonth$$1(5),
+            getMonth$$1(6),
+            getMonth$$1(7),
+            getMonth$$1(8),
+            getMonth$$1(9),
+            getMonth$$1(10),
+            getMonth$$1(11),
+        ].reduce((months, dt) => {
             months.push(new Intl.DateTimeFormat(this.userLocale, { month: 'long' }).format(dt));
             return months;
-        }), []);
+        }, []);
     }
     /**
      * @param {?} value
@@ -2570,201 +2137,10 @@ NovoLabelService.decorators = [
 NovoLabelService.ctorParameters = () => [
     { type: String, decorators: [{ type: Optional }, { type: Inject, args: [LOCALE_ID,] }] }
 ];
-if (false) {
-    /** @type {?} */
-    NovoLabelService.prototype.filters;
-    /** @type {?} */
-    NovoLabelService.prototype.clear;
-    /** @type {?} */
-    NovoLabelService.prototype.sort;
-    /** @type {?} */
-    NovoLabelService.prototype.distributionListOwner;
-    /** @type {?} */
-    NovoLabelService.prototype.dateAdded;
-    /** @type {?} */
-    NovoLabelService.prototype.emptyTableMessage;
-    /** @type {?} */
-    NovoLabelService.prototype.noMatchingRecordsMessage;
-    /** @type {?} */
-    NovoLabelService.prototype.erroredTableMessage;
-    /** @type {?} */
-    NovoLabelService.prototype.pickerError;
-    /** @type {?} */
-    NovoLabelService.prototype.pickerTextFieldEmpty;
-    /** @type {?} */
-    NovoLabelService.prototype.pickerEmpty;
-    /** @type {?} */
-    NovoLabelService.prototype.tabbedGroupPickerEmpty;
-    /** @type {?} */
-    NovoLabelService.prototype.quickNoteError;
-    /** @type {?} */
-    NovoLabelService.prototype.quickNoteEmpty;
-    /** @type {?} */
-    NovoLabelService.prototype.required;
-    /** @type {?} */
-    NovoLabelService.prototype.numberTooLarge;
-    /** @type {?} */
-    NovoLabelService.prototype.save;
-    /** @type {?} */
-    NovoLabelService.prototype.cancel;
-    /** @type {?} */
-    NovoLabelService.prototype.next;
-    /** @type {?} */
-    NovoLabelService.prototype.itemsPerPage;
-    /** @type {?} */
-    NovoLabelService.prototype.select;
-    /** @type {?} */
-    NovoLabelService.prototype.selected;
-    /** @type {?} */
-    NovoLabelService.prototype.selectAllOnPage;
-    /** @type {?} */
-    NovoLabelService.prototype.deselectAll;
-    /** @type {?} */
-    NovoLabelService.prototype.refresh;
-    /** @type {?} */
-    NovoLabelService.prototype.close;
-    /** @type {?} */
-    NovoLabelService.prototype.move;
-    /** @type {?} */
-    NovoLabelService.prototype.startDate;
-    /** @type {?} */
-    NovoLabelService.prototype.endDate;
-    /** @type {?} */
-    NovoLabelService.prototype.more;
-    /** @type {?} */
-    NovoLabelService.prototype.clearAll;
-    /** @type {?} */
-    NovoLabelService.prototype.clearAllNormalCase;
-    /** @type {?} */
-    NovoLabelService.prototype.clearSort;
-    /** @type {?} */
-    NovoLabelService.prototype.clearFilter;
-    /** @type {?} */
-    NovoLabelService.prototype.today;
-    /** @type {?} */
-    NovoLabelService.prototype.now;
-    /** @type {?} */
-    NovoLabelService.prototype.isRequired;
-    /** @type {?} */
-    NovoLabelService.prototype.notValidYear;
-    /** @type {?} */
-    NovoLabelService.prototype.isTooLarge;
-    /** @type {?} */
-    NovoLabelService.prototype.invalidAddress;
-    /** @type {?} */
-    NovoLabelService.prototype.invalidEmail;
-    /** @type {?} */
-    NovoLabelService.prototype.minLength;
-    /** @type {?} */
-    NovoLabelService.prototype.past1Day;
-    /** @type {?} */
-    NovoLabelService.prototype.past7Days;
-    /** @type {?} */
-    NovoLabelService.prototype.past30Days;
-    /** @type {?} */
-    NovoLabelService.prototype.past90Days;
-    /** @type {?} */
-    NovoLabelService.prototype.past1Year;
-    /** @type {?} */
-    NovoLabelService.prototype.next1Day;
-    /** @type {?} */
-    NovoLabelService.prototype.next7Days;
-    /** @type {?} */
-    NovoLabelService.prototype.next30Days;
-    /** @type {?} */
-    NovoLabelService.prototype.next90Days;
-    /** @type {?} */
-    NovoLabelService.prototype.next1Year;
-    /** @type {?} */
-    NovoLabelService.prototype.customDateRange;
-    /** @type {?} */
-    NovoLabelService.prototype.backToPresetFilters;
-    /** @type {?} */
-    NovoLabelService.prototype.okGotIt;
-    /** @type {?} */
-    NovoLabelService.prototype.address;
-    /** @type {?} */
-    NovoLabelService.prototype.address1;
-    /** @type {?} */
-    NovoLabelService.prototype.apt;
-    /** @type {?} */
-    NovoLabelService.prototype.address2;
-    /** @type {?} */
-    NovoLabelService.prototype.city;
-    /** @type {?} */
-    NovoLabelService.prototype.state;
-    /** @type {?} */
-    NovoLabelService.prototype.zip;
-    /** @type {?} */
-    NovoLabelService.prototype.zipCode;
-    /** @type {?} */
-    NovoLabelService.prototype.country;
-    /** @type {?} */
-    NovoLabelService.prototype.or;
-    /** @type {?} */
-    NovoLabelService.prototype.clickToBrowse;
-    /** @type {?} */
-    NovoLabelService.prototype.chooseAFile;
-    /** @type {?} */
-    NovoLabelService.prototype.no;
-    /** @type {?} */
-    NovoLabelService.prototype.yes;
-    /** @type {?} */
-    NovoLabelService.prototype.search;
-    /** @type {?} */
-    NovoLabelService.prototype.noItems;
-    /** @type {?} */
-    NovoLabelService.prototype.dateFormat;
-    /** @type {?} */
-    NovoLabelService.prototype.dateFormatPlaceholder;
-    /** @type {?} */
-    NovoLabelService.prototype.timeFormatPlaceholderAM;
-    /** @type {?} */
-    NovoLabelService.prototype.timeFormatPlaceholder24Hour;
-    /** @type {?} */
-    NovoLabelService.prototype.timeFormatAM;
-    /** @type {?} */
-    NovoLabelService.prototype.timeFormatPM;
-    /** @type {?} */
-    NovoLabelService.prototype.confirmChangesModalMessage;
-    /** @type {?} */
-    NovoLabelService.prototype.promptModalMessage;
-    /** @type {?} */
-    NovoLabelService.prototype.asyncFailure;
-    /** @type {?} */
-    NovoLabelService.prototype.previous;
-    /** @type {?} */
-    NovoLabelService.prototype.actions;
-    /** @type {?} */
-    NovoLabelService.prototype.all;
-    /** @type {?} */
-    NovoLabelService.prototype.groupedMultiPickerEmpty;
-    /** @type {?} */
-    NovoLabelService.prototype.groupedMultiPickerSelectCategory;
-    /** @type {?} */
-    NovoLabelService.prototype.add;
-    /** @type {?} */
-    NovoLabelService.prototype.encryptedFieldTooltip;
-    /** @type {?} */
-    NovoLabelService.prototype.noStatesForCountry;
-    /** @type {?} */
-    NovoLabelService.prototype.selectCountryFirst;
-    /** @type {?} */
-    NovoLabelService.prototype.invalidIntegerInput;
-    /** @type {?} */
-    NovoLabelService.prototype.maxRecordsReached;
-    /** @type {?} */
-    NovoLabelService.prototype.selectFilterOptions;
-    /** @type {?} */
-    NovoLabelService.prototype.userLocale;
-}
-/** @type {?} */
-const NOVO_ELEMENTS_LABELS_PROVIDERS = [{ provide: NovoLabelService, useClass: NovoLabelService }];
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/card/Card.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class CardActionsElement {
 }
@@ -2884,47 +2260,10 @@ CardElement.propDecorators = {
     onClose: [{ type: Output }],
     onRefresh: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    CardElement.prototype.padding;
-    /** @type {?} */
-    CardElement.prototype.config;
-    /** @type {?} */
-    CardElement.prototype.title;
-    /** @type {?} */
-    CardElement.prototype.message;
-    /** @type {?} */
-    CardElement.prototype.messageIcon;
-    /** @type {?} */
-    CardElement.prototype.icon;
-    /** @type {?} */
-    CardElement.prototype.iconTooltip;
-    /** @type {?} */
-    CardElement.prototype.refresh;
-    /** @type {?} */
-    CardElement.prototype.close;
-    /** @type {?} */
-    CardElement.prototype.move;
-    /** @type {?} */
-    CardElement.prototype.loading;
-    /** @type {?} */
-    CardElement.prototype.onClose;
-    /** @type {?} */
-    CardElement.prototype.onRefresh;
-    /** @type {?} */
-    CardElement.prototype.cardAutomationId;
-    /** @type {?} */
-    CardElement.prototype.labels;
-    /** @type {?} */
-    CardElement.prototype.iconClass;
-    /** @type {?} */
-    CardElement.prototype.messageIconClass;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/card/Card.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCardModule {
 }
@@ -2938,8 +2277,7 @@ NovoCardModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/common/EventTypeLegend.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoEventTypeLegendElement {
     constructor() {
@@ -2971,19 +2309,10 @@ NovoEventTypeLegendElement.propDecorators = {
     customTemplate: [{ type: Input }],
     eventTypeClicked: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoEventTypeLegendElement.prototype.events;
-    /** @type {?} */
-    NovoEventTypeLegendElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoEventTypeLegendElement.prototype.eventTypeClicked;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/common/CalendarDateChange.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCalendarDateChangeElement {
     /**
@@ -3061,30 +2390,10 @@ NovoCalendarDateChangeElement.propDecorators = {
     locale: [{ type: Input }],
     viewDateChange: [{ type: Output }]
 };
-if (false) {
-    /**
-     * The current view
-     * @type {?}
-     */
-    NovoCalendarDateChangeElement.prototype.view;
-    /**
-     * The current view date
-     * @type {?}
-     */
-    NovoCalendarDateChangeElement.prototype.viewDate;
-    /** @type {?} */
-    NovoCalendarDateChangeElement.prototype.locale;
-    /**
-     * Called when the view date is changed
-     * @type {?}
-     */
-    NovoCalendarDateChangeElement.prototype.viewDateChange;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/calendar-utils/CalendarUtils.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 const WEEKEND_DAY_NUMBERS = [0, 6];
@@ -3104,243 +2413,6 @@ CalendarEventResponse[CalendarEventResponse.Maybe] = 'Maybe';
 CalendarEventResponse[CalendarEventResponse.Accepted] = 'Accepted';
 CalendarEventResponse[CalendarEventResponse.Rejected] = 'Rejected';
 /**
- * @record
- */
-function CalendarEventTimesChangedEvent() { }
-if (false) {
-    /** @type {?} */
-    CalendarEventTimesChangedEvent.prototype.event;
-    /** @type {?} */
-    CalendarEventTimesChangedEvent.prototype.newStart;
-    /** @type {?|undefined} */
-    CalendarEventTimesChangedEvent.prototype.newEnd;
-}
-/**
- * @record
- */
-function WeekDay() { }
-if (false) {
-    /** @type {?} */
-    WeekDay.prototype.date;
-    /** @type {?} */
-    WeekDay.prototype.isPast;
-    /** @type {?} */
-    WeekDay.prototype.isToday;
-    /** @type {?} */
-    WeekDay.prototype.isFuture;
-    /** @type {?} */
-    WeekDay.prototype.isWeekend;
-}
-/**
- * @record
- */
-function EventColor() { }
-if (false) {
-    /** @type {?} */
-    EventColor.prototype.primary;
-    /** @type {?} */
-    EventColor.prototype.secondary;
-}
-/**
- * @record
- */
-function EventAction() { }
-if (false) {
-    /** @type {?} */
-    EventAction.prototype.label;
-    /** @type {?|undefined} */
-    EventAction.prototype.cssClass;
-    /**
-     * @param {?} __0
-     * @return {?}
-     */
-    EventAction.prototype.onClick = function (__0) { };
-}
-/**
- * @record
- */
-function CalendarEvent() { }
-if (false) {
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.id;
-    /** @type {?} */
-    CalendarEvent.prototype.start;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.end;
-    /** @type {?} */
-    CalendarEvent.prototype.title;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.description;
-    /** @type {?} */
-    CalendarEvent.prototype.color;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.type;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.response;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.actions;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.allDay;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.cssClass;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.resizable;
-    /** @type {?|undefined} */
-    CalendarEvent.prototype.draggable;
-}
-/**
- * @record
- */
-function WeekViewEvent() { }
-if (false) {
-    /** @type {?} */
-    WeekViewEvent.prototype.event;
-    /** @type {?} */
-    WeekViewEvent.prototype.offset;
-    /** @type {?} */
-    WeekViewEvent.prototype.span;
-    /** @type {?} */
-    WeekViewEvent.prototype.startsBeforeWeek;
-    /** @type {?} */
-    WeekViewEvent.prototype.endsAfterWeek;
-    /** @type {?|undefined} */
-    WeekViewEvent.prototype.top;
-    /** @type {?|undefined} */
-    WeekViewEvent.prototype.height;
-}
-/**
- * @record
- */
-function WeekViewEventRow() { }
-if (false) {
-    /** @type {?} */
-    WeekViewEventRow.prototype.row;
-}
-/**
- * @record
- */
-function MonthViewDay() { }
-if (false) {
-    /** @type {?} */
-    MonthViewDay.prototype.inMonth;
-    /** @type {?} */
-    MonthViewDay.prototype.events;
-    /** @type {?|undefined} */
-    MonthViewDay.prototype.backgroundColor;
-    /** @type {?|undefined} */
-    MonthViewDay.prototype.cssClass;
-    /** @type {?} */
-    MonthViewDay.prototype.badgeTotal;
-}
-/**
- * @record
- */
-function MonthView() { }
-if (false) {
-    /** @type {?} */
-    MonthView.prototype.rowOffsets;
-    /** @type {?} */
-    MonthView.prototype.days;
-    /** @type {?} */
-    MonthView.prototype.totalDaysVisibleInWeek;
-}
-/**
- * @record
- */
-function DayViewEvent() { }
-if (false) {
-    /** @type {?} */
-    DayViewEvent.prototype.event;
-    /** @type {?} */
-    DayViewEvent.prototype.height;
-    /** @type {?} */
-    DayViewEvent.prototype.width;
-    /** @type {?} */
-    DayViewEvent.prototype.top;
-    /** @type {?} */
-    DayViewEvent.prototype.left;
-    /** @type {?} */
-    DayViewEvent.prototype.startsBeforeDay;
-    /** @type {?} */
-    DayViewEvent.prototype.endsAfterDay;
-}
-/**
- * @record
- */
-function DayView() { }
-if (false) {
-    /** @type {?} */
-    DayView.prototype.events;
-    /** @type {?} */
-    DayView.prototype.width;
-    /** @type {?} */
-    DayView.prototype.allDayEvents;
-}
-/**
- * @record
- */
-function DayViewHourSegment() { }
-if (false) {
-    /** @type {?} */
-    DayViewHourSegment.prototype.isStart;
-    /** @type {?} */
-    DayViewHourSegment.prototype.date;
-    /** @type {?|undefined} */
-    DayViewHourSegment.prototype.cssClass;
-}
-/**
- * @record
- */
-function DayViewHour() { }
-if (false) {
-    /** @type {?} */
-    DayViewHour.prototype.segments;
-}
-/**
- * @record
- */
-function IsEventInPeriodArgs() { }
-if (false) {
-    /** @type {?} */
-    IsEventInPeriodArgs.prototype.event;
-    /** @type {?} */
-    IsEventInPeriodArgs.prototype.periodStart;
-    /** @type {?} */
-    IsEventInPeriodArgs.prototype.periodEnd;
-}
-/**
- * @record
- */
-function GetEventsInPeriodArgs() { }
-if (false) {
-    /** @type {?} */
-    GetEventsInPeriodArgs.prototype.events;
-    /** @type {?} */
-    GetEventsInPeriodArgs.prototype.periodStart;
-    /** @type {?} */
-    GetEventsInPeriodArgs.prototype.periodEnd;
-}
-/**
- * @record
- */
-function GetDayViewArgs() { }
-if (false) {
-    /** @type {?|undefined} */
-    GetDayViewArgs.prototype.events;
-    /** @type {?} */
-    GetDayViewArgs.prototype.viewDate;
-    /** @type {?} */
-    GetDayViewArgs.prototype.hourSegments;
-    /** @type {?} */
-    GetDayViewArgs.prototype.dayStart;
-    /** @type {?} */
-    GetDayViewArgs.prototype.dayEnd;
-    /** @type {?} */
-    GetDayViewArgs.prototype.eventWidth;
-    /** @type {?} */
-    GetDayViewArgs.prototype.segmentHeight;
-}
-/**
  * @param {?} __0
  * @return {?}
  */
@@ -3356,11 +2428,7 @@ function getExcludedDays({ startDate, days, excluded }) {
         if (day === DAYS_IN_WEEK) {
             day = 0;
         }
-        if (excluded.some((/**
-         * @param {?} e
-         * @return {?}
-         */
-        (e) => e === day))) {
+        if (excluded.some((e) => e === day)) {
             reduce++;
         }
         day++;
@@ -3371,32 +2439,13 @@ function getExcludedDays({ startDate, days, excluded }) {
  * @param {?} __0
  * @return {?}
  */
-function getWeekViewEventSpan({ event, offset, startOfWeek, excluded, }) {
-    /** @type {?} */
-    const begin = event.start < startOfWeek ? startOfWeek : event.start;
-    /** @type {?} */
-    let span = 1;
-    if (event.end) {
-        span = differenceInDays(addMinutes(endOfDay(event.end), 1), startOfDay(begin));
-    }
-    /** @type {?} */
-    const totalLength = offset + span;
-    if (totalLength > DAYS_IN_WEEK) {
-        span = DAYS_IN_WEEK - offset;
-    }
-    return span - getExcludedDays({ startDate: begin, days: span, excluded });
-}
-/**
- * @param {?} __0
- * @return {?}
- */
-function getWeekViewEventOffset({ event, startOfWeek, excluded = [], }) {
-    if (event.start < startOfWeek) {
+function getWeekViewEventOffset({ event, startOfWeek: startOfWeek$$1, excluded = [], }) {
+    if (event.start < startOfWeek$$1) {
         return 0;
     }
     /** @type {?} */
-    const distance = differenceInDays(event.start, startOfWeek);
-    return distance - getExcludedDays({ startDate: startOfWeek, days: distance, excluded });
+    const distance = differenceInDays(event.start, startOfWeek$$1);
+    return distance - getExcludedDays({ startDate: startOfWeek$$1, days: distance, excluded });
 }
 /**
  * @param {?} __0
@@ -3429,11 +2478,7 @@ function isEventIsPeriod({ event, periodStart, periodEnd }) {
  * @return {?}
  */
 function getEventsInPeriod({ events, periodStart, periodEnd }) {
-    return events.filter((/**
-     * @param {?} event
-     * @return {?}
-     */
-    (event) => isEventIsPeriod({ event, periodStart, periodEnd })));
+    return events.filter((event) => isEventIsPeriod({ event, periodStart, periodEnd }));
 }
 /**
  * @param {?} events
@@ -3442,11 +2487,7 @@ function getEventsInPeriod({ events, periodStart, periodEnd }) {
  * @return {?}
  */
 function getEventsInTimeRange(events, dayStart, dayEnd) {
-    return events.filter((/**
-     * @param {?} event
-     * @return {?}
-     */
-    (event) => {
+    return events.filter((event) => {
         /** @type {?} */
         const eventStart = event.start;
         /** @type {?} */
@@ -3456,7 +2497,7 @@ function getEventsInTimeRange(events, dayStart, dayEnd) {
         /** @type {?} */
         const endOfView = setMinutes(setHours(startOfMinute(eventStart), dayEnd.hour), dayEnd.minute);
         return isAfter(eventEnd, startOfView) && isBefore(eventStart, endOfView);
-    }));
+    });
 }
 /**
  * @param {?} __0
@@ -3485,11 +2526,7 @@ function getWeekViewHeader({ viewDate, weekStartsOn, excluded = [], }) {
     for (let i = 0; i < DAYS_IN_WEEK; i++) {
         /** @type {?} */
         const date = addDays(start, i);
-        if (!excluded.some((/**
-         * @param {?} e
-         * @return {?}
-         */
-        (e) => date.getDay() === e))) {
+        if (!excluded.some((e) => date.getDay() === e)) {
             days.push(getWeekDay({ date }));
         }
     }
@@ -3511,57 +2548,32 @@ function getWeekView({ events = [], viewDate, weekStartsOn, excluded = [], hourS
     const maxRange = DAYS_IN_WEEK - excluded.length;
     /** @type {?} */
     const eventsMapped = getEventsInTimeRange(getEventsInPeriod({ events, periodStart: startOfViewWeek, periodEnd: endOfViewWeek }), dayStart, dayEnd)
-        .map((/**
-     * @param {?} event
-     * @return {?}
-     */
-    (event) => {
+        .map((event) => {
         /** @type {?} */
         const offset = getWeekViewEventOffset({ event, startOfWeek: startOfViewWeek, excluded });
         /** @type {?} */
         const span = 1;
         return { event, offset, span };
-    }))
-        .filter((/**
-     * @param {?} e
-     * @return {?}
-     */
-    (e) => e.offset < maxRange))
-        .filter((/**
-     * @param {?} e
-     * @return {?}
-     */
-    (e) => e.span > 0))
-        .map((/**
-     * @param {?} entry
-     * @return {?}
-     */
-    (entry) => ({
+    })
+        .filter((e) => e.offset < maxRange)
+        .filter((e) => e.span > 0)
+        .map((entry) => ({
         event: entry.event,
         offset: entry.offset,
         span: entry.span,
         startsBeforeWeek: entry.event.start < startOfViewWeek,
         endsAfterWeek: (entry.event.end || entry.event.start) > endOfViewWeek,
         top: 0,
-    })))
-        .sort((/**
-     * @param {?} itemA
-     * @param {?} itemB
-     * @return {?}
-     */
-    (itemA, itemB) => {
+    }))
+        .sort((itemA, itemB) => {
         /** @type {?} */
         const startSecondsDiff = differenceInSeconds(itemA.event.start, itemB.event.start);
         if (startSecondsDiff === 0) {
             return differenceInSeconds(itemB.event.end || itemB.event.start, itemA.event.end || itemA.event.start);
         }
         return startSecondsDiff;
-    }))
-        .map((/**
-     * @param {?} entry
-     * @return {?}
-     */
-    (entry) => {
+    })
+        .map((entry) => {
         /** @type {?} */
         const startOfView = setMinutes(setHours(startOfDay(entry.event.start), dayStart.hour), dayStart.minute);
         /** @type {?} */
@@ -3594,49 +2606,36 @@ function getWeekView({ events = [], viewDate, weekStartsOn, excluded = [], hourS
         }
         entry.height = height;
         return entry;
-    }));
+    });
     /** @type {?} */
     const eventRows = [];
     /** @type {?} */
     const allocatedEvents = [];
-    eventsMapped.forEach((/**
-     * @param {?} event
-     * @param {?} index
-     * @return {?}
-     */
-    (event, index) => {
+    eventsMapped.forEach((event, index) => {
         if (allocatedEvents.indexOf(event) === -1) {
             allocatedEvents.push(event);
             /** @type {?} */
-            const otherRowEvents = eventsMapped.slice(index + 1).filter((/**
-             * @param {?} nextEvent
-             * @return {?}
-             */
-            (nextEvent) => {
+            const otherRowEvents = eventsMapped.slice(index + 1).filter((nextEvent) => {
                 return nextEvent.top === event.top && nextEvent.offset === event.offset;
-            }));
+            });
             if (otherRowEvents.length > 0) {
                 /** @type {?} */
                 let totalEventsForRow = otherRowEvents.length + 1;
                 event.span = 1 / totalEventsForRow;
                 /** @type {?} */
                 let nextOffset = event.span + event.offset;
-                otherRowEvents.forEach((/**
-                 * @param {?} nextEvent
-                 * @return {?}
-                 */
-                (nextEvent) => {
+                otherRowEvents.forEach((nextEvent) => {
                     nextEvent.offset = nextOffset;
                     nextEvent.span = event.span;
                     nextOffset = nextEvent.span + nextEvent.offset;
-                }));
+                });
                 allocatedEvents.push(...otherRowEvents);
             }
             eventRows.push({
                 row: [event, ...otherRowEvents],
             });
         }
-    }));
+    });
     return eventRows;
 }
 /**
@@ -3662,11 +2661,7 @@ function getMonthView({ events = [], viewDate, weekStartsOn, excluded = [], }) {
     for (let i = 0; i < differenceInDays(end, start) + 1; i++) {
         /** @type {?} */
         const date = addDays(start, i);
-        if (!excluded.some((/**
-         * @param {?} e
-         * @return {?}
-         */
-        (e) => date.getDay() === e))) {
+        if (!excluded.some((e) => date.getDay() === e)) {
             /** @type {?} */
             const day = (/** @type {?} */ (getWeekDay({ date })));
             /** @type {?} */
@@ -3712,27 +2707,14 @@ function getDayView({ events = [], viewDate, hourSegments, dayStart, dayEnd, eve
     const previousDayEvents = [];
     /** @type {?} */
     const dayViewEvents = getEventsInTimeRange(getEventsInPeriod({
-        events: events.filter((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => !event.allDay)),
+        events: events.filter((event) => !event.allDay),
         periodStart: startOfView,
         periodEnd: endOfView,
     }), dayStart, dayEnd)
-        .sort((/**
-     * @param {?} eventA
-     * @param {?} eventB
-     * @return {?}
-     */
-    (eventA, eventB) => {
+        .sort((eventA, eventB) => {
         return eventA.start.valueOf() - eventB.start.valueOf();
-    }))
-        .map((/**
-     * @param {?} event
-     * @return {?}
-     */
-    (event) => {
+    })
+        .map((event) => {
         /** @type {?} */
         const eventStart = event.start;
         /** @type {?} */
@@ -3764,11 +2746,7 @@ function getDayView({ events = [], viewDate, hourSegments, dayStart, dayEnd, eve
         /** @type {?} */
         const bottom = top + height;
         /** @type {?} */
-        const overlappingPreviousEvents = previousDayEvents.filter((/**
-         * @param {?} previousEvent
-         * @return {?}
-         */
-        (previousEvent) => {
+        const overlappingPreviousEvents = previousDayEvents.filter((previousEvent) => {
             /** @type {?} */
             const previousEventTop = previousEvent.top;
             /** @type {?} */
@@ -3780,14 +2758,10 @@ function getDayView({ events = [], viewDate, hourSegments, dayStart, dayEnd, eve
                 return true;
             }
             return false;
-        }));
+        });
         /** @type {?} */
         let left = 0;
-        while (overlappingPreviousEvents.some((/**
-         * @param {?} previousEvent
-         * @return {?}
-         */
-        (previousEvent) => previousEvent.left === left))) {
+        while (overlappingPreviousEvents.some((previousEvent) => previousEvent.left === left)) {
             left += eventWidth;
         }
         /** @type {?} */
@@ -3804,25 +2778,13 @@ function getDayView({ events = [], viewDate, hourSegments, dayStart, dayEnd, eve
             previousDayEvents.push(dayEvent);
         }
         return dayEvent;
-    }))
-        .filter((/**
-     * @param {?} dayEvent
-     * @return {?}
-     */
-    (dayEvent) => dayEvent.height > 0));
+    })
+        .filter((dayEvent) => dayEvent.height > 0);
     /** @type {?} */
-    const width = Math.max(...dayViewEvents.map((/**
-     * @param {?} event
-     * @return {?}
-     */
-    (event) => event.left + event.width)));
+    const width = Math.max(...dayViewEvents.map((event) => event.left + event.width));
     /** @type {?} */
     const allDayEvents = getEventsInPeriod({
-        events: events.filter((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => event.allDay)),
+        events: events.filter((event) => event.allDay),
         periodStart: startOfDay(startOfView),
         periodEnd: endOfDay(endOfView),
     });
@@ -3869,8 +2831,7 @@ function getDayViewHourGrid({ viewDate, hourSegments, dayStart, dayEnd, }) {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/month/CalendarMonthView.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Shows all events on a given month. Example usage:
@@ -3927,13 +2888,10 @@ class NovoCalendarMonthViewElement {
      */
     ngOnInit() {
         if (this.refresh) {
-            this.refreshSubscription = this.refresh.subscribe((/**
-             * @return {?}
-             */
-            () => {
+            this.refreshSubscription = this.refresh.subscribe(() => {
                 this.refreshAll();
                 this.cdr.markForCheck();
-            }));
+            });
         }
     }
     /**
@@ -4005,11 +2963,7 @@ class NovoCalendarMonthViewElement {
             excluded: this.excludeDays,
         });
         if (this.dayModifier) {
-            this.view.days.forEach((/**
-             * @param {?} day
-             * @return {?}
-             */
-            (day) => this.dayModifier(day)));
+            this.view.days.forEach((day) => this.dayModifier(day));
         }
     }
     /**
@@ -4072,101 +3026,10 @@ NovoCalendarMonthViewElement.propDecorators = {
     eventTimesChanged: [{ type: Output }],
     viewDateChange: [{ type: Output }]
 };
-if (false) {
-    /**
-     * The current view date
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.viewDate;
-    /**
-     * An array of events to display on view
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.events;
-    /**
-     * An array of day indexes (0 = sunday, 1 = monday etc) that will be hidden on the view
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.excludeDays;
-    /**
-     * A function that will be called before each cell is rendered. The first argument will contain the calendar cell.
-     * If you add the `cssClass` property to the cell it will add that class to the cell in the template
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.dayModifier;
-    /**
-     * An observable that when emitted on will re-render the current view
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.refresh;
-    /**
-     * The locale used to format dates
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.locale;
-    /**
-     * The placement of the event tooltip
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.tooltipPosition;
-    /**
-     * The start number of the week
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.weekStartsOn;
-    /**
-     * A custom template to use to replace the header
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.headerTemplate;
-    /**
-     * A custom template to use to replace the day cell
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.cellTemplate;
-    /**
-     * Called when the day cell is clicked
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.dayClicked;
-    /**
-     * Called when the event title is clicked
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.eventClicked;
-    /**
-     * Called when an event is dragged and dropped
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.eventTimesChanged;
-    /** @type {?} */
-    NovoCalendarMonthViewElement.prototype.viewDateChange;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.columnHeaders;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.view;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarMonthViewElement.prototype.refreshSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoCalendarMonthViewElement.prototype.cdr;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/month/CalendarMonthHeader.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCalendarMonthHeaderElement {
     constructor() {
@@ -4228,26 +3091,10 @@ NovoCalendarMonthHeaderElement.propDecorators = {
     customTemplate: [{ type: Input }],
     viewDateChange: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoCalendarMonthHeaderElement.prototype.viewDate;
-    /** @type {?} */
-    NovoCalendarMonthHeaderElement.prototype.days;
-    /** @type {?} */
-    NovoCalendarMonthHeaderElement.prototype.locale;
-    /** @type {?} */
-    NovoCalendarMonthHeaderElement.prototype.customTemplate;
-    /**
-     * Called when the view date is changed
-     * @type {?}
-     */
-    NovoCalendarMonthHeaderElement.prototype.viewDateChange;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/month/CalendarMonthDay.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCalendarMonthDayElement {
     constructor() {
@@ -4260,13 +3107,9 @@ class NovoCalendarMonthDayElement {
         if (!this.day) {
             return [];
         }
-        return this.day.events.filter((/**
-         * @param {?} evt
-         * @return {?}
-         */
-        (evt) => {
+        return this.day.events.filter((evt) => {
             return evt.response === CalendarEventResponse.Accepted;
-        }));
+        });
     }
     /**
      * @return {?}
@@ -4275,13 +3118,9 @@ class NovoCalendarMonthDayElement {
         if (!this.day) {
             return [];
         }
-        return this.day.events.filter((/**
-         * @param {?} evt
-         * @return {?}
-         */
-        (evt) => {
+        return this.day.events.filter((evt) => {
             return evt.response === CalendarEventResponse.Rejected;
-        }));
+        });
     }
     /**
      * @return {?}
@@ -4290,13 +3129,9 @@ class NovoCalendarMonthDayElement {
         if (!this.day) {
             return [];
         }
-        return this.day.events.filter((/**
-         * @param {?} evt
-         * @return {?}
-         */
-        (evt) => {
+        return this.day.events.filter((evt) => {
             return evt.response === CalendarEventResponse.Maybe;
-        }));
+        });
     }
 }
 NovoCalendarMonthDayElement.decorators = [
@@ -4354,34 +3189,16 @@ NovoCalendarMonthDayElement.propDecorators = {
     customTemplate: [{ type: Input }],
     eventClicked: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoCalendarMonthDayElement.prototype.day;
-    /** @type {?} */
-    NovoCalendarMonthDayElement.prototype.locale;
-    /** @type {?} */
-    NovoCalendarMonthDayElement.prototype.tooltipPosition;
-    /** @type {?} */
-    NovoCalendarMonthDayElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoCalendarMonthDayElement.prototype.eventClicked;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/week/CalendarWeekView.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @hidden
  * @type {?}
  */
 const SEGMENT_HEIGHT = 30;
-/**
- * @hidden
- * @type {?}
- */
-const MINUTES_IN_HOUR$1 = 60;
 /**
  * Shows all events on a given week. Example usage:
  *
@@ -4469,13 +3286,10 @@ class NovoCalendarWeekViewElement {
      */
     ngOnInit() {
         if (this.refresh) {
-            this.refreshSubscription = this.refresh.subscribe((/**
-             * @return {?}
-             */
-            () => {
+            this.refreshSubscription = this.refresh.subscribe(() => {
                 this.refreshAll();
                 this.cdr.detectChanges();
-            }));
+            });
         }
     }
     /**
@@ -4711,154 +3525,10 @@ NovoCalendarWeekViewElement.propDecorators = {
     eventClicked: [{ type: Output }],
     eventTimesChanged: [{ type: Output }]
 };
-if (false) {
-    /**
-     * The current view date
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.viewDate;
-    /**
-     * An array of events to display on view
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.events;
-    /**
-     * An array of day indexes (0 = sunday, 1 = monday etc) that will be hidden on the view
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.excludeDays;
-    /**
-     * An observable that when emitted on will re-render the current view
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.refresh;
-    /**
-     * The locale used to format dates
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.locale;
-    /**
-     * The placement of the event tooltip
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.tooltipPosition;
-    /**
-     * The start number of the week
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.weekStartsOn;
-    /**
-     * A custom template to use to replace the header
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.headerTemplate;
-    /**
-     * A custom template to use for week view events
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.eventTemplate;
-    /**
-     * The precision to display events.
-     * `days` will round event start and end dates to the nearest day and `minutes` will not do this rounding
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.precision;
-    /**
-     * The number of segments in an hour. Must be <= 6
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.hourSegments;
-    /**
-     * The day start hours in 24 hour time. Must be 0-23
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.dayStartHour;
-    /**
-     * The day start minutes. Must be 0-59
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.dayStartMinute;
-    /**
-     * The day end hours in 24 hour time. Must be 0-23
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.dayEndHour;
-    /**
-     * The day end minutes. Must be 0-59
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.dayEndMinute;
-    /**
-     * A custom template to use to replace the hour segment
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.hourSegmentTemplate;
-    /**
-     * Called when an hour segment is clicked
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.hourSegmentClicked;
-    /**
-     * Called when a header week day is clicked
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.dayClicked;
-    /**
-     * Called when the event title is clicked
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.eventClicked;
-    /**
-     * Called when an event is resized or dragged and dropped
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.eventTimesChanged;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.days;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.hours;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.eventRows;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.refreshSubscription;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.currentResize;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.validateDrag;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarWeekViewElement.prototype.validateResize;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoCalendarWeekViewElement.prototype.cdr;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/week/CalendarWeekHeader.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCalendarWeekHeaderElement {
     constructor() {
@@ -4904,23 +3574,10 @@ NovoCalendarWeekHeaderElement.propDecorators = {
     dayClicked: [{ type: Output }],
     eventDropped: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoCalendarWeekHeaderElement.prototype.days;
-    /** @type {?} */
-    NovoCalendarWeekHeaderElement.prototype.locale;
-    /** @type {?} */
-    NovoCalendarWeekHeaderElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoCalendarWeekHeaderElement.prototype.dayClicked;
-    /** @type {?} */
-    NovoCalendarWeekHeaderElement.prototype.eventDropped;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/week/CalendarWeekEvent.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCalendarWeekEventElement {
     constructor() {
@@ -4958,32 +3615,16 @@ NovoCalendarWeekEventElement.propDecorators = {
     customTemplate: [{ type: Input }],
     eventClicked: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoCalendarWeekEventElement.prototype.weekEvent;
-    /** @type {?} */
-    NovoCalendarWeekEventElement.prototype.tooltipPosition;
-    /** @type {?} */
-    NovoCalendarWeekEventElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoCalendarWeekEventElement.prototype.eventClicked;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/day/CalendarDayView.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @hidden
  * @type {?}
  */
 const SEGMENT_HEIGHT$1 = 30;
-/**
- * @hidden
- * @type {?}
- */
-const MINUTES_IN_HOUR$2 = 60;
 /**
  * Shows all events on a given day. Example usage:
  *
@@ -5066,13 +3707,10 @@ class NovoCalendarDayViewElement {
      */
     ngOnInit() {
         if (this.refresh) {
-            this.refreshSubscription = this.refresh.subscribe((/**
-             * @return {?}
-             */
-            () => {
+            this.refreshSubscription = this.refresh.subscribe(() => {
                 this.refreshAll();
                 this.cdr.detectChanges();
-            }));
+            });
         }
     }
     /**
@@ -5192,17 +3830,9 @@ class NovoCalendarDayViewElement {
             },
         });
         if (this.hourSegmentModifier) {
-            this.hours.forEach((/**
-             * @param {?} hour
-             * @return {?}
-             */
-            (hour) => {
-                hour.segments.forEach((/**
-                 * @param {?} segment
-                 * @return {?}
-                 */
-                (segment) => this.hourSegmentModifier(segment)));
-            }));
+            this.hours.forEach((hour) => {
+                hour.segments.forEach((segment) => this.hourSegmentModifier(segment));
+            });
         }
     }
     /**
@@ -5304,149 +3934,10 @@ NovoCalendarDayViewElement.propDecorators = {
     hourSegmentClicked: [{ type: Output }],
     eventTimesChanged: [{ type: Output }]
 };
-if (false) {
-    /**
-     * The current view date
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.viewDate;
-    /**
-     * An array of events to display on view
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.events;
-    /**
-     * The number of segments in an hour. Must be <= 6
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.hourSegments;
-    /**
-     * The day start hours in 24 hour time. Must be 0-23
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.dayStartHour;
-    /**
-     * The day start minutes. Must be 0-59
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.dayStartMinute;
-    /**
-     * The day end hours in 24 hour time. Must be 0-23
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.dayEndHour;
-    /**
-     * The day end minutes. Must be 0-59
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.dayEndMinute;
-    /**
-     * The width in pixels of each event on the view
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.eventWidth;
-    /**
-     * An observable that when emitted on will re-render the current view
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.refresh;
-    /**
-     * The locale used to format dates
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.locale;
-    /**
-     * A function that will be called before each hour segment is called. The first argument will contain the hour segment.
-     * If you add the `cssClass` property to the segment it will add that class to the hour segment in the template
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.hourSegmentModifier;
-    /**
-     * The grid size to snap resizing and dragging of events to
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.eventSnapSize;
-    /**
-     * The placement of the event tooltip
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.tooltipPosition;
-    /**
-     * A custom template to use to replace the hour segment
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.hourSegmentTemplate;
-    /**
-     * A custom template to use for all day events
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.allDayEventTemplate;
-    /**
-     * A custom template to use for day view events
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.eventTemplate;
-    /**
-     * Called when an event title is clicked
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.eventClicked;
-    /**
-     * Called when an hour segment is clicked
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.hourSegmentClicked;
-    /**
-     * Called when an event is resized or dragged and dropped
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.eventTimesChanged;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.hours;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.view;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.width;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.refreshSubscription;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.currentResize;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.validateDrag;
-    /**
-     * @hidden
-     * @type {?}
-     */
-    NovoCalendarDayViewElement.prototype.validateResize;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoCalendarDayViewElement.prototype.cdr;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/day/CalendarDayEvent.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCalendarDayEventElement {
     constructor() {
@@ -5487,21 +3978,10 @@ NovoCalendarDayEventElement.propDecorators = {
     customTemplate: [{ type: Input }],
     eventClicked: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoCalendarDayEventElement.prototype.dayEvent;
-    /** @type {?} */
-    NovoCalendarDayEventElement.prototype.tooltipPosition;
-    /** @type {?} */
-    NovoCalendarDayEventElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoCalendarDayEventElement.prototype.eventClicked;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/day/CalendarHourSegment.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCalendarHourSegmentElement {
 }
@@ -5535,19 +4015,10 @@ NovoCalendarHourSegmentElement.propDecorators = {
     locale: [{ type: Input }],
     customTemplate: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoCalendarHourSegmentElement.prototype.segment;
-    /** @type {?} */
-    NovoCalendarHourSegmentElement.prototype.locale;
-    /** @type {?} */
-    NovoCalendarHourSegmentElement.prototype.customTemplate;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/day/CalendarAllDayEvent.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCalendarAllDayEventElement {
     constructor() {
@@ -5587,19 +4058,10 @@ NovoCalendarAllDayEventElement.propDecorators = {
     customTemplate: [{ type: Input }],
     eventClicked: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoCalendarAllDayEventElement.prototype.event;
-    /** @type {?} */
-    NovoCalendarAllDayEventElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoCalendarAllDayEventElement.prototype.eventClicked;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/Weekday.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class WeekdayPipe {
     /**
@@ -5625,18 +4087,10 @@ WeekdayPipe.decorators = [
 WeekdayPipe.ctorParameters = () => [
     { type: String, decorators: [{ type: Inject, args: [LOCALE_ID,] }] }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    WeekdayPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/Month.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class MonthPipe {
     /**
@@ -5662,18 +4116,10 @@ MonthPipe.decorators = [
 MonthPipe.ctorParameters = () => [
     { type: String, decorators: [{ type: Inject, args: [LOCALE_ID,] }] }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    MonthPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/MonthDay.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class MonthDayPipe {
     /**
@@ -5699,18 +4145,10 @@ MonthDayPipe.decorators = [
 MonthDayPipe.ctorParameters = () => [
     { type: String, decorators: [{ type: Inject, args: [LOCALE_ID,] }] }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    MonthDayPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/Year.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class YearPipe {
     /**
@@ -5736,18 +4174,10 @@ YearPipe.decorators = [
 YearPipe.ctorParameters = () => [
     { type: String, decorators: [{ type: Inject, args: [LOCALE_ID,] }] }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    YearPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/Hours.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class HoursPipe {
     /**
@@ -5773,18 +4203,10 @@ HoursPipe.decorators = [
 HoursPipe.ctorParameters = () => [
     { type: String, decorators: [{ type: Inject, args: [LOCALE_ID,] }] }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    HoursPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/DayOfMonth.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class DayOfMonthPipe {
     /**
@@ -5810,18 +4232,10 @@ DayOfMonthPipe.decorators = [
 DayOfMonthPipe.ctorParameters = () => [
     { type: String, decorators: [{ type: Inject, args: [LOCALE_ID,] }] }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DayOfMonthPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/pipe/EndOfWeekDisplayPipe.pipe.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class EndOfWeekDisplayPipe {
     /**
@@ -5837,11 +4251,11 @@ class EndOfWeekDisplayPipe {
      * @param {?=} method
      * @return {?}
      */
-    transform(endOfWeek, startOfWeek, locale = this.locale, method = 'short') {
-        if (endOfWeek.getMonth() === startOfWeek.getMonth()) {
-            return new Intl.DateTimeFormat(locale, { day: 'numeric' }).format(endOfWeek);
+    transform(endOfWeek$$1, startOfWeek$$1, locale = this.locale, method = 'short') {
+        if (endOfWeek$$1.getMonth() === startOfWeek$$1.getMonth()) {
+            return new Intl.DateTimeFormat(locale, { day: 'numeric' }).format(endOfWeek$$1);
         }
-        return new Intl.DateTimeFormat(locale, { month: method, day: 'numeric' }).format(endOfWeek);
+        return new Intl.DateTimeFormat(locale, { month: method, day: 'numeric' }).format(endOfWeek$$1);
     }
 }
 EndOfWeekDisplayPipe.decorators = [
@@ -5851,18 +4265,10 @@ EndOfWeekDisplayPipe.decorators = [
 EndOfWeekDisplayPipe.ctorParameters = () => [
     { type: String, decorators: [{ type: Inject, args: [LOCALE_ID,] }] }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    EndOfWeekDisplayPipe.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/calendar/Calendar.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCalendarModule {
 }
@@ -5916,8 +4322,7 @@ NovoCalendarModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/toast/Toast.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoToastElement {
     /**
@@ -6049,52 +4454,10 @@ NovoToastElement.propDecorators = {
     message: [{ type: Input }],
     closed: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoToastElement.prototype.theme;
-    /** @type {?} */
-    NovoToastElement.prototype.icon;
-    /** @type {?} */
-    NovoToastElement.prototype.title;
-    /** @type {?} */
-    NovoToastElement.prototype.hasDialogue;
-    /** @type {?} */
-    NovoToastElement.prototype.link;
-    /** @type {?} */
-    NovoToastElement.prototype.isCloseable;
-    /** @type {?} */
-    NovoToastElement.prototype.closed;
-    /** @type {?} */
-    NovoToastElement.prototype._message;
-    /** @type {?} */
-    NovoToastElement.prototype.show;
-    /** @type {?} */
-    NovoToastElement.prototype.animate;
-    /** @type {?} */
-    NovoToastElement.prototype.parent;
-    /** @type {?} */
-    NovoToastElement.prototype.launched;
-    /** @type {?} */
-    NovoToastElement.prototype.position;
-    /** @type {?} */
-    NovoToastElement.prototype.time;
-    /** @type {?} */
-    NovoToastElement.prototype.iconClass;
-    /** @type {?} */
-    NovoToastElement.prototype.alertTheme;
-    /** @type {?} */
-    NovoToastElement.prototype.embedded;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoToastElement.prototype.sanitizer;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/toast/Toast.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoToastModule {
 }
@@ -6109,8 +4472,7 @@ NovoToastModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/header/Header.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoHeaderSpacer {
 }
@@ -6149,14 +4511,6 @@ NovoUtilActionComponent.propDecorators = {
     inverse: [{ type: Input }],
     disabled: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoUtilActionComponent.prototype.icon;
-    /** @type {?} */
-    NovoUtilActionComponent.prototype.inverse;
-    /** @type {?} */
-    NovoUtilActionComponent.prototype.disabled;
-}
 class NovoHeaderComponent {
     constructor() {
         this.headerClass = 'novo-header';
@@ -6228,33 +4582,10 @@ NovoHeaderComponent.propDecorators = {
     theme: [{ type: HostBinding, args: ['attr.theme',] }, { type: Input }],
     icon: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoHeaderComponent.prototype.headerClass;
-    /** @type {?} */
-    NovoHeaderComponent.prototype.condensed;
-    /** @type {?} */
-    NovoHeaderComponent.prototype.title;
-    /** @type {?} */
-    NovoHeaderComponent.prototype.subTitle;
-    /** @type {?} */
-    NovoHeaderComponent.prototype.inverse;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoHeaderComponent.prototype._theme;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoHeaderComponent.prototype._icon;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/header/Header.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoHeaderModule {
 }
@@ -6268,8 +4599,7 @@ NovoHeaderModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tabs/Tabs.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoNavElement {
     constructor() {
@@ -6289,16 +4619,10 @@ class NovoNavElement {
          * @return {?}
          */
         function _deactivateAllItems(items) {
-            items.forEach((/**
-             * @param {?} t
-             * @return {?}
-             */
-            (t) => {
-                if (t.active === true) {
-                    // t.deselected.next();
-                }
+            items.forEach((t) => {
+                if (t.active === true) ;
                 t.active = false;
-            }));
+            });
         }
         _deactivateAllItems(this.items);
         item.active = true;
@@ -6310,12 +4634,9 @@ class NovoNavElement {
         let element = (/** @type {?} */ (document.querySelector('novo-tab-link.active span.indicator')));
         if (element) {
             element.style.opacity = 0.99;
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            setTimeout(() => {
                 element.style.opacity = 1;
-            }), 10);
+            }, 10);
         }
     }
     /**
@@ -6343,20 +4664,6 @@ NovoNavElement.propDecorators = {
     router: [{ type: Input }],
     condensed: [{ type: HostBinding, args: ['class.condensed',] }, { type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoNavElement.prototype.theme;
-    /** @type {?} */
-    NovoNavElement.prototype.direction;
-    /** @type {?} */
-    NovoNavElement.prototype.outlet;
-    /** @type {?} */
-    NovoNavElement.prototype.router;
-    /** @type {?} */
-    NovoNavElement.prototype.condensed;
-    /** @type {?} */
-    NovoNavElement.prototype.items;
-}
 class NovoTabElement {
     /**
      * @param {?} nav
@@ -6403,16 +4710,6 @@ NovoTabElement.propDecorators = {
     disabled: [{ type: Input }],
     activeChange: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoTabElement.prototype.active;
-    /** @type {?} */
-    NovoTabElement.prototype.disabled;
-    /** @type {?} */
-    NovoTabElement.prototype.activeChange;
-    /** @type {?} */
-    NovoTabElement.prototype.nav;
-}
 class NovoTabButtonElement {
     /**
      * @param {?} nav
@@ -6451,14 +4748,6 @@ NovoTabButtonElement.propDecorators = {
     active: [{ type: Input }],
     disabled: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoTabButtonElement.prototype.active;
-    /** @type {?} */
-    NovoTabButtonElement.prototype.disabled;
-    /** @type {?} */
-    NovoTabButtonElement.prototype.nav;
-}
 class NovoTabLinkElement {
     /**
      * @param {?} nav
@@ -6502,14 +4791,6 @@ NovoTabLinkElement.propDecorators = {
     active: [{ type: Input }],
     disabled: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoTabLinkElement.prototype.active;
-    /** @type {?} */
-    NovoTabLinkElement.prototype.disabled;
-    /** @type {?} */
-    NovoTabLinkElement.prototype.nav;
-}
 class NovoNavOutletElement {
     constructor() {
         this.items = [];
@@ -6527,16 +4808,10 @@ class NovoNavOutletElement {
          * @return {?}
          */
         function _deactivateAllItems(items) {
-            items.forEach((/**
-             * @param {?} t
-             * @return {?}
-             */
-            (t) => {
-                if (t.active === true) {
-                    // t.deselected.next();
-                }
+            items.forEach((t) => {
+                if (t.active === true) ;
                 t.active = false;
-            }));
+            });
         }
         _deactivateAllItems(this.items);
         item.active = true;
@@ -6558,10 +4833,6 @@ NovoNavOutletElement.decorators = [
                 template: '<ng-content></ng-content>'
             }] }
 ];
-if (false) {
-    /** @type {?} */
-    NovoNavOutletElement.prototype.items;
-}
 class NovoNavContentElement {
     /**
      * @param {?} outlet
@@ -6587,10 +4858,6 @@ NovoNavContentElement.ctorParameters = () => [
 NovoNavContentElement.propDecorators = {
     active: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoNavContentElement.prototype.active;
-}
 class NovoNavHeaderElement {
     /**
      * @param {?} outlet
@@ -6635,19 +4902,10 @@ NovoNavHeaderElement.propDecorators = {
     active: [{ type: Input }],
     forElement: [{ type: Input, args: ['for',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoNavHeaderElement.prototype.active;
-    /** @type {?} */
-    NovoNavHeaderElement.prototype.forElement;
-    /** @type {?} */
-    NovoNavHeaderElement.prototype.outlet;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tabs/Tabs.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTabModule {
 }
@@ -6677,17 +4935,13 @@ NovoTabModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tiles/Tiles.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const TILES_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoTilesElement)),
+    useExisting: forwardRef(() => NovoTilesElement),
     multi: true,
 };
 class NovoTilesElement {
@@ -6707,14 +4961,8 @@ class NovoTilesElement {
         this.activeTile = null;
         this.state = 'inactive';
         this.focused = false;
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
     }
     /**
      * @param {?} focus
@@ -6746,31 +4994,23 @@ class NovoTilesElement {
      */
     setupOptions() {
         if (this.options && this.options.length && (this.options[0].value === undefined || this.options[0].value === null)) {
-            this._options = this.options.map((/**
-             * @param {?} x
-             * @return {?}
-             */
-            (x) => {
+            this._options = this.options.map((x) => {
                 /** @type {?} */
                 let item = { value: x, label: x, checked: this.model === x };
                 if (item.checked) {
                     this.setTile(item);
                 }
                 return item;
-            }));
+            });
         }
         else {
-            this._options = this.options.map((/**
-             * @param {?} x
-             * @return {?}
-             */
-            (x) => {
-                x.checked = this.model === x.value || (this.model && this.model.id === x.value);
+            this._options = this.options.map((x) => {
+                x.checked = this.model === x.value;
                 if (x.checked) {
                     this.setTile(x);
                 }
                 return x;
-            }));
+            });
         }
         this.ref.markForCheck();
     }
@@ -6817,10 +5057,7 @@ class NovoTilesElement {
      * @return {?}
      */
     moveTile() {
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             /** @type {?} */
             let ind = this.element.nativeElement.querySelector('.active-indicator');
             /** @type {?} */
@@ -6835,7 +5072,7 @@ class NovoTilesElement {
                 this.state = 'active';
                 this.ref.markForCheck();
             }
-        }));
+        });
     }
     /**
      * @param {?} model
@@ -6874,32 +5111,16 @@ NovoTilesElement.decorators = [
                 selector: 'novo-tiles',
                 providers: [TILES_VALUE_ACCESSOR],
                 template: `
-    <div class="tile-container" [class.active]="focused" [class.disabled]="disabled">
-      <div
-        class="tile"
-        *ngFor="let option of _options; let i = index"
-        [ngClass]="{ active: option.checked, disabled: option.disabled }"
-        (click)="select($event, option)"
-        [attr.data-automation-id]="option.label || option"
-      >
-        <input
-          class="tiles-input"
-          [name]="name"
-          type="radio"
-          [value]="option.checked || option.value || option"
-          [attr.id]="name + i"
-          (change)="select($event, option)"
-          (focus)="setFocus(true)"
-          (blur)="setFocus(false)"
-          [disabled]="disabled"
-        />
-        <label [attr.for]="name + i" [attr.data-automation-id]="option.label || option">
-          {{ option.label || option }}
-        </label>
-      </div>
-      <span class="active-indicator" [@tileState]="state" [hidden]="activeTile === undefined || activeTile === null"></span>
-    </div>
-  `,
+        <div class="tile-container" [class.active]="focused" [class.disabled]="disabled">
+            <div class="tile" *ngFor="let option of _options; let i = index" [ngClass]="{active: option.checked, disabled: option.disabled}" (click)="select($event, option)" [attr.data-automation-id]="option.label || option">
+                <input class="tiles-input" [name]="name" type="radio" [value]="option.checked || option" [attr.id]="name + i" (change)="select($event, option)" (focus)="setFocus(true)" (blur)="setFocus(false)" [disabled]="disabled">
+                <label [attr.for]="name + i" [attr.data-automation-id]="option.label || option">
+                    {{ option.label || option }}
+                </label>
+            </div>
+            <span class="active-indicator" [@tileState]="state" [hidden]="activeTile === undefined || activeTile === null"></span>
+        </div>
+    `,
                 animations: [
                     trigger('tileState', [
                         state('inactive', style({
@@ -6929,51 +5150,10 @@ NovoTilesElement.propDecorators = {
     onSelectedOptionClick: [{ type: Output }],
     onDisabledOptionClick: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoTilesElement.prototype.name;
-    /** @type {?} */
-    NovoTilesElement.prototype.options;
-    /** @type {?} */
-    NovoTilesElement.prototype.required;
-    /** @type {?} */
-    NovoTilesElement.prototype.disabled;
-    /** @type {?} */
-    NovoTilesElement.prototype.onChange;
-    /** @type {?} */
-    NovoTilesElement.prototype.onSelectedOptionClick;
-    /** @type {?} */
-    NovoTilesElement.prototype.onDisabledOptionClick;
-    /** @type {?} */
-    NovoTilesElement.prototype._options;
-    /** @type {?} */
-    NovoTilesElement.prototype.activeTile;
-    /** @type {?} */
-    NovoTilesElement.prototype.state;
-    /** @type {?} */
-    NovoTilesElement.prototype.focused;
-    /** @type {?} */
-    NovoTilesElement.prototype.model;
-    /** @type {?} */
-    NovoTilesElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoTilesElement.prototype.onModelTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTilesElement.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTilesElement.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tiles/Tiles.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTilesModule {
 }
@@ -6987,8 +5167,7 @@ NovoTilesModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/deferred/Deferred.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * A Promise that uses the deferred anti-pattern
@@ -6998,15 +5177,10 @@ function Deferred() {
     /** @type {?} */
     const temp = {};
     /** @type {?} */
-    const promise = new Promise((/**
-     * @param {?} resolve
-     * @param {?} reject
-     * @return {?}
-     */
-    (resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
         temp.resolve = resolve;
         temp.reject = reject;
-    }));
+    });
     promise.resolve = temp.resolve;
     promise.reject = temp.reject;
     return promise;
@@ -7014,8 +5188,7 @@ function Deferred() {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/component-utils/ComponentUtils.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class ComponentUtils {
     /**
@@ -7023,6 +5196,44 @@ class ComponentUtils {
      */
     constructor(componentFactoryResolver) {
         this.componentFactoryResolver = componentFactoryResolver;
+    }
+    /**
+     * @deprecated use append() instead.
+     * @param {?} ComponentClass
+     * @param {?} location
+     * @param {?=} providers
+     * @return {?}
+     */
+    appendNextToLocation(ComponentClass, location, providers) {
+        /** @type {?} */
+        let componentFactory = this.componentFactoryResolver.resolveComponentFactory(ComponentClass);
+        /** @type {?} */
+        let parentInjector = location.parentInjector;
+        /** @type {?} */
+        let childInjector = parentInjector;
+        if (providers && providers.length > 0) {
+            childInjector = ReflectiveInjector.fromResolvedProviders(providers, parentInjector);
+        }
+        return location.createComponent(componentFactory, location.length, childInjector);
+    }
+    /**
+     * @deprecated
+     * @param {?} ComponentClass
+     * @param {?} location
+     * @param {?=} providers
+     * @return {?}
+     */
+    appendTopOfLocation(ComponentClass, location, providers) {
+        /** @type {?} */
+        let componentFactory = this.componentFactoryResolver.resolveComponentFactory(ComponentClass);
+        /** @type {?} */
+        let parentInjector = location.parentInjector;
+        /** @type {?} */
+        let childInjector = parentInjector;
+        if (providers && providers.length > 0) {
+            childInjector = ReflectiveInjector.fromResolvedProviders(providers, parentInjector);
+        }
+        return location.createComponent(componentFactory, 0, childInjector);
     }
     /**
      * @template T
@@ -7049,21 +5260,11 @@ ComponentUtils.decorators = [
 ComponentUtils.ctorParameters = () => [
     { type: ComponentFactoryResolver }
 ];
-if (false) {
-    /** @type {?} */
-    ComponentUtils.prototype.componentFactoryResolver;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/modal/Modal.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * Params that can be passed to the Modal
- * @record
- */
-function ModalParams() { }
 class NovoModalParams {
 }
 /**
@@ -7108,18 +5309,6 @@ class NovoModalRef {
 NovoModalRef.decorators = [
     { type: Injectable }
 ];
-if (false) {
-    /** @type {?} */
-    NovoModalRef.prototype.component;
-    /** @type {?} */
-    NovoModalRef.prototype.contentRef;
-    /** @type {?} */
-    NovoModalRef.prototype.containerRef;
-    /** @type {?} */
-    NovoModalRef.prototype.isClosed;
-    /** @type {?} */
-    NovoModalRef.prototype._onClosed;
-}
 class NovoModalContainerElement {
     /**
      * @param {?} modalRef
@@ -7133,12 +5322,9 @@ class NovoModalContainerElement {
      * @return {?}
      */
     ngAfterViewInit() {
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             this.modalRef.contentRef = this.componentUtils.append(this.modalRef.component, this.container);
-        }));
+        });
     }
 }
 NovoModalContainerElement.decorators = [
@@ -7153,22 +5339,8 @@ NovoModalContainerElement.ctorParameters = () => [
     { type: ComponentUtils }
 ];
 NovoModalContainerElement.propDecorators = {
-    container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef, static: false },] }]
+    container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoModalContainerElement.prototype.container;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoModalContainerElement.prototype.modalRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoModalContainerElement.prototype.componentUtils;
-}
 class NovoModalElement {
     /**
      * @param {?} modalRef
@@ -7197,13 +5369,6 @@ NovoModalElement.decorators = [
 NovoModalElement.ctorParameters = () => [
     { type: NovoModalRef }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoModalElement.prototype.modalRef;
-}
 class NovoModalNotificationElement {
     /**
      * @param {?} modalRef
@@ -7267,26 +5432,10 @@ NovoModalNotificationElement.propDecorators = {
     icon: [{ type: Input }],
     cancel: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoModalNotificationElement.prototype.type;
-    /** @type {?} */
-    NovoModalNotificationElement.prototype.icon;
-    /** @type {?} */
-    NovoModalNotificationElement.prototype.cancel;
-    /** @type {?} */
-    NovoModalNotificationElement.prototype.iconType;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoModalNotificationElement.prototype.modalRef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/modal/Modal.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoModalModule {
 }
@@ -7301,8 +5450,7 @@ NovoModalModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/list/List.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoListElement {
     /**
@@ -7333,14 +5481,6 @@ NovoListElement.propDecorators = {
     theme: [{ type: Input }],
     direction: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoListElement.prototype.theme;
-    /** @type {?} */
-    NovoListElement.prototype.direction;
-    /** @type {?} */
-    NovoListElement.prototype.element;
-}
 class NovoListItemElement {
     /**
      * @param {?} element
@@ -7373,15 +5513,6 @@ NovoListItemElement.decorators = [
 NovoListItemElement.ctorParameters = () => [
     { type: ElementRef }
 ];
-if (false) {
-    /** @type {?} */
-    NovoListItemElement.prototype.avatar;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoListItemElement.prototype.element;
-}
 class NovoItemAvatarElement {
     /**
      * @param {?=} changes
@@ -7409,14 +5540,6 @@ NovoItemAvatarElement.decorators = [
 NovoItemAvatarElement.propDecorators = {
     icon: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoItemAvatarElement.prototype.icon;
-    /** @type {?} */
-    NovoItemAvatarElement.prototype.iconClass;
-    /** @type {?} */
-    NovoItemAvatarElement.prototype.classMap;
-}
 class NovoItemTitleElement {
 }
 NovoItemTitleElement.decorators = [
@@ -7466,10 +5589,6 @@ NovoItemContentElement.decorators = [
 NovoItemContentElement.propDecorators = {
     direction: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoItemContentElement.prototype.direction;
-}
 class NovoItemEndElement {
 }
 NovoItemEndElement.decorators = [
@@ -7483,8 +5602,7 @@ NovoItemEndElement.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/list/List.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoListModule {
 }
@@ -7516,8 +5634,7 @@ NovoListModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/outside-click/OutsideClick.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Outside click helper, makes to set the element as inactive when clicking outside of it
@@ -7578,23 +5695,10 @@ class OutsideClick {
         }
     }
 }
-if (false) {
-    /** @type {?} */
-    OutsideClick.prototype.element;
-    /** @type {?} */
-    OutsideClick.prototype.otherElement;
-    /** @type {?} */
-    OutsideClick.prototype.active;
-    /** @type {?} */
-    OutsideClick.prototype.onOutsideClick;
-    /** @type {?} */
-    OutsideClick.prototype.onActiveChange;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/key-codes/KeyCodes.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Helper to keep track of key codes
 /** @type {?} */
@@ -7694,8 +5798,7 @@ const KeyCodes = {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/base-picker-results/BasePickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * \@name: PickerResults
@@ -7825,11 +5928,7 @@ class BasePickerResults {
         this.hasError = false;
         this.isLoading = true;
         this.ref.markForCheck();
-        this.search(this.term).subscribe((/**
-         * @param {?} results
-         * @return {?}
-         */
-        (results) => {
+        this.search(this.term).subscribe((results) => {
             if (shouldReset) {
                 this.matches = [];
             }
@@ -7845,18 +5944,11 @@ class BasePickerResults {
             }
             this.isLoading = false;
             this.ref.markForCheck();
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            setTimeout(() => {
                 this.overlay.updatePosition();
                 this.addScrollListener();
-            })); // @bkimball: This was added for Dylan Schulte, 9.18.2017 4:14PM EST, you're welcome!
-        }), (/**
-         * @param {?} err
-         * @return {?}
-         */
-        (err) => {
+            }); // @bkimball: This was added for Dylan Schulte, 9.18.2017 4:14PM EST, you're welcome!
+        }, (err) => {
             this.hasError = this.term && this.term.length !== 0;
             this.isLoading = false;
             this.lastPage = true;
@@ -7864,7 +5956,7 @@ class BasePickerResults {
                 console.error(err); // tslint:disable-lineno
             }
             this.ref.markForCheck();
-        }));
+        });
     }
     /**
      * @param {?} term
@@ -7874,12 +5966,7 @@ class BasePickerResults {
     search(term, mode) {
         /** @type {?} */
         let options = this.config.options;
-        return from(new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return from(new Promise((resolve, reject) => {
             // Check if there is match data
             if (options) {
                 // Resolve the data
@@ -7935,7 +6022,7 @@ class BasePickerResults {
                 // No data gets rejected
                 reject('error');
             }
-        })));
+        }));
     }
     /**
      * @param {?} term
@@ -7961,22 +6048,14 @@ class BasePickerResults {
         /** @type {?} */
         let dataArray = collection.data ? collection.data : collection;
         if (dataArray && (typeof dataArray[0] === 'string' || typeof dataArray[0] === 'number')) {
-            return collection.map((/**
-             * @param {?} item
-             * @return {?}
-             */
-            (item) => {
+            return collection.map((item) => {
                 return {
                     value: item,
                     label: item,
                 };
-            }));
+            });
         }
-        return dataArray.map((/**
-         * @param {?} data
-         * @return {?}
-         */
-        (data) => {
+        return dataArray.map((data) => {
             /** @type {?} */
             let value = this.config.field ? data[this.config.field] : data.value || data;
             if (this.config.valueFormat) {
@@ -7985,7 +6064,7 @@ class BasePickerResults {
             /** @type {?} */
             let label = this.config.format ? Helpers.interpolate(this.config.format, data) : data.label || String(value);
             return { value, label, data };
-        }));
+        });
     }
     /**
      * \@name filterData=
@@ -7997,15 +6076,11 @@ class BasePickerResults {
      */
     filterData(matches) {
         if (this.term && matches) {
-            return matches.filter((/**
-             * @param {?} match
-             * @return {?}
-             */
-            (match) => {
+            return matches.filter((match) => {
                 return ~String(match.label)
                     .toLowerCase()
                     .indexOf(this.term.toLowerCase());
-            }));
+            });
         }
         // Show no recent results template
         return matches;
@@ -8144,9 +6219,9 @@ class BasePickerResults {
      *
      * @return {?}
      */
-    highlight(match, query) {
+    highlight(match, query$$1) {
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query ? match.replace(new RegExp(this.escapeRegexp(query.trim()), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 ? match.replace(new RegExp(this.escapeRegexp(query$$1.trim()), 'gi'), '<strong>$&</strong>') : match;
     }
     /**
      * @param {?} match
@@ -8156,19 +6231,11 @@ class BasePickerResults {
         if (this.config.preselected) {
             /** @type {?} */
             let preselectedFunc = this.config.preselected;
-            return (this.selected.findIndex((/**
-             * @param {?} item
-             * @return {?}
-             */
-            (item) => {
+            return (this.selected.findIndex((item) => {
                 return preselectedFunc(match, item);
-            })) !== -1);
+            }) !== -1);
         }
-        return (this.selected.findIndex((/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => {
+        return (this.selected.findIndex((item) => {
             /** @type {?} */
             let isPreselected = false;
             if (item && item.value && match && match.value) {
@@ -8183,61 +6250,16 @@ class BasePickerResults {
                 }
             }
             return isPreselected;
-        })) !== -1);
+        }) !== -1);
     }
 }
 BasePickerResults.propDecorators = {
     matches: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    BasePickerResults.prototype._term;
-    /** @type {?} */
-    BasePickerResults.prototype.selected;
-    /** @type {?} */
-    BasePickerResults.prototype.matches;
-    /** @type {?} */
-    BasePickerResults.prototype.hasError;
-    /** @type {?} */
-    BasePickerResults.prototype.isLoading;
-    /** @type {?} */
-    BasePickerResults.prototype.isStatic;
-    /** @type {?} */
-    BasePickerResults.prototype._config;
-    /** @type {?} */
-    BasePickerResults.prototype.activeMatch;
-    /** @type {?} */
-    BasePickerResults.prototype.parent;
-    /** @type {?} */
-    BasePickerResults.prototype.element;
-    /** @type {?} */
-    BasePickerResults.prototype.ref;
-    /** @type {?} */
-    BasePickerResults.prototype.page;
-    /** @type {?} */
-    BasePickerResults.prototype.lastPage;
-    /** @type {?} */
-    BasePickerResults.prototype.autoSelectFirstOption;
-    /** @type {?} */
-    BasePickerResults.prototype.overlay;
-    /** @type {?} */
-    BasePickerResults.prototype.optionsFunctionHasChanged;
-    /**
-     * @type {?}
-     * @private
-     */
-    BasePickerResults.prototype.selectingMatches;
-    /**
-     * @type {?}
-     * @private
-     */
-    BasePickerResults.prototype.scrollHandler;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/picker-results/PickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class PickerResults extends BasePickerResults {
     /**
@@ -8311,15 +6333,10 @@ PickerResults.ctorParameters = () => [
     { type: NovoLabelService },
     { type: ChangeDetectorRef }
 ];
-if (false) {
-    /** @type {?} */
-    PickerResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/quick-note/extras/quick-note-results/QuickNoteResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class QuickNoteResults extends PickerResults {
     /**
@@ -8348,20 +6365,13 @@ class QuickNoteResults extends PickerResults {
         this.taggingMode = value.taggingMode;
         this.hasError = false;
         this.isLoading = true;
-        this.search(value, this.taggingMode).subscribe((/**
-         * @param {?} results
-         * @return {?}
-         */
-        (results) => {
+        this.search(value, this.taggingMode).subscribe((results) => {
             this.matches = this.isStatic ? this.filterData(results) : results;
             this.isLoading = false;
-        }), (/**
-         * @return {?}
-         */
-        () => {
+        }, () => {
             this.hasError = true;
             this.isLoading = false;
-        }));
+        });
     }
     /**
      * @param {?} term
@@ -8371,12 +6381,7 @@ class QuickNoteResults extends PickerResults {
     search(term, taggingMode) {
         /** @type {?} */
         let searchCall = this.config.options[taggingMode];
-        return from(new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return from(new Promise((resolve, reject) => {
             // Check if there is match data
             if (searchCall) {
                 // Resolve the data
@@ -8408,7 +6413,7 @@ class QuickNoteResults extends PickerResults {
                 // No data gets rejected
                 reject('error');
             }
-        })));
+        }));
     }
     /**
      * \@name structureArray
@@ -8420,28 +6425,20 @@ class QuickNoteResults extends PickerResults {
      */
     structureArray(collection) {
         if (collection && (typeof collection[0] === 'string' || typeof collection[0] === 'number')) {
-            return collection.map((/**
-             * @param {?} item
-             * @return {?}
-             */
-            (item) => {
+            return collection.map((item) => {
                 return {
                     value: item,
                     label: item,
                 };
-            }));
+            });
         }
-        return collection.map((/**
-         * @param {?} data
-         * @return {?}
-         */
-        (data) => {
+        return collection.map((data) => {
             /** @type {?} */
             let value = this.config.field ? data[this.config.field[this.taggingMode]] : data.value || data;
             /** @type {?} */
             let label = this.config.format ? Helpers.interpolate(this.config.format[this.taggingMode], data) : data.label || String(value);
             return { value, label, data };
-        }));
+        });
     }
     /**
      * \@name selectMatch
@@ -8494,26 +6491,16 @@ QuickNoteResults.ctorParameters = () => [
     { type: NovoLabelService },
     { type: ChangeDetectorRef }
 ];
-if (false) {
-    /** @type {?} */
-    QuickNoteResults.prototype.taggingMode;
-    /** @type {?} */
-    QuickNoteResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/quick-note/QuickNote.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const QUICK_NOTE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => QuickNoteElement)),
+    useExisting: forwardRef(() => QuickNoteElement),
     multi: true,
 };
 class QuickNoteElement extends OutsideClick {
@@ -8534,29 +6521,16 @@ class QuickNoteElement extends OutsideClick {
         this.placeholderVisible = false;
         this._placeholderElement = null;
         // in pixels - configured by stylesheet
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
         // Bind to the active change event from the OutsideClick
-        this.onActiveChange.subscribe((/**
-         * @param {?} active
-         * @return {?}
-         */
-        (active) => {
+        this.onActiveChange.subscribe((active) => {
             if (!active) {
-                setTimeout((/**
-                 * @return {?}
-                 */
-                () => {
+                setTimeout(() => {
                     this.hideResults();
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * @return {?}
@@ -8584,15 +6558,12 @@ class QuickNoteElement extends OutsideClick {
         // Tear down the CKEditor instance
         if (this.ckeInstance) {
             this.ckeInstance.focusManager.blur(true); // Remove focus from editor
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            setTimeout(() => {
                 this.ckeInstance.removeAllListeners();
                 CKEDITOR.instances[this.ckeInstance.name].destroy();
                 this.ckeInstance.destroy();
                 this.ckeInstance = null;
-            }));
+            });
         }
     }
     /**
@@ -8609,68 +6580,43 @@ class QuickNoteElement extends OutsideClick {
         // Set initial value of the note in the editor
         this.writeValue(this.model);
         // Connect to the key event in CKEditor for showing results dropdown
-        this.ckeInstance.on('key', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        this.ckeInstance.on('key', (event) => {
             if (!this.onKey(event.data.domEvent.$)) {
                 event.cancel();
             }
-        }));
+        });
         // Connect to the change event in CKEditor for debouncing user modifications
-        this.ckeInstance.on('change', (/**
-         * @return {?}
-         */
-        () => {
+        this.ckeInstance.on('change', () => {
             // Debounce update
             if (this.debounceTimeout) {
                 clearTimeout(this.debounceTimeout);
             }
-            this.debounceTimeout = setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            this.debounceTimeout = setTimeout(() => {
                 // Run within the context of this angular element since we don't need to cancel event
-                this.zone.run((/**
-                 * @return {?}
-                 */
-                () => {
+                this.zone.run(() => {
                     this.onValueChange();
-                }));
+                });
                 this.debounceTimeout = null;
-            }), 250);
-        }));
+            }, 250);
+        });
         // Propagate blur events from CKEditor to the Element's listeners
-        this.ckeInstance.on('blur', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        this.ckeInstance.on('blur', (event) => {
             this.showPlaceholder();
             this.blur.emit(event);
-        }));
+        });
         // Propagate blur events from CKEditor to the Element's listeners
-        this.ckeInstance.on('focus', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        this.ckeInstance.on('focus', (event) => {
             this.hidePlaceholder();
             this.focus.emit(event);
-        }));
+        });
         // Show placeholder if the note is empty, after the editor is instantiated
-        this.ckeInstance.on('instanceReady', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        this.ckeInstance.on('instanceReady', (event) => {
             this.showPlaceholder();
             // Set editor to readOnly
             if (this.config.readOnly) {
                 this.ckeInstance.setReadOnly(this.config.readOnly);
             }
-        }));
+        });
     }
     // Set touched on blur
     /**
@@ -8754,40 +6700,28 @@ class QuickNoteElement extends OutsideClick {
             if (this.quickNoteResults) {
                 // Hide results on escape key
                 if (event.keyCode === KeyCodes.ESC) {
-                    this.zone.run((/**
-                     * @return {?}
-                     */
-                    () => {
+                    this.zone.run(() => {
                         this.hideResults();
-                    }));
+                    });
                     return false;
                 }
                 // Navigation inside the results
                 if (event.keyCode === KeyCodes.UP) {
-                    this.zone.run((/**
-                     * @return {?}
-                     */
-                    () => {
+                    this.zone.run(() => {
                         this.quickNoteResults.instance.prevActiveMatch();
-                    }));
+                    });
                     return false;
                 }
                 if (event.keyCode === KeyCodes.DOWN) {
-                    this.zone.run((/**
-                     * @return {?}
-                     */
-                    () => {
+                    this.zone.run(() => {
                         this.quickNoteResults.instance.nextActiveMatch();
-                    }));
+                    });
                     return false;
                 }
                 if (event.keyCode === KeyCodes.ENTER) {
-                    this.zone.run((/**
-                     * @return {?}
-                     */
-                    () => {
+                    this.zone.run(() => {
                         this.quickNoteResults.instance.selectActiveMatch();
-                    }));
+                    });
                     return false;
                 }
             }
@@ -8795,18 +6729,14 @@ class QuickNoteElement extends OutsideClick {
                 // Loop through all triggers and turn on tagging mode if the user just pressed a trigger character
                 /** @type {?} */
                 let triggers = this.config.triggers || {};
-                Object.keys(triggers).forEach((/**
-                 * @param {?} key
-                 * @return {?}
-                 */
-                (key) => {
+                Object.keys(triggers).forEach((key) => {
                     /** @type {?} */
-                    let trigger = triggers[key] || {};
-                    if (event.key === trigger) {
+                    let trigger$$1 = triggers[key] || {};
+                    if (event.key === trigger$$1) {
                         this.isTagging = true;
                         this.taggingMode = key;
                     }
-                }));
+                });
             }
         }
         return true;
@@ -8919,11 +6849,7 @@ class QuickNoteElement extends OutsideClick {
         this.model.references = this.model.references || {};
         this.model.references[taggingMode] = this.model.references[taggingMode] || [];
         /** @type {?} */
-        let matchingItems = this.model.references[taggingMode].filter((/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => JSON.stringify(item) === JSON.stringify(selected)));
+        let matchingItems = this.model.references[taggingMode].filter((item) => JSON.stringify(item) === JSON.stringify(selected));
         if (matchingItems.length === 0) {
             this.model.references[taggingMode].push(selected);
         }
@@ -9041,31 +6967,23 @@ class QuickNoteElement extends OutsideClick {
         /** @type {?} */
         let ampRegex = new RegExp('&amp;', 'g');
         html = html.replace(ampRegex, '&');
-        Object.keys(this.model.references).forEach((/**
-         * @param {?} taggingMode
-         * @return {?}
-         */
-        (taggingMode) => {
+        Object.keys(this.model.references).forEach((taggingMode) => {
             /** @type {?} */
             let array = this.model.references[taggingMode] || [];
             /** @type {?} */
             let symbol = this.config.triggers[taggingMode];
             /** @type {?} */
             let renderer = this.getRenderer(taggingMode);
-            this.model.references[taggingMode] = array.filter((/**
-             * @param {?} item
-             * @return {?}
-             */
-            (item) => {
+            this.model.references[taggingMode] = array.filter((item) => {
                 /** @type {?} */
                 let renderedText = renderer(symbol, item);
                 return html.includes(renderedText);
-            }));
+            });
             // If no references, then delete the key
             if (this.model.references[taggingMode].length === 0) {
                 delete this.model.references[taggingMode];
             }
-        }));
+        });
     }
     /**
      * Configures the CKEditor for QuickNote functionality.
@@ -9232,8 +7150,11 @@ QuickNoteElement.decorators = [
                 selector: 'novo-quick-note',
                 providers: [QUICK_NOTE_VALUE_ACCESSOR],
                 template: `
-    <div class="quick-note-wrapper" #wrapper><textarea #host></textarea> <span #results></span></div>
-  `
+        <div class="quick-note-wrapper" #wrapper>
+            <textarea #host></textarea>
+            <span #results></span>
+        </div>
+    `
             }] }
 ];
 /** @nocollapse */
@@ -9243,9 +7164,9 @@ QuickNoteElement.ctorParameters = () => [
     { type: ComponentUtils }
 ];
 QuickNoteElement.propDecorators = {
-    wrapper: [{ type: ViewChild, args: ['wrapper', { static: true },] }],
-    host: [{ type: ViewChild, args: ['host', { static: true },] }],
-    results: [{ type: ViewChild, args: ['results', { read: ViewContainerRef, static: true },] }],
+    wrapper: [{ type: ViewChild, args: ['wrapper',] }],
+    host: [{ type: ViewChild, args: ['host',] }],
+    results: [{ type: ViewChild, args: ['results', { read: ViewContainerRef },] }],
     config: [{ type: Input }],
     startupFocus: [{ type: Input }],
     placeholder: [{ type: Input }],
@@ -9253,101 +7174,10 @@ QuickNoteElement.propDecorators = {
     blur: [{ type: Output }],
     change: [{ type: Output }]
 };
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.TOOLBAR_HEIGHT;
-    /** @type {?} */
-    QuickNoteElement.prototype.wrapper;
-    /** @type {?} */
-    QuickNoteElement.prototype.host;
-    /** @type {?} */
-    QuickNoteElement.prototype.results;
-    /** @type {?} */
-    QuickNoteElement.prototype.config;
-    /** @type {?} */
-    QuickNoteElement.prototype.startupFocus;
-    /** @type {?} */
-    QuickNoteElement.prototype.placeholder;
-    /** @type {?} */
-    QuickNoteElement.prototype.focus;
-    /** @type {?} */
-    QuickNoteElement.prototype.blur;
-    /** @type {?} */
-    QuickNoteElement.prototype.change;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.resultsComponent;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.quickNoteResults;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.isTagging;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.taggingMode;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.model;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.ckeInstance;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.debounceTimeout;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.placeholderVisible;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype._placeholderElement;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.onModelChange;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.onModelTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.zone;
-    /**
-     * @type {?}
-     * @private
-     */
-    QuickNoteElement.prototype.componentUtils;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/quick-note/QuickNote.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoQuickNoteModule {
 }
@@ -9362,17 +7192,13 @@ NovoQuickNoteModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/radio/Radio.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const RADIO_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoRadioElement)),
+    useExisting: forwardRef(() => NovoRadioElement),
     multi: true,
 };
 class NovoRadioGroup {
@@ -9393,14 +7219,8 @@ class NovoRadioElement {
         this.theme = 'secondary';
         this.disabled = false;
         this.change = new EventEmitter();
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
     }
     /**
      * @param {?} event
@@ -9451,16 +7271,17 @@ NovoRadioElement.decorators = [
                 selector: 'novo-radio',
                 providers: [RADIO_VALUE_ACCESSOR],
                 template: `
-        <input [name]="name" type="radio" [checked]="checked" [attr.id]="name" (change)="select($event)" [disabled]="disabled">
-        <label [attr.for]="name" (click)="select($event)" [class.disabled]="disabled">
-            <button *ngIf="button" [ngClass]="{'unchecked': !checked, 'checked': checked, 'has-icon': !!icon}" [theme]="theme" [icon]="icon">{{ label }}</button>
-            <div *ngIf="!button">
-                <i [ngClass]="{'bhi-radio-empty': !checked, 'bhi-radio-filled': checked}"></i>
-                {{ label }}
-                <ng-content></ng-content>
-            </div>
-        </label>
-    `,
+    <input [name]="name" type="radio" [checked]="checked" [attr.id]="name" (change)="select($event)" [disabled]="disabled" />
+    <label [attr.for]="name" (click)="select($event)" [class.disabled]="disabled">
+      <button *ngIf="button" [ngClass]="{ unchecked: !checked, checked: checked, 'has-icon': !!icon }" [theme]="theme" [icon]="icon">
+        {{ label }}
+      </button>
+      <div *ngIf="!button">
+        <i [ngClass]="{ 'bhi-radio-empty': !checked, 'bhi-radio-filled': checked }"></i> {{ label }}
+        <ng-content></ng-content>
+      </div>
+    </label>
+  `,
                 host: {
                     '[class.vertical]': 'vertical',
                 }
@@ -9482,44 +7303,10 @@ NovoRadioElement.propDecorators = {
     disabled: [{ type: Input }],
     change: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoRadioElement.prototype.name;
-    /** @type {?} */
-    NovoRadioElement.prototype.value;
-    /** @type {?} */
-    NovoRadioElement.prototype.checked;
-    /** @type {?} */
-    NovoRadioElement.prototype.vertical;
-    /** @type {?} */
-    NovoRadioElement.prototype.label;
-    /** @type {?} */
-    NovoRadioElement.prototype.button;
-    /** @type {?} */
-    NovoRadioElement.prototype.theme;
-    /** @type {?} */
-    NovoRadioElement.prototype.icon;
-    /** @type {?} */
-    NovoRadioElement.prototype.disabled;
-    /** @type {?} */
-    NovoRadioElement.prototype.change;
-    /** @type {?} */
-    NovoRadioElement.prototype.model;
-    /** @type {?} */
-    NovoRadioElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoRadioElement.prototype.onModelTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoRadioElement.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/radio/Radio.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoRadioModule {
 }
@@ -9533,8 +7320,7 @@ NovoRadioModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/overlay/Overlay.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoOverlayTemplateComponent {
     /**
@@ -9598,23 +7384,17 @@ class NovoOverlayTemplateComponent {
             this.closingActionsSubscription = this.subscribeToClosingActions();
         }
         this.changeDetectorRef.markForCheck();
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             if (this.overlayRef) {
                 this.overlayRef.updatePosition();
             }
-        }));
+        });
     }
     /**
      * @return {?}
      */
     closePanel() {
-        this.zone.run((/**
-         * @return {?}
-         */
-        () => {
+        this.zone.run(() => {
             if (this.overlayRef && this.overlayRef.hasAttached()) {
                 this.overlayRef.detach();
                 this.closingActionsSubscription.unsubscribe();
@@ -9623,7 +7403,7 @@ class NovoOverlayTemplateComponent {
             if (this.panelOpen) {
                 this.changeDetectorRef.markForCheck();
             }
-        }));
+        });
     }
     /**
      * @param {?} event
@@ -9651,11 +7431,7 @@ class NovoOverlayTemplateComponent {
         if (!this.document) {
             return of();
         }
-        return merge(fromEvent(this.document, 'mousedown'), fromEvent(this.document, 'touchend')).pipe(filter((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        return merge(fromEvent(this.document, 'mousedown'), fromEvent(this.document, 'touchend')).pipe(filter((event) => {
             /** @type {?} */
             const clickTarget = (/** @type {?} */ (event.target));
             /** @type {?} */
@@ -9667,7 +7443,7 @@ class NovoOverlayTemplateComponent {
                 this.select.emit(event);
             }
             return clicked;
-        })));
+        }));
     }
     /**
      * This method listens to a stream of panel closing actions and resets the
@@ -9684,20 +7460,13 @@ class NovoOverlayTemplateComponent {
             .pipe(
         // create a new stream of panelClosingActions, replacing any previous streams
         // that were created, and flatten it so our stream only emits closing events...
-        switchMap((/**
-         * @return {?}
-         */
-        () => {
+        switchMap(() => {
             return this.panelClosingActions;
-        })), 
+        }), 
         // when the first closing event occurs...
         first())
             // set the value, close the panel, and complete.
-            .subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => this.onClosingAction(event))));
+            .subscribe((event) => this.onClosingAction(event)));
     }
     /**
      * @protected
@@ -9707,10 +7476,7 @@ class NovoOverlayTemplateComponent {
     createOverlay(template) {
         this.portal = new TemplatePortal(template, this.viewContainerRef);
         this.overlayRef = this.overlay.create(this.getOverlayConfig());
-        this.overlayRef.backdropClick().subscribe((/**
-         * @return {?}
-         */
-        () => this.closePanel()));
+        this.overlayRef.backdropClick().subscribe(() => this.closePanel());
     }
     /**
      * @protected
@@ -9833,7 +7599,9 @@ NovoOverlayTemplateComponent.decorators = [
                 selector: 'novo-overlay-template',
                 template: `
     <ng-template>
-      <div class="novo-overlay-panel" role="listbox" [id]="id" #panel><ng-content></ng-content></div>
+      <div class="novo-overlay-panel" role="listbox" [id]="id" #panel>
+        <ng-content></ng-content>
+      </div>
     </ng-template>
   `,
                 changeDetection: ChangeDetectionStrategy.OnPush
@@ -9848,8 +7616,8 @@ NovoOverlayTemplateComponent.ctorParameters = () => [
     { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DOCUMENT,] }] }
 ];
 NovoOverlayTemplateComponent.propDecorators = {
-    template: [{ type: ViewChild, args: [TemplateRef, { static: false },] }],
-    panel: [{ type: ViewChild, args: ['panel', { static: false },] }],
+    template: [{ type: ViewChild, args: [TemplateRef,] }],
+    panel: [{ type: ViewChild, args: ['panel',] }],
     position: [{ type: Input }],
     scrollStrategy: [{ type: Input }],
     width: [{ type: Input }],
@@ -9859,72 +7627,10 @@ NovoOverlayTemplateComponent.propDecorators = {
     closing: [{ type: Output }],
     parent: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.id;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.template;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.panel;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.position;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.scrollStrategy;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.width;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.height;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.closeOnSelect;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.select;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.closing;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.overlayRef;
-    /** @type {?} */
-    NovoOverlayTemplateComponent.prototype.portal;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoOverlayTemplateComponent.prototype.closingActionsSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoOverlayTemplateComponent.prototype._parent;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoOverlayTemplateComponent.prototype.overlay;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoOverlayTemplateComponent.prototype.viewContainerRef;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoOverlayTemplateComponent.prototype.zone;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoOverlayTemplateComponent.prototype.changeDetectorRef;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoOverlayTemplateComponent.prototype.document;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/notifier/notifier.util.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 const notifications = {};
@@ -9942,8 +7648,7 @@ function notify(message) {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/dropdown/Dropdown.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoDropdownElement {
     /**
@@ -10002,13 +7707,9 @@ class NovoDropdownElement {
     set items(items) {
         this._items = items;
         // Get the innerText of all the items to allow for searching
-        this._textItems = items.map((/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => {
+        this._textItems = items.map((item) => {
             return item.element.nativeElement.innerText;
-        }));
+        });
     }
     /**
      * BEGIN: Convenient Panel Methods.
@@ -10111,23 +7812,16 @@ class NovoDropdownElement {
             // A-Z, 0-9, space -- filter the list and scroll to active filter
             // filter has hard reset after 2s
             clearTimeout(this.filterTermTimeout);
-            this.filterTermTimeout = setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            this.filterTermTimeout = setTimeout(() => {
                 this.filterTerm = '';
-            }), 2000);
+            }, 2000);
             /** @type {?} */
             let char = String.fromCharCode(event.keyCode);
             this.filterTerm = this.filterTerm.concat(char);
             /** @type {?} */
-            let index = this._textItems.findIndex((/**
-             * @param {?} value
-             * @return {?}
-             */
-            (value) => {
+            let index = this._textItems.findIndex((value) => {
                 return new RegExp(`^${this.filterTerm.toLowerCase()}`).test(value.trim().toLowerCase());
-            }));
+            });
             if (index !== -1) {
                 if (this.activeIndex !== -1) {
                     this._items.toArray()[this.activeIndex].active = false;
@@ -10141,12 +7835,9 @@ class NovoDropdownElement {
             Helpers.swallowEvent(event);
             // backspace, delete -- remove partial filters
             clearTimeout(this.filterTermTimeout);
-            this.filterTermTimeout = setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            this.filterTermTimeout = setTimeout(() => {
                 this.filterTerm = '';
-            }), 2000);
+            }, 2000);
             this.filterTerm = this.filterTerm.slice(0, -1);
         }
     }
@@ -10202,69 +7893,9 @@ NovoDropdownElement.propDecorators = {
     width: [{ type: Input }],
     appendToBody: [{ type: Input }],
     toggled: [{ type: Output }],
-    overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: false },] }],
+    overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }],
     onKeyDown: [{ type: HostListener, args: ['keydown', ['$event'],] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDropdownElement.prototype.parentScrollSelector;
-    /** @type {?} */
-    NovoDropdownElement.prototype.parentScrollAction;
-    /** @type {?} */
-    NovoDropdownElement.prototype.containerClass;
-    /** @type {?} */
-    NovoDropdownElement.prototype.side;
-    /** @type {?} */
-    NovoDropdownElement.prototype.scrollStrategy;
-    /** @type {?} */
-    NovoDropdownElement.prototype.height;
-    /** @type {?} */
-    NovoDropdownElement.prototype.width;
-    /** @type {?} */
-    NovoDropdownElement.prototype.appendToBody;
-    /** @type {?} */
-    NovoDropdownElement.prototype.toggled;
-    /** @type {?} */
-    NovoDropdownElement.prototype.overlay;
-    /** @type {?} */
-    NovoDropdownElement.prototype.clickHandler;
-    /** @type {?} */
-    NovoDropdownElement.prototype.closeHandler;
-    /** @type {?} */
-    NovoDropdownElement.prototype.parentScrollElement;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDropdownElement.prototype._items;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDropdownElement.prototype._textItems;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDropdownElement.prototype.activeIndex;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDropdownElement.prototype.filterTerm;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDropdownElement.prototype.filterTermTimeout;
-    /** @type {?} */
-    NovoDropdownElement.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDropdownElement.prototype.ref;
-}
 class NovoItemElement {
     /**
      * @param {?} dropdown
@@ -10314,23 +7945,6 @@ NovoItemElement.propDecorators = {
     action: [{ type: Output }],
     onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoItemElement.prototype.disabled;
-    /** @type {?} */
-    NovoItemElement.prototype.keepOpen;
-    /** @type {?} */
-    NovoItemElement.prototype.action;
-    /** @type {?} */
-    NovoItemElement.prototype.active;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoItemElement.prototype.dropdown;
-    /** @type {?} */
-    NovoItemElement.prototype.element;
-}
 class NovoListElement$1 {
     /**
      * @param {?} dropdown
@@ -10358,15 +7972,6 @@ NovoListElement$1.ctorParameters = () => [
 NovoListElement$1.propDecorators = {
     items: [{ type: ContentChildren, args: [NovoItemElement,] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoListElement$1.prototype.items;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoListElement$1.prototype.dropdown;
-}
 class NovoItemHeaderElement$1 {
 }
 NovoItemHeaderElement$1.decorators = [
@@ -10378,8 +7983,7 @@ NovoItemHeaderElement$1.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/overlay/Overlay.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoOverlayModule {
 }
@@ -10393,8 +7997,7 @@ NovoOverlayModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/dropdown/Dropdown.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoDropdownModule {
 }
@@ -10408,17 +8011,13 @@ NovoDropdownModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/select/Select.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoSelectElement)),
+    useExisting: forwardRef(() => NovoSelectElement),
     multi: true,
 };
 class NovoSelectElement {
@@ -10444,14 +8043,8 @@ class NovoSelectElement {
             valid: true,
             value: '',
         };
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
         this.filterTerm = '';
         this.disabled = false;
     }
@@ -10459,18 +8052,11 @@ class NovoSelectElement {
      * @return {?}
      */
     ngOnInit() {
-        this.focusMonitor.monitor(this.dropdown.nativeElement).subscribe((/**
-         * @param {?} origin
-         * @return {?}
-         */
-        (origin) => this.ngZone.run((/**
-         * @return {?}
-         */
-        () => {
+        this.focusMonitor.monitor(this.dropdown.nativeElement).subscribe((origin) => this.ngZone.run(() => {
             if (origin === 'keyboard' && !this.disabled) {
                 this.openPanel();
             }
-        }))));
+        }));
         this.ngOnChanges();
     }
     /**
@@ -10480,41 +8066,25 @@ class NovoSelectElement {
     ngOnChanges(changes) {
         this.readonly = this.readonly === true;
         if (this.options && this.options.length && typeof this.options[0] === 'string') {
-            this.filteredOptions = this.options.map((/**
-             * @param {?} item
-             * @return {?}
-             */
-            (item) => {
+            this.filteredOptions = this.options.map((item) => {
                 return { value: item, label: item };
-            }));
+            });
         }
         else {
             this.filteredOptions = (this.options || [])
-                .filter((/**
-             * @param {?} item
-             * @return {?}
-             */
-            (item) => {
+                .filter((item) => {
                 return !item.readOnly;
-            }))
-                .map((/**
-             * @param {?} element
-             * @return {?}
-             */
-            (element) => {
+            })
+                .map((element) => {
                 return Object.assign({}, element, { active: false });
-            }));
+            });
         }
         if (!this.model && !this.createdItem) {
             this.clear();
         }
         else if (this.createdItem) {
             /** @type {?} */
-            let item = this.options.find((/**
-             * @param {?} i
-             * @return {?}
-             */
-            (i) => i.label === this.createdItem));
+            let item = this.options.find((i) => i.label === this.createdItem);
             /** @type {?} */
             let index = this.options.indexOf(item);
             this.select(item, index);
@@ -10553,12 +8123,9 @@ class NovoSelectElement {
             this.closePanel();
         }
         else {
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            setTimeout(() => {
                 this.dropdown.nativeElement.focus();
-            }));
+            });
             this.openPanel();
         }
     }
@@ -10679,21 +8246,14 @@ class NovoSelectElement {
                 this.openPanel();
             }
             clearTimeout(this.filterTermTimeout);
-            this.filterTermTimeout = setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            this.filterTermTimeout = setTimeout(() => {
                 this.filterTerm = '';
-            }), 2000);
+            }, 2000);
             /** @type {?} */
             let char = String.fromCharCode(event.keyCode);
             this.filterTerm = this.filterTerm.concat(char);
             /** @type {?} */
-            let item = this.filteredOptions.find((/**
-             * @param {?} i
-             * @return {?}
-             */
-            (i) => i.label.toUpperCase().indexOf(this.filterTerm) === 0));
+            let item = this.filteredOptions.find((i) => i.label.toUpperCase().indexOf(this.filterTerm) === 0);
             if (item) {
                 this.select(item, this.filteredOptions.indexOf(item));
                 this.scrollToSelected();
@@ -10701,12 +8261,9 @@ class NovoSelectElement {
         }
         else if ([KeyCodes.BACKSPACE, KeyCodes.DELETE].includes(event.keyCode)) {
             clearTimeout(this.filterTermTimeout);
-            this.filterTermTimeout = setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            this.filterTermTimeout = setTimeout(() => {
                 this.filterTerm = '';
-            }), 2000);
+            }, 2000);
             this.filterTerm = this.filterTerm.slice(0, -1);
         }
     }
@@ -10755,9 +8312,9 @@ class NovoSelectElement {
      * @param {?} query
      * @return {?}
      */
-    highlight(match, query) {
+    highlight(match, query$$1) {
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query ? match.replace(new RegExp(this.escapeRegexp(query), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 ? match.replace(new RegExp(this.escapeRegexp(query$$1), 'gi'), '<strong>$&</strong>') : match;
     }
     /**
      * @param {?} queryToEscape
@@ -10788,11 +8345,7 @@ class NovoSelectElement {
         this.model = model;
         if (this.options) {
             /** @type {?} */
-            let item = this.filteredOptions.find((/**
-             * @param {?} i
-             * @return {?}
-             */
-            (i) => i.value === model || (model && i.value === model.id)));
+            let item = this.filteredOptions.find((i) => i.value === model || (model && i.value === model.id));
             if (!item && !Helpers.isEmpty(model)) {
                 item = {
                     label: model,
@@ -10871,7 +8424,8 @@ NovoSelectElement.decorators = [
           (click)="setValueAndClose({ value: option, index: i })"
           [attr.data-automation-value]="option.label"
         >
-          <span [innerHtml]="highlight(option.label, filterTerm)"></span> <i *ngIf="option.active" class="bhi-check"></i>
+          <span [innerHtml]="highlight(option.label, filterTerm)"></span>
+          <i *ngIf="option.active" class="bhi-check"></i>
         </li>
       </ul>
     </novo-overlay-template>
@@ -10896,76 +8450,14 @@ NovoSelectElement.propDecorators = {
     readonly: [{ type: Input }],
     headerConfig: [{ type: Input }],
     onSelect: [{ type: Output }],
-    overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: true },] }],
-    dropdown: [{ type: ViewChild, args: ['dropdownElement', { static: true },] }],
+    overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }],
+    dropdown: [{ type: ViewChild, args: ['dropdownElement',] }],
     onKeyDown: [{ type: HostListener, args: ['keydown', ['$event'],] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSelectElement.prototype.name;
-    /** @type {?} */
-    NovoSelectElement.prototype.options;
-    /** @type {?} */
-    NovoSelectElement.prototype.placeholder;
-    /** @type {?} */
-    NovoSelectElement.prototype.readonly;
-    /** @type {?} */
-    NovoSelectElement.prototype.headerConfig;
-    /** @type {?} */
-    NovoSelectElement.prototype.onSelect;
-    /** @type {?} */
-    NovoSelectElement.prototype.selectedIndex;
-    /** @type {?} */
-    NovoSelectElement.prototype.empty;
-    /** @type {?} */
-    NovoSelectElement.prototype.header;
-    /** @type {?} */
-    NovoSelectElement.prototype.createdItem;
-    /** @type {?} */
-    NovoSelectElement.prototype.selected;
-    /** @type {?} */
-    NovoSelectElement.prototype.model;
-    /** @type {?} */
-    NovoSelectElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoSelectElement.prototype.onModelTouched;
-    /** @type {?} */
-    NovoSelectElement.prototype.filterTerm;
-    /** @type {?} */
-    NovoSelectElement.prototype.filterTermTimeout;
-    /** @type {?} */
-    NovoSelectElement.prototype.filteredOptions;
-    /** @type {?} */
-    NovoSelectElement.prototype.disabled;
-    /**
-     * Element for the panel containing the autocomplete options.
-     * @type {?}
-     */
-    NovoSelectElement.prototype.overlay;
-    /** @type {?} */
-    NovoSelectElement.prototype.dropdown;
-    /** @type {?} */
-    NovoSelectElement.prototype.element;
-    /** @type {?} */
-    NovoSelectElement.prototype.labels;
-    /** @type {?} */
-    NovoSelectElement.prototype.ref;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSelectElement.prototype.focusMonitor;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSelectElement.prototype.ngZone;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/select/Select.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoSelectModule {
 }
@@ -10979,17 +8471,13 @@ NovoSelectModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/switch/Switch.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const SWITCH_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoSwitchElement)),
+    useExisting: forwardRef(() => NovoSwitchElement),
     multi: true,
 };
 class NovoSwitchElement {
@@ -11000,14 +8488,8 @@ class NovoSwitchElement {
         this.ref = ref;
         this.onChange = new EventEmitter();
         this._disabled = false;
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
     }
     /**
      * @return {?}
@@ -11105,30 +8587,10 @@ NovoSwitchElement.propDecorators = {
     onChange: [{ type: Output }],
     disabled: [{ type: Input, args: ['disabled',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSwitchElement.prototype.theme;
-    /** @type {?} */
-    NovoSwitchElement.prototype.onChange;
-    /** @type {?} */
-    NovoSwitchElement.prototype._disabled;
-    /** @type {?} */
-    NovoSwitchElement.prototype.model;
-    /** @type {?} */
-    NovoSwitchElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoSwitchElement.prototype.onModelTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSwitchElement.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/switch/Switch.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoSwitchModule {
 }
@@ -11142,17 +8604,13 @@ NovoSwitchModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/Picker.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const PICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoPickerElement)),
+    useExisting: forwardRef(() => NovoPickerElement),
     multi: true,
 };
 /**
@@ -11191,14 +8649,8 @@ class NovoPickerElement {
         this.blur = new EventEmitter();
         this.typing = new EventEmitter();
         this.term = '';
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
     }
     // Disable from typing into the picker (result template does everything)
     /**
@@ -11230,26 +8682,10 @@ class NovoPickerElement {
         // let input = this.element.nativeElement.querySelector('input');
         /** @type {?} */
         const pasteObserver = fromEvent(this.input.nativeElement, 'paste').pipe(debounceTime(250), distinctUntilChanged());
-        pasteObserver.subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => this.onDebouncedKeyup(event)), (/**
-         * @param {?} err
-         * @return {?}
-         */
-        (err) => this.hideResults(err)));
+        pasteObserver.subscribe((event) => this.onDebouncedKeyup(event), (err) => this.hideResults(err));
         /** @type {?} */
         const keyboardObserver = fromEvent(this.input.nativeElement, 'keyup').pipe(debounceTime(250), distinctUntilChanged());
-        keyboardObserver.subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => this.onDebouncedKeyup(event)), (/**
-         * @param {?} err
-         * @return {?}
-         */
-        (err) => this.hideResults(err)));
+        keyboardObserver.subscribe((event) => this.onDebouncedKeyup(event), (err) => this.hideResults(err));
     }
     /**
      * @private
@@ -11317,11 +8753,7 @@ class NovoPickerElement {
             if (event.keyCode === KeyCodes.ENTER) {
                 /** @type {?} */
                 const activeMatch = this.popup.instance.activeMatch;
-                if (!this.selected.find((/**
-                 * @param {?} selected
-                 * @return {?}
-                 */
-                (selected) => activeMatch && activeMatch.value && selected.value === activeMatch.value))) {
+                if (!this.selected.find((selected) => activeMatch && activeMatch.value && selected.value === activeMatch.value)) {
                     this.popup.instance.selectActiveMatch();
                     this.ref.markForCheck();
                 }
@@ -11488,11 +8920,7 @@ class NovoPickerElement {
                 this.term = value.name;
             }
             else if (typeof this.config.getLabels === 'function') {
-                this.config.getLabels(value).then((/**
-                 * @param {?} result
-                 * @return {?}
-                 */
-                (result) => {
+                this.config.getLabels(value).then((result) => {
                     if (result) {
                         this.term = result.length ? result[0].label || '' : result.label || '';
                     }
@@ -11500,7 +8928,7 @@ class NovoPickerElement {
                         this.term = value;
                     }
                     this.ref.markForCheck();
-                }));
+                });
             }
             else if (value && value.title) {
                 this.term = value.title;
@@ -11578,7 +9006,7 @@ NovoPickerElement.ctorParameters = () => [
     { type: ChangeDetectorRef }
 ];
 NovoPickerElement.propDecorators = {
-    results: [{ type: ViewChild, args: ['results', { read: ViewContainerRef, static: true },] }],
+    results: [{ type: ViewChild, args: ['results', { read: ViewContainerRef },] }],
     config: [{ type: Input }],
     placeholder: [{ type: Input }],
     clearValueOnSelect: [{ type: Input }],
@@ -11597,88 +9025,13 @@ NovoPickerElement.propDecorators = {
     focus: [{ type: Output }],
     blur: [{ type: Output }],
     typing: [{ type: Output }],
-    container: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: true },] }],
-    input: [{ type: ViewChild, args: ['input', { static: true },] }]
+    container: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }],
+    input: [{ type: ViewChild, args: ['input',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoPickerElement.prototype.results;
-    /** @type {?} */
-    NovoPickerElement.prototype.config;
-    /** @type {?} */
-    NovoPickerElement.prototype.placeholder;
-    /** @type {?} */
-    NovoPickerElement.prototype.clearValueOnSelect;
-    /** @type {?} */
-    NovoPickerElement.prototype.closeOnSelect;
-    /** @type {?} */
-    NovoPickerElement.prototype.selected;
-    /** @type {?} */
-    NovoPickerElement.prototype.appendToBody;
-    /** @type {?} */
-    NovoPickerElement.prototype.parentScrollSelector;
-    /** @type {?} */
-    NovoPickerElement.prototype.parentScrollAction;
-    /** @type {?} */
-    NovoPickerElement.prototype.containerClass;
-    /** @type {?} */
-    NovoPickerElement.prototype.side;
-    /** @type {?} */
-    NovoPickerElement.prototype.autoSelectFirstOption;
-    /** @type {?} */
-    NovoPickerElement.prototype.overrideElement;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoPickerElement.prototype._disablePickerInput;
-    /** @type {?} */
-    NovoPickerElement.prototype.changed;
-    /** @type {?} */
-    NovoPickerElement.prototype.select;
-    /** @type {?} */
-    NovoPickerElement.prototype.focus;
-    /** @type {?} */
-    NovoPickerElement.prototype.blur;
-    /** @type {?} */
-    NovoPickerElement.prototype.typing;
-    /** @type {?} */
-    NovoPickerElement.prototype.container;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoPickerElement.prototype.input;
-    /** @type {?} */
-    NovoPickerElement.prototype.term;
-    /** @type {?} */
-    NovoPickerElement.prototype.resultsComponent;
-    /** @type {?} */
-    NovoPickerElement.prototype.popup;
-    /** @type {?} */
-    NovoPickerElement.prototype._value;
-    /** @type {?} */
-    NovoPickerElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoPickerElement.prototype.onModelTouched;
-    /** @type {?} */
-    NovoPickerElement.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoPickerElement.prototype.componentUtils;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoPickerElement.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/entity-picker-results/EntityPickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class EntityPickerResult {
     /**
@@ -11707,9 +9060,9 @@ class EntityPickerResult {
      *
      * @return {?}
      */
-    highlight(match, query) {
+    highlight(match, query$$1) {
         // Replaces the capture string with a the same string inside of a "strong" tag
-        return query && match ? match.replace(new RegExp(this.escapeRegexp(query.trim()), 'gi'), '<strong>$&</strong>') : match;
+        return query$$1 && match ? match.replace(new RegExp(this.escapeRegexp(query$$1.trim()), 'gi'), '<strong>$&</strong>') : match;
     }
     /**
      * @param {?=} result
@@ -11734,8 +9087,6 @@ class EntityPickerResult {
                     return 'star placement';
                 case 'CorporateUser':
                     return 'user';
-                case 'CorporationDepartment':
-                    return 'department';
                 default:
                     return '';
             }
@@ -11873,14 +9224,6 @@ EntityPickerResult.propDecorators = {
     match: [{ type: Input }],
     term: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    EntityPickerResult.prototype.match;
-    /** @type {?} */
-    EntityPickerResult.prototype.term;
-    /** @type {?} */
-    EntityPickerResult.prototype.labels;
-}
 class EntityPickerResults extends BasePickerResults {
     /**
      * @param {?} element
@@ -11946,17 +9289,10 @@ EntityPickerResults.ctorParameters = () => [
 EntityPickerResults.propDecorators = {
     select: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    EntityPickerResults.prototype.select;
-    /** @type {?} */
-    EntityPickerResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/checklist-picker-results/ChecklistPickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * \@name: ChecklistPickerResults
@@ -11980,12 +9316,7 @@ class ChecklistPickerResults extends BasePickerResults {
         /** @type {?} */
         let options = this.config.options;
         // only set this the first time
-        return from(new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return from(new Promise((resolve, reject) => {
             // Check if there is match data
             if (options) {
                 // Resolve the data
@@ -12004,7 +9335,7 @@ class ChecklistPickerResults extends BasePickerResults {
                 // No data gets rejected
                 reject('error');
             }
-        })));
+        }));
     }
     /**
      * \@name filterData=
@@ -12016,34 +9347,22 @@ class ChecklistPickerResults extends BasePickerResults {
      */
     filterData(matches) {
         if (this.term && matches) {
-            this.filteredMatches = matches.map((/**
-             * @param {?} section
-             * @return {?}
-             */
-            (section) => {
+            this.filteredMatches = matches.map((section) => {
                 /** @type {?} */
-                let items = section.originalData.filter((/**
-                 * @param {?} match
-                 * @return {?}
-                 */
-                (match) => {
+                let items = section.originalData.filter((match) => {
                     return ~String(match.label)
                         .toLowerCase()
                         .indexOf(this.term.toLowerCase());
-                }));
+                });
                 section.data = items;
                 return section;
-            }), this);
+            }, this);
             return this.filteredMatches;
         }
         else if (this.term === '') {
-            matches.forEach((/**
-             * @param {?} section
-             * @return {?}
-             */
-            (section) => {
+            matches.forEach((section) => {
                 section.data = section.originalData;
-            }));
+            });
             return matches;
         }
         // Show no recent results template
@@ -12117,17 +9436,10 @@ ChecklistPickerResults.ctorParameters = () => [
     { type: NovoLabelService },
     { type: ChangeDetectorRef }
 ];
-if (false) {
-    /** @type {?} */
-    ChecklistPickerResults.prototype.filteredMatches;
-    /** @type {?} */
-    ChecklistPickerResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/grouped-multi-picker-results/GroupedMultiPickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class GroupedMultiPickerResults extends BasePickerResults {
     /**
@@ -12175,12 +9487,9 @@ class GroupedMultiPickerResults extends BasePickerResults {
             this.placeholder = this.config.placeholder;
         }
         // Focus
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             this.inputElement.nativeElement.focus();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -12188,13 +9497,9 @@ class GroupedMultiPickerResults extends BasePickerResults {
     get categories() {
         if (this.config.categories || this.config.categoryMap) {
             return (this.config.categories ||
-                Array.from(this.config.categoryMap.values()).filter((/**
-                 * @param {?} category
-                 * @return {?}
-                 */
-                (category) => {
+                Array.from(this.config.categoryMap.values()).filter((category) => {
                     return category.value !== 'all';
-                })));
+                }));
         }
         return [];
     }
@@ -12205,15 +9510,11 @@ class GroupedMultiPickerResults extends BasePickerResults {
         // Subscribe to keyboard events and debounce
         this.keyboardSubscription = fromEvent(this.inputElement.nativeElement, 'keyup')
             .pipe(debounceTime(350), distinctUntilChanged())
-            .subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+            .subscribe((event) => {
             this.searchTerm = event.target['value'];
             this.matches = this.filterData();
             this.ref.markForCheck();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -12232,18 +9533,10 @@ class GroupedMultiPickerResults extends BasePickerResults {
             /** @type {?} */
             let allItems = [];
             Array.from(this.config.categoryMap.values())
-                .filter((/**
-             * @param {?} category
-             * @return {?}
-             */
-            (category) => {
+                .filter((category) => {
                 return category.value !== 'all';
-            }))
-                .forEach((/**
-             * @param {?} v
-             * @return {?}
-             */
-            (v) => allItems.push(...v.items)));
+            })
+                .forEach((v) => allItems.push(...v.items));
             this.matches = this.filter(allItems);
             this.config.categoryMap.set('all', { value: 'all', label: 'All', items: allItems });
             this.ref.markForCheck();
@@ -12306,12 +9599,9 @@ class GroupedMultiPickerResults extends BasePickerResults {
             this.ref.markForCheck();
         }
         // Focus
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             this.inputElement.nativeElement.focus();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -12345,22 +9635,15 @@ class GroupedMultiPickerResults extends BasePickerResults {
             }
             if (!this.internalMap.get(key)) {
                 this.isLoading = true;
-                this.config.getItemsForCategoryAsync(key, this.customFilterValue).then((/**
-                 * @param {?} items
-                 * @return {?}
-                 */
-                (items) => {
+                this.config.getItemsForCategoryAsync(key, this.customFilterValue).then((items) => {
                     this.internalMap.set(key, { value: category.value, label: category.label, items: items });
                     this.matches = this.filter(items, true);
                     this.isLoading = false;
                     this.ref.markForCheck();
-                    setTimeout((/**
-                     * @return {?}
-                     */
-                    () => {
+                    setTimeout(() => {
                         this.inputElement.nativeElement.focus();
-                    }));
-                }));
+                    });
+                });
             }
             else {
                 this.matches = this.filter(this.internalMap.get(key).items);
@@ -12378,22 +9661,14 @@ class GroupedMultiPickerResults extends BasePickerResults {
         /** @type {?} */
         let matches = array;
         if (this.searchTerm && this.searchTerm.length !== 0 && this.selectedCategory) {
-            matches = matches.filter((/**
-             * @param {?} match
-             * @return {?}
-             */
-            (match) => {
+            matches = matches.filter((match) => {
                 /** @type {?} */
                 const searchTerm = this.searchTerm.toLowerCase();
                 return match.label.toLowerCase().indexOf(searchTerm) > -1 || match.value.toLowerCase().indexOf(searchTerm) > -1;
-            }));
+            });
         }
         if (this.customFilterEnabled && this.config.customFilter.matchFunction && !ignoreCustomFilter) {
-            matches = matches.filter((/**
-             * @param {?} match
-             * @return {?}
-             */
-            (match) => this.config.customFilter.matchFunction(match, this.customFilterValue)));
+            matches = matches.filter((match) => this.config.customFilter.matchFunction(match, this.customFilterValue));
         }
         return matches;
     }
@@ -12479,55 +9754,13 @@ GroupedMultiPickerResults.ctorParameters = () => [
     { type: ChangeDetectorRef }
 ];
 GroupedMultiPickerResults.propDecorators = {
-    inputElement: [{ type: ViewChild, args: ['input', { static: true },] }],
-    listElement: [{ type: ViewChild, args: ['list', { static: false },] }]
+    inputElement: [{ type: ViewChild, args: ['input',] }],
+    listElement: [{ type: ViewChild, args: ['list',] }]
 };
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    GroupedMultiPickerResults.prototype.inputElement;
-    /**
-     * @type {?}
-     * @private
-     */
-    GroupedMultiPickerResults.prototype.listElement;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.selectedCategory;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.searchTerm;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.customFilterEnabled;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.customFilterLabel;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.placeholder;
-    /**
-     * @type {?}
-     * @private
-     */
-    GroupedMultiPickerResults.prototype.keyboardSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    GroupedMultiPickerResults.prototype.internalMap;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.customFilterValue;
-    /**
-     * @type {?}
-     * @private
-     */
-    GroupedMultiPickerResults.prototype.renderer;
-    /** @type {?} */
-    GroupedMultiPickerResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/skills-picker-results/SkillsSpecialtyPickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class SkillsSpecialtyPickerResults extends BasePickerResults {
     /**
@@ -12613,25 +9846,10 @@ SkillsSpecialtyPickerResults.ctorParameters = () => [
 SkillsSpecialtyPickerResults.propDecorators = {
     active: [{ type: HostBinding, args: ['class.active',] }]
 };
-if (false) {
-    /** @type {?} */
-    SkillsSpecialtyPickerResults.prototype.active;
-    /** @type {?} */
-    SkillsSpecialtyPickerResults.prototype.limitedTo;
-    /** @type {?} */
-    SkillsSpecialtyPickerResults.prototype.limit;
-    /** @type {?} */
-    SkillsSpecialtyPickerResults.prototype.total;
-    /** @type {?} */
-    SkillsSpecialtyPickerResults.prototype.element;
-    /** @type {?} */
-    SkillsSpecialtyPickerResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/extras/distributionlist-picker-results/DistributionListPickerResults.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class DistributionListPickerResults extends BasePickerResults {
     /**
@@ -12706,22 +9924,10 @@ DistributionListPickerResults.propDecorators = {
     active: [{ type: HostBinding, args: ['class.active',] }],
     isHidden: [{ type: HostBinding, args: ['hidden',] }]
 };
-if (false) {
-    /** @type {?} */
-    DistributionListPickerResults.prototype.active;
-    /**
-     * @type {?}
-     * @private
-     */
-    DistributionListPickerResults.prototype.sanitizer;
-    /** @type {?} */
-    DistributionListPickerResults.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/picker/Picker.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoPickerModule {
 }
@@ -12762,17 +9968,13 @@ NovoPickerModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/search/SearchBox.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const SEARCH_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoSearchBoxElement)),
+    useExisting: forwardRef(() => NovoSearchBoxElement),
     multi: true,
 };
 class NovoSearchBoxElement {
@@ -12797,17 +9999,11 @@ class NovoSearchBoxElement {
         /**
          * View -> model callback called when value changes
          */
-        this._onChange = (/**
-         * @return {?}
-         */
-        () => { });
+        this._onChange = () => { };
         /**
          * View -> model callback called when autocomplete has been touched
          */
-        this._onTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this._onTouched = () => { };
     }
     /**
      * \@name showFasterFind
@@ -12820,29 +10016,23 @@ class NovoSearchBoxElement {
         if (!this.panelOpen) {
             // Reset search
             // Set focus on search
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            setTimeout(() => {
                 /** @type {?} */
                 let element = this.input.nativeElement;
                 if (element) {
                     element.focus();
                 }
-            }), 10);
+            }, 10);
         }
     }
     /**
      * @return {?}
      */
     onFocus() {
-        this._zone.run((/**
-         * @return {?}
-         */
-        () => {
+        this._zone.run(() => {
             this.focused = true;
             this.openPanel();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -12896,12 +10086,9 @@ class NovoSearchBoxElement {
             if (this.debounceSearchChange) {
                 clearTimeout(this.debounceSearchChange);
             }
-            this.debounceSearchChange = setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            this.debounceSearchChange = setTimeout(() => {
                 this.searchChanged.emit(((/** @type {?} */ (event.target))).value);
-            }), 400);
+            }, 400);
         }
     }
     /**
@@ -12973,40 +10160,15 @@ NovoSearchBoxElement.decorators = [
                 providers: [SEARCH_VALUE_ACCESSOR],
                 changeDetection: ChangeDetectionStrategy.OnPush,
                 template: `
-    <!-- SEARCH ICON -->
-    <button
-      theme="fab"
-      [color]="theme"
-      [icon]="icon"
-      (click)="showSearch()"
-      [tooltip]="hint"
-      tooltipPosition="bottom"
-      data-automation-id="novo-search-fab"
-    ></button>
-    <!-- SEARCH INPUT -->
-    <input
-      type="text"
-      [attr.name]="name"
-      [attr.value]="displayValue"
-      [attr.placeholder]="placeholder"
-      (focus)="onFocus()"
-      (blur)="onBlur()"
-      (keydown)="_handleKeydown($event)"
-      (input)="_handleInput($event)"
-      #input
-      data-automation-id="novo-search-input"
-    />
-    <!-- SEARCH OVERLAY -->
-    <novo-overlay-template
-      [parent]="element"
-      [closeOnSelect]="closeOnSelect"
-      position="above-below"
-      (select)="closePanel()"
-      (closing)="onBlur()"
-    >
-      <ng-content></ng-content>
-    </novo-overlay-template>
-  `
+        <!-- SEARCH ICON -->
+        <button theme="fab" [color]="theme" [icon]="icon" (click)="showSearch()" [tooltip]="hint" tooltipPosition="bottom" data-automation-id="novo-search-fab"></button>
+        <!-- SEARCH INPUT -->
+        <input type="text" [attr.name]="name" [attr.value]="displayValue" [attr.placeholder]="placeholder" (focus)="onFocus()" (blur)="onBlur()" (keydown)="_handleKeydown($event)" (input)="_handleInput($event)" #input data-automation-id="novo-search-input"/>
+        <!-- SEARCH OVERLAY -->
+        <novo-overlay-template [parent]="element" [closeOnSelect]="closeOnSelect" position="above-below" (select)="closePanel()" (closing)="onBlur()">
+            <ng-content></ng-content>
+        </novo-overlay-template>
+    `
             }] }
 ];
 /** @nocollapse */
@@ -13028,77 +10190,14 @@ NovoSearchBoxElement.propDecorators = {
     hint: [{ type: Input }],
     searchChanged: [{ type: Output }],
     focused: [{ type: HostBinding, args: ['class.focused',] }],
-    overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: false },] }],
-    input: [{ type: ViewChild, args: ['input', { static: true },] }],
+    overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }],
+    input: [{ type: ViewChild, args: ['input',] }],
     active: [{ type: HostBinding, args: ['class.active',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.name;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.icon;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.placeholder;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.alwaysOpen;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.theme;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.closeOnSelect;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.displayField;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.displayValue;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.hint;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.searchChanged;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.focused;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.value;
-    /**
-     * View -> model callback called when value changes
-     * @type {?}
-     */
-    NovoSearchBoxElement.prototype._onChange;
-    /**
-     * View -> model callback called when autocomplete has been touched
-     * @type {?}
-     */
-    NovoSearchBoxElement.prototype._onTouched;
-    /**
-     * Element for the panel containing the autocomplete options.
-     * @type {?}
-     */
-    NovoSearchBoxElement.prototype.overlay;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.input;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSearchBoxElement.prototype.debounceSearchChange;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.element;
-    /** @type {?} */
-    NovoSearchBoxElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSearchBoxElement.prototype._changeDetectorRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSearchBoxElement.prototype._zone;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/search/SearchBox.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoSearchBoxModule {
 }
@@ -13112,8 +10211,7 @@ NovoSearchBoxModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/dragula/DragulaService.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 const dragula = dragulaImported;
@@ -13211,35 +10309,19 @@ class NovoDragulaService {
         let dropIndex;
         /** @type {?} */
         let sourceModel;
-        drake.on('remove', (/**
-         * @param {?} el
-         * @param {?} source
-         * @return {?}
-         */
-        (el, source) => {
+        drake.on('remove', (el, source) => {
             if (!drake.models) {
                 return;
             }
             sourceModel = drake.models[drake.containers.indexOf(source)];
             sourceModel.splice(dragIndex, 1);
             this.removeModel.emit([name, el, source]);
-        }));
-        drake.on('drag', (/**
-         * @param {?} el
-         * @param {?} source
-         * @return {?}
-         */
-        (el, source) => {
+        });
+        drake.on('drag', (el, source) => {
             dragElm = el;
             dragIndex = this.domIndexOf(el, source);
-        }));
-        drake.on('drop', (/**
-         * @param {?} dropElm
-         * @param {?} target
-         * @param {?} source
-         * @return {?}
-         */
-        (dropElm, target, source) => {
+        });
+        drake.on('drop', (dropElm, target, source) => {
             if (!drake.models) {
                 return;
             }
@@ -13262,7 +10344,7 @@ class NovoDragulaService {
                 target.removeChild(dropElm); // element must be removed for ngFor to apply correctly
             }
             this.dropModel.emit([name, dropElm, target, source]);
-        }));
+        });
     }
     /**
      * \@name setupEvents
@@ -13274,11 +10356,7 @@ class NovoDragulaService {
         /** @type {?} */
         let that = this;
         /** @type {?} */
-        let emitter = (/**
-         * @param {?} type
-         * @return {?}
-         */
-        (type) => {
+        let emitter = (type) => {
             /**
              * @return {?}
              */
@@ -13288,7 +10366,7 @@ class NovoDragulaService {
                 that[type].emit([bag.name].concat(args));
             }
             bag.drake.on(type, replicate);
-        });
+        };
         this.events.forEach(emitter);
     }
     /**
@@ -13304,39 +10382,10 @@ class NovoDragulaService {
 NovoDragulaService.decorators = [
     { type: Injectable }
 ];
-if (false) {
-    /** @type {?} */
-    NovoDragulaService.prototype.cancel;
-    /** @type {?} */
-    NovoDragulaService.prototype.cloned;
-    /** @type {?} */
-    NovoDragulaService.prototype.drag;
-    /** @type {?} */
-    NovoDragulaService.prototype.dragend;
-    /** @type {?} */
-    NovoDragulaService.prototype.drop;
-    /** @type {?} */
-    NovoDragulaService.prototype.out;
-    /** @type {?} */
-    NovoDragulaService.prototype.over;
-    /** @type {?} */
-    NovoDragulaService.prototype.remove;
-    /** @type {?} */
-    NovoDragulaService.prototype.shadow;
-    /** @type {?} */
-    NovoDragulaService.prototype.dropModel;
-    /** @type {?} */
-    NovoDragulaService.prototype.removeModel;
-    /** @type {?} */
-    NovoDragulaService.prototype.events;
-    /** @type {?} */
-    NovoDragulaService.prototype.bags;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/dragula/Dragula.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 const dragula$1 = dragulaImported;
@@ -13415,26 +10464,10 @@ NovoDragulaElement.propDecorators = {
     bag: [{ type: Input, args: ['dragula',] }],
     dragulaModel: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDragulaElement.prototype.bag;
-    /** @type {?} */
-    NovoDragulaElement.prototype.dragulaModel;
-    /** @type {?} */
-    NovoDragulaElement.prototype.drake;
-    /** @type {?} */
-    NovoDragulaElement.prototype.container;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDragulaElement.prototype.dragulaService;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/dragula/Dragula.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoDragulaModule {
 }
@@ -13447,8 +10480,7 @@ NovoDragulaModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/slider/Slider.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoSliderElement {
     /**
@@ -13545,34 +10577,10 @@ NovoSliderElement.ctorParameters = () => [
 NovoSliderElement.propDecorators = {
     slides: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSliderElement.prototype.slides;
-    /** @type {?} */
-    NovoSliderElement.prototype.currentSlide;
-    /** @type {?} */
-    NovoSliderElement.prototype.start;
-    /** @type {?} */
-    NovoSliderElement.prototype.end;
-    /** @type {?} */
-    NovoSliderElement.prototype.currSlides;
-    /** @type {?} */
-    NovoSliderElement.prototype.handleKeyDownFunc;
-    /** @type {?} */
-    NovoSliderElement.prototype.currentClass;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSliderElement.prototype.element;
-    /** @type {?} */
-    NovoSliderElement.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/slider/Slider.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoSliderModule {
 }
@@ -13586,17 +10594,13 @@ NovoSliderModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/chips/Chips.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const CHIPS_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoChipsElement)),
+    useExisting: forwardRef(() => NovoChipsElement),
     multi: true,
 };
 class NovoChipElement {
@@ -13669,20 +10673,6 @@ NovoChipElement.propDecorators = {
     remove: [{ type: Output }],
     deselect: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoChipElement.prototype.disabled;
-    /** @type {?} */
-    NovoChipElement.prototype.select;
-    /** @type {?} */
-    NovoChipElement.prototype.remove;
-    /** @type {?} */
-    NovoChipElement.prototype.deselect;
-    /** @type {?} */
-    NovoChipElement.prototype.entity;
-    /** @type {?} */
-    NovoChipElement.prototype._type;
-}
 class NovoChipsElement {
     /**
      * @param {?} element
@@ -13707,14 +10697,8 @@ class NovoChipsElement {
         this._value = '';
         this._items = new ReplaySubject(1);
         // Placeholders for the callbacks
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
     }
     /**
      * @param {?} v
@@ -13800,11 +10784,7 @@ class NovoChipsElement {
                 }
             }
             if (noLabels.length > 0 && this.source && this.source.getLabels && typeof this.source.getLabels === 'function') {
-                this.source.getLabels(noLabels).then((/**
-                 * @param {?} result
-                 * @return {?}
-                 */
-                (result) => {
+                this.source.getLabels(noLabels).then((result) => {
                     for (let value of result) {
                         if (value.hasOwnProperty('label')) {
                             this.items.push({
@@ -13820,7 +10800,7 @@ class NovoChipsElement {
                         }
                     }
                     this._items.next(this.items);
-                }));
+                });
             }
         }
         this.changed.emit({ value: this.model, rawValue: this.items });
@@ -13832,11 +10812,7 @@ class NovoChipsElement {
      */
     getLabelFromOptions(value) {
         /** @type {?} */
-        let optLabel = this.source.options.find((/**
-         * @param {?} val
-         * @return {?}
-         */
-        (val) => val.value === value));
+        let optLabel = this.source.options.find((val) => val.value === value);
         return {
             value,
             label: optLabel ? optLabel.label : value,
@@ -13893,11 +10869,7 @@ class NovoChipsElement {
     add(event) {
         if (event && !(event instanceof Event)) {
             this.items.push(event);
-            this.value = this.source && this.source.valueFormatter ? this.source.valueFormatter(this.items) : this.items.map((/**
-             * @param {?} i
-             * @return {?}
-             */
-            (i) => i.value));
+            this.value = this.source && this.source.valueFormatter ? this.source.valueFormatter(this.items) : this.items.map((i) => i.value);
             // Set focus on the picker
             /** @type {?} */
             let input = this.element.nativeElement.querySelector('novo-picker > input');
@@ -13919,11 +10891,7 @@ class NovoChipsElement {
         }
         this.items.splice(this.items.indexOf(item), 1);
         this.deselectAll();
-        this.value = this.source && this.source.valueFormatter ? this.source.valueFormatter(this.items) : this.items.map((/**
-         * @param {?} i
-         * @return {?}
-         */
-        (i) => i.value));
+        this.value = this.source && this.source.valueFormatter ? this.source.valueFormatter(this.items) : this.items.map((i) => i.value);
         this.changed.emit({ value: this.value.length ? this.value : '', rawValue: this.items });
         this.onModelChange(this.value.length ? this.value : '');
         this._items.next(this.items);
@@ -14079,79 +11047,19 @@ NovoChipsElement.propDecorators = {
     focus: [{ type: Output }],
     blur: [{ type: Output }],
     typing: [{ type: Output }],
-    preview: [{ type: ViewChild, args: ['preview', { read: ViewContainerRef, static: false },] }],
+    preview: [{ type: ViewChild, args: ['preview', { read: ViewContainerRef },] }],
     value: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoChipsElement.prototype.closeOnSelect;
-    /** @type {?} */
-    NovoChipsElement.prototype.placeholder;
-    /** @type {?} */
-    NovoChipsElement.prototype.source;
-    /** @type {?} */
-    NovoChipsElement.prototype.maxlength;
-    /** @type {?} */
-    NovoChipsElement.prototype.type;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoChipsElement.prototype._disablePickerInput;
-    /** @type {?} */
-    NovoChipsElement.prototype.changed;
-    /** @type {?} */
-    NovoChipsElement.prototype.focus;
-    /** @type {?} */
-    NovoChipsElement.prototype.blur;
-    /** @type {?} */
-    NovoChipsElement.prototype.typing;
-    /** @type {?} */
-    NovoChipsElement.prototype.preview;
-    /** @type {?} */
-    NovoChipsElement.prototype.items;
-    /** @type {?} */
-    NovoChipsElement.prototype.selected;
-    /** @type {?} */
-    NovoChipsElement.prototype.config;
-    /** @type {?} */
-    NovoChipsElement.prototype.model;
-    /** @type {?} */
-    NovoChipsElement.prototype.itemToAdd;
-    /** @type {?} */
-    NovoChipsElement.prototype.popup;
-    /** @type {?} */
-    NovoChipsElement.prototype._value;
-    /** @type {?} */
-    NovoChipsElement.prototype._items;
-    /** @type {?} */
-    NovoChipsElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoChipsElement.prototype.onModelTouched;
-    /** @type {?} */
-    NovoChipsElement.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoChipsElement.prototype.componentUtils;
-    /** @type {?} */
-    NovoChipsElement.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/chips/RowChips.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const CHIPS_VALUE_ACCESSOR$1 = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoRowChipsElement)),
+    useExisting: forwardRef(() => NovoRowChipsElement),
     multi: true,
 };
 class NovoRowChipElement extends NovoChipElement {
@@ -14240,15 +11148,10 @@ NovoRowChipsElement.ctorParameters = () => [
 NovoRowChipsElement.propDecorators = {
     closeOnSelect: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoRowChipsElement.prototype.closeOnSelect;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/chips/Chips.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoChipsModule {
 }
@@ -14262,45 +11165,15 @@ NovoChipsModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/date-picker/DatePicker.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const DATE_PICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoDatePickerElement)),
+    useExisting: forwardRef(() => NovoDatePickerElement),
     multi: true,
 };
-/**
- * @record
- */
-function RangeModal() { }
-if (false) {
-    /** @type {?} */
-    RangeModal.prototype.startDate;
-    /** @type {?} */
-    RangeModal.prototype.endDate;
-}
-/**
- * @record
- */
-function Day() { }
-if (false) {
-    /** @type {?} */
-    Day.prototype.date;
-    /** @type {?|undefined} */
-    Day.prototype.isCurrentMonth;
-    /** @type {?|undefined} */
-    Day.prototype.isToday;
-    /** @type {?|undefined} */
-    Day.prototype.name;
-    /** @type {?|undefined} */
-    Day.prototype.number;
-}
 class NovoDatePickerElement {
     /**
      * @param {?} labels
@@ -14321,14 +11194,8 @@ class NovoDatePickerElement {
         // Default view mode (select days)
         this.view = 'days';
         this.rangeSelectMode = 'startDate';
-        this._onChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this._onTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this._onChange = () => { };
+        this._onTouched = () => { };
     }
     /**
      * @return {?}
@@ -14690,10 +11557,7 @@ class NovoDatePickerElement {
         }
         // Make sure to scroll the selected one into view
         if (this.view === 'years' || this.view === 'months') {
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            setTimeout(() => {
                 /** @type {?} */
                 let container = this.element.nativeElement.querySelector(`.calendar-content.${this.view}`);
                 /** @type {?} */
@@ -14701,7 +11565,7 @@ class NovoDatePickerElement {
                 if (container && selectedItem) {
                     container.scrollTop = selectedItem.offsetTop - 100;
                 }
-            }));
+            });
         }
         this.updateHeading();
     }
@@ -14951,72 +11815,10 @@ NovoDatePickerElement.propDecorators = {
     weekStart: [{ type: Input }],
     onSelect: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDatePickerElement.prototype.minYear;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.maxYear;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.start;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.end;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.inline;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.range;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.weekRangeSelect;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.weekStart;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.onSelect;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.weekdays;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.months;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.years;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.view;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.heading;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.model;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.month;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.monthLabel;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.weeks;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.selected;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.selectedLabel;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.selected2;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.selected2Label;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.hoverDay;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.rangeSelectMode;
-    /** @type {?} */
-    NovoDatePickerElement.prototype._onChange;
-    /** @type {?} */
-    NovoDatePickerElement.prototype._onTouched;
-    /** @type {?} */
-    NovoDatePickerElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDatePickerElement.prototype.element;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/date-format/DateFormat.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class DateFormatService {
     /**
@@ -15034,8 +11836,6 @@ class DateFormatService {
         let mask = [/\d/, /\d/, /:/, /\d/, /\d/];
         /** @type {?} */
         let timeFormatArray = [];
-        /** @type {?} */
-        let timeFormatPartsArray = [];
         /** @type {?} */
         let timeFormat = this.labels.timeFormatPlaceholderAM.toLowerCase();
         if (militaryTime) {
@@ -15159,8 +11959,6 @@ class DateFormatService {
         /** @type {?} */
         let timeStringParts;
         /** @type {?} */
-        let timeFormat;
-        /** @type {?} */
         let amFormat = this.labels.timeFormatAM;
         /** @type {?} */
         let pmFormat = this.labels.timeFormatPM;
@@ -15248,16 +12046,16 @@ class DateFormatService {
      * @param {?} format
      * @return {?}
      */
-    isValidDatePart(value, format) {
+    isValidDatePart(value, format$$1) {
         /** @type {?} */
         let datePart = parseInt(value);
-        if (format.includes('m') && (datePart >= 2 || value.length === 2)) {
+        if (format$$1.includes('m') && (datePart >= 2 || value.length === 2)) {
             return true;
         }
-        else if (format.includes('d') && (datePart >= 4 || value.length === 2)) {
+        else if (format$$1.includes('d') && (datePart >= 4 || value.length === 2)) {
             return true;
         }
-        else if (format.includes('y') && datePart >= 1000) {
+        else if (format$$1.includes('y') && datePart >= 1000) {
             return true;
         }
         return false;
@@ -15270,27 +12068,16 @@ DateFormatService.decorators = [
 DateFormatService.ctorParameters = () => [
     { type: NovoLabelService }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DateFormatService.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/date-picker/DatePickerInput.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const DATE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoDatePickerInputElement)),
+    useExisting: forwardRef(() => NovoDatePickerInputElement),
     multi: true,
 };
 class NovoDatePickerInputElement {
@@ -15309,17 +12096,11 @@ class NovoDatePickerInputElement {
         /**
          * View -> model callback called when value changes
          */
-        this._onChange = (/**
-         * @return {?}
-         */
-        () => { });
+        this._onChange = () => { };
         /**
          * View -> model callback called when autocomplete has been touched
          */
-        this._onTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this._onTouched = () => { };
         this.textMaskEnabled = true;
         this.allowInvalidDate = false;
         this.disabled = false;
@@ -15437,10 +12218,7 @@ class NovoDatePickerInputElement {
      * @return {?}
      */
     writeValue(value) {
-        Promise.resolve(null).then((/**
-         * @return {?}
-         */
-        () => this._setTriggerValue(value)));
+        Promise.resolve(null).then(() => this._setTriggerValue(value));
     }
     /**
      * @param {?} fn
@@ -15606,72 +12384,12 @@ NovoDatePickerInputElement.propDecorators = {
     disabled: [{ type: HostBinding, args: ['class.disabled',] }, { type: Input }],
     blurEvent: [{ type: Output }],
     focusEvent: [{ type: Output }],
-    overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: false },] }]
+    overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.value;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.formattedValue;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDatePickerInputElement.prototype.userDefinedFormat;
-    /**
-     * View -> model callback called when value changes
-     * @type {?}
-     */
-    NovoDatePickerInputElement.prototype._onChange;
-    /**
-     * View -> model callback called when autocomplete has been touched
-     * @type {?}
-     */
-    NovoDatePickerInputElement.prototype._onTouched;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.name;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.start;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.end;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.placeholder;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.maskOptions;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.format;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.textMaskEnabled;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.allowInvalidDate;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.disabled;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.blurEvent;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.focusEvent;
-    /**
-     * Element for the panel containing the autocomplete options.
-     * @type {?}
-     */
-    NovoDatePickerInputElement.prototype.overlay;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.element;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDatePickerInputElement.prototype._changeDetectorRef;
-    /** @type {?} */
-    NovoDatePickerInputElement.prototype.dateFormatService;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/date-picker/DatePicker.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoDatePickerModule {
 }
@@ -15685,17 +12403,13 @@ NovoDatePickerModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/time-picker/TimePicker.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const TIME_PICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoTimePickerElement)),
+    useExisting: forwardRef(() => NovoTimePickerElement),
     multi: true,
 };
 class NovoTimePickerElement {
@@ -15711,14 +12425,8 @@ class NovoTimePickerElement {
         this.MERIDIANS = ['am', 'pm'];
         this.MINUTES = ['05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '00'];
         this.HOURS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-        this._onChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this._onTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this._onChange = () => { };
+        this._onTouched = () => { };
     }
     /**
      * @param {?} arr
@@ -15733,26 +12441,14 @@ class NovoTimePickerElement {
     ngOnInit() {
         if (this.military) {
             this.HOURS = ['0', ...this.HOURS, '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
-            this.increments = this.flatten([...this.HOURS.map((/**
-                 * @param {?} hour
-                 * @return {?}
-                 */
-                (hour) => [`${hour}:00`, `${hour}:15`, `${hour}:30`, `${hour}:45`]))]);
+            this.increments = this.flatten([...this.HOURS.map((hour) => [`${hour}:00`, `${hour}:15`, `${hour}:30`, `${hour}:45`])]);
         }
         else {
             /** @type {?} */
             let hours = ['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
             this.increments = this.flatten([
-                ...hours.map((/**
-                 * @param {?} hour
-                 * @return {?}
-                 */
-                (hour) => [`${hour}:00 AM`, `${hour}:15 AM`, `${hour}:30 AM`, `${hour}:45 AM`])),
-                ...hours.map((/**
-                 * @param {?} hour
-                 * @return {?}
-                 */
-                (hour) => [`${hour}:00 PM`, `${hour}:15 PM`, `${hour}:30 PM`, `${hour}:45 PM`])),
+                ...hours.map((hour) => [`${hour}:00 AM`, `${hour}:15 AM`, `${hour}:30 AM`, `${hour}:45 AM`]),
+                ...hours.map((hour) => [`${hour}:00 PM`, `${hour}:15 PM`, `${hour}:30 PM`, `${hour}:45 PM`]),
             ]);
         }
         this.ngOnChanges();
@@ -15969,64 +12665,16 @@ NovoTimePickerElement.propDecorators = {
     inline: [{ type: Input }],
     onSelect: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoTimePickerElement.prototype.military;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.analog;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.inline;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.onSelect;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.hours;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.minutes;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.value;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.meridian;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.inBetween;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.hoursClass;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.activeHour;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.minutesClass;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.activeMinute;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.increments;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.selected;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.MERIDIANS;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.MINUTES;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.HOURS;
-    /** @type {?} */
-    NovoTimePickerElement.prototype.model;
-    /** @type {?} */
-    NovoTimePickerElement.prototype._onChange;
-    /** @type {?} */
-    NovoTimePickerElement.prototype._onTouched;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/time-picker/TimePickerInput.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const DATE_VALUE_ACCESSOR$1 = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoTimePickerInputElement)),
+    useExisting: forwardRef(() => NovoTimePickerInputElement),
     multi: true,
 };
 class NovoTimePickerInputElement {
@@ -16045,17 +12693,11 @@ class NovoTimePickerInputElement {
         /**
          * View -> model callback called when value changes
          */
-        this._onChange = (/**
-         * @return {?}
-         */
-        () => { });
+        this._onChange = () => { };
         /**
          * View -> model callback called when autocomplete has been touched
          */
-        this._onTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this._onTouched = () => { };
         this.military = false;
         this.disabled = false;
         this.blurEvent = new EventEmitter();
@@ -16082,10 +12724,7 @@ class NovoTimePickerInputElement {
             this.overlay.openPanel();
             /** @type {?} */
             let hour = new Date().getHours();
-            Promise.resolve(null).then((/**
-             * @return {?}
-             */
-            () => this.scrollToIndex(hour * 4)));
+            Promise.resolve(null).then(() => this.scrollToIndex(hour * 4));
         }
     }
     /**
@@ -16154,10 +12793,7 @@ class NovoTimePickerInputElement {
      * @return {?}
      */
     writeValue(value) {
-        Promise.resolve(null).then((/**
-         * @return {?}
-         */
-        () => this._setTriggerValue(value)));
+        Promise.resolve(null).then(() => this._setTriggerValue(value));
     }
     /**
      * @param {?} fn
@@ -16240,15 +12876,15 @@ class NovoTimePickerInputElement {
             return '';
         }
         /** @type {?} */
-        let format = this.labels.formatTimeWithFormat(value, {
+        let format$$1 = this.labels.formatTimeWithFormat(value, {
             hour: 'numeric',
             minute: '2-digit',
             hour12: !this.military,
         });
-        if (format.split(':')[0].length === 1) {
-            return `0${format}`;
+        if (format$$1.split(':')[0].length === 1) {
+            return `0${format$$1}`;
         }
-        return format;
+        return format$$1;
     }
     /**
      * @return {?}
@@ -16316,59 +12952,12 @@ NovoTimePickerInputElement.propDecorators = {
     disabled: [{ type: HostBinding, args: ['class.disabled',] }, { type: Input }],
     blurEvent: [{ type: Output }],
     focusEvent: [{ type: Output }],
-    overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: false },] }]
+    overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent,] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.value;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.formattedValue;
-    /**
-     * View -> model callback called when value changes
-     * @type {?}
-     */
-    NovoTimePickerInputElement.prototype._onChange;
-    /**
-     * View -> model callback called when autocomplete has been touched
-     * @type {?}
-     */
-    NovoTimePickerInputElement.prototype._onTouched;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.name;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.placeholder;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.military;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.maskOptions;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.disabled;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.blurEvent;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.focusEvent;
-    /**
-     * Element for the panel containing the autocomplete options.
-     * @type {?}
-     */
-    NovoTimePickerInputElement.prototype.overlay;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.element;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.labels;
-    /** @type {?} */
-    NovoTimePickerInputElement.prototype.dateFormatService;
-    /**
-     * @type {?}
-     * @protected
-     */
-    NovoTimePickerInputElement.prototype._changeDetectorRef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/time-picker/TimePicker.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTimePickerModule {
 }
@@ -16382,17 +12971,13 @@ NovoTimePickerModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/date-time-picker/DateTimePicker.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const DATE_TIME_PICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoDateTimePickerElement)),
+    useExisting: forwardRef(() => NovoDateTimePickerElement),
     multi: true,
 };
 class NovoDateTimePickerElement {
@@ -16408,14 +12993,8 @@ class NovoDateTimePickerElement {
         this.componentTabState = 'date';
         this.datePickerValue = new Date();
         this.timePickerValue = new Date();
-        this._onChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this._onTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this._onChange = () => { };
+        this._onTouched = () => { };
     }
     /**
      * @param {?} tab
@@ -16621,61 +13200,16 @@ NovoDateTimePickerElement.propDecorators = {
     military: [{ type: Input }],
     onSelect: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.minYear;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.maxYear;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.start;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.end;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.military;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.onSelect;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.componentTabState;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.selectedLabel;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.hours;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.minutes;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.meridian;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.datePickerValue;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.timePickerValue;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.model;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype._onChange;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype._onTouched;
-    /** @type {?} */
-    NovoDateTimePickerElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDateTimePickerElement.prototype.element;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/date-time-picker/DateTimePickerInput.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const DATE_VALUE_ACCESSOR$2 = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoDateTimePickerInputElement)),
+    useExisting: forwardRef(() => NovoDateTimePickerInputElement),
     multi: true,
 };
 class NovoDateTimePickerInputElement {
@@ -16691,17 +13225,11 @@ class NovoDateTimePickerInputElement {
         /**
          * View -> model callback called when value changes
          */
-        this._onChange = (/**
-         * @return {?}
-         */
-        () => { });
+        this._onChange = () => { };
         /**
          * View -> model callback called when autocomplete has been touched
          */
-        this._onTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this._onTouched = () => { };
         this.military = false;
         this.disabled = false;
         this.blurEvent = new EventEmitter();
@@ -16714,10 +13242,7 @@ class NovoDateTimePickerInputElement {
     writeValue(value) {
         this.datePart = isDate(value) ? parse(value) : value;
         this.timePart = isDate(value) ? parse(value) : value;
-        Promise.resolve(null).then((/**
-         * @return {?}
-         */
-        () => this._setTriggerValue(value)));
+        Promise.resolve(null).then(() => this._setTriggerValue(value));
     }
     /**
      * @param {?} event
@@ -16866,58 +13391,10 @@ NovoDateTimePickerInputElement.propDecorators = {
     blurEvent: [{ type: Output }],
     focusEvent: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.value;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.datePart;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.timePart;
-    /**
-     * View -> model callback called when value changes
-     * @type {?}
-     */
-    NovoDateTimePickerInputElement.prototype._onChange;
-    /**
-     * View -> model callback called when autocomplete has been touched
-     * @type {?}
-     */
-    NovoDateTimePickerInputElement.prototype._onTouched;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.name;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.start;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.end;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.placeholder;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.maskOptions;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.military;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.disabled;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.format;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.blurEvent;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.focusEvent;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.element;
-    /** @type {?} */
-    NovoDateTimePickerInputElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDateTimePickerInputElement.prototype._changeDetectorRef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/date-time-picker/DateTimePicker.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoDateTimePickerModule {
 }
@@ -16931,17 +13408,13 @@ NovoDateTimePickerModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/ckeditor/CKEditor.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const CKEDITOR_CONTROL_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoCKEditorElement)),
+    useExisting: forwardRef(() => NovoCKEditorElement),
     multi: true,
 };
 /**
@@ -16988,10 +13461,7 @@ class NovoCKEditorElement {
     ngOnDestroy() {
         if (this.instance) {
             this.instance.focusManager.blur(true); // Remove focus from editor
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            setTimeout(() => {
                 this.instance.removeAllListeners();
                 /** @type {?} */
                 const aInstance = CKEDITOR.instances[this.instance.name];
@@ -17000,7 +13470,7 @@ class NovoCKEditorElement {
                 }
                 this.instance.destroy();
                 this.instance = null;
-            }));
+            });
         }
     }
     /**
@@ -17008,7 +13478,7 @@ class NovoCKEditorElement {
      */
     ngAfterViewInit() {
         /** @type {?} */
-        let config = Object.assign(this.getBaseConfig(), this.config);
+        let config = this.config || this.getBaseConfig();
         if (this.startupFocus) {
             config.startupFocus = true;
         }
@@ -17022,15 +13492,12 @@ class NovoCKEditorElement {
      * @return {?}
      */
     updateValue(value) {
-        this.zone.run((/**
-         * @return {?}
-         */
-        () => {
+        this.zone.run(() => {
             this.value = value;
             this.onChange(value);
             this.onTouched();
             this.change.emit(value);
-        }));
+        });
     }
     /**
      * @private
@@ -17047,19 +13514,12 @@ class NovoCKEditorElement {
         // Set initial value
         this.instance.setData(this.value);
         // listen for instanceReady event
-        this.instance.on('instanceReady', (/**
-         * @param {?} evt
-         * @return {?}
-         */
-        (evt) => {
+        this.instance.on('instanceReady', (evt) => {
             // send the evt to the EventEmitter
             this.ready.emit(evt);
-        }));
+        });
         // CKEditor change event
-        this.instance.on('change', (/**
-         * @return {?}
-         */
-        () => {
+        this.instance.on('change', () => {
             this.onTouched();
             /** @type {?} */
             let value = this.instance.getData();
@@ -17068,46 +13528,27 @@ class NovoCKEditorElement {
                 if (this.debounceTimeout) {
                     clearTimeout(this.debounceTimeout);
                 }
-                this.debounceTimeout = setTimeout((/**
-                 * @return {?}
-                 */
-                () => {
+                this.debounceTimeout = setTimeout(() => {
                     this.updateValue(value);
                     this.debounceTimeout = null;
-                }), parseInt(this.debounce));
+                }, parseInt(this.debounce));
             }
             else {
                 this.updateValue(value);
             }
-        }));
-        this.instance.on('blur', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        });
+        this.instance.on('blur', (event) => {
             this.blur.emit(event);
-        }));
-        this.instance.on('focus', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        });
+        this.instance.on('focus', (event) => {
             this.focus.emit(event);
-        }));
-        this.instance.on('paste', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        });
+        this.instance.on('paste', (event) => {
             this.paste.emit(event);
-        }));
-        this.instance.on('loaded', (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        });
+        this.instance.on('loaded', (event) => {
             this.loaded.emit(event);
-        }));
+        });
     }
     /**
      * @return {?}
@@ -17266,55 +13707,13 @@ NovoCKEditorElement.propDecorators = {
     focus: [{ type: Output }],
     paste: [{ type: Output }],
     loaded: [{ type: Output }],
-    host: [{ type: ViewChild, args: ['host', { static: false },] }],
+    host: [{ type: ViewChild, args: ['host',] }],
     value: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoCKEditorElement.prototype.config;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.debounce;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.name;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.minimal;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.startupFocus;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.fileBrowserImageUploadUrl;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.disabled;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.change;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.ready;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.blur;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.focus;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.paste;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.loaded;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.host;
-    /** @type {?} */
-    NovoCKEditorElement.prototype._value;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.instance;
-    /** @type {?} */
-    NovoCKEditorElement.prototype.debounceTimeout;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoCKEditorElement.prototype.zone;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/ckeditor/CKEditor.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoNovoCKEditorModule {
 }
@@ -17328,27 +13727,21 @@ NovoNovoCKEditorModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tip-well/TipWell.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTipWellElement {
     /**
      * @param {?} labels
-     * @param {?} sanitizer
      */
-    constructor(labels, sanitizer) {
+    constructor(labels) {
         this.labels = labels;
-        this.sanitizer = sanitizer;
         this.button = true;
         this.sanitize = true;
         this.confirmed = new EventEmitter();
         this.isActive = true;
         this.isActive = true;
         // Check if localStorage is enabled
-        this.isLocalStorageEnabled = ((/**
-         * @return {?}
-         */
-        () => {
+        this.isLocalStorageEnabled = (() => {
             /** @type {?} */
             let isEnabled = false;
             if (typeof localStorage === 'object') {
@@ -17362,18 +13755,7 @@ class NovoTipWellElement {
                 }
             }
             return isEnabled;
-        }))();
-    }
-    // Trusts the HTML in order to show CSS styles
-    /**
-     * @return {?}
-     */
-    get tipWithStyles() {
-        if (!this._tipWithStyles || this._lastTipStyled !== this.tip) {
-            this._tipWithStyles = this.sanitizer.bypassSecurityTrustHtml(this.tip);
-            this._lastTipStyled = this.tip;
-        }
-        return this._tipWithStyles;
+        })();
     }
     /**
      * @return {?}
@@ -17409,17 +13791,15 @@ NovoTipWellElement.decorators = [
     { type: Component, args: [{
                 selector: 'novo-tip-well',
                 template: `
-    <div *ngIf="isActive">
-      <div>
-        <i class="bhi-{{ icon }}" *ngIf="icon" [attr.data-automation-id]="'novo-tip-well-icon-' + name"></i>
-        <p *ngIf="sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name">{{ tip }}</p>
-        <p *ngIf="!sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name" [innerHTML]="tipWithStyles"></p>
-      </div>
-      <button theme="dialogue" (click)="hideTip()" *ngIf="button" [attr.data-automation-id]="'novo-tip-well-button-' + name">
-        {{ buttonText }}
-      </button>
-    </div>
-  `,
+        <div *ngIf="isActive">
+            <div>
+                <i class="bhi-{{ icon }}" *ngIf="icon" [attr.data-automation-id]="'novo-tip-well-icon-' + name"></i>
+                <p *ngIf="sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name">{{ tip }}</p>
+                <p *ngIf="!sanitize" [attr.data-automation-id]="'novo-tip-well-tip-' + name" [innerHTML]="tip"></p>
+            </div>
+            <button theme="dialogue" (click)="hideTip()" *ngIf="button" [attr.data-automation-id]="'novo-tip-well-button-' + name">{{ buttonText }}</button>
+        </div>
+    `,
                 host: {
                     '[class.active]': 'isActive',
                 }
@@ -17427,8 +13807,7 @@ NovoTipWellElement.decorators = [
 ];
 /** @nocollapse */
 NovoTipWellElement.ctorParameters = () => [
-    { type: NovoLabelService },
-    { type: DomSanitizer }
+    { type: NovoLabelService }
 ];
 NovoTipWellElement.propDecorators = {
     name: [{ type: Input }],
@@ -17439,53 +13818,10 @@ NovoTipWellElement.propDecorators = {
     sanitize: [{ type: Input }],
     confirmed: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoTipWellElement.prototype.name;
-    /** @type {?} */
-    NovoTipWellElement.prototype.tip;
-    /** @type {?} */
-    NovoTipWellElement.prototype.buttonText;
-    /** @type {?} */
-    NovoTipWellElement.prototype.button;
-    /** @type {?} */
-    NovoTipWellElement.prototype.icon;
-    /** @type {?} */
-    NovoTipWellElement.prototype.sanitize;
-    /** @type {?} */
-    NovoTipWellElement.prototype.confirmed;
-    /** @type {?} */
-    NovoTipWellElement.prototype.isActive;
-    /** @type {?} */
-    NovoTipWellElement.prototype.isLocalStorageEnabled;
-    /** @type {?} */
-    NovoTipWellElement.prototype.localStorageKey;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTipWellElement.prototype._tipWithStyles;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTipWellElement.prototype._lastTipStyled;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTipWellElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTipWellElement.prototype.sanitizer;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tip-well/TipWell.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTipWellModule {
 }
@@ -17499,8 +13835,7 @@ NovoTipWellModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/template/NovoTemplateService.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTemplateService {
     constructor() {
@@ -17519,20 +13854,12 @@ class NovoTemplateService {
         const customTemplateTypes = Object.keys(this.templates.custom);
         /** @type {?} */
         const defaultTemplateTypes = Object.keys(this.templates.default);
-        defaultTemplateTypes.forEach((/**
-         * @param {?} type
-         * @return {?}
-         */
-        (type) => {
+        defaultTemplateTypes.forEach((type) => {
             templates[type] = this.templates.default[type];
-        }));
-        customTemplateTypes.forEach((/**
-         * @param {?} type
-         * @return {?}
-         */
-        (type) => {
+        });
+        customTemplateTypes.forEach((type) => {
             templates[type] = this.templates.custom[type];
-        }));
+        });
         return templates;
     }
     /**
@@ -17557,15 +13884,10 @@ NovoTemplateService.decorators = [
 ];
 /** @nocollapse */
 NovoTemplateService.ctorParameters = () => [];
-if (false) {
-    /** @type {?} */
-    NovoTemplateService.prototype.templates;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/common/novo-template/novo-template.directive.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTemplate {
     /**
@@ -17594,19 +13916,10 @@ NovoTemplate.propDecorators = {
     type: [{ type: Input }],
     name: [{ type: Input, args: ['novoTemplate',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoTemplate.prototype.type;
-    /** @type {?} */
-    NovoTemplate.prototype.name;
-    /** @type {?} */
-    NovoTemplate.prototype.template;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/DynamicForm.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoFieldsetHeaderElement {
 }
@@ -17622,17 +13935,9 @@ NovoFieldsetHeaderElement.propDecorators = {
     title: [{ type: Input }],
     icon: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoFieldsetHeaderElement.prototype.title;
-    /** @type {?} */
-    NovoFieldsetHeaderElement.prototype.icon;
-}
 class NovoFieldsetElement {
     constructor() {
         this.controls = [];
-        this.isEmbedded = false;
-        this.isInlineEmbedded = false;
     }
 }
 NovoFieldsetElement.decorators = [
@@ -17640,7 +13945,7 @@ NovoFieldsetElement.decorators = [
                 selector: 'novo-fieldset',
                 template: `
         <div class="novo-fieldset-container">
-            <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title" [class.embedded]="isEmbedded" [class.inline-embedded]="isInlineEmbedded"></novo-fieldset-header>
+            <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title"></novo-fieldset-header>
             <ng-container *ngFor="let control of controls;let controlIndex = index;">
                 <div class="novo-form-row" [class.disabled]="control.disabled" *ngIf="control.__type !== 'GroupedControl'">
                     <novo-control [autoFocus]="autoFocus && index === 0 && controlIndex === 0" [control]="control" [form]="form"></novo-control>
@@ -17657,28 +13962,8 @@ NovoFieldsetElement.propDecorators = {
     title: [{ type: Input }],
     icon: [{ type: Input }],
     index: [{ type: Input }],
-    autoFocus: [{ type: Input }],
-    isEmbedded: [{ type: Input }],
-    isInlineEmbedded: [{ type: Input }]
+    autoFocus: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoFieldsetElement.prototype.controls;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.form;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.title;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.icon;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.index;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.autoFocus;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.isEmbedded;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.isInlineEmbedded;
-}
 class NovoDynamicFormElement {
     /**
      * @param {?} element
@@ -17718,52 +14003,32 @@ class NovoDynamicFormElement {
             this.numControls = this.controls.length;
         }
         else if (this.fieldsets) {
-            this.fieldsets.forEach((/**
-             * @param {?} fieldset
-             * @return {?}
-             */
-            (fieldset) => {
+            this.fieldsets.forEach((fieldset) => {
                 this.numControls = this.numControls + fieldset.controls.length;
-            }));
+            });
         }
         /** @type {?} */
         let requiredFields = [];
         /** @type {?} */
         let nonRequiredFields = [];
-        this.fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        (fieldset) => {
-            fieldset.controls.forEach((/**
-             * @param {?} control
-             * @return {?}
-             */
-            (control) => {
+        this.fieldsets.forEach((fieldset) => {
+            fieldset.controls.forEach((control) => {
                 if (control.required) {
                     requiredFields.push(control);
                 }
                 else {
                     nonRequiredFields.push(control);
                 }
-            }));
-        }));
+            });
+        });
         this.allFieldsRequired = requiredFields.length === this.numControls;
         this.allFieldsNotRequired = nonRequiredFields.length === this.numControls;
         if (this.allFieldsNotRequired && this.hideNonRequiredFields) {
-            this.fieldsets.forEach((/**
-             * @param {?} fieldset
-             * @return {?}
-             */
-            (fieldset) => {
-                fieldset.controls.forEach((/**
-                 * @param {?} control
-                 * @return {?}
-                 */
-                (control) => {
+            this.fieldsets.forEach((fieldset) => {
+                fieldset.controls.forEach((control) => {
                     this.form.controls[control.key].hidden = false;
-                }));
-            }));
+                });
+            });
         }
         this.form.fieldsets = [...this.fieldsets];
     }
@@ -17772,36 +14037,24 @@ class NovoDynamicFormElement {
      */
     ngAfterContentInit() {
         if (this.customTemplates && this.customTemplates.length) {
-            this.customTemplates.forEach((/**
-             * @param {?} template
-             * @return {?}
-             */
-            (template) => {
+            this.customTemplates.forEach((template) => {
                 this.templates.addCustom(template.name, template.template);
-            }));
+            });
         }
     }
     /**
      * @return {?}
      */
     showAllFields() {
-        this.form.fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        (fieldset) => {
-            fieldset.controls.forEach((/**
-             * @param {?} control
-             * @return {?}
-             */
-            (control) => {
+        this.form.fieldsets.forEach((fieldset) => {
+            fieldset.controls.forEach((control) => {
                 /** @type {?} */
                 const ctl = this.form.controls[control.key];
                 if (!this.fieldsAlreadyHidden.includes(control.key)) {
                     ctl.hidden = false;
                 }
-            }));
-        }));
+            });
+        });
         this.showingAllFields = true;
         this.showingRequiredFields = false;
     }
@@ -17811,16 +14064,8 @@ class NovoDynamicFormElement {
      */
     showOnlyRequired(hideRequiredWithValue) {
         this.fieldsAlreadyHidden = [];
-        this.form.fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        (fieldset) => {
-            fieldset.controls.forEach((/**
-             * @param {?} control
-             * @return {?}
-             */
-            (control) => {
+        this.form.fieldsets.forEach((fieldset) => {
+            fieldset.controls.forEach((control) => {
                 /** @type {?} */
                 const ctl = this.form.controls[control.key];
                 if (ctl.hidden) {
@@ -17840,8 +14085,8 @@ class NovoDynamicFormElement {
                 if (ctl.errors) {
                     ctl.hidden = false;
                 }
-            }));
-        }));
+            });
+        });
         this.showingAllFields = false;
         this.showingRequiredFields = true;
         this.forceValidation();
@@ -17864,42 +14109,30 @@ class NovoDynamicFormElement {
     updatedValues() {
         /** @type {?} */
         let ret = null;
-        this.form.fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        (fieldset) => {
-            fieldset.controls.forEach((/**
-             * @param {?} control
-             * @return {?}
-             */
-            (control) => {
+        this.form.fieldsets.forEach((fieldset) => {
+            fieldset.controls.forEach((control) => {
                 if (this.form.controls[control.key].dirty || control.dirty) {
                     if (!ret) {
                         ret = {};
                     }
                     ret[control.key] = this.form.value[control.key];
                 }
-            }));
-        }));
+            });
+        });
         return ret;
     }
     /**
      * @return {?}
      */
     forceValidation() {
-        Object.keys(this.form.controls).forEach((/**
-         * @param {?} key
-         * @return {?}
-         */
-        (key) => {
+        Object.keys(this.form.controls).forEach((key) => {
             /** @type {?} */
             let control = this.form.controls[key];
             if (control.required && Helpers.isBlank(this.form.value[control.key])) {
                 control.markAsDirty();
                 control.markAsTouched();
             }
-        }));
+        });
     }
 }
 NovoDynamicFormElement.decorators = [
@@ -17914,7 +14147,7 @@ NovoDynamicFormElement.decorators = [
             </header>
             <form class="novo-form" [formGroup]="form">
                 <ng-container *ngFor="let fieldset of form.fieldsets;let i = index">
-                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form" [isEmbedded]="fieldset.isEmbedded" [isInlineEmbedded]="fieldset.isInlineEmbedded"></novo-fieldset>
+                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form"></novo-fieldset>
                 </ng-container>
             </form>
         </div>
@@ -17936,52 +14169,10 @@ NovoDynamicFormElement.propDecorators = {
     autoFocusFirstField: [{ type: Input }],
     customTemplates: [{ type: ContentChildren, args: [NovoTemplate,] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.controls;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.fieldsets;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.form;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.layout;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.hideNonRequiredFields;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.autoFocusFirstField;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.customTemplates;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDynamicFormElement.prototype.fieldsAlreadyHidden;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.allFieldsRequired;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.allFieldsNotRequired;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.showingAllFields;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.showingRequiredFields;
-    /** @type {?} */
-    NovoDynamicFormElement.prototype.numControls;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDynamicFormElement.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDynamicFormElement.prototype.templates;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/Form.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoFormElement {
     /**
@@ -18016,26 +14207,18 @@ class NovoFormElement {
      */
     ngAfterContentInit() {
         if (this.customTemplates && this.customTemplates.length) {
-            this.customTemplates.forEach((/**
-             * @param {?} template
-             * @return {?}
-             */
-            (template) => {
+            this.customTemplates.forEach((template) => {
                 this.templates.addCustom(template.name, template.template);
-            }));
+            });
         }
     }
     /**
      * @return {?}
      */
     showAllFields() {
-        Object.keys(this.form.controls).forEach((/**
-         * @param {?} key
-         * @return {?}
-         */
-        (key) => {
+        Object.keys(this.form.controls).forEach((key) => {
             this.form.controls[key].hidden = false;
-        }));
+        });
         this.showingAllFields = true;
         this.showingRequiredFields = false;
     }
@@ -18044,11 +14227,7 @@ class NovoFormElement {
      * @return {?}
      */
     showOnlyRequired(hideRequiredWithValue) {
-        Object.keys(this.form.controls).forEach((/**
-         * @param {?} key
-         * @return {?}
-         */
-        (key) => {
+        Object.keys(this.form.controls).forEach((key) => {
             // Hide any non-required fields
             if (!this.form.controls[key].required) {
                 this.form.controls[key].hidden = true;
@@ -18061,7 +14240,7 @@ class NovoFormElement {
             if (this.form.controls[key].errors) {
                 this.form.controls[key].hidden = false;
             }
-        }));
+        });
         this.showingAllFields = false;
         this.showingRequiredFields = true;
         this.forceValidation();
@@ -18070,18 +14249,14 @@ class NovoFormElement {
      * @return {?}
      */
     forceValidation() {
-        Object.keys(this.form.controls).forEach((/**
-         * @param {?} key
-         * @return {?}
-         */
-        (key) => {
+        Object.keys(this.form.controls).forEach((key) => {
             /** @type {?} */
             let control = this.form.controls[key];
             if (control.required && Helpers.isBlank(this.form.value[control.key])) {
                 control.markAsDirty();
                 control.markAsTouched();
             }
-        }));
+        });
     }
 }
 NovoFormElement.decorators = [
@@ -18112,30 +14287,10 @@ NovoFormElement.propDecorators = {
     hideHeader: [{ type: Input }],
     customTemplates: [{ type: ContentChildren, args: [NovoTemplate,] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoFormElement.prototype.form;
-    /** @type {?} */
-    NovoFormElement.prototype.layout;
-    /** @type {?} */
-    NovoFormElement.prototype.hideHeader;
-    /** @type {?} */
-    NovoFormElement.prototype.customTemplates;
-    /** @type {?} */
-    NovoFormElement.prototype.showingAllFields;
-    /** @type {?} */
-    NovoFormElement.prototype.showingRequiredFields;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoFormElement.prototype.templates;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/NovoFormControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoFormControl extends FormControl {
     /**
@@ -18171,7 +14326,6 @@ class NovoFormControl extends FormControl {
         this.sortOrder = control.sortOrder;
         this.controlType = control.controlType;
         this.placeholder = control.placeholder;
-        this.minimal = control.minimal;
         this.multiple = control.multiple;
         this.headerConfig = control.headerConfig;
         this.optionsType = control.optionsType;
@@ -18248,11 +14402,7 @@ class NovoFormControl extends FormControl {
         else if (!this.required && this.hasRequiredValidator) {
             /** @type {?} */
             let validators = [...this.validators];
-            validators = validators.filter((/**
-             * @param {?} val
-             * @return {?}
-             */
-            (val) => val !== Validators.required));
+            validators = validators.filter((val) => val !== Validators.required);
             // TODO: duplicated above
             this.setValidators(validators);
             this.updateValueAndValidity({ emitEvent: false });
@@ -18273,12 +14423,9 @@ class NovoFormControl extends FormControl {
         super.setValue(value, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange });
         // History
         clearTimeout(this.historyTimeout);
-        this.historyTimeout = setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        this.historyTimeout = setTimeout(() => {
             this.valueHistory.push(value);
-        }), 300);
+        }, 300);
     }
     /**
      * \@name setReadOnly
@@ -18329,272 +14476,12 @@ class NovoFormControl extends FormControl {
         this.setErrors(Object.assign({}, this.errors, { custom: message }));
     }
 }
-if (false) {
-    /** @type {?} */
-    NovoFormControl.prototype.displayValueChanges;
-    /** @type {?} */
-    NovoFormControl.prototype.hidden;
-    /** @type {?} */
-    NovoFormControl.prototype.encrypted;
-    /** @type {?} */
-    NovoFormControl.prototype.key;
-    /** @type {?} */
-    NovoFormControl.prototype.required;
-    /** @type {?} */
-    NovoFormControl.prototype.readOnly;
-    /** @type {?} */
-    NovoFormControl.prototype.hasRequiredValidator;
-    /** @type {?} */
-    NovoFormControl.prototype.label;
-    /** @type {?} */
-    NovoFormControl.prototype.tooltip;
-    /** @type {?} */
-    NovoFormControl.prototype.tooltipPosition;
-    /** @type {?} */
-    NovoFormControl.prototype.tooltipSize;
-    /** @type {?} */
-    NovoFormControl.prototype.tooltipPreline;
-    /** @type {?} */
-    NovoFormControl.prototype.removeTooltipArrow;
-    /** @type {?} */
-    NovoFormControl.prototype.tooltipAutoPosition;
-    /** @type {?} */
-    NovoFormControl.prototype.initialValue;
-    /** @type {?} */
-    NovoFormControl.prototype.valueHistory;
-    /** @type {?} */
-    NovoFormControl.prototype.validators;
-    /** @type {?} */
-    NovoFormControl.prototype.config;
-    /** @type {?} */
-    NovoFormControl.prototype.sortOrder;
-    /** @type {?} */
-    NovoFormControl.prototype.controlType;
-    /** @type {?} */
-    NovoFormControl.prototype.placeholder;
-    /** @type {?} */
-    NovoFormControl.prototype.minimal;
-    /** @type {?} */
-    NovoFormControl.prototype.multiple;
-    /** @type {?} */
-    NovoFormControl.prototype.headerConfig;
-    /** @type {?} */
-    NovoFormControl.prototype.optionsType;
-    /** @type {?} */
-    NovoFormControl.prototype.maxlength;
-    /** @type {?} */
-    NovoFormControl.prototype.minlength;
-    /** @type {?} */
-    NovoFormControl.prototype.options;
-    /** @type {?} */
-    NovoFormControl.prototype.type;
-    /** @type {?} */
-    NovoFormControl.prototype.subType;
-    /** @type {?} */
-    NovoFormControl.prototype.name;
-    /** @type {?} */
-    NovoFormControl.prototype.closeOnSelect;
-    /** @type {?} */
-    NovoFormControl.prototype.interactions;
-    /** @type {?} */
-    NovoFormControl.prototype.appendToBody;
-    /** @type {?} */
-    NovoFormControl.prototype.parentScrollSelector;
-    /** @type {?} */
-    NovoFormControl.prototype.description;
-    /** @type {?} */
-    NovoFormControl.prototype.layoutOptions;
-    /** @type {?} */
-    NovoFormControl.prototype.military;
-    /** @type {?} */
-    NovoFormControl.prototype.dateFormat;
-    /** @type {?} */
-    NovoFormControl.prototype.currencyFormat;
-    /** @type {?} */
-    NovoFormControl.prototype.startDate;
-    /** @type {?} */
-    NovoFormControl.prototype.endDate;
-    /** @type {?} */
-    NovoFormControl.prototype.textMaskEnabled;
-    /** @type {?} */
-    NovoFormControl.prototype.maskOptions;
-    /** @type {?} */
-    NovoFormControl.prototype.allowInvalidDate;
-    /** @type {?} */
-    NovoFormControl.prototype.tipWell;
-    /** @type {?} */
-    NovoFormControl.prototype.rawValue;
-    /** @type {?} */
-    NovoFormControl.prototype.customControlConfig;
-    /** @type {?} */
-    NovoFormControl.prototype.checkboxLabel;
-    /** @type {?} */
-    NovoFormControl.prototype.restrictFieldInteractions;
-    /** @type {?} */
-    NovoFormControl.prototype.warning;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoFormControl.prototype.historyTimeout;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/BaseControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function NovoGroupedControlConfig() { }
-if (false) {
-    /** @type {?|undefined} */
-    NovoGroupedControlConfig.prototype.label;
-    /** @type {?|undefined} */
-    NovoGroupedControlConfig.prototype.icon;
-    /** @type {?|undefined} */
-    NovoGroupedControlConfig.prototype.add;
-    /** @type {?|undefined} */
-    NovoGroupedControlConfig.prototype.remove;
-    /** @type {?} */
-    NovoGroupedControlConfig.prototype.key;
-    /** @type {?|undefined} */
-    NovoGroupedControlConfig.prototype.initialValue;
-}
 class ControlConfig {
-    constructor() {
-        this.isEmbedded = false;
-        this.isInlineEmbedded = false;
-    }
-}
-if (false) {
-    /** @type {?} */
-    ControlConfig.prototype.allowInvalidDate;
-    /** @type {?} */
-    ControlConfig.prototype.appendToBody;
-    /** @type {?} */
-    ControlConfig.prototype.associatedEntity;
-    /** @type {?} */
-    ControlConfig.prototype.asyncValidators;
-    /** @type {?} */
-    ControlConfig.prototype.checkboxLabel;
-    /** @type {?} */
-    ControlConfig.prototype.closeOnSelect;
-    /** @type {?} */
-    ControlConfig.prototype.config;
-    /** @type {?} */
-    ControlConfig.prototype.controlType;
-    /** @type {?} */
-    ControlConfig.prototype.currencyFormat;
-    /** @type {?} */
-    ControlConfig.prototype.customControl;
-    /** @type {?} */
-    ControlConfig.prototype.customControlConfig;
-    /** @type {?} */
-    ControlConfig.prototype.dataSpecialization;
-    /** @type {?} */
-    ControlConfig.prototype.dataType;
-    /** @type {?} */
-    ControlConfig.prototype.dateFormat;
-    /** @type {?} */
-    ControlConfig.prototype.description;
-    /** @type {?} */
-    ControlConfig.prototype.dirty;
-    /** @type {?} */
-    ControlConfig.prototype.disabled;
-    /** @type {?} */
-    ControlConfig.prototype.encrypted;
-    /** @type {?} */
-    ControlConfig.prototype.endDate;
-    /** @type {?} */
-    ControlConfig.prototype.fileBrowserImageUploadUrl;
-    /** @type {?} */
-    ControlConfig.prototype.forceClear;
-    /** @type {?} */
-    ControlConfig.prototype.headerConfig;
-    /** @type {?} */
-    ControlConfig.prototype.hidden;
-    /** @type {?} */
-    ControlConfig.prototype.interactions;
-    /** @type {?} */
-    ControlConfig.prototype.isEmpty;
-    /** @type {?} */
-    ControlConfig.prototype.key;
-    /** @type {?} */
-    ControlConfig.prototype.label;
-    /** @type {?} */
-    ControlConfig.prototype.maskOptions;
-    /** @type {?} */
-    ControlConfig.prototype.maxlength;
-    /** @type {?} */
-    ControlConfig.prototype.metaType;
-    /** @type {?} */
-    ControlConfig.prototype.military;
-    /** @type {?} */
-    ControlConfig.prototype.minimal;
-    /** @type {?} */
-    ControlConfig.prototype.minlength;
-    /** @type {?} */
-    ControlConfig.prototype.multiple;
-    /** @type {?} */
-    ControlConfig.prototype.name;
-    /** @type {?} */
-    ControlConfig.prototype.options;
-    /** @type {?} */
-    ControlConfig.prototype.optionsType;
-    /** @type {?} */
-    ControlConfig.prototype.parentScrollSelector;
-    /** @type {?} */
-    ControlConfig.prototype.placeholder;
-    /** @type {?} */
-    ControlConfig.prototype.readOnly;
-    /** @type {?} */
-    ControlConfig.prototype.removeTooltipArrow;
-    /** @type {?} */
-    ControlConfig.prototype.required;
-    /** @type {?} */
-    ControlConfig.prototype.restrictFieldInteractions;
-    /** @type {?} */
-    ControlConfig.prototype.sortOrder;
-    /** @type {?} */
-    ControlConfig.prototype.startDate;
-    /** @type {?} */
-    ControlConfig.prototype.startupFocus;
-    /** @type {?} */
-    ControlConfig.prototype.subType;
-    /** @type {?} */
-    ControlConfig.prototype.template;
-    /** @type {?} */
-    ControlConfig.prototype.textMaskEnabled;
-    /** @type {?} */
-    ControlConfig.prototype.tooltip;
-    /** @type {?} */
-    ControlConfig.prototype.tooltipAutoPosition;
-    /** @type {?} */
-    ControlConfig.prototype.tooltipPosition;
-    /** @type {?} */
-    ControlConfig.prototype.tooltipPreline;
-    /** @type {?} */
-    ControlConfig.prototype.tooltipSize;
-    /** @type {?} */
-    ControlConfig.prototype.type;
-    /** @type {?} */
-    ControlConfig.prototype.validators;
-    /** @type {?} */
-    ControlConfig.prototype.value;
-    /** @type {?} */
-    ControlConfig.prototype.warning;
-    /** @type {?} */
-    ControlConfig.prototype.width;
-    /** @type {?} */
-    ControlConfig.prototype.layoutOptions;
-    /** @type {?} */
-    ControlConfig.prototype.tipWell;
-    /** @type {?} */
-    ControlConfig.prototype.isEmbedded;
-    /** @type {?} */
-    ControlConfig.prototype.isInlineEmbedded;
 }
 class BaseControl extends ControlConfig {
     /**
@@ -18687,17 +14574,10 @@ class BaseControl extends ControlConfig {
         }
     }
 }
-if (false) {
-    /** @type {?} */
-    BaseControl.prototype.__type;
-    /** @type {?} */
-    BaseControl.prototype.__config;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/FormValidators.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 const MAX_INTEGER = 2147483647;
@@ -18775,25 +14655,15 @@ class FormValidators {
         /** @type {?} */
         let maxlengthError = false;
         /** @type {?} */
-        let showCountryRequiredFlag = (/**
-         * @param {?} subfield
-         * @param {?} ctrl
-         * @return {?}
-         */
-        (subfield, ctrl) => {
+        let showCountryRequiredFlag = (subfield, ctrl) => {
             return (subfield === 'countryID' &&
                 !Helpers.isEmpty(ctrl.config.countryID) &&
                 ctrl.config.countryID.required &&
                 Helpers.isBlank(ctrl.value.countryName) &&
                 ctrl.config.countryID.updated);
-        });
+        };
         /** @type {?} */
-        let showStateRequiredFlag = (/**
-         * @param {?} subfield
-         * @param {?} ctrl
-         * @return {?}
-         */
-        (subfield, ctrl) => {
+        let showStateRequiredFlag = (subfield, ctrl) => {
             return (subfield === 'state' &&
                 !Helpers.isEmpty(ctrl.config.state) &&
                 ctrl.config.state.required &&
@@ -18803,17 +14673,13 @@ class FormValidators {
                 ctrl.config.state.pickerConfig &&
                 ctrl.config.state.pickerConfig.defaultOptions &&
                 ctrl.config.state.pickerConfig.defaultOptions.length > 0);
-        });
+        };
         if (control.value && control.config) {
             /** @type {?} */
             let valid = true;
             /** @type {?} */
             let formValidity = true;
-            fieldList.forEach((/**
-             * @param {?} subfield
-             * @return {?}
-             */
-            (subfield) => {
+            fieldList.forEach((subfield) => {
                 if (!Helpers.isEmpty(control.config[subfield])) {
                     if ((['countryID', 'state'].indexOf(subfield) === -1 &&
                         control.config[subfield].required &&
@@ -18844,7 +14710,7 @@ class FormValidators {
                         formValidity = false;
                     }
                 }
-            }));
+            });
             if (!valid || !formValidity || maxlengthError) {
                 returnVal = {};
             }
@@ -18867,8 +14733,7 @@ class FormValidators {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/address/AddressControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class AddressControl extends BaseControl {
     /**
@@ -18880,15 +14745,10 @@ class AddressControl extends BaseControl {
         this.validators.push(FormValidators.isValidAddress);
     }
 }
-if (false) {
-    /** @type {?} */
-    AddressControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/check-list/CheckListControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class CheckListControl extends BaseControl {
     /**
@@ -18900,15 +14760,10 @@ class CheckListControl extends BaseControl {
         this.options = config.options || [];
     }
 }
-if (false) {
-    /** @type {?} */
-    CheckListControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/checkbox/CheckboxControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class CheckboxControl extends BaseControl {
     /**
@@ -18919,15 +14774,10 @@ class CheckboxControl extends BaseControl {
         this.controlType = 'checkbox';
     }
 }
-if (false) {
-    /** @type {?} */
-    CheckboxControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/date/DateControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class DateControl extends BaseControl {
     /**
@@ -18938,15 +14788,10 @@ class DateControl extends BaseControl {
         this.controlType = 'date';
     }
 }
-if (false) {
-    /** @type {?} */
-    DateControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/date-time/DateTimeControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class DateTimeControl extends BaseControl {
     /**
@@ -18957,15 +14802,10 @@ class DateTimeControl extends BaseControl {
         this.controlType = 'date-time';
     }
 }
-if (false) {
-    /** @type {?} */
-    DateTimeControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/editor/EditorControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class EditorControl extends BaseControl {
     /**
@@ -18977,17 +14817,10 @@ class EditorControl extends BaseControl {
         this.minimal = false;
     }
 }
-if (false) {
-    /** @type {?} */
-    EditorControl.prototype.controlType;
-    /** @type {?} */
-    EditorControl.prototype.minimal;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/ace-editor/AceEditorControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class AceEditorControl extends BaseControl {
     /**
@@ -18998,15 +14831,10 @@ class AceEditorControl extends BaseControl {
         this.controlType = 'ace-editor';
     }
 }
-if (false) {
-    /** @type {?} */
-    AceEditorControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/file/FileControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class FileControl extends BaseControl {
     /**
@@ -19020,15 +14848,10 @@ class FileControl extends BaseControl {
         this.multiple = config.multiple;
     }
 }
-if (false) {
-    /** @type {?} */
-    FileControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/native-select/NativeSelectControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NativeSelectControl extends BaseControl {
     /**
@@ -19041,17 +14864,10 @@ class NativeSelectControl extends BaseControl {
         this.options = config.options || [];
     }
 }
-if (false) {
-    /** @type {?} */
-    NativeSelectControl.prototype.controlType;
-    /** @type {?} */
-    NativeSelectControl.prototype.options;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/picker/PickerControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class PickerControl extends BaseControl {
     /**
@@ -19063,12 +14879,6 @@ class PickerControl extends BaseControl {
         this.options = [];
         this.options = config.options || [];
     }
-}
-if (false) {
-    /** @type {?} */
-    PickerControl.prototype.controlType;
-    /** @type {?} */
-    PickerControl.prototype.options;
 }
 class TablePickerControl extends PickerControl {
     /**
@@ -19082,8 +14892,7 @@ class TablePickerControl extends PickerControl {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/quick-note/QuickNoteControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class QuickNoteControl extends BaseControl {
     /**
@@ -19096,17 +14905,10 @@ class QuickNoteControl extends BaseControl {
         this.options = config.options || [];
     }
 }
-if (false) {
-    /** @type {?} */
-    QuickNoteControl.prototype.controlType;
-    /** @type {?} */
-    QuickNoteControl.prototype.options;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/radio/RadioControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class RadioControl extends BaseControl {
     /**
@@ -19119,17 +14921,10 @@ class RadioControl extends BaseControl {
         this.options = config.options || [];
     }
 }
-if (false) {
-    /** @type {?} */
-    RadioControl.prototype.controlType;
-    /** @type {?} */
-    RadioControl.prototype.options;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/read-only/ReadOnlyControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class ReadOnlyControl extends BaseControl {
     /**
@@ -19141,15 +14936,10 @@ class ReadOnlyControl extends BaseControl {
         config.readOnly = true;
     }
 }
-if (false) {
-    /** @type {?} */
-    ReadOnlyControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/select/SelectControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class SelectControl extends BaseControl {
     /**
@@ -19163,17 +14953,10 @@ class SelectControl extends BaseControl {
         this.placeholder = config.placeholder || '';
     }
 }
-if (false) {
-    /** @type {?} */
-    SelectControl.prototype.controlType;
-    /** @type {?} */
-    SelectControl.prototype.options;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/text-area/TextAreaControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class TextAreaControl extends BaseControl {
     /**
@@ -19184,15 +14967,10 @@ class TextAreaControl extends BaseControl {
         this.controlType = 'text-area';
     }
 }
-if (false) {
-    /** @type {?} */
-    TextAreaControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/textbox/TextBoxControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class TextBoxControl extends BaseControl {
     /**
@@ -19245,19 +15023,10 @@ class TextBoxControl extends BaseControl {
         }
     }
 }
-if (false) {
-    /** @type {?} */
-    TextBoxControl.prototype.controlType;
-    /** @type {?} */
-    TextBoxControl.prototype.type;
-    /** @type {?} */
-    TextBoxControl.prototype.subType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/tiles/TilesControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class TilesControl extends BaseControl {
     /**
@@ -19270,17 +15039,10 @@ class TilesControl extends BaseControl {
         this.options = config.options || [];
     }
 }
-if (false) {
-    /** @type {?} */
-    TilesControl.prototype.controlType;
-    /** @type {?} */
-    TilesControl.prototype.options;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/time/TimeControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class TimeControl extends BaseControl {
     /**
@@ -19291,15 +15053,10 @@ class TimeControl extends BaseControl {
         this.controlType = 'time';
     }
 }
-if (false) {
-    /** @type {?} */
-    TimeControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/grouped/GroupedControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class GroupedControl {
     /**
@@ -19307,30 +15064,18 @@ class GroupedControl {
      */
     constructor(config) {
         this.__type = 'GroupedControl';
-        Object.keys(config).forEach((/**
-         * @param {?} key
-         * @return {?}
-         */
-        (key) => (this[key] = config[key])));
+        Object.keys(config).forEach((key) => (this[key] = config[key]));
     }
-}
-if (false) {
-    /** @type {?} */
-    GroupedControl.prototype.__type;
-    /** @type {?} */
-    GroupedControl.prototype.key;
 }
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/index.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/ControlFactory.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class ControlFactory {
     /**
@@ -19385,8 +15130,7 @@ class ControlFactory {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/controls/custom/CustomControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class CustomControl extends BaseControl {
     /**
@@ -19398,21 +15142,15 @@ class CustomControl extends BaseControl {
         this.controlType = config.template;
     }
 }
-if (false) {
-    /** @type {?} */
-    CustomControl.prototype.controlType;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/FormControls.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/NovoFormGroup.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoFormGroup extends FormGroup {
     constructor() {
@@ -19455,27 +15193,10 @@ class NovoFormGroup extends FormGroup {
         }
     }
 }
-if (false) {
-    /** @type {?} */
-    NovoFormGroup.prototype.fieldInteractionEvents;
-    /** @type {?} */
-    NovoFormGroup.prototype.layout;
-    /** @type {?} */
-    NovoFormGroup.prototype.edit;
-    /** @type {?} */
-    NovoFormGroup.prototype.currentEntity;
-    /** @type {?} */
-    NovoFormGroup.prototype.currentEntityId;
-    /** @type {?} */
-    NovoFormGroup.prototype.associations;
-    /** @type {?} */
-    NovoFormGroup.prototype._value;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/options/OptionsService.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // App
 class OptionsService {
@@ -19490,25 +15211,16 @@ class OptionsService {
         return {
             field: 'value',
             format: '$label',
-            options: (/**
-             * @param {?} query
-             * @return {?}
-             */
-            (query) => {
-                return new Promise((/**
-                 * @param {?} resolve
-                 * @param {?} reject
-                 * @return {?}
-                 */
-                (resolve, reject) => {
-                    if (query && query.length) {
-                        http.get(`${field.optionsUrl}?filter=${query || ''}`).subscribe(resolve, reject);
+            options: (query$$1) => {
+                return new Promise((resolve, reject) => {
+                    if (query$$1 && query$$1.length) {
+                        http.get(`${field.optionsUrl}?filter=${query$$1 || ''}`).subscribe(resolve, reject);
                     }
                     else {
                         resolve([]);
                     }
-                }));
-            }),
+                });
+            },
         };
     }
 }
@@ -19520,8 +15232,7 @@ OptionsService.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/form-utils/FormUtils.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class FormUtils {
     /**
@@ -19535,7 +15246,6 @@ class FormUtils {
             'Candidate',
             'ClientContact',
             'ClientCorporation',
-            'CorporationDepartment',
             'Lead',
             'Opportunity',
             'JobOrder',
@@ -19571,17 +15281,13 @@ class FormUtils {
      */
     toFormGroup(controls) {
         /** @type {?} */
-        let group = {};
-        controls.forEach((/**
-         * @param {?} control
-         * @return {?}
-         */
-        (control) => {
+        let group$$1 = {};
+        controls.forEach((control) => {
             /** @type {?} */
             let value = Helpers.isBlank(control.value) ? '' : control.value;
-            group[control.key] = new NovoFormControl(value, control);
-        }));
-        return new NovoFormGroup(group);
+            group$$1[control.key] = new NovoFormControl(value, control);
+        });
+        return new NovoFormGroup(group$$1);
     }
     /**
      * @return {?}
@@ -19595,17 +15301,13 @@ class FormUtils {
      * @return {?}
      */
     addControls(formGroup, controls) {
-        controls.forEach((/**
-         * @param {?} control
-         * @return {?}
-         */
-        (control) => {
+        controls.forEach((control) => {
             /** @type {?} */
             let value = Helpers.isBlank(control.value) ? '' : control.value;
             /** @type {?} */
             let formControl = new NovoFormControl(value, control);
             formGroup.addControl(control.key, formControl);
-        }));
+        });
     }
     /**
      * @param {?} formGroup
@@ -19613,13 +15315,9 @@ class FormUtils {
      * @return {?}
      */
     removeControls(formGroup, controls) {
-        controls.forEach((/**
-         * @param {?} control
-         * @return {?}
-         */
-        (control) => {
+        controls.forEach((control) => {
             formGroup.removeControl(control.key);
-        }));
+        });
     }
     /**
      * \@name toFormGroupFromFieldset
@@ -19629,13 +15327,9 @@ class FormUtils {
     toFormGroupFromFieldset(fieldsets) {
         /** @type {?} */
         let controls = [];
-        fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        (fieldset) => {
+        fieldsets.forEach((fieldset) => {
             controls.push(...fieldset.controls);
-        }));
+        });
         return this.toFormGroup(controls);
     }
     /**
@@ -19667,7 +15361,6 @@ class FormUtils {
             SPECIALIZED_OPTIONS: 'select',
             WorkflowOptionsLookup: 'select',
             SpecializedOptionsLookup: 'select',
-            SimplifiedOptionsLookup: 'select',
         };
         /** @type {?} */
         let dataTypeToTypeMap = {
@@ -19723,17 +15416,6 @@ class FormUtils {
             }
             else if (['WORKFLOW_OPTIONS', 'SPECIALIZED_OPTIONS'].includes(field.dataSpecialization)) {
                 type = dataSpecializationTypeMap[field.dataSpecialization];
-            }
-            else if (['SimplifiedOptionsLookup', 'SpecializedOptionsLookup'].includes(field.dataType)) {
-                if (field.options && Object.keys(inputTypeToTypeMap).indexOf(field.inputType) > -1 && !field.multiValue) {
-                    type = inputTypeToTypeMap[field.inputType];
-                }
-                else if (field.options && Object.keys(inputTypeMultiToTypeMap).indexOf(field.inputType) > -1 && field.multiValue) {
-                    type = inputTypeMultiToTypeMap[field.inputType];
-                }
-                else {
-                    type = dataSpecializationTypeMap[field.dataType];
-                }
             }
             else if (this.hasAssociatedEntity(field)) {
                 type = 'entitypicker'; // TODO!
@@ -19853,8 +15535,6 @@ class FormUtils {
         // TODO: Overrides should be an iterable of all properties (potentially a private method)
         /** @type {?} */
         let overrideResultsTemplate;
-        /** @type {?} */
-        let overridePreviewTemplate;
         if (overrides && overrides[field.name]) {
             if (overrides[field.name].resultsTemplate) {
                 overrideResultsTemplate = overrides[field.name].resultsTemplate;
@@ -19887,7 +15567,7 @@ class FormUtils {
                 // TODO: This doesn't belong in this codebase
                 controlConfig.multiple = true;
                 controlConfig.config.resultsTemplate = overrideResultsTemplate || EntityPickerResults;
-                controlConfig.config.previewTemplate = overridePreviewTemplate || EntityPickerResult;
+                controlConfig.config.previewTemplate = EntityPickerResult;
                 // TODO: When appendToBody picker works better in table/form
                 control = new PickerControl(controlConfig);
                 break;
@@ -20050,11 +15730,7 @@ class FormUtils {
         if (meta && meta.fields) {
             /** @type {?} */
             let fields = meta.fields;
-            fields.forEach((/**
-             * @param {?} field
-             * @return {?}
-             */
-            (field) => {
+            fields.forEach((field) => {
                 if (this.shouldCreateControl(field)) {
                     /** @type {?} */
                     let control = this.getControlForField(field, http, config, overrides, forTable);
@@ -20065,7 +15741,7 @@ class FormUtils {
                     // Add to controls
                     controls.push(control);
                 }
-            }));
+            });
         }
         return controls;
     }
@@ -20082,16 +15758,12 @@ class FormUtils {
         let controls = this.toControls(meta, currencyFormat, http, config, overrides, true);
         /** @type {?} */
         let ret = {};
-        controls.forEach((/**
-         * @param {?} control
-         * @return {?}
-         */
-        (control) => {
+        controls.forEach((control) => {
             ret[control.key] = {
                 editorType: control.__type,
                 editorConfig: control.__config,
             };
-        }));
+        });
         return ret;
     }
     /**
@@ -20107,45 +15779,87 @@ class FormUtils {
         /** @type {?} */
         let fieldsets = [];
         /** @type {?} */
-        let formFields = [];
+        let ranges = [];
         if (meta && meta.fields) {
-            formFields = this.getFormFields(meta);
-            formFields.forEach((/**
-             * @param {?} field
-             * @return {?}
-             */
-            (field) => {
-                if (this.isHeader(field)) {
-                    if (field.enabled) {
-                        this.insertHeaderToFieldsets(fieldsets, field);
-                    }
+            /** @type {?} */
+            let fields = meta.fields
+                .map((field) => {
+                if (!field.hasOwnProperty('sortOrder')) {
+                    field.sortOrder = Number.MAX_SAFE_INTEGER - 1;
                 }
-                else if (this.isEmbeddedField(field)) {
-                    this.insertHeaderToFieldsets(fieldsets, field);
-                    /** @type {?} */
-                    let embeddedFields = this.getEmbeddedFields(field);
-                    embeddedFields.forEach((/**
-                     * @param {?} embeddedField
-                     * @return {?}
-                     */
-                    (embeddedField) => {
-                        if (this.shouldCreateControl(embeddedField)) {
-                            /** @type {?} */
-                            let control = this.createControl(embeddedField, data, http, config, overrides, currencyFormat);
-                            control = this.markControlAsEmbedded(control, field.dataSpecialization ? field.dataSpecialization.toLowerCase() : null);
-                            fieldsets[fieldsets.length - 1].controls.push(control);
+                return field;
+            })
+                .sort(Helpers.sortByField(['sortOrder', 'name']));
+            if (meta.sectionHeaders && meta.sectionHeaders.length) {
+                meta.sectionHeaders.sort(Helpers.sortByField(['sortOrder', 'name']));
+                meta.sectionHeaders.forEach((item, i) => {
+                    if (item.enabled) {
+                        if (item.sortOrder > 0 && fieldsets.length === 0) {
+                            fieldsets.push({
+                                controls: [],
+                            });
+                            ranges.push({
+                                min: 0,
+                                max: item.sortOrder - 1,
+                                fieldsetIdx: 0,
+                            });
                         }
-                    }));
-                }
-                else if (this.shouldCreateControl(field)) {
-                    /** @type {?} */
-                    let control = this.createControl(field, data, http, config, overrides, currencyFormat);
-                    if (fieldsets.length === 0) {
-                        fieldsets.push({ controls: [] });
+                        fieldsets.push({
+                            title: item.label,
+                            icon: item.icon || 'bhi-section',
+                            controls: [],
+                        });
+                        ranges.push({
+                            min: item.sortOrder,
+                            max: Number.MAX_SAFE_INTEGER,
+                            fieldsetIdx: fieldsets.length - 1,
+                        });
+                        if (i > 0 && fieldsets.length > 1) {
+                            ranges[fieldsets.length - 2].max = item.sortOrder - 1;
+                        }
                     }
-                    fieldsets[fieldsets.length - 1].controls.push(control);
+                });
+                if (!ranges.length) {
+                    fieldsets.push({
+                        controls: [],
+                    });
+                    ranges.push({
+                        min: 0,
+                        max: Number.MAX_SAFE_INTEGER,
+                        fieldsetIdx: 0,
+                    });
                 }
-            }));
+            }
+            else {
+                fieldsets.push({
+                    controls: [],
+                });
+                ranges.push({
+                    min: 0,
+                    max: Number.MAX_SAFE_INTEGER,
+                    fieldsetIdx: 0,
+                });
+            }
+            fields.forEach((field) => {
+                if (this.shouldCreateControl(field)) {
+                    /** @type {?} */
+                    const fieldData = data && data[field.name] ? data[field.name] : null;
+                    /** @type {?} */
+                    let control = this.getControlForField(field, http, config, overrides, undefined, fieldData);
+                    // Set currency format
+                    if (control.subType === 'currency') {
+                        control.currencyFormat = currencyFormat;
+                    }
+                    /** @type {?} */
+                    let location = ranges.find((item) => {
+                        return (item.min <= field.sortOrder && field.sortOrder <= item.max) || (item.min <= field.sortOrder && item.min === item.max);
+                    });
+                    if (location) {
+                        // Add to controls
+                        fieldsets[location.fieldsetIdx].controls.push(control);
+                    }
+                }
+            });
         }
         if (fieldsets.length > 0) {
             return fieldsets;
@@ -20157,153 +15871,6 @@ class FormUtils {
                 },
             ];
         }
-    }
-    /**
-     * @private
-     * @param {?} field
-     * @return {?}
-     */
-    isEmbeddedField(field) {
-        return field.dataSpecialization && ['embedded', 'inline_embedded'].includes(field.dataSpecialization.toLowerCase()) && !field.readOnly;
-    }
-    /**
-     * @private
-     * @param {?} field
-     * @param {?} data
-     * @param {?} http
-     * @param {?} config
-     * @param {?} overrides
-     * @param {?} currencyFormat
-     * @return {?}
-     */
-    createControl(field, data, http, config, overrides, currencyFormat) {
-        /** @type {?} */
-        const fieldData = this.isEmbeddedFieldData(field, data) ? this.getEmbeddedFieldData(field, data) : this.getFieldData(field, data);
-        /** @type {?} */
-        let control = this.getControlForField(field, http, config, overrides, undefined, fieldData);
-        // Set currency format
-        if (control.subType === 'currency') {
-            control.currencyFormat = currencyFormat;
-        }
-        return control;
-    }
-    /**
-     * @private
-     * @param {?} field
-     * @param {?} data
-     * @return {?}
-     */
-    isEmbeddedFieldData(field, data) {
-        return data && field.name.includes('.');
-    }
-    /**
-     * @private
-     * @param {?} field
-     * @param {?} data
-     * @return {?}
-     */
-    getFieldData(field, data) {
-        return (data && data[field.name]) || null;
-    }
-    /**
-     * @private
-     * @param {?} field
-     * @param {?} data
-     * @return {?}
-     */
-    getEmbeddedFieldData(field, data) {
-        let [parentFieldName, fieldName] = field.name.split('.');
-        return (data && data[parentFieldName] && data[parentFieldName][fieldName]) || null;
-    }
-    /**
-     * @private
-     * @param {?} meta
-     * @return {?}
-     */
-    getFormFields(meta) {
-        /** @type {?} */
-        let sectionHeaders = meta.sectionHeaders
-            ? meta.sectionHeaders.map((/**
-             * @param {?} element
-             * @return {?}
-             */
-            (element) => {
-                element.isSectionHeader = true;
-                return element;
-            }))
-            : [];
-        /** @type {?} */
-        let fields = meta.fields.map((/**
-         * @param {?} field
-         * @return {?}
-         */
-        (field) => {
-            if (!field.hasOwnProperty('sortOrder')) {
-                field.sortOrder = Number.MAX_SAFE_INTEGER - 1;
-            }
-            return field;
-        }));
-        return [...sectionHeaders, ...fields].sort(Helpers.sortByField(['sortOrder', 'name']));
-    }
-    /**
-     * @private
-     * @param {?} subHeader
-     * @return {?}
-     */
-    getEmbeddedFields(subHeader) {
-        return subHeader.associatedEntity.fields
-            .filter((/**
-         * @param {?} field
-         * @return {?}
-         */
-        (field) => field.name !== 'id'))
-            .map((/**
-         * @param {?} field
-         * @return {?}
-         */
-        (field) => {
-            field.name = `${subHeader.name}.${field.name}`;
-            return field;
-        }))
-            .sort(Helpers.sortByField(['sortOrder', 'name']));
-    }
-    /**
-     * @private
-     * @param {?} field
-     * @return {?}
-     */
-    isHeader(field) {
-        return !Helpers.isBlank(field) && field.hasOwnProperty('isSectionHeader') && field.isSectionHeader;
-    }
-    /**
-     * @private
-     * @param {?} fieldsets
-     * @param {?} field
-     * @return {?}
-     */
-    insertHeaderToFieldsets(fieldsets, field) {
-        fieldsets.push({
-            title: field.label,
-            icon: field.icon || 'bhi-section',
-            controls: [],
-            isEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'embedded',
-            isInlineEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'inline_embedded',
-        });
-    }
-    /**
-     * @private
-     * @param {?} control
-     * @param {?=} dataSpecialization
-     * @return {?}
-     */
-    markControlAsEmbedded(control, dataSpecialization) {
-        if (Helpers.isBlank(control['config'])) {
-            control['config'] = {};
-        }
-        control['config']['embedded'] = true;
-        control.isEmbedded = dataSpecialization === 'embedded';
-        control.isInlineEmbedded = dataSpecialization === 'inline_embedded';
-        return control;
     }
     /**
      * @param {?} field
@@ -20322,13 +15889,8 @@ class FormUtils {
         else if (field.workflowOptions && fieldData) {
             return this.getWorkflowOptions(field.workflowOptions, fieldData);
         }
-        else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS' ||
-            (field.options && ['SpecializedOptionsLookup', 'SimplifiedOptionsLookup'].includes(field.dataType))) {
-            return field.options.filter((/**
-             * @param {?} o
-             * @return {?}
-             */
-            (o) => !o.readOnly));
+        else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS') {
+            return field.options.filter((o) => !o.readOnly);
         }
         else if (field.optionsUrl) {
             return this.optionsService.getOptionsConfig(http, field, config);
@@ -20363,11 +15925,7 @@ class FormUtils {
         const currentWorkflowOption = fieldData.id ? fieldData.id : 'initial';
         /** @type {?} */
         let updateWorkflowOptions = workflowOptions[currentWorkflowOption] || [];
-        if (currentValue && !updateWorkflowOptions.find((/**
-         * @param {?} option
-         * @return {?}
-         */
-        (option) => option.value === currentValue.value))) {
+        if (currentValue && !updateWorkflowOptions.find((option) => option.value === currentValue.value)) {
             updateWorkflowOptions.unshift(currentValue);
         }
         return updateWorkflowOptions;
@@ -20394,11 +15952,7 @@ class FormUtils {
                 continue;
             }
             if (Array.isArray(value) && value.length > 0) {
-                value = value.filter((/**
-                 * @param {?} val
-                 * @return {?}
-                 */
-                (val) => !(Object.keys(val).length === 0 && val.constructor === Object)));
+                value = value.filter((val) => !(Object.keys(val).length === 0 && val.constructor === Object));
                 if (value.length === 0) {
                     continue;
                 }
@@ -20424,63 +15978,43 @@ class FormUtils {
      * @return {?}
      */
     setInitialValuesFieldsets(fieldsets, values, keepClean) {
-        fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        (fieldset) => {
+        fieldsets.forEach((fieldset) => {
             this.setInitialValues(fieldset.controls, values, keepClean);
-        }));
+        });
     }
     /**
      * @param {?} controls
      * @return {?}
      */
     forceShowAllControls(controls) {
-        controls.forEach((/**
-         * @param {?} control
-         * @return {?}
-         */
-        (control) => {
+        controls.forEach((control) => {
             control.hidden = false;
-        }));
+        });
     }
     /**
      * @param {?} fieldsets
      * @return {?}
      */
     forceShowAllControlsInFieldsets(fieldsets) {
-        fieldsets.forEach((/**
-         * @param {?} fieldset
-         * @return {?}
-         */
-        (fieldset) => {
-            fieldset.controls.forEach((/**
-             * @param {?} control
-             * @return {?}
-             */
-            (control) => {
+        fieldsets.forEach((fieldset) => {
+            fieldset.controls.forEach((control) => {
                 control.hidden = false;
-            }));
-        }));
+            });
+        });
     }
     /**
      * @param {?} form
      * @return {?}
      */
     forceValidation(form) {
-        Object.keys(form.controls).forEach((/**
-         * @param {?} key
-         * @return {?}
-         */
-        (key) => {
+        Object.keys(form.controls).forEach((key) => {
             /** @type {?} */
             let control = form.controls[key];
             if (control.required && Helpers.isBlank(form.value[control.key])) {
                 control.markAsDirty();
                 control.markAsTouched();
             }
-        }));
+        });
     }
     /**
      * @param {?} control
@@ -20492,11 +16026,7 @@ class FormUtils {
         /** @type {?} */
         let valid = true;
         if (control.value && control.config) {
-            fieldList.forEach((/**
-             * @param {?} subfield
-             * @return {?}
-             */
-            (subfield) => {
+            fieldList.forEach((subfield) => {
                 if (((subfield !== 'countryID' &&
                     !Helpers.isEmpty(control.config[subfield]) &&
                     control.config[subfield].required &&
@@ -20512,7 +16042,7 @@ class FormUtils {
                         control.config.state.pickerConfig.defaultOptions.length === 0)) {
                     valid = false;
                 }
-            }));
+            });
         }
         return valid;
     }
@@ -20558,33 +16088,6 @@ class FormUtils {
             return startDate;
         }
     }
-    /**
-     * @param {?} data
-     * @return {?}
-     */
-    inflateEmbeddedProperties(data) {
-        if (data) {
-            Object.keys(data)
-                .filter((/**
-             * @param {?} fieldName
-             * @return {?}
-             */
-            (fieldName) => fieldName.includes('.')))
-                .forEach((/**
-             * @param {?} field
-             * @return {?}
-             */
-            (field) => {
-                let [parentFieldName, fieldName] = field.split('.');
-                if (!data[parentFieldName]) {
-                    data[parentFieldName] = {};
-                }
-                data[parentFieldName][fieldName] = data[field];
-                delete data[field];
-            }));
-        }
-        return data;
-    }
 }
 FormUtils.decorators = [
     { type: Injectable }
@@ -20594,44 +16097,11 @@ FormUtils.ctorParameters = () => [
     { type: NovoLabelService },
     { type: OptionsService }
 ];
-if (false) {
-    /** @type {?} */
-    FormUtils.prototype.ASSOCIATED_ENTITY_LIST;
-    /** @type {?} */
-    FormUtils.prototype.ENTITY_PICKER_LIST;
-    /** @type {?} */
-    FormUtils.prototype.labels;
-    /** @type {?} */
-    FormUtils.prototype.optionsService;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/toast/ToastService.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function ToastOptions() { }
-if (false) {
-    /** @type {?|undefined} */
-    ToastOptions.prototype.title;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.message;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.icon;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.theme;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.hideDelay;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.position;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.isCloseable;
-    /** @type {?|undefined} */
-    ToastOptions.prototype.customClass;
-}
 class NovoToastService {
     /**
      * @param {?} componentUtils
@@ -20655,11 +16125,7 @@ class NovoToastService {
      * @return {?}
      */
     alert(options, toastElement = NovoToastElement) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        (resolve) => {
+        return new Promise((resolve) => {
             if (!this._parentViewContainer) {
                 console.error('No parent view container specified for the ToastService. Set it inside your main application. \nthis.toastService.parentViewContainer = view (ViewContainerRef)');
                 return;
@@ -20669,7 +16135,7 @@ class NovoToastService {
             this.references.push(toast);
             this.handleAlert(toast.instance, options);
             resolve(toast);
-        }));
+        });
     }
     /**
      * @param {?} toast
@@ -20684,22 +16150,15 @@ class NovoToastService {
      */
     hide(toast) {
         toast.animate = false;
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             toast.show = false;
             /** @type {?} */
-            const REF = this.references.filter((/**
-             * @param {?} x
-             * @return {?}
-             */
-            (x) => x.instance === toast))[0];
+            const REF = this.references.filter((x) => x.instance === toast)[0];
             if (REF) {
                 this.references.splice(this.references.indexOf(REF), 1);
                 REF.destroy();
             }
-        }), 300);
+        }, 300);
     }
     /**
      * @param {?} toast
@@ -20708,12 +16167,9 @@ class NovoToastService {
      */
     handleAlert(toast, options) {
         this.setToastOnSession(toast, options);
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             this.show(toast);
-        }), 20);
+        }, 20);
         if (!toast.isCloseable) {
             this.toastTimer(toast);
         }
@@ -20768,12 +16224,9 @@ class NovoToastService {
         if (toast.hideDelay < 0) {
             return;
         }
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             this.hide(toast);
-        }), toast.hideDelay);
+        }, toast.hideDelay);
     }
 }
 NovoToastService.decorators = [
@@ -20783,26 +16236,10 @@ NovoToastService.decorators = [
 NovoToastService.ctorParameters = () => [
     { type: ComponentUtils }
 ];
-if (false) {
-    /** @type {?} */
-    NovoToastService.prototype._parentViewContainer;
-    /** @type {?} */
-    NovoToastService.prototype.references;
-    /** @type {?} */
-    NovoToastService.prototype.icons;
-    /** @type {?} */
-    NovoToastService.prototype.defaults;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoToastService.prototype.componentUtils;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/modal/ModalService.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoModalService {
     /**
@@ -20845,20 +16282,10 @@ NovoModalService.decorators = [
 NovoModalService.ctorParameters = () => [
     { type: ComponentUtils }
 ];
-if (false) {
-    /** @type {?} */
-    NovoModalService.prototype._parentViewContainer;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoModalService.prototype.componentUtils;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/FieldInteractionModals.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class ControlConfirmModal {
     /**
@@ -20899,17 +16326,6 @@ ControlConfirmModal.ctorParameters = () => [
     { type: NovoModalParams },
     { type: NovoLabelService }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    ControlConfirmModal.prototype.modalRef;
-    /** @type {?} */
-    ControlConfirmModal.prototype.params;
-    /** @type {?} */
-    ControlConfirmModal.prototype.labels;
-}
 class ControlPromptModal {
     /**
      * @param {?} modalRef
@@ -20948,22 +16364,10 @@ ControlPromptModal.ctorParameters = () => [
     { type: NovoModalParams },
     { type: NovoLabelService }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    ControlPromptModal.prototype.modalRef;
-    /** @type {?} */
-    ControlPromptModal.prototype.params;
-    /** @type {?} */
-    ControlPromptModal.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/FieldInteractionApi.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class CustomHttpImpl {
     /**
@@ -20971,11 +16375,7 @@ class CustomHttpImpl {
      */
     constructor(http) {
         this.http = http;
-        this.mapFn = (/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => x);
+        this.mapFn = (x) => x;
     }
     /**
      * @param {?} url
@@ -21007,19 +16407,6 @@ class CustomHttpImpl {
             .subscribe(resolve, reject);
     }
 }
-if (false) {
-    /** @type {?} */
-    CustomHttpImpl.prototype.url;
-    /** @type {?} */
-    CustomHttpImpl.prototype.options;
-    /** @type {?} */
-    CustomHttpImpl.prototype.mapFn;
-    /**
-     * @type {?}
-     * @private
-     */
-    CustomHttpImpl.prototype.http;
-}
 class FieldInteractionApi {
     /**
      * @param {?} toaster
@@ -21034,18 +16421,11 @@ class FieldInteractionApi {
         this.formUtils = formUtils;
         this.http = http;
         this.labels = labels;
-        this.getOptionsConfig = (/**
-         * @param {?} args
-         * @param {?=} mapper
-         * @param {?=} filteredOptionsCreator
-         * @param {?=} pickerConfigFormat
-         * @return {?}
-         */
-        (args, mapper, filteredOptionsCreator, pickerConfigFormat) => {
+        this.getOptionsConfig = (args, mapper, filteredOptionsCreator, pickerConfigFormat) => {
             if (filteredOptionsCreator || 'optionsUrl' in args || 'optionsUrlBuilder' in args || 'optionsPromise' in args) {
                 /** @type {?} */
-                const format = ('format' in args && args.format) || pickerConfigFormat;
-                return Object.assign({ options: this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, ('emptyPickerMessage' in args && { emptyPickerMessage: args.emptyPickerMessage }), (format && { format }));
+                const format$$1 = ('format' in args && args.format) || pickerConfigFormat;
+                return Object.assign({ options: this.createOptionsFunction(args, mapper, filteredOptionsCreator) }, ('emptyPickerMessage' in args && { emptyPickerMessage: args.emptyPickerMessage }), (format$$1 && { format: format$$1 }));
             }
             else if ('options' in args && Array.isArray(args.options)) {
                 return {
@@ -21055,55 +16435,35 @@ class FieldInteractionApi {
             else {
                 return undefined;
             }
-        });
-        this.createOptionsFunction = (/**
-         * @param {?} config
-         * @param {?=} mapper
-         * @param {?=} filteredOptionsCreator
-         * @return {?}
-         */
-        (config, mapper, filteredOptionsCreator) => (/**
-         * @param {?} query
-         * @param {?=} page
-         * @return {?}
-         */
-        (query, page) => {
+        };
+        this.createOptionsFunction = (config, mapper, filteredOptionsCreator) => (query$$1, page) => {
             if ('optionsPromise' in config && config.optionsPromise) {
-                return config.optionsPromise(query, new CustomHttpImpl(this.http), page);
+                return config.optionsPromise(query$$1, new CustomHttpImpl(this.http));
             }
             else if (('optionsUrlBuilder' in config && config.optionsUrlBuilder) || ('optionsUrl' in config && config.optionsUrl)) {
-                return new Promise((/**
-                 * @param {?} resolve
-                 * @param {?} reject
-                 * @return {?}
-                 */
-                (resolve, reject) => {
+                return new Promise((resolve, reject) => {
                     /** @type {?} */
-                    const url = 'optionsUrlBuilder' in config ? config.optionsUrlBuilder(query) : `${config.optionsUrl}?filter=${query || ''}`;
+                    const url = 'optionsUrlBuilder' in config ? config.optionsUrlBuilder(query$$1) : `${config.optionsUrl}?filter=${query$$1 || ''}`;
                     this.http
                         .get(url)
-                        .pipe(map((/**
-                     * @param {?} results
-                     * @return {?}
-                     */
-                    (results) => {
+                        .pipe(map((results) => {
                         if (mapper) {
                             return results.map(mapper);
                         }
                         return results;
-                    })))
+                    }))
                         .subscribe(resolve, reject);
-                }));
+                });
             }
             else if (filteredOptionsCreator) {
                 if ('where' in config) {
-                    return filteredOptionsCreator(config.where)(query, page);
+                    return filteredOptionsCreator(config.where)(query$$1, page);
                 }
                 else {
-                    return filteredOptionsCreator()(query, page);
+                    return filteredOptionsCreator()(query$$1, page);
                 }
             }
-        }));
+        };
     }
     /**
      * @param {?} form
@@ -21477,10 +16837,9 @@ class FieldInteractionApi {
      * @param {?} tip
      * @param {?=} icon
      * @param {?=} allowDismiss
-     * @param {?=} sanitize
      * @return {?}
      */
-    displayTip(key, tip, icon, allowDismiss, sanitize) {
+    displayTip(key, tip, icon, allowDismiss) {
         /** @type {?} */
         let control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
@@ -21488,7 +16847,6 @@ class FieldInteractionApi {
                 tip: tip,
                 icon: icon,
                 button: allowDismiss,
-                sanitize: sanitize !== false,
             };
             this.triggerEvent({ controlKey: key, prop: 'tipWell', value: tip });
         }
@@ -21528,15 +16886,11 @@ class FieldInteractionApi {
         /** @type {?} */
         let label = this.getProperty(key, 'label');
         ((/** @type {?} */ (document.activeElement))).blur();
-        return this.modalService.open(ControlConfirmModal, { oldValue, newValue, label, message, key }).onClosed.then((/**
-         * @param {?} result
-         * @return {?}
-         */
-        (result) => {
+        return this.modalService.open(ControlConfirmModal, { oldValue, newValue, label, message, key }).onClosed.then((result) => {
             if (!result) {
                 this.setValue(key, oldValue, { emitEvent: false });
             }
-        }));
+        });
     }
     /**
      * @param {?} key
@@ -21544,8 +16898,6 @@ class FieldInteractionApi {
      * @return {?}
      */
     promptUser(key, changes) {
-        /** @type {?} */
-        let showYes = true;
         ((/** @type {?} */ (document.activeElement))).blur();
         return this.modalService.open(ControlPromptModal, { changes: changes, key: key }).onClosed;
     }
@@ -21635,15 +16987,11 @@ class FieldInteractionApi {
                     optionToAdd = { value: newOption, label: newOption };
                 }
                 // Ensure duplicate values are not added
-                currentOptions.forEach((/**
-                 * @param {?} option
-                 * @return {?}
-                 */
-                (option) => {
+                currentOptions.forEach((option) => {
                     if ((option.value && option.value === optionToAdd.value) || option === optionToAdd) {
                         isUnique = false;
                     }
-                }));
+                });
                 if (isUnique) {
                     this.setProperty(key, 'options', [...currentOptions, optionToAdd]);
                 }
@@ -21672,12 +17020,7 @@ class FieldInteractionApi {
                     if (currentOptions && Array.isArray(currentOptions)) {
                         /** @type {?} */
                         let index = -1;
-                        currentOptions.forEach((/**
-                         * @param {?} opt
-                         * @param {?} i
-                         * @return {?}
-                         */
-                        (opt, i) => {
+                        currentOptions.forEach((opt, i) => {
                             if (opt.value || opt.label) {
                                 if (opt.value === optionToRemove || opt.label === optionToRemove) {
                                     index = i;
@@ -21688,7 +17031,7 @@ class FieldInteractionApi {
                                     index = i;
                                 }
                             }
-                        }));
+                        });
                         if (index !== -1) {
                             currentOptions.splice(index, 1);
                         }
@@ -21700,12 +17043,7 @@ class FieldInteractionApi {
             else {
                 /** @type {?} */
                 let index = -1;
-                currentOptions.forEach((/**
-                 * @param {?} opt
-                 * @param {?} i
-                 * @return {?}
-                 */
-                (opt, i) => {
+                currentOptions.forEach((opt, i) => {
                     if (opt.value || opt.label) {
                         if (opt.value === optionToRemove || opt.label === optionToRemove) {
                             index = i;
@@ -21716,7 +17054,7 @@ class FieldInteractionApi {
                             index = i;
                         }
                     }
-                }));
+                });
                 if (index !== -1) {
                     currentOptions.splice(index, 1);
                 }
@@ -21745,9 +17083,9 @@ class FieldInteractionApi {
         /** @type {?} */
         let control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
-            const { minSearchLength, enableInfiniteScroll, filteredOptionsCreator, format, getLabels, emptyPickerMessage } = control.config;
+            const { minSearchLength, enableInfiniteScroll, filteredOptionsCreator, format: format$$1, getLabels, emptyPickerMessage } = control.config;
             /** @type {?} */
-            const optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format);
+            const optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format$$1);
             /** @type {?} */
             const newConfig = Object.assign({}, (emptyPickerMessage && { emptyPickerMessage }), (Number.isInteger(minSearchLength) && { minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator }), (getLabels && { getLabels }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
             this.setProperty(key, 'config', newConfig);
@@ -21784,14 +17122,11 @@ class FieldInteractionApi {
                 control.setErrors({ loading: true });
                 // History
                 clearTimeout(this.asyncBlockTimeout);
-                this.asyncBlockTimeout = setTimeout((/**
-                 * @return {?}
-                 */
-                () => {
+                this.asyncBlockTimeout = setTimeout(() => {
                     this.setLoading(key, false);
                     this.displayTip(key, this.labels.asyncFailure, 'info', false);
                     this.setProperty(key, '_displayedAsyncFailure', true);
-                }), 10000);
+                }, 10000);
             }
             else {
                 this.form.controls[key].fieldInteractionloading = false;
@@ -21834,24 +17169,14 @@ class FieldInteractionApi {
         if (control) {
             fieldsetIndex = -1;
             controlIndex = -1;
-            this.form.fieldsets.forEach((/**
-             * @param {?} fieldset
-             * @param {?} fi
-             * @return {?}
-             */
-            (fieldset, fi) => {
-                fieldset.controls.forEach((/**
-                 * @param {?} fieldsetControl
-                 * @param {?} ci
-                 * @return {?}
-                 */
-                (fieldsetControl, ci) => {
+            this.form.fieldsets.forEach((fieldset, fi) => {
+                fieldset.controls.forEach((fieldsetControl, ci) => {
                     if (fieldsetControl.key === key) {
                         fieldsetIndex = fi;
                         controlIndex = ci;
                     }
-                }));
-            }));
+                });
+            });
             // Change the position of the newly added field
             switch (position) {
                 case FieldInteractionApi.FIELD_POSITIONS.ABOVE_FIELD:
@@ -21903,24 +17228,14 @@ class FieldInteractionApi {
             let fieldsetIndex = -1;
             /** @type {?} */
             let controlIndex = -1;
-            this.form.fieldsets.forEach((/**
-             * @param {?} fieldset
-             * @param {?} fi
-             * @return {?}
-             */
-            (fieldset, fi) => {
-                fieldset.controls.forEach((/**
-                 * @param {?} fieldsetControl
-                 * @param {?} ci
-                 * @return {?}
-                 */
-                (fieldsetControl, ci) => {
+            this.form.fieldsets.forEach((fieldset, fi) => {
+                fieldset.controls.forEach((fieldsetControl, ci) => {
                     if (fieldsetControl.key === key) {
                         fieldsetIndex = fi;
                         controlIndex = ci;
                     }
-                }));
-            }));
+                });
+            });
             if (fieldsetIndex !== -1 && controlIndex !== -1) {
                 this.form.removeControl(key);
                 this.form.fieldsets[fieldsetIndex].controls.splice(controlIndex, 1);
@@ -21937,10 +17252,7 @@ class FieldInteractionApi {
         /** @type {?} */
         let h;
         clearTimeout(h);
-        h = setTimeout((/**
-         * @return {?}
-         */
-        () => func()), wait);
+        h = setTimeout(() => func(), wait);
     }
     /**
      * @private
@@ -21970,82 +17282,11 @@ FieldInteractionApi.ctorParameters = () => [
     { type: HttpClient },
     { type: NovoLabelService }
 ];
-if (false) {
-    /** @type {?} */
-    FieldInteractionApi.FIELD_POSITIONS;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype._globals;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype._form;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype._currentKey;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype._appBridge;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype.asyncBlockTimeout;
-    /** @type {?} */
-    FieldInteractionApi.prototype.getOptionsConfig;
-    /** @type {?} */
-    FieldInteractionApi.prototype.createOptionsFunction;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype.toaster;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype.modalService;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype.formUtils;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype.http;
-    /**
-     * @type {?}
-     * @private
-     */
-    FieldInteractionApi.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/Control.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function IMaskOptions() { }
-if (false) {
-    /** @type {?} */
-    IMaskOptions.prototype.mask;
-    /** @type {?} */
-    IMaskOptions.prototype.keepCharPositions;
-    /** @type {?} */
-    IMaskOptions.prototype.guide;
-}
 class NovoAutoSize {
     /**
      * @param {?} element
@@ -22064,12 +17305,9 @@ class NovoAutoSize {
      * @return {?}
      */
     ngAfterContentInit() {
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             this.adjust();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -22093,10 +17331,6 @@ NovoAutoSize.ctorParameters = () => [
 NovoAutoSize.propDecorators = {
     onInput: [{ type: HostListener, args: ['input', ['$event.target'],] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoAutoSize.prototype.element;
-}
 // undo all template context references!
 class NovoControlElement extends OutsideClick {
     /**
@@ -22152,11 +17386,7 @@ class NovoControlElement extends OutsideClick {
      */
     get maxlengthMetField() {
         if (this.maxLengthMetErrorfields && this.maxLengthMetErrorfields.length) {
-            return this.maxLengthMetErrorfields.find((/**
-             * @param {?} field
-             * @return {?}
-             */
-            (field) => field === this.focusedField)) || '';
+            return this.maxLengthMetErrorfields.find((field) => field === this.focusedField) || '';
         }
         else {
             return '';
@@ -22167,11 +17397,7 @@ class NovoControlElement extends OutsideClick {
      */
     get maxlengthErrorField() {
         if (this.errors && this.errors.maxlengthFields && this.errors.maxlengthFields.length) {
-            return this.errors.maxlengthFields.find((/**
-             * @param {?} field
-             * @return {?}
-             */
-            (field) => field === this.focusedField)) || '';
+            return this.errors.maxlengthFields.find((field) => field === this.focusedField) || '';
         }
         else {
             return '';
@@ -22241,16 +17467,13 @@ class NovoControlElement extends OutsideClick {
         /** @type {?} */
         const DO_NOT_FOCUS_ME = ['picker', 'time', 'date', 'date-time'];
         if (this.autoFocus && !DO_NOT_FOCUS_ME.includes(this.control.controlType)) {
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            setTimeout(() => {
                 /** @type {?} */
                 let input = this.element.nativeElement.querySelector('input');
                 if (input) {
                     input.focus();
                 }
-            }));
+            });
         }
     }
     /**
@@ -22262,34 +17485,25 @@ class NovoControlElement extends OutsideClick {
             for (let interaction of this.control.interactions) {
                 switch (interaction.event) {
                     case 'blur':
-                        this.valueChangeSubscription = this.onBlur.pipe(debounceTime(300)).subscribe((/**
-                         * @return {?}
-                         */
-                        () => {
+                        this.valueChangeSubscription = this.onBlur.pipe(debounceTime(300)).subscribe(() => {
                             if (!this.form.controls[this.control.key].restrictFieldInteractions) {
                                 this.executeInteraction(interaction);
                             }
-                        }));
+                        });
                         break;
                     case 'focus':
-                        this.valueChangeSubscription = this.onFocus.pipe(debounceTime(300)).subscribe((/**
-                         * @return {?}
-                         */
-                        () => {
+                        this.valueChangeSubscription = this.onFocus.pipe(debounceTime(300)).subscribe(() => {
                             if (!this.form.controls[this.control.key].restrictFieldInteractions) {
                                 this.executeInteraction(interaction);
                             }
-                        }));
+                        });
                         break;
                     case 'change':
-                        this.valueChangeSubscription = this.form.controls[this.control.key].valueChanges.pipe(debounceTime(300)).subscribe((/**
-                         * @return {?}
-                         */
-                        () => {
+                        this.valueChangeSubscription = this.form.controls[this.control.key].valueChanges.pipe(debounceTime(300)).subscribe(() => {
                             if (!this.form.controls[this.control.key].restrictFieldInteractions) {
                                 this.executeInteraction(interaction);
                             }
-                        }));
+                        });
                         break;
                     case 'init':
                         interaction.invokeOnInit = true;
@@ -22304,14 +17518,11 @@ class NovoControlElement extends OutsideClick {
                 }
             }
         }
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             this.templates = this.templateService.getAll();
             this.loading = false;
             this.changeDetectorRef.markForCheck();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -22327,23 +17538,16 @@ class NovoControlElement extends OutsideClick {
         }
         if (this.control) {
             // Listen to clear events
-            this.forceClearSubscription = this.control.forceClear.subscribe((/**
-             * @return {?}
-             */
-            () => {
+            this.forceClearSubscription = this.control.forceClear.subscribe(() => {
                 this.clearValue();
-            }));
+            });
             // For Asynchronous validations
-            this.statusChangeSubscription = this.form.controls[this.control.key].statusChanges.subscribe((/**
-             * @param {?} validity
-             * @return {?}
-             */
-            (validity) => {
+            this.statusChangeSubscription = this.form.controls[this.control.key].statusChanges.subscribe((validity) => {
                 this.form.controls[this.control.key] = this.templateContext.$implicit;
                 if (validity !== 'PENDING' && this.form.updateValueAndValidity) {
                     this.form.updateValueAndValidity();
                 }
-            }));
+            });
         }
         this.templateContext = {
             $implicit: this.form.controls[this.control.key],
@@ -22384,15 +17588,11 @@ class NovoControlElement extends OutsideClick {
             if (!Helpers.isEmpty(this.form.controls[this.control.key].value)) {
                 this.templateContext.$implicit.percentValue = Number((this.form.controls[this.control.key].value * 100).toFixed(6).replace(/\.?0*$/, ''));
             }
-            this.percentChangeSubscription = this.form.controls[this.control.key].displayValueChanges.subscribe((/**
-             * @param {?} value
-             * @return {?}
-             */
-            (value) => {
+            this.percentChangeSubscription = this.form.controls[this.control.key].displayValueChanges.subscribe((value) => {
                 if (!Helpers.isEmpty(value)) {
                     this.templateContext.$implicit.percentValue = Number((value * 100).toFixed(6).replace(/\.?0*$/, ''));
                 }
-            }));
+            });
         }
     }
     /**
@@ -22535,10 +17735,7 @@ class NovoControlElement extends OutsideClick {
      */
     executeInteraction(interaction) {
         if (interaction.script && Helpers.isFunction(interaction.script)) {
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            setTimeout(() => {
                 this.fieldInteractionApi.form = this.form;
                 this.fieldInteractionApi.currentKey = this.control.key;
                 try {
@@ -22548,7 +17745,7 @@ class NovoControlElement extends OutsideClick {
                     console.info('Field Interaction Error!', this.control.key); // tslint:disable-line
                     console.error(err); // tslint:disable-line
                 }
-            }));
+            });
         }
     }
     /**
@@ -22776,11 +17973,7 @@ class NovoControlElement extends OutsideClick {
                 this.maxLengthMetErrorfields.push(data.field);
             }
             else {
-                this.maxLengthMetErrorfields = this.maxLengthMetErrorfields.filter((/**
-                 * @param {?} field
-                 * @return {?}
-                 */
-                (field) => field !== data.field));
+                this.maxLengthMetErrorfields = this.maxLengthMetErrorfields.filter((field) => field !== data.field);
             }
         }
     }
@@ -22872,7 +18065,7 @@ NovoControlElement.decorators = [
                         <span class="record-count" [class.zero-count]="itemCount === 0" [class.row-picker]="form.controls[this.control.key].config.columns" *ngIf="showCount && form.controls[control.key].controlType === 'picker'">{{ itemCount }}/{{ maxLength || form.controls[control.key].maxlength }}</span>
                     </div>
                     <!--Tip Wel-->
-                    <novo-tip-well *ngIf="form.controls[control.key].tipWell" [name]="control.key" [tip]="form.controls[control.key]?.tipWell?.tip" [icon]="form.controls[control.key]?.tipWell?.icon" [button]="form.controls[control.key]?.tipWell?.button" [sanitize]="form.controls[control.key]?.tipWell?.sanitize"></novo-tip-well>
+                    <novo-tip-well *ngIf="form.controls[control.key].tipWell" [name]="control.key" [tip]="form.controls[control.key]?.tipWell?.tip" [icon]="form.controls[control.key]?.tipWell?.icon" [button]="form.controls[control.key]?.tipWell?.button"></novo-tip-well>
                 </div>
                 <i *ngIf="form.controls[control.key].fieldInteractionloading" class="loading">
                     <svg version="1.1"
@@ -22896,8 +18089,6 @@ NovoControlElement.decorators = [
                     '[class.disabled]': 'form.controls[control.key].readOnly',
                     '[class.hidden]': 'form.controls[control.key].hidden',
                     '[attr.data-control-key]': 'control.key',
-                    '[class.inline-embedded]': 'control.isInlineEmbedded',
-                    '[class.embedded]': 'control.isEmbedded',
                 }
             }] }
 ];
@@ -22924,138 +18115,10 @@ NovoControlElement.propDecorators = {
     onBlur: [{ type: Output, args: ['blur',] }],
     onFocus: [{ type: Output, args: ['focus',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoControlElement.prototype.control;
-    /** @type {?} */
-    NovoControlElement.prototype.form;
-    /** @type {?} */
-    NovoControlElement.prototype.condensed;
-    /** @type {?} */
-    NovoControlElement.prototype.autoFocus;
-    /** @type {?} */
-    NovoControlElement.prototype.change;
-    /** @type {?} */
-    NovoControlElement.prototype.edit;
-    /** @type {?} */
-    NovoControlElement.prototype.save;
-    /** @type {?} */
-    NovoControlElement.prototype.delete;
-    /** @type {?} */
-    NovoControlElement.prototype.upload;
-    /** @type {?} */
-    NovoControlElement.prototype.maxLength;
-    /** @type {?} */
-    NovoControlElement.prototype.focusedField;
-    /** @type {?} */
-    NovoControlElement.prototype.formattedValue;
-    /** @type {?} */
-    NovoControlElement.prototype.percentValue;
-    /** @type {?} */
-    NovoControlElement.prototype.maxLengthMet;
-    /** @type {?} */
-    NovoControlElement.prototype.itemCount;
-    /** @type {?} */
-    NovoControlElement.prototype.maskOptions;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype._blurEmitter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype._focusEmitter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype._focused;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype._enteredText;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.forceClearSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.percentChangeSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.valueChangeSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.dateChangeSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype._showCount;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.characterCountField;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.maxLengthMetErrorfields;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.statusChangeSubscription;
-    /** @type {?} */
-    NovoControlElement.prototype.templates;
-    /** @type {?} */
-    NovoControlElement.prototype.templateContext;
-    /** @type {?} */
-    NovoControlElement.prototype.loading;
-    /** @type {?} */
-    NovoControlElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.dateFormatService;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.fieldInteractionApi;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.templateService;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.changeDetectorRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlElement.prototype.locale;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/countries/Countries.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /* tslint:disable:quotemark */
 /**
@@ -40556,11 +35619,7 @@ const COUNTRIES = [
  * @return {?}
  */
 function getCountries() {
-    return COUNTRIES.map((/**
-     * @param {?} country
-     * @return {?}
-     */
-    (country) => country.name));
+    return COUNTRIES.map((country) => country.name);
 }
 /**
  * Gets a country by country ID
@@ -40568,11 +35627,7 @@ function getCountries() {
  * @return {?}
  */
 function findByCountryId(id) {
-    return COUNTRIES.find((/**
-     * @param {?} country
-     * @return {?}
-     */
-    (country) => country.id === id));
+    return COUNTRIES.find((country) => country.id === id);
 }
 /**
  * Gets a country by country name
@@ -40580,11 +35635,7 @@ function findByCountryId(id) {
  * @return {?}
  */
 function findByCountryName(name) {
-    return COUNTRIES.find((/**
-     * @param {?} country
-     * @return {?}
-     */
-    (country) => country.name === name.trim()));
+    return COUNTRIES.find((country) => country.name === name.trim());
 }
 /**
  * Gets a country by country code
@@ -40592,11 +35643,7 @@ function findByCountryName(name) {
  * @return {?}
  */
 function findByCountryCode(code) {
-    return COUNTRIES.find((/**
-     * @param {?} country
-     * @return {?}
-     */
-    (country) => country.code === code.trim()));
+    return COUNTRIES.find((country) => country.code === code.trim());
 }
 /**
  * Gets states by country name
@@ -40606,11 +35653,7 @@ function findByCountryCode(code) {
 function getStateObjects(name) {
     if (name) {
         /** @type {?} */
-        const foundCountry = COUNTRIES.find((/**
-         * @param {?} country
-         * @return {?}
-         */
-        (country) => country.name === name.trim()));
+        const foundCountry = COUNTRIES.find((country) => country.name === name.trim());
         return (foundCountry && foundCountry.states) || [];
     }
     return [];
@@ -40621,70 +35664,20 @@ function getStateObjects(name) {
  * @return {?}
  */
 function getStates(name) {
-    return getStateObjects(name).map((/**
-     * @param {?} state
-     * @return {?}
-     */
-    (state) => state.name));
+    return getStateObjects(name).map((state$$1) => state$$1.name);
 }
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/extras/address/Address.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const ADDRESS_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoAddressElement)),
+    useExisting: forwardRef(() => NovoAddressElement),
     multi: true,
 };
-/**
- * @record
- */
-function NovoAddressSubfieldConfig() { }
-if (false) {
-    /** @type {?} */
-    NovoAddressSubfieldConfig.prototype.label;
-    /** @type {?} */
-    NovoAddressSubfieldConfig.prototype.required;
-    /** @type {?} */
-    NovoAddressSubfieldConfig.prototype.maxlength;
-    /** @type {?|undefined} */
-    NovoAddressSubfieldConfig.prototype.pickerConfig;
-    /** @type {?} */
-    NovoAddressSubfieldConfig.prototype.hidden;
-    /** @type {?|undefined} */
-    NovoAddressSubfieldConfig.prototype.updated;
-    /** @type {?|undefined} */
-    NovoAddressSubfieldConfig.prototype.readOnly;
-}
-/**
- * @record
- */
-function NovoAddressConfig() { }
-if (false) {
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.required;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.readOnly;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.address1;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.address2;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.city;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.state;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.zip;
-    /** @type {?|undefined} */
-    NovoAddressConfig.prototype.countryID;
-}
 class NovoAddressElement {
     /**
      * @param {?} labels
@@ -40693,15 +35686,10 @@ class NovoAddressElement {
         this.labels = labels;
         this._readOnly = false;
         this.states = [];
+        this.countries = getCountries();
         this.fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'countryID'];
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
         this.focused = {};
         this.invalid = {};
         this.disabled = {};
@@ -40720,13 +35708,9 @@ class NovoAddressElement {
      */
     set readOnly(readOnly) {
         this._readOnly = readOnly;
-        this.fieldList.forEach((/**
-         * @param {?} field
-         * @return {?}
-         */
-        (field) => {
+        this.fieldList.forEach((field) => {
             this.disabled[field] = this._readOnly;
-        }));
+        });
         if (this.model) {
             this.updateStates();
         }
@@ -40760,11 +35744,7 @@ class NovoAddressElement {
      * @return {?}
      */
     initConfig() {
-        this.fieldList.forEach((/**
-         * @param {?} field
-         * @return {?}
-         */
-        (field) => {
+        this.fieldList.forEach((field) => {
             if (!this.config.hasOwnProperty(field)) {
                 this.config[field] = {
                     hidden: true,
@@ -40792,16 +35772,12 @@ class NovoAddressElement {
                     this.config[field].pickerConfig.defaultOptions = this.config[field].pickerConfig.options;
                 }
                 this.stateOptions = this.config[field].pickerConfig.options;
-                this.config[field].pickerConfig.options = (/**
-                 * @param {?=} query
-                 * @return {?}
-                 */
-                (query = '') => {
-                    return this.stateOptions(query, this.model.countryID);
-                });
+                this.config[field].pickerConfig.options = (query$$1 = '') => {
+                    return this.stateOptions(query$$1, this.model.countryID);
+                };
                 this.config[field].pickerConfig.defaultOptions = this.stateOptions;
             }
-        }));
+        });
     }
     /**
      * @param {?} field
@@ -40939,9 +35915,9 @@ class NovoAddressElement {
      */
     onStateChange(evt) {
         /** @type {?} */
-        let state = evt && evt.value ? evt.value : null;
+        let state$$1 = evt && evt.value ? evt.value : null;
         this.config.state.updated = true;
-        this.model.state = state;
+        this.model.state = state$$1;
         this.updateControl();
         this.onInput(null, 'state');
     }
@@ -40951,12 +35927,12 @@ class NovoAddressElement {
      */
     setStateLabel(model) {
         /** @type {?} */
-        let state = model.state;
-        if (!Helpers.isBlank(state)) {
+        let state$$1 = model.state;
+        if (!Helpers.isBlank(state$$1)) {
             if (this.config.state.required) {
                 this.valid.state = true;
             }
-            this.model.state = state;
+            this.model.state = state$$1;
         }
         else {
             this.model.state = undefined;
@@ -40970,18 +35946,10 @@ class NovoAddressElement {
      */
     updateStates() {
         if (this.config.state.pickerConfig.options && !Helpers.isBlank(this.model.countryID)) {
-            this.config.state.pickerConfig.options = (/**
-             * @param {?=} query
-             * @return {?}
-             */
-            (query = '') => {
-                return this.stateOptions(query, this.model.countryID);
-            });
-            this.stateOptions('', this.model.countryID).then((/**
-             * @param {?} results
-             * @return {?}
-             */
-            (results) => {
+            this.config.state.pickerConfig.options = (query$$1 = '') => {
+                return this.stateOptions(query$$1, this.model.countryID);
+            };
+            this.stateOptions('', this.model.countryID).then((results) => {
                 this.config.state.pickerConfig.defaultOptions = results;
                 if (results.length) {
                     this.tooltip.state = undefined;
@@ -40997,7 +35965,7 @@ class NovoAddressElement {
                 }
                 this.validityChange.emit();
                 this.onInput(null, 'state');
-            }));
+            });
         }
         else {
             this.config.state.pickerConfig.defaultOptions = [];
@@ -41013,18 +35981,14 @@ class NovoAddressElement {
      * @param {?=} countryID
      * @return {?}
      */
-    getStateOptions(filter = '', countryID) {
+    getStateOptions(filter$$1 = '', countryID) {
         if (countryID) {
             /** @type {?} */
             const country = findByCountryId(countryID);
             /** @type {?} */
             const states = getStates(country.name);
-            if (filter) {
-                return states.filter((/**
-                 * @param {?} name
-                 * @return {?}
-                 */
-                (name) => new RegExp(`${filter}`, 'gi').test(name)));
+            if (filter$$1) {
+                return states.filter((name) => new RegExp(`${filter$$1}`, 'gi').test(name));
             }
             return states;
         }
@@ -41060,16 +36024,12 @@ class NovoAddressElement {
                         let promise = this.config.countryID.pickerConfig.getLabels(model.countryID);
                         loadingCountries = true;
                         if (promise.then) {
-                            promise.then((/**
-                             * @param {?} result
-                             * @return {?}
-                             */
-                            (result) => {
+                            promise.then((result) => {
                                 loadingCountries = false;
                                 countryName = Helpers.interpolateWithFallback(this.config.countryID.pickerConfig.format, result);
                                 this.model = Object.assign(model, { countryName });
                                 this.updateStates();
-                            }));
+                            });
                         }
                     }
                 }
@@ -41086,13 +36046,9 @@ class NovoAddressElement {
                 this.updateStates();
             }
         }
-        this.fieldList.forEach((/**
-         * @param {?} field
-         * @return {?}
-         */
-        (field) => {
+        this.fieldList.forEach((field) => {
             this.onInput(null, field);
-        }));
+        });
     }
     /**
      * @param {?} fn
@@ -41116,21 +36072,12 @@ class NovoAddressElement {
         return {
             field: 'value',
             format: '$label',
-            options: (/**
-             * @param {?=} query
-             * @param {?=} countryID
-             * @return {?}
-             */
-            (query = '', countryID) => {
-                return Promise.resolve(this.getStateOptions(query, countryID));
-            }),
-            getLabels: (/**
-             * @param {?} state
-             * @return {?}
-             */
-            (state) => {
-                return Promise.resolve(state);
-            }),
+            options: (query$$1 = '', countryID) => {
+                return Promise.resolve(this.getStateOptions(query$$1, countryID));
+            },
+            getLabels: (state$$1) => {
+                return Promise.resolve(state$$1);
+            },
         };
     }
     /**
@@ -41141,52 +36088,28 @@ class NovoAddressElement {
         return {
             field: 'value',
             format: '$label',
-            options: (/**
-             * @param {?=} query
-             * @return {?}
-             */
-            (query = '') => {
-                return new Promise((/**
-                 * @param {?} resolve
-                 * @return {?}
-                 */
-                (resolve) => {
+            options: (query$$1 = '') => {
+                return new Promise((resolve) => {
                     /** @type {?} */
-                    let countries = COUNTRIES;
-                    if (query) {
-                        countries = countries.filter((/**
-                         * @param {?} country
-                         * @return {?}
-                         */
-                        (country) => new RegExp(`${query}`, 'gi').test(country.name)));
+                    let countries = getCountries();
+                    if (query$$1) {
+                        countries = countries.filter((country) => new RegExp(`${query$$1}`, 'gi').test(country.name));
                     }
-                    return resolve(countries.map((/**
-                     * @param {?} country
-                     * @return {?}
-                     */
-                    (country) => ({ value: country.id, label: country.name }))));
-                }));
-            }),
-            getLabels: (/**
-             * @param {?} countryID
-             * @return {?}
-             */
-            (countryID) => {
-                return new Promise((/**
-                 * @param {?} resolve
-                 * @return {?}
-                 */
-                (resolve) => {
+                    return resolve(countries);
+                });
+            },
+            getLabels: (countryID) => {
+                return new Promise((resolve) => {
                     /** @type {?} */
                     let country = findByCountryId(countryID);
                     if (country) {
-                        resolve({ value: country.id, label: country.name });
+                        resolve(country.name);
                     }
                     else {
                         resolve('');
                     }
-                }));
-            }),
+                });
+            },
         };
     }
 }
@@ -41195,149 +36118,49 @@ NovoAddressElement.decorators = [
                 selector: 'novo-address',
                 providers: [ADDRESS_VALUE_ACCESSOR],
                 template: `
-    <span
-      *ngIf="!config?.address1?.hidden"
-      class="street-address"
-      [class.invalid]="invalid.address1"
-      [class.focus]="focused.address1"
-      [class.disabled]="disabled.address1"
-    >
-      <i
-        *ngIf="config.address1.required"
-        class="required-indicator address1"
-        [ngClass]="{ 'bhi-circle': !valid.address1, 'bhi-check': valid.address1 }"
-      >
-      </i>
-      <input
-        [class.maxlength-error]="invalidMaxlength.address1"
-        type="text"
-        id="address1"
-        name="address1"
-        [placeholder]="config.address1.label"
-        [maxlength]="config?.address1?.maxlength"
-        autocomplete="shipping street-address address-line-1"
-        [(ngModel)]="model.address1"
-        (ngModelChange)="updateControl()"
-        (focus)="isFocused($event, 'address1')"
-        (blur)="isBlurred($event, 'address1')"
-        (input)="onInput($event, 'address1')"
-      />
-    </span>
-    <span
-      *ngIf="!config?.address2?.hidden"
-      class="apt suite"
-      [class.invalid]="invalid.address2"
-      [class.focus]="focused.address2"
-      [class.disabled]="disabled.address2"
-    >
-      <i
-        *ngIf="config.address2.required"
-        class="required-indicator address2"
-        [ngClass]="{ 'bhi-circle': !valid.address2, 'bhi-check': valid.address2 }"
-      >
-      </i>
-      <input
-        [class.maxlength-error]="invalidMaxlength.address2"
-        type="text"
-        id="address2"
-        name="address2"
-        [placeholder]="config.address2.label"
-        [maxlength]="config?.address2?.maxlength"
-        autocomplete="shipping address-line-2"
-        [(ngModel)]="model.address2"
-        (ngModelChange)="updateControl()"
-        (focus)="isFocused($event, 'address2')"
-        (blur)="isBlurred($event, 'address2')"
-        (input)="onInput($event, 'address2')"
-      />
-    </span>
-    <span
-      *ngIf="!config?.city?.hidden"
-      class="city locality"
-      [class.invalid]="invalid.city"
-      [class.focus]="focused.city"
-      [class.disabled]="disabled.city"
-    >
-      <i *ngIf="config.city.required" class="required-indicator" [ngClass]="{ 'bhi-circle': !valid.city, 'bhi-check': valid.city }"> </i>
-      <input
-        [class.maxlength-error]="invalidMaxlength.city"
-        type="text"
-        id="city"
-        name="city"
-        [placeholder]="config.city.label"
-        autocomplete="shipping city locality"
-        [maxlength]="config?.city?.maxlength"
-        [(ngModel)]="model.city"
-        (ngModelChange)="updateControl()"
-        (focus)="isFocused($event, 'city')"
-        (blur)="isBlurred($event, 'city')"
-        (input)="onInput($event, 'city')"
-      />
-    </span>
-    <span
-      *ngIf="!config?.state?.hidden"
-      class="state region"
-      [class.invalid]="invalid.state"
-      [class.focus]="focused.state"
-      [class.disabled]="disabled.state"
-      [tooltip]="tooltip.state"
-    >
-      <i *ngIf="config.state.required" class="required-indicator" [ngClass]="{ 'bhi-circle': !valid.state, 'bhi-check': valid.state }"> </i>
-      <novo-picker
-        [config]="config?.state?.pickerConfig"
-        [placeholder]="config?.state?.label"
-        (changed)="onStateChange($event)"
-        autocomplete="shipping region"
-        [(ngModel)]="model.state"
-        [disablePickerInput]="disabled.state"
-      ></novo-picker>
-    </span>
-    <span
-      *ngIf="!config?.zip?.hidden"
-      class="zip postal-code"
-      [class.invalid]="invalid.zip"
-      [class.focus]="focused.zip"
-      [class.disabled]="disabled.zip"
-    >
-      <i *ngIf="config.zip.required" class="required-indicator" [ngClass]="{ 'bhi-circle': !valid.zip, 'bhi-check': valid.zip }"> </i>
-      <input
-        [class.maxlength-error]="invalidMaxlength.zip"
-        type="text"
-        id="zip"
-        name="zip"
-        [placeholder]="config.zip.label"
-        autocomplete="shipping postal-code"
-        [maxlength]="config?.zip?.maxlength"
-        [(ngModel)]="model.zip"
-        (ngModelChange)="updateControl()"
-        (focus)="isFocused($event, 'zip')"
-        (blur)="isBlurred($event, 'zip')"
-        (input)="onInput($event, 'zip')"
-      />
-    </span>
-    <span
-      *ngIf="!config?.countryID?.hidden"
-      class="country-name"
-      [class.invalid]="invalid.countryID"
-      [class.focus]="focused.countryID"
-      [class.disabled]="disabled.countryID"
-    >
-      <i
-        *ngIf="config.countryID.required"
-        class="required-indicator"
-        [ngClass]="{ 'bhi-circle': !valid.countryID, 'bhi-check': valid.countryID }"
-      >
-      </i>
-      <novo-picker
-        [config]="config?.countryID?.pickerConfig"
-        [placeholder]="config.countryID.label"
-        (changed)="onCountryChange($event)"
-        autocomplete="shipping country"
-        [(ngModel)]="model.countryID"
-        [disablePickerInput]="disabled.countryID"
-      ></novo-picker>
-    </span>
-  `
+        <span *ngIf="!config?.address1?.hidden" class="street-address" [class.invalid]="invalid.address1" [class.focus]="focused.address1" [class.disabled]="disabled.address1">
+            <i *ngIf="config.address1.required"
+                class="required-indicator address1"
+                [ngClass]="{'bhi-circle': !valid.address1, 'bhi-check': valid.address1}">
+            </i>
+            <input [class.maxlength-error]="invalidMaxlength.address1" type="text" id="address1" name="address1" [placeholder]="config.address1.label" [maxlength]="config?.address1?.maxlength" autocomplete="shipping street-address address-line-1" [(ngModel)]="model.address1" (ngModelChange)="updateControl()" (focus)="isFocused($event, 'address1')" (blur)="isBlurred($event, 'address1')" (input)="onInput($event, 'address1')"/>
+        </span>
+        <span *ngIf="!config?.address2?.hidden" class="apt suite" [class.invalid]="invalid.address2" [class.focus]="focused.address2" [class.disabled]="disabled.address2">
+            <i *ngIf="config.address2.required"
+                class="required-indicator address2"
+                [ngClass]="{'bhi-circle': !valid.address2, 'bhi-check': valid.address2}">
+            </i>
+            <input [class.maxlength-error]="invalidMaxlength.address2" type="text" id="address2" name="address2" [placeholder]="config.address2.label" [maxlength]="config?.address2?.maxlength" autocomplete="shipping address-line-2" [(ngModel)]="model.address2" (ngModelChange)="updateControl()" (focus)="isFocused($event, 'address2')" (blur)="isBlurred($event, 'address2')" (input)="onInput($event, 'address2')"/>
+        </span>
+        <span *ngIf="!config?.city?.hidden" class="city locality" [class.invalid]="invalid.city" [class.focus]="focused.city" [class.disabled]="disabled.city">
+            <i *ngIf="config.city.required"
+                class="required-indicator"
+                [ngClass]="{'bhi-circle': !valid.city, 'bhi-check': valid.city}">
+            </i>
+            <input [class.maxlength-error]="invalidMaxlength.city" type="text" id="city" name="city" [placeholder]="config.city.label" autocomplete="shipping city locality" [maxlength]="config?.city?.maxlength" [(ngModel)]="model.city" (ngModelChange)="updateControl()" (focus)="isFocused($event, 'city')" (blur)="isBlurred($event, 'city')" (input)="onInput($event, 'city')"/>
+        </span>
+        <span *ngIf="!config?.state?.hidden" class="state region" [class.invalid]="invalid.state" [class.focus]="focused.state" [class.disabled]="disabled.state"  [tooltip]="tooltip.state">
+            <i *ngIf="config.state.required"
+                class="required-indicator"
+                [ngClass]="{'bhi-circle': !valid.state, 'bhi-check': valid.state}">
+            </i>
+            <novo-picker [config]="config?.state?.pickerConfig" [placeholder]="config?.state?.label" (changed)="onStateChange($event)" autocomplete="shipping region" [(ngModel)]="model.state" [disablePickerInput]="disabled.state"></novo-picker>
+        </span>
+        <span *ngIf="!config?.zip?.hidden" class="zip postal-code" [class.invalid]="invalid.zip" [class.focus]="focused.zip" [class.disabled]="disabled.zip">
+            <i *ngIf="config.zip.required"
+                class="required-indicator"
+                [ngClass]="{'bhi-circle': !valid.zip, 'bhi-check': valid.zip}">
+            </i>
+            <input [class.maxlength-error]="invalidMaxlength.zip" type="text" id="zip" name="zip" [placeholder]="config.zip.label" autocomplete="shipping postal-code" [maxlength]="config?.zip?.maxlength" [(ngModel)]="model.zip" (ngModelChange)="updateControl()" (focus)="isFocused($event, 'zip')" (blur)="isBlurred($event, 'zip')" (input)="onInput($event, 'zip')" />
+        </span>
+        <span *ngIf="!config?.countryID?.hidden" class="country-name" [class.invalid]="invalid.countryID" [class.focus]="focused.countryID" [class.disabled]="disabled.countryID">
+            <i *ngIf="config.countryID.required"
+                class="required-indicator"
+                [ngClass]="{'bhi-circle': !valid.countryID, 'bhi-check': valid.countryID}">
+            </i>
+            <novo-picker [config]="config?.countryID?.pickerConfig" [placeholder]="config.countryID.label" (changed)="onCountryChange($event)" autocomplete="shipping country" [(ngModel)]="model.countryName" [disablePickerInput]="disabled.countryID"></novo-picker>
+        </span>
+    `
             }] }
 ];
 /** @nocollapse */
@@ -41352,65 +36175,16 @@ NovoAddressElement.propDecorators = {
     blur: [{ type: Output }],
     validityChange: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoAddressElement.prototype.config;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAddressElement.prototype._readOnly;
-    /** @type {?} */
-    NovoAddressElement.prototype.states;
-    /** @type {?} */
-    NovoAddressElement.prototype.fieldList;
-    /** @type {?} */
-    NovoAddressElement.prototype.model;
-    /** @type {?} */
-    NovoAddressElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoAddressElement.prototype.onModelTouched;
-    /** @type {?} */
-    NovoAddressElement.prototype.focused;
-    /** @type {?} */
-    NovoAddressElement.prototype.invalid;
-    /** @type {?} */
-    NovoAddressElement.prototype.disabled;
-    /** @type {?} */
-    NovoAddressElement.prototype.invalidMaxlength;
-    /** @type {?} */
-    NovoAddressElement.prototype.valid;
-    /** @type {?} */
-    NovoAddressElement.prototype.stateOptions;
-    /** @type {?} */
-    NovoAddressElement.prototype.tooltip;
-    /** @type {?} */
-    NovoAddressElement.prototype.initComplete;
-    /** @type {?} */
-    NovoAddressElement.prototype.change;
-    /** @type {?} */
-    NovoAddressElement.prototype.focus;
-    /** @type {?} */
-    NovoAddressElement.prototype.blur;
-    /** @type {?} */
-    NovoAddressElement.prototype.validityChange;
-    /** @type {?} */
-    NovoAddressElement.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/extras/checkbox/Checkbox.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const CHECKBOX_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoCheckboxElement)),
+    useExisting: forwardRef(() => NovoCheckboxElement),
     multi: true,
 };
 /** @type {?} */
@@ -41426,14 +36200,8 @@ class NovoCheckboxElement {
         // TODO - avoid configs like this
         this.onSelect = new EventEmitter();
         this.boxIcon = true;
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
     }
     /**
      * @return {?}
@@ -41516,60 +36284,23 @@ NovoCheckboxElement.propDecorators = {
     layoutOptions: [{ type: Input }],
     onSelect: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoCheckboxElement.prototype.name;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.label;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.indeterminate;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.disabled;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.layoutOptions;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.onSelect;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.boxIcon;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.model;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoCheckboxElement.prototype.onModelTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoCheckboxElement.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/extras/checkbox/CheckList.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const CHECKLIST_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoCheckListElement)),
+    useExisting: forwardRef(() => NovoCheckListElement),
     multi: true,
 };
 class NovoCheckListElement {
     constructor() {
         this.onSelect = new EventEmitter();
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
     }
     /**
      * @return {?}
@@ -41587,15 +36318,7 @@ class NovoCheckListElement {
         Helpers.swallowEvent(event);
         if (!this.disabled) {
             item.checked = !item.checked;
-            this.model = this._options.filter((/**
-             * @param {?} checkBox
-             * @return {?}
-             */
-            (checkBox) => checkBox.checked)).map((/**
-             * @param {?} x
-             * @return {?}
-             */
-            (x) => x.value));
+            this.model = this._options.filter((checkBox) => checkBox.checked).map((x) => x.value);
             this.onModelChange(this.model.length > 0 ? this.model : '');
             this.onSelect.emit({ selected: this.model });
         }
@@ -41607,11 +36330,7 @@ class NovoCheckListElement {
         this.options = this.options || [];
         this._options = [];
         if (this.options.length && !this.options[0].value) {
-            this.options.forEach((/**
-             * @param {?} option
-             * @return {?}
-             */
-            (option) => {
+            this.options.forEach((option) => {
                 /** @type {?} */
                 let formattedOption = {
                     value: option,
@@ -41619,19 +36338,15 @@ class NovoCheckListElement {
                     checked: this.model && this.model.length && this.model.indexOf(option.value) !== -1,
                 };
                 this._options.push(formattedOption);
-            }));
+            });
         }
         else {
-            this.options.forEach((/**
-             * @param {?} option
-             * @return {?}
-             */
-            (option) => {
+            this.options.forEach((option) => {
                 /** @type {?} */
                 let formattedOption = option;
                 formattedOption.checked = this.model && this.model.length && this.model.indexOf(option.value) !== -1;
                 this._options.push(formattedOption);
-            }));
+            });
         }
     }
     /**
@@ -41639,15 +36354,7 @@ class NovoCheckListElement {
      */
     setModel() {
         /** @type {?} */
-        let checkedOptions = this.options.filter((/**
-         * @param {?} checkBox
-         * @return {?}
-         */
-        (checkBox) => checkBox.checked)).map((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => x.value));
+        let checkedOptions = this.options.filter((checkBox) => checkBox.checked).map((x) => x.value);
         this.writeValue(checkedOptions);
     }
     /**
@@ -41703,29 +36410,10 @@ NovoCheckListElement.propDecorators = {
     disabled: [{ type: Input }],
     onSelect: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoCheckListElement.prototype.name;
-    /** @type {?} */
-    NovoCheckListElement.prototype.options;
-    /** @type {?} */
-    NovoCheckListElement.prototype.disabled;
-    /** @type {?} */
-    NovoCheckListElement.prototype.onSelect;
-    /** @type {?} */
-    NovoCheckListElement.prototype._options;
-    /** @type {?} */
-    NovoCheckListElement.prototype.model;
-    /** @type {?} */
-    NovoCheckListElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoCheckListElement.prototype.onModelTouched;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/extras/file/extras/file/File.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoFile {
     /**
@@ -41743,29 +36431,21 @@ class NovoFile {
         this.lastModified = file.lastModified;
         this.size = file.size;
         this.file = file;
-        this.reader.onload = (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        this.reader.onload = (event) => {
             this.fileContents = event.target.result.split(',')[1];
             this.dataURL = event.target.result;
             this.loaded = true;
-        });
+        };
     }
     /**
      * @return {?}
      */
     read() {
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        (resolve) => {
+        return new Promise((resolve) => {
             resolve(this);
             // when the file is read it triggers the onload event above.
             this.reader.readAsDataURL(this.file);
-        }));
+        });
     }
     /**
      * @return {?}
@@ -41780,42 +36460,16 @@ class NovoFile {
         };
     }
 }
-if (false) {
-    /** @type {?} */
-    NovoFile.prototype.name;
-    /** @type {?} */
-    NovoFile.prototype.file;
-    /** @type {?} */
-    NovoFile.prototype.type;
-    /** @type {?} */
-    NovoFile.prototype.contentType;
-    /** @type {?} */
-    NovoFile.prototype.lastModified;
-    /** @type {?} */
-    NovoFile.prototype.size;
-    /** @type {?} */
-    NovoFile.prototype.loaded;
-    /** @type {?} */
-    NovoFile.prototype.fileContents;
-    /** @type {?} */
-    NovoFile.prototype.dataURL;
-    /** @type {?} */
-    NovoFile.prototype.reader;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/extras/file/FileInput.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const FILE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoFileInputElement)),
+    useExisting: forwardRef(() => NovoFileInputElement),
     multi: true,
 };
 /** @type {?} */
@@ -41840,14 +36494,8 @@ class NovoFileInputElement {
         this.elements = [];
         this.files = [];
         this.active = false;
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
         this.commands = {
             dragenter: this.dragEnterHandler.bind(this),
             dragleave: this.dragLeaveHandler.bind(this),
@@ -41859,13 +36507,9 @@ class NovoFileInputElement {
      * @return {?}
      */
     ngOnInit() {
-        ['dragenter', 'dragleave', 'dragover', 'drop'].forEach((/**
-         * @param {?} type
-         * @return {?}
-         */
-        (type) => {
+        ['dragenter', 'dragleave', 'dragover', 'drop'].forEach((type) => {
             this.element.nativeElement.addEventListener(type, this.commands[type]);
-        }));
+        });
         this.updateLayout();
         this.initializeDragula();
         this.setInitialFileList();
@@ -41875,19 +36519,11 @@ class NovoFileInputElement {
      * @return {?}
      */
     ngOnDestroy() {
-        ['dragenter', 'dragleave', 'dragover', 'drop'].forEach((/**
-         * @param {?} type
-         * @return {?}
-         */
-        (type) => {
+        ['dragenter', 'dragleave', 'dragover', 'drop'].forEach((type) => {
             this.element.nativeElement.removeEventListener(type, this.commands[type]);
-        }));
+        });
         /** @type {?} */
-        let dragulaHasFileOutputBag = this.dragula.bags.length > 0 && this.dragula.bags.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => x.name === this.fileOutputBag)).length > 0;
+        let dragulaHasFileOutputBag = this.dragula.bags.length > 0 && this.dragula.bags.filter((x) => x.name === this.fileOutputBag).length > 0;
         if (dragulaHasFileOutputBag) {
             this.dragula.destroy(this.fileOutputBag);
         }
@@ -41919,13 +36555,9 @@ class NovoFileInputElement {
             default:
                 order = ['fileOutput', 'fileInput'];
         }
-        order.forEach((/**
-         * @param {?} template
-         * @return {?}
-         */
-        (template) => {
+        order.forEach((template) => {
             this.container.createEmbeddedView(this[template], 0);
-        }));
+        });
         return order;
     }
     /**
@@ -41934,15 +36566,9 @@ class NovoFileInputElement {
     initializeDragula() {
         this.fileOutputBag = `file-output-${this.dragula.bags.length}`;
         this.dragula.setOptions(this.fileOutputBag, {
-            moves: (/**
-             * @param {?} el
-             * @param {?} container
-             * @param {?} handle
-             * @return {?}
-             */
-            (el, container, handle) => {
+            moves: (el, container, handle) => {
                 return this.layoutOptions.draggable;
-            }),
+            },
         });
     }
     /**
@@ -42040,18 +36666,10 @@ class NovoFileInputElement {
         let passedValidation = true;
         if (this.layoutOptions.customValidation) {
             this.layoutOptions.customValidation
-                .filter((/**
-             * @param {?} validation
-             * @return {?}
-             */
-            (validation) => validation.action === 'upload'))
-                .forEach((/**
-             * @param {?} uploadValidation
-             * @return {?}
-             */
-            (uploadValidation) => {
+                .filter((validation) => validation.action === 'upload')
+                .forEach((uploadValidation) => {
                 passedValidation = uploadValidation.fn(files) && passedValidation;
-            }));
+            });
         }
         return passedValidation;
     }
@@ -42061,15 +36679,7 @@ class NovoFileInputElement {
      */
     process(filelist) {
         if (this.validate(filelist)) {
-            Promise.all(filelist.map((/**
-             * @param {?} file
-             * @return {?}
-             */
-            (file) => this.readFile(file)))).then((/**
-             * @param {?} files
-             * @return {?}
-             */
-            (files) => {
+            Promise.all(filelist.map((file) => this.readFile(file))).then((files) => {
                 if (this.multiple) {
                     this.files.push(...files);
                 }
@@ -42078,7 +36688,7 @@ class NovoFileInputElement {
                 }
                 this.model = this.files;
                 this.onModelChange(this.model);
-            }));
+            });
         }
     }
     /**
@@ -42093,11 +36703,7 @@ class NovoFileInputElement {
      * @return {?}
      */
     remove(file) {
-        this.files.splice(this.files.findIndex((/**
-         * @param {?} f
-         * @return {?}
-         */
-        (f) => f.name === file.name && f.size === file.size)), 1);
+        this.files.splice(this.files.findIndex((f) => f.name === file.name && f.size === file.size), 1);
         this.model = this.files;
         this.onModelChange(this.model);
     }
@@ -42263,9 +36869,9 @@ NovoFileInputElement.ctorParameters = () => [
     { type: NovoDragulaService }
 ];
 NovoFileInputElement.propDecorators = {
-    fileInput: [{ type: ViewChild, args: ['fileInput', { static: true },] }],
-    fileOutput: [{ type: ViewChild, args: ['fileOutput', { static: true },] }],
-    container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef, static: true },] }],
+    fileInput: [{ type: ViewChild, args: ['fileInput',] }],
+    fileOutput: [{ type: ViewChild, args: ['fileOutput',] }],
+    container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }],
     name: [{ type: Input }],
     multiple: [{ type: Input }],
     disabled: [{ type: Input }],
@@ -42278,73 +36884,10 @@ NovoFileInputElement.propDecorators = {
     delete: [{ type: Output }],
     upload: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoFileInputElement.prototype.fileInput;
-    /** @type {?} */
-    NovoFileInputElement.prototype.fileOutput;
-    /** @type {?} */
-    NovoFileInputElement.prototype.container;
-    /** @type {?} */
-    NovoFileInputElement.prototype.name;
-    /** @type {?} */
-    NovoFileInputElement.prototype.multiple;
-    /** @type {?} */
-    NovoFileInputElement.prototype.disabled;
-    /** @type {?} */
-    NovoFileInputElement.prototype.placeholder;
-    /** @type {?} */
-    NovoFileInputElement.prototype.layoutOptions;
-    /** @type {?} */
-    NovoFileInputElement.prototype.value;
-    /** @type {?} */
-    NovoFileInputElement.prototype.dataFeatureId;
-    /** @type {?} */
-    NovoFileInputElement.prototype.edit;
-    /** @type {?} */
-    NovoFileInputElement.prototype.save;
-    /** @type {?} */
-    NovoFileInputElement.prototype.delete;
-    /** @type {?} */
-    NovoFileInputElement.prototype.upload;
-    /** @type {?} */
-    NovoFileInputElement.prototype.elements;
-    /** @type {?} */
-    NovoFileInputElement.prototype.files;
-    /** @type {?} */
-    NovoFileInputElement.prototype.model;
-    /** @type {?} */
-    NovoFileInputElement.prototype.active;
-    /** @type {?} */
-    NovoFileInputElement.prototype.commands;
-    /** @type {?} */
-    NovoFileInputElement.prototype.visible;
-    /** @type {?} */
-    NovoFileInputElement.prototype.target;
-    /** @type {?} */
-    NovoFileInputElement.prototype.fileOutputBag;
-    /** @type {?} */
-    NovoFileInputElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoFileInputElement.prototype.onModelTouched;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoFileInputElement.prototype.element;
-    /** @type {?} */
-    NovoFileInputElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoFileInputElement.prototype.dragula;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/extras/FormExtras.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoFormExtrasModule {
 }
@@ -42368,27 +36911,8 @@ NovoFormExtrasModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/ControlGroup.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function NovoControlGroupAddConfig() { }
-if (false) {
-    /** @type {?} */
-    NovoControlGroupAddConfig.prototype.label;
-}
-/**
- * @record
- */
-function NovoControlGroupRowConfig() { }
-if (false) {
-    /** @type {?} */
-    NovoControlGroupRowConfig.prototype.edit;
-    /** @type {?} */
-    NovoControlGroupRowConfig.prototype.remove;
-}
 class NovoControlGroup {
     /**
      * @param {?} formUtils
@@ -42507,11 +37031,7 @@ class NovoControlGroup {
         if (this.initialValue && Array.isArray(this.initialValue)) {
             if (this.initialValue.length !== 0) {
                 this.currentIndex = 0;
-                this.initialValue.forEach((/**
-                 * @param {?} value
-                 * @return {?}
-                 */
-                (value) => this.addNewControl(value)));
+                this.initialValue.forEach((value) => this.addNewControl(value));
             }
         }
         else if (this.initialValue) {
@@ -42520,18 +37040,14 @@ class NovoControlGroup {
         }
         // If we are horizontal, grab the labels to help with layout
         if (!this.vertical) {
-            this.controlLabels = (this.controls || []).map((/**
-             * @param {?} control
-             * @return {?}
-             */
-            (control) => {
+            this.controlLabels = (this.controls || []).map((control) => {
                 return {
                     value: control.label,
                     width: control.width,
                     required: control.required,
                     key: control.key,
                 };
-            }));
+            });
             this.ref.markForCheck();
         }
     }
@@ -42546,15 +37062,10 @@ class NovoControlGroup {
      * @return {?}
      */
     resetAddRemove() {
-        this.disabledArray.forEach((/**
-         * @param {?} item
-         * @param {?} idx
-         * @return {?}
-         */
-        (item, idx) => {
+        this.disabledArray.forEach((item, idx) => {
             item.edit = this.checkCanEdit(idx);
             item.remove = this.checkCanRemove(idx);
-        }));
+        });
     }
     /**
      * @param {?=} value
@@ -42608,12 +37119,7 @@ class NovoControlGroup {
             this.onRemove.emit({ value: control.at(index).value, index: index });
         }
         control.removeAt(index);
-        this.disabledArray = this.disabledArray.filter((/**
-         * @param {?} value
-         * @param {?} idx
-         * @return {?}
-         */
-        (value, idx) => idx !== index));
+        this.disabledArray = this.disabledArray.filter((value, idx) => idx !== index);
         this.resetAddRemove();
         this.currentIndex--;
         this.ref.markForCheck();
@@ -42686,13 +37192,9 @@ class NovoControlGroup {
     getNewControls(controls) {
         /** @type {?} */
         let ret = [];
-        (this.controls || []).forEach((/**
-         * @param {?} control
-         * @return {?}
-         */
-        (control) => {
+        (this.controls || []).forEach((control) => {
             ret.push(new BaseControl(control.__type, control));
-        }));
+        });
         return ret;
     }
 }
@@ -42732,96 +37234,10 @@ NovoControlGroup.propDecorators = {
     onAdd: [{ type: Output }],
     change: [{ type: Output }]
 };
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype._vertical;
-    /** @type {?} */
-    NovoControlGroup.prototype.add;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype._remove;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype._edit;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype._collapsible;
-    /** @type {?} */
-    NovoControlGroup.prototype.form;
-    /** @type {?} */
-    NovoControlGroup.prototype.controls;
-    /** @type {?} */
-    NovoControlGroup.prototype.key;
-    /** @type {?} */
-    NovoControlGroup.prototype.label;
-    /** @type {?} */
-    NovoControlGroup.prototype.description;
-    /** @type {?} */
-    NovoControlGroup.prototype.emptyMessage;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype._icon;
-    /** @type {?} */
-    NovoControlGroup.prototype.initialValue;
-    /** @type {?} */
-    NovoControlGroup.prototype.canEdit;
-    /** @type {?} */
-    NovoControlGroup.prototype.canRemove;
-    /** @type {?} */
-    NovoControlGroup.prototype.rowTemplate;
-    /** @type {?} */
-    NovoControlGroup.prototype.onRemove;
-    /** @type {?} */
-    NovoControlGroup.prototype.onEdit;
-    /** @type {?} */
-    NovoControlGroup.prototype.onAdd;
-    /** @type {?} */
-    NovoControlGroup.prototype.change;
-    /** @type {?} */
-    NovoControlGroup.prototype.controlLabels;
-    /** @type {?} */
-    NovoControlGroup.prototype.toggled;
-    /** @type {?} */
-    NovoControlGroup.prototype.disabledArray;
-    /** @type {?} */
-    NovoControlGroup.prototype.currentIndex;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype.formUtils;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype.fb;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype.ref;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlGroup.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/ControlTemplates.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoControlTemplates {
     /**
@@ -42835,13 +37251,9 @@ class NovoControlTemplates {
      */
     ngAfterViewInit() {
         if (this.defaultTemplates && this.defaultTemplates.length) {
-            this.defaultTemplates.forEach((/**
-             * @param {?} template
-             * @return {?}
-             */
-            (template) => {
+            this.defaultTemplates.forEach((template) => {
                 this.templates.addDefault(template.name, template.template);
-            }));
+            });
         }
     }
 }
@@ -42929,7 +37341,7 @@ NovoControlTemplates.decorators = [
         <!--Radio-->
         <ng-template novoTemplate="radio" let-control let-form="form" let-errors="errors" let-methods="methods">
           <div [formGroup]="form" class="novo-control-input-container">
-            <novo-radio [name]="control.key" [formControlName]="control.key" *ngFor="let option of control.options" [value]="option.value" [label]="option.label" [checked]="option.value === form.value[control.key] || option.value === form.value[control.key].id" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" [button]="!!option.icon" [icon]="option.icon" [attr.data-automation-id]="control.key + '-' + (option?.label || option?.value)"></novo-radio>
+            <novo-radio [name]="control.key" [formControlName]="control.key" *ngFor="let option of control.options" [value]="option.value" [label]="option.label" [checked]="option.value === form.value[control.key]" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" [button]="!!option.icon" [icon]="option.icon" [attr.data-automation-id]="control.key + '-' + (option?.label || option?.value)"></novo-radio>
           </div>
         </ng-template>
 
@@ -42992,20 +37404,10 @@ NovoControlTemplates.ctorParameters = () => [
 NovoControlTemplates.propDecorators = {
     defaultTemplates: [{ type: ViewChildren, args: [NovoTemplate,] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoControlTemplates.prototype.defaultTemplates;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoControlTemplates.prototype.templates;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/common/common.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCommonModule {
 }
@@ -43019,8 +37421,7 @@ NovoCommonModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/form/Form.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoFormModule {
 }
@@ -43078,8 +37479,7 @@ NovoFormModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/pagination/Pagination.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class Pagination {
     /**
@@ -43260,39 +37660,10 @@ Pagination.propDecorators = {
     itemsPerPageChange: [{ type: Output }],
     onPageChange: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    Pagination.prototype.page;
-    /** @type {?} */
-    Pagination.prototype.totalItems;
-    /** @type {?} */
-    Pagination.prototype.itemsPerPage;
-    /** @type {?} */
-    Pagination.prototype.rowOptions;
-    /** @type {?} */
-    Pagination.prototype.label;
-    /** @type {?} */
-    Pagination.prototype.pageChange;
-    /** @type {?} */
-    Pagination.prototype.itemsPerPageChange;
-    /** @type {?} */
-    Pagination.prototype.onPageChange;
-    /** @type {?} */
-    Pagination.prototype.pageSelectDisabled;
-    /** @type {?} */
-    Pagination.prototype.maxPagesDisplayed;
-    /** @type {?} */
-    Pagination.prototype.totalPages;
-    /** @type {?} */
-    Pagination.prototype.pages;
-    /** @type {?} */
-    Pagination.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/base-renderer/BaseRenderer.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class BaseRenderer {
     constructor() {
@@ -43301,19 +37672,10 @@ class BaseRenderer {
         this.meta = {};
     }
 }
-if (false) {
-    /** @type {?} */
-    BaseRenderer.prototype.data;
-    /** @type {?} */
-    BaseRenderer.prototype.value;
-    /** @type {?} */
-    BaseRenderer.prototype.meta;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/row-details/RowDetails.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class RowDetails {
     /**
@@ -43339,17 +37701,15 @@ class RowDetails {
                 this.value = this.renderer(this.data);
             }
         }
-        else {
-            // this.value = this.row[this.column.name];
-        }
     }
 }
 RowDetails.decorators = [
     { type: Component, args: [{
                 selector: 'novo-row-details',
                 template: `
-    <span #container></span> <span>{{ value }}</span>
-  `
+        <span #container></span>
+        <span>{{value}}</span>
+    `
             }] }
 ];
 /** @nocollapse */
@@ -43358,35 +37718,14 @@ RowDetails.ctorParameters = () => [
     { type: ComponentUtils }
 ];
 RowDetails.propDecorators = {
-    container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef, static: true },] }],
+    container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }],
     data: [{ type: Input }],
     renderer: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    RowDetails.prototype.container;
-    /** @type {?} */
-    RowDetails.prototype.data;
-    /** @type {?} */
-    RowDetails.prototype.renderer;
-    /** @type {?} */
-    RowDetails.prototype.value;
-    /**
-     * @type {?}
-     * @private
-     */
-    RowDetails.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    RowDetails.prototype.componentUtils;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/table-cell/TableCell.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class TableCell {
     /**
@@ -43426,13 +37765,9 @@ class TableCell {
         if (this.form && this.hasEditor) {
             this.valueChangeSubscription = this.form.valueChanges
                 .pipe(debounceTime(300), distinctUntilChanged())
-                .subscribe((/**
-             * @param {?} value
-             * @return {?}
-             */
-            (value) => {
+                .subscribe((value) => {
                 this.value = value[this.column.name];
-            }));
+            });
         }
     }
     /**
@@ -43461,12 +37796,13 @@ TableCell.decorators = [
     { type: Component, args: [{
                 selector: 'novo-table-cell',
                 template: `
-    <div [ngSwitch]="column._type">
-      <span #container></span>
-      <date-cell *ngSwitchCase="'date'" [value]="value"></date-cell>
-      <a *ngSwitchCase="'link'" (click)="onClick($event)">{{ value }}</a> <span *ngSwitchDefault>{{ value }}</span>
-    </div>
-  `
+        <div [ngSwitch]="column._type">
+            <span #container></span>
+            <date-cell *ngSwitchCase="'date'" [value]="value"></date-cell>
+            <a *ngSwitchCase="'link'" (click)="onClick($event);">{{ value }}</a>
+            <span *ngSwitchDefault>{{ value }}</span>
+        </div>
+    `
             }] }
 ];
 /** @nocollapse */
@@ -43475,46 +37811,16 @@ TableCell.ctorParameters = () => [
     { type: ComponentUtils }
 ];
 TableCell.propDecorators = {
-    container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef, static: true },] }],
+    container: [{ type: ViewChild, args: ['container', { read: ViewContainerRef },] }],
     column: [{ type: Input }],
     row: [{ type: Input }],
     form: [{ type: Input }],
     hasEditor: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    TableCell.prototype.container;
-    /** @type {?} */
-    TableCell.prototype.column;
-    /** @type {?} */
-    TableCell.prototype.row;
-    /** @type {?} */
-    TableCell.prototype.form;
-    /** @type {?} */
-    TableCell.prototype.hasEditor;
-    /** @type {?} */
-    TableCell.prototype.value;
-    /**
-     * @type {?}
-     * @private
-     */
-    TableCell.prototype.valueChangeSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    TableCell.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    TableCell.prototype.componentUtils;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/table-filter/TableFilter.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class TableFilter {
     /**
@@ -43560,13 +37866,10 @@ class TableFilter {
             this.onFilterChange.emit({ filtering: this.config });
         }
         else {
-            this.filterThrottle = setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            this.filterThrottle = setTimeout(() => {
                 this.config.filter = ((/** @type {?} */ (event.target))).value;
                 this.onFilterChange.emit({ filtering: this.config });
-            }), 300);
+            }, 300);
         }
     }
     /**
@@ -43593,29 +37896,10 @@ TableFilter.propDecorators = {
     onChangeFilter: [{ type: HostListener, args: ['keydown', ['$event'],] }],
     onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
 };
-if (false) {
-    /** @type {?} */
-    TableFilter.prototype.config;
-    /** @type {?} */
-    TableFilter.prototype.onFilterChange;
-    /** @type {?} */
-    TableFilter.prototype.filterThrottle;
-    /**
-     * @type {?}
-     * @private
-     */
-    TableFilter.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    TableFilter.prototype.renderer;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/th-orderable/ThOrderable.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class ThOrderable {
     /**
@@ -43792,28 +38076,10 @@ ThOrderable.propDecorators = {
     column: [{ type: Input, args: ['novoThOrderable',] }],
     onOrderChange: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    ThOrderable.prototype.column;
-    /** @type {?} */
-    ThOrderable.prototype.onOrderChange;
-    /** @type {?} */
-    ThOrderable.prototype.table;
-    /** @type {?} */
-    ThOrderable.prototype.clone;
-    /** @type {?} */
-    ThOrderable.prototype.target;
-    /**
-     * @type {?}
-     * @private
-     */
-    ThOrderable.prototype.element;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/th-sortable/ThSortable.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class ThSortable {
     constructor() {
@@ -43853,63 +38119,30 @@ ThSortable.propDecorators = {
     column: [{ type: Input }],
     onSortChange: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    ThSortable.prototype.config;
-    /** @type {?} */
-    ThSortable.prototype.column;
-    /** @type {?} */
-    ThSortable.prototype.onSortChange;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/date-cell/DateCell.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class DateCell extends BaseRenderer {
-    /**
-     * @param {?} labels
-     */
-    constructor(labels) {
-        super();
-        this.labels = labels;
-    }
-    /**
-     * @return {?}
-     */
-    getFormattedDate() {
-        return this.labels.formatDate(this.value);
-    }
 }
 DateCell.decorators = [
     { type: Component, args: [{
                 selector: 'date-cell',
                 template: `
         <div class="date-cell">
-            <label>{{ getFormattedDate() }}</label>
+            <label>{{ value | date }}</label>
         </div>
     `
             }] }
 ];
-/** @nocollapse */
-DateCell.ctorParameters = () => [
-    { type: NovoLabelService }
-];
 DateCell.propDecorators = {
     value: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    DateCell.prototype.value;
-    /** @type {?} */
-    DateCell.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/percentage-cell/PercentageCell.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class PercentageCell extends BaseRenderer {
 }
@@ -43924,21 +38157,8 @@ PercentageCell.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/dropdown-cell/DropdownCell.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function INovoDropdownCellConfig() { }
-if (false) {
-    /** @type {?|undefined} */
-    INovoDropdownCellConfig.prototype.category;
-    /** @type {?|undefined} */
-    INovoDropdownCellConfig.prototype.callback;
-    /** @type {?} */
-    INovoDropdownCellConfig.prototype.options;
-}
 class NovoDropdownCell extends BaseRenderer {
     /**
      * @return {?}
@@ -43988,17 +38208,10 @@ NovoDropdownCell.propDecorators = {
     meta: [{ type: Input }],
     value: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDropdownCell.prototype.meta;
-    /** @type {?} */
-    NovoDropdownCell.prototype.value;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/keep-filter-focus/KeepFilterFocus.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTableKeepFilterFocus {
     /**
@@ -44023,18 +38236,10 @@ NovoTableKeepFilterFocus.decorators = [
 NovoTableKeepFilterFocus.ctorParameters = () => [
     { type: ElementRef }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTableKeepFilterFocus.prototype.element;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/table-actions/TableActions.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTableActionsElement {
 }
@@ -44047,8 +38252,7 @@ NovoTableActionsElement.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/table-footer/TableFooter.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTableFooterElement {
 }
@@ -44061,8 +38265,7 @@ NovoTableFooterElement.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/table-header/TableHeader.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTableHeaderElement {
 }
@@ -44075,8 +38278,7 @@ NovoTableHeaderElement.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/extras/TableExtras.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTableExtrasModule {
 }
@@ -44119,8 +38321,7 @@ NovoTableExtrasModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/data-provider/CollectionEvent.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class CollectionEvent {
     /**
@@ -44146,41 +38347,10 @@ CollectionEvent.CHANGE = 'Collection.CHANGE';
 CollectionEvent.CURRENTPAGE_CHANGE = 'Collection.CURRENTPAGE_CHANGE';
 CollectionEvent.PAGESIZE_CHANGE = 'Collection.PAGESIZE_CHANGE';
 CollectionEvent.NUMBEROFPAGES_CHANGE = 'Collection.NUMBEROFPAGES_CHANGE';
-if (false) {
-    /** @type {?} */
-    CollectionEvent.REFRESH;
-    /** @type {?} */
-    CollectionEvent.ADD;
-    /** @type {?} */
-    CollectionEvent.REMOVE;
-    /** @type {?} */
-    CollectionEvent.REMOVE_ALL;
-    /** @type {?} */
-    CollectionEvent.REPLACE;
-    /** @type {?} */
-    CollectionEvent.INVALIDATE_ALL;
-    /** @type {?} */
-    CollectionEvent.SORT;
-    /** @type {?} */
-    CollectionEvent.FILTER;
-    /** @type {?} */
-    CollectionEvent.CHANGE;
-    /** @type {?} */
-    CollectionEvent.CURRENTPAGE_CHANGE;
-    /** @type {?} */
-    CollectionEvent.PAGESIZE_CHANGE;
-    /** @type {?} */
-    CollectionEvent.NUMBEROFPAGES_CHANGE;
-    /** @type {?} */
-    CollectionEvent.prototype.type;
-    /** @type {?} */
-    CollectionEvent.prototype.data;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/data-provider/ArrayCollection.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Base Class for all Collection based data providers
@@ -44589,27 +38759,10 @@ class ArrayCollection {
         return this.isEditing ? this.editData : this.source;
     }
 }
-if (false) {
-    /** @type {?} */
-    ArrayCollection.prototype.dataChange;
-    /** @type {?} */
-    ArrayCollection.prototype.source;
-    /** @type {?} */
-    ArrayCollection.prototype.editData;
-    /** @type {?} */
-    ArrayCollection.prototype.isEditing;
-    /** @type {?} */
-    ArrayCollection.prototype.filterData;
-    /** @type {?} */
-    ArrayCollection.prototype._filter;
-    /** @type {?} */
-    ArrayCollection.prototype._sort;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/data-provider/PagedArrayCollection.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -44728,50 +38881,11 @@ class PagedArrayCollection extends ArrayCollection {
         }
     }
 }
-if (false) {
-    /** @type {?} */
-    PagedArrayCollection.prototype._page;
-    /** @type {?} */
-    PagedArrayCollection.prototype._numberOfPages;
-    /** @type {?} */
-    PagedArrayCollection.prototype._pageSize;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/Table.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function NovoTableConfig() { }
-if (false) {
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.paging;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.footers;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.filtering;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.sorting;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.ordering;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.resizing;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.rowSelectionStyle;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.rowSelect;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.hasDetails;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.detailsRenderer;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.expandAll;
-    /** @type {?|undefined} */
-    NovoTableConfig.prototype.selectAllEnabled;
-}
 /** @enum {number} */
 const NovoTableMode = {
     VIEW: 1,
@@ -44845,11 +38959,7 @@ class NovoTableElement {
      */
     set dataProvider(dp) {
         this._dataProvider = Array.isArray(dp) ? new PagedArrayCollection(dp) : dp;
-        this._dataProvider.dataChange.pipe(debounceTime(100)).subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        this._dataProvider.dataChange.pipe(debounceTime(100)).subscribe((event) => {
             switch (event.type) {
                 case CollectionEvent.CHANGE:
                     this._rows = event.data;
@@ -44860,11 +38970,7 @@ class NovoTableElement {
                     // Remove all selection on sort change if selection is on
                     if (this.config.rowSelectionStyle === 'checkbox') {
                         this.pagedData = event.data;
-                        this.pageSelected = this.pagedData.filter((/**
-                         * @param {?} r
-                         * @return {?}
-                         */
-                        (r) => r._selected));
+                        this.pageSelected = this.pagedData.filter((r) => r._selected);
                         this.rowSelectHandler();
                     }
                     // Find that columns we might need to sum up via the footer
@@ -44873,42 +38979,23 @@ class NovoTableElement {
                     /** @type {?} */
                     let columnSums = {};
                     if (this.config.footers) {
-                        this.config.footers.forEach((/**
-                         * @param {?} config
-                         * @return {?}
-                         */
-                        (config) => {
+                        this.config.footers.forEach((config) => {
                             columnsToSum.push(...config.columns);
-                        }));
+                        });
                         // Only have unique columns, filter out duplicates
-                        columnsToSum = columnsToSum.filter((/**
-                         * @param {?} item
-                         * @param {?} index
-                         * @param {?} array
-                         * @return {?}
-                         */
-                        (item, index, array) => array.indexOf(item) === index));
+                        columnsToSum = columnsToSum.filter((item, index, array) => array.indexOf(item) === index);
                     }
                     // Make a form for each row
                     /** @type {?} */
                     let tableFormRows = (/** @type {?} */ (this.tableForm.controls['rows']));
-                    this._rows.forEach((/**
-                     * @param {?} row
-                     * @param {?} index
-                     * @return {?}
-                     */
-                    (row, index) => {
+                    this._rows.forEach((row, index) => {
                         /** @type {?} */
                         let rowControls = [];
                         row.controls = {};
                         row._editing = {};
                         row._expanded = this.config.expandAll;
                         row.rowId = this._rows.length;
-                        this.columns.forEach((/**
-                         * @param {?} column
-                         * @return {?}
-                         */
-                        (column) => {
+                        this.columns.forEach((column) => {
                             // Use the control passed or use a ReadOnlyControl so that the form has the values
                             /** @type {?} */
                             let control = column.editorConfig
@@ -44916,59 +39003,46 @@ class NovoTableElement {
                                 : new ReadOnlyControl({ key: column.name });
                             row.controls[column.name] = control;
                             rowControls.push(control);
-                        }));
+                        });
                         this.formUtils.setInitialValues(rowControls, row, false);
                         tableFormRows.push(this.formUtils.toFormGroup(rowControls));
                         // Setup the total footer if configured
                         // Array of keys to total
                         if (columnsToSum.length !== 0) {
-                            columnsToSum.forEach((/**
-                             * @param {?} column
-                             * @return {?}
-                             */
-                            (column) => {
+                            columnsToSum.forEach((column) => {
                                 if (Helpers.isBlank(columnSums[column])) {
                                     columnSums[column] = 0;
                                 }
                                 columnSums[column] += row[column];
-                            }));
+                            });
                         }
-                    }));
+                    });
                     if (this.mode === NovoTableMode.EDIT) {
                         this.setTableEdit();
                     }
                     // Setup the footers (if any)
                     if (this.config.footers) {
                         this.footers = [];
-                        this.config.footers.forEach((/**
-                         * @param {?} footerConfig
-                         * @param {?} footerConfigIndex
-                         * @return {?}
-                         */
-                        (footerConfig, footerConfigIndex) => {
+                        this.config.footers.forEach((footerConfig, footerConfigIndex) => {
                             /** @type {?} */
                             let footer = {};
                             footer[footerConfig.labelColumn] = footerConfig.label;
-                            footerConfig.columns.forEach((/**
-                             * @param {?} column
-                             * @return {?}
-                             */
-                            (column) => {
+                            footerConfig.columns.forEach((column) => {
                                 if (footerConfig.method === 'AVG' && this._rows.length !== 0) {
                                     footer[column] = columnSums[column] / this._rows.length;
                                 }
                                 else {
                                     footer[column] = columnSums[column];
                                 }
-                            }));
+                            });
                             this.footers.push(footer);
-                        }));
+                        });
                     }
                     break;
                 default:
                     break;
             }
-        }));
+        });
         if (this.config.paging) {
             this._dataProvider.page = this.config.paging.current;
             this._dataProvider.pageSize = this.config.paging.itemsPerPage;
@@ -45014,18 +39088,11 @@ class NovoTableElement {
      */
     focusInput() {
         if (this.filterInputs && this.filterInputs.length) {
-            this.filterInputs.forEach((/**
-             * @param {?} filterInput
-             * @return {?}
-             */
-            (filterInput) => {
+            this.filterInputs.forEach((filterInput) => {
                 if (filterInput.nativeElement) {
-                    setTimeout((/**
-                     * @return {?}
-                     */
-                    () => filterInput.nativeElement.focus()), 0);
+                    setTimeout(() => filterInput.nativeElement.focus(), 0);
                 }
-            }));
+            });
         }
     }
     /**
@@ -45052,11 +39119,7 @@ class NovoTableElement {
      */
     setupColumnDefaults() {
         // Check columns for cell option types
-        this.columns.forEach((/**
-         * @param {?} column
-         * @return {?}
-         */
-        (column) => {
+        this.columns.forEach((column) => {
             if (column && column.type) {
                 switch (column.type) {
                     case 'date':
@@ -45067,7 +39130,7 @@ class NovoTableElement {
                         break;
                 }
             }
-        }));
+        });
     }
     /**
      * \@name ngDoCheck
@@ -45109,16 +39172,16 @@ class NovoTableElement {
      * @param {?} filter
      * @return {?}
      */
-    onFilterClick(column, filter) {
-        if (filter.range && !column.calendarShow) {
+    onFilterClick(column, filter$$1) {
+        if (filter$$1.range && !column.calendarShow) {
             column.calenderShow = true;
             return;
         }
         if (Array.isArray(column.filter) && column.multiple) {
-            if (~column.filter.indexOf(filter)) {
+            if (~column.filter.indexOf(filter$$1)) {
                 // Remove filter
-                column.filter.splice(column.filter.indexOf(filter), 1);
-                if (filter.range) {
+                column.filter.splice(column.filter.indexOf(filter$$1), 1);
+                if (filter$$1.range) {
                     column.calenderShow = false;
                 }
                 if (column.filter.length === 0) {
@@ -45127,15 +39190,15 @@ class NovoTableElement {
             }
             else {
                 // Add filter
-                column.filter.push(filter);
+                column.filter.push(filter$$1);
             }
         }
         else if (column.multiple) {
             column.filter = new Array();
-            column.filter.push(Helpers.isBlank(filter.value) ? filter : filter.value);
+            column.filter.push(Helpers.isBlank(filter$$1.value) ? filter$$1 : filter$$1.value);
         }
         else {
-            column.filter = Helpers.isBlank(filter.value) ? filter : filter.value;
+            column.filter = Helpers.isBlank(filter$$1.value) ? filter$$1 : filter$$1.value;
         }
         this.onFilterChange();
     }
@@ -45145,31 +39208,24 @@ class NovoTableElement {
      * @return {?}
      */
     onFilterClear(column) {
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             column.filter = null;
             column.freetextFilter = null;
             this.onFilterChange();
             if (column.originalOptions) {
                 column.options = column.originalOptions;
             }
-        }));
+        });
     }
     /**
      * @return {?}
      */
     clearAllSortAndFilters() {
         if (this.config.filtering) {
-            this.columns.forEach((/**
-             * @param {?} column
-             * @return {?}
-             */
-            (column) => {
+            this.columns.forEach((column) => {
                 column.filter = null;
                 column.sort = null;
-            }));
+            });
         }
     }
     /**
@@ -45183,27 +39239,18 @@ class NovoTableElement {
         if (this.config.filtering) {
             // Array of filters
             /** @type {?} */
-            const filters = this.columns.filter((/**
-             * @param {?} col
-             * @return {?}
-             */
-            (col) => !Helpers.isEmpty(col.filter)));
+            const filters = this.columns.filter((col) => !Helpers.isEmpty(col.filter));
             if (filters.length) {
                 /** @type {?} */
-                let query = {};
+                let query$$1 = {};
                 for (const column of filters) {
                     if (Helpers.isFunction(column.match)) {
-                        query[column.name] = (/**
-                         * @param {?} value
-                         * @param {?} record
-                         * @return {?}
-                         */
-                        (value, record) => {
+                        query$$1[column.name] = (value, record) => {
                             return column.match(record, column.filter);
-                        });
+                        };
                     }
                     else if (column.preFilter && Helpers.isFunction(column.preFilter)) {
-                        query = Object.assign({}, query, column.preFilter(this.escapeCharacters(column.filter)));
+                        query$$1 = Object.assign({}, query$$1, column.preFilter(this.escapeCharacters(column.filter)));
                     }
                     else if (Array.isArray(column.filter)) {
                         // The filters are an array (multi-select), check value
@@ -45211,37 +39258,33 @@ class NovoTableElement {
                         let options = column.filter;
                         // We have an array of {value: '', labels: ''}
                         if (options[0].value || options[0].label) {
-                            options = column.filter.map((/**
-                             * @param {?} opt
-                             * @return {?}
-                             */
-                            (opt) => opt.value));
+                            options = column.filter.map((opt) => opt.value);
                         }
-                        query[column.name] = { any: options };
+                        query$$1[column.name] = { any: options };
                     }
                     else if (column.type && column.type === 'date') {
                         if (column.filter.startDate && column.filter.endDate) {
-                            query[column.name] = {
+                            query$$1[column.name] = {
                                 min: startOfDay(column.filter.startDate),
                                 max: startOfDay(addDays(startOfDay(column.filter.endDate), 1)),
                             };
                         }
                         else {
-                            query[column.name] = {
+                            query$$1[column.name] = {
                                 min: column.filter.min ? addDays(startOfToday(), column.filter.min) : startOfToday(),
                                 max: column.filter.max ? addDays(startOfTomorrow(), column.filter.max) : startOfTomorrow(),
                             };
                         }
                     }
                     else {
-                        query[column.name] = column.filter;
+                        query$$1[column.name] = column.filter;
                     }
                 }
                 if (Helpers.isFunction(this.config.filtering)) {
-                    this.config.filtering(query);
+                    this.config.filtering(query$$1);
                 }
                 else {
-                    this._dataProvider.filter = query;
+                    this._dataProvider.filter = query$$1;
                 }
             }
             else {
@@ -45264,42 +39307,38 @@ class NovoTableElement {
      * @param {?} filter
      * @return {?}
      */
-    escapeCharacters(filter) {
-        if (typeof filter === 'string') {
-            return filter.replace(/'/g, '\'\'');
+    escapeCharacters(filter$$1) {
+        if (typeof filter$$1 === 'string') {
+            return filter$$1.replace(/'/g, '\'\'');
         }
-        return filter;
+        return filter$$1;
     }
     /**
      * @param {?} column
      * @param {?} filter
      * @return {?}
      */
-    isFilterActive(column, filter) {
+    isFilterActive(column, filter$$1) {
         // TODO: This needs to be refactored
         /** @type {?} */
         let isActive = false;
-        if (column && !Helpers.isBlank(column.filter) && !Helpers.isBlank(filter)) {
+        if (column && !Helpers.isBlank(column.filter) && !Helpers.isBlank(filter$$1)) {
             if (Array.isArray(column.filter)) {
-                if (typeof filter !== 'string') {
-                    isActive = column.filter.some((/**
-                     * @param {?} item
-                     * @return {?}
-                     */
-                    (item) => {
-                        return item.label === filter.label;
-                    }));
+                if (typeof filter$$1 !== 'string') {
+                    isActive = column.filter.some((item) => {
+                        return item.label === filter$$1.label;
+                    });
                 }
                 else {
-                    isActive = column.filter.includes(filter);
+                    isActive = column.filter.includes(filter$$1);
                 }
             }
             else {
-                if (typeof column.filter === typeof filter) {
-                    isActive = column.filter === filter;
+                if (typeof column.filter === typeof filter$$1) {
+                    isActive = column.filter === filter$$1;
                 }
                 else {
-                    isActive = column.filter === filter.value;
+                    isActive = column.filter === filter$$1.value;
                 }
             }
         }
@@ -45313,13 +39352,9 @@ class NovoTableElement {
     onSortChange(column) {
         this.currentSortColumn = column;
         /** @type {?} */
-        let sortedColumns = this.columns.filter((/**
-         * @param {?} thisColumn
-         * @return {?}
-         */
-        (thisColumn) => {
+        let sortedColumns = this.columns.filter((thisColumn) => {
             return thisColumn.sort && thisColumn !== this.currentSortColumn;
-        }));
+        });
         for (let sortedColumn of sortedColumns) {
             sortedColumn.sort = null;
         }
@@ -45354,11 +39389,7 @@ class NovoTableElement {
         /** @type {?} */
         const onTableChange = {};
         /** @type {?} */
-        const filters = this.columns.filter((/**
-         * @param {?} col
-         * @return {?}
-         */
-        (col) => col.filter && col.filter.length));
+        const filters = this.columns.filter((col) => col.filter && col.filter.length);
         onTableChange.filter = filters.length ? filters : false;
         onTableChange.sort = this.currentSortColumn ? this.currentSortColumn : false;
         onTableChange.rows = this.rows;
@@ -45419,16 +39450,8 @@ class NovoTableElement {
             for (let row of this.pagedData) {
                 row._selected = this.master;
             }
-            this.selected = this.dataProvider.list.filter((/**
-             * @param {?} r
-             * @return {?}
-             */
-            (r) => r._selected));
-            this.pageSelected = this.pagedData.filter((/**
-             * @param {?} r
-             * @return {?}
-             */
-            (r) => r._selected));
+            this.selected = this.dataProvider.list.filter((r) => r._selected);
+            this.pageSelected = this.pagedData.filter((r) => r._selected);
             this.emitSelected(this.selected);
             // Only show the select all message when there is only one new page selected at a time
             this.selectedPageCount++;
@@ -45458,16 +39481,8 @@ class NovoTableElement {
      */
     rowSelectHandler(data) {
         // this.pagedData = this.rows.slice(this.getPageStart(), this.getPageEnd());
-        this.pageSelected = this.pagedData.filter((/**
-         * @param {?} r
-         * @return {?}
-         */
-        (r) => r._selected));
-        this.selected = this.dataProvider.list.filter((/**
-         * @param {?} r
-         * @return {?}
-         */
-        (r) => r._selected));
+        this.pageSelected = this.pagedData.filter((r) => r._selected);
+        this.selected = this.dataProvider.list.filter((r) => r._selected);
         if (this.pageSelected.length === 0) {
             this.master = false;
             this.indeterminate = false;
@@ -45537,14 +39552,11 @@ class NovoTableElement {
      * @return {?}
      */
     onCalenderSelect(column, event) {
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             if (event.startDate && event.endDate) {
                 this.onFilterChange();
             }
-        }), 10);
+        }, 10);
     }
     /**
      * @param {?} config
@@ -45558,11 +39570,7 @@ class NovoTableElement {
                 config.filtering.originalOptions = config.filtering.options;
             }
             /** @type {?} */
-            let newOptions = config.filtering.originalOptions.filter((/**
-             * @param {?} option
-             * @return {?}
-             */
-            (option) => {
+            let newOptions = config.filtering.originalOptions.filter((option) => {
                 /** @type {?} */
                 let value = option && option.label ? option.label : option;
                 value = value.toLowerCase() ? value.toLowerCase() : value;
@@ -45573,7 +39581,7 @@ class NovoTableElement {
                     return true;
                 }
                 return false;
-            }));
+            });
             config.filtering.options = newOptions;
             config.filtering.filter = config.filtering.freetextFilter;
         }
@@ -45596,19 +39604,9 @@ class NovoTableElement {
     setTableEdit(rowNumber, columnNumber) {
         this.mode = NovoTableMode.EDIT;
         this._dataProvider.edit();
-        this._rows.forEach((/**
-         * @param {?} row
-         * @param {?} rowIndex
-         * @return {?}
-         */
-        (row, rowIndex) => {
+        this._rows.forEach((row, rowIndex) => {
             row._editing = row._editing || {};
-            this.columns.forEach((/**
-             * @param {?} column
-             * @param {?} columnIndex
-             * @return {?}
-             */
-            (column, columnIndex) => {
+            this.columns.forEach((column, columnIndex) => {
                 if (column.viewOnly) {
                     row._editing[column.name] = false;
                 }
@@ -45627,8 +39625,8 @@ class NovoTableElement {
                 else {
                     row._editing[column.name] = false;
                 }
-            }));
-        }));
+            });
+        });
     }
     /**
      * \@name leaveEditMode
@@ -45640,20 +39638,12 @@ class NovoTableElement {
      */
     leaveEditMode(cancel) {
         this.mode = NovoTableMode.VIEW;
-        this._rows.forEach((/**
-         * @param {?} row
-         * @return {?}
-         */
-        (row) => {
+        this._rows.forEach((row) => {
             row._editing = row._editing || {};
-            this.columns.forEach((/**
-             * @param {?} column
-             * @return {?}
-             */
-            (column) => {
+            this.columns.forEach((column) => {
                 row._editing[column.name] = false;
-            }));
-        }));
+            });
+        });
         if (cancel) {
             this._dataProvider.undo();
         }
@@ -45679,11 +39669,7 @@ class NovoTableElement {
         row.controls = {};
         row._editing = {};
         row.rowId = this._rows.length + 1;
-        this.columns.forEach((/**
-         * @param {?} column
-         * @return {?}
-         */
-        (column) => {
+        this.columns.forEach((column) => {
             // Use the control passed or use a ReadOnlyControl so that the form has the values
             /** @type {?} */
             let control = column.editorConfig
@@ -45693,7 +39679,7 @@ class NovoTableElement {
             row.controls[column.name] = control;
             row._editing[column.name] = !column.viewOnly;
             rowControls.push(control);
-        }));
+        });
         this.formUtils.setInitialValues(rowControls, defaultValue, false);
         tableFormRows.push(this.formUtils.toFormGroup(rowControls));
         this._rows.push(row);
@@ -45714,22 +39700,13 @@ class NovoTableElement {
             /** @type {?} */
             let errors = [];
             // Go over the FormArray's controls
-            ((/** @type {?} */ (this.tableForm.controls['rows']))).controls.forEach((/**
-             * @param {?} formGroup
-             * @param {?} index
-             * @return {?}
-             */
-            (formGroup, index) => {
+            ((/** @type {?} */ (this.tableForm.controls['rows']))).controls.forEach((formGroup, index) => {
                 /** @type {?} */
                 let changedRow = null;
                 /** @type {?} */
                 let error = null;
                 // Go over the form group controls
-                Object.keys(formGroup.controls).forEach((/**
-                 * @param {?} key
-                 * @return {?}
-                 */
-                (key) => {
+                Object.keys(formGroup.controls).forEach((key) => {
                     /** @type {?} */
                     let control = formGroup.controls[key];
                     // Handle value changing
@@ -45755,16 +39732,14 @@ class NovoTableElement {
                         control.markAsDirty();
                         control.markAsTouched();
                     }
-                }));
+                });
                 if (changedRow) {
                     changedRows.push(changedRow);
                 }
                 if (error) {
                     errors.push({ errors: error, row: this._rows[index], index: index });
                 }
-            }));
-            /** @type {?} */
-            let ret = {};
+            });
             // Return errors if any, otherwise return the changed rows
             if (errors.length === 0) {
                 return { changed: changedRows };
@@ -45802,10 +39777,7 @@ class NovoTableElement {
         this.loading = false;
         this.toast = toast;
         if (hideDelay) {
-            setTimeout((/**
-             * @return {?}
-             */
-            () => this.hideToastMessage()), hideDelay);
+            setTimeout(() => this.hideToastMessage(), hideDelay);
         }
     }
     /**
@@ -45818,12 +39790,9 @@ class NovoTableElement {
         this.toast = null;
         // Hack to make the table display properly after hiding the toast
         this.grossFlagToAvoidTheTableFromBeingUglyWhenHidingTheToast = true;
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        setTimeout(() => {
             this.grossFlagToAvoidTheTableFromBeingUglyWhenHidingTheToast = false;
-        }));
+        });
     }
     /**
      * \@name toggleLoading
@@ -46049,89 +40018,10 @@ NovoTableElement.propDecorators = {
     rows: [{ type: Input }],
     dataProvider: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoTableElement.prototype.filterInputs;
-    /** @type {?} */
-    NovoTableElement.prototype.config;
-    /** @type {?} */
-    NovoTableElement.prototype.columns;
-    /** @type {?} */
-    NovoTableElement.prototype.theme;
-    /** @type {?} */
-    NovoTableElement.prototype.skipSortAndFilterClear;
-    /** @type {?} */
-    NovoTableElement.prototype.mode;
-    /** @type {?} */
-    NovoTableElement.prototype.editable;
-    /** @type {?} */
-    NovoTableElement.prototype.rowIdentifier;
-    /** @type {?} */
-    NovoTableElement.prototype.name;
-    /** @type {?} */
-    NovoTableElement.prototype.onRowClick;
-    /** @type {?} */
-    NovoTableElement.prototype.onRowSelect;
-    /** @type {?} */
-    NovoTableElement.prototype.onTableChange;
-    /** @type {?} */
-    NovoTableElement.prototype._dataProvider;
-    /** @type {?} */
-    NovoTableElement.prototype._rows;
-    /** @type {?} */
-    NovoTableElement.prototype.selected;
-    /** @type {?} */
-    NovoTableElement.prototype.activeId;
-    /** @type {?} */
-    NovoTableElement.prototype.master;
-    /** @type {?} */
-    NovoTableElement.prototype.expandAll;
-    /** @type {?} */
-    NovoTableElement.prototype.indeterminate;
-    /** @type {?} */
-    NovoTableElement.prototype.lastPage;
-    /** @type {?} */
-    NovoTableElement.prototype.selectedPageCount;
-    /** @type {?} */
-    NovoTableElement.prototype.showSelectAllMessage;
-    /** @type {?} */
-    NovoTableElement.prototype.currentSortColumn;
-    /** @type {?} */
-    NovoTableElement.prototype.pagedData;
-    /** @type {?} */
-    NovoTableElement.prototype.pageSelected;
-    /** @type {?} */
-    NovoTableElement.prototype.toggledDropdownMap;
-    /** @type {?} */
-    NovoTableElement.prototype.NovoTableMode;
-    /** @type {?} */
-    NovoTableElement.prototype.tableForm;
-    /** @type {?} */
-    NovoTableElement.prototype.toast;
-    /** @type {?} */
-    NovoTableElement.prototype.footers;
-    /** @type {?} */
-    NovoTableElement.prototype.grossFlagToAvoidTheTableFromBeingUglyWhenHidingTheToast;
-    /** @type {?} */
-    NovoTableElement.prototype.loading;
-    /** @type {?} */
-    NovoTableElement.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTableElement.prototype.formUtils;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTableElement.prototype.builder;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/table/Table.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoTableModule {
 }
@@ -46158,8 +40048,7 @@ NovoTableModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/value/Value.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @enum {number} */
 const NOVO_VALUE_TYPE = {
@@ -46386,29 +40275,10 @@ NovoValueElement.propDecorators = {
     type: [{ type: Input }],
     isMobile: [{ type: HostBinding, args: ['class.mobile',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoValueElement.prototype.data;
-    /** @type {?} */
-    NovoValueElement.prototype.meta;
-    /** @type {?} */
-    NovoValueElement.prototype.theme;
-    /** @type {?} */
-    NovoValueElement.prototype._type;
-    /** @type {?} */
-    NovoValueElement.prototype.NOVO_VALUE_TYPE;
-    /** @type {?} */
-    NovoValueElement.prototype.NOVO_VALUE_THEME;
-    /** @type {?} */
-    NovoValueElement.prototype.url;
-    /** @type {?} */
-    NovoValueElement.prototype.customClass;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/value/Render.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * \@classdesc
@@ -46571,8 +40441,6 @@ class RenderPipe {
         let type = null;
         /** @type {?} */
         let text = value;
-        /** @type {?} */
-        let rezonedTime;
         // Handle when we don't have meta, but passing an entity
         if (value && value._subtype && !args) {
             return this.getEntityLabel(value, value._subtype);
@@ -46821,18 +40689,14 @@ class RenderPipe {
             value = [value];
         }
         try {
-            return value.map((/**
-             * @param {?} item
-             * @return {?}
-             */
-            (item) => {
+            return value.map((item) => {
                 for (const option of list) {
                     if (option.value === item) {
                         return option.label;
                     }
                 }
                 return item;
-            }));
+            });
         }
         catch (e) {
             if (!args.optionsType) {
@@ -46879,34 +40743,10 @@ RenderPipe.ctorParameters = () => [
     { type: DomSanitizer },
     { type: NovoLabelService }
 ];
-if (false) {
-    /** @type {?} */
-    RenderPipe.prototype.value;
-    /** @type {?} */
-    RenderPipe.prototype.lastValue;
-    /** @type {?} */
-    RenderPipe.prototype.lastArgs;
-    /**
-     * @type {?}
-     * @private
-     */
-    RenderPipe.prototype.changeDetector;
-    /**
-     * @type {?}
-     * @private
-     */
-    RenderPipe.prototype.sanitizationService;
-    /**
-     * @type {?}
-     * @private
-     */
-    RenderPipe.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/value/EntityList.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class EntityList {
     constructor() {
@@ -47004,23 +40844,10 @@ EntityList.propDecorators = {
     data: [{ type: Input }],
     meta: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    EntityList.prototype.data;
-    /** @type {?} */
-    EntityList.prototype.meta;
-    /** @type {?} */
-    EntityList.prototype.baseEntity;
-    /** @type {?} */
-    EntityList.prototype.metaDisplay;
-    /** @type {?} */
-    EntityList.prototype.ENTITY_SHORT_NAMES;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/value/Value.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoValueModule {
 }
@@ -47034,8 +40861,7 @@ NovoValueModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/icon/Icon.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoIconComponent {
     /**
@@ -47079,13 +40905,10 @@ class NovoIconComponent {
      */
     ngAfterViewInit() {
         if (this.element.nativeElement.textContent.trim()) {
-            Promise.resolve().then((/**
-             * @return {?}
-             */
-            () => {
+            Promise.resolve().then(() => {
                 this.name = this.element.nativeElement.textContent.trim();
                 this.cdr.markForCheck();
-            }));
+            });
         }
     }
 }
@@ -47113,34 +40936,10 @@ NovoIconComponent.propDecorators = {
     alt: [{ type: Input }],
     name: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoIconComponent.prototype.raised;
-    /** @type {?} */
-    NovoIconComponent.prototype.size;
-    /** @type {?} */
-    NovoIconComponent.prototype.theme;
-    /** @type {?} */
-    NovoIconComponent.prototype.color;
-    /** @type {?} */
-    NovoIconComponent.prototype.role;
-    /** @type {?} */
-    NovoIconComponent.prototype.ariaLabel;
-    /** @type {?} */
-    NovoIconComponent.prototype.iconName;
-    /** @type {?} */
-    NovoIconComponent.prototype.element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoIconComponent.prototype.cdr;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/icon/Icon.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoIconModule {
 }
@@ -47153,8 +40952,7 @@ NovoIconModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/expansion/accordion.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Directive for a Material Design Accordion.
@@ -47201,28 +40999,10 @@ NovoAccordion.propDecorators = {
     hideToggle: [{ type: Input }],
     displayMode: [{ type: Input }]
 };
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoAccordion.prototype._hideToggle;
-    /**
-     * The display mode used for all expansion panels in the accordion. Currently two display
-     * modes exist:
-     *  default - a gutter-like spacing is placed around any expanded panel, placing the expanded
-     *     panel at a different elevation from the reset of the accordion.
-     *  flat - no spacing is placed around expanded panels, showing all panels at the same
-     *     elevation.
-     * @type {?}
-     */
-    NovoAccordion.prototype.displayMode;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/expansion/expansion-animations.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Time and timing curve for expansion panel animations.
@@ -47270,8 +41050,7 @@ const novoExpansionAnimations = {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/expansion/expansion-panel-content.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Expansion panel content that will be rendered lazily
@@ -47294,15 +41073,10 @@ NovoExpansionPanelContent.decorators = [
 NovoExpansionPanelContent.ctorParameters = () => [
     { type: TemplateRef }
 ];
-if (false) {
-    /** @type {?} */
-    NovoExpansionPanelContent.prototype._template;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/expansion/expansion-panel.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Counter for generating unique element ids.
@@ -47401,16 +41175,10 @@ class NovoExpansionPanel extends CdkAccordionItem {
         if (this._lazyContent) {
             // Render the content as soon as the panel becomes open.
             this.opened
-                .pipe(startWith(null), filter((/**
-             * @return {?}
-             */
-            () => this.expanded && !this._portal)), take(1))
-                .subscribe((/**
-             * @return {?}
-             */
-            () => {
+                .pipe(startWith(null), filter(() => this.expanded && !this._portal), take(1))
+                .subscribe(() => {
                 this._portal = new TemplatePortal(this._lazyContent._template, this._viewContainerRef);
-            }));
+            });
         }
     }
     /**
@@ -47463,7 +41231,7 @@ NovoExpansionPanel.decorators = [
                     '[class.novo-expansion-panel-spacing]': '_hasSpacing()',
                     '[class.novo-expansion-panel-padding]': 'padding',
                 },
-                styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-expansion-panel{background:#fff;color:#3d464d;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);box-sizing:content-box;display:block;margin:0 16px;-webkit-transition:margin 225ms ease-in-out;transition:margin 225ms ease-in-out}.novo-action-row{border-top-color:#3d464d}.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]):hover{background:rgba(0,0,0,.04)}.novo-expansion-panel-header-title{color:#3d464d}.novo-expansion-indicator::after,.novo-expansion-panel-header-description{color:#999}.novo-expansion-panel-header[aria-disabled=true]{color:#999;pointer-events:none}.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-description,.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-title{color:inherit}.novo-expansion-panel.novo-expanded[theme=company]{border-top:3px solid #39d}.novo-expansion-panel.novo-expanded[theme=candidate]{border-top:3px solid #4b7}.novo-expansion-panel.novo-expanded[theme=navigation]{border-top:3px solid #2f384f}.novo-expansion-panel.novo-expanded[theme=lead]{border-top:3px solid #a69}.novo-expansion-panel.novo-expanded[theme=contact]{border-top:3px solid #fa4}.novo-expansion-panel.novo-expanded[theme=opportunity]{border-top:3px solid #625}.novo-expansion-panel.novo-expanded[theme=job]{border-top:3px solid #b56}.novo-expansion-panel.novo-expanded[theme=earnCode],.novo-expansion-panel.novo-expanded[theme=jobCode]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=sendout]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=placement]{border-top:3px solid #0b344f}.novo-expansion-panel.novo-expanded[theme=corporateuser],.novo-expansion-panel.novo-expanded[theme=credential],.novo-expansion-panel.novo-expanded[theme=distributionList],.novo-expansion-panel.novo-expanded[theme=task],.novo-expansion-panel.novo-expanded[theme=user]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=aqua]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=ocean]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=mint]{border-top:3px solid #37bc9b}.novo-expansion-panel.novo-expanded[theme=grass]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=sunflower]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=bittersweet]{border-top:3px solid #eb6845}.novo-expansion-panel.novo-expanded[theme=grapefruit]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=carnation]{border-top:3px solid #d770ad}.novo-expansion-panel.novo-expanded[theme=lavender]{border-top:3px solid #967adc}.novo-expansion-panel.novo-expanded[theme=positive]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=success]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=negative]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=warning]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=black]{border-top:3px solid #000}.novo-expansion-panel.novo-expanded[theme=dark]{border-top:3px solid #3d464d}.novo-expansion-panel.novo-expanded[theme=pulse]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=neutral]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=navy]{border-top:3px solid #0d2d42}.novo-expansion-panel.novo-expanded[theme=contract]{border-top:3px solid #454ea0}.novo-expansion-panel.novo-expanded[theme=mountain]{border-top:3px solid #9678b6}.novo-expansion-panel.novo-expanded[theme=billableCharge],.novo-expansion-panel.novo-expanded[theme=invoiceStatement],.novo-expansion-panel.novo-expanded[theme=payableCharge]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=submission]{border-top:3px solid #a9adbb}.novo-expansion-panel.novo-expanded[theme=note]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=empty]{border-top:3px solid #cccdcc}.novo-expansion-panel.novo-expanded[theme=background]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=white]{border-top:3px solid #fff}.novo-expansion-panel.novo-expanded[theme=grey]{border-top:3px solid #999}.novo-expansion-panel.novo-expanded[theme=off-white]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=light]{border-top:3px solid #d9dadc}.novo-expansion-panel.novo-expanded{margin:16px 4px}.novo-expansion-panel.novo-expanded:first-child{margin-top:0}.novo-expansion-panel.novo-expanded:last-child{margin-bottom:0}.novo-expansion-panel-content{overflow:hidden}.novo-expansion-panel-content.novo-expanded{overflow:visible}.novo-expansion-panel-padding .novo-expansion-panel-body{padding:0 24px 16px}.novo-accordion .novo-expansion-panel-spacing:first-child{margin-top:0}.novo-accordion .novo-expansion-panel-spacing:last-child{margin-bottom:0}.novo-action-row{border-top-style:solid;border-top-width:1px;display:-webkit-box;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-pack:end;justify-content:flex-end;padding:16px 8px 16px 24px}.novo-action-row button.novo-button{margin-left:8px}[dir=rtl] .novo-action-row button.novo-button{margin-left:0;margin-right:8px}"]
+                styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-expansion-panel{background:#fff;color:#3d464d;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);box-sizing:content-box;display:block;margin:0 16px;transition:margin 225ms ease-in-out}.novo-action-row{border-top-color:#3d464d}.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-keyboard-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]).cdk-program-focused,.novo-expansion-panel:not(.novo-expanded) .novo-expansion-panel-header:not([aria-disabled=true]):hover{background:rgba(0,0,0,.04)}.novo-expansion-panel-header-title{color:#3d464d}.novo-expansion-indicator::after,.novo-expansion-panel-header-description{color:#999}.novo-expansion-panel-header[aria-disabled=true]{color:#999;pointer-events:none}.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-description,.novo-expansion-panel-header[aria-disabled=true] .novo-expansion-panel-header-title{color:inherit}.novo-expansion-panel.novo-expanded[theme=company]{border-top:3px solid #39d}.novo-expansion-panel.novo-expanded[theme=candidate]{border-top:3px solid #4b7}.novo-expansion-panel.novo-expanded[theme=navigation]{border-top:3px solid #2f384f}.novo-expansion-panel.novo-expanded[theme=lead]{border-top:3px solid #a69}.novo-expansion-panel.novo-expanded[theme=contact]{border-top:3px solid #fa4}.novo-expansion-panel.novo-expanded[theme=opportunity]{border-top:3px solid #625}.novo-expansion-panel.novo-expanded[theme=job]{border-top:3px solid #b56}.novo-expansion-panel.novo-expanded[theme=earnCode],.novo-expansion-panel.novo-expanded[theme=jobCode]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=sendout]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=placement]{border-top:3px solid #0b344f}.novo-expansion-panel.novo-expanded[theme=corporateuser],.novo-expansion-panel.novo-expanded[theme=credential],.novo-expansion-panel.novo-expanded[theme=distributionList],.novo-expansion-panel.novo-expanded[theme=task],.novo-expansion-panel.novo-expanded[theme=user]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=aqua]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=ocean]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=mint]{border-top:3px solid #37bc9b}.novo-expansion-panel.novo-expanded[theme=grass]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=sunflower]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=bittersweet]{border-top:3px solid #eb6845}.novo-expansion-panel.novo-expanded[theme=grapefruit]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=carnation]{border-top:3px solid #d770ad}.novo-expansion-panel.novo-expanded[theme=lavender]{border-top:3px solid #967adc}.novo-expansion-panel.novo-expanded[theme=positive]{border-top:3px solid #4a89dc}.novo-expansion-panel.novo-expanded[theme=success]{border-top:3px solid #8cc152}.novo-expansion-panel.novo-expanded[theme=negative]{border-top:3px solid #da4453}.novo-expansion-panel.novo-expanded[theme=warning]{border-top:3px solid #f6b042}.novo-expansion-panel.novo-expanded[theme=black]{border-top:3px solid #000}.novo-expansion-panel.novo-expanded[theme=dark]{border-top:3px solid #3d464d}.novo-expansion-panel.novo-expanded[theme=pulse]{border-top:3px solid #3bafda}.novo-expansion-panel.novo-expanded[theme=neutral]{border-top:3px solid #4f5361}.novo-expansion-panel.novo-expanded[theme=navy]{border-top:3px solid #0d2d42}.novo-expansion-panel.novo-expanded[theme=contract]{border-top:3px solid #454ea0}.novo-expansion-panel.novo-expanded[theme=mountain]{border-top:3px solid #9678b6}.novo-expansion-panel.novo-expanded[theme=billableCharge],.novo-expansion-panel.novo-expanded[theme=invoiceStatement],.novo-expansion-panel.novo-expanded[theme=payableCharge]{border-top:3px solid #696d79}.novo-expansion-panel.novo-expanded[theme=submission]{border-top:3px solid #a9adbb}.novo-expansion-panel.novo-expanded[theme=note]{border-top:3px solid #747884}.novo-expansion-panel.novo-expanded[theme=empty]{border-top:3px solid #cccdcc}.novo-expansion-panel.novo-expanded[theme=background]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=white]{border-top:3px solid #fff}.novo-expansion-panel.novo-expanded[theme=grey]{border-top:3px solid #999}.novo-expansion-panel.novo-expanded[theme=off-white]{border-top:3px solid #f4f4f4}.novo-expansion-panel.novo-expanded[theme=light]{border-top:3px solid #d9dadc}.novo-expansion-panel.novo-expanded{margin:16px 4px}.novo-expansion-panel.novo-expanded:first-child{margin-top:0}.novo-expansion-panel.novo-expanded:last-child{margin-bottom:0}.novo-expansion-panel-content{overflow:hidden}.novo-expansion-panel-content.novo-expanded{overflow:visible}.novo-expansion-panel-padding .novo-expansion-panel-body{padding:0 24px 16px}.novo-accordion .novo-expansion-panel-spacing:first-child{margin-top:0}.novo-accordion .novo-expansion-panel-spacing:last-child{margin-bottom:0}.novo-action-row{border-top-style:solid;border-top-width:1px;display:flex;flex-direction:row;justify-content:flex-end;padding:16px 8px 16px 24px}.novo-action-row button.novo-button{margin-left:8px}[dir=rtl] .novo-action-row button.novo-button{margin-left:0;margin-right:8px}"]
             }] }
 ];
 /** @nocollapse */
@@ -47481,60 +41249,8 @@ NovoExpansionPanel.propDecorators = {
     opened: [{ type: Output }],
     closed: [{ type: Output }],
     expandedChange: [{ type: Output }],
-    _lazyContent: [{ type: ContentChild, args: [NovoExpansionPanelContent, { static: false },] }]
+    _lazyContent: [{ type: ContentChild, args: [NovoExpansionPanelContent,] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoExpansionPanel.prototype.disabled;
-    /** @type {?} */
-    NovoExpansionPanel.prototype.expanded;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanel.prototype._hideToggle;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanel.prototype._padding;
-    /** @type {?} */
-    NovoExpansionPanel.prototype.opened;
-    /** @type {?} */
-    NovoExpansionPanel.prototype.closed;
-    /** @type {?} */
-    NovoExpansionPanel.prototype.expandedChange;
-    /**
-     * Stream that emits for changes in `\@Input` properties.
-     * @type {?}
-     */
-    NovoExpansionPanel.prototype._inputChanges;
-    /**
-     * Optionally defined accordion the expansion panel belongs to.
-     * @type {?}
-     */
-    NovoExpansionPanel.prototype.accordion;
-    /**
-     * Content that will be rendered lazily.
-     * @type {?}
-     */
-    NovoExpansionPanel.prototype._lazyContent;
-    /**
-     * Portal holding the user's content.
-     * @type {?}
-     */
-    NovoExpansionPanel.prototype._portal;
-    /**
-     * ID for the associated header element. Used for a11y labelling.
-     * @type {?}
-     */
-    NovoExpansionPanel.prototype._headerId;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanel.prototype._viewContainerRef;
-}
 class NovoExpansionPanelActionRow {
 }
 NovoExpansionPanelActionRow.decorators = [
@@ -47548,8 +41264,7 @@ NovoExpansionPanelActionRow.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/expansion/expansion-panel-header.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * `<novo-expansion-panel-header>`
@@ -47569,14 +41284,7 @@ class NovoExpansionPanelHeader {
         this._parentChangeSubscription = Subscription.EMPTY;
         // Since the toggle state depends on an @Input on the panel, we
         // need to  subscribe and trigger change detection manually.
-        this._parentChangeSubscription = merge(panel.opened, panel.closed, panel._inputChanges.pipe(filter((/**
-         * @param {?} changes
-         * @return {?}
-         */
-        (changes) => !!(changes.hideToggle || changes.disabled))))).subscribe((/**
-         * @return {?}
-         */
-        () => this._changeDetectorRef.markForCheck()));
+        this._parentChangeSubscription = merge(panel.opened, panel.closed, panel._inputChanges.pipe(filter((changes) => !!(changes.hideToggle || changes.disabled)))).subscribe(() => this._changeDetectorRef.markForCheck());
         // _focusMonitor.monitor(_element.nativeElement);
     }
     /**
@@ -47665,7 +41373,7 @@ NovoExpansionPanelHeader.decorators = [
         }
     }`,
                 },
-                styles: [".novo-expansion-panel-header{display:-webkit-box;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-align:center;align-items:center;padding:0 24px}.novo-expansion-panel-header:focus,.novo-expansion-panel-header:hover{outline:0}.novo-expansion-panel-header.novo-expanded:focus,.novo-expansion-panel-header.novo-expanded:hover{background:inherit}.novo-expansion-panel-header:not([aria-disabled=true]){cursor:pointer}.novo-content{display:-webkit-box;display:flex;-webkit-box-flex:1;flex:1;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;overflow:hidden}.novo-expansion-panel-header-description,.novo-expansion-panel-header-title{display:-webkit-box;display:flex;-webkit-box-flex:1;flex-grow:1;margin-right:16px;-webkit-box-align:center;align-items:center}[dir=rtl] .novo-expansion-panel-header-description,[dir=rtl] .novo-expansion-panel-header-title{margin-right:0;margin-left:16px}.novo-expansion-panel-header-description{-webkit-box-flex:2;flex-grow:2}.novo-expansion-indicator::after{border-style:solid;border-width:0 2px 2px 0;content:'';display:inline-block;padding:3px;-webkit-transform:rotate(45deg);transform:rotate(45deg);vertical-align:middle}"]
+                styles: [".novo-expansion-panel-header{display:flex;flex-direction:row;align-items:center;padding:0 24px}.novo-expansion-panel-header:focus,.novo-expansion-panel-header:hover{outline:0}.novo-expansion-panel-header.novo-expanded:focus,.novo-expansion-panel-header.novo-expanded:hover{background:inherit}.novo-expansion-panel-header:not([aria-disabled=true]){cursor:pointer}.novo-content{display:flex;flex:1;flex-direction:row;overflow:hidden}.novo-expansion-panel-header-description,.novo-expansion-panel-header-title{display:flex;flex-grow:1;margin-right:16px;align-items:center}[dir=rtl] .novo-expansion-panel-header-description,[dir=rtl] .novo-expansion-panel-header-title{margin-right:0;margin-left:16px}.novo-expansion-panel-header-description{flex-grow:2}.novo-expansion-indicator::after{border-style:solid;border-width:0 2px 2px 0;content:'';display:inline-block;padding:3px;-webkit-transform:rotate(45deg);transform:rotate(45deg);vertical-align:middle}"]
             }] }
 ];
 /** @nocollapse */
@@ -47678,35 +41386,6 @@ NovoExpansionPanelHeader.propDecorators = {
     expandedHeight: [{ type: Input }],
     collapsedHeight: [{ type: Input }]
 };
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanelHeader.prototype._parentChangeSubscription;
-    /**
-     * Height of the header while the panel is expanded.
-     * @type {?}
-     */
-    NovoExpansionPanelHeader.prototype.expandedHeight;
-    /**
-     * Height of the header while the panel is collapsed.
-     * @type {?}
-     */
-    NovoExpansionPanelHeader.prototype.collapsedHeight;
-    /** @type {?} */
-    NovoExpansionPanelHeader.prototype.panel;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanelHeader.prototype._element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanelHeader.prototype._changeDetectorRef;
-}
 /**
  * `<novo-panel-description>`
  *
@@ -47740,8 +41419,7 @@ NovoExpansionPanelTitle.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/expansion/expansion.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoExpansionModule {
 }
@@ -47771,8 +41449,7 @@ NovoExpansionModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/stepper/step-label.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoStepLabel extends CdkStepLabel {
     /**
@@ -47794,8 +41471,7 @@ NovoStepLabel.ctorParameters = () => [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/stepper/step-header.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoStepHeader extends CdkStepHeader {
     /**
@@ -47909,7 +41585,7 @@ NovoStepHeader.decorators = [
                 },
                 preserveWhitespaces: false,
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-step-header{overflow:visible;outline:0;cursor:pointer;position:relative}.novo-step-optional{font-size:12px}.novo-step-icon,.novo-step-icon-not-touched{border-radius:50%;height:24px;width:24px;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;display:-webkit-box;display:flex}.novo-step-icon .novo-step-number,.novo-step-icon-not-touched .novo-step-number{font-size:1em;min-width:1.6em;height:1.6em;box-shadow:2px 2px 0 rgba(0,0,0,.2);display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;border-radius:4px}.novo-step-icon .novo-step-number{background:#4a89dc;color:#fff}.novo-step-icon-not-touched .novo-step-number{background:#a9adbb;color:#fff}.novo-step-label{display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:50px;vertical-align:middle;text-align:center;padding:4px 0}.novo-step-text-label{text-align:center;text-overflow:ellipsis;overflow:hidden}"]
+                styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-step-header{overflow:visible;outline:0;cursor:pointer;position:relative}.novo-step-optional{font-size:12px}.novo-step-icon,.novo-step-icon-not-touched{border-radius:50%;height:24px;width:24px;align-items:center;justify-content:center;display:flex}.novo-step-icon .novo-step-number,.novo-step-icon-not-touched .novo-step-number{font-size:1em;min-width:1.6em;height:1.6em;box-shadow:2px 2px 0 rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;border-radius:4px}.novo-step-icon .novo-step-number{background:#4a89dc;color:#fff}.novo-step-icon-not-touched .novo-step-number{background:#a9adbb;color:#fff}.novo-step-label{display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:50px;vertical-align:middle;text-align:center;padding:4px 0}.novo-step-text-label{text-align:center;text-overflow:ellipsis;overflow:hidden}"]
             }] }
 ];
 /** @nocollapse */
@@ -47929,64 +41605,10 @@ NovoStepHeader.propDecorators = {
     active: [{ type: Input }],
     optional: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoStepHeader.prototype.theme;
-    /** @type {?} */
-    NovoStepHeader.prototype.color;
-    /** @type {?} */
-    NovoStepHeader.prototype.icon;
-    /**
-     * State of the given step.
-     * @type {?}
-     */
-    NovoStepHeader.prototype.state;
-    /**
-     * Label of the given step.
-     * @type {?}
-     */
-    NovoStepHeader.prototype.label;
-    /**
-     * Overrides for the header icons, passed in via the stepper.
-     * @type {?}
-     */
-    NovoStepHeader.prototype.iconOverrides;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoStepHeader.prototype._index;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoStepHeader.prototype._selected;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoStepHeader.prototype._active;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoStepHeader.prototype._optional;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoStepHeader.prototype._focusMonitor;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoStepHeader.prototype._element;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/stepper/stepper.animations.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Animations used by the Novo steppers.
@@ -48015,13 +41637,8 @@ const novoStepperAnimations = {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/stepper/stepper.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/** @type {?} */
-const _NovoStep = CdkStep;
-/** @type {?} */
-const _NovoStepper = CdkStepper;
 class NovoStep extends CdkStep {
     /**
      * @param {?} stepper
@@ -48040,30 +41657,14 @@ NovoStep.decorators = [
 ];
 /** @nocollapse */
 NovoStep.ctorParameters = () => [
-    { type: CdkStepper, decorators: [{ type: Inject, args: [forwardRef((/**
-                     * @return {?}
-                     */
-                    () => NovoStepper)),] }] }
+    { type: CdkStepper, decorators: [{ type: Inject, args: [forwardRef(() => NovoStepper),] }] }
 ];
 NovoStep.propDecorators = {
-    stepLabel: [{ type: ContentChild, args: [NovoStepLabel, { static: false },] }],
+    stepLabel: [{ type: ContentChild, args: [NovoStepLabel,] }],
     theme: [{ type: Input }],
     color: [{ type: Input }],
     icon: [{ type: Input }]
 };
-if (false) {
-    /**
-     * Content for step label given by `<ng-template novoStepLabel>`.
-     * @type {?}
-     */
-    NovoStep.prototype.stepLabel;
-    /** @type {?} */
-    NovoStep.prototype.theme;
-    /** @type {?} */
-    NovoStep.prototype.color;
-    /** @type {?} */
-    NovoStep.prototype.icon;
-}
 class NovoStepper extends CdkStepper {
     constructor() {
         super(...arguments);
@@ -48092,10 +41693,7 @@ class NovoStepper extends CdkStepper {
      */
     ngAfterContentInit() {
         // Mark the component for change detection whenever the content children query changes
-        this._steps.changes.pipe(takeUntil(this._destroyed)).subscribe((/**
-         * @return {?}
-         */
-        () => this._stateChanged()));
+        this._steps.changes.pipe(takeUntil(this._destroyed)).subscribe(() => this._stateChanged());
     }
     /**
      * @return {?}
@@ -48141,28 +41739,6 @@ NovoStepper.propDecorators = {
     _steps: [{ type: ContentChildren, args: [NovoStep,] }],
     _icons: [{ type: ContentChildren, args: [NovoIconComponent,] }]
 };
-if (false) {
-    /**
-     * The list of step headers of the steps in the stepper.
-     * @type {?}
-     */
-    NovoStepper.prototype._stepHeader;
-    /**
-     * Steps that the stepper holds.
-     * @type {?}
-     */
-    NovoStepper.prototype._steps;
-    /**
-     * Custom icon overrides passed in by the consumer.
-     * @type {?}
-     */
-    NovoStepper.prototype._icons;
-    /**
-     * Consumer-specified template-refs to be used to override the header icons.
-     * @type {?}
-     */
-    NovoStepper.prototype._iconOverrides;
-}
 class NovoHorizontalStepper extends NovoStepper {
 }
 NovoHorizontalStepper.decorators = [
@@ -48179,16 +41755,12 @@ NovoHorizontalStepper.decorators = [
                 // encapsulation: ViewEncapsulation.None,
                 preserveWhitespaces: false,
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-stepper-horizontal,.novo-stepper-vertical{display:block}.novo-horizontal-stepper-header-container{white-space:nowrap;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;margin-bottom:1em;background:#f4f4f4}.novo-stepper-horizontal-line{border-bottom:1px solid #d9dadc;-webkit-box-flex:1;flex:auto;min-width:0;height:80px}.novo-stepper-horizontal-line.complete{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header{display:-webkit-box;display:flex;height:80px;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-flow:column;overflow:visible;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;padding:0 24px}.novo-horizontal-stepper-header .novo-step-status{display:-webkit-box;display:flex;width:100%;-webkit-box-pack:center;justify-content:center;-webkit-box-align:center;align-items:center;position:absolute;height:1px;bottom:0}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line{width:100%;position:absolute}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before{content:'';display:block;width:calc(50% - 8px);margin-right:8px;border-bottom:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after{content:'';display:block;width:calc(50% - 8px);margin-left:calc(50% + 8px);margin-top:-1px;border-top:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before,.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after{border-top:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon{position:relative}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before{content:'';display:block;background:#fff;border-radius:50%;position:absolute;z-index:0;top:1px;left:1px;bottom:1px;right:1px}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon>*{position:relative;z-index:1}.novo-vertical-stepper-header{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;padding:24px;max-height:24px}.novo-vertical-stepper-header .novo-step-icon,.novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:12px}[dir=rtl] .novo-vertical-stepper-header .novo-step-icon,[dir=rtl] .novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:0;margin-left:12px}.novo-horizontal-stepper-content{overflow:hidden}.novo-horizontal-stepper-content[aria-expanded=false]{height:0}.novo-horizontal-content-container{overflow:hidden;padding:0 24px 24px}.novo-vertical-content-container{margin-left:36px;border:0;position:relative}[dir=rtl] .novo-vertical-content-container{margin-left:0;margin-right:36px}.novo-stepper-vertical-line:before{content:'';position:absolute;top:-16px;bottom:-16px;left:0;z-index:-1;border-left:1px solid #d9dadc}[dir=rtl] .novo-stepper-vertical-line:before{left:auto;right:0}.novo-stepper-vertical-line.done:after,.novo-stepper-vertical-line.done:before,.novo-stepper-vertical-line.edit:before{border-left-color:1px solid #4a89dc}.novo-stepper-vertical novo-step-status{position:absolute;left:35px;top:25px;-webkit-transform:scale(.8);transform:scale(.8)}.novo-vertical-stepper-content{overflow:hidden}.novo-vertical-content{padding:0 24px 24px}.novo-step:last-child .novo-vertical-content-container{border:none}"]
+                styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-stepper-horizontal,.novo-stepper-vertical{display:block}.novo-horizontal-stepper-header-container{white-space:nowrap;display:flex;align-items:center;justify-content:center;margin-bottom:1em;background:#f4f4f4}.novo-stepper-horizontal-line{border-bottom:1px solid #d9dadc;flex:auto;min-width:0;height:80px}.novo-stepper-horizontal-line.complete{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header{display:flex;height:80px;flex-flow:column;overflow:visible;align-items:center;justify-content:center;padding:0 24px}.novo-horizontal-stepper-header .novo-step-status{display:flex;width:100%;justify-content:center;align-items:center;position:absolute;height:1px;bottom:0}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line{width:100%;position:absolute}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before{content:'';display:block;width:calc(50% - 8px);margin-right:8px;border-bottom:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after{content:'';display:block;width:calc(50% - 8px);margin-left:calc(50% + 8px);margin-top:-1px;border-top:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before,.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after{border-top:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon{position:relative}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before{content:'';display:block;background:#fff;border-radius:50%;position:absolute;z-index:0;top:1px;left:1px;bottom:1px;right:1px}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon>*{position:relative;z-index:1}.novo-vertical-stepper-header{display:flex;align-items:center;padding:24px;max-height:24px}.novo-vertical-stepper-header .novo-step-icon,.novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:12px}[dir=rtl] .novo-vertical-stepper-header .novo-step-icon,[dir=rtl] .novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:0;margin-left:12px}.novo-horizontal-stepper-content{overflow:hidden}.novo-horizontal-stepper-content[aria-expanded=false]{height:0}.novo-horizontal-content-container{overflow:hidden;padding:0 24px 24px}.novo-vertical-content-container{margin-left:36px;border:0;position:relative}[dir=rtl] .novo-vertical-content-container{margin-left:0;margin-right:36px}.novo-stepper-vertical-line:before{content:'';position:absolute;top:-16px;bottom:-16px;left:0;z-index:-1;border-left:1px solid #d9dadc}[dir=rtl] .novo-stepper-vertical-line:before{left:auto;right:0}.novo-stepper-vertical-line.done:after,.novo-stepper-vertical-line.done:before,.novo-stepper-vertical-line.edit:before{border-left-color:1px solid #4a89dc}.novo-stepper-vertical novo-step-status{position:absolute;left:35px;top:25px;-webkit-transform:scale(.8);transform:scale(.8)}.novo-vertical-stepper-content{overflow:hidden}.novo-vertical-content{padding:0 24px 24px}.novo-step:last-child .novo-vertical-content-container{border:none}"]
             }] }
 ];
 NovoHorizontalStepper.propDecorators = {
     selectedIndex: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoHorizontalStepper.prototype.selectedIndex;
-}
 class NovoVerticalStepper extends NovoStepper {
     /**
      * @param {?} dir
@@ -48212,7 +41784,7 @@ NovoVerticalStepper.decorators = [
                 providers: [{ provide: NovoStepper, useExisting: NovoVerticalStepper }],
                 preserveWhitespaces: false,
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-stepper-horizontal,.novo-stepper-vertical{display:block}.novo-horizontal-stepper-header-container{white-space:nowrap;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;margin-bottom:1em;background:#f4f4f4}.novo-stepper-horizontal-line{border-bottom:1px solid #d9dadc;-webkit-box-flex:1;flex:auto;min-width:0;height:80px}.novo-stepper-horizontal-line.complete{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header{display:-webkit-box;display:flex;height:80px;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-flow:column;overflow:visible;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;padding:0 24px}.novo-horizontal-stepper-header .novo-step-status{display:-webkit-box;display:flex;width:100%;-webkit-box-pack:center;justify-content:center;-webkit-box-align:center;align-items:center;position:absolute;height:1px;bottom:0}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line{width:100%;position:absolute}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before{content:'';display:block;width:calc(50% - 8px);margin-right:8px;border-bottom:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after{content:'';display:block;width:calc(50% - 8px);margin-left:calc(50% + 8px);margin-top:-1px;border-top:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before,.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after{border-top:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon{position:relative}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before{content:'';display:block;background:#fff;border-radius:50%;position:absolute;z-index:0;top:1px;left:1px;bottom:1px;right:1px}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon>*{position:relative;z-index:1}.novo-vertical-stepper-header{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;padding:24px;max-height:24px}.novo-vertical-stepper-header .novo-step-icon,.novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:12px}[dir=rtl] .novo-vertical-stepper-header .novo-step-icon,[dir=rtl] .novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:0;margin-left:12px}.novo-horizontal-stepper-content{overflow:hidden}.novo-horizontal-stepper-content[aria-expanded=false]{height:0}.novo-horizontal-content-container{overflow:hidden;padding:0 24px 24px}.novo-vertical-content-container{margin-left:36px;border:0;position:relative}[dir=rtl] .novo-vertical-content-container{margin-left:0;margin-right:36px}.novo-stepper-vertical-line:before{content:'';position:absolute;top:-16px;bottom:-16px;left:0;z-index:-1;border-left:1px solid #d9dadc}[dir=rtl] .novo-stepper-vertical-line:before{left:auto;right:0}.novo-stepper-vertical-line.done:after,.novo-stepper-vertical-line.done:before,.novo-stepper-vertical-line.edit:before{border-left-color:1px solid #4a89dc}.novo-stepper-vertical novo-step-status{position:absolute;left:35px;top:25px;-webkit-transform:scale(.8);transform:scale(.8)}.novo-vertical-stepper-content{overflow:hidden}.novo-vertical-content{padding:0 24px 24px}.novo-step:last-child .novo-vertical-content-container{border:none}"]
+                styles: ["@-webkit-keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@keyframes rotate{0%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}75%{-webkit-transform:rotateZ(200deg);transform:rotateZ(200deg)}100%{-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg)}}@-webkit-keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@keyframes half-rotate{0%{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}75%{-webkit-transform:rotateZ(100deg);transform:rotateZ(100deg)}100%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}}@-webkit-keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@keyframes rotateBack{0%{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}100%{-webkit-transform:rotateZ(0);transform:rotateZ(0)}}@-webkit-keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes show{0%{opacity:0;-webkit-transform:translateX(-100%);transform:translateX(-100%)}75%{-webkit-transform:translateX(0);transform:translateX(0)}100%{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}.novo-stepper-horizontal,.novo-stepper-vertical{display:block}.novo-horizontal-stepper-header-container{white-space:nowrap;display:flex;align-items:center;justify-content:center;margin-bottom:1em;background:#f4f4f4}.novo-stepper-horizontal-line{border-bottom:1px solid #d9dadc;flex:auto;min-width:0;height:80px}.novo-stepper-horizontal-line.complete{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header{display:flex;height:80px;flex-flow:column;overflow:visible;align-items:center;justify-content:center;padding:0 24px}.novo-horizontal-stepper-header .novo-step-status{display:flex;width:100%;justify-content:center;align-items:center;position:absolute;height:1px;bottom:0}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line{width:100%;position:absolute}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:before{content:'';display:block;width:calc(50% - 8px);margin-right:8px;border-bottom:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line:after{content:'';display:block;width:calc(50% - 8px);margin-left:calc(50% + 8px);margin-top:-1px;border-top:1px solid #d9dadc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:before,.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.edit:before{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-line.done:after{border-top:1px solid #4a89dc}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon{position:relative}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon:before{content:'';display:block;background:#fff;border-radius:50%;position:absolute;z-index:0;top:1px;left:1px;bottom:1px;right:1px}.novo-horizontal-stepper-header .novo-step-status .novo-stepper-status-icon>*{position:relative;z-index:1}.novo-vertical-stepper-header{display:flex;align-items:center;padding:24px;max-height:24px}.novo-vertical-stepper-header .novo-step-icon,.novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:12px}[dir=rtl] .novo-vertical-stepper-header .novo-step-icon,[dir=rtl] .novo-vertical-stepper-header .novo-step-icon-not-touched{margin-right:0;margin-left:12px}.novo-horizontal-stepper-content{overflow:hidden}.novo-horizontal-stepper-content[aria-expanded=false]{height:0}.novo-horizontal-content-container{overflow:hidden;padding:0 24px 24px}.novo-vertical-content-container{margin-left:36px;border:0;position:relative}[dir=rtl] .novo-vertical-content-container{margin-left:0;margin-right:36px}.novo-stepper-vertical-line:before{content:'';position:absolute;top:-16px;bottom:-16px;left:0;z-index:-1;border-left:1px solid #d9dadc}[dir=rtl] .novo-stepper-vertical-line:before{left:auto;right:0}.novo-stepper-vertical-line.done:after,.novo-stepper-vertical-line.done:before,.novo-stepper-vertical-line.edit:before{border-left-color:1px solid #4a89dc}.novo-stepper-vertical novo-step-status{position:absolute;left:35px;top:25px;-webkit-transform:scale(.8);transform:scale(.8)}.novo-vertical-stepper-content{overflow:hidden}.novo-vertical-content{padding:0 24px 24px}.novo-step:last-child .novo-vertical-content-container{border:none}"]
             }] }
 ];
 /** @nocollapse */
@@ -48223,15 +41795,10 @@ NovoVerticalStepper.ctorParameters = () => [
 NovoVerticalStepper.propDecorators = {
     selectedIndex: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoVerticalStepper.prototype.selectedIndex;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/stepper/step-status.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoStepStatus {
     /**
@@ -48254,27 +41821,16 @@ NovoStepStatus.decorators = [
 ];
 /** @nocollapse */
 NovoStepStatus.ctorParameters = () => [
-    { type: NovoStepper, decorators: [{ type: Inject, args: [forwardRef((/**
-                     * @return {?}
-                     */
-                    () => NovoStepper)),] }] },
-    { type: NovoStepHeader, decorators: [{ type: Inject, args: [forwardRef((/**
-                     * @return {?}
-                     */
-                    () => NovoStepHeader)),] }] }
+    { type: NovoStepper, decorators: [{ type: Inject, args: [forwardRef(() => NovoStepper),] }] },
+    { type: NovoStepHeader, decorators: [{ type: Inject, args: [forwardRef(() => NovoStepHeader),] }] }
 ];
 NovoStepStatus.propDecorators = {
     state: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoStepStatus.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/stepper/stepper.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoStepperModule {
 }
@@ -48288,8 +41844,7 @@ NovoStepperModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/category-dropdown/CategoryDropdown.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCategoryDropdownElement extends OutsideClick {
     /**
@@ -48352,19 +41907,11 @@ class NovoCategoryDropdownElement extends OutsideClick {
      * @return {?}
      */
     clearSelection() {
-        this._categories.forEach((/**
-         * @param {?} category
-         * @return {?}
-         */
-        (category) => {
-            this._categoryMap[category].forEach((/**
-             * @param {?} item
-             * @return {?}
-             */
-            (item) => {
+        this._categories.forEach((category) => {
+            this._categoryMap[category].forEach((item) => {
                 item.selected = false;
-            }));
-        }));
+            });
+        });
     }
     /**
      * @param {?} event
@@ -48400,51 +41947,32 @@ class NovoCategoryDropdownElement extends OutsideClick {
         Helpers.swallowEvent(event);
         this._query = '';
         // Reset the categories
-        this._categories.forEach((/**
-         * @param {?} category
-         * @return {?}
-         */
-        (category) => {
+        this._categories.forEach((category) => {
             this._categoryMap[category] = this._masterCategoryMap[category];
-        }));
+        });
     }
     /**
      * @param {?} query
      * @return {?}
      */
-    queryCategories(query) {
+    queryCategories(query$$1) {
         // Save the query
-        this._query = query;
+        this._query = query$$1;
         // Check timeout
         if (this._queryTimeout) {
             clearTimeout(this._queryTimeout);
         }
         // Store a timeout, to debounce user input
-        this._queryTimeout = setTimeout((/**
-         * @return {?}
-         */
-        () => {
-            this._categories.forEach((/**
-             * @param {?} category
-             * @return {?}
-             */
-            (category) => {
+        this._queryTimeout = setTimeout(() => {
+            this._categories.forEach((category) => {
                 if (this.search.compare) {
-                    this._categoryMap[category] = this._masterCategoryMap[category].filter((/**
-                     * @param {?} item
-                     * @return {?}
-                     */
-                    (item) => this.search.compare(query, item)));
+                    this._categoryMap[category] = this._masterCategoryMap[category].filter((item) => this.search.compare(query$$1, item));
                 }
                 else {
-                    this._categoryMap[category] = this._masterCategoryMap[category].filter((/**
-                     * @param {?} item
-                     * @return {?}
-                     */
-                    (item) => ~item.label.toLowerCase().indexOf(query.toLowerCase())));
+                    this._categoryMap[category] = this._masterCategoryMap[category].filter((item) => ~item.label.toLowerCase().indexOf(query$$1.toLowerCase()));
                 }
-            }));
-        }), this.search.debounce || 300);
+            });
+        }, this.search.debounce || 300);
     }
     /**
      * @param {?} event
@@ -48515,39 +42043,10 @@ NovoCategoryDropdownElement.propDecorators = {
     categorySelected: [{ type: Output }],
     categories: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype._query;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype._categoryMap;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype._categories;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.clickHandler;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype._masterCategoryMap;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype._queryTimeout;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.persistSelection;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.closeOnSelect;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.search;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.footer;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype._select;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.categorySelected;
-    /** @type {?} */
-    NovoCategoryDropdownElement.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/category-dropdown/CategoryDropdown.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoCategoryDropdownModule {
 }
@@ -48561,31 +42060,15 @@ NovoCategoryDropdownModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/multi-picker/MultiPicker.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Value accessor for the component (supports ngModel)
 /** @type {?} */
 const CHIPS_VALUE_ACCESSOR$2 = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef((/**
-     * @return {?}
-     */
-    () => NovoMultiPickerElement)),
+    useExisting: forwardRef(() => NovoMultiPickerElement),
     multi: true,
 };
-/**
- * @record
- */
-function Item() { }
-if (false) {
-    /** @type {?} */
-    Item.prototype.type;
-    /** @type {?} */
-    Item.prototype.label;
-    /** @type {?} */
-    Item.prototype.value;
-}
 class NovoMultiPickerElement {
     /**
      * @param {?} element
@@ -48605,14 +42088,8 @@ class NovoMultiPickerElement {
         // private data model
         this._value = {};
         this.notShown = {};
-        this.onModelChange = (/**
-         * @return {?}
-         */
-        () => { });
-        this.onModelTouched = (/**
-         * @return {?}
-         */
-        () => { });
+        this.onModelChange = () => { };
+        this.onModelTouched = () => { };
         this.chipsCount = 4;
     }
     /**
@@ -48627,19 +42104,11 @@ class NovoMultiPickerElement {
      */
     set value(selectedItems) {
         if (selectedItems) {
-            this.types.forEach((/**
-             * @param {?} x
-             * @return {?}
-             */
-            (x) => (this._value[x.value] = selectedItems[x.value])));
+            this.types.forEach((x) => (this._value[x.value] = selectedItems[x.value]));
         }
         else {
             this._value = {};
-            this.types.forEach((/**
-             * @param {?} x
-             * @return {?}
-             */
-            (x) => (this._value[x.value] = [])));
+            this.types.forEach((x) => (this._value[x.value] = []));
         }
         this.changed.emit(selectedItems);
         this.onModelChange(selectedItems);
@@ -48657,11 +42126,7 @@ class NovoMultiPickerElement {
      * @return {?}
      */
     clearValue() {
-        this.types.forEach((/**
-         * @param {?} type
-         * @return {?}
-         */
-        (type) => this.modifyAllOfType(type.value, 'unselect')));
+        this.types.forEach((type) => this.modifyAllOfType(type.value, 'unselect'));
         this.items = [];
         this._items.next(this.items);
         this.setInitialValue(null);
@@ -48683,15 +42148,11 @@ class NovoMultiPickerElement {
         this.options = this.source.options || [];
         this._options = [];
         if (this.options) {
-            this.options.forEach((/**
-             * @param {?} option
-             * @return {?}
-             */
-            (option) => {
+            this.options.forEach((option) => {
                 /** @type {?} */
                 let formattedOption = this.setupOptionsByType(option);
                 this._options.push(formattedOption);
-            }));
+            });
         }
         this.source.options = this._options;
     }
@@ -48705,13 +42166,9 @@ class NovoMultiPickerElement {
             type: section.type,
             label: section.label || section.type,
         };
-        formattedSection.data = section.data.map((/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => {
+        formattedSection.data = section.data.map((item) => {
             return this.formatOption(section, item);
-        }));
+        });
         if (this.selectAllOption) {
             /** @type {?} */
             let selectAll = this.createSelectAllOption(section);
@@ -48756,14 +42213,9 @@ class NovoMultiPickerElement {
         };
         if (section.isChildOf) {
             /** @type {?} */
-            let allParents = section.data.reduce((/**
-             * @param {?} accum
-             * @param {?} next
-             * @return {?}
-             */
-            (accum, next) => {
+            let allParents = section.data.reduce((accum, next) => {
                 return accum.concat(next[section.isChildOf]);
-            }), []);
+            }, []);
             selectAll[section.isChildOf] = allParents;
         }
         return selectAll;
@@ -48885,19 +42337,11 @@ class NovoMultiPickerElement {
         /** @type {?} */
         let notShown = items.slice(this.chipsCount);
         if (notShown.length > 0) {
-            this.types.forEach((/**
-             * @param {?} type
-             * @return {?}
-             */
-            (type) => {
+            this.types.forEach((type) => {
                 /** @type {?} */
                 let count;
                 /** @type {?} */
-                let selectedOfType = notShown.filter((/**
-                 * @param {?} x
-                 * @return {?}
-                 */
-                (x) => x.type === type.value));
+                let selectedOfType = notShown.filter((x) => x.type === type.value);
                 if (selectedOfType.length === 1 && selectedOfType[0].value === 'ALL') {
                     count = this.getAllOfType(type.value).length - 1;
                 }
@@ -48909,7 +42353,7 @@ class NovoMultiPickerElement {
                 if (count > 0) {
                     this.notShown.push({ type: displayType, count: count });
                 }
-            }));
+            });
         }
     }
     /**
@@ -48956,11 +42400,7 @@ class NovoMultiPickerElement {
      */
     removeValue(item) {
         /** @type {?} */
-        let updatedValues = this.value[item.type].filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => x !== item.value));
+        let updatedValues = this.value[item.type].filter((x) => x !== item.value);
         this.value[item.type] = updatedValues;
         this.triggerValueUpdate();
         this.updateDisplayItems(item, 'remove');
@@ -48990,11 +42430,7 @@ class NovoMultiPickerElement {
      * @return {?}
      */
     allOfTypeSelected(type) {
-        return this.items.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => x.type === type && x.value === 'ALL')).length > 0;
+        return this.items.filter((x) => x.type === type && x.value === 'ALL').length > 0;
     }
     /**
      * @param {?} type
@@ -49006,23 +42442,15 @@ class NovoMultiPickerElement {
         let selecting = action === 'select';
         /** @type {?} */
         let allOfType = this.getAllOfType(type);
-        allOfType.forEach((/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => {
+        allOfType.forEach((item) => {
             item.checked = selecting;
             item.indeterminate = false;
-        }));
+        });
         if (selecting) {
             this.selectAll(allOfType, type);
         }
         else {
-            this.items = [...this.items.filter((/**
-                 * @param {?} x
-                 * @return {?}
-                 */
-                (x) => x.type !== type))];
+            this.items = [...this.items.filter((x) => x.type !== type)];
             this._items.next(this.items);
             this.value[type] = [];
         }
@@ -49037,11 +42465,7 @@ class NovoMultiPickerElement {
     triggerValueUpdate() {
         /** @type {?} */
         let updatedObject = {};
-        this.types.forEach((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => (updatedObject[x.value] = this.value[x.value])));
+        this.types.forEach((x) => (updatedObject[x.value] = this.value[x.value]));
         this.value = updatedObject;
     }
     /**
@@ -49055,22 +42479,14 @@ class NovoMultiPickerElement {
         }
         allOfType[0].checked = true;
         /** @type {?} */
-        let values = allOfType.map((/**
-         * @param {?} i
-         * @return {?}
-         */
-        (i) => {
+        let values = allOfType.map((i) => {
             return i.value;
-        }));
+        });
         // remove 'ALL' value
         values.splice(0, 1);
         this.value[type] = values;
         /** @type {?} */
-        let updatedItems = this.items.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => x.type !== type));
+        let updatedItems = this.items.filter((x) => x.type !== type);
         this.items = updatedItems;
         this.updateDisplayItems(allOfType[0], 'add');
     }
@@ -49091,20 +42507,12 @@ class NovoMultiPickerElement {
         this.removeItem(allItem);
         allItem.indeterminate = true;
         /** @type {?} */
-        let selectedItems = allOfType.filter((/**
-         * @param {?} i
-         * @return {?}
-         */
-        (i) => i.checked === true));
+        let selectedItems = allOfType.filter((i) => i.checked === true);
         this.items = [...this.items, ...selectedItems];
         /** @type {?} */
-        let values = selectedItems.map((/**
-         * @param {?} i
-         * @return {?}
-         */
-        (i) => {
+        let values = selectedItems.map((i) => {
             return i.value;
-        }));
+        });
         this.value[type] = [...values];
     }
     /**
@@ -49123,11 +42531,7 @@ class NovoMultiPickerElement {
      * @return {?}
      */
     getAllOfType(type) {
-        return this._options.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => x.type === type))[0].originalData;
+        return this._options.filter((x) => x.type === type)[0].originalData;
     }
     /**
      * @param {?} item
@@ -49152,11 +42556,7 @@ class NovoMultiPickerElement {
             return;
         }
         /** @type {?} */
-        let parent = this.types.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => !!x.isParentOf))[0];
+        let parent = this.types.filter((x) => !!x.isParentOf)[0];
         /** @type {?} */
         let parentType = parent.value;
         /** @type {?} */
@@ -49166,31 +42566,15 @@ class NovoMultiPickerElement {
         /** @type {?} */
         let allChildren = this.getAllOfType(childType);
         /** @type {?} */
-        let allCheckedChildren = allChildren.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => !!x.checked));
-        allParentType.forEach((/**
-         * @param {?} obj
-         * @return {?}
-         */
-        (obj) => {
+        let allCheckedChildren = allChildren.filter((x) => !!x.checked);
+        allParentType.forEach((obj) => {
             if (obj.value === 'ALL') {
                 return;
             }
             /** @type {?} */
-            let selectedChildrenOfParent = allCheckedChildren.filter((/**
-             * @param {?} x
-             * @return {?}
-             */
-            (x) => {
-                return x[parentType].filter((/**
-                 * @param {?} y
-                 * @return {?}
-                 */
-                (y) => y === obj.value)).length > 0;
-            }));
+            let selectedChildrenOfParent = allCheckedChildren.filter((x) => {
+                return x[parentType].filter((y) => y === obj.value).length > 0;
+            });
             if (selecting) {
                 if (obj.checked) {
                     return;
@@ -49199,17 +42583,9 @@ class NovoMultiPickerElement {
             }
             else {
                 /** @type {?} */
-                let allChildrenOfParent = allChildren.filter((/**
-                 * @param {?} x
-                 * @return {?}
-                 */
-                (x) => {
-                    return x.value !== 'ALL' && x[parentType].filter((/**
-                     * @param {?} y
-                     * @return {?}
-                     */
-                    (y) => y === obj.value)).length > 0;
-                }));
+                let allChildrenOfParent = allChildren.filter((x) => {
+                    return x.value !== 'ALL' && x[parentType].filter((y) => y === obj.value).length > 0;
+                });
                 if (selectedChildrenOfParent.length > 0) {
                     if (obj.checked) {
                         if (this.strictRelationship && allChildrenOfParent.length !== selectedChildrenOfParent.length) {
@@ -49241,7 +42617,7 @@ class NovoMultiPickerElement {
                     }
                 }
             }
-        }));
+        });
         if (this.selectAllOption) {
             this.updateIndeterminateStates(allParentType, allChildren, allCheckedChildren);
         }
@@ -49275,11 +42651,7 @@ class NovoMultiPickerElement {
             this.remove(null, potentialChildren[0]);
             return;
         }
-        potentialChildren.forEach((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => {
+        potentialChildren.forEach((x) => {
             if (x.value === 'ALL' && !x.checked) {
                 if (selecting) {
                     x.checked = true;
@@ -49292,7 +42664,7 @@ class NovoMultiPickerElement {
                 }
                 x.checked = selecting;
             }
-        }));
+        });
     }
     /**
      * @param {?} item
@@ -49306,15 +42678,11 @@ class NovoMultiPickerElement {
         let parentType = item.isChildOf;
         /** @type {?} */
         let potentialParents = this.getAllOfType(parentType);
-        potentialParents.forEach((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => {
+        potentialParents.forEach((x) => {
             if (!x.checked) {
                 x.indeterminate = selecting;
             }
-        }));
+        });
     }
     /**
      * @param {?} allParentType
@@ -49324,11 +42692,7 @@ class NovoMultiPickerElement {
      */
     updateIndeterminateStates(allParentType, allChildren, allCheckedChildren) {
         /** @type {?} */
-        let allCheckedOrIndeterminateParents = allParentType.filter((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => (!!x.checked || !!x.indeterminate) && x.value !== 'ALL'));
+        let allCheckedOrIndeterminateParents = allParentType.filter((x) => (!!x.checked || !!x.indeterminate) && x.value !== 'ALL');
         /** @type {?} */
         let isParentIndeterminate = !!allParentType[0].checked ? false : allCheckedOrIndeterminateParents.length > 0;
         /** @type {?} */
@@ -49348,19 +42712,11 @@ class NovoMultiPickerElement {
         let childType = parent.isParentOf;
         /** @type {?} */
         let potentialChildren = this.getAllOfType(childType);
-        potentialChildren.forEach((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => {
+        potentialChildren.forEach((x) => {
             if (x.value === 'ALL') {
                 return;
             }
-            if (x[parent.type].filter((/**
-             * @param {?} y
-             * @return {?}
-             */
-            (y) => y === parent.value)).length > 0) {
+            if (x[parent.type].filter((y) => y === parent.value).length > 0) {
                 if (x.checked && !selecting) {
                     x.checked = false;
                     if (this.allOfTypeSelected(childType)) {
@@ -49372,7 +42728,7 @@ class NovoMultiPickerElement {
                 }
                 x.checked = selecting;
             }
-        }));
+        });
     }
     /**
      * @param {?} child
@@ -49393,35 +42749,19 @@ class NovoMultiPickerElement {
     addIndividualChildren(children) {
         /** @type {?} */
         let parentAlreadySelected = false;
-        children.forEach((/**
-         * @param {?} x
-         * @return {?}
-         */
-        (x) => {
+        children.forEach((x) => {
             if (x.isChildOf) {
                 // only add children if their parents are not already selected
-                x[x.isChildOf].forEach((/**
-                 * @param {?} parent
-                 * @return {?}
-                 */
-                (parent) => {
-                    if (this.value[x.isChildOf].filter((/**
-                     * @param {?} p
-                     * @return {?}
-                     */
-                    (p) => p === parent)).length > 0) {
+                x[x.isChildOf].forEach((parent) => {
+                    if (this.value[x.isChildOf].filter((p) => p === parent).length > 0) {
                         parentAlreadySelected = true;
                     }
-                }));
+                });
             }
-            if (this.value[x.type].filter((/**
-             * @param {?} item
-             * @return {?}
-             */
-            (item) => item === x.value)).length === 0 && !parentAlreadySelected) {
+            if (this.value[x.type].filter((item) => item === x.value).length === 0 && !parentAlreadySelected) {
                 this.add(x);
             }
-        }));
+        });
     }
     /**
      * @param {?} model
@@ -49433,11 +42773,7 @@ class NovoMultiPickerElement {
         if (!this.types) {
             return;
         }
-        this.types.forEach((/**
-         * @param {?} typeObj
-         * @return {?}
-         */
-        (typeObj) => {
+        this.types.forEach((typeObj) => {
             /** @type {?} */
             let type = typeObj.value;
             if (this.value[type]) {
@@ -49449,21 +42785,13 @@ class NovoMultiPickerElement {
                 let optionsByType = options.allOfType;
                 /** @type {?} */
                 let allSelected = options.allOfTypeSelected;
-                this.value[type].forEach((/**
-                 * @param {?} item
-                 * @return {?}
-                 */
-                (item) => {
+                this.value[type].forEach((item) => {
                     if (!allSelected && !indeterminateIsSet) {
                         indeterminateIsSet = true;
                         this.setIndeterminateState(optionsByType, true);
                     }
                     /** @type {?} */
-                    let value = optionsByType.filter((/**
-                     * @param {?} x
-                     * @return {?}
-                     */
-                    (x) => x.value === item))[0];
+                    let value = optionsByType.filter((x) => x.value === item)[0];
                     value.checked = true;
                     if (!allSelected) {
                         this.updateDisplayItems(value, 'add');
@@ -49471,7 +42799,7 @@ class NovoMultiPickerElement {
                     if (this.strictRelationship && value.isParentOf) {
                         this.updateChildrenValue(value, 'select');
                     }
-                }));
+                });
                 if (typeObj.isChildOf) {
                     this.modifyAffectedParentsOrChildren(true, { value: type, isChildOf: true });
                 }
@@ -49479,7 +42807,7 @@ class NovoMultiPickerElement {
             else {
                 this.value[type] = [];
             }
-        }));
+        });
     }
     /**
      * @param {?} optionsByType
@@ -49576,57 +42904,10 @@ NovoMultiPickerElement.propDecorators = {
     blur: [{ type: Output }],
     value: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.source;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.placeholder;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.types;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.changed;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.focus;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.blur;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.items;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype._items;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.options;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype._options;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.selected;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.config;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.chipsCount;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.selectAllOption;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.strictRelationship;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype._value;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.notShown;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.model;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.onModelChange;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.onModelTouched;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.element;
-    /** @type {?} */
-    NovoMultiPickerElement.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/multi-picker/MultiPicker.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoMultiPickerModule {
 }
@@ -49640,8 +42921,7 @@ NovoMultiPickerModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/security/Security.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class Security {
     constructor() {
@@ -49719,11 +42999,7 @@ class Security {
                     }
                 }
                 else if (route.permissions && route.permissions.length) {
-                    if (route.permissions.every((/**
-                     * @param {?} perm
-                     * @return {?}
-                     */
-                    (perm) => this.has(perm)))) {
+                    if (route.permissions.every((perm) => this.has(perm))) {
                         filtered.push(route);
                     }
                 }
@@ -49738,17 +43014,10 @@ class Security {
 Security.decorators = [
     { type: Injectable }
 ];
-if (false) {
-    /** @type {?} */
-    Security.prototype.credentials;
-    /** @type {?} */
-    Security.prototype.change;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/unless/Unless.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class Unless {
     /**
@@ -49788,11 +43057,7 @@ class Unless {
             }
         }
         else {
-            display = this.permissions.split('&&').every((/**
-             * @param {?} p
-             * @return {?}
-             */
-            (p) => this.security.has(p.trim())));
+            display = this.permissions.split('&&').every((p) => this.security.has(p.trim()));
         }
         if (display) {
             if (!this.isDisplayed) {
@@ -49820,32 +43085,10 @@ Unless.ctorParameters = () => [
 Unless.propDecorators = {
     bhUnless: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    Unless.prototype.permissions;
-    /** @type {?} */
-    Unless.prototype.isDisplayed;
-    /**
-     * @type {?}
-     * @private
-     */
-    Unless.prototype.templateRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    Unless.prototype.viewContainer;
-    /**
-     * @type {?}
-     * @private
-     */
-    Unless.prototype.security;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/unless/Unless.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class UnlessModule {
 }
@@ -49859,8 +43102,7 @@ UnlessModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table.source.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -49871,10 +43113,10 @@ class DataTableSource extends DataSource {
      * @param {?} state
      * @param {?} ref
      */
-    constructor(tableService, state, ref) {
+    constructor(tableService, state$$1, ref) {
         super();
         this.tableService = tableService;
-        this.state = state;
+        this.state = state$$1;
         this.ref = ref;
         this.total = 0;
         this.currentTotal = 0;
@@ -49901,25 +43143,15 @@ class DataTableSource extends DataSource {
     connect() {
         /** @type {?} */
         const displayDataChanges = [this.state.updates];
-        return merge(...displayDataChanges).pipe(startWith(null), switchMap((/**
-         * @return {?}
-         */
-        () => {
+        return merge(...displayDataChanges).pipe(startWith(null), switchMap(() => {
             this.pristine = false;
             this.loading = true;
             return this.tableService.getTableResults(this.state.sort, this.state.filter, this.state.page, this.state.pageSize, this.state.globalSearch, this.state.outsideFilter);
-        })), map((/**
-         * @param {?} data
-         * @return {?}
-         */
-        (data) => {
+        }), map((data) => {
             if (!this.totalSet || this.state.isForceRefresh) {
                 this.total = data.total;
                 this.totalSet = true;
                 this.state.isForceRefresh = false;
-            }
-            else if (data.total > this.total) {
-                this.total = data.total;
             }
             this.currentTotal = data.total;
             this.current = data.results.length;
@@ -49928,76 +43160,30 @@ class DataTableSource extends DataSource {
             this.state.selectedRows.clear();
             this.state.onSelectionChange();
             // Mark changes
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            setTimeout(() => {
                 this.ref.markForCheck();
-                setTimeout((/**
-                 * @return {?}
-                 */
-                () => {
+                setTimeout(() => {
                     this.loading = false;
                     this.state.dataLoaded.next();
                     this.ref.markForCheck();
-                }));
-            }));
+                });
+            });
             return data.results;
-        })), catchError((/**
-         * @param {?} err
-         * @param {?} caught
-         * @return {?}
-         */
-        (err, caught) => {
+        }), catchError((err, caught) => {
             console.error(err, caught); // tslint: disable-line
             this.loading = false;
             return of(null);
-        })));
+        }));
     }
     /**
      * @return {?}
      */
     disconnect() { }
 }
-if (false) {
-    /** @type {?} */
-    DataTableSource.prototype.total;
-    /** @type {?} */
-    DataTableSource.prototype.currentTotal;
-    /** @type {?} */
-    DataTableSource.prototype.current;
-    /** @type {?} */
-    DataTableSource.prototype.loading;
-    /** @type {?} */
-    DataTableSource.prototype.pristine;
-    /** @type {?} */
-    DataTableSource.prototype.data;
-    /**
-     * @type {?}
-     * @private
-     */
-    DataTableSource.prototype.totalSet;
-    /**
-     * @type {?}
-     * @private
-     */
-    DataTableSource.prototype.tableService;
-    /**
-     * @type {?}
-     * @private
-     */
-    DataTableSource.prototype.state;
-    /**
-     * @type {?}
-     * @private
-     */
-    DataTableSource.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/services/data-table-filter-utils.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoDataTableFilterUtils {
     /**
@@ -50006,38 +43192,34 @@ class NovoDataTableFilterUtils {
      * @param {?=} multiSelect
      * @return {?}
      */
-    static constructFilter(filter, type, multiSelect) {
+    static constructFilter(filter$$1, type, multiSelect) {
         /** @type {?} */
-        let actualFilter = filter;
-        if (filter) {
+        let actualFilter = filter$$1;
+        if (filter$$1) {
             if (type && type === 'date') {
-                if (filter.startDate && filter.endDate) {
+                if (filter$$1.startDate && filter$$1.endDate) {
                     actualFilter = {
-                        min: startOfDay(filter.startDate.date),
-                        max: startOfDay(addDays(startOfDay(filter.endDate.date), 1)),
+                        min: startOfDay(filter$$1.startDate.date),
+                        max: startOfDay(addDays(startOfDay(filter$$1.endDate.date), 1)),
                     };
                 }
                 else {
                     actualFilter = {
-                        min: filter.min ? addDays(startOfToday(), filter.min) : startOfToday(),
-                        max: filter.max ? addDays(endOfToday(), filter.max) : endOfToday(),
+                        min: filter$$1.min ? addDays(startOfToday(), filter$$1.min) : startOfToday(),
+                        max: filter$$1.max ? addDays(endOfToday(), filter$$1.max) : endOfToday(),
                     };
                 }
             }
-            if (multiSelect && Array.isArray(filter)) {
-                actualFilter = filter.map((/**
-                 * @param {?} filterItem
-                 * @return {?}
-                 */
-                (filterItem) => {
+            if (multiSelect && Array.isArray(filter$$1)) {
+                actualFilter = filter$$1.map((filterItem) => {
                     if (filterItem && filterItem.hasOwnProperty('value')) {
                         return filterItem.value;
                     }
                     return filterItem;
-                }));
+                });
             }
             else if (actualFilter && actualFilter.hasOwnProperty('value')) {
-                actualFilter = filter.value;
+                actualFilter = filter$$1.value;
             }
         }
         return actualFilter;
@@ -50046,8 +43228,7 @@ class NovoDataTableFilterUtils {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/state/data-table-state.service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -50075,12 +43256,6 @@ class DataTableState {
      */
     get userFiltered() {
         return !!(this.filter || this.sort || this.globalSearch || this.outsideFilter);
-    }
-    /**
-     * @return {?}
-     */
-    get userFilteredInternal() {
-        return !!(this.filter || this.sort || this.globalSearch);
     }
     /**
      * @return {?}
@@ -50191,60 +43366,21 @@ class DataTableState {
             if (preferences.filter) {
                 /** @type {?} */
                 let filters = Helpers.convertToArray(preferences.filter);
-                filters.forEach((/**
-                 * @param {?} filter
-                 * @return {?}
-                 */
-                (filter) => {
-                    filter.value =
-                        filter.selectedOption && filter.type
-                            ? NovoDataTableFilterUtils.constructFilter(filter.selectedOption, filter.type)
-                            : filter.value;
-                }));
+                filters.forEach((filter$$1) => {
+                    filter$$1.value =
+                        filter$$1.selectedOption && filter$$1.type
+                            ? NovoDataTableFilterUtils.constructFilter(filter$$1.selectedOption, filter$$1.type)
+                            : filter$$1.value;
+                });
                 this.filter = filters;
             }
         }
     }
 }
-if (false) {
-    /** @type {?} */
-    DataTableState.prototype.selectionSource;
-    /** @type {?} */
-    DataTableState.prototype.paginationSource;
-    /** @type {?} */
-    DataTableState.prototype.sortFilterSource;
-    /** @type {?} */
-    DataTableState.prototype.resetSource;
-    /** @type {?} */
-    DataTableState.prototype.expandSource;
-    /** @type {?} */
-    DataTableState.prototype.dataLoaded;
-    /** @type {?} */
-    DataTableState.prototype.sort;
-    /** @type {?} */
-    DataTableState.prototype.filter;
-    /** @type {?} */
-    DataTableState.prototype.page;
-    /** @type {?} */
-    DataTableState.prototype.pageSize;
-    /** @type {?} */
-    DataTableState.prototype.globalSearch;
-    /** @type {?} */
-    DataTableState.prototype.selectedRows;
-    /** @type {?} */
-    DataTableState.prototype.expandedRows;
-    /** @type {?} */
-    DataTableState.prototype.outsideFilter;
-    /** @type {?} */
-    DataTableState.prototype.isForceRefresh;
-    /** @type {?} */
-    DataTableState.prototype.updates;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/services/static-data-table.service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -50266,32 +43402,24 @@ class StaticDataTableService {
      * @param {?=} outsideFilter
      * @return {?}
      */
-    getTableResults(sort, filter, page = 0, pageSize, globalSearch, outsideFilter) {
+    getTableResults(sort, filter$$1, page = 0, pageSize, globalSearch, outsideFilter) {
         this.currentData = [...this.originalData];
         /** @type {?} */
         let total = this.originalData.length;
         if (this.currentData.length !== 0) {
             if (globalSearch) {
-                this.currentData = this.currentData.filter((/**
-                 * @param {?} item
-                 * @return {?}
-                 */
-                (item) => Object.keys(item).some((/**
-                 * @param {?} key
-                 * @return {?}
-                 */
-                (key) => `${item[key]}`.toLowerCase().includes(globalSearch.toLowerCase())))));
+                this.currentData = this.currentData.filter((item) => Object.keys(item).some((key) => `${item[key]}`.toLowerCase().includes(globalSearch.toLowerCase())));
                 total = this.currentData.length;
             }
-            if (filter) {
-                this.currentData = this.filterData(this.currentData, filter);
+            if (filter$$1) {
+                this.currentData = this.filterData(this.currentData, filter$$1);
                 total = this.currentData.length;
             }
             if (sort) {
                 this.currentData = this.currentData.sort(Helpers.sortByField(sort.id, sort.value === 'desc'));
                 total = this.currentData.length;
             }
-            if (!sort && !filter && !globalSearch && !outsideFilter) {
+            if (!sort && !filter$$1 && !globalSearch && !outsideFilter) {
                 this.currentData = [...this.originalData];
             }
             if (!Helpers.isBlank(page) && !Helpers.isBlank(pageSize)) {
@@ -50305,14 +43433,10 @@ class StaticDataTableService {
      * @param {?} filter
      * @return {?}
      */
-    filterData(currentData, filter) {
+    filterData(currentData, filter$$1) {
         /** @type {?} */
-        let filters = Helpers.convertToArray(filter);
-        filters.forEach((/**
-         * @param {?} aFilter
-         * @return {?}
-         */
-        (aFilter) => {
+        let filters = Helpers.convertToArray(filter$$1);
+        filters.forEach((aFilter) => {
             if (Array.isArray(aFilter.value)) {
                 /** @type {?} */
                 let values = Helpers.convertToArray(aFilter.value).map(Helpers.escapeString);
@@ -50323,24 +43447,14 @@ class StaticDataTableService {
                 let value = Helpers.escapeString(aFilter.value);
                 currentData = currentData.filter(Helpers.filterByField(aFilter.id, value));
             }
-        }));
+        });
         return currentData;
     }
-}
-if (false) {
-    /** @type {?} */
-    StaticDataTableService.prototype.originalData;
-    /**
-     * @type {?}
-     * @private
-     */
-    StaticDataTableService.prototype.currentData;
 }
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -50351,10 +43465,10 @@ class NovoDataTable {
      * @param {?} ref
      * @param {?} state
      */
-    constructor(labels, ref, state) {
+    constructor(labels, ref, state$$1) {
         this.labels = labels;
         this.ref = ref;
-        this.state = state;
+        this.state = state$$1;
         this.globalSearchHiddenClassToggle = false;
         this.resized = new EventEmitter();
         this.name = 'novo-data-table';
@@ -50362,12 +43476,7 @@ class NovoDataTable {
         this.rowIdentifier = 'id';
         this.activeRowIdentifier = '';
         // prettier-ignore
-        this.trackByFn = (/**
-         * @param {?} index
-         * @param {?} item
-         * @return {?}
-         */
-        (index, item) => item.id);
+        this.trackByFn = (index, item) => item.id;
         this.templates = {};
         this.fixedHeader = false;
         this._hideGlobalSearch = true;
@@ -50380,23 +43489,15 @@ class NovoDataTable {
         this.expandable = false;
         this.initialized = false;
         this.scrollListenerHandler = this.scrollListener.bind(this);
-        this.sortFilterSubscription = this.state.sortFilterSource.subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        this.sortFilterSubscription = this.state.sortFilterSource.subscribe((event) => {
             if (this.name !== 'novo-data-table') {
                 this.preferencesChanged.emit({ name: this.name, sort: event.sort, filter: event.filter, globalSearch: event.globalSearch });
             }
             else {
                 notify('Must have [name] set on data-table to use preferences!');
             }
-        }));
-        this.paginationSubscription = this.state.paginationSource.subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        });
+        this.paginationSubscription = this.state.paginationSource.subscribe((event) => {
             if (this.name !== 'novo-data-table') {
                 if (event.isPageSizeChange) {
                     this.preferencesChanged.emit({ name: this.name, pageSize: event.pageSize });
@@ -50405,18 +43506,12 @@ class NovoDataTable {
             else {
                 notify('Must have [name] set on data-table to use preferences!');
             }
-        }));
-        this.resetSubscription = this.state.resetSource.subscribe((/**
-         * @return {?}
-         */
-        () => {
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+        });
+        this.resetSubscription = this.state.resetSource.subscribe(() => {
+            setTimeout(() => {
                 this.ref.detectChanges();
-            }), 300);
-        }));
+            }, 300);
+        });
     }
     /**
      * @param {?} displayedColumns
@@ -50437,12 +43532,9 @@ class NovoDataTable {
         this._disabledColumns = displayedColumns;
         this.configureLastDisplayedColumn();
         if (this.initialized) {
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            setTimeout(() => {
                 this.scrollListener();
-            }));
+            });
         }
     }
     /**
@@ -50485,15 +43577,11 @@ class NovoDataTable {
         }
         if (outsideFilter) {
             // Re-subscribe
-            this.outsideFilterSubscription = outsideFilter.subscribe((/**
-             * @param {?} filter
-             * @return {?}
-             */
-            (filter) => {
-                this.state.outsideFilter = filter;
+            this.outsideFilterSubscription = outsideFilter.subscribe((filter$$1) => {
+                this.state.outsideFilter = filter$$1;
                 this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
                 this.ref.markForCheck();
-            }));
+            });
         }
     }
     /**
@@ -50507,15 +43595,11 @@ class NovoDataTable {
         }
         if (refreshSubject) {
             // Re-subscribe
-            this.refreshSubscription = refreshSubject.subscribe((/**
-             * @param {?} filter
-             * @return {?}
-             */
-            (filter) => {
+            this.refreshSubscription = refreshSubject.subscribe((filter$$1) => {
                 this.state.isForceRefresh = true;
                 this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
                 this.ref.markForCheck();
-            }));
+            });
         }
     }
     /**
@@ -50625,25 +43709,17 @@ class NovoDataTable {
             this.expandable = this.displayedColumns.includes('expand');
         }
         // Default templates defined here
-        this.defaultTemplates.forEach((/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => {
+        this.defaultTemplates.forEach((item) => {
             // Only override if it doesn't already exist
             if (!this.templates[item.getType()]) {
                 this.templates[item.getType()] = item.template;
             }
-        }));
+        });
         // Custom templates passed in
-        this.customTemplates.forEach((/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => {
+        this.customTemplates.forEach((item) => {
             // Override anything that is custom and in HTML
             this.templates[item.getType()] = item.template;
-        }));
+        });
         // Load columns
         this.configureColumns();
         // State
@@ -50724,18 +43800,14 @@ class NovoDataTable {
      * @return {?}
      */
     expandRows(expand) {
-        (this.dataSource.data || []).forEach((/**
-         * @param {?} row
-         * @return {?}
-         */
-        (row) => {
+        (this.dataSource.data || []).forEach((row) => {
             if (!expand) {
                 this.state.expandedRows.delete(`${row[this.rowIdentifier]}`);
             }
             else {
                 this.state.expandedRows.add(`${row[this.rowIdentifier]}`);
             }
-        }));
+        });
         this.state.onExpandChange();
     }
     /**
@@ -50779,18 +43851,14 @@ class NovoDataTable {
      * @return {?}
      */
     selectRows(selected) {
-        (this.dataSource.data || []).forEach((/**
-         * @param {?} row
-         * @return {?}
-         */
-        (row) => {
+        (this.dataSource.data || []).forEach((row) => {
             if (!selected) {
                 this.state.selectedRows.delete(`${row[this.rowIdentifier]}`);
             }
             else {
                 this.state.selectedRows.set(`${row[this.rowIdentifier]}`, row);
             }
-        }));
+        });
         this.state.onSelectionChange();
     }
     /**
@@ -50810,40 +43878,24 @@ class NovoDataTable {
      */
     configureLastDisplayedColumn() {
         if (this.columns && this.displayedColumns && 0 !== this.columns.length && 0 !== this.displayedColumns.length) {
-            this.columns.forEach((/**
-             * @param {?} column
-             * @return {?}
-             */
-            (column) => {
+            this.columns.forEach((column) => {
                 if (column.initialResizable) {
                     column.resizable = column.initialResizable.resizable;
                     column.width = column.initialResizable.width;
                     column.initialResizable = undefined;
                 }
-            }));
+            });
             /** @type {?} */
-            const resizableColumns = this.displayedColumns.filter((/**
-             * @param {?} name
-             * @return {?}
-             */
-            (name) => {
-                return (this.columns.findIndex((/**
-                 * @param {?} column
-                 * @return {?}
-                 */
-                (column) => {
+            const resizableColumns = this.displayedColumns.filter((name) => {
+                return (this.columns.findIndex((column) => {
                     return column.resizable && column.id === name;
-                })) !== -1);
-            }));
+                }) !== -1);
+            });
             if (resizableColumns && resizableColumns.length > 0) {
                 /** @type {?} */
-                const lastResizableColumn = this.columns.find((/**
-                 * @param {?} column
-                 * @return {?}
-                 */
-                (column) => {
+                const lastResizableColumn = this.columns.find((column) => {
                     return column.id === resizableColumns[resizableColumns.length - 1];
-                }));
+                });
                 lastResizableColumn.initialResizable = {
                     resizable: lastResizableColumn.resizable,
                     width: lastResizableColumn.width,
@@ -50860,11 +43912,7 @@ class NovoDataTable {
     configureColumns() {
         if (this.columns && this.columns.length !== 0 && Object.keys(this.templates).length !== 0) {
             // Figure the column templates
-            this.columns.forEach((/**
-             * @param {?} column
-             * @return {?}
-             */
-            (column) => {
+            this.columns.forEach((column) => {
                 // Figure the template
                 /** @type {?} */
                 let templateName;
@@ -50899,7 +43947,7 @@ class NovoDataTable {
                     }
                 }
                 this.columnToTemplate[column.id] = this.templates[templateName];
-            }));
+            });
             this.configureLastDisplayedColumn();
             this.columnsLoaded = true;
         }
@@ -51149,7 +44197,7 @@ NovoDataTable.propDecorators = {
     globalSearchHiddenClassToggle: [{ type: HostBinding, args: ['class.global-search-hidden',] }],
     customTemplates: [{ type: ContentChildren, args: [NovoTemplate,] }],
     defaultTemplates: [{ type: ViewChildren, args: [NovoTemplate,] }],
-    novoDataTableContainer: [{ type: ViewChild, args: ['novoDataTableContainer', { static: false },] }],
+    novoDataTableContainer: [{ type: ViewChild, args: ['novoDataTableContainer',] }],
     resized: [{ type: Output }],
     displayedColumns: [{ type: Input }],
     paginationOptions: [{ type: Input }],
@@ -51176,135 +44224,10 @@ NovoDataTable.propDecorators = {
     empty: [{ type: HostBinding, args: ['class.empty',] }],
     loadingClass: [{ type: HostBinding, args: ['class.loading',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTable.prototype.globalSearchHiddenClassToggle;
-    /** @type {?} */
-    NovoDataTable.prototype.customTemplates;
-    /** @type {?} */
-    NovoDataTable.prototype.defaultTemplates;
-    /** @type {?} */
-    NovoDataTable.prototype.novoDataTableContainer;
-    /** @type {?} */
-    NovoDataTable.prototype.resized;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._disabledColumns;
-    /** @type {?} */
-    NovoDataTable.prototype.paginationOptions;
-    /** @type {?} */
-    NovoDataTable.prototype.searchOptions;
-    /** @type {?} */
-    NovoDataTable.prototype.defaultSort;
-    /** @type {?} */
-    NovoDataTable.prototype.name;
-    /** @type {?} */
-    NovoDataTable.prototype.allowMultipleFilters;
-    /** @type {?} */
-    NovoDataTable.prototype.rowIdentifier;
-    /** @type {?} */
-    NovoDataTable.prototype.activeRowIdentifier;
-    /** @type {?} */
-    NovoDataTable.prototype.trackByFn;
-    /** @type {?} */
-    NovoDataTable.prototype.templates;
-    /** @type {?} */
-    NovoDataTable.prototype.fixedHeader;
-    /** @type {?} */
-    NovoDataTable.prototype.paginatorDataFeatureId;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._customFilter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._hasExandedRows;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._forceShowHeader;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._hideGlobalSearch;
-    /** @type {?} */
-    NovoDataTable.prototype.preferencesChanged;
-    /** @type {?} */
-    NovoDataTable.prototype.dataSource;
-    /** @type {?} */
-    NovoDataTable.prototype.loading;
-    /** @type {?} */
-    NovoDataTable.prototype.columnToTemplate;
-    /** @type {?} */
-    NovoDataTable.prototype.columnsLoaded;
-    /** @type {?} */
-    NovoDataTable.prototype.selection;
-    /** @type {?} */
-    NovoDataTable.prototype.scrollLeft;
-    /** @type {?} */
-    NovoDataTable.prototype.expandable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.outsideFilterSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.refreshSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.resetSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.paginationSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.sortFilterSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._columns;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.scrollListenerHandler;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.initialized;
-    /** @type {?} */
-    NovoDataTable.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.ref;
-    /** @type {?} */
-    NovoDataTable.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cells/data-table-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -51336,27 +44259,19 @@ class NovoDataTableCell extends CdkCell {
             this.renderer.addClass(this.elementRef.nativeElement, 'novo-data-table-cell-align-right');
         }
         this.calculateWidths();
-        this.subscriptions.push(this.resized.subscribe((/**
-         * @param {?} column
-         * @return {?}
-         */
-        (column) => {
+        this.subscriptions.push(this.resized.subscribe((column) => {
             if (column === this.column) {
                 this.calculateWidths();
             }
-        })));
+        }));
     }
     /**
      * @return {?}
      */
     ngOnDestroy() {
-        this.subscriptions.forEach((/**
-         * @param {?} subscription
-         * @return {?}
-         */
-        (subscription) => {
+        this.subscriptions.forEach((subscription) => {
             subscription.unsubscribe();
-        }));
+        });
     }
     /**
      * @private
@@ -51392,38 +44307,10 @@ NovoDataTableCell.propDecorators = {
     column: [{ type: Input }],
     resized: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTableCell.prototype.role;
-    /** @type {?} */
-    NovoDataTableCell.prototype.row;
-    /** @type {?} */
-    NovoDataTableCell.prototype.template;
-    /** @type {?} */
-    NovoDataTableCell.prototype.column;
-    /** @type {?} */
-    NovoDataTableCell.prototype.resized;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCell.prototype.subscriptions;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCell.prototype.elementRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCell.prototype.renderer;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cells/data-table-checkbox-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -51446,20 +44333,14 @@ class NovoDataTableCheckboxCell extends CdkCell {
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', `novo-checkbox-column-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, `novo-checkbox-column-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, 'novo-data-table-checkbox-cell');
-        this.selectionSubscription = this.dataTable.state.selectionSource.subscribe((/**
-         * @return {?}
-         */
-        () => {
+        this.selectionSubscription = this.dataTable.state.selectionSource.subscribe(() => {
             this.checked = this.dataTable.isSelected(this.row);
             this.ref.markForCheck();
-        }));
-        this.resetSubscription = this.dataTable.state.resetSource.subscribe((/**
-         * @return {?}
-         */
-        () => {
+        });
+        this.resetSubscription = this.dataTable.state.resetSource.subscribe(() => {
             this.checked = false;
             this.ref.markForCheck();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -51512,38 +44393,10 @@ NovoDataTableCheckboxCell.propDecorators = {
     role: [{ type: HostBinding, args: ['attr.role',] }],
     row: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTableCheckboxCell.prototype.role;
-    /** @type {?} */
-    NovoDataTableCheckboxCell.prototype.row;
-    /** @type {?} */
-    NovoDataTableCheckboxCell.prototype.checked;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxCell.prototype.selectionSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxCell.prototype.resetSubscription;
-    /** @type {?} */
-    NovoDataTableCheckboxCell.prototype.columnDef;
-    /** @type {?} */
-    NovoDataTableCheckboxCell.prototype.dataTable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxCell.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cells/data-table-expand-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -51566,13 +44419,10 @@ class NovoDataTableExpandCell extends CdkCell {
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', `novo-expand-column-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, `novo-expand-column-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, 'novo-data-table-expand-cell');
-        this.expandSubscription = this.dataTable.state.expandSource.subscribe((/**
-         * @return {?}
-         */
-        () => {
+        this.expandSubscription = this.dataTable.state.expandSource.subscribe(() => {
             this.expanded = this.dataTable.isExpanded(this.row);
             this.ref.markForCheck();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -51616,33 +44466,10 @@ NovoDataTableExpandCell.propDecorators = {
     role: [{ type: HostBinding, args: ['attr.role',] }],
     row: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTableExpandCell.prototype.role;
-    /** @type {?} */
-    NovoDataTableExpandCell.prototype.row;
-    /** @type {?} */
-    NovoDataTableExpandCell.prototype.expanded;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandCell.prototype.expandSubscription;
-    /** @type {?} */
-    NovoDataTableExpandCell.prototype.columnDef;
-    /** @type {?} */
-    NovoDataTableExpandCell.prototype.dataTable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandCell.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/rows/data-table-header-row.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoDataTableHeaderRow extends CdkHeaderRow {
     constructor() {
@@ -51664,19 +44491,10 @@ NovoDataTableHeaderRow.propDecorators = {
     fixedHeader: [{ type: HostBinding, args: ['class.fixed-header',] }, { type: Input }],
     role: [{ type: HostBinding, args: ['attr.role',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTableHeaderRow.prototype.rowClass;
-    /** @type {?} */
-    NovoDataTableHeaderRow.prototype.fixedHeader;
-    /** @type {?} */
-    NovoDataTableHeaderRow.prototype.role;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/rows/data-table-row.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoDataTableRow extends CdkRow {
     constructor() {
@@ -51698,21 +44516,10 @@ NovoDataTableRow.propDecorators = {
     id: [{ type: HostBinding, args: ['attr.id',] }, { type: Input }],
     dataAutomationId: [{ type: HostBinding, args: ['attr.data-automation-id',] }, { type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTableRow.prototype.rowClass;
-    /** @type {?} */
-    NovoDataTableRow.prototype.role;
-    /** @type {?} */
-    NovoDataTableRow.prototype.id;
-    /** @type {?} */
-    NovoDataTableRow.prototype.dataAutomationId;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/sort-filter/sort-filter.directive.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -51721,8 +44528,8 @@ class NovoDataTableSortFilter {
     /**
      * @param {?} state
      */
-    constructor(state) {
-        this.state = state;
+    constructor(state$$1) {
+        this.state = state$$1;
     }
     /**
      * @param {?} id
@@ -51735,21 +44542,21 @@ class NovoDataTableSortFilter {
      */
     filter(id, type, value, transform, allowMultipleFilters = false, selectedOption) {
         /** @type {?} */
-        let filter;
+        let filter$$1;
         if (allowMultipleFilters) {
-            filter = this.resolveMultiFilter(id, type, value, transform, selectedOption);
+            filter$$1 = this.resolveMultiFilter(id, type, value, transform, selectedOption);
         }
         else {
             if (!Helpers.isBlank(value)) {
-                filter = Object.assign({ id, type, value, transform }, (selectedOption && { selectedOption }));
+                filter$$1 = Object.assign({ id, type, value, transform }, (selectedOption && { selectedOption }));
             }
             else {
-                filter = undefined;
+                filter$$1 = undefined;
             }
         }
-        this.state.filter = filter;
+        this.state.filter = filter$$1;
         this.state.reset(false, true);
-        this.state.updates.next({ filter: filter, sort: this.state.sort });
+        this.state.updates.next({ filter: filter$$1, sort: this.state.sort });
         this.state.onSortFilterChange();
     }
     /**
@@ -51776,24 +44583,20 @@ class NovoDataTableSortFilter {
      */
     resolveMultiFilter(id, type, value, transform, selectedOption) {
         /** @type {?} */
-        let filter;
-        filter = Helpers.convertToArray(this.state.filter);
+        let filter$$1;
+        filter$$1 = Helpers.convertToArray(this.state.filter);
         /** @type {?} */
-        let filterIndex = filter.findIndex((/**
-         * @param {?} aFilter
-         * @return {?}
-         */
-        (aFilter) => aFilter && aFilter.id === id));
+        let filterIndex = filter$$1.findIndex((aFilter) => aFilter && aFilter.id === id);
         if (filterIndex > -1) {
-            filter.splice(filterIndex, 1);
+            filter$$1.splice(filterIndex, 1);
         }
         if (!Helpers.isBlank(value)) {
-            filter = [...filter, Object.assign({ id, type, value, transform }, (selectedOption && { selectedOption }))];
+            filter$$1 = [...filter$$1, Object.assign({ id, type, value, transform }, (selectedOption && { selectedOption }))];
         }
-        if (filter.length < 1) {
-            filter = undefined;
+        if (filter$$1.length < 1) {
+            filter$$1 = undefined;
         }
-        return filter;
+        return filter$$1;
     }
 }
 NovoDataTableSortFilter.decorators = [
@@ -51805,18 +44608,10 @@ NovoDataTableSortFilter.decorators = [
 NovoDataTableSortFilter.ctorParameters = () => [
     { type: DataTableState }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableSortFilter.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cell-headers/data-table-header-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -51831,10 +44626,10 @@ class NovoDataTableCellHeader {
      * @param {?} _sort
      * @param {?} _cdkColumnDef
      */
-    constructor(changeDetectorRef, labels, state, renderer, elementRef, _sort, _cdkColumnDef) {
+    constructor(changeDetectorRef, labels, state$$1, renderer, elementRef, _sort, _cdkColumnDef) {
         this.changeDetectorRef = changeDetectorRef;
         this.labels = labels;
-        this.state = state;
+        this.state = state$$1;
         this.renderer = renderer;
         this.elementRef = elementRef;
         this._sort = _sort;
@@ -51850,11 +44645,7 @@ class NovoDataTableCellHeader {
         this.optionFilter = '';
         this.error = false;
         this.subscriptions = [];
-        this._rerenderSubscription = state.updates.subscribe((/**
-         * @param {?} change
-         * @return {?}
-         */
-        (change) => this.checkSortFilterState(change)));
+        this._rerenderSubscription = state$$1.updates.subscribe((change) => this.checkSortFilterState(change));
     }
     /**
      * @param {?} column
@@ -51913,13 +44704,9 @@ class NovoDataTableCellHeader {
      */
     ngOnDestroy() {
         this._rerenderSubscription.unsubscribe();
-        this.subscriptions.forEach((/**
-         * @param {?} subscription
-         * @return {?}
-         */
-        (subscription) => {
+        this.subscriptions.forEach((subscription) => {
             subscription.unsubscribe();
-        }));
+        });
     }
     /**
      * @param {?} sortFilterState
@@ -51938,11 +44725,7 @@ class NovoDataTableCellHeader {
         /** @type {?} */
         const tableFilter = Helpers.convertToArray(sortFilterState.filter);
         /** @type {?} */
-        const thisFilter = tableFilter.find((/**
-         * @param {?} filter
-         * @return {?}
-         */
-        (filter) => filter && filter.id === this.id));
+        const thisFilter = tableFilter.find((filter$$1) => filter$$1 && filter$$1.id === this.id);
         if (thisFilter) {
             this.filterActive = true;
             if (initialConfig && thisFilter.type === 'date' && thisFilter.selectedOption) {
@@ -51965,21 +44748,13 @@ class NovoDataTableCellHeader {
             this.multiSelectedOptions = this.filter ? [...this.filter] : [];
             if (this.config.filterConfig.options) {
                 if (typeof this.config.filterConfig.options[0] === 'string') {
-                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((/**
-                     * @param {?} option
-                     * @return {?}
-                     */
-                    (option) => ({ option: option, hidden: false })));
+                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((option) => ({ option: option, hidden: false }));
                 }
                 else {
-                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((/**
-                     * @param {?} option
-                     * @return {?}
-                     */
-                    (option) => ({
+                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((option) => ({
                         option: option,
                         hidden: false,
-                    })));
+                    }));
                 }
             }
         }
@@ -51995,11 +44770,7 @@ class NovoDataTableCellHeader {
             /** @type {?} */
             const optionValue = option.hasOwnProperty('value') ? option.value : option;
             /** @type {?} */
-            let found = optionsList.find((/**
-             * @param {?} item
-             * @return {?}
-             */
-            (item) => this.optionPresentCheck(item, optionValue)));
+            let found = optionsList.find((item) => this.optionPresentCheck(item, optionValue));
             return found !== undefined;
         }
         return false;
@@ -52012,11 +44783,7 @@ class NovoDataTableCellHeader {
         /** @type {?} */
         const optionValue = option.hasOwnProperty('value') ? option.value : option;
         /** @type {?} */
-        let optionIndex = this.multiSelectedOptions.findIndex((/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => this.optionPresentCheck(item, optionValue)));
+        let optionIndex = this.multiSelectedOptions.findIndex((item) => this.optionPresentCheck(item, optionValue));
         this.error = false;
         if (optionIndex > -1) {
             this.multiSelectedOptions.splice(optionIndex, 1);
@@ -52024,11 +44791,7 @@ class NovoDataTableCellHeader {
                 !this.getOptionText(option)
                     .toLowerCase()
                     .startsWith(this.optionFilter.toLowerCase())) {
-                this.multiSelectedOptionIsHidden[this.multiSelectedOptionIsHidden.findIndex((/**
-                 * @param {?} record
-                 * @return {?}
-                 */
-                (record) => record.option === option))].hidden = true;
+                this.multiSelectedOptionIsHidden[this.multiSelectedOptionIsHidden.findIndex((record) => record.option === option)].hidden = true;
             }
         }
         else {
@@ -52076,38 +44839,26 @@ class NovoDataTableCellHeader {
      * @return {?}
      */
     multiSelectOptionFilter(optionFilter) {
-        this.multiSelectedOptionIsHidden.forEach((/**
-         * @param {?} record
-         * @return {?}
-         */
-        (record) => {
+        this.multiSelectedOptionIsHidden.forEach((record) => {
             if (record.option) {
                 record.hidden = !(this.getOptionText(record.option)
                     .toLowerCase()
                     .startsWith(optionFilter.toLowerCase()) || this.isSelected(record.option, this.multiSelectedOptions));
             }
-        }));
+        });
     }
     /**
      * @param {?} option
      * @return {?}
      */
     multiSelectOptionIsHidden(option) {
-        return this.multiSelectedOptionIsHidden.find((/**
-         * @param {?} record
-         * @return {?}
-         */
-        (record) => record.option === option)).hidden;
+        return this.multiSelectedOptionIsHidden.find((record) => record.option === option).hidden;
     }
     /**
      * @return {?}
      */
     multiSelectHasVisibleOptions() {
-        return this.multiSelectedOptionIsHidden.some((/**
-         * @param {?} record
-         * @return {?}
-         */
-        (record) => !record.hidden));
+        return this.multiSelectedOptionIsHidden.some((record) => !record.hidden);
     }
     /**
      * @private
@@ -52156,13 +44907,9 @@ class NovoDataTableCellHeader {
         this.error = false;
         if (this.optionFilter.length > 0) {
             this.optionFilter = '';
-            this.multiSelectedOptionIsHidden.forEach((/**
-             * @param {?} record
-             * @return {?}
-             */
-            (record) => {
+            this.multiSelectedOptionIsHidden.forEach((record) => {
                 record.hidden = false;
-            }));
+            });
         }
     }
     /**
@@ -52176,11 +44923,7 @@ class NovoDataTableCellHeader {
         /** @type {?} */
         let startingWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
         /** @type {?} */
-        const mouseMoveSubscription = fromEvent(window.document, 'mousemove').subscribe((/**
-         * @param {?} middleMouseEvent
-         * @return {?}
-         */
-        (middleMouseEvent) => {
+        const mouseMoveSubscription = fromEvent(window.document, 'mousemove').subscribe((middleMouseEvent) => {
             /** @type {?} */
             let differenceWidth = middleMouseEvent.clientX - mouseDownEvent.clientX;
             /** @type {?} */
@@ -52194,16 +44937,13 @@ class NovoDataTableCellHeader {
             this.renderer.setStyle(this.elementRef.nativeElement, 'width', `${this._column.width}px`);
             this.changeDetectorRef.markForCheck();
             this.resized.next(this._column);
-        }));
+        });
         /** @type {?} */
-        let mouseUpSubscription = fromEvent(window.document, 'mouseup').subscribe((/**
-         * @return {?}
-         */
-        () => {
+        let mouseUpSubscription = fromEvent(window.document, 'mouseup').subscribe(() => {
             mouseUpSubscription.unsubscribe();
             mouseMoveSubscription.unsubscribe();
             this.changeDetectorRef.markForCheck();
-        }));
+        });
         this.subscriptions.push(mouseMoveSubscription);
         this.subscriptions.push(mouseUpSubscription);
     }
@@ -52223,23 +44963,13 @@ class NovoDataTableCellHeader {
      */
     focusInput() {
         if (this.filterInput && this.filterInput.nativeElement) {
-            setTimeout((/**
-             * @return {?}
-             */
-            () => this.filterInput.nativeElement.focus()), 0);
+            setTimeout(() => this.filterInput.nativeElement.focus(), 0);
         }
         if (this.multiSelect && this.dropdown) {
-            this.dropdown.onKeyDown = (/**
-             * @param {?} event
-             * @return {?}
-             */
-            (event) => {
+            this.dropdown.onKeyDown = (event) => {
                 this.multiSelectOptionFilterHandleKeydown(event);
-            });
-            setTimeout((/**
-             * @return {?}
-             */
-            () => this.optionFilterInput.nativeElement.focus()), 0);
+            };
+            setTimeout(() => this.optionFilterInput.nativeElement.focus(), 0);
             this.changeDetectorRef.markForCheck();
         }
     }
@@ -52250,37 +44980,31 @@ class NovoDataTableCellHeader {
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
         }
-        this.changeTimeout = setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        this.changeTimeout = setTimeout(() => {
             this.direction = this.getNextSortDirection(this.direction);
             this._sort.sort(this.id, this.direction, this.config.transforms.sort);
             this.changeDetectorRef.markForCheck();
-        }), 300);
+        }, 300);
     }
     /**
      * @param {?=} filter
      * @return {?}
      */
-    filterData(filter) {
+    filterData(filter$$1) {
         /** @type {?} */
-        let actualFilter = NovoDataTableFilterUtils.constructFilter(filter, this.config.filterConfig.type, this.multiSelect);
+        let actualFilter = NovoDataTableFilterUtils.constructFilter(filter$$1, this.config.filterConfig.type, this.multiSelect);
         /** @type {?} */
-        const selectedOption = this.config.filterConfig.type === 'date' && filter ? filter : undefined;
+        const selectedOption = this.config.filterConfig.type === 'date' && filter$$1 ? filter$$1 : undefined;
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
         }
-        this.changeTimeout = setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        this.changeTimeout = setTimeout(() => {
             if (actualFilter === '') {
                 actualFilter = undefined;
             }
             this._sort.filter(this.id, this.config.filterConfig.type, actualFilter, this.config.transforms.filter, this.allowMultipleFilters, selectedOption);
             this.changeDetectorRef.markForCheck();
-        }), 300);
+        }, 300);
     }
     /**
      * @return {?}
@@ -52486,9 +45210,9 @@ NovoDataTableCellHeader.ctorParameters = () => [
     { type: CdkColumnDef, decorators: [{ type: Optional }] }
 ];
 NovoDataTableCellHeader.propDecorators = {
-    filterInput: [{ type: ViewChild, args: ['filterInput', { static: false },] }],
-    dropdown: [{ type: ViewChild, args: [NovoDropdownElement, { static: false },] }],
-    optionFilterInput: [{ type: ViewChild, args: ['optionFilterInput', { static: false },] }],
+    filterInput: [{ type: ViewChild, args: ['filterInput',] }],
+    dropdown: [{ type: ViewChild, args: [NovoDropdownElement,] }],
+    optionFilterInput: [{ type: ViewChild, args: ['optionFilterInput',] }],
     defaultSort: [{ type: Input }],
     allowMultipleFilters: [{ type: Input }],
     resized: [{ type: Input }],
@@ -52497,110 +45221,10 @@ NovoDataTableCellHeader.propDecorators = {
     column: [{ type: Input, args: ['novo-data-table-cell-config',] }],
     multiSelectOptionFilterHandleKeydown: [{ type: HostListener, args: ['keydown', ['$event'],] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.filterInput;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.dropdown;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.optionFilterInput;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.defaultSort;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.allowMultipleFilters;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.resized;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.filterTemplate;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.resizable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype._rerenderSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.changeTimeout;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.label;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.icon;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.labelIcon;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.id;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.filter;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.direction;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.filterActive;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.sortActive;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.showCustomRange;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.activeDateFilter;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.config;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.multiSelect;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.multiSelectedOptions;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.multiSelectedOptionIsHidden;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.optionFilter;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.error;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.subscriptions;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype._column;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.changeDetectorRef;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.state;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.renderer;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.elementRef;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype._sort;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype._cdkColumnDef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cell-headers/data-table-expand-header-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -52622,13 +45246,10 @@ class NovoDataTableExpandHeaderCell extends CdkHeaderCell {
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', `novo-expand-column-header-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, `novo-expand-column-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, 'novo-data-table-expand-header-cell');
-        this.expandSubscription = this.dataTable.state.expandSource.subscribe((/**
-         * @return {?}
-         */
-        () => {
+        this.expandSubscription = this.dataTable.state.expandSource.subscribe(() => {
             this.expanded = this.dataTable.allCurrentRowsExpanded();
             this.ref.markForCheck();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -52665,32 +45286,10 @@ NovoDataTableExpandHeaderCell.ctorParameters = () => [
 NovoDataTableExpandHeaderCell.propDecorators = {
     role: [{ type: HostBinding, args: ['attr.role',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTableExpandHeaderCell.prototype.role;
-    /** @type {?} */
-    NovoDataTableExpandHeaderCell.prototype.expanded;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandHeaderCell.prototype.expandSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandHeaderCell.prototype.dataTable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandHeaderCell.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cell-headers/data-table-checkbox-header-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -52712,18 +45311,11 @@ class NovoDataTableCheckboxHeaderCell extends CdkHeaderCell {
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', `novo-checkbox-column-header-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, `novo-checkbox-column-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, 'novo-data-table-checkbox-header-cell');
-        this.selectionSubscription = this.dataTable.state.selectionSource.subscribe((/**
-         * @return {?}
-         */
-        () => {
+        this.selectionSubscription = this.dataTable.state.selectionSource.subscribe(() => {
             this.checked = this.dataTable.allCurrentRowsSelected();
             this.ref.markForCheck();
-        }));
-        this.paginationSubscription = this.dataTable.state.paginationSource.subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        });
+        this.paginationSubscription = this.dataTable.state.paginationSource.subscribe((event) => {
             if (event.isPageSizeChange) {
                 this.checked = false;
                 this.dataTable.selectRows(false);
@@ -52732,14 +45324,11 @@ class NovoDataTableCheckboxHeaderCell extends CdkHeaderCell {
                 this.checked = this.dataTable.allCurrentRowsSelected();
             }
             this.ref.markForCheck();
-        }));
-        this.resetSubscription = this.dataTable.state.resetSource.subscribe((/**
-         * @return {?}
-         */
-        () => {
+        });
+        this.resetSubscription = this.dataTable.state.resetSource.subscribe(() => {
             this.checked = false;
             this.ref.markForCheck();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -52788,42 +45377,10 @@ NovoDataTableCheckboxHeaderCell.ctorParameters = () => [
 NovoDataTableCheckboxHeaderCell.propDecorators = {
     role: [{ type: HostBinding, args: ['attr.role',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTableCheckboxHeaderCell.prototype.role;
-    /** @type {?} */
-    NovoDataTableCheckboxHeaderCell.prototype.checked;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxHeaderCell.prototype.selectionSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxHeaderCell.prototype.paginationSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxHeaderCell.prototype.resetSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxHeaderCell.prototype.dataTable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCheckboxHeaderCell.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/cell-headers/data-table-header-cell.directive.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -52869,27 +45426,10 @@ NovoDataTableHeaderCell.propDecorators = {
     role: [{ type: HostBinding, args: ['attr.role',] }],
     column: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTableHeaderCell.prototype.role;
-    /** @type {?} */
-    NovoDataTableHeaderCell.prototype.column;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableHeaderCell.prototype.elementRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableHeaderCell.prototype.renderer;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/pagination/data-table-pagination.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 const MAX_PAGES_DISPLAYED = 5;
@@ -52902,22 +45442,19 @@ class NovoDataTablePagination {
      * @param {?} labels
      * @param {?} state
      */
-    constructor(changeDetectorRef, labels, state) {
+    constructor(changeDetectorRef, labels, state$$1) {
         this.changeDetectorRef = changeDetectorRef;
         this.labels = labels;
-        this.state = state;
+        this.state = state$$1;
         this.theme = 'standard';
         this._page = 0;
         this._pageSizeOptions = [];
         this._length = 0;
         this.pageChange = new EventEmitter();
-        this.resetSubscription = this.state.resetSource.subscribe((/**
-         * @return {?}
-         */
-        () => {
+        this.resetSubscription = this.state.resetSource.subscribe(() => {
             this.page = 0;
             this.changeDetectorRef.markForCheck();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -53059,11 +45596,7 @@ class NovoDataTablePagination {
         }
         if (!this.displayedPageSizeOptions) {
             this.displayedPageSizeOptions = [];
-            this.pageSizeOptions.forEach((/**
-             * @param {?} option
-             * @return {?}
-             */
-            (option) => {
+            this.pageSizeOptions.forEach((option) => {
                 if (option.hasOwnProperty('value')) {
                     this.displayedPageSizeOptions.push(option);
                 }
@@ -53073,7 +45606,7 @@ class NovoDataTablePagination {
                         label: option,
                     });
                 }
-            }));
+            });
         }
         this.longRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, false);
         this.shortRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, true);
@@ -53241,65 +45774,10 @@ NovoDataTablePagination.propDecorators = {
     length: [{ type: Input }],
     pageChange: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTablePagination.prototype.theme;
-    /** @type {?} */
-    NovoDataTablePagination.prototype._page;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTablePagination.prototype._pageSize;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.dataFeatureId;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTablePagination.prototype._pageSizeOptions;
-    /** @type {?} */
-    NovoDataTablePagination.prototype._length;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.pageChange;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.displayedPageSizeOptions;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.longRangeLabel;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.shortRangeLabel;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.pages;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTablePagination.prototype.resetSubscription;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.totalPages;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTablePagination.prototype._initialized;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTablePagination.prototype.changeDetectorRef;
-    /** @type {?} */
-    NovoDataTablePagination.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTablePagination.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table.pipes.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -53352,7 +45830,9 @@ class DateTableDateRendererPipe {
      */
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
-            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
+            /** @type {?} */
+            let val = interpolateCell(value, column);
+            return this.labels.formatDate(val);
         }
         return '';
     }
@@ -53367,13 +45847,6 @@ DateTableDateRendererPipe.decorators = [
 DateTableDateRendererPipe.ctorParameters = () => [
     { type: NovoLabelService }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DateTableDateRendererPipe.prototype.labels;
-}
 /**
  * @template T
  */
@@ -53408,13 +45881,6 @@ DateTableDateTimeRendererPipe.decorators = [
 DateTableDateTimeRendererPipe.ctorParameters = () => [
     { type: NovoLabelService }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DateTableDateTimeRendererPipe.prototype.labels;
-}
 /**
  * @template T
  */
@@ -53432,7 +45898,9 @@ class DateTableTimeRendererPipe {
      */
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
-            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
+            /** @type {?} */
+            let val = interpolateCell(value, column);
+            return this.labels.formatTime(val);
         }
         return '';
     }
@@ -53447,13 +45915,6 @@ DateTableTimeRendererPipe.decorators = [
 DateTableTimeRendererPipe.ctorParameters = () => [
     { type: NovoLabelService }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DateTableTimeRendererPipe.prototype.labels;
-}
 /**
  * @template T
  */
@@ -53492,13 +45953,6 @@ DateTableNumberRendererPipe.decorators = [
 DateTableNumberRendererPipe.ctorParameters = () => [
     { type: NovoLabelService }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DateTableNumberRendererPipe.prototype.labels;
-}
 /**
  * @template T
  */
@@ -53533,13 +45987,6 @@ DataTableBigDecimalRendererPipe.decorators = [
 DataTableBigDecimalRendererPipe.ctorParameters = () => [
     { type: NovoLabelService }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DataTableBigDecimalRendererPipe.prototype.labels;
-}
 /**
  * @template T
  */
@@ -53574,18 +46021,10 @@ DateTableCurrencyRendererPipe.decorators = [
 DateTableCurrencyRendererPipe.ctorParameters = () => [
     { type: NovoLabelService }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DateTableCurrencyRendererPipe.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table-expand.directive.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -53596,25 +46035,13 @@ class NovoDataTableExpandDirective {
      * @param {?} state
      * @param {?} dataTable
      */
-    constructor(vcRef, state, dataTable) {
+    constructor(vcRef, state$$1, dataTable) {
         this.vcRef = vcRef;
-        this.state = state;
+        this.state = state$$1;
         this.dataTable = dataTable;
-        this.shouldExpandAllRows = (/**
-         * @param {?} targetId
-         * @return {?}
-         */
-        (targetId) => targetId === undefined);
-        this.shouldExpandOneRow = (/**
-         * @param {?} targetId
-         * @return {?}
-         */
-        (targetId) => targetId === ((/** @type {?} */ (((/** @type {?} */ (this.row)))))).id);
-        this.subscription = this.state.expandSource.subscribe((/**
-         * @param {?=} targetId
-         * @return {?}
-         */
-        (targetId) => {
+        this.shouldExpandAllRows = (targetId) => targetId === undefined;
+        this.shouldExpandOneRow = (targetId) => targetId === ((/** @type {?} */ (((/** @type {?} */ (this.row)))))).id;
+        this.subscription = this.state.expandSource.subscribe((targetId) => {
             if (this.shouldExpandAllRows(targetId) || this.shouldExpandOneRow(targetId)) {
                 if (dataTable.isExpanded(this.row)) {
                     this.render();
@@ -53623,7 +46050,7 @@ class NovoDataTableExpandDirective {
                     this.clear();
                 }
             }
-        }));
+        });
     }
     /**
      * @return {?}
@@ -53675,38 +46102,10 @@ NovoDataTableExpandDirective.propDecorators = {
     template: [{ type: Input, args: ['novoDataTableExpand',] }],
     onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTableExpandDirective.prototype.row;
-    /** @type {?} */
-    NovoDataTableExpandDirective.prototype.template;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandDirective.prototype.subscription;
-    /** @type {?} */
-    NovoDataTableExpandDirective.prototype.shouldExpandAllRows;
-    /** @type {?} */
-    NovoDataTableExpandDirective.prototype.shouldExpandOneRow;
-    /** @type {?} */
-    NovoDataTableExpandDirective.prototype.vcRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandDirective.prototype.state;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableExpandDirective.prototype.dataTable;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table-clear-button.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -53717,8 +46116,8 @@ class NovoDataTableClearButton {
      * @param {?} ref
      * @param {?} labels
      */
-    constructor(state, ref, labels) {
-        this.state = state;
+    constructor(state$$1, ref, labels) {
+        this.state = state$$1;
         this.ref = ref;
         this.labels = labels;
         this.sortClear = new EventEmitter();
@@ -53776,28 +46175,10 @@ NovoDataTableClearButton.propDecorators = {
     filterClear: [{ type: Output }],
     allClear: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoDataTableClearButton.prototype.sortClear;
-    /** @type {?} */
-    NovoDataTableClearButton.prototype.filterClear;
-    /** @type {?} */
-    NovoDataTableClearButton.prototype.allClear;
-    /** @type {?} */
-    NovoDataTableClearButton.prototype.state;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableClearButton.prototype.ref;
-    /** @type {?} */
-    NovoDataTableClearButton.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoDataTableModule {
 }
@@ -53858,8 +46239,7 @@ NovoDataTableModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/services/remote-data-table.service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @abstract
@@ -53867,639 +46247,15 @@ NovoDataTableModule.decorators = [
  */
 class RemoteDataTableService {
 }
-if (false) {
-    /**
-     * @abstract
-     * @param {?} sort
-     * @param {?} filter
-     * @param {?} page
-     * @param {?} pageSize
-     * @param {?=} globalSearch
-     * @param {?=} outsideFilter
-     * @return {?}
-     */
-    RemoteDataTableService.prototype.getTableResults = function (sort, filter, page, pageSize, globalSearch, outsideFilter) { };
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/tabbed-group-picker/TabbedGroupPicker.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class NovoTabbedGroupPickerElement {
-    /**
-     * @param {?} labelService
-     * @param {?} ref
-     */
-    constructor(labelService, ref) {
-        this.labelService = labelService;
-        this.ref = ref;
-        this.selectionChange = new EventEmitter();
-        this.displayTabIndex = 0;
-        this.filterText = new BehaviorSubject('');
-        this.loading = true;
-        this.showClearAll = false;
-        // Initial height based on 13 px font rendered in chrome. Actual height retrieved onDropdownToggled.
-        this.scrollViewportHeight = 351;
-        this.virtualScrollItemSize = 39;
-        this.getSelectedState = (/**
-         * @param {?} childArray
-         * @return {?}
-         */
-        (childArray) => {
-            /** @type {?} */
-            const numberOfSelectedItems = childArray.filter((/**
-             * @param {?} __0
-             * @return {?}
-             */
-            ({ selected }) => selected)).length;
-            if (!numberOfSelectedItems) {
-                return undefined;
-            }
-            return numberOfSelectedItems === childArray.length ? 'selected' : 'indeterminate';
-        });
-        this.filter = (/**
-         * @param {?} searchTerm
-         * @return {?}
-         */
-        (searchTerm) => {
-            this.displayTabs.forEach((/**
-             * @param {?} displayTab
-             * @param {?} i
-             * @return {?}
-             */
-            (displayTab, i) => (displayTab.data = this.tabs[i].data.filter((/**
-             * @param {?} item
-             * @return {?}
-             */
-            (item) => item[displayTab.labelField].toLowerCase().includes(searchTerm.toLowerCase()))))));
-            this.ref.markForCheck();
-        });
-    }
-    /**
-     * @return {?}
-     */
-    get displayTab() {
-        return this.displayTabs[this.displayTabIndex];
-    }
-    /**
-     * @param {?} tab
-     * @return {?}
-     */
-    set displayTab(tab) {
-        this.displayTabIndex = this.tabs.map((/**
-         * @param {?} __0
-         * @return {?}
-         */
-        ({ typeName }) => typeName)).indexOf(tab.typeName);
-    }
-    /**
-     * @return {?}
-     */
-    get minBufferPx() {
-        return this.scrollViewportHeight; // render at least 2x the number of items visible (viewport + min buffer)
-    }
-    /**
-     * @return {?}
-     */
-    get maxBufferPx() {
-        return 2 * this.scrollViewportHeight; // render at most 3x the number of items visible (viewport + max buffer)
-    }
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-        this.setupDisplayData();
-        this.createChildrenReferences();
-        this.initializeDescendantSelection();
-        this.updateParentsAndQuickSelect();
-        this.updateClearAll();
-        this.loading = false;
-        this.filterTextSubscription = this.filterText.pipe(debounceTime(300)).subscribe({
-            next: this.filter,
-        });
-    }
-    /**
-     * @return {?}
-     */
-    ngOnDestroy() {
-        if (this.filterTextSubscription) {
-            this.filterTextSubscription.unsubscribe();
-        }
-    }
-    /**
-     * @param {?} tab
-     * @return {?}
-     */
-    changeTab(tab) {
-        this.displayTab = tab;
-        if (this.scrollableInstance) {
-            this.scrollableInstance.scrollTo({ behavior: 'auto', top: 0 });
-        }
-    }
-    /**
-     * @param {?} element
-     * @return {?}
-     */
-    getPixelHeight(element) {
-        return Number(getComputedStyle(element, '').height.match(/(\d+(\.\d+)?)px$/)[1]);
-    }
-    /**
-     * @return {?}
-     */
-    setupDisplayData() {
-        // shallow copy here so that reassigning displayTabs[i].data doesn't mutate tabs[i].data
-        // but both data values point to the same items
-        this.displayTabs = this.tabs.map((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        (tab) => (Object.assign({}, tab))));
-        this.displayTab = this.tabs[0];
-    }
-    // Replace each parent's child object with a reference to the child to avoid
-    // a child lookup for selected status; linking references allows M x N
-    // time complexity instead of M x N^2
-    /**
-     * @return {?}
-     */
-    createChildrenReferences() {
-        this.tabs.forEach((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        (tab) => {
-            // would rather filter but TypeScript still wants a type narrowing here
-            if ('childTypeName' in tab) {
-                /** @type {?} */
-                const childTab = this.tabs.find((/**
-                 * @param {?} __0
-                 * @return {?}
-                 */
-                ({ typeName }) => typeName === tab.childTypeName));
-                /** @type {?} */
-                const compareFunction = this.makeCompareFunction(childTab.valueField);
-                /** @type {?} */
-                const warnFunction = this.makeWarningFunction(tab.typeName, childTab.typeName, childTab.valueField);
-                /** @type {?} */
-                const sortedChildren = childTab.data.slice().sort(compareFunction);
-                tab.data
-                    .filter((/**
-                 * @param {?} __0
-                 * @return {?}
-                 */
-                ({ children }) => children && children.length))
-                    .forEach((/**
-                 * @param {?} parent
-                 * @return {?}
-                 */
-                (parent) => this.replaceChildrenWithReferences((/** @type {?} */ (parent)), sortedChildren, compareFunction, warnFunction)));
-            }
-        }));
-        if (this.quickSelectConfig) {
-            this.quickSelectConfig.items
-                .filter((/**
-             * @param {?} parent
-             * @return {?}
-             */
-            (parent) => 'all' in parent))
-                .forEach((/**
-             * @param {?} parent
-             * @return {?}
-             */
-            (parent) => {
-                parent.children = this.tabs.find((/**
-                 * @param {?} __0
-                 * @return {?}
-                 */
-                ({ typeName }) => parent.childTypeName === typeName)).data;
-            }));
-            this.quickSelectConfig.items
-                .filter((/**
-             * @param {?} parent
-             * @return {?}
-             */
-            (parent) => !('all' in parent)))
-                .forEach((/**
-             * @param {?} parent
-             * @return {?}
-             */
-            (parent) => {
-                /** @type {?} */
-                const childTab = this.tabs.find((/**
-                 * @param {?} __0
-                 * @return {?}
-                 */
-                ({ typeName }) => typeName === parent.childTypeName));
-                /** @type {?} */
-                const compareFunction = this.makeCompareFunction(childTab.valueField);
-                /** @type {?} */
-                const warnFunction = this.makeWarningFunction(parent.label, childTab.typeName, childTab.valueField);
-                /** @type {?} */
-                const sortedChildren = childTab.data.slice().sort(compareFunction);
-                this.replaceChildrenWithReferences((/** @type {?} */ (parent)), sortedChildren, compareFunction, warnFunction);
-            }));
-        }
-    }
-    /**
-     * @template T
-     * @param {?} key
-     * @return {?}
-     */
-    makeCompareFunction(key) {
-        return (/**
-         * @param {?} a
-         * @param {?} b
-         * @return {?}
-         */
-        (a, b) => {
-            /** @type {?} */
-            const aValue = (a && a[key]) || a;
-            /** @type {?} */
-            const bValue = (b && b[key]) || b;
-            if (aValue < bValue) {
-                return -1;
-            }
-            else if (aValue > bValue) {
-                return 1;
-            }
-            else if (aValue === bValue) {
-                return 0;
-            }
-            else {
-                return undefined;
-            }
-        });
-    }
-    /**
-     * @param {?} parent
-     * @param {?} sortedData
-     * @param {?} compareFunction
-     * @param {?} warnFunction
-     * @return {?}
-     */
-    replaceChildrenWithReferences(parent, sortedData, compareFunction, warnFunction) {
-        parent.children = parent.children
-            .map((/**
-         * @param {?} child
-         * @return {?}
-         */
-        (child) => binarySearch(child, sortedData, compareFunction) || warnFunction(child)))
-            .filter(Boolean); // since map can return undefined, remove undefined elements
-    }
-    /**
-     * @param {?} parentLabel
-     * @param {?} childLabel
-     * @param {?} childValueField
-     * @return {?}
-     */
-    makeWarningFunction(parentLabel, childLabel, childValueField) {
-        return (/**
-         * @param {?} child
-         * @return {?}
-         */
-        (child) => {
-            /** @type {?} */
-            const childValue = child[childValueField] || child;
-            console.warn(`No ${childLabel} found with value ${childValue} for parent ${parentLabel}`);
-        });
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    onDropdownToggle(event) {
-        if (event) {
-            this.scrollViewportHeight = this.getPixelHeight(this.scrollableInstance.getElementRef().nativeElement);
-            this.virtualScrollItemSize = this.getPixelHeight(this.scrollableInstance.getElementRef().nativeElement.querySelector('novo-list-item'));
-        }
-    }
-    /**
-     * @param {?} item
-     * @return {?}
-     */
-    onItemToggled(item) {
-        if (Array.isArray(item.children)) {
-            this.updateDescendants(item.selected, item.children);
-        }
-        this.updateParentsAndQuickSelect();
-        this.updateClearAll(item.selected);
-        this.emitSelectedValues();
-        this.ref.markForCheck();
-    }
-    /**
-     * @return {?}
-     */
-    initializeDescendantSelection() {
-        this.tabs.forEach((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        (tab) => {
-            if ('childTypeName' in tab && tab.data && tab.data.length) {
-                tab.data.forEach((/**
-                 * @param {?} parent
-                 * @return {?}
-                 */
-                (parent) => {
-                    if (parent.selected && parent.children && parent.children.length) {
-                        parent.children.forEach((/**
-                         * @param {?} child
-                         * @return {?}
-                         */
-                        (child) => {
-                            child.selected = true;
-                        }));
-                    }
-                }));
-            }
-        }));
-    }
-    /**
-     * @param {?} parentIsSelected
-     * @param {?} children
-     * @return {?}
-     */
-    updateDescendants(parentIsSelected, children) {
-        children.forEach((/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => {
-            parentIsSelected ? (item.selected = true) : delete item.selected;
-            if (Array.isArray(item.children)) {
-                this.updateDescendants(item.selected, item.children);
-            }
-        }));
-    }
-    /**
-     * @param {?=} itemWasJustSelected
-     * @return {?}
-     */
-    updateClearAll(itemWasJustSelected) {
-        this.showClearAll = itemWasJustSelected
-            ? true
-            : this.tabs.some((/**
-             * @param {?} tab
-             * @return {?}
-             */
-            (tab) => {
-                if (((/** @type {?} */ (tab))).childTypeName) {
-                    return tab.data.some((/**
-                     * @param {?} __0
-                     * @return {?}
-                     */
-                    ({ selected, indeterminate }) => selected || indeterminate));
-                }
-                else {
-                    return tab.data.some((/**
-                     * @param {?} __0
-                     * @return {?}
-                     */
-                    ({ selected }) => selected));
-                }
-            }));
-    }
-    /**
-     * @return {?}
-     */
-    updateParentsAndQuickSelect() {
-        // mutate here to avoid dereferencing the objects in displayTabs
-        this.tabs
-            .filter((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        (tab) => 'childTypeName' in tab && !!tab.childTypeName))
-            .forEach((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        (tab) => {
-            /** @type {?} */
-            const parents = tab.data.filter((/**
-             * @param {?} __0
-             * @return {?}
-             */
-            ({ children }) => children && children.length));
-            parents.forEach((/**
-             * @param {?} parent
-             * @return {?}
-             */
-            (parent) => {
-                ['indeterminate', 'selected'].forEach((/**
-                 * @param {?} selectedStateOption
-                 * @return {?}
-                 */
-                (selectedStateOption) => delete parent[selectedStateOption]));
-                /** @type {?} */
-                const selectedState = this.getSelectedState(parent.children);
-                if (selectedState) {
-                    parent[selectedState] = true;
-                }
-            }));
-        }));
-        if (this.quickSelectConfig) {
-            this.quickSelectConfig.items.forEach((/**
-             * @param {?} quickSelect
-             * @return {?}
-             */
-            (quickSelect) => {
-                delete quickSelect.selected;
-                /** @type {?} */
-                const selectedState = this.getSelectedState((/** @type {?} */ (quickSelect.children)));
-                if (selectedState) {
-                    quickSelect[selectedState] = true;
-                }
-            }));
-        }
-    }
-    /**
-     * @return {?}
-     */
-    emitSelectedValues() {
-        /** @type {?} */
-        const selectedValues = this.tabs.map((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        (tab) => (Object.assign({}, tab, { data: tab.data.filter((/**
-             * @param {?} __0
-             * @return {?}
-             */
-            ({ selected }) => selected)) }))));
-        this.selectionChange.emit(selectedValues);
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    deselectEverything(event) {
-        Helpers.swallowEvent(event);
-        this.showClearAll = false;
-        if (this.quickSelectConfig) {
-            this.quickSelectConfig.items.forEach((/**
-             * @param {?} quickSelect
-             * @return {?}
-             */
-            (quickSelect) => {
-                delete quickSelect.selected;
-            }));
-        }
-        this.tabs.forEach((/**
-         * @param {?} tab
-         * @return {?}
-         */
-        (tab) => {
-            if (((/** @type {?} */ (tab))).childTypeName) {
-                tab.data.forEach((/**
-                 * @param {?} item
-                 * @return {?}
-                 */
-                (item) => {
-                    delete item.selected;
-                    delete item.indeterminate;
-                    item.children.forEach((/**
-                     * @param {?} child
-                     * @return {?}
-                     */
-                    (child) => delete child.selected));
-                }));
-            }
-            else {
-                ((/** @type {?} */ (tab))).data.forEach((/**
-                 * @param {?} item
-                 * @return {?}
-                 */
-                (item) => delete item.selected));
-            }
-        }));
-        this.emitSelectedValues();
-        this.ref.markForCheck();
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    onClearFilter(event) {
-        Helpers.swallowEvent(event);
-        this.filterText.next('');
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    onFilter(event) {
-        this.filterText.next(event.target.value);
-    }
-}
-NovoTabbedGroupPickerElement.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-tabbed-group-picker',
-                template: "<novo-dropdown (toggled)=\"onDropdownToggle($event)\">\n  <button\n    class=\"tabbed-group-picker-button\"\n    [theme]=\"buttonConfig.theme\"\n    [side]=\"buttonConfig.side\"\n    [icon]=\"buttonConfig.icon\"\n    [loading]=\"loading\"\n  >\n    <div class=\"tabbed-group-picker-button-label\">{{ buttonConfig.label }}</div>\n  </button>\n  <div class=\"tabbed-group-picker-search\" data-automation-id=\"tabbed-group-picker-search\">\n    <input type=\"text\" [placeholder]=\"labelService.search\" [value]=\"filterText | async\" (input)=\"onFilter($event)\" />\n    <i class=\"bhi-search\" *ngIf=\"!(filterText | async)\"></i>\n    <i class=\"bhi-times\" *ngIf=\"(filterText | async)\" (click)=\"onClearFilter($event)\"></i>\n  </div>\n  <div class=\"tabbed-group-picker-column-container\">\n    <div class=\"tabbed-group-picker-column left\">\n      <novo-nav theme=\"white\" direction=\"vertical\">\n        <novo-tab *ngFor=\"let tab of displayTabs\" [attr.data-automation-id]=\"tab.typeName\" (activeChange)=\"changeTab(tab)\">\n          <span>{{ tab.typeLabel }} ({{ tab.data.length }})</span><i class=\"bhi-next\"></i>\n        </novo-tab>\n      </novo-nav>\n      <button *ngIf=\"showClearAll\" class=\"clear-all-button\" theme=\"dialogue\" icon=\"times\" side=\"right\" color=\"grapefruit\" (click)=\"deselectEverything($event)\">{{ labelService.clear }}</button>\n    </div>\n    <div class=\"tabbed-group-picker-column right\">\n      <div class=\"quick-select\" *ngIf=\"quickSelectConfig && !(filterText | async)\">\n        <div class=\"quick-select-label\">{{ quickSelectConfig.label }}</div>\n        <novo-list class=\"quick-select-list\" direction=\"vertical\">\n          <novo-list-item\n            class=\"quick-select-item\"\n            *ngFor=\"let quickSelect of quickSelectConfig.items\"\n            [attr.data-automation-id]=\"quickSelect.label\"\n            (click)=\"quickSelect.selected = !quickSelect.selected; onItemToggled(quickSelect)\"\n          >\n            <item-content>\n              <novo-checkbox\n                [label]=\"quickSelect.label\"\n                [name]=\"'selected'\"\n                [(ngModel)]=\"quickSelect.selected\"\n                (ngModelChange)=\"onItemToggled(quickSelect)\"\n              ></novo-checkbox>\n            </item-content>\n          </novo-list-item>\n        </novo-list>\n      </div>\n      <novo-list *ngIf=\"displayTab.data.length\" direction=\"vertical\">\n        <cdk-virtual-scroll-viewport\n          [itemSize]=\"virtualScrollItemSize\"\n          [maxBufferPx]=\"maxBufferPx\"\n          [minBufferPx]=\"minBufferPx\"\n          #tabbedGroupPickerVirtualScrollViewport\n        >\n          <novo-list-item\n            *cdkVirtualFor=\"let item of displayTab.data\"\n            [attr.data-automation-id]=\"item[displayTab.labelField]\"\n            (click)=\"item.selected = !item.selected; onItemToggled(item)\"\n          >\n            <item-content>\n              <novo-checkbox\n                [label]=\"item[displayTab.labelField]\"\n                [name]=\"'selected'\"\n                [indeterminate]=\"item.indeterminate\"\n                [(ngModel)]=\"item.selected\"\n                (ngModelChange)=\"onItemToggled(item)\"\n              >\n              </novo-checkbox>\n            </item-content>\n          </novo-list-item>\n        </cdk-virtual-scroll-viewport>\n      </novo-list>\n      <div class=\"tabbed-group-picker-empty-item\" *ngIf=\"!displayTab.data.length && (filterText | async)\">\n        <i class=\"{{ displayTab.icon || 'bhi-search' }}\"></i>\n        <div class=\"empty-item-main-message\">{{ labelService.tabbedGroupPickerEmpty }}</div>\n        <div class=\"empty-item-sub-message\">{{ labelService.tabbedGroupClearSuggestion(displayTab.typeLabel) }}</div>\n      </div>\n    </div>\n  </div>\n</novo-dropdown>\n",
-                changeDetection: ChangeDetectionStrategy.OnPush
-            }] }
-];
-/** @nocollapse */
-NovoTabbedGroupPickerElement.ctorParameters = () => [
-    { type: NovoLabelService },
-    { type: ChangeDetectorRef }
-];
-NovoTabbedGroupPickerElement.propDecorators = {
-    scrollableInstance: [{ type: ViewChild, args: ['tabbedGroupPickerVirtualScrollViewport', { static: false },] }],
-    buttonConfig: [{ type: Input }],
-    tabs: [{ type: Input }],
-    quickSelectConfig: [{ type: Input }],
-    selectionChange: [{ type: Output }]
-};
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTabbedGroupPickerElement.prototype.scrollableInstance;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.buttonConfig;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.tabs;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.quickSelectConfig;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.selectionChange;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.displayTabs;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.displayTabIndex;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.filterText;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.filterTextSubscription;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.loading;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.showClearAll;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.scrollViewportHeight;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.virtualScrollItemSize;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.getSelectedState;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.filter;
-    /** @type {?} */
-    NovoTabbedGroupPickerElement.prototype.labelService;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoTabbedGroupPickerElement.prototype.ref;
-}
-
-/**
- * @fileoverview added by tsickle
- * Generated from: elements/tabbed-group-picker/TabbedGroupPicker.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-class NovoTabbedGroupPickerModule {
-}
-NovoTabbedGroupPickerModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [
-                    CommonModule,
-                    FormsModule,
-                    ScrollingModule,
-                    NovoTabModule,
-                    NovoListModule,
-                    NovoFormExtrasModule,
-                    NovoButtonModule,
-                    NovoDropdownModule,
-                ],
-                providers: [NovoLabelService],
-                declarations: [NovoTabbedGroupPickerElement],
-                exports: [NovoTabbedGroupPickerElement],
-            },] }
-];
-
-/**
- * @fileoverview added by tsickle
- * Generated from: services/global/global.service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
- * @record
- */
-function Global() { }
 /**
  * @abstract
  */
 class GlobalRef {
-}
-if (false) {
-    /**
-     * @abstract
-     * @return {?}
-     */
-    GlobalRef.prototype.nativeGlobal = function () { };
 }
 class BrowserGlobalRef extends GlobalRef {
     /**
@@ -54509,20 +46265,10 @@ class BrowserGlobalRef extends GlobalRef {
         return (/** @type {?} */ (window));
     }
 }
-class NodeGlobalRef extends GlobalRef {
-    /**
-     * @return {?}
-     */
-    get nativeGlobal() {
-        throw new Error('global doesn\'t compile for some reason');
-        // return global as Global;
-    }
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: services/storage/storage.service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class LocalStorageService {
     /**
@@ -54554,8 +46300,7 @@ LocalStorageService.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/places/places.service.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class GooglePlacesService {
     /**
@@ -54575,25 +46320,17 @@ class GooglePlacesService {
      * @param {?} query
      * @return {?}
      */
-    getPredictions(url, query) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        (resolve) => {
-            this._http.get(url + '?query=' + query).subscribe((/**
-             * @param {?} data
-             * @return {?}
-             */
-            (data) => {
+    getPredictions(url, query$$1) {
+        return new Promise((resolve) => {
+            this._http.get(url + '?query=' + query$$1).subscribe((data) => {
                 if (data) {
                     resolve(data);
                 }
                 else {
                     resolve(false);
                 }
-            }));
-        }));
+            });
+        });
     }
     /**
      * @param {?} url
@@ -54602,24 +46339,16 @@ class GooglePlacesService {
      * @return {?}
      */
     getLatLngDetail(url, lat, lng) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        (resolve) => {
-            this._http.get(url + '?lat=' + lat + '&lng=' + lng).subscribe((/**
-             * @param {?} data
-             * @return {?}
-             */
-            (data) => {
+        return new Promise((resolve) => {
+            this._http.get(url + '?lat=' + lat + '&lng=' + lng).subscribe((data) => {
                 if (data) {
                     resolve(data);
                 }
                 else {
                     resolve(false);
                 }
-            }));
-        }));
+            });
+        });
     }
     /**
      * @param {?} url
@@ -54627,47 +46356,31 @@ class GooglePlacesService {
      * @return {?}
      */
     getPlaceDetails(url, placeId) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        (resolve) => {
-            this._http.get(url + '?query=' + placeId).subscribe((/**
-             * @param {?} data
-             * @return {?}
-             */
-            (data) => {
+        return new Promise((resolve) => {
+            this._http.get(url + '?query=' + placeId).subscribe((data) => {
                 if (data) {
                     resolve(data);
                 }
                 else {
                     resolve(false);
                 }
-            }));
-        }));
+            });
+        });
     }
     /**
      * @return {?}
      */
     getGeoCurrentLocation() {
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        (resolve) => {
+        return new Promise((resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 /** @type {?} */
                 let _window = this._global.nativeGlobal;
                 if (_window.navigator.geolocation) {
-                    _window.navigator.geolocation.getCurrentPosition((/**
-                     * @param {?} pos
-                     * @return {?}
-                     */
-                    (pos) => {
+                    _window.navigator.geolocation.getCurrentPosition((pos) => {
                         /** @type {?} */
                         let latlng = { lat: parseFloat(pos.coords.latitude + ''), lng: parseFloat(pos.coords.longitude + '') };
                         resolve(latlng);
-                    }));
+                    });
                 }
                 else {
                     resolve(false);
@@ -54676,63 +46389,46 @@ class GooglePlacesService {
             else {
                 resolve(false);
             }
-        }));
+        });
     }
     /**
      * @param {?} latlng
      * @return {?}
      */
     getGeoLatLngDetail(latlng) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        (resolve) => {
+        return new Promise((resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 /** @type {?} */
                 let _window = this._global.nativeGlobal;
                 /** @type {?} */
                 let geocoder = new _window.google.maps.Geocoder();
-                geocoder.geocode({ location: latlng }, (/**
-                 * @param {?} results
-                 * @param {?} status
-                 * @return {?}
-                 */
-                (results, status) => {
+                geocoder.geocode({ location: latlng }, (results, status) => {
                     if (status === 'OK') {
-                        this.getGeoPlaceDetail(results[0].place_id).then((/**
-                         * @param {?} result
-                         * @return {?}
-                         */
-                        (result) => {
+                        this.getGeoPlaceDetail(results[0].place_id).then((result) => {
                             if (result) {
                                 resolve(result);
                             }
                             else {
                                 resolve(false);
                             }
-                        }));
+                        });
                     }
                     else {
                         resolve(false);
                     }
-                }));
+                });
             }
             else {
                 resolve(false);
             }
-        }));
+        });
     }
     /**
      * @param {?} params
      * @return {?}
      */
     getGeoPrediction(params) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        (resolve) => {
+        return new Promise((resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 /** @type {?} */
                 let _window = this._global.nativeGlobal;
@@ -54768,11 +46464,7 @@ class GooglePlacesService {
                 else {
                     promiseArr.push(this.geoPredictionCall(placesService, queryInput));
                 }
-                Promise.all(promiseArr).then((/**
-                 * @param {?} values
-                 * @return {?}
-                 */
-                (values) => {
+                Promise.all(promiseArr).then((values) => {
                     /** @type {?} */
                     let val = values;
                     if (val.length > 1) {
@@ -54789,91 +46481,69 @@ class GooglePlacesService {
                     else {
                         resolve(values[0]);
                     }
-                }));
+                });
             }
             else {
                 resolve(false);
             }
-        }));
+        });
     }
     /**
      * @param {?} placeId
      * @return {?}
      */
     getGeoPlaceDetail(placeId) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        (resolve) => {
+        return new Promise((resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 /** @type {?} */
                 let _window = this._global.nativeGlobal;
                 /** @type {?} */
                 let placesService = new _window.google.maps.places.PlacesService(document.createElement('div'));
-                placesService.getDetails({ placeId: placeId }, (/**
-                 * @param {?} result
-                 * @param {?} status
-                 * @return {?}
-                 */
-                (result, status) => {
+                placesService.getDetails({ placeId: placeId }, (result, status) => {
                     if (result === null || result.length === 0) {
-                        this.getGeoPaceDetailByReferance(result.referance).then((/**
-                         * @param {?} referanceData
-                         * @return {?}
-                         */
-                        (referanceData) => {
+                        this.getGeoPaceDetailByReferance(result.referance).then((referanceData) => {
                             if (!referanceData) {
                                 resolve(false);
                             }
                             else {
                                 resolve(referanceData);
                             }
-                        }));
+                        });
                     }
                     else {
                         resolve(result);
                     }
-                }));
+                });
             }
             else {
                 resolve(false);
             }
-        }));
+        });
     }
     /**
      * @param {?} referance
      * @return {?}
      */
     getGeoPaceDetailByReferance(referance) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        (resolve) => {
+        return new Promise((resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 /** @type {?} */
                 let _window = this._global.nativeGlobal;
                 /** @type {?} */
                 let placesService = new _window.google.maps.places.PlacesService();
-                placesService.getDetails({ reference: referance }, (/**
-                 * @param {?} result
-                 * @param {?} status
-                 * @return {?}
-                 */
-                (result, status) => {
+                placesService.getDetails({ reference: referance }, (result, status) => {
                     if (status === _window.google.maps.places.PlacesServiceStatus.OK) {
                         resolve(result);
                     }
                     else {
                         resolve(false);
                     }
-                }));
+                });
             }
             else {
                 resolve(false);
             }
-        }));
+        });
     }
     /**
      * @param {?} localStorageName
@@ -54882,11 +46552,7 @@ class GooglePlacesService {
      * @return {?}
      */
     addRecentList(localStorageName, result, itemSavedLength) {
-        this.getRecentList(localStorageName).then((/**
-         * @param {?} data
-         * @return {?}
-         */
-        (data) => {
+        this.getRecentList(localStorageName).then((data) => {
             if (data) {
                 for (let i = 0; i < data.length; i++) {
                     if (data[i].description === result.description) {
@@ -54900,18 +46566,14 @@ class GooglePlacesService {
                 }
                 this._localStorageService.setItem(localStorageName, JSON.stringify(data));
             }
-        }));
+        });
     }
     /**
      * @param {?} localStorageName
      * @return {?}
      */
     getRecentList(localStorageName) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        (resolve) => {
+        return new Promise((resolve) => {
             /** @type {?} */
             let value = this._localStorageService.getItem(localStorageName);
             if (value) {
@@ -54921,7 +46583,7 @@ class GooglePlacesService {
                 value = [];
             }
             resolve(value);
-        }));
+        });
     }
     /**
      * @private
@@ -54929,12 +46591,7 @@ class GooglePlacesService {
      * @return {?}
      */
     getUniqueResults(arr) {
-        return Array.from(arr.reduce((/**
-         * @param {?} m
-         * @param {?} t
-         * @return {?}
-         */
-        (m, t) => m.set(t.place_id, t)), new Map()).values());
+        return Array.from(arr.reduce((m, t) => m.set(t.place_id, t), new Map()).values());
     }
     /**
      * @private
@@ -54945,25 +46602,16 @@ class GooglePlacesService {
     geoPredictionCall(placesService, queryInput) {
         /** @type {?} */
         let _window = this._global.nativeGlobal;
-        return new Promise((/**
-         * @param {?} resolve
-         * @return {?}
-         */
-        (resolve) => {
-            placesService.getPlacePredictions(queryInput, (/**
-             * @param {?} result
-             * @param {?} status
-             * @return {?}
-             */
-            (result, status) => {
+        return new Promise((resolve) => {
+            placesService.getPlacePredictions(queryInput, (result, status) => {
                 if (status === _window.google.maps.places.PlacesServiceStatus.OK) {
                     resolve(result);
                 }
                 else {
                     resolve(false);
                 }
-            }));
-        }));
+            });
+        });
     }
 }
 GooglePlacesService.decorators = [
@@ -54976,33 +46624,10 @@ GooglePlacesService.ctorParameters = () => [
     { type: GlobalRef },
     { type: LocalStorageService }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    GooglePlacesService.prototype._http;
-    /**
-     * @type {?}
-     * @private
-     */
-    GooglePlacesService.prototype.platformId;
-    /**
-     * @type {?}
-     * @private
-     */
-    GooglePlacesService.prototype._global;
-    /**
-     * @type {?}
-     * @private
-     */
-    GooglePlacesService.prototype._localStorageService;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: utils/app-bridge/AppBridge.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @enum {number} */
 const AppBridgeHandler = {
@@ -55027,44 +46652,6 @@ AppBridgeHandler[AppBridgeHandler.REGISTER] = 'REGISTER';
 AppBridgeHandler[AppBridgeHandler.UPDATE] = 'UPDATE';
 AppBridgeHandler[AppBridgeHandler.REQUEST_DATA] = 'REQUEST_DATA';
 AppBridgeHandler[AppBridgeHandler.CALLBACK] = 'CALLBACK';
-/**
- * @record
- */
-function IAppBridgeOpenEvent() { }
-if (false) {
-    /** @type {?} */
-    IAppBridgeOpenEvent.prototype.type;
-    /** @type {?} */
-    IAppBridgeOpenEvent.prototype.entityType;
-    /** @type {?|undefined} */
-    IAppBridgeOpenEvent.prototype.entityId;
-    /** @type {?|undefined} */
-    IAppBridgeOpenEvent.prototype.tab;
-    /** @type {?|undefined} */
-    IAppBridgeOpenEvent.prototype.data;
-    /** @type {?|undefined} */
-    IAppBridgeOpenEvent.prototype.passthrough;
-}
-/**
- * @record
- */
-function IAppBridgeOpenListEvent() { }
-if (false) {
-    /** @type {?} */
-    IAppBridgeOpenListEvent.prototype.type;
-    /** @type {?} */
-    IAppBridgeOpenListEvent.prototype.keywords;
-    /** @type {?} */
-    IAppBridgeOpenListEvent.prototype.criteria;
-}
-/**
- * @record
- */
-function IAppBridgeRequestDataEvent() { }
-if (false) {
-    /** @type {?} */
-    IAppBridgeRequestDataEvent.prototype.type;
-}
 /** @type {?} */
 const HTTP_VERBS = {
     GET: 'get',
@@ -55112,13 +46699,6 @@ class DevAppBridgeService {
     create(name) {
         return new DevAppBridge(name, this.http);
     }
-}
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DevAppBridgeService.prototype.http;
 }
 class AppBridge {
     // Type?
@@ -55174,235 +46754,115 @@ class AppBridge {
      */
     _setupHandlers() {
         // Register
-        postRobot.on(MESSAGE_TYPES.REGISTER, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.REGISTER, (event) => {
             this._trace(MESSAGE_TYPES.REGISTER, event);
             this._registeredFrames.push(event);
-            return this.register(event.data).then((/**
-             * @param {?} windowName
-             * @return {?}
-             */
-            (windowName) => {
+            return this.register(event.data).then((windowName) => {
                 return { windowName };
-            }));
-        }));
+            });
+        });
         // Update
-        postRobot.on(MESSAGE_TYPES.UPDATE, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.UPDATE, (event) => {
             this._trace(MESSAGE_TYPES.UPDATE, event);
-            return this.update(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            (success) => {
+            return this.update(event.data).then((success) => {
                 return { success };
-            }));
-        }));
+            });
+        });
         // Open
-        postRobot.on(MESSAGE_TYPES.OPEN, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.OPEN, (event) => {
             this._trace(MESSAGE_TYPES.OPEN, event);
-            return this.open(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            (success) => {
+            return this.open(event.data).then((success) => {
                 return { success };
-            }));
-        }));
-        postRobot.on(MESSAGE_TYPES.OPEN_LIST, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+            });
+        });
+        postRobot.on(MESSAGE_TYPES.OPEN_LIST, (event) => {
             this._trace(MESSAGE_TYPES.OPEN_LIST, event);
-            return this.openList(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            (success) => {
+            return this.openList(event.data).then((success) => {
                 return { success };
-            }));
-        }));
+            });
+        });
         // Close
-        postRobot.on(MESSAGE_TYPES.CLOSE, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.CLOSE, (event) => {
             this._trace(MESSAGE_TYPES.CLOSE, event);
             /** @type {?} */
-            const index = this._registeredFrames.findIndex((/**
-             * @param {?} frame
-             * @return {?}
-             */
-            (frame) => frame.data.id === event.data.id));
+            const index = this._registeredFrames.findIndex((frame) => frame.data.id === event.data.id);
             if (index !== -1) {
                 this._registeredFrames.splice(index, 1);
             }
-            return this.close(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            (success) => {
+            return this.close(event.data).then((success) => {
                 return { success };
-            }));
-        }));
+            });
+        });
         // Refresh
-        postRobot.on(MESSAGE_TYPES.REFRESH, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.REFRESH, (event) => {
             this._trace(MESSAGE_TYPES.REFRESH, event);
-            return this.refresh(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            (success) => {
+            return this.refresh(event.data).then((success) => {
                 return { success };
-            }));
-        }));
+            });
+        });
         // PIN
-        postRobot.on(MESSAGE_TYPES.PIN, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.PIN, (event) => {
             this._trace(MESSAGE_TYPES.PIN, event);
-            return this.pin(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            (success) => {
+            return this.pin(event.data).then((success) => {
                 return { success };
-            }));
-        }));
+            });
+        });
         // REQUEST_DATA
-        postRobot.on(MESSAGE_TYPES.REQUEST_DATA, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.REQUEST_DATA, (event) => {
             this._trace(MESSAGE_TYPES.REQUEST_DATA, event);
-            return this.requestData(event.data).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            (result) => {
+            return this.requestData(event.data).then((result) => {
                 return { data: result.data, error: result.error };
-            }));
-        }));
+            });
+        });
         // CALLBACKS
-        postRobot.on(MESSAGE_TYPES.CALLBACK, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.CALLBACK, (event) => {
             this._trace(MESSAGE_TYPES.CALLBACK, event);
-            return this.callback(event.data).then((/**
-             * @param {?} success
-             * @return {?}
-             */
-            (success) => {
+            return this.callback(event.data).then((success) => {
                 return { success };
-            }));
-        }));
+            });
+        });
         // HTTP-GET
-        postRobot.on(MESSAGE_TYPES.HTTP_GET, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.HTTP_GET, (event) => {
             this._trace(MESSAGE_TYPES.HTTP_GET, event);
-            return this.httpGET(event.data.relativeURL).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            (result) => {
+            return this.httpGET(event.data.relativeURL).then((result) => {
                 return { data: result.data, error: result.error };
-            }));
-        }));
+            });
+        });
         // HTTP-POST
-        postRobot.on(MESSAGE_TYPES.HTTP_POST, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.HTTP_POST, (event) => {
             this._trace(MESSAGE_TYPES.HTTP_POST, event);
-            return this.httpPOST(event.data.relativeURL, event.data.data).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            (result) => {
+            return this.httpPOST(event.data.relativeURL, event.data.data).then((result) => {
                 return { data: result.data, error: result.error };
-            }));
-        }));
+            });
+        });
         // HTTP-PUT
-        postRobot.on(MESSAGE_TYPES.HTTP_PUT, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.HTTP_PUT, (event) => {
             this._trace(MESSAGE_TYPES.HTTP_PUT, event);
-            return this.httpPUT(event.data.relativeURL, event.data.data).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            (result) => {
+            return this.httpPUT(event.data.relativeURL, event.data.data).then((result) => {
                 return { data: result.data, error: result.error };
-            }));
-        }));
+            });
+        });
         // HTTP-DELETE
-        postRobot.on(MESSAGE_TYPES.HTTP_DELETE, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.HTTP_DELETE, (event) => {
             this._trace(MESSAGE_TYPES.HTTP_DELETE, event);
-            return this.httpDELETE(event.data.relativeURL).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            (result) => {
+            return this.httpDELETE(event.data.relativeURL).then((result) => {
                 return { data: result.data, error: result.error };
-            }));
-        }));
+            });
+        });
         // Custom Events
-        postRobot.on(MESSAGE_TYPES.CUSTOM_EVENT, (/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
+        postRobot.on(MESSAGE_TYPES.CUSTOM_EVENT, (event) => {
             this._trace(MESSAGE_TYPES.CUSTOM_EVENT, event);
             if (this._eventListeners[event.data.event]) {
-                this._eventListeners[event.data.event].forEach((/**
-                 * @param {?} listener
-                 * @return {?}
-                 */
-                (listener) => {
+                this._eventListeners[event.data.event].forEach((listener) => {
                     listener(event.data.data);
-                }));
+                });
             }
             if (this._registeredFrames.length > 0) {
-                this._registeredFrames.forEach((/**
-                 * @param {?} frame
-                 * @return {?}
-                 */
-                (frame) => {
+                this._registeredFrames.forEach((frame) => {
                     postRobot.send(frame.source, MESSAGE_TYPES.CUSTOM_EVENT, event.data);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires or responds to an open event
@@ -55410,35 +46870,22 @@ class AppBridge {
      * @return {?}
      */
     open(packet) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.OPEN]) {
-                this._handlers[AppBridgeHandler.OPEN](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                (success) => {
+                this._handlers[AppBridgeHandler.OPEN](packet, (success) => {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 Object.assign(packet, { id: this.id, windowName: this.windowName });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.OPEN, packet)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.OPEN} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55446,16 +46893,12 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires or responds to an openList event
@@ -55463,25 +46906,16 @@ class AppBridge {
      * @return {?}
      */
     openList(packet) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.OPEN_LIST]) {
-                this._handlers[AppBridgeHandler.OPEN_LIST](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                (success) => {
+                this._handlers[AppBridgeHandler.OPEN_LIST](packet, (success) => {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 /** @type {?} */
@@ -55489,11 +46923,7 @@ class AppBridge {
                 Object.assign(openListPacket, { type: 'List', entityType: packet.type, keywords: packet.keywords, criteria: packet.criteria });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.OPEN_LIST, packet)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.OPEN_LIST} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55501,16 +46931,12 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires or responds to an close event
@@ -55518,35 +46944,22 @@ class AppBridge {
      * @return {?}
      */
     update(packet) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.UPDATE]) {
-                this._handlers[AppBridgeHandler.UPDATE](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                (success) => {
+                this._handlers[AppBridgeHandler.UPDATE](packet, (success) => {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 Object.assign(packet, { id: this.id, windowName: this.windowName });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.UPDATE, packet)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.UPDATE} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55554,16 +46967,12 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires or responds to an close event
@@ -55571,25 +46980,16 @@ class AppBridge {
      * @return {?}
      */
     close(packet) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.CLOSE]) {
-                this._handlers[AppBridgeHandler.CLOSE](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                (success) => {
+                this._handlers[AppBridgeHandler.CLOSE](packet, (success) => {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 if (packet) {
@@ -55599,11 +46999,7 @@ class AppBridge {
                 let realPacket = { id: this.id, windowName: this.windowName };
                 postRobot
                     .sendToParent(MESSAGE_TYPES.CLOSE, realPacket)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.CLOSE} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55611,16 +47007,12 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires or responds to an close event
@@ -55628,25 +47020,16 @@ class AppBridge {
      * @return {?}
      */
     refresh(packet) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.REFRESH]) {
-                this._handlers[AppBridgeHandler.REFRESH](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                (success) => {
+                this._handlers[AppBridgeHandler.REFRESH](packet, (success) => {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 if (packet) {
@@ -55656,11 +47039,7 @@ class AppBridge {
                 let realPacket = { id: this.id, windowName: this.windowName };
                 postRobot
                     .sendToParent(MESSAGE_TYPES.REFRESH, realPacket)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.REFRESH} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55668,16 +47047,12 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires or responds to a pin event
@@ -55685,25 +47060,16 @@ class AppBridge {
      * @return {?}
      */
     pin(packet) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.PIN]) {
-                this._handlers[AppBridgeHandler.PIN](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                (success) => {
+                this._handlers[AppBridgeHandler.PIN](packet, (success) => {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 if (packet) {
@@ -55713,11 +47079,7 @@ class AppBridge {
                 let realPacket = { id: this.id, windowName: this.windowName };
                 postRobot
                     .sendToParent(MESSAGE_TYPES.PIN, realPacket)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.PIN} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55725,16 +47087,12 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires or responds to a requestData event
@@ -55742,35 +47100,22 @@ class AppBridge {
      * @return {?}
      */
     requestData(packet) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.REQUEST_DATA]) {
-                this._handlers[AppBridgeHandler.REQUEST_DATA](packet, (/**
-                 * @param {?} data
-                 * @return {?}
-                 */
-                (data) => {
+                this._handlers[AppBridgeHandler.REQUEST_DATA](packet, (data) => {
                     if (data) {
                         resolve({ data });
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 Object.assign(packet, { id: this.id, windowName: this.windowName });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.REQUEST_DATA, packet)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.REQUEST_DATA} (callback)`, event);
                     if (event.data) {
                         resolve({ data: event.data.data });
@@ -55778,16 +47123,12 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires a generic callback command
@@ -55795,35 +47136,22 @@ class AppBridge {
      * @return {?}
      */
     callback(packet) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.CALLBACK]) {
-                this._handlers[AppBridgeHandler.CALLBACK](packet, (/**
-                 * @param {?} success
-                 * @return {?}
-                 */
-                (success) => {
+                this._handlers[AppBridgeHandler.CALLBACK](packet, (success) => {
                     if (success) {
                         resolve(true);
                     }
                     else {
                         reject(false);
                     }
-                }));
+                });
             }
             else {
                 Object.assign(packet, { id: this.id, windowName: this.windowName });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.CALLBACK, packet)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.CALLBACK} (callback)`, event);
                     if (event.data) {
                         resolve(true);
@@ -55831,16 +47159,12 @@ class AppBridge {
                     else {
                         reject(false);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     reject(false);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires or responds to an register event
@@ -55848,35 +47172,22 @@ class AppBridge {
      * @return {?}
      */
     register(packet = {}) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.REGISTER]) {
-                this._handlers[AppBridgeHandler.REGISTER](packet, (/**
-                 * @param {?} windowName
-                 * @return {?}
-                 */
-                (windowName) => {
+                this._handlers[AppBridgeHandler.REGISTER](packet, (windowName) => {
                     if (windowName) {
                         resolve(windowName);
                     }
                     else {
                         resolve(null);
                     }
-                }));
+                });
             }
             else {
                 Object.assign(packet, { id: this.id });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.REGISTER, packet)
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     this._trace(`${MESSAGE_TYPES.REGISTER} (callback)`, event);
                     if (event.data) {
                         this.windowName = event.data.windowName;
@@ -55885,17 +47196,13 @@ class AppBridge {
                     else {
                         resolve(null);
                     }
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     this._trace(`${MESSAGE_TYPES.REGISTER} - FAILED - (no parent)`, err);
                     reject(err);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires or responds to an HTTP_GET event
@@ -55903,41 +47210,23 @@ class AppBridge {
      * @return {?}
      */
     httpGET(relativeURL) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.HTTP]) {
-                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.GET, relativeURL: relativeURL }, (/**
-                 * @param {?} data
-                 * @param {?} error
-                 * @return {?}
-                 */
-                (data, error) => {
+                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.GET, relativeURL: relativeURL }, (data, error) => {
                     resolve({ data, error });
-                }));
+                });
             }
             else {
                 postRobot
                     .sendToParent(MESSAGE_TYPES.HTTP_GET, { relativeURL })
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     resolve({ data: event.data.data, error: event.data.error });
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     reject(null);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires or responds to an HTTP_POST event
@@ -55946,41 +47235,23 @@ class AppBridge {
      * @return {?}
      */
     httpPOST(relativeURL, postData) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.HTTP]) {
-                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.POST, relativeURL: relativeURL, data: postData }, (/**
-                 * @param {?} data
-                 * @param {?} error
-                 * @return {?}
-                 */
-                (data, error) => {
+                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.POST, relativeURL: relativeURL, data: postData }, (data, error) => {
                     resolve({ data, error });
-                }));
+                });
             }
             else {
                 postRobot
                     .sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL: relativeURL, data: postData })
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     resolve({ data: event.data.data, error: event.data.error });
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     reject(null);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires or responds to an HTTP_PUT event
@@ -55989,41 +47260,23 @@ class AppBridge {
      * @return {?}
      */
     httpPUT(relativeURL, putData) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.HTTP]) {
-                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.PUT, relativeURL: relativeURL, data: putData }, (/**
-                 * @param {?} data
-                 * @param {?} error
-                 * @return {?}
-                 */
-                (data, error) => {
+                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.PUT, relativeURL: relativeURL, data: putData }, (data, error) => {
                     resolve({ data, error });
-                }));
+                });
             }
             else {
                 postRobot
                     .sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL: relativeURL, data: putData })
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     resolve({ data: event.data.data, error: event.data.error });
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     reject(null);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires or responds to an HTTP_DELETE event
@@ -56031,41 +47284,23 @@ class AppBridge {
      * @return {?}
      */
     httpDELETE(relativeURL) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this._handlers[AppBridgeHandler.HTTP]) {
-                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.DELETE, relativeURL: relativeURL }, (/**
-                 * @param {?} data
-                 * @param {?} error
-                 * @return {?}
-                 */
-                (data, error) => {
+                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.DELETE, relativeURL: relativeURL }, (data, error) => {
                     resolve({ data, error });
-                }));
+                });
             }
             else {
                 postRobot
                     .sendToParent(MESSAGE_TYPES.HTTP_DELETE, { relativeURL })
-                    .then((/**
-                 * @param {?} event
-                 * @return {?}
-                 */
-                (event) => {
+                    .then((event) => {
                     resolve({ data: event.data.data, error: event.data.error });
-                }))
-                    .catch((/**
-                 * @param {?} err
-                 * @return {?}
-                 */
-                (err) => {
+                })
+                    .catch((err) => {
                     reject(null);
-                }));
+                });
             }
-        }));
+        });
     }
     /**
      * Fires a custom event to anywhere in the application
@@ -56074,29 +47309,16 @@ class AppBridge {
      * @return {?}
      */
     fireEvent(event, data) {
-        return new Promise((/**
-         * @param {?} resolve
-         * @param {?} reject
-         * @return {?}
-         */
-        (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             postRobot
                 .sendToParent(MESSAGE_TYPES.CUSTOM_EVENT, { event, data })
-                .then((/**
-             * @param {?} e
-             * @return {?}
-             */
-            (e) => {
+                .then((e) => {
                 resolve(e);
-            }))
-                .catch((/**
-             * @param {?} err
-             * @return {?}
-             */
-            (err) => {
+            })
+                .catch((err) => {
                 reject(null);
-            }));
-        }));
+            });
+        });
     }
     /**
      * Fires a custom event to all registered frames
@@ -56106,16 +47328,12 @@ class AppBridge {
      */
     fireEventToChildren(event, data) {
         if (this._registeredFrames.length > 0) {
-            this._registeredFrames.forEach((/**
-             * @param {?} frame
-             * @return {?}
-             */
-            (frame) => {
+            this._registeredFrames.forEach((frame) => {
                 postRobot.send(frame.source, MESSAGE_TYPES.CUSTOM_EVENT, {
                     eventType: event,
                     data: data,
                 });
-            }));
+            });
         }
     }
     /**
@@ -56131,34 +47349,6 @@ class AppBridge {
         this._eventListeners[event].push(callback);
     }
 }
-if (false) {
-    /** @type {?} */
-    AppBridge.prototype.id;
-    /** @type {?} */
-    AppBridge.prototype.traceName;
-    /** @type {?} */
-    AppBridge.prototype.windowName;
-    /**
-     * @type {?}
-     * @private
-     */
-    AppBridge.prototype._registeredFrames;
-    /**
-     * @type {?}
-     * @private
-     */
-    AppBridge.prototype._handlers;
-    /**
-     * @type {?}
-     * @private
-     */
-    AppBridge.prototype._tracing;
-    /**
-     * @type {?}
-     * @private
-     */
-    AppBridge.prototype._eventListeners;
-}
 class DevAppBridge extends AppBridge {
     /**
      * @param {?=} traceName
@@ -56173,15 +47363,10 @@ class DevAppBridge extends AppBridge {
             /** @type {?} */
             let identity = JSON.parse(decodeURIComponent(cookie));
             /** @type {?} */
-            let endpoints = identity.sessions.reduce((/**
-             * @param {?} obj
-             * @param {?} session
-             * @return {?}
-             */
-            (obj, session) => {
+            let endpoints = identity.sessions.reduce((obj, session) => {
                 obj[session.name] = session.value.endpoint;
                 return obj;
-            }), {});
+            }, {});
             this.baseURL = endpoints.rest;
         }
     }
@@ -56249,23 +47434,10 @@ class DevAppBridge extends AppBridge {
         return false;
     }
 }
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    DevAppBridge.prototype.baseURL;
-    /**
-     * @type {?}
-     * @private
-     */
-    DevAppBridge.prototype.http;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: novo-elements.providers.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 const NOVO_ELEMENTS_PROVIDERS = [
@@ -56310,44 +47482,13 @@ NovoElementProviders.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/table-source.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- * @template T
- */
-function ActivityTableService() { }
-if (false) {
-    /**
-     * @param {?} sort
-     * @param {?} filter
-     * @param {?} page
-     * @param {?} pageSize
-     * @param {?=} globalSearch
-     * @param {?=} outsideFilter
-     * @return {?}
-     */
-    ActivityTableService.prototype.getTableResults = function (sort, filter, page, pageSize, globalSearch, outsideFilter) { };
-}
 /**
  * @abstract
  * @template T
  */
 class RemoteActivityTableService {
-}
-if (false) {
-    /**
-     * @abstract
-     * @param {?} sort
-     * @param {?} filter
-     * @param {?} page
-     * @param {?} pageSize
-     * @param {?=} globalSearch
-     * @param {?=} outsideFilter
-     * @return {?}
-     */
-    RemoteActivityTableService.prototype.getTableResults = function (sort, filter, page, pageSize, globalSearch, outsideFilter) { };
 }
 /**
  * @template T
@@ -56368,25 +47509,17 @@ class StaticActivityTableService {
      * @param {?=} outsideFilter
      * @return {?}
      */
-    getTableResults(sort, filter, page = 0, pageSize, globalSearch, outsideFilter) {
+    getTableResults(sort, filter$$1, page = 0, pageSize, globalSearch, outsideFilter) {
         /** @type {?} */
         let ret = Helpers.deepClone(this.data);
         if (ret.length !== 0) {
             if (globalSearch) {
-                ret = ret.filter((/**
-                 * @param {?} item
-                 * @return {?}
-                 */
-                (item) => Object.keys(item).some((/**
-                 * @param {?} key
-                 * @return {?}
-                 */
-                (key) => `${item[key]}`.toLowerCase().includes(globalSearch.toLowerCase())))));
+                ret = ret.filter((item) => Object.keys(item).some((key) => `${item[key]}`.toLowerCase().includes(globalSearch.toLowerCase())));
             }
-            if (filter) {
+            if (filter$$1) {
                 /** @type {?} */
-                let value = Helpers.isString(filter.value) ? filter.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter.value;
-                ret = ret.filter(Helpers.filterByField(filter.id, value));
+                let value = Helpers.isString(filter$$1.value) ? filter$$1.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter$$1.value;
+                ret = ret.filter(Helpers.filterByField(filter$$1.id, value));
             }
             if (sort) {
                 ret = ret.sort(Helpers.sortByField(sort.id, sort.value === 'desc'));
@@ -56398,13 +47531,6 @@ class StaticActivityTableService {
         return of({ results: ret, total: this.data.length });
     }
 }
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    StaticActivityTableService.prototype.data;
-}
 /**
  * @template T
  */
@@ -56414,10 +47540,10 @@ class ActivityTableDataSource extends DataSource {
      * @param {?} state
      * @param {?} ref
      */
-    constructor(tableService, state, ref) {
+    constructor(tableService, state$$1, ref) {
         super();
         this.tableService = tableService;
-        this.state = state;
+        this.state = state$$1;
         this.ref = ref;
         this.total = 0;
         this.current = 0;
@@ -56442,73 +47568,33 @@ class ActivityTableDataSource extends DataSource {
     connect() {
         /** @type {?} */
         const displayDataChanges = [this.state.updates];
-        return merge(...displayDataChanges).pipe(startWith(null), switchMap((/**
-         * @return {?}
-         */
-        () => {
+        return merge(...displayDataChanges).pipe(startWith(null), switchMap(() => {
             this.pristine = false;
             this.loading = true;
             return this.tableService.getTableResults(this.state.sort, this.state.filter, this.state.page, this.state.pageSize, this.state.globalSearch, this.state.outsideFilter);
-        })), map((/**
-         * @param {?} data
-         * @return {?}
-         */
-        (data) => {
+        }), map((data) => {
             this.loading = false;
             this.total = data.total;
             this.current = data.results.length;
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
+            setTimeout(() => {
                 this.ref.markForCheck();
-            }));
+            });
             return data.results;
-        })), catchError((/**
-         * @param {?} error
-         * @return {?}
-         */
-        (error) => {
+        }), catchError((error) => {
             console.error(error); // tslint: disable-line
             this.loading = false;
             return of(null);
-        })));
+        }));
     }
     /**
      * @return {?}
      */
     disconnect() { }
 }
-if (false) {
-    /** @type {?} */
-    ActivityTableDataSource.prototype.total;
-    /** @type {?} */
-    ActivityTableDataSource.prototype.current;
-    /** @type {?} */
-    ActivityTableDataSource.prototype.loading;
-    /** @type {?} */
-    ActivityTableDataSource.prototype.pristine;
-    /**
-     * @type {?}
-     * @private
-     */
-    ActivityTableDataSource.prototype.tableService;
-    /**
-     * @type {?}
-     * @private
-     */
-    ActivityTableDataSource.prototype.state;
-    /**
-     * @type {?}
-     * @private
-     */
-    ActivityTableDataSource.prototype.ref;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/state.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoActivityTableState {
     constructor() {
@@ -56551,33 +47637,10 @@ class NovoActivityTableState {
         }
     }
 }
-if (false) {
-    /** @type {?} */
-    NovoActivityTableState.prototype.id;
-    /** @type {?} */
-    NovoActivityTableState.prototype.sort;
-    /** @type {?} */
-    NovoActivityTableState.prototype.filter;
-    /** @type {?} */
-    NovoActivityTableState.prototype.page;
-    /** @type {?} */
-    NovoActivityTableState.prototype.pageSize;
-    /** @type {?} */
-    NovoActivityTableState.prototype.globalSearch;
-    /** @type {?} */
-    NovoActivityTableState.prototype.selectedRows;
-    /** @type {?} */
-    NovoActivityTableState.prototype.outsideFilter;
-    /** @type {?} */
-    NovoActivityTableState.prototype.updates;
-    /** @type {?} */
-    NovoActivityTableState.prototype.onReset;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/table.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
@@ -56641,10 +47704,10 @@ class NovoActivityTable {
      * @param {?} ref
      * @param {?} state
      */
-    constructor(labels, ref, state) {
+    constructor(labels, ref, state$$1) {
         this.labels = labels;
         this.ref = ref;
-        this.state = state;
+        this.state = state$$1;
         this.globalSearchHiddenClassToggle = false;
         this.loading = true;
         notify('[Deprecated]: The simple table is deprecated. Please migrate to novo-data-tables!');
@@ -56728,15 +47791,11 @@ class NovoActivityTable {
         }
         if (changes['outsideFilter'] && changes['outsideFilter'].currentValue) {
             if (!this.outsideFilterSubscription) {
-                this.outsideFilterSubscription = this.outsideFilter.subscribe((/**
-                 * @param {?} filter
-                 * @return {?}
-                 */
-                (filter) => {
-                    this.state.outsideFilter = filter;
+                this.outsideFilterSubscription = this.outsideFilter.subscribe((filter$$1) => {
+                    this.state.outsideFilter = filter$$1;
                     this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
                     this.ref.markForCheck();
-                }));
+                });
             }
         }
     }
@@ -56876,76 +47935,17 @@ NovoActivityTable.propDecorators = {
     empty: [{ type: HostBinding, args: ['class.empty',] }],
     loadingClass: [{ type: HostBinding, args: ['class.loading',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoActivityTable.prototype.globalSearchHiddenClassToggle;
-    /** @type {?} */
-    NovoActivityTable.prototype.activityService;
-    /** @type {?} */
-    NovoActivityTable.prototype.columns;
-    /** @type {?} */
-    NovoActivityTable.prototype.displayedColumns;
-    /** @type {?} */
-    NovoActivityTable.prototype.actionColumns;
-    /** @type {?} */
-    NovoActivityTable.prototype.paginationOptions;
-    /** @type {?} */
-    NovoActivityTable.prototype.searchOptions;
-    /** @type {?} */
-    NovoActivityTable.prototype.defaultSort;
-    /** @type {?} */
-    NovoActivityTable.prototype.outsideFilter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoActivityTable.prototype._customFilter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoActivityTable.prototype._forceShowHeader;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoActivityTable.prototype._hideGlobalSearch;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoActivityTable.prototype._debug;
-    /** @type {?} */
-    NovoActivityTable.prototype.dataSource;
-    /** @type {?} */
-    NovoActivityTable.prototype.loading;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoActivityTable.prototype.outsideFilterSubscription;
-    /** @type {?} */
-    NovoActivityTable.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoActivityTable.prototype.ref;
-    /** @type {?} */
-    NovoActivityTable.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/sort.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoSortFilter {
     /**
      * @param {?} state
      */
-    constructor(state) {
-        this.state = state;
+    constructor(state$$1) {
+        this.state = state$$1;
     }
     /**
      * @param {?} id
@@ -56955,16 +47955,16 @@ class NovoSortFilter {
      */
     filter(id, value, transform) {
         /** @type {?} */
-        let filter;
+        let filter$$1;
         if (!Helpers.isBlank(value)) {
-            filter = { id, value, transform };
+            filter$$1 = { id, value, transform };
         }
         else {
-            filter = undefined;
+            filter$$1 = undefined;
         }
-        this.state.filter = filter;
+        this.state.filter = filter$$1;
         this.state.reset(false, true);
-        this.state.updates.next({ filter: filter, sort: this.state.sort });
+        this.state.updates.next({ filter: filter$$1, sort: this.state.sort });
     }
     /**
      * @param {?} id
@@ -56989,19 +47989,12 @@ NovoSortFilter.decorators = [
 NovoSortFilter.ctorParameters = () => [
     { type: NovoActivityTableState }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSortFilter.prototype.state;
-}
 class NovoSelection {
     /**
      * @param {?} state
      */
-    constructor(state) {
-        this.state = state;
+    constructor(state$$1) {
+        this.state = state$$1;
         this.novoSelectAllToggle = new EventEmitter();
         this.allRows = new Map();
     }
@@ -57021,14 +48014,11 @@ class NovoSelection {
         this.allRows.delete(id);
         this.state.selectedRows.delete(id);
         clearTimeout(this.throttleTimeout);
-        this.throttleTimeout = setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        this.throttleTimeout = setTimeout(() => {
             if (this.state.selectedRows.size === 0) {
                 this.novoSelectAllToggle.emit(false);
             }
-        }));
+        });
     }
     /**
      * @return {?}
@@ -57077,24 +48067,10 @@ NovoSelection.ctorParameters = () => [
 NovoSelection.propDecorators = {
     novoSelectAllToggle: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSelection.prototype.novoSelectAllToggle;
-    /** @type {?} */
-    NovoSelection.prototype.allRows;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSelection.prototype.throttleTimeout;
-    /** @type {?} */
-    NovoSelection.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/cell.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
@@ -57136,10 +48112,6 @@ NovoSimpleColumnDef.decorators = [
 NovoSimpleColumnDef.propDecorators = {
     name: [{ type: Input, args: ['novoSimpleColumnDef',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSimpleColumnDef.prototype.name;
-}
 /**
  * @template T
  */
@@ -57184,22 +48156,6 @@ NovoSimpleHeaderCell.propDecorators = {
     role: [{ type: HostBinding, args: ['attr.role',] }],
     column: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSimpleHeaderCell.prototype.role;
-    /** @type {?} */
-    NovoSimpleHeaderCell.prototype.column;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleHeaderCell.prototype.elementRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleHeaderCell.prototype.renderer;
-}
 class NovoSimpleEmptyHeaderCell extends _NovoHeaderCell {
     /**
      * @param {?} columnDef
@@ -57228,10 +48184,6 @@ NovoSimpleEmptyHeaderCell.ctorParameters = () => [
 NovoSimpleEmptyHeaderCell.propDecorators = {
     role: [{ type: HostBinding, args: ['attr.role',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSimpleEmptyHeaderCell.prototype.role;
-}
 class NovoSimpleCheckboxHeaderCell extends _NovoHeaderCell {
     /**
      * @param {?} columnDef
@@ -57248,14 +48200,10 @@ class NovoSimpleCheckboxHeaderCell extends _NovoHeaderCell {
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', `novo-checkbox-column-header-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, `novo-checkbox-column-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, 'novo-simple-checkbox-header-cell');
-        this.selectAllSubscription = _selection.novoSelectAllToggle.subscribe((/**
-         * @param {?} value
-         * @return {?}
-         */
-        (value) => {
+        this.selectAllSubscription = _selection.novoSelectAllToggle.subscribe((value) => {
             this.selectAll = value;
             ref.markForCheck();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -57288,22 +48236,6 @@ NovoSimpleCheckboxHeaderCell.ctorParameters = () => [
 NovoSimpleCheckboxHeaderCell.propDecorators = {
     role: [{ type: HostBinding, args: ['attr.role',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSimpleCheckboxHeaderCell.prototype.role;
-    /** @type {?} */
-    NovoSimpleCheckboxHeaderCell.prototype.selectAll;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCheckboxHeaderCell.prototype.selectAllSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCheckboxHeaderCell.prototype._selection;
-}
 /**
  * @template T
  */
@@ -57375,26 +48307,9 @@ NovoSimpleCell.ctorParameters = () => [
 NovoSimpleCell.propDecorators = {
     role: [{ type: HostBinding, args: ['attr.role',] }],
     row: [{ type: Input }],
-    column: [{ type: Input }]
+    column: [{ type: Input }],
+    spanElement: [{ type: ViewChild, args: ['span',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSimpleCell.prototype.role;
-    /** @type {?} */
-    NovoSimpleCell.prototype.row;
-    /** @type {?} */
-    NovoSimpleCell.prototype.column;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCell.prototype.elementRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCell.prototype.renderer;
-}
 class NovoSimpleCheckboxCell extends _NovoCell {
     /**
      * @param {?} columnDef
@@ -57411,13 +48326,9 @@ class NovoSimpleCheckboxCell extends _NovoCell {
         renderer.setAttribute(elementRef.nativeElement, 'data-automation-id', `novo-checkbox-column-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, `novo-checkbox-column-${columnDef.cssClassFriendlyName}`);
         renderer.addClass(elementRef.nativeElement, 'novo-simple-checkbox-cell');
-        this.selectAllSubscription = _selection.novoSelectAllToggle.subscribe((/**
-         * @param {?} value
-         * @return {?}
-         */
-        (value) => {
+        this.selectAllSubscription = _selection.novoSelectAllToggle.subscribe((value) => {
             this.selected = value;
-        }));
+        });
     }
     /**
      * @return {?}
@@ -57461,25 +48372,6 @@ NovoSimpleCheckboxCell.propDecorators = {
     row: [{ type: Input }],
     index: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSimpleCheckboxCell.prototype.role;
-    /** @type {?} */
-    NovoSimpleCheckboxCell.prototype.row;
-    /** @type {?} */
-    NovoSimpleCheckboxCell.prototype.index;
-    /** @type {?} */
-    NovoSimpleCheckboxCell.prototype.selected;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCheckboxCell.prototype.selectAllSubscription;
-    /** @type {?} */
-    NovoSimpleCheckboxCell.prototype.columnDef;
-    /** @type {?} */
-    NovoSimpleCheckboxCell.prototype._selection;
-}
 /**
  * @template T
  */
@@ -57557,31 +48449,10 @@ NovoSimpleActionCell.propDecorators = {
     row: [{ type: Input }],
     column: [{ type: Input }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSimpleActionCell.prototype.role;
-    /** @type {?} */
-    NovoSimpleActionCell.prototype.row;
-    /** @type {?} */
-    NovoSimpleActionCell.prototype.column;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleActionCell.prototype.elementRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleActionCell.prototype.renderer;
-    /** @type {?} */
-    NovoSimpleActionCell.prototype.labels;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/row.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Workaround for https://github.com/angular/angular/issues/17849
@@ -57605,10 +48476,6 @@ NovoSimpleHeaderRowDef.decorators = [
 NovoSimpleHeaderRowDef.propDecorators = {
     columns: [{ type: Input, args: ['novoSimpleHeaderRowDef',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSimpleHeaderRowDef.prototype.columns;
-}
 /**
  * @template T
  */
@@ -57623,10 +48490,6 @@ NovoSimpleRowDef.decorators = [
 NovoSimpleRowDef.propDecorators = {
     columns: [{ type: Input, args: ['novoSimpleRowDefColumns',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSimpleRowDef.prototype.columns;
-}
 class NovoSimpleHeaderRow extends _NovoHeaderRow {
     constructor() {
         super(...arguments);
@@ -57645,12 +48508,6 @@ NovoSimpleHeaderRow.propDecorators = {
     rowClass: [{ type: HostBinding, args: ['class',] }],
     role: [{ type: HostBinding, args: ['attr.role',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSimpleHeaderRow.prototype.rowClass;
-    /** @type {?} */
-    NovoSimpleHeaderRow.prototype.role;
-}
 class NovoSimpleRow extends _NovoRow {
     constructor() {
         super(...arguments);
@@ -57669,17 +48526,10 @@ NovoSimpleRow.propDecorators = {
     rowClass: [{ type: HostBinding, args: ['class',] }],
     role: [{ type: HostBinding, args: ['attr.role',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSimpleRow.prototype.rowClass;
-    /** @type {?} */
-    NovoSimpleRow.prototype.role;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/cell-header.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoSimpleFilterFocus {
     /**
@@ -57704,13 +48554,6 @@ NovoSimpleFilterFocus.decorators = [
 NovoSimpleFilterFocus.ctorParameters = () => [
     { type: ElementRef }
 ];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleFilterFocus.prototype.element;
-}
 class NovoSimpleCellHeader {
     /**
      * @param {?} changeDetectorRef
@@ -57719,21 +48562,17 @@ class NovoSimpleCellHeader {
      * @param {?} _sort
      * @param {?} _cdkColumnDef
      */
-    constructor(changeDetectorRef, labels, state, _sort, _cdkColumnDef) {
+    constructor(changeDetectorRef, labels, state$$1, _sort, _cdkColumnDef) {
         this.changeDetectorRef = changeDetectorRef;
         this.labels = labels;
-        this.state = state;
+        this.state = state$$1;
         this._sort = _sort;
         this._cdkColumnDef = _cdkColumnDef;
         this.icon = 'sortable';
         this.filterActive = false;
         this.sortActive = false;
         this.showCustomRange = false;
-        this._rerenderSubscription = state.updates.subscribe((/**
-         * @param {?} change
-         * @return {?}
-         */
-        (change) => {
+        this._rerenderSubscription = state$$1.updates.subscribe((change) => {
             if (change.sort && change.sort.id === this.id) {
                 this.icon = `sort-${change.sort.value}`;
                 this.sortActive = true;
@@ -57751,7 +48590,7 @@ class NovoSimpleCellHeader {
                 this.filter = undefined;
             }
             changeDetectorRef.markForCheck();
-        }));
+        });
     }
     /**
      * @return {?}
@@ -57813,14 +48652,11 @@ class NovoSimpleCellHeader {
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
         }
-        this.changeTimeout = setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        this.changeTimeout = setTimeout(() => {
             this.direction = this.getNextSortDirection(this.direction);
             this._sort.sort(this.id, this.direction, this._config.transforms.sort);
             this.changeDetectorRef.markForCheck();
-        }), 300);
+        }, 300);
     }
     /**
      * @param {?} event
@@ -57837,40 +48673,37 @@ class NovoSimpleCellHeader {
      * @param {?=} filter
      * @return {?}
      */
-    filterData(filter) {
+    filterData(filter$$1) {
         /** @type {?} */
-        let actualFilter = filter;
-        if (this.config.filterConfig.type === 'date' && filter) {
-            this.activeDateFilter = filter.label || this.labels.customDateRange;
-            if (filter.startDate && filter.endDate) {
+        let actualFilter = filter$$1;
+        if (this.config.filterConfig.type === 'date' && filter$$1) {
+            this.activeDateFilter = filter$$1.label || this.labels.customDateRange;
+            if (filter$$1.startDate && filter$$1.endDate) {
                 actualFilter = {
-                    min: startOfDay(filter.startDate.date),
-                    max: startOfDay(addDays(startOfDay(filter.endDate.date), 1)),
+                    min: startOfDay(filter$$1.startDate.date),
+                    max: startOfDay(addDays(startOfDay(filter$$1.endDate.date), 1)),
                 };
             }
             else {
                 actualFilter = {
-                    min: filter.min ? addDays(startOfToday(), filter.min) : startOfToday(),
-                    max: filter.max ? addDays(startOfTomorrow(), filter.max) : startOfTomorrow(),
+                    min: filter$$1.min ? addDays(startOfToday(), filter$$1.min) : startOfToday(),
+                    max: filter$$1.max ? addDays(startOfTomorrow(), filter$$1.max) : startOfTomorrow(),
                 };
             }
         }
         if (actualFilter && actualFilter.hasOwnProperty('value')) {
-            actualFilter = filter.value;
+            actualFilter = filter$$1.value;
         }
         if (this.changeTimeout) {
             clearTimeout(this.changeTimeout);
         }
-        this.changeTimeout = setTimeout((/**
-         * @return {?}
-         */
-        () => {
+        this.changeTimeout = setTimeout(() => {
             if (actualFilter === '') {
                 actualFilter = undefined;
             }
             this._sort.filter(this.id, actualFilter, this.config.transforms.filter);
             this.changeDetectorRef.markForCheck();
-        }), 300);
+        }, 300);
     }
     /**
      * @return {?}
@@ -58016,68 +48849,14 @@ NovoSimpleCellHeader.ctorParameters = () => [
     { type: CdkColumnDef, decorators: [{ type: Optional }] }
 ];
 NovoSimpleCellHeader.propDecorators = {
-    dropdown: [{ type: ViewChild, args: [NovoDropdownElement, { static: false },] }],
+    dropdown: [{ type: ViewChild, args: [NovoDropdownElement,] }],
     defaultSort: [{ type: Input }],
     config: [{ type: Input, args: ['novo-simple-cell-config',] }]
 };
-if (false) {
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.dropdown;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.defaultSort;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCellHeader.prototype._config;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCellHeader.prototype._rerenderSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCellHeader.prototype.changeTimeout;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.icon;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.id;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.filter;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.direction;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.filterActive;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.sortActive;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.showCustomRange;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.activeDateFilter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCellHeader.prototype.changeDetectorRef;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleCellHeader.prototype.state;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype._sort;
-    /** @type {?} */
-    NovoSimpleCellHeader.prototype._cdkColumnDef;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/pagination.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 const DEFAULT_PAGE_SIZE = 50;
@@ -58087,25 +48866,21 @@ class NovoSimpleTablePagination {
      * @param {?} labels
      * @param {?} state
      */
-    constructor(changeDetectorRef, labels, state) {
+    constructor(changeDetectorRef, labels, state$$1) {
         this.changeDetectorRef = changeDetectorRef;
         this.labels = labels;
-        this.state = state;
+        this.state = state$$1;
         this._page = 0;
         this._length = 0;
         this._pageSizeOptions = [];
         this.pageChange = new EventEmitter();
-        if (state && state.onReset) {
-            this.resetSubscription = this.state.onReset.subscribe((/**
-             * @param {?} clear
-             * @return {?}
-             */
-            (clear) => {
+        if (state$$1 && state$$1.onReset) {
+            this.resetSubscription = this.state.onReset.subscribe((clear) => {
                 if (clear) {
                     this.page = 0;
                     this.changeDetectorRef.markForCheck();
                 }
-            }));
+            });
         }
     }
     /**
@@ -58241,12 +49016,7 @@ class NovoSimpleTablePagination {
         if (this.displayedPageSizeOptions.indexOf(this.pageSize) === -1) {
             this.displayedPageSizeOptions.push(this.pageSize);
         }
-        this.displayedPageSizeOptions.sort((/**
-         * @param {?} a
-         * @param {?} b
-         * @return {?}
-         */
-        (a, b) => a - b));
+        this.displayedPageSizeOptions.sort((a, b) => a - b);
         this.changeDetectorRef.markForCheck();
         this.longRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, false);
         this.shortRangeLabel = this.labels.getRangeText(this.page, this.pageSize, this.length, true);
@@ -58326,57 +49096,10 @@ NovoSimpleTablePagination.propDecorators = {
     pageSizeOptions: [{ type: Input }],
     pageChange: [{ type: Output }]
 };
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleTablePagination.prototype._initialized;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype._page;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype._length;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleTablePagination.prototype._pageSize;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleTablePagination.prototype._pageSizeOptions;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype.pageChange;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype.displayedPageSizeOptions;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype.longRangeLabel;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype.shortRangeLabel;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleTablePagination.prototype.resetSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleTablePagination.prototype.changeDetectorRef;
-    /** @type {?} */
-    NovoSimpleTablePagination.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoSimpleTablePagination.prototype.state;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/simple-table.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoSimpleTableModule {
 }
@@ -58454,8 +49177,7 @@ NovoSimpleTableModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/popover/PopOverContent.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class PopOverContent {
     /**
@@ -58544,45 +49266,27 @@ class PopOverContent {
         let targetElHeight = targetEl.offsetHeight;
         /** @type {?} */
         let shiftWidth = {
-            center: (/**
-             * @return {?}
-             */
-            function () {
+            center: function () {
                 return hostElPos.left + (hostElPos.width - targetElWidth) / 2;
-            }),
-            right: (/**
-             * @return {?}
-             */
-            function () {
+            },
+            right: function () {
                 return hostElPos.left;
-            }),
-            left: (/**
-             * @return {?}
-             */
-            function () {
+            },
+            left: function () {
                 return hostElPos.left + (hostElPos.width - targetElWidth);
-            }),
+            },
         };
         /** @type {?} */
         let shiftHeight = {
-            center: (/**
-             * @return {?}
-             */
-            function () {
+            center: function () {
                 return hostElPos.top + (hostElPos.height - targetElHeight) / 2;
-            }),
-            bottom: (/**
-             * @return {?}
-             */
-            function () {
+            },
+            bottom: function () {
                 return hostElPos.top;
-            }),
-            top: (/**
-             * @return {?}
-             */
-            function () {
+            },
+            top: function () {
                 return hostElPos.top + (hostElPos.height - targetElHeight);
-            }),
+            },
         };
         /** @type {?} */
         let targetElPos;
@@ -58747,51 +49451,12 @@ PopOverContent.propDecorators = {
     placement: [{ type: Input }],
     title: [{ type: Input }],
     animation: [{ type: Input }],
-    popoverDiv: [{ type: ViewChild, args: ['popoverDiv', { static: false },] }]
+    popoverDiv: [{ type: ViewChild, args: ['popoverDiv',] }]
 };
-if (false) {
-    /** @type {?} */
-    PopOverContent.prototype.content;
-    /** @type {?} */
-    PopOverContent.prototype.placement;
-    /** @type {?} */
-    PopOverContent.prototype.title;
-    /** @type {?} */
-    PopOverContent.prototype.animation;
-    /** @type {?} */
-    PopOverContent.prototype.popoverDiv;
-    /** @type {?} */
-    PopOverContent.prototype.popover;
-    /** @type {?} */
-    PopOverContent.prototype.onCloseFromOutside;
-    /** @type {?} */
-    PopOverContent.prototype.top;
-    /** @type {?} */
-    PopOverContent.prototype.left;
-    /** @type {?} */
-    PopOverContent.prototype.displayType;
-    /** @type {?} */
-    PopOverContent.prototype.effectivePlacement;
-    /** @type {?} */
-    PopOverContent.prototype.effectiveAlignment;
-    /** @type {?} */
-    PopOverContent.prototype.isHidden;
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverContent.prototype.element;
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverContent.prototype.cdr;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/popover/PopOver.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class PopOverDirective {
     /**
@@ -58892,15 +49557,9 @@ class PopOverDirective {
             if (this.popoverTitle !== undefined) {
                 popover.title = this.popoverTitle;
             }
-            popover.onCloseFromOutside.subscribe((/**
-             * @return {?}
-             */
-            () => this.hide()));
+            popover.onCloseFromOutside.subscribe(() => this.hide());
             if (this.popoverDismissTimeout > 0) {
-                setTimeout((/**
-                 * @return {?}
-                 */
-                () => this.hide()), this.popoverDismissTimeout);
+                setTimeout(() => this.hide(), this.popoverDismissTimeout);
             }
         }
         else {
@@ -58916,15 +49575,9 @@ class PopOverDirective {
             if (this.popoverTitle !== undefined) {
                 popover.title = this.popoverTitle;
             }
-            popover.onCloseFromOutside.subscribe((/**
-             * @return {?}
-             */
-            () => this.hide()));
+            popover.onCloseFromOutside.subscribe(() => this.hide());
             if (this.popoverDismissTimeout > 0) {
-                setTimeout((/**
-                 * @return {?}
-                 */
-                () => this.hide()), this.popoverDismissTimeout);
+                setTimeout(() => this.hide(), this.popoverDismissTimeout);
             }
             popover.show();
         }
@@ -58978,58 +49631,10 @@ PopOverDirective.propDecorators = {
     showOnHover: [{ type: HostListener, args: ['focusin',] }, { type: HostListener, args: ['mouseenter',] }],
     hideOnHover: [{ type: HostListener, args: ['focusout',] }, { type: HostListener, args: ['mouseleave',] }]
 };
-if (false) {
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverDirective.prototype.PopoverComponent;
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverDirective.prototype.popover;
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverDirective.prototype.visible;
-    /** @type {?} */
-    PopOverDirective.prototype.content;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverDisabled;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverAlways;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverAnimation;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverPlacement;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverTitle;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverOnHover;
-    /** @type {?} */
-    PopOverDirective.prototype.popoverDismissTimeout;
-    /** @type {?} */
-    PopOverDirective.prototype.onShown;
-    /** @type {?} */
-    PopOverDirective.prototype.onHidden;
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverDirective.prototype.viewContainerRef;
-    /**
-     * @type {?}
-     * @protected
-     */
-    PopOverDirective.prototype.resolver;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/popover/PopOver.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoPopOverModule {
 }
@@ -59043,59 +49648,8 @@ NovoPopOverModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/places/places.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/**
- * @record
- */
-function Settings() { }
-if (false) {
-    /** @type {?|undefined} */
-    Settings.prototype.geoPredictionServerUrl;
-    /** @type {?|undefined} */
-    Settings.prototype.geoLatLangServiceUrl;
-    /** @type {?|undefined} */
-    Settings.prototype.geoLocDetailServerUrl;
-    /** @type {?|undefined} */
-    Settings.prototype.geoCountryRestriction;
-    /** @type {?|undefined} */
-    Settings.prototype.geoTypes;
-    /** @type {?|undefined} */
-    Settings.prototype.geoLocation;
-    /** @type {?|undefined} */
-    Settings.prototype.geoRadius;
-    /** @type {?|undefined} */
-    Settings.prototype.serverResponseListHierarchy;
-    /** @type {?|undefined} */
-    Settings.prototype.serverResponseatLangHierarchy;
-    /** @type {?|undefined} */
-    Settings.prototype.serverResponseDetailHierarchy;
-    /** @type {?|undefined} */
-    Settings.prototype.resOnSearchButtonClickOnly;
-    /** @type {?|undefined} */
-    Settings.prototype.useGoogleGeoApi;
-    /** @type {?|undefined} */
-    Settings.prototype.inputPlaceholderText;
-    /** @type {?|undefined} */
-    Settings.prototype.inputString;
-    /** @type {?|undefined} */
-    Settings.prototype.showSearchButton;
-    /** @type {?|undefined} */
-    Settings.prototype.showRecentSearch;
-    /** @type {?|undefined} */
-    Settings.prototype.showCurrentLocation;
-    /** @type {?|undefined} */
-    Settings.prototype.recentStorageName;
-    /** @type {?|undefined} */
-    Settings.prototype.noOfRecentSearchSave;
-    /** @type {?|undefined} */
-    Settings.prototype.currentLocIconUrl;
-    /** @type {?|undefined} */
-    Settings.prototype.searchIconUrl;
-    /** @type {?|undefined} */
-    Settings.prototype.locationIconUrl;
-}
 class PlacesListComponent {
     /**
      * @param {?} platformId
@@ -59251,9 +49805,6 @@ class PlacesListComponent {
         if (_userOption) {
             this.select.emit(this.userSelectedOption);
         }
-        else {
-            // this.select.emit(false);
-        }
     }
     // function to get user current location from the device.
     /**
@@ -59263,18 +49814,14 @@ class PlacesListComponent {
         if (isPlatformBrowser(this.platformId)) {
             this.gettingCurrentLocationFlag = true;
             this.dropdownOpen = false;
-            this._googlePlacesService.getGeoCurrentLocation().then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            (result) => {
+            this._googlePlacesService.getGeoCurrentLocation().then((result) => {
                 if (!result) {
                     this.gettingCurrentLocationFlag = false;
                 }
                 else {
                     this.getCurrentLocationInfo(result);
                 }
-            }));
+            });
         }
     }
     // module initialization happens. function called by ngOninit and ngOnChange
@@ -59372,23 +49919,15 @@ class PlacesListComponent {
                 _tempParams.geoLocation = this.settings.geoLocation;
                 _tempParams.radius = this.settings.geoRadius;
             }
-            this._googlePlacesService.getGeoPrediction(_tempParams).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            (result) => {
+            this._googlePlacesService.getGeoPrediction(_tempParams).then((result) => {
                 this.updateListItem(result);
-            }));
+            });
         }
         else {
-            this._googlePlacesService.getPredictions(this.settings.geoPredictionServerUrl, value).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            (result) => {
+            this._googlePlacesService.getPredictions(this.settings.geoPredictionServerUrl, value).then((result) => {
                 result = this.extractServerList(this.settings.serverResponseListHierarchy, result);
                 this.updateListItem(result);
-            }));
+            });
         }
     }
     // function to extratc custom data which is send by the server.
@@ -59429,18 +49968,14 @@ class PlacesListComponent {
     showRecentSearch() {
         this.recentDropdownOpen = true;
         this.dropdownOpen = true;
-        this._googlePlacesService.getRecentList(this.settings.recentStorageName).then((/**
-         * @param {?} result
-         * @return {?}
-         */
-        (result) => {
+        this._googlePlacesService.getRecentList(this.settings.recentStorageName).then((result) => {
             if (result) {
                 this.queryItems = result;
             }
             else {
                 this.queryItems = [];
             }
-        }));
+        });
     }
     // //function to navigate through list when up and down keyboard key is pressed;
     // private navigateInList(keyCode: number): any {
@@ -59470,29 +50005,21 @@ class PlacesListComponent {
      */
     getCurrentLocationInfo(latlng) {
         if (this.settings.useGoogleGeoApi) {
-            this._googlePlacesService.getGeoLatLngDetail(latlng).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            (result) => {
+            this._googlePlacesService.getGeoLatLngDetail(latlng).then((result) => {
                 if (result) {
                     this.setRecentLocation(result);
                 }
                 this.gettingCurrentLocationFlag = false;
-            }));
+            });
         }
         else {
-            this._googlePlacesService.getLatLngDetail(this.settings.geoLatLangServiceUrl, latlng.lat, latlng.lng).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            (result) => {
+            this._googlePlacesService.getLatLngDetail(this.settings.geoLatLangServiceUrl, latlng.lat, latlng.lng).then((result) => {
                 if (result) {
                     result = this.extractServerList(this.settings.serverResponseatLangHierarchy, result);
                     this.setRecentLocation(result);
                 }
                 this.gettingCurrentLocationFlag = false;
-            }));
+            });
         }
     }
     // function to retrive the location info based on goovle place id.
@@ -59503,27 +50030,19 @@ class PlacesListComponent {
      */
     getPlaceLocationInfo(selectedData) {
         if (this.settings.useGoogleGeoApi) {
-            this._googlePlacesService.getGeoPlaceDetail(selectedData.place_id).then((/**
-             * @param {?} data
-             * @return {?}
-             */
-            (data) => {
+            this._googlePlacesService.getGeoPlaceDetail(selectedData.place_id).then((data) => {
                 if (data) {
                     this.setRecentLocation(data);
                 }
-            }));
+            });
         }
         else {
-            this._googlePlacesService.getPlaceDetails(this.settings.geoLocDetailServerUrl, selectedData.place_id).then((/**
-             * @param {?} result
-             * @return {?}
-             */
-            (result) => {
+            this._googlePlacesService.getPlaceDetails(this.settings.geoLocDetailServerUrl, selectedData.place_id).then((result) => {
                 if (result) {
                     result = this.extractServerList(this.settings.serverResponseDetailHierarchy, result);
                     this.setRecentLocation(result);
                 }
-            }));
+            });
         }
     }
     // function to store the selected user search in the localstorage.
@@ -59555,13 +50074,9 @@ class PlacesListComponent {
      * @return {?}
      */
     getRecentLocations() {
-        this._googlePlacesService.getRecentList(this.settings.recentStorageName).then((/**
-         * @param {?} data
-         * @return {?}
-         */
-        (data) => {
+        this._googlePlacesService.getRecentList(this.settings.recentStorageName).then((data) => {
             this.recentSearchData = data && data.length ? data : [];
-        }));
+        });
     }
 }
 PlacesListComponent.decorators = [
@@ -59593,82 +50108,10 @@ PlacesListComponent.propDecorators = {
     termChange: [{ type: Output }],
     select: [{ type: Output }]
 };
-if (false) {
-    /** @type {?} */
-    PlacesListComponent.prototype.userSettings;
-    /** @type {?} */
-    PlacesListComponent.prototype.term;
-    /** @type {?} */
-    PlacesListComponent.prototype.termChange;
-    /** @type {?} */
-    PlacesListComponent.prototype.select;
-    /** @type {?} */
-    PlacesListComponent.prototype.locationInput;
-    /** @type {?} */
-    PlacesListComponent.prototype.gettingCurrentLocationFlag;
-    /** @type {?} */
-    PlacesListComponent.prototype.dropdownOpen;
-    /** @type {?} */
-    PlacesListComponent.prototype.recentDropdownOpen;
-    /** @type {?} */
-    PlacesListComponent.prototype.queryItems;
-    /** @type {?} */
-    PlacesListComponent.prototype.isSettingsError;
-    /** @type {?} */
-    PlacesListComponent.prototype.settingsErrorMsg;
-    /** @type {?} */
-    PlacesListComponent.prototype.settings;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype.moduleinit;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype.selectedDataIndex;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype.recentSearchData;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype.userSelectedOption;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype.defaultSettings;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype.platformId;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype._elmRef;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype._global;
-    /**
-     * @type {?}
-     * @private
-     */
-    PlacesListComponent.prototype._googlePlacesService;
-}
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/places/places.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class GooglePlacesModule {
 }
@@ -59683,8 +50126,7 @@ GooglePlacesModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: novo-elements.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class NovoElementsModule {
 }
@@ -59738,7 +50180,6 @@ NovoElementsModule.decorators = [
                     NovoCommonModule,
                     NovoStepperModule,
                     ScrollingModule,
-                    NovoTabbedGroupPickerModule,
                 ],
                 providers: [
                     { provide: ComponentUtils, useClass: ComponentUtils },
@@ -59756,8 +50197,7 @@ NovoElementsModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/simple-table/activity-table-renderers.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class ActivityTableRenderers {
     /**
@@ -59767,14 +50207,10 @@ class ActivityTableRenderers {
      */
     static propertyRenderer(prop) {
         /** @type {?} */
-        let ret = (/**
-         * @param {?} data
-         * @return {?}
-         */
-        (data) => {
+        let ret = (data) => {
             // TODO - allow for dots and sub props
             return data[prop];
-        });
+        };
         return ret;
     }
     /**
@@ -59784,28 +50220,23 @@ class ActivityTableRenderers {
      */
     static dateRenderer(prop) {
         /** @type {?} */
-        let ret = (/**
-         * @param {?} data
-         * @return {?}
-         */
-        (data) => {
+        let ret = (data) => {
             return data[prop] ? new Date(data[prop]).toLocaleDateString() : '';
-        });
+        };
         return ret;
     }
 }
 
 /**
  * @fileoverview added by tsickle
- * Generated from: index.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * Generated from: novo-elements.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { AceEditorControl, ActivityTableDataSource, ActivityTableRenderers, AddressControl, AppBridge, AppBridgeHandler, AppBridgeService, ArrayCollection, BaseControl, BasePickerResults, BaseRenderer, COUNTRIES, CalendarEventResponse, CheckListControl, CheckboxControl, ChecklistPickerResults, CollectionEvent, ComponentUtils, ControlFactory, CustomControl, DateCell, DateControl, DateTimeControl, DecodeURIPipe, Deferred, DevAppBridge, DevAppBridgeService, DistributionListPickerResults, EditorControl, EntityPickerResult, EntityPickerResults, FieldInteractionApi, FileControl, FormUtils, FormValidators, GooglePlacesService, GroupByPipe, GroupedControl, GroupedMultiPickerResults, Helpers, KeyCodes, NOVO_VALUE_THEME, NOVO_VALUE_TYPE, NativeSelectControl, NovoAceEditorModule, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableCustomHeader, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableState, NovoButtonModule, NovoCalendarDateChangeElement, NovoCalendarModule, NovoCardModule, NovoCategoryDropdownModule, NovoCheckListElement, NovoChipsModule, NovoCommonModule, NovoControlGroup, NovoDataTable, NovoDataTableFilterUtils, NovoDataTableModule, NovoDatePickerElement, NovoDatePickerModule, NovoDateTimePickerModule, NovoDragulaModule, NovoDragulaService, NovoDropdownCell, NovoDropdownModule, NovoDynamicFormElement, NovoElementProviders, NovoElementsModule, NovoExpansionModule, NovoFile, NovoFormControl, NovoFormExtrasModule, NovoFormGroup, NovoFormModule, NovoHeaderModule, NovoHorizontalStepper, NovoIconModule, NovoLabelService, NovoListElement, NovoListModule, NovoLoadingModule, NovoModalModule, NovoModalParams, NovoModalRef, NovoModalService, NovoMultiPickerModule, NovoNovoCKEditorModule, NovoPickerModule, NovoPipesModule, NovoQuickNoteModule, NovoRadioModule, NovoSearchBoxModule, NovoSelectModule, NovoSelection, NovoSimpleActionCell, NovoSimpleCell, NovoSimpleCellDef, NovoSimpleCellHeader, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleColumnDef, NovoSimpleEmptyHeaderCell, NovoSimpleFilterFocus, NovoSimpleHeaderCell, NovoSimpleHeaderCellDef, NovoSimpleHeaderRow, NovoSimpleHeaderRowDef, NovoSimpleRow, NovoSimpleRowDef, NovoSimpleTableModule, NovoSimpleTablePagination, NovoSliderModule, NovoSortFilter, NovoStep, NovoStepper, NovoStepperModule, NovoSwitchModule, NovoTabModule, NovoTabbedGroupPickerModule, NovoTable, NovoTableElement, NovoTableExtrasModule, NovoTableMode, NovoTableModule, NovoTemplate, NovoTemplateService, NovoTilesModule, NovoTimePickerModule, NovoTipWellModule, NovoToastModule, NovoToastService, NovoTooltipModule, NovoValueModule, NovoVerticalStepper, OptionsService, OutsideClick, PagedArrayCollection, PercentageCell, PickerControl, PickerResults, PluralPipe, QuickNoteControl, QuickNoteResults, RadioControl, ReadOnlyControl, RemoteActivityTableService, RemoteDataTableService, RenderPipe, Security, SelectControl, SkillsSpecialtyPickerResults, StaticActivityTableService, StaticDataTableService, TablePickerControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, UnlessModule, findByCountryCode, findByCountryId, findByCountryName, getCountries, getDayView, getDayViewHourGrid, getMonthView, getStateObjects, getStates, getWeekView, getWeekViewEventOffset, getWeekViewHeader, notify, NovoFieldsetHeaderElement as ɵa, NovoFieldsetElement as ɵb, NovoEventTypeLegendElement as ɵba, NovoCalendarMonthViewElement as ɵbb, NovoCalendarMonthHeaderElement as ɵbc, NovoCalendarMonthDayElement as ɵbd, NovoCalendarWeekViewElement as ɵbe, NovoCalendarWeekHeaderElement as ɵbf, NovoCalendarWeekEventElement as ɵbg, NovoCalendarDayViewElement as ɵbh, NovoCalendarDayEventElement as ɵbi, NovoCalendarHourSegmentElement as ɵbj, NovoCalendarAllDayEventElement as ɵbk, WeekdayPipe as ɵbl, DayOfMonthPipe as ɵbm, MonthPipe as ɵbn, MonthDayPipe as ɵbo, YearPipe as ɵbp, HoursPipe as ɵbq, EndOfWeekDisplayPipe as ɵbr, NovoToastElement as ɵbs, NovoHeaderSpacer as ɵbt, NovoUtilsComponent as ɵbu, NovoUtilActionComponent as ɵbv, NovoHeaderComponent as ɵbw, NovoNavElement as ɵbx, NovoTabElement as ɵby, NovoTabButtonElement as ɵbz, NovoTabbedGroupPickerElement as ɵc, NovoTabLinkElement as ɵca, NovoNavOutletElement as ɵcb, NovoNavContentElement as ɵcc, NovoNavHeaderElement as ɵcd, NovoTilesElement as ɵce, QuickNoteElement as ɵcf, NovoRadioGroup as ɵcg, NovoRadioElement as ɵch, NovoOverlayModule as ɵci, NovoOverlayTemplateComponent as ɵcj, NovoDropdownElement as ɵck, NovoItemElement as ɵcl, NovoListElement$1 as ɵcm, NovoItemHeaderElement$1 as ɵcn, NovoSelectElement as ɵco, NovoSwitchElement as ɵcp, NovoPickerElement as ɵcq, NovoSearchBoxElement as ɵcr, NovoDragulaElement as ɵcs, NovoSliderElement as ɵct, NovoChipElement as ɵcu, NovoChipsElement as ɵcv, NovoRowChipElement as ɵcw, NovoRowChipsElement as ɵcx, NovoDatePickerInputElement as ɵcy, DateFormatService as ɵcz, NovoModalContainerElement as ɵd, NovoTimePickerElement as ɵda, NovoTimePickerInputElement as ɵdb, NovoDateTimePickerElement as ɵdc, NovoDateTimePickerInputElement as ɵdd, NovoCKEditorElement as ɵde, NovoTipWellElement as ɵdf, NovoCheckboxElement as ɵdg, NovoFileInputElement as ɵdh, NovoAutoSize as ɵdi, NovoControlElement as ɵdj, NovoFormElement as ɵdk, ControlConfirmModal as ɵdl, ControlPromptModal as ɵdm, NovoControlTemplates as ɵdn, NovoTableHeaderElement as ɵdo, NovoTableFooterElement as ɵdp, NovoTableActionsElement as ɵdq, NovoTableKeepFilterFocus as ɵdr, Pagination as ɵds, RowDetails as ɵdt, TableCell as ɵdu, TableFilter as ɵdv, ThOrderable as ɵdw, ThSortable as ɵdx, EntityList as ɵdy, NovoIconComponent as ɵdz, NovoModalElement as ɵe, NovoAccordion as ɵea, NovoExpansionPanel as ɵeb, NovoExpansionPanelActionRow as ɵec, novoExpansionAnimations as ɵed, NovoExpansionPanelContent as ɵee, NovoExpansionPanelHeader as ɵef, NovoExpansionPanelDescription as ɵeg, NovoExpansionPanelTitle as ɵeh, NovoStepHeader as ɵei, NovoStepLabel as ɵej, novoStepperAnimations as ɵek, NovoStepStatus as ɵel, NovoCategoryDropdownElement as ɵem, NovoMultiPickerElement as ɵen, Unless as ɵeo, DataTableInterpolatePipe as ɵep, DateTableDateRendererPipe as ɵeq, DateTableDateTimeRendererPipe as ɵer, DateTableTimeRendererPipe as ɵes, DateTableNumberRendererPipe as ɵet, DataTableBigDecimalRendererPipe as ɵeu, DateTableCurrencyRendererPipe as ɵev, NovoDataTableCellHeader as ɵew, DataTableState as ɵex, NovoDataTableSortFilter as ɵey, NovoDataTableHeaderCell as ɵez, NovoModalNotificationElement as ɵf, NovoDataTableCell as ɵfa, NovoDataTableHeaderRow as ɵfb, NovoDataTableRow as ɵfc, NovoDataTablePagination as ɵfd, NovoDataTableCheckboxCell as ɵfe, NovoDataTableCheckboxHeaderCell as ɵff, NovoDataTableExpandCell as ɵfg, NovoDataTableExpandHeaderCell as ɵfh, NovoDataTableExpandDirective as ɵfi, NovoDataTableClearButton as ɵfj, GlobalRef as ɵfk, BrowserGlobalRef as ɵfl, LocalStorageService as ɵfm, NovoPopOverModule as ɵfn, PopOverContent as ɵfo, PopOverDirective as ɵfp, GooglePlacesModule as ɵfq, PlacesListComponent as ɵfr, NovoListItemElement as ɵg, NovoItemAvatarElement as ɵh, NovoItemTitleElement as ɵi, NovoItemHeaderElement as ɵj, NovoItemDateElement as ɵk, NovoItemContentElement as ɵl, NovoItemEndElement as ɵm, NovoValueElement as ɵn, NovoAddressElement as ɵo, NovoAceEditor as ɵp, NovoButtonElement as ɵq, NovoLoadingElement as ɵr, NovoSpinnerElement as ɵs, NovoSkeletonDirective as ɵt, NovoLoadedDirective as ɵu, NovoIsLoadingDirective as ɵv, TooltipDirective as ɵw, NovoTooltip as ɵx, CardActionsElement as ɵy, CardElement as ɵz };
+export { NovoAceEditorModule, NovoPipesModule, NovoButtonModule, NovoLoadingModule, NovoCardModule, NovoCalendarModule, NovoToastModule, NovoTooltipModule, NovoHeaderModule, NovoTabModule, NovoTilesModule, NovoModalModule, NovoQuickNoteModule, NovoRadioModule, NovoDropdownModule, NovoSelectModule, NovoListModule, NovoSwitchModule, NovoSearchBoxModule, NovoDragulaModule, NovoSliderModule, NovoPickerModule, NovoChipsModule, NovoDatePickerModule, NovoDatePickerElement, NovoTimePickerModule, NovoDateTimePickerModule, NovoNovoCKEditorModule, NovoTipWellModule, NovoTableModule, NovoValueModule, NovoTableMode, NovoIconModule, NovoExpansionModule, NovoStepperModule, NovoVerticalStepper, NovoHorizontalStepper, NovoStep, NovoStepper, NovoTableExtrasModule, NovoFormModule, NovoDynamicFormElement, NovoFormExtrasModule, NovoCategoryDropdownModule, NovoMultiPickerModule, UnlessModule, NovoDataTableModule, RemoteDataTableService, StaticDataTableService, NovoDataTableFilterUtils, NovoDataTable, NovoCommonModule, NovoTableElement, NovoCalendarDateChangeElement, NovoTemplate, NovoToastService, NovoModalService, NovoLabelService, NovoDragulaService, GooglePlacesService, CollectionEvent, ArrayCollection, PagedArrayCollection, NovoModalParams, NovoModalRef, QuickNoteResults, PickerResults, BasePickerResults, EntityPickerResult, EntityPickerResults, DistributionListPickerResults, SkillsSpecialtyPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, BaseRenderer, DateCell, PercentageCell, NovoDropdownCell, FormValidators, FormUtils, Security, OptionsService, NovoTemplateService, NovoFile, BaseControl, ControlFactory, AddressControl, CheckListControl, CheckboxControl, DateControl, DateTimeControl, EditorControl, AceEditorControl, FileControl, NativeSelectControl, PickerControl, TablePickerControl, QuickNoteControl, RadioControl, ReadOnlyControl, SelectControl, TextAreaControl, TextBoxControl, TilesControl, TimeControl, GroupedControl, CustomControl, NovoFormControl, NovoFormGroup, NovoControlGroup, FieldInteractionApi, NovoCheckListElement, OutsideClick, KeyCodes, Deferred, COUNTRIES, getCountries, getStateObjects, getStates, findByCountryCode, findByCountryId, findByCountryName, Helpers, notify, ComponentUtils, AppBridge, AppBridgeHandler, AppBridgeService, DevAppBridge, DevAppBridgeService, NovoElementProviders, PluralPipe, DecodeURIPipe, GroupByPipe, RenderPipe, NovoElementsModule, NovoListElement, NOVO_VALUE_TYPE, NOVO_VALUE_THEME, NovoTable, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableCustomHeader, NovoSimpleCell, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleHeaderCell, NovoSimpleCellDef, NovoSimpleHeaderCellDef, NovoSimpleColumnDef, NovoSimpleActionCell, NovoSimpleEmptyHeaderCell, NovoSimpleHeaderRow, NovoSimpleRow, NovoSimpleHeaderRowDef, NovoSimpleRowDef, NovoSimpleCellHeader, NovoSimpleFilterFocus, NovoSortFilter, NovoSelection, NovoSimpleTablePagination, ActivityTableDataSource, RemoteActivityTableService, StaticActivityTableService, ActivityTableRenderers, NovoActivityTableState, NovoSimpleTableModule, getWeekViewEventOffset, getWeekViewHeader, getWeekView, getMonthView, getDayView, getDayViewHourGrid, CalendarEventResponse, NovoAceEditor as ɵo, NovoButtonElement as ɵp, NovoEventTypeLegendElement as ɵz, NovoCalendarAllDayEventElement as ɵbj, NovoCalendarDayEventElement as ɵbh, NovoCalendarDayViewElement as ɵbg, NovoCalendarHourSegmentElement as ɵbi, NovoCalendarMonthDayElement as ɵbc, NovoCalendarMonthHeaderElement as ɵbb, NovoCalendarMonthViewElement as ɵba, DayOfMonthPipe as ɵbl, EndOfWeekDisplayPipe as ɵbq, HoursPipe as ɵbp, MonthPipe as ɵbm, MonthDayPipe as ɵbn, WeekdayPipe as ɵbk, YearPipe as ɵbo, NovoCalendarWeekEventElement as ɵbf, NovoCalendarWeekHeaderElement as ɵbe, NovoCalendarWeekViewElement as ɵbd, CardActionsElement as ɵx, CardElement as ɵy, NovoCategoryDropdownElement as ɵel, NovoChipElement as ɵct, NovoChipsElement as ɵcu, NovoRowChipElement as ɵcv, NovoRowChipsElement as ɵcw, NovoCKEditorElement as ɵdd, NovoDataTableCheckboxHeaderCell as ɵfe, NovoDataTableExpandHeaderCell as ɵfg, NovoDataTableCellHeader as ɵev, NovoDataTableHeaderCell as ɵey, NovoDataTableCell as ɵez, NovoDataTableCheckboxCell as ɵfd, NovoDataTableExpandCell as ɵff, NovoDataTableClearButton as ɵfi, NovoDataTableExpandDirective as ɵfh, DataTableBigDecimalRendererPipe as ɵet, DataTableInterpolatePipe as ɵeo, DateTableCurrencyRendererPipe as ɵeu, DateTableDateRendererPipe as ɵep, DateTableDateTimeRendererPipe as ɵeq, DateTableNumberRendererPipe as ɵes, DateTableTimeRendererPipe as ɵer, NovoDataTablePagination as ɵfc, NovoDataTableHeaderRow as ɵfa, NovoDataTableRow as ɵfb, NovoDataTableSortFilter as ɵex, DataTableState as ɵew, NovoDatePickerInputElement as ɵcx, NovoDateTimePickerElement as ɵdb, NovoDateTimePickerInputElement as ɵdc, NovoDragulaElement as ɵcr, NovoDropdownElement as ɵcj, NovoItemElement as ɵck, NovoItemHeaderElement$1 as ɵcm, NovoListElement$1 as ɵcl, NovoAccordion as ɵdz, novoExpansionAnimations as ɵec, NovoExpansionPanel as ɵea, NovoExpansionPanelActionRow as ɵeb, NovoExpansionPanelContent as ɵed, NovoExpansionPanelDescription as ɵef, NovoExpansionPanelHeader as ɵee, NovoExpansionPanelTitle as ɵeg, NovoAutoSize as ɵdh, NovoControlElement as ɵdi, NovoControlTemplates as ɵdm, NovoFieldsetElement as ɵb, NovoFieldsetHeaderElement as ɵa, ControlConfirmModal as ɵdk, ControlPromptModal as ɵdl, NovoFormElement as ɵdj, NovoAddressElement as ɵn, NovoCheckboxElement as ɵdf, NovoFileInputElement as ɵdg, NovoHeaderComponent as ɵbv, NovoHeaderSpacer as ɵbs, NovoUtilActionComponent as ɵbu, NovoUtilsComponent as ɵbt, NovoIconComponent as ɵdy, NovoItemAvatarElement as ɵg, NovoItemContentElement as ɵk, NovoItemDateElement as ɵj, NovoItemEndElement as ɵl, NovoItemHeaderElement as ɵi, NovoItemTitleElement as ɵh, NovoListItemElement as ɵf, NovoIsLoadingDirective as ɵu, NovoLoadedDirective as ɵt, NovoLoadingElement as ɵq, NovoSkeletonDirective as ɵs, NovoSpinnerElement as ɵr, NovoModalContainerElement as ɵc, NovoModalElement as ɵd, NovoModalNotificationElement as ɵe, NovoMultiPickerElement as ɵem, NovoOverlayTemplateComponent as ɵci, NovoOverlayModule as ɵch, NovoPickerElement as ɵcp, PlacesListComponent as ɵfq, GooglePlacesModule as ɵfp, PopOverDirective as ɵfo, NovoPopOverModule as ɵfm, PopOverContent as ɵfn, QuickNoteElement as ɵce, NovoRadioElement as ɵcg, NovoRadioGroup as ɵcf, NovoSearchBoxElement as ɵcq, NovoSelectElement as ɵcn, NovoSliderElement as ɵcs, NovoStepHeader as ɵeh, NovoStepLabel as ɵei, NovoStepStatus as ɵek, novoStepperAnimations as ɵej, NovoSwitchElement as ɵco, NovoTableKeepFilterFocus as ɵdq, Pagination as ɵdr, RowDetails as ɵds, NovoTableActionsElement as ɵdp, TableCell as ɵdt, TableFilter as ɵdu, NovoTableFooterElement as ɵdo, NovoTableHeaderElement as ɵdn, ThOrderable as ɵdv, ThSortable as ɵdw, NovoNavContentElement as ɵcb, NovoNavElement as ɵbw, NovoNavHeaderElement as ɵcc, NovoNavOutletElement as ɵca, NovoTabButtonElement as ɵby, NovoTabElement as ɵbx, NovoTabLinkElement as ɵbz, NovoTilesElement as ɵcd, NovoTimePickerElement as ɵcz, NovoTimePickerInputElement as ɵda, NovoTipWellElement as ɵde, NovoToastElement as ɵbr, NovoTooltip as ɵw, TooltipDirective as ɵv, Unless as ɵen, EntityList as ɵdx, NovoValueElement as ɵm, DateFormatService as ɵcy, BrowserGlobalRef as ɵfk, GlobalRef as ɵfj, LocalStorageService as ɵfl };
+
 //# sourceMappingURL=novo-elements.js.map

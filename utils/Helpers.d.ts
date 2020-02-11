@@ -47,17 +47,6 @@ export declare class Helpers {
      * @returns the next sibling node that is of type: Element
      */
     static getNextElementSibling(element: Element): Node;
-    static dateToObject(date: Date): {
-        day: string;
-        dayPeriod: string;
-        era: string;
-        hour: string;
-        minute: string;
-        month: string;
-        second: string;
-        weekday: string;
-        year: string;
-    };
 }
 export declare class Can {
     obj: Object;
@@ -69,4 +58,3 @@ export declare class Can {
  * @param obj
  */
 export declare function can(obj: any): Can;
-export declare function binarySearch<T>(item: T, array: T[], compare: (a: T, b: T) => 1 | -1 | 0 | undefined): T | undefined;

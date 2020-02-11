@@ -2,12 +2,12 @@ import { EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
 import { IDataTableChangeEvent, IDataTableFilter } from '../interfaces';
 export declare class DataTableState<T> {
-    selectionSource: Subject<unknown>;
-    paginationSource: Subject<unknown>;
-    sortFilterSource: Subject<unknown>;
-    resetSource: Subject<unknown>;
-    expandSource: Subject<unknown>;
-    dataLoaded: Subject<unknown>;
+    selectionSource: Subject<{}>;
+    paginationSource: Subject<{}>;
+    sortFilterSource: Subject<{}>;
+    resetSource: Subject<{}>;
+    expandSource: Subject<{}>;
+    dataLoaded: Subject<{}>;
     sort: {
         id: string;
         value: string;
@@ -22,7 +22,6 @@ export declare class DataTableState<T> {
     isForceRefresh: boolean;
     updates: EventEmitter<IDataTableChangeEvent>;
     readonly userFiltered: boolean;
-    readonly userFilteredInternal: boolean;
     readonly selected: T[];
     reset(fireUpdate?: boolean, persistUserFilters?: boolean): void;
     clearSort(fireUpdate?: boolean): void;

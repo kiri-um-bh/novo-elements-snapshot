@@ -5,7 +5,7 @@ declare type OptionsFunctionConfig = {
     where: string;
     emptyPickerMessage?: string;
 } | {
-    optionsPromise: (query: string, http: CustomHttp, page?: number) => Promise<unknown[]>;
+    optionsPromise: (query: string, http: CustomHttp) => Promise<unknown[]>;
 } | {
     optionsUrl: string;
 } | {
@@ -14,7 +14,7 @@ declare type OptionsFunctionConfig = {
 export declare type ModifyPickerConfigArgs = {
     options: unknown[];
 } | OptionsFunctionConfig;
-export declare type OptionsFunction = (query: string, page?: number) => Promise<unknown[]>;
+export declare type OptionsFunction = (query: string) => Promise<unknown[]>;
 export interface CustomHttp<T = any> {
     url: string;
     options: any;
