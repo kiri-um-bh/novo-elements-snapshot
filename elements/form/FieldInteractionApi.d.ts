@@ -5,6 +5,7 @@ import { NovoToastService, ToastOptions } from '../toast/ToastService';
 import { NovoModalService } from '../modal/ModalService';
 import { AppBridge } from '../../utils/app-bridge/AppBridge';
 import { NovoLabelService } from '../../services/novo-label-service';
+import { NovoFieldset } from './FormInterfaces';
 import { ModifyPickerConfigArgs, OptionsFunction } from './FieldInteractionApiTypes';
 export declare class FieldInteractionApi {
     private toaster;
@@ -38,6 +39,7 @@ export declare class FieldInteractionApi {
     getActiveKey(): string;
     getActiveValue(): any;
     getActiveInitialValue(): any;
+    getFieldSet(key: string): NovoFieldset;
     getControl(key: string): NovoFormControl;
     getValue(key: string): any;
     getRawValue(key: string): any;
@@ -58,6 +60,8 @@ export declare class FieldInteractionApi {
     setRequired(key: string, required: boolean): void;
     hide(key: string, clearValue?: boolean): void;
     show(key: string): void;
+    hideFieldSetHeader(key: string): void;
+    showFieldSetHeader(key: string): void;
     disable(key: string, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;

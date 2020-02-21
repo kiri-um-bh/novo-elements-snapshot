@@ -17633,6 +17633,7 @@ class NovoFieldsetElement {
         this.controls = [];
         this.isEmbedded = false;
         this.isInlineEmbedded = false;
+        this.hidden = false;
     }
 }
 NovoFieldsetElement.decorators = [
@@ -17640,7 +17641,7 @@ NovoFieldsetElement.decorators = [
                 selector: 'novo-fieldset',
                 template: `
         <div class="novo-fieldset-container">
-            <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title" [class.embedded]="isEmbedded" [class.inline-embedded]="isInlineEmbedded"></novo-fieldset-header>
+            <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title" [class.embedded]="isEmbedded" [class.inline-embedded]="isInlineEmbedded" [class.hidden]="hidden"></novo-fieldset-header>
             <ng-container *ngFor="let control of controls;let controlIndex = index;">
                 <div class="novo-form-row" [class.disabled]="control.disabled" *ngIf="control.__type !== 'GroupedControl'">
                     <novo-control [autoFocus]="autoFocus && index === 0 && controlIndex === 0" [control]="control" [form]="form"></novo-control>
@@ -17659,7 +17660,8 @@ NovoFieldsetElement.propDecorators = {
     index: [{ type: Input }],
     autoFocus: [{ type: Input }],
     isEmbedded: [{ type: Input }],
-    isInlineEmbedded: [{ type: Input }]
+    isInlineEmbedded: [{ type: Input }],
+    hidden: [{ type: Input }]
 };
 if (false) {
     /** @type {?} */
@@ -17678,6 +17680,8 @@ if (false) {
     NovoFieldsetElement.prototype.isEmbedded;
     /** @type {?} */
     NovoFieldsetElement.prototype.isInlineEmbedded;
+    /** @type {?} */
+    NovoFieldsetElement.prototype.hidden;
 }
 class NovoDynamicFormElement {
     /**
@@ -17914,7 +17918,7 @@ NovoDynamicFormElement.decorators = [
             </header>
             <form class="novo-form" [formGroup]="form">
                 <ng-container *ngFor="let fieldset of form.fieldsets;let i = index">
-                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form" [isEmbedded]="fieldset.isEmbedded" [isInlineEmbedded]="fieldset.isInlineEmbedded"></novo-fieldset>
+                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form" [isEmbedded]="fieldset.isEmbedded" [isInlineEmbedded]="fieldset.isInlineEmbedded" [hidden]="fieldset.hidden"></novo-fieldset>
                 </ng-container>
             </form>
         </div>
@@ -20290,6 +20294,7 @@ class FormUtils {
             controls: [],
             isEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'embedded',
             isInlineEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'inline_embedded',
+            key: field.name,
         });
     }
     /**
@@ -21223,6 +21228,27 @@ class FieldInteractionApi {
      * @param {?} key
      * @return {?}
      */
+    getFieldSet(key) {
+        if (!key) {
+            console.error('[FieldInteractionAPI] - invalid or missing "key"'); // tslint:disable-line
+            return null;
+        }
+        /** @type {?} */
+        const fieldSet = this.form.fieldsets.find((/**
+         * @param {?} fs
+         * @return {?}
+         */
+        (fs) => fs.key && fs.key.toLowerCase() === key.toLowerCase()));
+        if (!fieldSet) {
+            console.error('[FieldInteractionAPI] - could not find a fieldset in the form by the key --', key); // tslint:disable-line
+            return null;
+        }
+        return (/** @type {?} */ (fieldSet));
+    }
+    /**
+     * @param {?} key
+     * @return {?}
+     */
     getControl(key) {
         if (!key) {
             console.error('[FieldInteractionAPI] - invalid or missing "key"'); // tslint:disable-line
@@ -21351,6 +21377,28 @@ class FieldInteractionApi {
             control.show();
             this.enable(key, { emitEvent: false });
             this.triggerEvent({ controlKey: key, prop: 'hidden', value: false });
+        }
+    }
+    /**
+     * @param {?} key
+     * @return {?}
+     */
+    hideFieldSetHeader(key) {
+        /** @type {?} */
+        const fieldSet = this.getFieldSet(key);
+        if (fieldSet) {
+            fieldSet.hidden = true;
+        }
+    }
+    /**
+     * @param {?} key
+     * @return {?}
+     */
+    showFieldSetHeader(key) {
+        /** @type {?} */
+        const fieldSet = this.getFieldSet(key);
+        if (fieldSet) {
+            fieldSet.hidden = false;
         }
     }
     /**
