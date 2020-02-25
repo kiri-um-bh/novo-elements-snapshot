@@ -57672,9 +57672,7 @@ var DateTableDateTimeRendererPipe = /** @class */ (function () {
      */
     function (value, column) {
         if (!Helpers.isEmpty(value)) {
-            /** @type {?} */
-            var val = interpolateCell(value, column);
-            return this.labels.formatDateShort(val);
+            return column.format ? value : this.labels.formatDateShort(interpolateCell(value, column));
         }
         return '';
     };
@@ -57716,7 +57714,7 @@ var DateTableTimeRendererPipe = /** @class */ (function () {
      */
     function (value, column) {
         if (!Helpers.isEmpty(value)) {
-            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
+            return column.format ? value : this.labels.formatTime(interpolateCell(value, column));
         }
         return '';
     };

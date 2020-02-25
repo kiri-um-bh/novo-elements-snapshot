@@ -53496,9 +53496,7 @@ class DateTableDateTimeRendererPipe {
      */
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
-            /** @type {?} */
-            let val = interpolateCell(value, column);
-            return this.labels.formatDateShort(val);
+            return column.format ? value : this.labels.formatDateShort(interpolateCell(value, column));
         }
         return '';
     }
@@ -53537,7 +53535,7 @@ class DateTableTimeRendererPipe {
      */
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
-            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
+            return column.format ? value : this.labels.formatTime(interpolateCell(value, column));
         }
         return '';
     }
