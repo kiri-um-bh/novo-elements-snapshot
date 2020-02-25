@@ -15,7 +15,6 @@ export declare class NovoFieldsetElement {
     autoFocus: boolean;
     isEmbedded: boolean;
     isInlineEmbedded: boolean;
-    hidden: boolean;
 }
 export declare class NovoDynamicFormElement implements OnChanges, OnInit, AfterContentInit {
     private element;

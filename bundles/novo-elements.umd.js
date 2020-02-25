@@ -19812,12 +19812,11 @@
             this.controls = [];
             this.isEmbedded = false;
             this.isInlineEmbedded = false;
-            this.hidden = false;
         }
         NovoFieldsetElement.decorators = [
             { type: core.Component, args: [{
                         selector: 'novo-fieldset',
-                        template: "\n        <div class=\"novo-fieldset-container\">\n            <novo-fieldset-header [icon]=\"icon\" [title]=\"title\" *ngIf=\"title\" [class.embedded]=\"isEmbedded\" [class.inline-embedded]=\"isInlineEmbedded\" [class.hidden]=\"hidden\"></novo-fieldset-header>\n            <ng-container *ngFor=\"let control of controls;let controlIndex = index;\">\n                <div class=\"novo-form-row\" [class.disabled]=\"control.disabled\" *ngIf=\"control.__type !== 'GroupedControl'\">\n                    <novo-control [autoFocus]=\"autoFocus && index === 0 && controlIndex === 0\" [control]=\"control\" [form]=\"form\"></novo-control>\n                </div>\n                <div *ngIf=\"control.__type === 'GroupedControl'\">TODO - GroupedControl</div>\n            </ng-container>\n        </div>\n    "
+                        template: "\n        <div class=\"novo-fieldset-container\">\n            <novo-fieldset-header [icon]=\"icon\" [title]=\"title\" *ngIf=\"title\" [class.embedded]=\"isEmbedded\" [class.inline-embedded]=\"isInlineEmbedded\"></novo-fieldset-header>\n            <ng-container *ngFor=\"let control of controls;let controlIndex = index;\">\n                <div class=\"novo-form-row\" [class.disabled]=\"control.disabled\" *ngIf=\"control.__type !== 'GroupedControl'\">\n                    <novo-control [autoFocus]=\"autoFocus && index === 0 && controlIndex === 0\" [control]=\"control\" [form]=\"form\"></novo-control>\n                </div>\n                <div *ngIf=\"control.__type === 'GroupedControl'\">TODO - GroupedControl</div>\n            </ng-container>\n        </div>\n    "
                     }] }
         ];
         NovoFieldsetElement.propDecorators = {
@@ -19828,8 +19827,7 @@
             index: [{ type: core.Input }],
             autoFocus: [{ type: core.Input }],
             isEmbedded: [{ type: core.Input }],
-            isInlineEmbedded: [{ type: core.Input }],
-            hidden: [{ type: core.Input }]
+            isInlineEmbedded: [{ type: core.Input }]
         };
         return NovoFieldsetElement;
     }());
@@ -19850,8 +19848,6 @@
         NovoFieldsetElement.prototype.isEmbedded;
         /** @type {?} */
         NovoFieldsetElement.prototype.isInlineEmbedded;
-        /** @type {?} */
-        NovoFieldsetElement.prototype.hidden;
     }
     var NovoDynamicFormElement = /** @class */ (function () {
         function NovoDynamicFormElement(element, templates) {
@@ -20111,7 +20107,7 @@
         NovoDynamicFormElement.decorators = [
             { type: core.Component, args: [{
                         selector: 'novo-dynamic-form',
-                        template: "\n        <novo-control-templates></novo-control-templates>\n        <div class=\"novo-form-container\">\n            <header>\n                <ng-content select=\"form-title\"></ng-content>\n                <ng-content select=\"form-subtitle\"></ng-content>\n            </header>\n            <form class=\"novo-form\" [formGroup]=\"form\">\n                <ng-container *ngFor=\"let fieldset of form.fieldsets;let i = index\">\n                    <novo-fieldset *ngIf=\"fieldset.controls.length\" [index]=\"i\" [autoFocus]=\"autoFocusFirstField\" [icon]=\"fieldset.icon\" [controls]=\"fieldset.controls\" [title]=\"fieldset.title\" [form]=\"form\" [isEmbedded]=\"fieldset.isEmbedded\" [isInlineEmbedded]=\"fieldset.isInlineEmbedded\" [hidden]=\"fieldset.hidden\"></novo-fieldset>\n                </ng-container>\n            </form>\n        </div>\n    ",
+                        template: "\n        <novo-control-templates></novo-control-templates>\n        <div class=\"novo-form-container\">\n            <header>\n                <ng-content select=\"form-title\"></ng-content>\n                <ng-content select=\"form-subtitle\"></ng-content>\n            </header>\n            <form class=\"novo-form\" [formGroup]=\"form\">\n                <ng-container *ngFor=\"let fieldset of form.fieldsets;let i = index\">\n                    <novo-fieldset *ngIf=\"fieldset.controls.length\" [index]=\"i\" [autoFocus]=\"autoFocusFirstField\" [icon]=\"fieldset.icon\" [controls]=\"fieldset.controls\" [title]=\"fieldset.title\" [form]=\"form\" [isEmbedded]=\"fieldset.isEmbedded\" [isInlineEmbedded]=\"fieldset.isInlineEmbedded\"></novo-fieldset>\n                </ng-container>\n            </form>\n        </div>\n    ",
                         providers: [NovoTemplateService]
                     }] }
         ];
@@ -22613,9 +22609,6 @@
                     else if (_this.shouldCreateControl(field)) {
                         /** @type {?} */
                         var control = _this.createControl(field, data, http, config, overrides, currencyFormat);
-                        if (field.inlineEmbeddedAssociatedEntityField) {
-                            control = _this.markControlAsEmbedded(control, 'inline_embedded');
-                        }
                         if (fieldsets.length === 0) {
                             fieldsets.push({ controls: [] });
                         }
@@ -22645,7 +22638,7 @@
          * @return {?}
          */
         function (field) {
-            return field.dataSpecialization && ['embedded'].includes(field.dataSpecialization.toLowerCase()) && !field.readOnly;
+            return field.dataSpecialization && ['embedded', 'inline_embedded'].includes(field.dataSpecialization.toLowerCase()) && !field.readOnly;
         };
         /**
          * @private
@@ -22757,70 +22750,7 @@
                 }
                 return field;
             }));
-            // build list of fields that should be displayed inline but belong to associated entities
-            /** @type {?} */
-            var inlineEmbeddedAssociatedEntityFields = this.getInlineEmbeddedFields(fields);
-            // remove the inline embedded fields because the associated entity fields were extracted above
-            // and will be added to the regular list of fields. This prevents the fields from being added multiple times.
-            fields = fields.filter((/**
-             * @param {?} f
-             * @return {?}
-             */
-            function (f) { return !f.dataSpecialization || f.dataSpecialization.toLowerCase() !== 'inline_embedded'; }));
-            // sort fields
-            return __spread(sectionHeaders, fields, inlineEmbeddedAssociatedEntityFields).sort(Helpers.sortByField(['sortOrder', 'name']));
-        };
-        /**
-         * @private
-         * @param {?} fields
-         * @return {?}
-         */
-        FormUtils.prototype.getInlineEmbeddedFields = /**
-         * @private
-         * @param {?} fields
-         * @return {?}
-         */
-        function (fields) {
-            var _this = this;
-            /** @type {?} */
-            var inlineEmbeddedAssociatedEntityFields = [];
-            fields
-                .filter((/**
-             * @param {?} f
-             * @return {?}
-             */
-            function (f) { return f.dataSpecialization && f.dataSpecialization.toLowerCase() === 'inline_embedded'; }))
-                .forEach((/**
-             * @param {?} f
-             * @return {?}
-             */
-            function (f) {
-                inlineEmbeddedAssociatedEntityFields = __spread(inlineEmbeddedAssociatedEntityFields, _this.getAssociatedFieldsForInlineEmbedded(f));
-            }));
-            return inlineEmbeddedAssociatedEntityFields;
-        };
-        /**
-         * @private
-         * @param {?} field
-         * @return {?}
-         */
-        FormUtils.prototype.getAssociatedFieldsForInlineEmbedded = /**
-         * @private
-         * @param {?} field
-         * @return {?}
-         */
-        function (field) {
-            /** @type {?} */
-            var associatedEntityFields = [];
-            associatedEntityFields = this.getEmbeddedFields(field).map((/**
-             * @param {?} aef
-             * @return {?}
-             */
-            function (aef) {
-                aef.inlineEmbeddedAssociatedEntityField = true;
-                return aef;
-            }));
-            return associatedEntityFields;
+            return __spread(sectionHeaders, fields).sort(Helpers.sortByField(['sortOrder', 'name']));
         };
         /**
          * @private
@@ -22844,9 +22774,7 @@
              * @return {?}
              */
             function (field) {
-                if (!field.name.startsWith(subHeader.name + ".")) {
-                    field.name = subHeader.name + "." + field.name;
-                }
+                field.name = subHeader.name + "." + field.name;
                 return field;
             }))
                 .sort(Helpers.sortByField(['sortOrder', 'name']));
@@ -22883,7 +22811,6 @@
                 controls: [],
                 isEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'embedded',
                 isInlineEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'inline_embedded',
-                key: field.name,
             });
         };
         /**
@@ -23980,31 +23907,6 @@
          * @param {?} key
          * @return {?}
          */
-        FieldInteractionApi.prototype.getFieldSet = /**
-         * @param {?} key
-         * @return {?}
-         */
-        function (key) {
-            if (!key) {
-                console.error('[FieldInteractionAPI] - invalid or missing "key"'); // tslint:disable-line
-                return null;
-            }
-            /** @type {?} */
-            var fieldSet = this.form.fieldsets.find((/**
-             * @param {?} fs
-             * @return {?}
-             */
-            function (fs) { return fs.key && fs.key.toLowerCase() === key.toLowerCase(); }));
-            if (!fieldSet) {
-                console.error('[FieldInteractionAPI] - could not find a fieldset in the form by the key --', key); // tslint:disable-line
-                return null;
-            }
-            return (/** @type {?} */ (fieldSet));
-        };
-        /**
-         * @param {?} key
-         * @return {?}
-         */
         FieldInteractionApi.prototype.getControl = /**
          * @param {?} key
          * @return {?}
@@ -24181,36 +24083,6 @@
                 control.show();
                 this.enable(key, { emitEvent: false });
                 this.triggerEvent({ controlKey: key, prop: 'hidden', value: false });
-            }
-        };
-        /**
-         * @param {?} key
-         * @return {?}
-         */
-        FieldInteractionApi.prototype.hideFieldSetHeader = /**
-         * @param {?} key
-         * @return {?}
-         */
-        function (key) {
-            /** @type {?} */
-            var fieldSet = this.getFieldSet(key);
-            if (fieldSet) {
-                fieldSet.hidden = true;
-            }
-        };
-        /**
-         * @param {?} key
-         * @return {?}
-         */
-        FieldInteractionApi.prototype.showFieldSetHeader = /**
-         * @param {?} key
-         * @return {?}
-         */
-        function (key) {
-            /** @type {?} */
-            var fieldSet = this.getFieldSet(key);
-            if (fieldSet) {
-                fieldSet.hidden = false;
             }
         };
         /**
@@ -57848,9 +57720,7 @@
          */
         function (value, column) {
             if (!Helpers.isEmpty(value)) {
-                /** @type {?} */
-                var val = interpolateCell(value, column);
-                return this.labels.formatDateShort(val);
+                return column.format ? value : this.labels.formatDateShort(interpolateCell(value, column));
             }
             return '';
         };
@@ -57892,7 +57762,7 @@
          */
         function (value, column) {
             if (!Helpers.isEmpty(value)) {
-                return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
+                return column.format ? value : this.labels.formatTime(interpolateCell(value, column));
             }
             return '';
         };

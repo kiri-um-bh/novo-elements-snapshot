@@ -17633,7 +17633,6 @@ class NovoFieldsetElement {
         this.controls = [];
         this.isEmbedded = false;
         this.isInlineEmbedded = false;
-        this.hidden = false;
     }
 }
 NovoFieldsetElement.decorators = [
@@ -17641,7 +17640,7 @@ NovoFieldsetElement.decorators = [
                 selector: 'novo-fieldset',
                 template: `
         <div class="novo-fieldset-container">
-            <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title" [class.embedded]="isEmbedded" [class.inline-embedded]="isInlineEmbedded" [class.hidden]="hidden"></novo-fieldset-header>
+            <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title" [class.embedded]="isEmbedded" [class.inline-embedded]="isInlineEmbedded"></novo-fieldset-header>
             <ng-container *ngFor="let control of controls;let controlIndex = index;">
                 <div class="novo-form-row" [class.disabled]="control.disabled" *ngIf="control.__type !== 'GroupedControl'">
                     <novo-control [autoFocus]="autoFocus && index === 0 && controlIndex === 0" [control]="control" [form]="form"></novo-control>
@@ -17660,8 +17659,7 @@ NovoFieldsetElement.propDecorators = {
     index: [{ type: Input }],
     autoFocus: [{ type: Input }],
     isEmbedded: [{ type: Input }],
-    isInlineEmbedded: [{ type: Input }],
-    hidden: [{ type: Input }]
+    isInlineEmbedded: [{ type: Input }]
 };
 if (false) {
     /** @type {?} */
@@ -17680,8 +17678,6 @@ if (false) {
     NovoFieldsetElement.prototype.isEmbedded;
     /** @type {?} */
     NovoFieldsetElement.prototype.isInlineEmbedded;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.hidden;
 }
 class NovoDynamicFormElement {
     /**
@@ -17918,7 +17914,7 @@ NovoDynamicFormElement.decorators = [
             </header>
             <form class="novo-form" [formGroup]="form">
                 <ng-container *ngFor="let fieldset of form.fieldsets;let i = index">
-                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form" [isEmbedded]="fieldset.isEmbedded" [isInlineEmbedded]="fieldset.isInlineEmbedded" [hidden]="fieldset.hidden"></novo-fieldset>
+                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form" [isEmbedded]="fieldset.isEmbedded" [isInlineEmbedded]="fieldset.isInlineEmbedded"></novo-fieldset>
                 </ng-container>
             </form>
         </div>
@@ -20144,9 +20140,6 @@ class FormUtils {
                 else if (this.shouldCreateControl(field)) {
                     /** @type {?} */
                     let control = this.createControl(field, data, http, config, overrides, currencyFormat);
-                    if (field.inlineEmbeddedAssociatedEntityField) {
-                        control = this.markControlAsEmbedded(control, 'inline_embedded');
-                    }
                     if (fieldsets.length === 0) {
                         fieldsets.push({ controls: [] });
                     }
@@ -20171,7 +20164,7 @@ class FormUtils {
      * @return {?}
      */
     isEmbeddedField(field) {
-        return field.dataSpecialization && ['embedded'].includes(field.dataSpecialization.toLowerCase()) && !field.readOnly;
+        return field.dataSpecialization && ['embedded', 'inline_embedded'].includes(field.dataSpecialization.toLowerCase()) && !field.readOnly;
     }
     /**
      * @private
@@ -20250,59 +20243,7 @@ class FormUtils {
             }
             return field;
         }));
-        // build list of fields that should be displayed inline but belong to associated entities
-        /** @type {?} */
-        const inlineEmbeddedAssociatedEntityFields = this.getInlineEmbeddedFields(fields);
-        // remove the inline embedded fields because the associated entity fields were extracted above
-        // and will be added to the regular list of fields. This prevents the fields from being added multiple times.
-        fields = fields.filter((/**
-         * @param {?} f
-         * @return {?}
-         */
-        (f) => !f.dataSpecialization || f.dataSpecialization.toLowerCase() !== 'inline_embedded'));
-        // sort fields
-        return [...sectionHeaders, ...fields, ...inlineEmbeddedAssociatedEntityFields].sort(Helpers.sortByField(['sortOrder', 'name']));
-    }
-    /**
-     * @private
-     * @param {?} fields
-     * @return {?}
-     */
-    getInlineEmbeddedFields(fields) {
-        /** @type {?} */
-        let inlineEmbeddedAssociatedEntityFields = [];
-        fields
-            .filter((/**
-         * @param {?} f
-         * @return {?}
-         */
-        (f) => f.dataSpecialization && f.dataSpecialization.toLowerCase() === 'inline_embedded'))
-            .forEach((/**
-         * @param {?} f
-         * @return {?}
-         */
-        (f) => {
-            inlineEmbeddedAssociatedEntityFields = [...inlineEmbeddedAssociatedEntityFields, ...this.getAssociatedFieldsForInlineEmbedded(f)];
-        }));
-        return inlineEmbeddedAssociatedEntityFields;
-    }
-    /**
-     * @private
-     * @param {?} field
-     * @return {?}
-     */
-    getAssociatedFieldsForInlineEmbedded(field) {
-        /** @type {?} */
-        let associatedEntityFields = [];
-        associatedEntityFields = this.getEmbeddedFields(field).map((/**
-         * @param {?} aef
-         * @return {?}
-         */
-        (aef) => {
-            aef.inlineEmbeddedAssociatedEntityField = true;
-            return aef;
-        }));
-        return associatedEntityFields;
+        return [...sectionHeaders, ...fields].sort(Helpers.sortByField(['sortOrder', 'name']));
     }
     /**
      * @private
@@ -20321,9 +20262,7 @@ class FormUtils {
          * @return {?}
          */
         (field) => {
-            if (!field.name.startsWith(`${subHeader.name}.`)) {
-                field.name = `${subHeader.name}.${field.name}`;
-            }
+            field.name = `${subHeader.name}.${field.name}`;
             return field;
         }))
             .sort(Helpers.sortByField(['sortOrder', 'name']));
@@ -20349,7 +20288,6 @@ class FormUtils {
             controls: [],
             isEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'embedded',
             isInlineEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'inline_embedded',
-            key: field.name,
         });
     }
     /**
@@ -21283,27 +21221,6 @@ class FieldInteractionApi {
      * @param {?} key
      * @return {?}
      */
-    getFieldSet(key) {
-        if (!key) {
-            console.error('[FieldInteractionAPI] - invalid or missing "key"'); // tslint:disable-line
-            return null;
-        }
-        /** @type {?} */
-        const fieldSet = this.form.fieldsets.find((/**
-         * @param {?} fs
-         * @return {?}
-         */
-        (fs) => fs.key && fs.key.toLowerCase() === key.toLowerCase()));
-        if (!fieldSet) {
-            console.error('[FieldInteractionAPI] - could not find a fieldset in the form by the key --', key); // tslint:disable-line
-            return null;
-        }
-        return (/** @type {?} */ (fieldSet));
-    }
-    /**
-     * @param {?} key
-     * @return {?}
-     */
     getControl(key) {
         if (!key) {
             console.error('[FieldInteractionAPI] - invalid or missing "key"'); // tslint:disable-line
@@ -21432,28 +21349,6 @@ class FieldInteractionApi {
             control.show();
             this.enable(key, { emitEvent: false });
             this.triggerEvent({ controlKey: key, prop: 'hidden', value: false });
-        }
-    }
-    /**
-     * @param {?} key
-     * @return {?}
-     */
-    hideFieldSetHeader(key) {
-        /** @type {?} */
-        const fieldSet = this.getFieldSet(key);
-        if (fieldSet) {
-            fieldSet.hidden = true;
-        }
-    }
-    /**
-     * @param {?} key
-     * @return {?}
-     */
-    showFieldSetHeader(key) {
-        /** @type {?} */
-        const fieldSet = this.getFieldSet(key);
-        if (fieldSet) {
-            fieldSet.hidden = false;
         }
     }
     /**
@@ -53496,9 +53391,7 @@ class DateTableDateTimeRendererPipe {
      */
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
-            /** @type {?} */
-            let val = interpolateCell(value, column);
-            return this.labels.formatDateShort(val);
+            return column.format ? value : this.labels.formatDateShort(interpolateCell(value, column));
         }
         return '';
     }
@@ -53537,7 +53430,7 @@ class DateTableTimeRendererPipe {
      */
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
-            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
+            return column.format ? value : this.labels.formatTime(interpolateCell(value, column));
         }
         return '';
     }
