@@ -33,140 +33,447 @@ NovoControlTemplates.decorators = [
     { type: Component, args: [{
                 selector: 'novo-control-templates',
                 template: `
-        <!---Readonly--->
-        <ng-template novoTemplate="read-only" let-form="form" let-control>
-          <div>{{ form.value[control.key] }}</div>
-        </ng-template>
-        <!--Textbox--->
-        <ng-template novoTemplate="textbox" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form" class="novo-control-input-container novo-control-input-with-label" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-            <input *ngIf="control?.type !== 'number' && control?.textMaskEnabled" [textMask]="control.maskOptions" [formControlName]="control.key" [id]="control.key" [type]="control?.type" [placeholder]="control?.placeholder" (input)="methods.emitChange($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" autocomplete>
-            <input *ngIf="control?.type !== 'number' && !control?.textMaskEnabled" [class.maxlength-error]="errors?.maxlength" [formControlName]="control.key" [id]="control.key" [type]="control?.type" [placeholder]="control?.placeholder" (input)="methods.emitChange($event)" [maxlength]="control?.maxlength" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" autocomplete>
-            <input *ngIf="control?.type === 'number' && control?.subType !== 'percentage'" [class.maxlength-error]="errors?.maxlength" [formControlName]="control.key" [id]="control.key" [type]="control?.type" [placeholder]="control?.placeholder" (keydown)="methods.restrictKeys($event)" (input)="methods.emitChange($event)" [maxlength]="control?.maxlength" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" step="any" (mousewheel)="numberInput.blur()" #numberInput>
-            <input *ngIf="control?.type === 'number' && control?.subType === 'percentage'" [type]="control?.type" [placeholder]="control?.placeholder" (keydown)="methods.restrictKeys($event)" [value]="control?.percentValue" (input)="methods.handlePercentChange($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" step="any" (mousewheel)="percentInput.blur()" #percentInput>
-            <label class="input-label" *ngIf="control?.subType === 'currency'">{{ control.currencyFormat }}</label>
-            <label class="input-label" *ngIf="control?.subType === 'percentage'">%</label>
-          </div>
-        </ng-template>
+    <!---Readonly--->
+    <ng-template novoTemplate="read-only" let-form="form" let-control>
+      <div>{{ form.value[control.key] }}</div>
+    </ng-template>
+    <!--Textbox--->
+    <ng-template novoTemplate="textbox" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div
+        [formGroup]="form"
+        class="novo-control-input-container novo-control-input-with-label"
+        [tooltip]="control?.tooltip"
+        [tooltipPosition]="control?.tooltipPosition"
+        [tooltipSize]="control?.tooltipSize"
+        [tooltipPreline]="control?.tooltipPreline"
+        [removeTooltipArrow]="control?.removeTooltipArrow"
+        [tooltipAutoPosition]="control?.tooltipAutoPosition"
+      >
+        <input
+          *ngIf="control?.type !== 'number' && control?.textMaskEnabled"
+          [textMask]="control.maskOptions"
+          [formControlName]="control.key"
+          [id]="control.key"
+          [type]="control?.type"
+          [placeholder]="control?.placeholder"
+          (input)="methods.emitChange($event)"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          autocomplete
+        />
+        <input
+          *ngIf="control?.type !== 'number' && !control?.textMaskEnabled"
+          [class.maxlength-error]="errors?.maxlength"
+          [formControlName]="control.key"
+          [id]="control.key"
+          [type]="control?.type"
+          [placeholder]="control?.placeholder"
+          (input)="methods.emitChange($event)"
+          [maxlength]="control?.maxlength"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          autocomplete
+        />
+        <input
+          *ngIf="control?.type === 'number' && control?.subType !== 'percentage'"
+          [class.maxlength-error]="errors?.maxlength"
+          [formControlName]="control.key"
+          [id]="control.key"
+          [type]="control?.type"
+          [placeholder]="control?.placeholder"
+          (keydown)="methods.restrictKeys($event)"
+          (input)="methods.emitChange($event)"
+          [maxlength]="control?.maxlength"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          step="any"
+          (mousewheel)="numberInput.blur()"
+          #numberInput
+        />
+        <input
+          *ngIf="control?.type === 'number' && control?.subType === 'percentage'"
+          [type]="control?.type"
+          [placeholder]="control?.placeholder"
+          (keydown)="methods.restrictKeys($event)"
+          [value]="control?.percentValue"
+          (input)="methods.handlePercentChange($event)"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          step="any"
+          (mousewheel)="percentInput.blur()"
+          #percentInput
+        />
+        <label class="input-label" *ngIf="control?.subType === 'currency'">{{ control.currencyFormat }}</label>
+        <label class="input-label" *ngIf="control?.subType === 'percentage'">%</label>
+      </div>
+    </ng-template>
 
-        <!--Textarea--->
-        <ng-template novoTemplate="text-area" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div class="textarea-container" [formGroup]="form" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-            <textarea [class.maxlength-error]="errors?.maxlength" [name]="control.key" [attr.id]="control.key" [placeholder]="control.placeholder" [formControlName]="control.key" autosize (input)="methods.handleTextAreaInput($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [maxlength]="control?.maxlength"></textarea>
-          </div>
-        </ng-template>
+    <!--Textarea--->
+    <ng-template novoTemplate="text-area" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div
+        class="textarea-container"
+        [formGroup]="form"
+        [tooltip]="control?.tooltip"
+        [tooltipPosition]="control?.tooltipPosition"
+        [tooltipSize]="control?.tooltipSize"
+        [tooltipPreline]="control?.tooltipPreline"
+        [removeTooltipArrow]="control?.removeTooltipArrow"
+        [tooltipAutoPosition]="control?.tooltipAutoPosition"
+      >
+        <textarea
+          [class.maxlength-error]="errors?.maxlength"
+          [name]="control.key"
+          [attr.id]="control.key"
+          [placeholder]="control.placeholder"
+          [formControlName]="control.key"
+          autosize
+          (input)="methods.handleTextAreaInput($event)"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          [maxlength]="control?.maxlength"
+        ></textarea>
+      </div>
+    </ng-template>
 
-        <!--Editor-->
-        <ng-template novoTemplate="editor" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-editor [name]="control.key" [formControlName]="control.key" [startupFocus]="control.startupFocus" [minimal]="control.minimal" [fileBrowserImageUploadUrl]="control.fileBrowserImageUploadUrl" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [config]="control.config"></novo-editor>
-          </div>
-        </ng-template>
+    <!--Editor-->
+    <ng-template novoTemplate="editor" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-editor
+          [name]="control.key"
+          [formControlName]="control.key"
+          [startupFocus]="control.startupFocus"
+          [minimal]="control.minimal"
+          [fileBrowserImageUploadUrl]="control.fileBrowserImageUploadUrl"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          [config]="control.config"
+        ></novo-editor>
+      </div>
+    </ng-template>
 
-        <!--AceEditor-->
-        <ng-template novoTemplate="ace-editor" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-ace-editor [name]="control.key" [formControlName]="control.key" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)"></novo-ace-editor>
-          </div>
-        </ng-template>
+    <!--AceEditor-->
+    <ng-template novoTemplate="ace-editor" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-ace-editor
+          [name]="control.key"
+          [formControlName]="control.key"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+        ></novo-ace-editor>
+      </div>
+    </ng-template>
 
-        <!--HTML5 Select-->
-        <ng-template novoTemplate="native-select" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <select [id]="control.key" [formControlName]="control.key" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-                <option *ngIf="control.placeholder" value="" disabled selected hidden>{{ control.placeholder }}</option>
-                <option *ngFor="let opt of control.options" [value]="opt.key">{{opt.value}}</option>
-            </select>
-          </div>
-        </ng-template>
+    <!--HTML5 Select-->
+    <ng-template novoTemplate="native-select" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <select
+          [id]="control.key"
+          [formControlName]="control.key"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+        >
+          <option *ngIf="control.placeholder" value="" disabled selected hidden>{{ control.placeholder }}</option>
+          <option *ngFor="let opt of control.options" [value]="opt.key">{{ opt.value }}</option>
+        </select>
+      </div>
+    </ng-template>
 
-        <!--File-->
-        <ng-template novoTemplate="file" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-file-input [formControlName]="control.key" [id]="control.key" [name]="control.key" [placeholder]="control.placeholder" [value]="control.value" [multiple]="control.multiple" [layoutOptions]="control.layoutOptions" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" (edit)="methods.handleEdit($event)" (save)="methods.handleSave($event)" (delete)="methods.handleDelete($event)" (upload)="methods.handleUpload($event)"></novo-file-input>
-          </div>
-        </ng-template>
+    <!--File-->
+    <ng-template novoTemplate="file" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-file-input
+          [formControlName]="control.key"
+          [id]="control.key"
+          [name]="control.key"
+          [placeholder]="control.placeholder"
+          [value]="control.value"
+          [multiple]="control.multiple"
+          [layoutOptions]="control.layoutOptions"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          (edit)="methods.handleEdit($event)"
+          (save)="methods.handleSave($event)"
+          (delete)="methods.handleDelete($event)"
+          (upload)="methods.handleUpload($event)"
+        ></novo-file-input>
+      </div>
+    </ng-template>
 
-        <!--Tiles-->
-        <ng-template novoTemplate="tiles" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-tiles [options]="control.options" [formControlName]="control.key" (onChange)="methods.modelChange($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" [controlDisabled]="control.disabled"></novo-tiles>
-          </div>
-        </ng-template>
+    <!--Tiles-->
+    <ng-template novoTemplate="tiles" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-tiles
+          [options]="control.options"
+          [formControlName]="control.key"
+          (onChange)="methods.modelChange($event)"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          [controlDisabled]="control.disabled"
+        ></novo-tiles>
+      </div>
+    </ng-template>
 
-        <!--Picker-->
-        <ng-template novoTemplate="picker" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form" class="novo-control-input-container">
-            <novo-picker [config]="control.config" [formControlName]="control.key" [placeholder]="control.placeholder" [parentScrollSelector]="control.parentScrollSelector" *ngIf="!control.multiple" (select)="methods.modelChange($event);" (changed)="methods.modelChangeWithRaw($event)" (typing)="methods.handleTyping($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition"></novo-picker>
-            <novo-chips [source]="control.config" [type]="control.config.type" [formControlName]="control.key" [placeholder]="control.placeholder" [maxlength]="control?.maxlength" *ngIf="control.multiple && !control.config.columns" [closeOnSelect]="control.closeOnSelect" (changed)="methods.modelChangeWithRaw($event)" (typing)="methods.handleTyping($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition"></novo-chips>
-            <novo-row-chips [source]="control.config" [type]="control.config.type" [formControlName]="control.key" [placeholder]="control.placeholder" *ngIf="control.multiple && control.config.columns" [closeOnSelect]="control.closeOnSelect" (changed)="methods.modelChangeWithRaw($event)" (typing)="methods.handleTyping($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition"></novo-row-chips>
-          </div>
-        </ng-template>
+    <!--Picker-->
+    <ng-template novoTemplate="picker" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form" class="novo-control-input-container">
+        <novo-picker
+          [config]="control.config"
+          [formControlName]="control.key"
+          [placeholder]="control.placeholder"
+          [parentScrollSelector]="control.parentScrollSelector"
+          *ngIf="!control.multiple"
+          (select)="methods.modelChange($event)"
+          (changed)="methods.modelChangeWithRaw($event)"
+          (typing)="methods.handleTyping($event)"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+        ></novo-picker>
+        <novo-chips
+          [source]="control.config"
+          [type]="control.config.type"
+          [formControlName]="control.key"
+          [placeholder]="control.placeholder"
+          [maxlength]="control?.maxlength"
+          *ngIf="control.multiple && !control.config.columns"
+          [closeOnSelect]="control.closeOnSelect"
+          (changed)="methods.modelChangeWithRaw($event)"
+          (typing)="methods.handleTyping($event)"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+        ></novo-chips>
+        <novo-row-chips
+          [source]="control.config"
+          [type]="control.config.type"
+          [formControlName]="control.key"
+          [placeholder]="control.placeholder"
+          *ngIf="control.multiple && control.config.columns"
+          [closeOnSelect]="control.closeOnSelect"
+          (changed)="methods.modelChangeWithRaw($event)"
+          (typing)="methods.handleTyping($event)"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+        ></novo-row-chips>
+      </div>
+    </ng-template>
 
-        <!--Novo Select-->
-        <ng-template novoTemplate="select" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-select [options]="control.options" [headerConfig]="control.headerConfig" [placeholder]="control.placeholder" [formControlName]="control.key" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" (onSelect)="methods.modelChange($event)"></novo-select>
-          </div>
-        </ng-template>
+    <!--Novo Select-->
+    <ng-template novoTemplate="select" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-select
+          [options]="control.options"
+          [headerConfig]="control.headerConfig"
+          [placeholder]="control.placeholder"
+          [formControlName]="control.key"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          (onSelect)="methods.modelChange($event)"
+        ></novo-select>
+      </div>
+    </ng-template>
 
-        <!--Radio-->
-        <ng-template novoTemplate="radio" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form" class="novo-control-input-container">
-            <novo-radio [name]="control.key" [formControlName]="control.key" *ngFor="let option of control.options" [value]="option.value" [label]="option.label" [checked]="option.value === form.value[control.key] || (form.value[control.key] && option.value === form.value[control.key].id)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" [button]="!!option.icon" [icon]="option.icon" [attr.data-automation-id]="control.key + '-' + (option?.label || option?.value)"></novo-radio>
-          </div>
-        </ng-template>
+    <!--Radio-->
+    <ng-template novoTemplate="radio" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form" class="novo-control-input-container">
+        <novo-radio
+          [name]="control.key"
+          [formControlName]="control.key"
+          *ngFor="let option of control.options"
+          [value]="option.value"
+          [label]="option.label"
+          [checked]="option.value === form.value[control.key] || (form.value[control.key] && option.value === form.value[control.key].id)"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          [button]="!!option.icon"
+          [icon]="option.icon"
+          [attr.data-automation-id]="control.key + '-' + (option?.label || option?.value)"
+        ></novo-radio>
+      </div>
+    </ng-template>
 
-        <!--Time-->
-        <ng-template novoTemplate="time" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-            <novo-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="control.placeholder" [military]="control.military"></novo-time-picker-input>
-          </div>
-        </ng-template>
+    <!--Time-->
+    <ng-template novoTemplate="time" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div
+        [formGroup]="form"
+        class="novo-control-input-container"
+        [tooltip]="control?.tooltip"
+        [tooltipPosition]="control?.tooltipPosition"
+        [tooltipSize]="control?.tooltipSize"
+        [tooltipPreline]="control?.tooltipPreline"
+        [removeTooltipArrow]="control?.removeTooltipArrow"
+        [tooltipAutoPosition]="control?.tooltipAutoPosition"
+      >
+        <novo-time-picker-input
+          [attr.id]="control.key"
+          [name]="control.key"
+          [formControlName]="control.key"
+          [placeholder]="control.placeholder"
+          [military]="control.military"
+        ></novo-time-picker-input>
+      </div>
+    </ng-template>
 
-        <!--Date-->
-        <ng-template novoTemplate="date" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-            <novo-date-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [start]="control.startDate" [end]="control.endDate" [format]="control.dateFormat" [allowInvalidDate]="control.allowInvalidDate" [textMaskEnabled]="control.textMaskEnabled" [placeholder]="control.placeholder" (focusEvent)="methods.handleFocus($event)" (blurEvent)="methods.handleBlur($event)"></novo-date-picker-input>
-          </div>
-        </ng-template>
+    <!--Date-->
+    <ng-template novoTemplate="date" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div
+        [formGroup]="form"
+        class="novo-control-input-container"
+        [tooltip]="control.tooltip"
+        [tooltipPosition]="control.tooltipPosition"
+        [tooltipSize]="control?.tooltipSize"
+        [tooltipPreline]="control?.tooltipPreline"
+        [removeTooltipArrow]="control?.removeTooltipArrow"
+        [tooltipAutoPosition]="control?.tooltipAutoPosition"
+      >
+        <novo-date-picker-input
+          [attr.id]="control.key"
+          [name]="control.key"
+          [formControlName]="control.key"
+          [start]="control.startDate"
+          [end]="control.endDate"
+          [format]="control.dateFormat"
+          [allowInvalidDate]="control.allowInvalidDate"
+          [textMaskEnabled]="control.textMaskEnabled"
+          [placeholder]="control.placeholder"
+          (focusEvent)="methods.handleFocus($event)"
+          (blurEvent)="methods.handleBlur($event)"
+        ></novo-date-picker-input>
+      </div>
+    </ng-template>
 
+    <!--Date and Time-->
+    <ng-template novoTemplate="date-time" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div
+        [formGroup]="form"
+        class="novo-control-input-container"
+        [tooltip]="control.tooltip"
+        [tooltipPosition]="control.tooltipPosition"
+        [tooltipSize]="control?.tooltipSize"
+        [tooltipPreline]="control?.tooltipPreline"
+        [removeTooltipArrow]="control?.removeTooltipArrow"
+        [tooltipAutoPosition]="control?.tooltipAutoPosition"
+      >
+        <novo-date-time-picker-input
+          [attr.id]="control.key"
+          [name]="control.key"
+          [formControlName]="control.key"
+          [start]="control.startDate"
+          [end]="control.endDate"
+          [placeholder]="control.placeholder"
+          [military]="control.military"
+          (focusEvent)="methods.handleFocus($event)"
+          (blurEvent)="methods.handleBlur($event)"
+        ></novo-date-time-picker-input>
+      </div>
+    </ng-template>
 
-        <!--Date and Time-->
-        <ng-template novoTemplate="date-time" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-            <novo-date-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [start]="control.startDate" [end]="control.endDate" [placeholder]="control.placeholder" [military]="control.military" (focusEvent)="methods.handleFocus($event)" (blurEvent)="methods.handleBlur($event)"></novo-date-time-picker-input>
-          </div>
-        </ng-template>
+    <!--Address-->
+    <ng-template novoTemplate="address" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-address
+          [formControlName]="control.key"
+          [config]="control?.config"
+          [readOnly]="control?.readOnly"
+          (change)="methods.handleAddressChange($event)"
+          (focus)="methods.handleFocus($event.event, $event.field)"
+          (blur)="methods.handleBlur($event.event, $event.field)"
+          (validityChange)="methods.updateValidity()"
+        ></novo-address>
+      </div>
+    </ng-template>
 
-        <!--Address-->
-        <ng-template novoTemplate="address" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-address [formControlName]="control.key" [config]="control?.config" [readOnly]="control?.readOnly" (change)="methods.handleAddressChange($event)" (focus)="methods.handleFocus($event.event, $event.field)" (blur)="methods.handleBlur($event.event, $event.field)"  (validityChange)="methods.updateValidity()"></novo-address>
-          </div>
-        </ng-template>
+    <!--Checkbox-->
+    <ng-template novoTemplate="checkbox" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-checkbox
+          [formControlName]="control?.key"
+          [name]="control?.key"
+          [label]="control?.checkboxLabel"
+          [tooltip]="control?.tooltip"
+          [tooltipPosition]="control?.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          [layoutOptions]="control?.layoutOptions"
+        ></novo-checkbox>
+      </div>
+    </ng-template>
 
-        <!--Checkbox-->
-        <ng-template novoTemplate="checkbox" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-checkbox [formControlName]="control?.key" [name]="control?.key" [label]="control?.checkboxLabel" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" [layoutOptions]="control?.layoutOptions"></novo-checkbox>
-          </div>
-        </ng-template>
+    <!--Checklist-->
+    <ng-template novoTemplate="checklist" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-check-list
+          [formControlName]="control.key"
+          [name]="control.key"
+          [options]="control?.options"
+          [tooltip]="control?.tooltip"
+          [tooltipPosition]="control?.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          (onSelect)="methods.modelChange($event)"
+        ></novo-check-list>
+      </div>
+    </ng-template>
 
-        <!--Checklist-->
-        <ng-template novoTemplate="checklist" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-check-list [formControlName]="control.key" [name]="control.key" [options]="control?.options" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" (onSelect)="methods.modelChange($event)"></novo-check-list>
-          </div>
-        </ng-template>
-
-        <!--QuickNote-->
-        <ng-template novoTemplate="quick-note" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-quick-note [formControlName]="control.key" [startupFocus]="control?.startupFocus" [placeholder]="control?.placeholder" [config]="control?.config" (change)="methods.modelChange($event)" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" [tooltipPreline]="control?.tooltipPreline"></novo-quick-note>
-          </div>
-        </ng-template>
-    `
+    <!--QuickNote-->
+    <ng-template novoTemplate="quick-note" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-quick-note
+          [formControlName]="control.key"
+          [startupFocus]="control?.startupFocus"
+          [placeholder]="control?.placeholder"
+          [config]="control?.config"
+          (change)="methods.modelChange($event)"
+          [tooltip]="control?.tooltip"
+          [tooltipPosition]="control?.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          [tooltipPreline]="control?.tooltipPreline"
+        ></novo-quick-note>
+      </div>
+    </ng-template>
+  `
             }] }
 ];
 /** @nocollapse */
@@ -185,4 +492,4 @@ if (false) {
      */
     NovoControlTemplates.prototype.templates;
 }
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29udHJvbFRlbXBsYXRlcy5qcyIsInNvdXJjZVJvb3QiOiJuZzovL25vdm8tZWxlbWVudHMvIiwic291cmNlcyI6WyJlbGVtZW50cy9mb3JtL0NvbnRyb2xUZW1wbGF0ZXMudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7QUFBQSxPQUFPLEVBQUUsU0FBUyxFQUFpQixZQUFZLEVBQUUsU0FBUyxFQUFFLE1BQU0sZUFBZSxDQUFDOztBQUVsRixPQUFPLEVBQUUsWUFBWSxFQUFFLE1BQU0saURBQWlELENBQUM7QUFDL0UsT0FBTyxFQUFFLG1CQUFtQixFQUFFLE1BQU0sNkNBQTZDLENBQUM7QUE0SWxGLE1BQU0sT0FBTyxvQkFBb0I7Ozs7SUFHL0IsWUFBb0IsU0FBOEI7UUFBOUIsY0FBUyxHQUFULFNBQVMsQ0FBcUI7SUFBRyxDQUFDOzs7O0lBRXRELGVBQWU7UUFDYixJQUFJLElBQUksQ0FBQyxnQkFBZ0IsSUFBSSxJQUFJLENBQUMsZ0JBQWdCLENBQUMsTUFBTSxFQUFFO1lBQ3pELElBQUksQ0FBQyxnQkFBZ0IsQ0FBQyxPQUFPOzs7O1lBQUMsQ0FBQyxRQUFhLEVBQUUsRUFBRTtnQkFDOUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxVQUFVLENBQUMsUUFBUSxDQUFDLElBQUksRUFBRSxRQUFRLENBQUMsUUFBUSxDQUFDLENBQUM7WUFDOUQsQ0FBQyxFQUFDLENBQUM7U0FDSjtJQUNILENBQUM7OztZQXJKRixTQUFTLFNBQUM7Z0JBQ1QsUUFBUSxFQUFFLHdCQUF3QjtnQkFDbEMsUUFBUSxFQUFFOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztLQXNJUDthQUNKOzs7O1lBM0lRLG1CQUFtQjs7OytCQTZJekIsWUFBWSxTQUFDLFlBQVk7Ozs7SUFBMUIsZ0RBQzBDOzs7OztJQUM5Qix5Q0FBc0MiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBDb21wb25lbnQsIEFmdGVyVmlld0luaXQsIFZpZXdDaGlsZHJlbiwgUXVlcnlMaXN0IH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG4vLyBBcHBcbmltcG9ydCB7IE5vdm9UZW1wbGF0ZSB9IGZyb20gJy4uL2NvbW1vbi9ub3ZvLXRlbXBsYXRlL25vdm8tdGVtcGxhdGUuZGlyZWN0aXZlJztcbmltcG9ydCB7IE5vdm9UZW1wbGF0ZVNlcnZpY2UgfSBmcm9tICcuLi8uLi9zZXJ2aWNlcy90ZW1wbGF0ZS9Ob3ZvVGVtcGxhdGVTZXJ2aWNlJztcblxuQENvbXBvbmVudCh7XG4gIHNlbGVjdG9yOiAnbm92by1jb250cm9sLXRlbXBsYXRlcycsXG4gIHRlbXBsYXRlOiBgXG4gICAgICAgIDwhLS0tUmVhZG9ubHktLS0+XG4gICAgICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJyZWFkLW9ubHlcIiBsZXQtZm9ybT1cImZvcm1cIiBsZXQtY29udHJvbD5cbiAgICAgICAgICA8ZGl2Pnt7IGZvcm0udmFsdWVbY29udHJvbC5rZXldIH19PC9kaXY+XG4gICAgICAgIDwvbmctdGVtcGxhdGU+XG4gICAgICAgIDwhLS1UZXh0Ym94LS0tPlxuICAgICAgICA8bmctdGVtcGxhdGUgbm92b1RlbXBsYXRlPVwidGV4dGJveFwiIGxldC1jb250cm9sIGxldC1mb3JtPVwiZm9ybVwiIGxldC1lcnJvcnM9XCJlcnJvcnNcIiBsZXQtbWV0aG9kcz1cIm1ldGhvZHNcIj5cbiAgICAgICAgICA8ZGl2IFtmb3JtR3JvdXBdPVwiZm9ybVwiIGNsYXNzPVwibm92by1jb250cm9sLWlucHV0LWNvbnRhaW5lciBub3ZvLWNvbnRyb2wtaW5wdXQtd2l0aC1sYWJlbFwiIFt0b29sdGlwXT1cImNvbnRyb2w/LnRvb2x0aXBcIiBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBQb3NpdGlvblwiICBbdG9vbHRpcFNpemVdPVwiY29udHJvbD8udG9vbHRpcFNpemVcIiBbdG9vbHRpcFByZWxpbmVdPVwiY29udHJvbD8udG9vbHRpcFByZWxpbmVcIiBbcmVtb3ZlVG9vbHRpcEFycm93XT1cImNvbnRyb2w/LnJlbW92ZVRvb2x0aXBBcnJvd1wiIFt0b29sdGlwQXV0b1Bvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBBdXRvUG9zaXRpb25cIj5cbiAgICAgICAgICAgIDxpbnB1dCAqbmdJZj1cImNvbnRyb2w/LnR5cGUgIT09ICdudW1iZXInICYmIGNvbnRyb2w/LnRleHRNYXNrRW5hYmxlZFwiIFt0ZXh0TWFza109XCJjb250cm9sLm1hc2tPcHRpb25zXCIgW2Zvcm1Db250cm9sTmFtZV09XCJjb250cm9sLmtleVwiIFtpZF09XCJjb250cm9sLmtleVwiIFt0eXBlXT1cImNvbnRyb2w/LnR5cGVcIiBbcGxhY2Vob2xkZXJdPVwiY29udHJvbD8ucGxhY2Vob2xkZXJcIiAoaW5wdXQpPVwibWV0aG9kcy5lbWl0Q2hhbmdlKCRldmVudClcIiAoZm9jdXMpPVwibWV0aG9kcy5oYW5kbGVGb2N1cygkZXZlbnQpXCIgKGJsdXIpPVwibWV0aG9kcy5oYW5kbGVCbHVyKCRldmVudClcIiBhdXRvY29tcGxldGU+XG4gICAgICAgICAgICA8aW5wdXQgKm5nSWY9XCJjb250cm9sPy50eXBlICE9PSAnbnVtYmVyJyAmJiAhY29udHJvbD8udGV4dE1hc2tFbmFibGVkXCIgW2NsYXNzLm1heGxlbmd0aC1lcnJvcl09XCJlcnJvcnM/Lm1heGxlbmd0aFwiIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiBbaWRdPVwiY29udHJvbC5rZXlcIiBbdHlwZV09XCJjb250cm9sPy50eXBlXCIgW3BsYWNlaG9sZGVyXT1cImNvbnRyb2w/LnBsYWNlaG9sZGVyXCIgKGlucHV0KT1cIm1ldGhvZHMuZW1pdENoYW5nZSgkZXZlbnQpXCIgW21heGxlbmd0aF09XCJjb250cm9sPy5tYXhsZW5ndGhcIiAoZm9jdXMpPVwibWV0aG9kcy5oYW5kbGVGb2N1cygkZXZlbnQpXCIgKGJsdXIpPVwibWV0aG9kcy5oYW5kbGVCbHVyKCRldmVudClcIiBhdXRvY29tcGxldGU+XG4gICAgICAgICAgICA8aW5wdXQgKm5nSWY9XCJjb250cm9sPy50eXBlID09PSAnbnVtYmVyJyAmJiBjb250cm9sPy5zdWJUeXBlICE9PSAncGVyY2VudGFnZSdcIiBbY2xhc3MubWF4bGVuZ3RoLWVycm9yXT1cImVycm9ycz8ubWF4bGVuZ3RoXCIgW2Zvcm1Db250cm9sTmFtZV09XCJjb250cm9sLmtleVwiIFtpZF09XCJjb250cm9sLmtleVwiIFt0eXBlXT1cImNvbnRyb2w/LnR5cGVcIiBbcGxhY2Vob2xkZXJdPVwiY29udHJvbD8ucGxhY2Vob2xkZXJcIiAoa2V5ZG93bik9XCJtZXRob2RzLnJlc3RyaWN0S2V5cygkZXZlbnQpXCIgKGlucHV0KT1cIm1ldGhvZHMuZW1pdENoYW5nZSgkZXZlbnQpXCIgW21heGxlbmd0aF09XCJjb250cm9sPy5tYXhsZW5ndGhcIiAoZm9jdXMpPVwibWV0aG9kcy5oYW5kbGVGb2N1cygkZXZlbnQpXCIgKGJsdXIpPVwibWV0aG9kcy5oYW5kbGVCbHVyKCRldmVudClcIiBzdGVwPVwiYW55XCIgKG1vdXNld2hlZWwpPVwibnVtYmVySW5wdXQuYmx1cigpXCIgI251bWJlcklucHV0PlxuICAgICAgICAgICAgPGlucHV0ICpuZ0lmPVwiY29udHJvbD8udHlwZSA9PT0gJ251bWJlcicgJiYgY29udHJvbD8uc3ViVHlwZSA9PT0gJ3BlcmNlbnRhZ2UnXCIgW3R5cGVdPVwiY29udHJvbD8udHlwZVwiIFtwbGFjZWhvbGRlcl09XCJjb250cm9sPy5wbGFjZWhvbGRlclwiIChrZXlkb3duKT1cIm1ldGhvZHMucmVzdHJpY3RLZXlzKCRldmVudClcIiBbdmFsdWVdPVwiY29udHJvbD8ucGVyY2VudFZhbHVlXCIgKGlucHV0KT1cIm1ldGhvZHMuaGFuZGxlUGVyY2VudENoYW5nZSgkZXZlbnQpXCIgKGZvY3VzKT1cIm1ldGhvZHMuaGFuZGxlRm9jdXMoJGV2ZW50KVwiIChibHVyKT1cIm1ldGhvZHMuaGFuZGxlQmx1cigkZXZlbnQpXCIgc3RlcD1cImFueVwiIChtb3VzZXdoZWVsKT1cInBlcmNlbnRJbnB1dC5ibHVyKClcIiAjcGVyY2VudElucHV0PlxuICAgICAgICAgICAgPGxhYmVsIGNsYXNzPVwiaW5wdXQtbGFiZWxcIiAqbmdJZj1cImNvbnRyb2w/LnN1YlR5cGUgPT09ICdjdXJyZW5jeSdcIj57eyBjb250cm9sLmN1cnJlbmN5Rm9ybWF0IH19PC9sYWJlbD5cbiAgICAgICAgICAgIDxsYWJlbCBjbGFzcz1cImlucHV0LWxhYmVsXCIgKm5nSWY9XCJjb250cm9sPy5zdWJUeXBlID09PSAncGVyY2VudGFnZSdcIj4lPC9sYWJlbD5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgICAgICA8IS0tVGV4dGFyZWEtLS0+XG4gICAgICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJ0ZXh0LWFyZWFcIiBsZXQtY29udHJvbCBsZXQtZm9ybT1cImZvcm1cIiBsZXQtZXJyb3JzPVwiZXJyb3JzXCIgbGV0LW1ldGhvZHM9XCJtZXRob2RzXCI+XG4gICAgICAgICAgPGRpdiBjbGFzcz1cInRleHRhcmVhLWNvbnRhaW5lclwiIFtmb3JtR3JvdXBdPVwiZm9ybVwiIFt0b29sdGlwXT1cImNvbnRyb2w/LnRvb2x0aXBcIiBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBQb3NpdGlvblwiICBbdG9vbHRpcFNpemVdPVwiY29udHJvbD8udG9vbHRpcFNpemVcIiBbdG9vbHRpcFByZWxpbmVdPVwiY29udHJvbD8udG9vbHRpcFByZWxpbmVcIiBbcmVtb3ZlVG9vbHRpcEFycm93XT1cImNvbnRyb2w/LnJlbW92ZVRvb2x0aXBBcnJvd1wiIFt0b29sdGlwQXV0b1Bvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBBdXRvUG9zaXRpb25cIj5cbiAgICAgICAgICAgIDx0ZXh0YXJlYSBbY2xhc3MubWF4bGVuZ3RoLWVycm9yXT1cImVycm9ycz8ubWF4bGVuZ3RoXCIgW25hbWVdPVwiY29udHJvbC5rZXlcIiBbYXR0ci5pZF09XCJjb250cm9sLmtleVwiIFtwbGFjZWhvbGRlcl09XCJjb250cm9sLnBsYWNlaG9sZGVyXCIgW2Zvcm1Db250cm9sTmFtZV09XCJjb250cm9sLmtleVwiIGF1dG9zaXplIChpbnB1dCk9XCJtZXRob2RzLmhhbmRsZVRleHRBcmVhSW5wdXQoJGV2ZW50KVwiIChmb2N1cyk9XCJtZXRob2RzLmhhbmRsZUZvY3VzKCRldmVudClcIiAoYmx1cik9XCJtZXRob2RzLmhhbmRsZUJsdXIoJGV2ZW50KVwiIFttYXhsZW5ndGhdPVwiY29udHJvbD8ubWF4bGVuZ3RoXCI+PC90ZXh0YXJlYT5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgICAgICA8IS0tRWRpdG9yLS0+XG4gICAgICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJlZGl0b3JcIiBsZXQtY29udHJvbCBsZXQtZm9ybT1cImZvcm1cIiBsZXQtZXJyb3JzPVwiZXJyb3JzXCIgbGV0LW1ldGhvZHM9XCJtZXRob2RzXCI+XG4gICAgICAgICAgPGRpdiBbZm9ybUdyb3VwXT1cImZvcm1cIj5cbiAgICAgICAgICAgIDxub3ZvLWVkaXRvciBbbmFtZV09XCJjb250cm9sLmtleVwiIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiBbc3RhcnR1cEZvY3VzXT1cImNvbnRyb2wuc3RhcnR1cEZvY3VzXCIgW21pbmltYWxdPVwiY29udHJvbC5taW5pbWFsXCIgW2ZpbGVCcm93c2VySW1hZ2VVcGxvYWRVcmxdPVwiY29udHJvbC5maWxlQnJvd3NlckltYWdlVXBsb2FkVXJsXCIgKGZvY3VzKT1cIm1ldGhvZHMuaGFuZGxlRm9jdXMoJGV2ZW50KVwiIChibHVyKT1cIm1ldGhvZHMuaGFuZGxlQmx1cigkZXZlbnQpXCIgW2NvbmZpZ109XCJjb250cm9sLmNvbmZpZ1wiPjwvbm92by1lZGl0b3I+XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgIDwvbmctdGVtcGxhdGU+XG5cbiAgICAgICAgPCEtLUFjZUVkaXRvci0tPlxuICAgICAgICA8bmctdGVtcGxhdGUgbm92b1RlbXBsYXRlPVwiYWNlLWVkaXRvclwiIGxldC1jb250cm9sIGxldC1mb3JtPVwiZm9ybVwiIGxldC1lcnJvcnM9XCJlcnJvcnNcIiBsZXQtbWV0aG9kcz1cIm1ldGhvZHNcIj5cbiAgICAgICAgICA8ZGl2IFtmb3JtR3JvdXBdPVwiZm9ybVwiPlxuICAgICAgICAgICAgPG5vdm8tYWNlLWVkaXRvciBbbmFtZV09XCJjb250cm9sLmtleVwiIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiAoZm9jdXMpPVwibWV0aG9kcy5oYW5kbGVGb2N1cygkZXZlbnQpXCIgKGJsdXIpPVwibWV0aG9kcy5oYW5kbGVCbHVyKCRldmVudClcIj48L25vdm8tYWNlLWVkaXRvcj5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgICAgICA8IS0tSFRNTDUgU2VsZWN0LS0+XG4gICAgICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJuYXRpdmUtc2VsZWN0XCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCI+XG4gICAgICAgICAgICA8c2VsZWN0IFtpZF09XCJjb250cm9sLmtleVwiIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiBbdG9vbHRpcF09XCJjb250cm9sLnRvb2x0aXBcIiBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2wudG9vbHRpcFBvc2l0aW9uXCIgIFt0b29sdGlwU2l6ZV09XCJjb250cm9sPy50b29sdGlwU2l6ZVwiIFt0b29sdGlwUHJlbGluZV09XCJjb250cm9sPy50b29sdGlwUHJlbGluZVwiIFtyZW1vdmVUb29sdGlwQXJyb3ddPVwiY29udHJvbD8ucmVtb3ZlVG9vbHRpcEFycm93XCIgW3Rvb2x0aXBBdXRvUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcEF1dG9Qb3NpdGlvblwiPlxuICAgICAgICAgICAgICAgIDxvcHRpb24gKm5nSWY9XCJjb250cm9sLnBsYWNlaG9sZGVyXCIgdmFsdWU9XCJcIiBkaXNhYmxlZCBzZWxlY3RlZCBoaWRkZW4+e3sgY29udHJvbC5wbGFjZWhvbGRlciB9fTwvb3B0aW9uPlxuICAgICAgICAgICAgICAgIDxvcHRpb24gKm5nRm9yPVwibGV0IG9wdCBvZiBjb250cm9sLm9wdGlvbnNcIiBbdmFsdWVdPVwib3B0LmtleVwiPnt7b3B0LnZhbHVlfX08L29wdGlvbj5cbiAgICAgICAgICAgIDwvc2VsZWN0PlxuICAgICAgICAgIDwvZGl2PlxuICAgICAgICA8L25nLXRlbXBsYXRlPlxuXG4gICAgICAgIDwhLS1GaWxlLS0+XG4gICAgICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJmaWxlXCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCI+XG4gICAgICAgICAgICA8bm92by1maWxlLWlucHV0IFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiBbaWRdPVwiY29udHJvbC5rZXlcIiBbbmFtZV09XCJjb250cm9sLmtleVwiIFtwbGFjZWhvbGRlcl09XCJjb250cm9sLnBsYWNlaG9sZGVyXCIgW3ZhbHVlXT1cImNvbnRyb2wudmFsdWVcIiBbbXVsdGlwbGVdPVwiY29udHJvbC5tdWx0aXBsZVwiIFtsYXlvdXRPcHRpb25zXT1cImNvbnRyb2wubGF5b3V0T3B0aW9uc1wiIFt0b29sdGlwXT1cImNvbnRyb2wudG9vbHRpcFwiIFt0b29sdGlwUG9zaXRpb25dPVwiY29udHJvbC50b29sdGlwUG9zaXRpb25cIiAgW3Rvb2x0aXBTaXplXT1cImNvbnRyb2w/LnRvb2x0aXBTaXplXCIgW3Rvb2x0aXBQcmVsaW5lXT1cImNvbnRyb2w/LnRvb2x0aXBQcmVsaW5lXCIgW3JlbW92ZVRvb2x0aXBBcnJvd109XCJjb250cm9sPy5yZW1vdmVUb29sdGlwQXJyb3dcIiBbdG9vbHRpcEF1dG9Qb3NpdGlvbl09XCJjb250cm9sPy50b29sdGlwQXV0b1Bvc2l0aW9uXCIgKGVkaXQpPVwibWV0aG9kcy5oYW5kbGVFZGl0KCRldmVudClcIiAoc2F2ZSk9XCJtZXRob2RzLmhhbmRsZVNhdmUoJGV2ZW50KVwiIChkZWxldGUpPVwibWV0aG9kcy5oYW5kbGVEZWxldGUoJGV2ZW50KVwiICh1cGxvYWQpPVwibWV0aG9kcy5oYW5kbGVVcGxvYWQoJGV2ZW50KVwiPjwvbm92by1maWxlLWlucHV0PlxuICAgICAgICAgIDwvZGl2PlxuICAgICAgICA8L25nLXRlbXBsYXRlPlxuXG4gICAgICAgIDwhLS1UaWxlcy0tPlxuICAgICAgICA8bmctdGVtcGxhdGUgbm92b1RlbXBsYXRlPVwidGlsZXNcIiBsZXQtY29udHJvbCBsZXQtZm9ybT1cImZvcm1cIiBsZXQtZXJyb3JzPVwiZXJyb3JzXCIgbGV0LW1ldGhvZHM9XCJtZXRob2RzXCI+XG4gICAgICAgICAgPGRpdiBbZm9ybUdyb3VwXT1cImZvcm1cIj5cbiAgICAgICAgICAgIDxub3ZvLXRpbGVzIFtvcHRpb25zXT1cImNvbnRyb2wub3B0aW9uc1wiIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiAob25DaGFuZ2UpPVwibWV0aG9kcy5tb2RlbENoYW5nZSgkZXZlbnQpXCIgW3Rvb2x0aXBdPVwiY29udHJvbC50b29sdGlwXCIgW3Rvb2x0aXBQb3NpdGlvbl09XCJjb250cm9sLnRvb2x0aXBQb3NpdGlvblwiICBbdG9vbHRpcFNpemVdPVwiY29udHJvbD8udG9vbHRpcFNpemVcIiBbdG9vbHRpcFByZWxpbmVdPVwiY29udHJvbD8udG9vbHRpcFByZWxpbmVcIiBbcmVtb3ZlVG9vbHRpcEFycm93XT1cImNvbnRyb2w/LnJlbW92ZVRvb2x0aXBBcnJvd1wiIFt0b29sdGlwQXV0b1Bvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBBdXRvUG9zaXRpb25cIiBbY29udHJvbERpc2FibGVkXT1cImNvbnRyb2wuZGlzYWJsZWRcIj48L25vdm8tdGlsZXM+XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgIDwvbmctdGVtcGxhdGU+XG5cbiAgICAgICAgPCEtLVBpY2tlci0tPlxuICAgICAgICA8bmctdGVtcGxhdGUgbm92b1RlbXBsYXRlPVwicGlja2VyXCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCIgY2xhc3M9XCJub3ZvLWNvbnRyb2wtaW5wdXQtY29udGFpbmVyXCI+XG4gICAgICAgICAgICA8bm92by1waWNrZXIgW2NvbmZpZ109XCJjb250cm9sLmNvbmZpZ1wiIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiBbcGxhY2Vob2xkZXJdPVwiY29udHJvbC5wbGFjZWhvbGRlclwiIFtwYXJlbnRTY3JvbGxTZWxlY3Rvcl09XCJjb250cm9sLnBhcmVudFNjcm9sbFNlbGVjdG9yXCIgKm5nSWY9XCIhY29udHJvbC5tdWx0aXBsZVwiIChzZWxlY3QpPVwibWV0aG9kcy5tb2RlbENoYW5nZSgkZXZlbnQpO1wiIChjaGFuZ2VkKT1cIm1ldGhvZHMubW9kZWxDaGFuZ2VXaXRoUmF3KCRldmVudClcIiAodHlwaW5nKT1cIm1ldGhvZHMuaGFuZGxlVHlwaW5nKCRldmVudClcIiAoZm9jdXMpPVwibWV0aG9kcy5oYW5kbGVGb2N1cygkZXZlbnQpXCIgKGJsdXIpPVwibWV0aG9kcy5oYW5kbGVCbHVyKCRldmVudClcIiBbdG9vbHRpcF09XCJjb250cm9sLnRvb2x0aXBcIiBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2wudG9vbHRpcFBvc2l0aW9uXCIgW3Rvb2x0aXBTaXplXT1cImNvbnRyb2w/LnRvb2x0aXBTaXplXCIgW3Rvb2x0aXBQcmVsaW5lXT1cImNvbnRyb2w/LnRvb2x0aXBQcmVsaW5lXCIgW3JlbW92ZVRvb2x0aXBBcnJvd109XCJjb250cm9sPy5yZW1vdmVUb29sdGlwQXJyb3dcIiBbdG9vbHRpcEF1dG9Qb3NpdGlvbl09XCJjb250cm9sPy50b29sdGlwQXV0b1Bvc2l0aW9uXCI+PC9ub3ZvLXBpY2tlcj5cbiAgICAgICAgICAgIDxub3ZvLWNoaXBzIFtzb3VyY2VdPVwiY29udHJvbC5jb25maWdcIiBbdHlwZV09XCJjb250cm9sLmNvbmZpZy50eXBlXCIgW2Zvcm1Db250cm9sTmFtZV09XCJjb250cm9sLmtleVwiIFtwbGFjZWhvbGRlcl09XCJjb250cm9sLnBsYWNlaG9sZGVyXCIgW21heGxlbmd0aF09XCJjb250cm9sPy5tYXhsZW5ndGhcIiAqbmdJZj1cImNvbnRyb2wubXVsdGlwbGUgJiYgIWNvbnRyb2wuY29uZmlnLmNvbHVtbnNcIiBbY2xvc2VPblNlbGVjdF09XCJjb250cm9sLmNsb3NlT25TZWxlY3RcIiAoY2hhbmdlZCk9XCJtZXRob2RzLm1vZGVsQ2hhbmdlV2l0aFJhdygkZXZlbnQpXCIgKHR5cGluZyk9XCJtZXRob2RzLmhhbmRsZVR5cGluZygkZXZlbnQpXCIgKGZvY3VzKT1cIm1ldGhvZHMuaGFuZGxlRm9jdXMoJGV2ZW50KVwiIChibHVyKT1cIm1ldGhvZHMuaGFuZGxlQmx1cigkZXZlbnQpXCIgW3Rvb2x0aXBdPVwiY29udHJvbC50b29sdGlwXCIgW3Rvb2x0aXBQb3NpdGlvbl09XCJjb250cm9sLnRvb2x0aXBQb3NpdGlvblwiIFt0b29sdGlwU2l6ZV09XCJjb250cm9sPy50b29sdGlwU2l6ZVwiIFt0b29sdGlwUHJlbGluZV09XCJjb250cm9sPy50b29sdGlwUHJlbGluZVwiIFtyZW1vdmVUb29sdGlwQXJyb3ddPVwiY29udHJvbD8ucmVtb3ZlVG9vbHRpcEFycm93XCIgW3Rvb2x0aXBBdXRvUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcEF1dG9Qb3NpdGlvblwiPjwvbm92by1jaGlwcz5cbiAgICAgICAgICAgIDxub3ZvLXJvdy1jaGlwcyBbc291cmNlXT1cImNvbnRyb2wuY29uZmlnXCIgW3R5cGVdPVwiY29udHJvbC5jb25maWcudHlwZVwiIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiBbcGxhY2Vob2xkZXJdPVwiY29udHJvbC5wbGFjZWhvbGRlclwiICpuZ0lmPVwiY29udHJvbC5tdWx0aXBsZSAmJiBjb250cm9sLmNvbmZpZy5jb2x1bW5zXCIgW2Nsb3NlT25TZWxlY3RdPVwiY29udHJvbC5jbG9zZU9uU2VsZWN0XCIgKGNoYW5nZWQpPVwibWV0aG9kcy5tb2RlbENoYW5nZVdpdGhSYXcoJGV2ZW50KVwiICh0eXBpbmcpPVwibWV0aG9kcy5oYW5kbGVUeXBpbmcoJGV2ZW50KVwiIChmb2N1cyk9XCJtZXRob2RzLmhhbmRsZUZvY3VzKCRldmVudClcIiAoYmx1cik9XCJtZXRob2RzLmhhbmRsZUJsdXIoJGV2ZW50KVwiIFt0b29sdGlwXT1cImNvbnRyb2wudG9vbHRpcFwiIFt0b29sdGlwUG9zaXRpb25dPVwiY29udHJvbC50b29sdGlwUG9zaXRpb25cIiBbdG9vbHRpcFNpemVdPVwiY29udHJvbD8udG9vbHRpcFNpemVcIiBbdG9vbHRpcFByZWxpbmVdPVwiY29udHJvbD8udG9vbHRpcFByZWxpbmVcIiBbcmVtb3ZlVG9vbHRpcEFycm93XT1cImNvbnRyb2w/LnJlbW92ZVRvb2x0aXBBcnJvd1wiIFt0b29sdGlwQXV0b1Bvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBBdXRvUG9zaXRpb25cIj48L25vdm8tcm93LWNoaXBzPlxuICAgICAgICAgIDwvZGl2PlxuICAgICAgICA8L25nLXRlbXBsYXRlPlxuXG4gICAgICAgIDwhLS1Ob3ZvIFNlbGVjdC0tPlxuICAgICAgICA8bmctdGVtcGxhdGUgbm92b1RlbXBsYXRlPVwic2VsZWN0XCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCI+XG4gICAgICAgICAgICA8bm92by1zZWxlY3QgW29wdGlvbnNdPVwiY29udHJvbC5vcHRpb25zXCIgW2hlYWRlckNvbmZpZ109XCJjb250cm9sLmhlYWRlckNvbmZpZ1wiIFtwbGFjZWhvbGRlcl09XCJjb250cm9sLnBsYWNlaG9sZGVyXCIgW2Zvcm1Db250cm9sTmFtZV09XCJjb250cm9sLmtleVwiIFt0b29sdGlwXT1cImNvbnRyb2wudG9vbHRpcFwiIFt0b29sdGlwUG9zaXRpb25dPVwiY29udHJvbC50b29sdGlwUG9zaXRpb25cIiBbdG9vbHRpcFNpemVdPVwiY29udHJvbD8udG9vbHRpcFNpemVcIiBbdG9vbHRpcFByZWxpbmVdPVwiY29udHJvbD8udG9vbHRpcFByZWxpbmVcIiBbcmVtb3ZlVG9vbHRpcEFycm93XT1cImNvbnRyb2w/LnJlbW92ZVRvb2x0aXBBcnJvd1wiIFt0b29sdGlwQXV0b1Bvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBBdXRvUG9zaXRpb25cIiAob25TZWxlY3QpPVwibWV0aG9kcy5tb2RlbENoYW5nZSgkZXZlbnQpXCI+PC9ub3ZvLXNlbGVjdD5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgICAgICA8IS0tUmFkaW8tLT5cbiAgICAgICAgPG5nLXRlbXBsYXRlIG5vdm9UZW1wbGF0ZT1cInJhZGlvXCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCIgY2xhc3M9XCJub3ZvLWNvbnRyb2wtaW5wdXQtY29udGFpbmVyXCI+XG4gICAgICAgICAgICA8bm92by1yYWRpbyBbbmFtZV09XCJjb250cm9sLmtleVwiIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiAqbmdGb3I9XCJsZXQgb3B0aW9uIG9mIGNvbnRyb2wub3B0aW9uc1wiIFt2YWx1ZV09XCJvcHRpb24udmFsdWVcIiBbbGFiZWxdPVwib3B0aW9uLmxhYmVsXCIgW2NoZWNrZWRdPVwib3B0aW9uLnZhbHVlID09PSBmb3JtLnZhbHVlW2NvbnRyb2wua2V5XSB8fCAoZm9ybS52YWx1ZVtjb250cm9sLmtleV0gJiYgb3B0aW9uLnZhbHVlID09PSBmb3JtLnZhbHVlW2NvbnRyb2wua2V5XS5pZClcIiBbdG9vbHRpcF09XCJjb250cm9sLnRvb2x0aXBcIiBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2wudG9vbHRpcFBvc2l0aW9uXCIgW3Rvb2x0aXBTaXplXT1cImNvbnRyb2w/LnRvb2x0aXBTaXplXCIgW3Rvb2x0aXBQcmVsaW5lXT1cImNvbnRyb2w/LnRvb2x0aXBQcmVsaW5lXCIgW3JlbW92ZVRvb2x0aXBBcnJvd109XCJjb250cm9sPy5yZW1vdmVUb29sdGlwQXJyb3dcIiBbdG9vbHRpcEF1dG9Qb3NpdGlvbl09XCJjb250cm9sPy50b29sdGlwQXV0b1Bvc2l0aW9uXCIgW2J1dHRvbl09XCIhIW9wdGlvbi5pY29uXCIgW2ljb25dPVwib3B0aW9uLmljb25cIiBbYXR0ci5kYXRhLWF1dG9tYXRpb24taWRdPVwiY29udHJvbC5rZXkgKyAnLScgKyAob3B0aW9uPy5sYWJlbCB8fCBvcHRpb24/LnZhbHVlKVwiPjwvbm92by1yYWRpbz5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgICAgICA8IS0tVGltZS0tPlxuICAgICAgICA8bmctdGVtcGxhdGUgbm92b1RlbXBsYXRlPVwidGltZVwiIGxldC1jb250cm9sIGxldC1mb3JtPVwiZm9ybVwiIGxldC1lcnJvcnM9XCJlcnJvcnNcIiBsZXQtbWV0aG9kcz1cIm1ldGhvZHNcIj5cbiAgICAgICAgICA8ZGl2IFtmb3JtR3JvdXBdPVwiZm9ybVwiIGNsYXNzPVwibm92by1jb250cm9sLWlucHV0LWNvbnRhaW5lclwiIFt0b29sdGlwXT1cImNvbnRyb2w/LnRvb2x0aXBcIiBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBQb3NpdGlvblwiIFt0b29sdGlwU2l6ZV09XCJjb250cm9sPy50b29sdGlwU2l6ZVwiIFt0b29sdGlwUHJlbGluZV09XCJjb250cm9sPy50b29sdGlwUHJlbGluZVwiIFtyZW1vdmVUb29sdGlwQXJyb3ddPVwiY29udHJvbD8ucmVtb3ZlVG9vbHRpcEFycm93XCIgW3Rvb2x0aXBBdXRvUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcEF1dG9Qb3NpdGlvblwiPlxuICAgICAgICAgICAgPG5vdm8tdGltZS1waWNrZXItaW5wdXQgW2F0dHIuaWRdPVwiY29udHJvbC5rZXlcIiBbbmFtZV09XCJjb250cm9sLmtleVwiIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiBbcGxhY2Vob2xkZXJdPVwiY29udHJvbC5wbGFjZWhvbGRlclwiIFttaWxpdGFyeV09XCJjb250cm9sLm1pbGl0YXJ5XCI+PC9ub3ZvLXRpbWUtcGlja2VyLWlucHV0PlxuICAgICAgICAgIDwvZGl2PlxuICAgICAgICA8L25nLXRlbXBsYXRlPlxuXG4gICAgICAgIDwhLS1EYXRlLS0+XG4gICAgICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJkYXRlXCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCIgY2xhc3M9XCJub3ZvLWNvbnRyb2wtaW5wdXQtY29udGFpbmVyXCIgW3Rvb2x0aXBdPVwiY29udHJvbC50b29sdGlwXCIgW3Rvb2x0aXBQb3NpdGlvbl09XCJjb250cm9sLnRvb2x0aXBQb3NpdGlvblwiIFt0b29sdGlwU2l6ZV09XCJjb250cm9sPy50b29sdGlwU2l6ZVwiIFt0b29sdGlwUHJlbGluZV09XCJjb250cm9sPy50b29sdGlwUHJlbGluZVwiIFtyZW1vdmVUb29sdGlwQXJyb3ddPVwiY29udHJvbD8ucmVtb3ZlVG9vbHRpcEFycm93XCIgW3Rvb2x0aXBBdXRvUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcEF1dG9Qb3NpdGlvblwiPlxuICAgICAgICAgICAgPG5vdm8tZGF0ZS1waWNrZXItaW5wdXQgW2F0dHIuaWRdPVwiY29udHJvbC5rZXlcIiBbbmFtZV09XCJjb250cm9sLmtleVwiIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiBbc3RhcnRdPVwiY29udHJvbC5zdGFydERhdGVcIiBbZW5kXT1cImNvbnRyb2wuZW5kRGF0ZVwiIFtmb3JtYXRdPVwiY29udHJvbC5kYXRlRm9ybWF0XCIgW2FsbG93SW52YWxpZERhdGVdPVwiY29udHJvbC5hbGxvd0ludmFsaWREYXRlXCIgW3RleHRNYXNrRW5hYmxlZF09XCJjb250cm9sLnRleHRNYXNrRW5hYmxlZFwiIFtwbGFjZWhvbGRlcl09XCJjb250cm9sLnBsYWNlaG9sZGVyXCIgKGZvY3VzRXZlbnQpPVwibWV0aG9kcy5oYW5kbGVGb2N1cygkZXZlbnQpXCIgKGJsdXJFdmVudCk9XCJtZXRob2RzLmhhbmRsZUJsdXIoJGV2ZW50KVwiPjwvbm92by1kYXRlLXBpY2tlci1pbnB1dD5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9uZy10ZW1wbGF0ZT5cblxuXG4gICAgICAgIDwhLS1EYXRlIGFuZCBUaW1lLS0+XG4gICAgICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJkYXRlLXRpbWVcIiBsZXQtY29udHJvbCBsZXQtZm9ybT1cImZvcm1cIiBsZXQtZXJyb3JzPVwiZXJyb3JzXCIgbGV0LW1ldGhvZHM9XCJtZXRob2RzXCI+XG4gICAgICAgICAgPGRpdiBbZm9ybUdyb3VwXT1cImZvcm1cIiBjbGFzcz1cIm5vdm8tY29udHJvbC1pbnB1dC1jb250YWluZXJcIiBbdG9vbHRpcF09XCJjb250cm9sLnRvb2x0aXBcIiBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2wudG9vbHRpcFBvc2l0aW9uXCIgW3Rvb2x0aXBTaXplXT1cImNvbnRyb2w/LnRvb2x0aXBTaXplXCIgW3Rvb2x0aXBQcmVsaW5lXT1cImNvbnRyb2w/LnRvb2x0aXBQcmVsaW5lXCIgW3JlbW92ZVRvb2x0aXBBcnJvd109XCJjb250cm9sPy5yZW1vdmVUb29sdGlwQXJyb3dcIiBbdG9vbHRpcEF1dG9Qb3NpdGlvbl09XCJjb250cm9sPy50b29sdGlwQXV0b1Bvc2l0aW9uXCI+XG4gICAgICAgICAgICA8bm92by1kYXRlLXRpbWUtcGlja2VyLWlucHV0IFthdHRyLmlkXT1cImNvbnRyb2wua2V5XCIgW25hbWVdPVwiY29udHJvbC5rZXlcIiBbZm9ybUNvbnRyb2xOYW1lXT1cImNvbnRyb2wua2V5XCIgW3N0YXJ0XT1cImNvbnRyb2wuc3RhcnREYXRlXCIgW2VuZF09XCJjb250cm9sLmVuZERhdGVcIiBbcGxhY2Vob2xkZXJdPVwiY29udHJvbC5wbGFjZWhvbGRlclwiIFttaWxpdGFyeV09XCJjb250cm9sLm1pbGl0YXJ5XCIgKGZvY3VzRXZlbnQpPVwibWV0aG9kcy5oYW5kbGVGb2N1cygkZXZlbnQpXCIgKGJsdXJFdmVudCk9XCJtZXRob2RzLmhhbmRsZUJsdXIoJGV2ZW50KVwiPjwvbm92by1kYXRlLXRpbWUtcGlja2VyLWlucHV0PlxuICAgICAgICAgIDwvZGl2PlxuICAgICAgICA8L25nLXRlbXBsYXRlPlxuXG4gICAgICAgIDwhLS1BZGRyZXNzLS0+XG4gICAgICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJhZGRyZXNzXCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCI+XG4gICAgICAgICAgICA8bm92by1hZGRyZXNzIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiBbY29uZmlnXT1cImNvbnRyb2w/LmNvbmZpZ1wiIFtyZWFkT25seV09XCJjb250cm9sPy5yZWFkT25seVwiIChjaGFuZ2UpPVwibWV0aG9kcy5oYW5kbGVBZGRyZXNzQ2hhbmdlKCRldmVudClcIiAoZm9jdXMpPVwibWV0aG9kcy5oYW5kbGVGb2N1cygkZXZlbnQuZXZlbnQsICRldmVudC5maWVsZClcIiAoYmx1cik9XCJtZXRob2RzLmhhbmRsZUJsdXIoJGV2ZW50LmV2ZW50LCAkZXZlbnQuZmllbGQpXCIgICh2YWxpZGl0eUNoYW5nZSk9XCJtZXRob2RzLnVwZGF0ZVZhbGlkaXR5KClcIj48L25vdm8tYWRkcmVzcz5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgICAgICA8IS0tQ2hlY2tib3gtLT5cbiAgICAgICAgPG5nLXRlbXBsYXRlIG5vdm9UZW1wbGF0ZT1cImNoZWNrYm94XCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCI+XG4gICAgICAgICAgICA8bm92by1jaGVja2JveCBbZm9ybUNvbnRyb2xOYW1lXT1cImNvbnRyb2w/LmtleVwiIFtuYW1lXT1cImNvbnRyb2w/LmtleVwiIFtsYWJlbF09XCJjb250cm9sPy5jaGVja2JveExhYmVsXCIgW3Rvb2x0aXBdPVwiY29udHJvbD8udG9vbHRpcFwiIFt0b29sdGlwUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcFBvc2l0aW9uXCIgW3Rvb2x0aXBTaXplXT1cImNvbnRyb2w/LnRvb2x0aXBTaXplXCIgW3Rvb2x0aXBQcmVsaW5lXT1cImNvbnRyb2w/LnRvb2x0aXBQcmVsaW5lXCIgW3JlbW92ZVRvb2x0aXBBcnJvd109XCJjb250cm9sPy5yZW1vdmVUb29sdGlwQXJyb3dcIiBbdG9vbHRpcEF1dG9Qb3NpdGlvbl09XCJjb250cm9sPy50b29sdGlwQXV0b1Bvc2l0aW9uXCIgW2xheW91dE9wdGlvbnNdPVwiY29udHJvbD8ubGF5b3V0T3B0aW9uc1wiPjwvbm92by1jaGVja2JveD5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgICAgICA8IS0tQ2hlY2tsaXN0LS0+XG4gICAgICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJjaGVja2xpc3RcIiBsZXQtY29udHJvbCBsZXQtZm9ybT1cImZvcm1cIiBsZXQtZXJyb3JzPVwiZXJyb3JzXCIgbGV0LW1ldGhvZHM9XCJtZXRob2RzXCI+XG4gICAgICAgICAgPGRpdiBbZm9ybUdyb3VwXT1cImZvcm1cIj5cbiAgICAgICAgICAgIDxub3ZvLWNoZWNrLWxpc3QgW2Zvcm1Db250cm9sTmFtZV09XCJjb250cm9sLmtleVwiIFtuYW1lXT1cImNvbnRyb2wua2V5XCIgW29wdGlvbnNdPVwiY29udHJvbD8ub3B0aW9uc1wiIFt0b29sdGlwXT1cImNvbnRyb2w/LnRvb2x0aXBcIiBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBQb3NpdGlvblwiIFt0b29sdGlwU2l6ZV09XCJjb250cm9sPy50b29sdGlwU2l6ZVwiIFt0b29sdGlwUHJlbGluZV09XCJjb250cm9sPy50b29sdGlwUHJlbGluZVwiIFtyZW1vdmVUb29sdGlwQXJyb3ddPVwiY29udHJvbD8ucmVtb3ZlVG9vbHRpcEFycm93XCIgW3Rvb2x0aXBBdXRvUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcEF1dG9Qb3NpdGlvblwiIChvblNlbGVjdCk9XCJtZXRob2RzLm1vZGVsQ2hhbmdlKCRldmVudClcIj48L25vdm8tY2hlY2stbGlzdD5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgICAgICA8IS0tUXVpY2tOb3RlLS0+XG4gICAgICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJxdWljay1ub3RlXCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCI+XG4gICAgICAgICAgICA8bm92by1xdWljay1ub3RlIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIiBbc3RhcnR1cEZvY3VzXT1cImNvbnRyb2w/LnN0YXJ0dXBGb2N1c1wiIFtwbGFjZWhvbGRlcl09XCJjb250cm9sPy5wbGFjZWhvbGRlclwiIFtjb25maWddPVwiY29udHJvbD8uY29uZmlnXCIgKGNoYW5nZSk9XCJtZXRob2RzLm1vZGVsQ2hhbmdlKCRldmVudClcIiBbdG9vbHRpcF09XCJjb250cm9sPy50b29sdGlwXCIgW3Rvb2x0aXBQb3NpdGlvbl09XCJjb250cm9sPy50b29sdGlwUG9zaXRpb25cIiBbdG9vbHRpcFNpemVdPVwiY29udHJvbD8udG9vbHRpcFNpemVcIiBbcmVtb3ZlVG9vbHRpcEFycm93XT1cImNvbnRyb2w/LnJlbW92ZVRvb2x0aXBBcnJvd1wiIFt0b29sdGlwQXV0b1Bvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBBdXRvUG9zaXRpb25cIiBbdG9vbHRpcFByZWxpbmVdPVwiY29udHJvbD8udG9vbHRpcFByZWxpbmVcIj48L25vdm8tcXVpY2stbm90ZT5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9uZy10ZW1wbGF0ZT5cbiAgICBgLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvQ29udHJvbFRlbXBsYXRlcyBpbXBsZW1lbnRzIEFmdGVyVmlld0luaXQge1xuICBAVmlld0NoaWxkcmVuKE5vdm9UZW1wbGF0ZSlcbiAgZGVmYXVsdFRlbXBsYXRlczogUXVlcnlMaXN0PE5vdm9UZW1wbGF0ZT47XG4gIGNvbnN0cnVjdG9yKHByaXZhdGUgdGVtcGxhdGVzOiBOb3ZvVGVtcGxhdGVTZXJ2aWNlKSB7fVxuXG4gIG5nQWZ0ZXJWaWV3SW5pdCgpOiB2b2lkIHtcbiAgICBpZiAodGhpcy5kZWZhdWx0VGVtcGxhdGVzICYmIHRoaXMuZGVmYXVsdFRlbXBsYXRlcy5sZW5ndGgpIHtcbiAgICAgIHRoaXMuZGVmYXVsdFRlbXBsYXRlcy5mb3JFYWNoKCh0ZW1wbGF0ZTogYW55KSA9PiB7XG4gICAgICAgIHRoaXMudGVtcGxhdGVzLmFkZERlZmF1bHQodGVtcGxhdGUubmFtZSwgdGVtcGxhdGUudGVtcGxhdGUpO1xuICAgICAgfSk7XG4gICAgfVxuICB9XG59XG4iXX0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29udHJvbFRlbXBsYXRlcy5qcyIsInNvdXJjZVJvb3QiOiJuZzovL25vdm8tZWxlbWVudHMvIiwic291cmNlcyI6WyJlbGVtZW50cy9mb3JtL0NvbnRyb2xUZW1wbGF0ZXMudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7QUFBQSxPQUFPLEVBQUUsU0FBUyxFQUFpQixZQUFZLEVBQUUsU0FBUyxFQUFFLE1BQU0sZUFBZSxDQUFDOztBQUVsRixPQUFPLEVBQUUsWUFBWSxFQUFFLE1BQU0saURBQWlELENBQUM7QUFDL0UsT0FBTyxFQUFFLG1CQUFtQixFQUFFLE1BQU0sNkNBQTZDLENBQUM7QUErYmxGLE1BQU0sT0FBTyxvQkFBb0I7Ozs7SUFHL0IsWUFBb0IsU0FBOEI7UUFBOUIsY0FBUyxHQUFULFNBQVMsQ0FBcUI7SUFBRyxDQUFDOzs7O0lBRXRELGVBQWU7UUFDYixJQUFJLElBQUksQ0FBQyxnQkFBZ0IsSUFBSSxJQUFJLENBQUMsZ0JBQWdCLENBQUMsTUFBTSxFQUFFO1lBQ3pELElBQUksQ0FBQyxnQkFBZ0IsQ0FBQyxPQUFPOzs7O1lBQUMsQ0FBQyxRQUFhLEVBQUUsRUFBRTtnQkFDOUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxVQUFVLENBQUMsUUFBUSxDQUFDLElBQUksRUFBRSxRQUFRLENBQUMsUUFBUSxDQUFDLENBQUM7WUFDOUQsQ0FBQyxFQUFDLENBQUM7U0FDSjtJQUNILENBQUM7OztZQXhjRixTQUFTLFNBQUM7Z0JBQ1QsUUFBUSxFQUFFLHdCQUF3QjtnQkFDbEMsUUFBUSxFQUFFOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7R0F5YlQ7YUFDRjs7OztZQTliUSxtQkFBbUI7OzsrQkFnY3pCLFlBQVksU0FBQyxZQUFZOzs7O0lBQTFCLGdEQUMwQzs7Ozs7SUFDOUIseUNBQXNDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQ29tcG9uZW50LCBBZnRlclZpZXdJbml0LCBWaWV3Q2hpbGRyZW4sIFF1ZXJ5TGlzdCB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuLy8gQXBwXG5pbXBvcnQgeyBOb3ZvVGVtcGxhdGUgfSBmcm9tICcuLi9jb21tb24vbm92by10ZW1wbGF0ZS9ub3ZvLXRlbXBsYXRlLmRpcmVjdGl2ZSc7XG5pbXBvcnQgeyBOb3ZvVGVtcGxhdGVTZXJ2aWNlIH0gZnJvbSAnLi4vLi4vc2VydmljZXMvdGVtcGxhdGUvTm92b1RlbXBsYXRlU2VydmljZSc7XG5cbkBDb21wb25lbnQoe1xuICBzZWxlY3RvcjogJ25vdm8tY29udHJvbC10ZW1wbGF0ZXMnLFxuICB0ZW1wbGF0ZTogYFxuICAgIDwhLS0tUmVhZG9ubHktLS0+XG4gICAgPG5nLXRlbXBsYXRlIG5vdm9UZW1wbGF0ZT1cInJlYWQtb25seVwiIGxldC1mb3JtPVwiZm9ybVwiIGxldC1jb250cm9sPlxuICAgICAgPGRpdj57eyBmb3JtLnZhbHVlW2NvbnRyb2wua2V5XSB9fTwvZGl2PlxuICAgIDwvbmctdGVtcGxhdGU+XG4gICAgPCEtLVRleHRib3gtLS0+XG4gICAgPG5nLXRlbXBsYXRlIG5vdm9UZW1wbGF0ZT1cInRleHRib3hcIiBsZXQtY29udHJvbCBsZXQtZm9ybT1cImZvcm1cIiBsZXQtZXJyb3JzPVwiZXJyb3JzXCIgbGV0LW1ldGhvZHM9XCJtZXRob2RzXCI+XG4gICAgICA8ZGl2XG4gICAgICAgIFtmb3JtR3JvdXBdPVwiZm9ybVwiXG4gICAgICAgIGNsYXNzPVwibm92by1jb250cm9sLWlucHV0LWNvbnRhaW5lciBub3ZvLWNvbnRyb2wtaW5wdXQtd2l0aC1sYWJlbFwiXG4gICAgICAgIFt0b29sdGlwXT1cImNvbnRyb2w/LnRvb2x0aXBcIlxuICAgICAgICBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBQb3NpdGlvblwiXG4gICAgICAgIFt0b29sdGlwU2l6ZV09XCJjb250cm9sPy50b29sdGlwU2l6ZVwiXG4gICAgICAgIFt0b29sdGlwUHJlbGluZV09XCJjb250cm9sPy50b29sdGlwUHJlbGluZVwiXG4gICAgICAgIFtyZW1vdmVUb29sdGlwQXJyb3ddPVwiY29udHJvbD8ucmVtb3ZlVG9vbHRpcEFycm93XCJcbiAgICAgICAgW3Rvb2x0aXBBdXRvUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcEF1dG9Qb3NpdGlvblwiXG4gICAgICA+XG4gICAgICAgIDxpbnB1dFxuICAgICAgICAgICpuZ0lmPVwiY29udHJvbD8udHlwZSAhPT0gJ251bWJlcicgJiYgY29udHJvbD8udGV4dE1hc2tFbmFibGVkXCJcbiAgICAgICAgICBbdGV4dE1hc2tdPVwiY29udHJvbC5tYXNrT3B0aW9uc1wiXG4gICAgICAgICAgW2Zvcm1Db250cm9sTmFtZV09XCJjb250cm9sLmtleVwiXG4gICAgICAgICAgW2lkXT1cImNvbnRyb2wua2V5XCJcbiAgICAgICAgICBbdHlwZV09XCJjb250cm9sPy50eXBlXCJcbiAgICAgICAgICBbcGxhY2Vob2xkZXJdPVwiY29udHJvbD8ucGxhY2Vob2xkZXJcIlxuICAgICAgICAgIChpbnB1dCk9XCJtZXRob2RzLmVtaXRDaGFuZ2UoJGV2ZW50KVwiXG4gICAgICAgICAgKGZvY3VzKT1cIm1ldGhvZHMuaGFuZGxlRm9jdXMoJGV2ZW50KVwiXG4gICAgICAgICAgKGJsdXIpPVwibWV0aG9kcy5oYW5kbGVCbHVyKCRldmVudClcIlxuICAgICAgICAgIGF1dG9jb21wbGV0ZVxuICAgICAgICAvPlxuICAgICAgICA8aW5wdXRcbiAgICAgICAgICAqbmdJZj1cImNvbnRyb2w/LnR5cGUgIT09ICdudW1iZXInICYmICFjb250cm9sPy50ZXh0TWFza0VuYWJsZWRcIlxuICAgICAgICAgIFtjbGFzcy5tYXhsZW5ndGgtZXJyb3JdPVwiZXJyb3JzPy5tYXhsZW5ndGhcIlxuICAgICAgICAgIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFtpZF09XCJjb250cm9sLmtleVwiXG4gICAgICAgICAgW3R5cGVdPVwiY29udHJvbD8udHlwZVwiXG4gICAgICAgICAgW3BsYWNlaG9sZGVyXT1cImNvbnRyb2w/LnBsYWNlaG9sZGVyXCJcbiAgICAgICAgICAoaW5wdXQpPVwibWV0aG9kcy5lbWl0Q2hhbmdlKCRldmVudClcIlxuICAgICAgICAgIFttYXhsZW5ndGhdPVwiY29udHJvbD8ubWF4bGVuZ3RoXCJcbiAgICAgICAgICAoZm9jdXMpPVwibWV0aG9kcy5oYW5kbGVGb2N1cygkZXZlbnQpXCJcbiAgICAgICAgICAoYmx1cik9XCJtZXRob2RzLmhhbmRsZUJsdXIoJGV2ZW50KVwiXG4gICAgICAgICAgYXV0b2NvbXBsZXRlXG4gICAgICAgIC8+XG4gICAgICAgIDxpbnB1dFxuICAgICAgICAgICpuZ0lmPVwiY29udHJvbD8udHlwZSA9PT0gJ251bWJlcicgJiYgY29udHJvbD8uc3ViVHlwZSAhPT0gJ3BlcmNlbnRhZ2UnXCJcbiAgICAgICAgICBbY2xhc3MubWF4bGVuZ3RoLWVycm9yXT1cImVycm9ycz8ubWF4bGVuZ3RoXCJcbiAgICAgICAgICBbZm9ybUNvbnRyb2xOYW1lXT1cImNvbnRyb2wua2V5XCJcbiAgICAgICAgICBbaWRdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFt0eXBlXT1cImNvbnRyb2w/LnR5cGVcIlxuICAgICAgICAgIFtwbGFjZWhvbGRlcl09XCJjb250cm9sPy5wbGFjZWhvbGRlclwiXG4gICAgICAgICAgKGtleWRvd24pPVwibWV0aG9kcy5yZXN0cmljdEtleXMoJGV2ZW50KVwiXG4gICAgICAgICAgKGlucHV0KT1cIm1ldGhvZHMuZW1pdENoYW5nZSgkZXZlbnQpXCJcbiAgICAgICAgICBbbWF4bGVuZ3RoXT1cImNvbnRyb2w/Lm1heGxlbmd0aFwiXG4gICAgICAgICAgKGZvY3VzKT1cIm1ldGhvZHMuaGFuZGxlRm9jdXMoJGV2ZW50KVwiXG4gICAgICAgICAgKGJsdXIpPVwibWV0aG9kcy5oYW5kbGVCbHVyKCRldmVudClcIlxuICAgICAgICAgIHN0ZXA9XCJhbnlcIlxuICAgICAgICAgIChtb3VzZXdoZWVsKT1cIm51bWJlcklucHV0LmJsdXIoKVwiXG4gICAgICAgICAgI251bWJlcklucHV0XG4gICAgICAgIC8+XG4gICAgICAgIDxpbnB1dFxuICAgICAgICAgICpuZ0lmPVwiY29udHJvbD8udHlwZSA9PT0gJ251bWJlcicgJiYgY29udHJvbD8uc3ViVHlwZSA9PT0gJ3BlcmNlbnRhZ2UnXCJcbiAgICAgICAgICBbdHlwZV09XCJjb250cm9sPy50eXBlXCJcbiAgICAgICAgICBbcGxhY2Vob2xkZXJdPVwiY29udHJvbD8ucGxhY2Vob2xkZXJcIlxuICAgICAgICAgIChrZXlkb3duKT1cIm1ldGhvZHMucmVzdHJpY3RLZXlzKCRldmVudClcIlxuICAgICAgICAgIFt2YWx1ZV09XCJjb250cm9sPy5wZXJjZW50VmFsdWVcIlxuICAgICAgICAgIChpbnB1dCk9XCJtZXRob2RzLmhhbmRsZVBlcmNlbnRDaGFuZ2UoJGV2ZW50KVwiXG4gICAgICAgICAgKGZvY3VzKT1cIm1ldGhvZHMuaGFuZGxlRm9jdXMoJGV2ZW50KVwiXG4gICAgICAgICAgKGJsdXIpPVwibWV0aG9kcy5oYW5kbGVCbHVyKCRldmVudClcIlxuICAgICAgICAgIHN0ZXA9XCJhbnlcIlxuICAgICAgICAgIChtb3VzZXdoZWVsKT1cInBlcmNlbnRJbnB1dC5ibHVyKClcIlxuICAgICAgICAgICNwZXJjZW50SW5wdXRcbiAgICAgICAgLz5cbiAgICAgICAgPGxhYmVsIGNsYXNzPVwiaW5wdXQtbGFiZWxcIiAqbmdJZj1cImNvbnRyb2w/LnN1YlR5cGUgPT09ICdjdXJyZW5jeSdcIj57eyBjb250cm9sLmN1cnJlbmN5Rm9ybWF0IH19PC9sYWJlbD5cbiAgICAgICAgPGxhYmVsIGNsYXNzPVwiaW5wdXQtbGFiZWxcIiAqbmdJZj1cImNvbnRyb2w/LnN1YlR5cGUgPT09ICdwZXJjZW50YWdlJ1wiPiU8L2xhYmVsPlxuICAgICAgPC9kaXY+XG4gICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgIDwhLS1UZXh0YXJlYS0tLT5cbiAgICA8bmctdGVtcGxhdGUgbm92b1RlbXBsYXRlPVwidGV4dC1hcmVhXCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgPGRpdlxuICAgICAgICBjbGFzcz1cInRleHRhcmVhLWNvbnRhaW5lclwiXG4gICAgICAgIFtmb3JtR3JvdXBdPVwiZm9ybVwiXG4gICAgICAgIFt0b29sdGlwXT1cImNvbnRyb2w/LnRvb2x0aXBcIlxuICAgICAgICBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBQb3NpdGlvblwiXG4gICAgICAgIFt0b29sdGlwU2l6ZV09XCJjb250cm9sPy50b29sdGlwU2l6ZVwiXG4gICAgICAgIFt0b29sdGlwUHJlbGluZV09XCJjb250cm9sPy50b29sdGlwUHJlbGluZVwiXG4gICAgICAgIFtyZW1vdmVUb29sdGlwQXJyb3ddPVwiY29udHJvbD8ucmVtb3ZlVG9vbHRpcEFycm93XCJcbiAgICAgICAgW3Rvb2x0aXBBdXRvUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcEF1dG9Qb3NpdGlvblwiXG4gICAgICA+XG4gICAgICAgIDx0ZXh0YXJlYVxuICAgICAgICAgIFtjbGFzcy5tYXhsZW5ndGgtZXJyb3JdPVwiZXJyb3JzPy5tYXhsZW5ndGhcIlxuICAgICAgICAgIFtuYW1lXT1cImNvbnRyb2wua2V5XCJcbiAgICAgICAgICBbYXR0ci5pZF09XCJjb250cm9sLmtleVwiXG4gICAgICAgICAgW3BsYWNlaG9sZGVyXT1cImNvbnRyb2wucGxhY2Vob2xkZXJcIlxuICAgICAgICAgIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIGF1dG9zaXplXG4gICAgICAgICAgKGlucHV0KT1cIm1ldGhvZHMuaGFuZGxlVGV4dEFyZWFJbnB1dCgkZXZlbnQpXCJcbiAgICAgICAgICAoZm9jdXMpPVwibWV0aG9kcy5oYW5kbGVGb2N1cygkZXZlbnQpXCJcbiAgICAgICAgICAoYmx1cik9XCJtZXRob2RzLmhhbmRsZUJsdXIoJGV2ZW50KVwiXG4gICAgICAgICAgW21heGxlbmd0aF09XCJjb250cm9sPy5tYXhsZW5ndGhcIlxuICAgICAgICA+PC90ZXh0YXJlYT5cbiAgICAgIDwvZGl2PlxuICAgIDwvbmctdGVtcGxhdGU+XG5cbiAgICA8IS0tRWRpdG9yLS0+XG4gICAgPG5nLXRlbXBsYXRlIG5vdm9UZW1wbGF0ZT1cImVkaXRvclwiIGxldC1jb250cm9sIGxldC1mb3JtPVwiZm9ybVwiIGxldC1lcnJvcnM9XCJlcnJvcnNcIiBsZXQtbWV0aG9kcz1cIm1ldGhvZHNcIj5cbiAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCI+XG4gICAgICAgIDxub3ZvLWVkaXRvclxuICAgICAgICAgIFtuYW1lXT1cImNvbnRyb2wua2V5XCJcbiAgICAgICAgICBbZm9ybUNvbnRyb2xOYW1lXT1cImNvbnRyb2wua2V5XCJcbiAgICAgICAgICBbc3RhcnR1cEZvY3VzXT1cImNvbnRyb2wuc3RhcnR1cEZvY3VzXCJcbiAgICAgICAgICBbbWluaW1hbF09XCJjb250cm9sLm1pbmltYWxcIlxuICAgICAgICAgIFtmaWxlQnJvd3NlckltYWdlVXBsb2FkVXJsXT1cImNvbnRyb2wuZmlsZUJyb3dzZXJJbWFnZVVwbG9hZFVybFwiXG4gICAgICAgICAgKGZvY3VzKT1cIm1ldGhvZHMuaGFuZGxlRm9jdXMoJGV2ZW50KVwiXG4gICAgICAgICAgKGJsdXIpPVwibWV0aG9kcy5oYW5kbGVCbHVyKCRldmVudClcIlxuICAgICAgICAgIFtjb25maWddPVwiY29udHJvbC5jb25maWdcIlxuICAgICAgICA+PC9ub3ZvLWVkaXRvcj5cbiAgICAgIDwvZGl2PlxuICAgIDwvbmctdGVtcGxhdGU+XG5cbiAgICA8IS0tQWNlRWRpdG9yLS0+XG4gICAgPG5nLXRlbXBsYXRlIG5vdm9UZW1wbGF0ZT1cImFjZS1lZGl0b3JcIiBsZXQtY29udHJvbCBsZXQtZm9ybT1cImZvcm1cIiBsZXQtZXJyb3JzPVwiZXJyb3JzXCIgbGV0LW1ldGhvZHM9XCJtZXRob2RzXCI+XG4gICAgICA8ZGl2IFtmb3JtR3JvdXBdPVwiZm9ybVwiPlxuICAgICAgICA8bm92by1hY2UtZWRpdG9yXG4gICAgICAgICAgW25hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIChmb2N1cyk9XCJtZXRob2RzLmhhbmRsZUZvY3VzKCRldmVudClcIlxuICAgICAgICAgIChibHVyKT1cIm1ldGhvZHMuaGFuZGxlQmx1cigkZXZlbnQpXCJcbiAgICAgICAgPjwvbm92by1hY2UtZWRpdG9yPlxuICAgICAgPC9kaXY+XG4gICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgIDwhLS1IVE1MNSBTZWxlY3QtLT5cbiAgICA8bmctdGVtcGxhdGUgbm92b1RlbXBsYXRlPVwibmF0aXZlLXNlbGVjdFwiIGxldC1jb250cm9sIGxldC1mb3JtPVwiZm9ybVwiIGxldC1lcnJvcnM9XCJlcnJvcnNcIiBsZXQtbWV0aG9kcz1cIm1ldGhvZHNcIj5cbiAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCI+XG4gICAgICAgIDxzZWxlY3RcbiAgICAgICAgICBbaWRdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFt0b29sdGlwXT1cImNvbnRyb2wudG9vbHRpcFwiXG4gICAgICAgICAgW3Rvb2x0aXBQb3NpdGlvbl09XCJjb250cm9sLnRvb2x0aXBQb3NpdGlvblwiXG4gICAgICAgICAgW3Rvb2x0aXBTaXplXT1cImNvbnRyb2w/LnRvb2x0aXBTaXplXCJcbiAgICAgICAgICBbdG9vbHRpcFByZWxpbmVdPVwiY29udHJvbD8udG9vbHRpcFByZWxpbmVcIlxuICAgICAgICAgIFtyZW1vdmVUb29sdGlwQXJyb3ddPVwiY29udHJvbD8ucmVtb3ZlVG9vbHRpcEFycm93XCJcbiAgICAgICAgICBbdG9vbHRpcEF1dG9Qb3NpdGlvbl09XCJjb250cm9sPy50b29sdGlwQXV0b1Bvc2l0aW9uXCJcbiAgICAgICAgPlxuICAgICAgICAgIDxvcHRpb24gKm5nSWY9XCJjb250cm9sLnBsYWNlaG9sZGVyXCIgdmFsdWU9XCJcIiBkaXNhYmxlZCBzZWxlY3RlZCBoaWRkZW4+e3sgY29udHJvbC5wbGFjZWhvbGRlciB9fTwvb3B0aW9uPlxuICAgICAgICAgIDxvcHRpb24gKm5nRm9yPVwibGV0IG9wdCBvZiBjb250cm9sLm9wdGlvbnNcIiBbdmFsdWVdPVwib3B0LmtleVwiPnt7IG9wdC52YWx1ZSB9fTwvb3B0aW9uPlxuICAgICAgICA8L3NlbGVjdD5cbiAgICAgIDwvZGl2PlxuICAgIDwvbmctdGVtcGxhdGU+XG5cbiAgICA8IS0tRmlsZS0tPlxuICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJmaWxlXCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgPGRpdiBbZm9ybUdyb3VwXT1cImZvcm1cIj5cbiAgICAgICAgPG5vdm8tZmlsZS1pbnB1dFxuICAgICAgICAgIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFtpZF09XCJjb250cm9sLmtleVwiXG4gICAgICAgICAgW25hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFtwbGFjZWhvbGRlcl09XCJjb250cm9sLnBsYWNlaG9sZGVyXCJcbiAgICAgICAgICBbdmFsdWVdPVwiY29udHJvbC52YWx1ZVwiXG4gICAgICAgICAgW211bHRpcGxlXT1cImNvbnRyb2wubXVsdGlwbGVcIlxuICAgICAgICAgIFtsYXlvdXRPcHRpb25zXT1cImNvbnRyb2wubGF5b3V0T3B0aW9uc1wiXG4gICAgICAgICAgW3Rvb2x0aXBdPVwiY29udHJvbC50b29sdGlwXCJcbiAgICAgICAgICBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2wudG9vbHRpcFBvc2l0aW9uXCJcbiAgICAgICAgICBbdG9vbHRpcFNpemVdPVwiY29udHJvbD8udG9vbHRpcFNpemVcIlxuICAgICAgICAgIFt0b29sdGlwUHJlbGluZV09XCJjb250cm9sPy50b29sdGlwUHJlbGluZVwiXG4gICAgICAgICAgW3JlbW92ZVRvb2x0aXBBcnJvd109XCJjb250cm9sPy5yZW1vdmVUb29sdGlwQXJyb3dcIlxuICAgICAgICAgIFt0b29sdGlwQXV0b1Bvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBBdXRvUG9zaXRpb25cIlxuICAgICAgICAgIChlZGl0KT1cIm1ldGhvZHMuaGFuZGxlRWRpdCgkZXZlbnQpXCJcbiAgICAgICAgICAoc2F2ZSk9XCJtZXRob2RzLmhhbmRsZVNhdmUoJGV2ZW50KVwiXG4gICAgICAgICAgKGRlbGV0ZSk9XCJtZXRob2RzLmhhbmRsZURlbGV0ZSgkZXZlbnQpXCJcbiAgICAgICAgICAodXBsb2FkKT1cIm1ldGhvZHMuaGFuZGxlVXBsb2FkKCRldmVudClcIlxuICAgICAgICA+PC9ub3ZvLWZpbGUtaW5wdXQ+XG4gICAgICA8L2Rpdj5cbiAgICA8L25nLXRlbXBsYXRlPlxuXG4gICAgPCEtLVRpbGVzLS0+XG4gICAgPG5nLXRlbXBsYXRlIG5vdm9UZW1wbGF0ZT1cInRpbGVzXCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgPGRpdiBbZm9ybUdyb3VwXT1cImZvcm1cIj5cbiAgICAgICAgPG5vdm8tdGlsZXNcbiAgICAgICAgICBbb3B0aW9uc109XCJjb250cm9sLm9wdGlvbnNcIlxuICAgICAgICAgIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIChvbkNoYW5nZSk9XCJtZXRob2RzLm1vZGVsQ2hhbmdlKCRldmVudClcIlxuICAgICAgICAgIFt0b29sdGlwXT1cImNvbnRyb2wudG9vbHRpcFwiXG4gICAgICAgICAgW3Rvb2x0aXBQb3NpdGlvbl09XCJjb250cm9sLnRvb2x0aXBQb3NpdGlvblwiXG4gICAgICAgICAgW3Rvb2x0aXBTaXplXT1cImNvbnRyb2w/LnRvb2x0aXBTaXplXCJcbiAgICAgICAgICBbdG9vbHRpcFByZWxpbmVdPVwiY29udHJvbD8udG9vbHRpcFByZWxpbmVcIlxuICAgICAgICAgIFtyZW1vdmVUb29sdGlwQXJyb3ddPVwiY29udHJvbD8ucmVtb3ZlVG9vbHRpcEFycm93XCJcbiAgICAgICAgICBbdG9vbHRpcEF1dG9Qb3NpdGlvbl09XCJjb250cm9sPy50b29sdGlwQXV0b1Bvc2l0aW9uXCJcbiAgICAgICAgICBbY29udHJvbERpc2FibGVkXT1cImNvbnRyb2wuZGlzYWJsZWRcIlxuICAgICAgICA+PC9ub3ZvLXRpbGVzPlxuICAgICAgPC9kaXY+XG4gICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgIDwhLS1QaWNrZXItLT5cbiAgICA8bmctdGVtcGxhdGUgbm92b1RlbXBsYXRlPVwicGlja2VyXCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgPGRpdiBbZm9ybUdyb3VwXT1cImZvcm1cIiBjbGFzcz1cIm5vdm8tY29udHJvbC1pbnB1dC1jb250YWluZXJcIj5cbiAgICAgICAgPG5vdm8tcGlja2VyXG4gICAgICAgICAgW2NvbmZpZ109XCJjb250cm9sLmNvbmZpZ1wiXG4gICAgICAgICAgW2Zvcm1Db250cm9sTmFtZV09XCJjb250cm9sLmtleVwiXG4gICAgICAgICAgW3BsYWNlaG9sZGVyXT1cImNvbnRyb2wucGxhY2Vob2xkZXJcIlxuICAgICAgICAgIFtwYXJlbnRTY3JvbGxTZWxlY3Rvcl09XCJjb250cm9sLnBhcmVudFNjcm9sbFNlbGVjdG9yXCJcbiAgICAgICAgICAqbmdJZj1cIiFjb250cm9sLm11bHRpcGxlXCJcbiAgICAgICAgICAoc2VsZWN0KT1cIm1ldGhvZHMubW9kZWxDaGFuZ2UoJGV2ZW50KVwiXG4gICAgICAgICAgKGNoYW5nZWQpPVwibWV0aG9kcy5tb2RlbENoYW5nZVdpdGhSYXcoJGV2ZW50KVwiXG4gICAgICAgICAgKHR5cGluZyk9XCJtZXRob2RzLmhhbmRsZVR5cGluZygkZXZlbnQpXCJcbiAgICAgICAgICAoZm9jdXMpPVwibWV0aG9kcy5oYW5kbGVGb2N1cygkZXZlbnQpXCJcbiAgICAgICAgICAoYmx1cik9XCJtZXRob2RzLmhhbmRsZUJsdXIoJGV2ZW50KVwiXG4gICAgICAgICAgW3Rvb2x0aXBdPVwiY29udHJvbC50b29sdGlwXCJcbiAgICAgICAgICBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2wudG9vbHRpcFBvc2l0aW9uXCJcbiAgICAgICAgICBbdG9vbHRpcFNpemVdPVwiY29udHJvbD8udG9vbHRpcFNpemVcIlxuICAgICAgICAgIFt0b29sdGlwUHJlbGluZV09XCJjb250cm9sPy50b29sdGlwUHJlbGluZVwiXG4gICAgICAgICAgW3JlbW92ZVRvb2x0aXBBcnJvd109XCJjb250cm9sPy5yZW1vdmVUb29sdGlwQXJyb3dcIlxuICAgICAgICAgIFt0b29sdGlwQXV0b1Bvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBBdXRvUG9zaXRpb25cIlxuICAgICAgICA+PC9ub3ZvLXBpY2tlcj5cbiAgICAgICAgPG5vdm8tY2hpcHNcbiAgICAgICAgICBbc291cmNlXT1cImNvbnRyb2wuY29uZmlnXCJcbiAgICAgICAgICBbdHlwZV09XCJjb250cm9sLmNvbmZpZy50eXBlXCJcbiAgICAgICAgICBbZm9ybUNvbnRyb2xOYW1lXT1cImNvbnRyb2wua2V5XCJcbiAgICAgICAgICBbcGxhY2Vob2xkZXJdPVwiY29udHJvbC5wbGFjZWhvbGRlclwiXG4gICAgICAgICAgW21heGxlbmd0aF09XCJjb250cm9sPy5tYXhsZW5ndGhcIlxuICAgICAgICAgICpuZ0lmPVwiY29udHJvbC5tdWx0aXBsZSAmJiAhY29udHJvbC5jb25maWcuY29sdW1uc1wiXG4gICAgICAgICAgW2Nsb3NlT25TZWxlY3RdPVwiY29udHJvbC5jbG9zZU9uU2VsZWN0XCJcbiAgICAgICAgICAoY2hhbmdlZCk9XCJtZXRob2RzLm1vZGVsQ2hhbmdlV2l0aFJhdygkZXZlbnQpXCJcbiAgICAgICAgICAodHlwaW5nKT1cIm1ldGhvZHMuaGFuZGxlVHlwaW5nKCRldmVudClcIlxuICAgICAgICAgIChmb2N1cyk9XCJtZXRob2RzLmhhbmRsZUZvY3VzKCRldmVudClcIlxuICAgICAgICAgIChibHVyKT1cIm1ldGhvZHMuaGFuZGxlQmx1cigkZXZlbnQpXCJcbiAgICAgICAgICBbdG9vbHRpcF09XCJjb250cm9sLnRvb2x0aXBcIlxuICAgICAgICAgIFt0b29sdGlwUG9zaXRpb25dPVwiY29udHJvbC50b29sdGlwUG9zaXRpb25cIlxuICAgICAgICAgIFt0b29sdGlwU2l6ZV09XCJjb250cm9sPy50b29sdGlwU2l6ZVwiXG4gICAgICAgICAgW3Rvb2x0aXBQcmVsaW5lXT1cImNvbnRyb2w/LnRvb2x0aXBQcmVsaW5lXCJcbiAgICAgICAgICBbcmVtb3ZlVG9vbHRpcEFycm93XT1cImNvbnRyb2w/LnJlbW92ZVRvb2x0aXBBcnJvd1wiXG4gICAgICAgICAgW3Rvb2x0aXBBdXRvUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcEF1dG9Qb3NpdGlvblwiXG4gICAgICAgID48L25vdm8tY2hpcHM+XG4gICAgICAgIDxub3ZvLXJvdy1jaGlwc1xuICAgICAgICAgIFtzb3VyY2VdPVwiY29udHJvbC5jb25maWdcIlxuICAgICAgICAgIFt0eXBlXT1cImNvbnRyb2wuY29uZmlnLnR5cGVcIlxuICAgICAgICAgIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFtwbGFjZWhvbGRlcl09XCJjb250cm9sLnBsYWNlaG9sZGVyXCJcbiAgICAgICAgICAqbmdJZj1cImNvbnRyb2wubXVsdGlwbGUgJiYgY29udHJvbC5jb25maWcuY29sdW1uc1wiXG4gICAgICAgICAgW2Nsb3NlT25TZWxlY3RdPVwiY29udHJvbC5jbG9zZU9uU2VsZWN0XCJcbiAgICAgICAgICAoY2hhbmdlZCk9XCJtZXRob2RzLm1vZGVsQ2hhbmdlV2l0aFJhdygkZXZlbnQpXCJcbiAgICAgICAgICAodHlwaW5nKT1cIm1ldGhvZHMuaGFuZGxlVHlwaW5nKCRldmVudClcIlxuICAgICAgICAgIChmb2N1cyk9XCJtZXRob2RzLmhhbmRsZUZvY3VzKCRldmVudClcIlxuICAgICAgICAgIChibHVyKT1cIm1ldGhvZHMuaGFuZGxlQmx1cigkZXZlbnQpXCJcbiAgICAgICAgICBbdG9vbHRpcF09XCJjb250cm9sLnRvb2x0aXBcIlxuICAgICAgICAgIFt0b29sdGlwUG9zaXRpb25dPVwiY29udHJvbC50b29sdGlwUG9zaXRpb25cIlxuICAgICAgICAgIFt0b29sdGlwU2l6ZV09XCJjb250cm9sPy50b29sdGlwU2l6ZVwiXG4gICAgICAgICAgW3Rvb2x0aXBQcmVsaW5lXT1cImNvbnRyb2w/LnRvb2x0aXBQcmVsaW5lXCJcbiAgICAgICAgICBbcmVtb3ZlVG9vbHRpcEFycm93XT1cImNvbnRyb2w/LnJlbW92ZVRvb2x0aXBBcnJvd1wiXG4gICAgICAgICAgW3Rvb2x0aXBBdXRvUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcEF1dG9Qb3NpdGlvblwiXG4gICAgICAgID48L25vdm8tcm93LWNoaXBzPlxuICAgICAgPC9kaXY+XG4gICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgIDwhLS1Ob3ZvIFNlbGVjdC0tPlxuICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJzZWxlY3RcIiBsZXQtY29udHJvbCBsZXQtZm9ybT1cImZvcm1cIiBsZXQtZXJyb3JzPVwiZXJyb3JzXCIgbGV0LW1ldGhvZHM9XCJtZXRob2RzXCI+XG4gICAgICA8ZGl2IFtmb3JtR3JvdXBdPVwiZm9ybVwiPlxuICAgICAgICA8bm92by1zZWxlY3RcbiAgICAgICAgICBbb3B0aW9uc109XCJjb250cm9sLm9wdGlvbnNcIlxuICAgICAgICAgIFtoZWFkZXJDb25maWddPVwiY29udHJvbC5oZWFkZXJDb25maWdcIlxuICAgICAgICAgIFtwbGFjZWhvbGRlcl09XCJjb250cm9sLnBsYWNlaG9sZGVyXCJcbiAgICAgICAgICBbZm9ybUNvbnRyb2xOYW1lXT1cImNvbnRyb2wua2V5XCJcbiAgICAgICAgICBbdG9vbHRpcF09XCJjb250cm9sLnRvb2x0aXBcIlxuICAgICAgICAgIFt0b29sdGlwUG9zaXRpb25dPVwiY29udHJvbC50b29sdGlwUG9zaXRpb25cIlxuICAgICAgICAgIFt0b29sdGlwU2l6ZV09XCJjb250cm9sPy50b29sdGlwU2l6ZVwiXG4gICAgICAgICAgW3Rvb2x0aXBQcmVsaW5lXT1cImNvbnRyb2w/LnRvb2x0aXBQcmVsaW5lXCJcbiAgICAgICAgICBbcmVtb3ZlVG9vbHRpcEFycm93XT1cImNvbnRyb2w/LnJlbW92ZVRvb2x0aXBBcnJvd1wiXG4gICAgICAgICAgW3Rvb2x0aXBBdXRvUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcEF1dG9Qb3NpdGlvblwiXG4gICAgICAgICAgKG9uU2VsZWN0KT1cIm1ldGhvZHMubW9kZWxDaGFuZ2UoJGV2ZW50KVwiXG4gICAgICAgID48L25vdm8tc2VsZWN0PlxuICAgICAgPC9kaXY+XG4gICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgIDwhLS1SYWRpby0tPlxuICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJyYWRpb1wiIGxldC1jb250cm9sIGxldC1mb3JtPVwiZm9ybVwiIGxldC1lcnJvcnM9XCJlcnJvcnNcIiBsZXQtbWV0aG9kcz1cIm1ldGhvZHNcIj5cbiAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCIgY2xhc3M9XCJub3ZvLWNvbnRyb2wtaW5wdXQtY29udGFpbmVyXCI+XG4gICAgICAgIDxub3ZvLXJhZGlvXG4gICAgICAgICAgW25hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgICpuZ0Zvcj1cImxldCBvcHRpb24gb2YgY29udHJvbC5vcHRpb25zXCJcbiAgICAgICAgICBbdmFsdWVdPVwib3B0aW9uLnZhbHVlXCJcbiAgICAgICAgICBbbGFiZWxdPVwib3B0aW9uLmxhYmVsXCJcbiAgICAgICAgICBbY2hlY2tlZF09XCJvcHRpb24udmFsdWUgPT09IGZvcm0udmFsdWVbY29udHJvbC5rZXldIHx8IChmb3JtLnZhbHVlW2NvbnRyb2wua2V5XSAmJiBvcHRpb24udmFsdWUgPT09IGZvcm0udmFsdWVbY29udHJvbC5rZXldLmlkKVwiXG4gICAgICAgICAgW3Rvb2x0aXBdPVwiY29udHJvbC50b29sdGlwXCJcbiAgICAgICAgICBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2wudG9vbHRpcFBvc2l0aW9uXCJcbiAgICAgICAgICBbdG9vbHRpcFNpemVdPVwiY29udHJvbD8udG9vbHRpcFNpemVcIlxuICAgICAgICAgIFt0b29sdGlwUHJlbGluZV09XCJjb250cm9sPy50b29sdGlwUHJlbGluZVwiXG4gICAgICAgICAgW3JlbW92ZVRvb2x0aXBBcnJvd109XCJjb250cm9sPy5yZW1vdmVUb29sdGlwQXJyb3dcIlxuICAgICAgICAgIFt0b29sdGlwQXV0b1Bvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBBdXRvUG9zaXRpb25cIlxuICAgICAgICAgIFtidXR0b25dPVwiISFvcHRpb24uaWNvblwiXG4gICAgICAgICAgW2ljb25dPVwib3B0aW9uLmljb25cIlxuICAgICAgICAgIFthdHRyLmRhdGEtYXV0b21hdGlvbi1pZF09XCJjb250cm9sLmtleSArICctJyArIChvcHRpb24/LmxhYmVsIHx8IG9wdGlvbj8udmFsdWUpXCJcbiAgICAgICAgPjwvbm92by1yYWRpbz5cbiAgICAgIDwvZGl2PlxuICAgIDwvbmctdGVtcGxhdGU+XG5cbiAgICA8IS0tVGltZS0tPlxuICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJ0aW1lXCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgPGRpdlxuICAgICAgICBbZm9ybUdyb3VwXT1cImZvcm1cIlxuICAgICAgICBjbGFzcz1cIm5vdm8tY29udHJvbC1pbnB1dC1jb250YWluZXJcIlxuICAgICAgICBbdG9vbHRpcF09XCJjb250cm9sPy50b29sdGlwXCJcbiAgICAgICAgW3Rvb2x0aXBQb3NpdGlvbl09XCJjb250cm9sPy50b29sdGlwUG9zaXRpb25cIlxuICAgICAgICBbdG9vbHRpcFNpemVdPVwiY29udHJvbD8udG9vbHRpcFNpemVcIlxuICAgICAgICBbdG9vbHRpcFByZWxpbmVdPVwiY29udHJvbD8udG9vbHRpcFByZWxpbmVcIlxuICAgICAgICBbcmVtb3ZlVG9vbHRpcEFycm93XT1cImNvbnRyb2w/LnJlbW92ZVRvb2x0aXBBcnJvd1wiXG4gICAgICAgIFt0b29sdGlwQXV0b1Bvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBBdXRvUG9zaXRpb25cIlxuICAgICAgPlxuICAgICAgICA8bm92by10aW1lLXBpY2tlci1pbnB1dFxuICAgICAgICAgIFthdHRyLmlkXT1cImNvbnRyb2wua2V5XCJcbiAgICAgICAgICBbbmFtZV09XCJjb250cm9sLmtleVwiXG4gICAgICAgICAgW2Zvcm1Db250cm9sTmFtZV09XCJjb250cm9sLmtleVwiXG4gICAgICAgICAgW3BsYWNlaG9sZGVyXT1cImNvbnRyb2wucGxhY2Vob2xkZXJcIlxuICAgICAgICAgIFttaWxpdGFyeV09XCJjb250cm9sLm1pbGl0YXJ5XCJcbiAgICAgICAgPjwvbm92by10aW1lLXBpY2tlci1pbnB1dD5cbiAgICAgIDwvZGl2PlxuICAgIDwvbmctdGVtcGxhdGU+XG5cbiAgICA8IS0tRGF0ZS0tPlxuICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJkYXRlXCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgPGRpdlxuICAgICAgICBbZm9ybUdyb3VwXT1cImZvcm1cIlxuICAgICAgICBjbGFzcz1cIm5vdm8tY29udHJvbC1pbnB1dC1jb250YWluZXJcIlxuICAgICAgICBbdG9vbHRpcF09XCJjb250cm9sLnRvb2x0aXBcIlxuICAgICAgICBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2wudG9vbHRpcFBvc2l0aW9uXCJcbiAgICAgICAgW3Rvb2x0aXBTaXplXT1cImNvbnRyb2w/LnRvb2x0aXBTaXplXCJcbiAgICAgICAgW3Rvb2x0aXBQcmVsaW5lXT1cImNvbnRyb2w/LnRvb2x0aXBQcmVsaW5lXCJcbiAgICAgICAgW3JlbW92ZVRvb2x0aXBBcnJvd109XCJjb250cm9sPy5yZW1vdmVUb29sdGlwQXJyb3dcIlxuICAgICAgICBbdG9vbHRpcEF1dG9Qb3NpdGlvbl09XCJjb250cm9sPy50b29sdGlwQXV0b1Bvc2l0aW9uXCJcbiAgICAgID5cbiAgICAgICAgPG5vdm8tZGF0ZS1waWNrZXItaW5wdXRcbiAgICAgICAgICBbYXR0ci5pZF09XCJjb250cm9sLmtleVwiXG4gICAgICAgICAgW25hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFtzdGFydF09XCJjb250cm9sLnN0YXJ0RGF0ZVwiXG4gICAgICAgICAgW2VuZF09XCJjb250cm9sLmVuZERhdGVcIlxuICAgICAgICAgIFtmb3JtYXRdPVwiY29udHJvbC5kYXRlRm9ybWF0XCJcbiAgICAgICAgICBbYWxsb3dJbnZhbGlkRGF0ZV09XCJjb250cm9sLmFsbG93SW52YWxpZERhdGVcIlxuICAgICAgICAgIFt0ZXh0TWFza0VuYWJsZWRdPVwiY29udHJvbC50ZXh0TWFza0VuYWJsZWRcIlxuICAgICAgICAgIFtwbGFjZWhvbGRlcl09XCJjb250cm9sLnBsYWNlaG9sZGVyXCJcbiAgICAgICAgICAoZm9jdXNFdmVudCk9XCJtZXRob2RzLmhhbmRsZUZvY3VzKCRldmVudClcIlxuICAgICAgICAgIChibHVyRXZlbnQpPVwibWV0aG9kcy5oYW5kbGVCbHVyKCRldmVudClcIlxuICAgICAgICA+PC9ub3ZvLWRhdGUtcGlja2VyLWlucHV0PlxuICAgICAgPC9kaXY+XG4gICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgIDwhLS1EYXRlIGFuZCBUaW1lLS0+XG4gICAgPG5nLXRlbXBsYXRlIG5vdm9UZW1wbGF0ZT1cImRhdGUtdGltZVwiIGxldC1jb250cm9sIGxldC1mb3JtPVwiZm9ybVwiIGxldC1lcnJvcnM9XCJlcnJvcnNcIiBsZXQtbWV0aG9kcz1cIm1ldGhvZHNcIj5cbiAgICAgIDxkaXZcbiAgICAgICAgW2Zvcm1Hcm91cF09XCJmb3JtXCJcbiAgICAgICAgY2xhc3M9XCJub3ZvLWNvbnRyb2wtaW5wdXQtY29udGFpbmVyXCJcbiAgICAgICAgW3Rvb2x0aXBdPVwiY29udHJvbC50b29sdGlwXCJcbiAgICAgICAgW3Rvb2x0aXBQb3NpdGlvbl09XCJjb250cm9sLnRvb2x0aXBQb3NpdGlvblwiXG4gICAgICAgIFt0b29sdGlwU2l6ZV09XCJjb250cm9sPy50b29sdGlwU2l6ZVwiXG4gICAgICAgIFt0b29sdGlwUHJlbGluZV09XCJjb250cm9sPy50b29sdGlwUHJlbGluZVwiXG4gICAgICAgIFtyZW1vdmVUb29sdGlwQXJyb3ddPVwiY29udHJvbD8ucmVtb3ZlVG9vbHRpcEFycm93XCJcbiAgICAgICAgW3Rvb2x0aXBBdXRvUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcEF1dG9Qb3NpdGlvblwiXG4gICAgICA+XG4gICAgICAgIDxub3ZvLWRhdGUtdGltZS1waWNrZXItaW5wdXRcbiAgICAgICAgICBbYXR0ci5pZF09XCJjb250cm9sLmtleVwiXG4gICAgICAgICAgW25hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFtzdGFydF09XCJjb250cm9sLnN0YXJ0RGF0ZVwiXG4gICAgICAgICAgW2VuZF09XCJjb250cm9sLmVuZERhdGVcIlxuICAgICAgICAgIFtwbGFjZWhvbGRlcl09XCJjb250cm9sLnBsYWNlaG9sZGVyXCJcbiAgICAgICAgICBbbWlsaXRhcnldPVwiY29udHJvbC5taWxpdGFyeVwiXG4gICAgICAgICAgKGZvY3VzRXZlbnQpPVwibWV0aG9kcy5oYW5kbGVGb2N1cygkZXZlbnQpXCJcbiAgICAgICAgICAoYmx1ckV2ZW50KT1cIm1ldGhvZHMuaGFuZGxlQmx1cigkZXZlbnQpXCJcbiAgICAgICAgPjwvbm92by1kYXRlLXRpbWUtcGlja2VyLWlucHV0PlxuICAgICAgPC9kaXY+XG4gICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgIDwhLS1BZGRyZXNzLS0+XG4gICAgPG5nLXRlbXBsYXRlIG5vdm9UZW1wbGF0ZT1cImFkZHJlc3NcIiBsZXQtY29udHJvbCBsZXQtZm9ybT1cImZvcm1cIiBsZXQtZXJyb3JzPVwiZXJyb3JzXCIgbGV0LW1ldGhvZHM9XCJtZXRob2RzXCI+XG4gICAgICA8ZGl2IFtmb3JtR3JvdXBdPVwiZm9ybVwiPlxuICAgICAgICA8bm92by1hZGRyZXNzXG4gICAgICAgICAgW2Zvcm1Db250cm9sTmFtZV09XCJjb250cm9sLmtleVwiXG4gICAgICAgICAgW2NvbmZpZ109XCJjb250cm9sPy5jb25maWdcIlxuICAgICAgICAgIFtyZWFkT25seV09XCJjb250cm9sPy5yZWFkT25seVwiXG4gICAgICAgICAgKGNoYW5nZSk9XCJtZXRob2RzLmhhbmRsZUFkZHJlc3NDaGFuZ2UoJGV2ZW50KVwiXG4gICAgICAgICAgKGZvY3VzKT1cIm1ldGhvZHMuaGFuZGxlRm9jdXMoJGV2ZW50LmV2ZW50LCAkZXZlbnQuZmllbGQpXCJcbiAgICAgICAgICAoYmx1cik9XCJtZXRob2RzLmhhbmRsZUJsdXIoJGV2ZW50LmV2ZW50LCAkZXZlbnQuZmllbGQpXCJcbiAgICAgICAgICAodmFsaWRpdHlDaGFuZ2UpPVwibWV0aG9kcy51cGRhdGVWYWxpZGl0eSgpXCJcbiAgICAgICAgPjwvbm92by1hZGRyZXNzPlxuICAgICAgPC9kaXY+XG4gICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgIDwhLS1DaGVja2JveC0tPlxuICAgIDxuZy10ZW1wbGF0ZSBub3ZvVGVtcGxhdGU9XCJjaGVja2JveFwiIGxldC1jb250cm9sIGxldC1mb3JtPVwiZm9ybVwiIGxldC1lcnJvcnM9XCJlcnJvcnNcIiBsZXQtbWV0aG9kcz1cIm1ldGhvZHNcIj5cbiAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCI+XG4gICAgICAgIDxub3ZvLWNoZWNrYm94XG4gICAgICAgICAgW2Zvcm1Db250cm9sTmFtZV09XCJjb250cm9sPy5rZXlcIlxuICAgICAgICAgIFtuYW1lXT1cImNvbnRyb2w/LmtleVwiXG4gICAgICAgICAgW2xhYmVsXT1cImNvbnRyb2w/LmNoZWNrYm94TGFiZWxcIlxuICAgICAgICAgIFt0b29sdGlwXT1cImNvbnRyb2w/LnRvb2x0aXBcIlxuICAgICAgICAgIFt0b29sdGlwUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcFBvc2l0aW9uXCJcbiAgICAgICAgICBbdG9vbHRpcFNpemVdPVwiY29udHJvbD8udG9vbHRpcFNpemVcIlxuICAgICAgICAgIFt0b29sdGlwUHJlbGluZV09XCJjb250cm9sPy50b29sdGlwUHJlbGluZVwiXG4gICAgICAgICAgW3JlbW92ZVRvb2x0aXBBcnJvd109XCJjb250cm9sPy5yZW1vdmVUb29sdGlwQXJyb3dcIlxuICAgICAgICAgIFt0b29sdGlwQXV0b1Bvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBBdXRvUG9zaXRpb25cIlxuICAgICAgICAgIFtsYXlvdXRPcHRpb25zXT1cImNvbnRyb2w/LmxheW91dE9wdGlvbnNcIlxuICAgICAgICA+PC9ub3ZvLWNoZWNrYm94PlxuICAgICAgPC9kaXY+XG4gICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgIDwhLS1DaGVja2xpc3QtLT5cbiAgICA8bmctdGVtcGxhdGUgbm92b1RlbXBsYXRlPVwiY2hlY2tsaXN0XCIgbGV0LWNvbnRyb2wgbGV0LWZvcm09XCJmb3JtXCIgbGV0LWVycm9ycz1cImVycm9yc1wiIGxldC1tZXRob2RzPVwibWV0aG9kc1wiPlxuICAgICAgPGRpdiBbZm9ybUdyb3VwXT1cImZvcm1cIj5cbiAgICAgICAgPG5vdm8tY2hlY2stbGlzdFxuICAgICAgICAgIFtmb3JtQ29udHJvbE5hbWVdPVwiY29udHJvbC5rZXlcIlxuICAgICAgICAgIFtuYW1lXT1cImNvbnRyb2wua2V5XCJcbiAgICAgICAgICBbb3B0aW9uc109XCJjb250cm9sPy5vcHRpb25zXCJcbiAgICAgICAgICBbdG9vbHRpcF09XCJjb250cm9sPy50b29sdGlwXCJcbiAgICAgICAgICBbdG9vbHRpcFBvc2l0aW9uXT1cImNvbnRyb2w/LnRvb2x0aXBQb3NpdGlvblwiXG4gICAgICAgICAgW3Rvb2x0aXBTaXplXT1cImNvbnRyb2w/LnRvb2x0aXBTaXplXCJcbiAgICAgICAgICBbdG9vbHRpcFByZWxpbmVdPVwiY29udHJvbD8udG9vbHRpcFByZWxpbmVcIlxuICAgICAgICAgIFtyZW1vdmVUb29sdGlwQXJyb3ddPVwiY29udHJvbD8ucmVtb3ZlVG9vbHRpcEFycm93XCJcbiAgICAgICAgICBbdG9vbHRpcEF1dG9Qb3NpdGlvbl09XCJjb250cm9sPy50b29sdGlwQXV0b1Bvc2l0aW9uXCJcbiAgICAgICAgICAob25TZWxlY3QpPVwibWV0aG9kcy5tb2RlbENoYW5nZSgkZXZlbnQpXCJcbiAgICAgICAgPjwvbm92by1jaGVjay1saXN0PlxuICAgICAgPC9kaXY+XG4gICAgPC9uZy10ZW1wbGF0ZT5cblxuICAgIDwhLS1RdWlja05vdGUtLT5cbiAgICA8bmctdGVtcGxhdGUgbm92b1RlbXBsYXRlPVwicXVpY2stbm90ZVwiIGxldC1jb250cm9sIGxldC1mb3JtPVwiZm9ybVwiIGxldC1lcnJvcnM9XCJlcnJvcnNcIiBsZXQtbWV0aG9kcz1cIm1ldGhvZHNcIj5cbiAgICAgIDxkaXYgW2Zvcm1Hcm91cF09XCJmb3JtXCI+XG4gICAgICAgIDxub3ZvLXF1aWNrLW5vdGVcbiAgICAgICAgICBbZm9ybUNvbnRyb2xOYW1lXT1cImNvbnRyb2wua2V5XCJcbiAgICAgICAgICBbc3RhcnR1cEZvY3VzXT1cImNvbnRyb2w/LnN0YXJ0dXBGb2N1c1wiXG4gICAgICAgICAgW3BsYWNlaG9sZGVyXT1cImNvbnRyb2w/LnBsYWNlaG9sZGVyXCJcbiAgICAgICAgICBbY29uZmlnXT1cImNvbnRyb2w/LmNvbmZpZ1wiXG4gICAgICAgICAgKGNoYW5nZSk9XCJtZXRob2RzLm1vZGVsQ2hhbmdlKCRldmVudClcIlxuICAgICAgICAgIFt0b29sdGlwXT1cImNvbnRyb2w/LnRvb2x0aXBcIlxuICAgICAgICAgIFt0b29sdGlwUG9zaXRpb25dPVwiY29udHJvbD8udG9vbHRpcFBvc2l0aW9uXCJcbiAgICAgICAgICBbdG9vbHRpcFNpemVdPVwiY29udHJvbD8udG9vbHRpcFNpemVcIlxuICAgICAgICAgIFtyZW1vdmVUb29sdGlwQXJyb3ddPVwiY29udHJvbD8ucmVtb3ZlVG9vbHRpcEFycm93XCJcbiAgICAgICAgICBbdG9vbHRpcEF1dG9Qb3NpdGlvbl09XCJjb250cm9sPy50b29sdGlwQXV0b1Bvc2l0aW9uXCJcbiAgICAgICAgICBbdG9vbHRpcFByZWxpbmVdPVwiY29udHJvbD8udG9vbHRpcFByZWxpbmVcIlxuICAgICAgICA+PC9ub3ZvLXF1aWNrLW5vdGU+XG4gICAgICA8L2Rpdj5cbiAgICA8L25nLXRlbXBsYXRlPlxuICBgLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvQ29udHJvbFRlbXBsYXRlcyBpbXBsZW1lbnRzIEFmdGVyVmlld0luaXQge1xuICBAVmlld0NoaWxkcmVuKE5vdm9UZW1wbGF0ZSlcbiAgZGVmYXVsdFRlbXBsYXRlczogUXVlcnlMaXN0PE5vdm9UZW1wbGF0ZT47XG4gIGNvbnN0cnVjdG9yKHByaXZhdGUgdGVtcGxhdGVzOiBOb3ZvVGVtcGxhdGVTZXJ2aWNlKSB7fVxuXG4gIG5nQWZ0ZXJWaWV3SW5pdCgpOiB2b2lkIHtcbiAgICBpZiAodGhpcy5kZWZhdWx0VGVtcGxhdGVzICYmIHRoaXMuZGVmYXVsdFRlbXBsYXRlcy5sZW5ndGgpIHtcbiAgICAgIHRoaXMuZGVmYXVsdFRlbXBsYXRlcy5mb3JFYWNoKCh0ZW1wbGF0ZTogYW55KSA9PiB7XG4gICAgICAgIHRoaXMudGVtcGxhdGVzLmFkZERlZmF1bHQodGVtcGxhdGUubmFtZSwgdGVtcGxhdGUudGVtcGxhdGUpO1xuICAgICAgfSk7XG4gICAgfVxuICB9XG59XG4iXX0=

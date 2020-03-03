@@ -17633,7 +17633,6 @@ class NovoFieldsetElement {
         this.controls = [];
         this.isEmbedded = false;
         this.isInlineEmbedded = false;
-        this.hidden = false;
     }
 }
 NovoFieldsetElement.decorators = [
@@ -17641,7 +17640,7 @@ NovoFieldsetElement.decorators = [
                 selector: 'novo-fieldset',
                 template: `
         <div class="novo-fieldset-container">
-            <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title" [class.embedded]="isEmbedded" [class.inline-embedded]="isInlineEmbedded" [class.hidden]="hidden"></novo-fieldset-header>
+            <novo-fieldset-header [icon]="icon" [title]="title" *ngIf="title" [class.embedded]="isEmbedded" [class.inline-embedded]="isInlineEmbedded"></novo-fieldset-header>
             <ng-container *ngFor="let control of controls;let controlIndex = index;">
                 <div class="novo-form-row" [class.disabled]="control.disabled" *ngIf="control.__type !== 'GroupedControl'">
                     <novo-control [autoFocus]="autoFocus && index === 0 && controlIndex === 0" [control]="control" [form]="form"></novo-control>
@@ -17660,8 +17659,7 @@ NovoFieldsetElement.propDecorators = {
     index: [{ type: Input }],
     autoFocus: [{ type: Input }],
     isEmbedded: [{ type: Input }],
-    isInlineEmbedded: [{ type: Input }],
-    hidden: [{ type: Input }]
+    isInlineEmbedded: [{ type: Input }]
 };
 if (false) {
     /** @type {?} */
@@ -17680,8 +17678,6 @@ if (false) {
     NovoFieldsetElement.prototype.isEmbedded;
     /** @type {?} */
     NovoFieldsetElement.prototype.isInlineEmbedded;
-    /** @type {?} */
-    NovoFieldsetElement.prototype.hidden;
 }
 class NovoDynamicFormElement {
     /**
@@ -17918,7 +17914,7 @@ NovoDynamicFormElement.decorators = [
             </header>
             <form class="novo-form" [formGroup]="form">
                 <ng-container *ngFor="let fieldset of form.fieldsets;let i = index">
-                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form" [isEmbedded]="fieldset.isEmbedded" [isInlineEmbedded]="fieldset.isInlineEmbedded" [hidden]="fieldset.hidden"></novo-fieldset>
+                    <novo-fieldset *ngIf="fieldset.controls.length" [index]="i" [autoFocus]="autoFocusFirstField" [icon]="fieldset.icon" [controls]="fieldset.controls" [title]="fieldset.title" [form]="form" [isEmbedded]="fieldset.isEmbedded" [isInlineEmbedded]="fieldset.isInlineEmbedded"></novo-fieldset>
                 </ng-container>
             </form>
         </div>
@@ -20144,9 +20140,6 @@ class FormUtils {
                 else if (this.shouldCreateControl(field)) {
                     /** @type {?} */
                     let control = this.createControl(field, data, http, config, overrides, currencyFormat);
-                    if (field.inlineEmbeddedAssociatedEntityField) {
-                        control = this.markControlAsEmbedded(control, 'inline_embedded');
-                    }
                     if (fieldsets.length === 0) {
                         fieldsets.push({ controls: [] });
                     }
@@ -20171,7 +20164,7 @@ class FormUtils {
      * @return {?}
      */
     isEmbeddedField(field) {
-        return field.dataSpecialization && ['embedded'].includes(field.dataSpecialization.toLowerCase()) && !field.readOnly;
+        return field.dataSpecialization && ['embedded', 'inline_embedded'].includes(field.dataSpecialization.toLowerCase()) && !field.readOnly;
     }
     /**
      * @private
@@ -20250,59 +20243,7 @@ class FormUtils {
             }
             return field;
         }));
-        // build list of fields that should be displayed inline but belong to associated entities
-        /** @type {?} */
-        const inlineEmbeddedAssociatedEntityFields = this.getInlineEmbeddedFields(fields);
-        // remove the inline embedded fields because the associated entity fields were extracted above
-        // and will be added to the regular list of fields. This prevents the fields from being added multiple times.
-        fields = fields.filter((/**
-         * @param {?} f
-         * @return {?}
-         */
-        (f) => !f.dataSpecialization || f.dataSpecialization.toLowerCase() !== 'inline_embedded'));
-        // sort fields
-        return [...sectionHeaders, ...fields, ...inlineEmbeddedAssociatedEntityFields].sort(Helpers.sortByField(['sortOrder', 'name']));
-    }
-    /**
-     * @private
-     * @param {?} fields
-     * @return {?}
-     */
-    getInlineEmbeddedFields(fields) {
-        /** @type {?} */
-        let inlineEmbeddedAssociatedEntityFields = [];
-        fields
-            .filter((/**
-         * @param {?} f
-         * @return {?}
-         */
-        (f) => f.dataSpecialization && f.dataSpecialization.toLowerCase() === 'inline_embedded'))
-            .forEach((/**
-         * @param {?} f
-         * @return {?}
-         */
-        (f) => {
-            inlineEmbeddedAssociatedEntityFields = [...inlineEmbeddedAssociatedEntityFields, ...this.getAssociatedFieldsForInlineEmbedded(f)];
-        }));
-        return inlineEmbeddedAssociatedEntityFields;
-    }
-    /**
-     * @private
-     * @param {?} field
-     * @return {?}
-     */
-    getAssociatedFieldsForInlineEmbedded(field) {
-        /** @type {?} */
-        let associatedEntityFields = [];
-        associatedEntityFields = this.getEmbeddedFields(field).map((/**
-         * @param {?} aef
-         * @return {?}
-         */
-        (aef) => {
-            aef.inlineEmbeddedAssociatedEntityField = true;
-            return aef;
-        }));
-        return associatedEntityFields;
+        return [...sectionHeaders, ...fields].sort(Helpers.sortByField(['sortOrder', 'name']));
     }
     /**
      * @private
@@ -20321,9 +20262,7 @@ class FormUtils {
          * @return {?}
          */
         (field) => {
-            if (!field.name.startsWith(`${subHeader.name}.`)) {
-                field.name = `${subHeader.name}.${field.name}`;
-            }
+            field.name = `${subHeader.name}.${field.name}`;
             return field;
         }))
             .sort(Helpers.sortByField(['sortOrder', 'name']));
@@ -20349,7 +20288,6 @@ class FormUtils {
             controls: [],
             isEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'embedded',
             isInlineEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'inline_embedded',
-            key: field.name,
         });
     }
     /**
@@ -21283,27 +21221,6 @@ class FieldInteractionApi {
      * @param {?} key
      * @return {?}
      */
-    getFieldSet(key) {
-        if (!key) {
-            console.error('[FieldInteractionAPI] - invalid or missing "key"'); // tslint:disable-line
-            return null;
-        }
-        /** @type {?} */
-        const fieldSet = this.form.fieldsets.find((/**
-         * @param {?} fs
-         * @return {?}
-         */
-        (fs) => fs.key && fs.key.toLowerCase() === key.toLowerCase()));
-        if (!fieldSet) {
-            console.error('[FieldInteractionAPI] - could not find a fieldset in the form by the key --', key); // tslint:disable-line
-            return null;
-        }
-        return (/** @type {?} */ (fieldSet));
-    }
-    /**
-     * @param {?} key
-     * @return {?}
-     */
     getControl(key) {
         if (!key) {
             console.error('[FieldInteractionAPI] - invalid or missing "key"'); // tslint:disable-line
@@ -21432,28 +21349,6 @@ class FieldInteractionApi {
             control.show();
             this.enable(key, { emitEvent: false });
             this.triggerEvent({ controlKey: key, prop: 'hidden', value: false });
-        }
-    }
-    /**
-     * @param {?} key
-     * @return {?}
-     */
-    hideFieldSetHeader(key) {
-        /** @type {?} */
-        const fieldSet = this.getFieldSet(key);
-        if (fieldSet) {
-            fieldSet.hidden = true;
-        }
-    }
-    /**
-     * @param {?} key
-     * @return {?}
-     */
-    showFieldSetHeader(key) {
-        /** @type {?} */
-        const fieldSet = this.getFieldSet(key);
-        if (fieldSet) {
-            fieldSet.hidden = false;
         }
     }
     /**
@@ -42954,140 +42849,447 @@ NovoControlTemplates.decorators = [
     { type: Component, args: [{
                 selector: 'novo-control-templates',
                 template: `
-        <!---Readonly--->
-        <ng-template novoTemplate="read-only" let-form="form" let-control>
-          <div>{{ form.value[control.key] }}</div>
-        </ng-template>
-        <!--Textbox--->
-        <ng-template novoTemplate="textbox" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form" class="novo-control-input-container novo-control-input-with-label" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-            <input *ngIf="control?.type !== 'number' && control?.textMaskEnabled" [textMask]="control.maskOptions" [formControlName]="control.key" [id]="control.key" [type]="control?.type" [placeholder]="control?.placeholder" (input)="methods.emitChange($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" autocomplete>
-            <input *ngIf="control?.type !== 'number' && !control?.textMaskEnabled" [class.maxlength-error]="errors?.maxlength" [formControlName]="control.key" [id]="control.key" [type]="control?.type" [placeholder]="control?.placeholder" (input)="methods.emitChange($event)" [maxlength]="control?.maxlength" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" autocomplete>
-            <input *ngIf="control?.type === 'number' && control?.subType !== 'percentage'" [class.maxlength-error]="errors?.maxlength" [formControlName]="control.key" [id]="control.key" [type]="control?.type" [placeholder]="control?.placeholder" (keydown)="methods.restrictKeys($event)" (input)="methods.emitChange($event)" [maxlength]="control?.maxlength" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" step="any" (mousewheel)="numberInput.blur()" #numberInput>
-            <input *ngIf="control?.type === 'number' && control?.subType === 'percentage'" [type]="control?.type" [placeholder]="control?.placeholder" (keydown)="methods.restrictKeys($event)" [value]="control?.percentValue" (input)="methods.handlePercentChange($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" step="any" (mousewheel)="percentInput.blur()" #percentInput>
-            <label class="input-label" *ngIf="control?.subType === 'currency'">{{ control.currencyFormat }}</label>
-            <label class="input-label" *ngIf="control?.subType === 'percentage'">%</label>
-          </div>
-        </ng-template>
+    <!---Readonly--->
+    <ng-template novoTemplate="read-only" let-form="form" let-control>
+      <div>{{ form.value[control.key] }}</div>
+    </ng-template>
+    <!--Textbox--->
+    <ng-template novoTemplate="textbox" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div
+        [formGroup]="form"
+        class="novo-control-input-container novo-control-input-with-label"
+        [tooltip]="control?.tooltip"
+        [tooltipPosition]="control?.tooltipPosition"
+        [tooltipSize]="control?.tooltipSize"
+        [tooltipPreline]="control?.tooltipPreline"
+        [removeTooltipArrow]="control?.removeTooltipArrow"
+        [tooltipAutoPosition]="control?.tooltipAutoPosition"
+      >
+        <input
+          *ngIf="control?.type !== 'number' && control?.textMaskEnabled"
+          [textMask]="control.maskOptions"
+          [formControlName]="control.key"
+          [id]="control.key"
+          [type]="control?.type"
+          [placeholder]="control?.placeholder"
+          (input)="methods.emitChange($event)"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          autocomplete
+        />
+        <input
+          *ngIf="control?.type !== 'number' && !control?.textMaskEnabled"
+          [class.maxlength-error]="errors?.maxlength"
+          [formControlName]="control.key"
+          [id]="control.key"
+          [type]="control?.type"
+          [placeholder]="control?.placeholder"
+          (input)="methods.emitChange($event)"
+          [maxlength]="control?.maxlength"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          autocomplete
+        />
+        <input
+          *ngIf="control?.type === 'number' && control?.subType !== 'percentage'"
+          [class.maxlength-error]="errors?.maxlength"
+          [formControlName]="control.key"
+          [id]="control.key"
+          [type]="control?.type"
+          [placeholder]="control?.placeholder"
+          (keydown)="methods.restrictKeys($event)"
+          (input)="methods.emitChange($event)"
+          [maxlength]="control?.maxlength"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          step="any"
+          (mousewheel)="numberInput.blur()"
+          #numberInput
+        />
+        <input
+          *ngIf="control?.type === 'number' && control?.subType === 'percentage'"
+          [type]="control?.type"
+          [placeholder]="control?.placeholder"
+          (keydown)="methods.restrictKeys($event)"
+          [value]="control?.percentValue"
+          (input)="methods.handlePercentChange($event)"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          step="any"
+          (mousewheel)="percentInput.blur()"
+          #percentInput
+        />
+        <label class="input-label" *ngIf="control?.subType === 'currency'">{{ control.currencyFormat }}</label>
+        <label class="input-label" *ngIf="control?.subType === 'percentage'">%</label>
+      </div>
+    </ng-template>
 
-        <!--Textarea--->
-        <ng-template novoTemplate="text-area" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div class="textarea-container" [formGroup]="form" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-            <textarea [class.maxlength-error]="errors?.maxlength" [name]="control.key" [attr.id]="control.key" [placeholder]="control.placeholder" [formControlName]="control.key" autosize (input)="methods.handleTextAreaInput($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [maxlength]="control?.maxlength"></textarea>
-          </div>
-        </ng-template>
+    <!--Textarea--->
+    <ng-template novoTemplate="text-area" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div
+        class="textarea-container"
+        [formGroup]="form"
+        [tooltip]="control?.tooltip"
+        [tooltipPosition]="control?.tooltipPosition"
+        [tooltipSize]="control?.tooltipSize"
+        [tooltipPreline]="control?.tooltipPreline"
+        [removeTooltipArrow]="control?.removeTooltipArrow"
+        [tooltipAutoPosition]="control?.tooltipAutoPosition"
+      >
+        <textarea
+          [class.maxlength-error]="errors?.maxlength"
+          [name]="control.key"
+          [attr.id]="control.key"
+          [placeholder]="control.placeholder"
+          [formControlName]="control.key"
+          autosize
+          (input)="methods.handleTextAreaInput($event)"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          [maxlength]="control?.maxlength"
+        ></textarea>
+      </div>
+    </ng-template>
 
-        <!--Editor-->
-        <ng-template novoTemplate="editor" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-editor [name]="control.key" [formControlName]="control.key" [startupFocus]="control.startupFocus" [minimal]="control.minimal" [fileBrowserImageUploadUrl]="control.fileBrowserImageUploadUrl" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [config]="control.config"></novo-editor>
-          </div>
-        </ng-template>
+    <!--Editor-->
+    <ng-template novoTemplate="editor" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-editor
+          [name]="control.key"
+          [formControlName]="control.key"
+          [startupFocus]="control.startupFocus"
+          [minimal]="control.minimal"
+          [fileBrowserImageUploadUrl]="control.fileBrowserImageUploadUrl"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          [config]="control.config"
+        ></novo-editor>
+      </div>
+    </ng-template>
 
-        <!--AceEditor-->
-        <ng-template novoTemplate="ace-editor" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-ace-editor [name]="control.key" [formControlName]="control.key" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)"></novo-ace-editor>
-          </div>
-        </ng-template>
+    <!--AceEditor-->
+    <ng-template novoTemplate="ace-editor" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-ace-editor
+          [name]="control.key"
+          [formControlName]="control.key"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+        ></novo-ace-editor>
+      </div>
+    </ng-template>
 
-        <!--HTML5 Select-->
-        <ng-template novoTemplate="native-select" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <select [id]="control.key" [formControlName]="control.key" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-                <option *ngIf="control.placeholder" value="" disabled selected hidden>{{ control.placeholder }}</option>
-                <option *ngFor="let opt of control.options" [value]="opt.key">{{opt.value}}</option>
-            </select>
-          </div>
-        </ng-template>
+    <!--HTML5 Select-->
+    <ng-template novoTemplate="native-select" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <select
+          [id]="control.key"
+          [formControlName]="control.key"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+        >
+          <option *ngIf="control.placeholder" value="" disabled selected hidden>{{ control.placeholder }}</option>
+          <option *ngFor="let opt of control.options" [value]="opt.key">{{ opt.value }}</option>
+        </select>
+      </div>
+    </ng-template>
 
-        <!--File-->
-        <ng-template novoTemplate="file" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-file-input [formControlName]="control.key" [id]="control.key" [name]="control.key" [placeholder]="control.placeholder" [value]="control.value" [multiple]="control.multiple" [layoutOptions]="control.layoutOptions" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" (edit)="methods.handleEdit($event)" (save)="methods.handleSave($event)" (delete)="methods.handleDelete($event)" (upload)="methods.handleUpload($event)"></novo-file-input>
-          </div>
-        </ng-template>
+    <!--File-->
+    <ng-template novoTemplate="file" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-file-input
+          [formControlName]="control.key"
+          [id]="control.key"
+          [name]="control.key"
+          [placeholder]="control.placeholder"
+          [value]="control.value"
+          [multiple]="control.multiple"
+          [layoutOptions]="control.layoutOptions"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          (edit)="methods.handleEdit($event)"
+          (save)="methods.handleSave($event)"
+          (delete)="methods.handleDelete($event)"
+          (upload)="methods.handleUpload($event)"
+        ></novo-file-input>
+      </div>
+    </ng-template>
 
-        <!--Tiles-->
-        <ng-template novoTemplate="tiles" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-tiles [options]="control.options" [formControlName]="control.key" (onChange)="methods.modelChange($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition"  [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" [controlDisabled]="control.disabled"></novo-tiles>
-          </div>
-        </ng-template>
+    <!--Tiles-->
+    <ng-template novoTemplate="tiles" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-tiles
+          [options]="control.options"
+          [formControlName]="control.key"
+          (onChange)="methods.modelChange($event)"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          [controlDisabled]="control.disabled"
+        ></novo-tiles>
+      </div>
+    </ng-template>
 
-        <!--Picker-->
-        <ng-template novoTemplate="picker" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form" class="novo-control-input-container">
-            <novo-picker [config]="control.config" [formControlName]="control.key" [placeholder]="control.placeholder" [parentScrollSelector]="control.parentScrollSelector" *ngIf="!control.multiple" (select)="methods.modelChange($event);" (changed)="methods.modelChangeWithRaw($event)" (typing)="methods.handleTyping($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition"></novo-picker>
-            <novo-chips [source]="control.config" [type]="control.config.type" [formControlName]="control.key" [placeholder]="control.placeholder" [maxlength]="control?.maxlength" *ngIf="control.multiple && !control.config.columns" [closeOnSelect]="control.closeOnSelect" (changed)="methods.modelChangeWithRaw($event)" (typing)="methods.handleTyping($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition"></novo-chips>
-            <novo-row-chips [source]="control.config" [type]="control.config.type" [formControlName]="control.key" [placeholder]="control.placeholder" *ngIf="control.multiple && control.config.columns" [closeOnSelect]="control.closeOnSelect" (changed)="methods.modelChangeWithRaw($event)" (typing)="methods.handleTyping($event)" (focus)="methods.handleFocus($event)" (blur)="methods.handleBlur($event)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition"></novo-row-chips>
-          </div>
-        </ng-template>
+    <!--Picker-->
+    <ng-template novoTemplate="picker" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form" class="novo-control-input-container">
+        <novo-picker
+          [config]="control.config"
+          [formControlName]="control.key"
+          [placeholder]="control.placeholder"
+          [parentScrollSelector]="control.parentScrollSelector"
+          *ngIf="!control.multiple"
+          (select)="methods.modelChange($event)"
+          (changed)="methods.modelChangeWithRaw($event)"
+          (typing)="methods.handleTyping($event)"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+        ></novo-picker>
+        <novo-chips
+          [source]="control.config"
+          [type]="control.config.type"
+          [formControlName]="control.key"
+          [placeholder]="control.placeholder"
+          [maxlength]="control?.maxlength"
+          *ngIf="control.multiple && !control.config.columns"
+          [closeOnSelect]="control.closeOnSelect"
+          (changed)="methods.modelChangeWithRaw($event)"
+          (typing)="methods.handleTyping($event)"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+        ></novo-chips>
+        <novo-row-chips
+          [source]="control.config"
+          [type]="control.config.type"
+          [formControlName]="control.key"
+          [placeholder]="control.placeholder"
+          *ngIf="control.multiple && control.config.columns"
+          [closeOnSelect]="control.closeOnSelect"
+          (changed)="methods.modelChangeWithRaw($event)"
+          (typing)="methods.handleTyping($event)"
+          (focus)="methods.handleFocus($event)"
+          (blur)="methods.handleBlur($event)"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+        ></novo-row-chips>
+      </div>
+    </ng-template>
 
-        <!--Novo Select-->
-        <ng-template novoTemplate="select" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-select [options]="control.options" [headerConfig]="control.headerConfig" [placeholder]="control.placeholder" [formControlName]="control.key" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" (onSelect)="methods.modelChange($event)"></novo-select>
-          </div>
-        </ng-template>
+    <!--Novo Select-->
+    <ng-template novoTemplate="select" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-select
+          [options]="control.options"
+          [headerConfig]="control.headerConfig"
+          [placeholder]="control.placeholder"
+          [formControlName]="control.key"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          (onSelect)="methods.modelChange($event)"
+        ></novo-select>
+      </div>
+    </ng-template>
 
-        <!--Radio-->
-        <ng-template novoTemplate="radio" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form" class="novo-control-input-container">
-            <novo-radio [name]="control.key" [formControlName]="control.key" *ngFor="let option of control.options" [value]="option.value" [label]="option.label" [checked]="option.value === form.value[control.key] || (form.value[control.key] && option.value === form.value[control.key].id)" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" [button]="!!option.icon" [icon]="option.icon" [attr.data-automation-id]="control.key + '-' + (option?.label || option?.value)"></novo-radio>
-          </div>
-        </ng-template>
+    <!--Radio-->
+    <ng-template novoTemplate="radio" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form" class="novo-control-input-container">
+        <novo-radio
+          [name]="control.key"
+          [formControlName]="control.key"
+          *ngFor="let option of control.options"
+          [value]="option.value"
+          [label]="option.label"
+          [checked]="option.value === form.value[control.key] || (form.value[control.key] && option.value === form.value[control.key].id)"
+          [tooltip]="control.tooltip"
+          [tooltipPosition]="control.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          [button]="!!option.icon"
+          [icon]="option.icon"
+          [attr.data-automation-id]="control.key + '-' + (option?.label || option?.value)"
+        ></novo-radio>
+      </div>
+    </ng-template>
 
-        <!--Time-->
-        <ng-template novoTemplate="time" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-            <novo-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [placeholder]="control.placeholder" [military]="control.military"></novo-time-picker-input>
-          </div>
-        </ng-template>
+    <!--Time-->
+    <ng-template novoTemplate="time" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div
+        [formGroup]="form"
+        class="novo-control-input-container"
+        [tooltip]="control?.tooltip"
+        [tooltipPosition]="control?.tooltipPosition"
+        [tooltipSize]="control?.tooltipSize"
+        [tooltipPreline]="control?.tooltipPreline"
+        [removeTooltipArrow]="control?.removeTooltipArrow"
+        [tooltipAutoPosition]="control?.tooltipAutoPosition"
+      >
+        <novo-time-picker-input
+          [attr.id]="control.key"
+          [name]="control.key"
+          [formControlName]="control.key"
+          [placeholder]="control.placeholder"
+          [military]="control.military"
+        ></novo-time-picker-input>
+      </div>
+    </ng-template>
 
-        <!--Date-->
-        <ng-template novoTemplate="date" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-            <novo-date-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [start]="control.startDate" [end]="control.endDate" [format]="control.dateFormat" [allowInvalidDate]="control.allowInvalidDate" [textMaskEnabled]="control.textMaskEnabled" [placeholder]="control.placeholder" (focusEvent)="methods.handleFocus($event)" (blurEvent)="methods.handleBlur($event)"></novo-date-picker-input>
-          </div>
-        </ng-template>
+    <!--Date-->
+    <ng-template novoTemplate="date" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div
+        [formGroup]="form"
+        class="novo-control-input-container"
+        [tooltip]="control.tooltip"
+        [tooltipPosition]="control.tooltipPosition"
+        [tooltipSize]="control?.tooltipSize"
+        [tooltipPreline]="control?.tooltipPreline"
+        [removeTooltipArrow]="control?.removeTooltipArrow"
+        [tooltipAutoPosition]="control?.tooltipAutoPosition"
+      >
+        <novo-date-picker-input
+          [attr.id]="control.key"
+          [name]="control.key"
+          [formControlName]="control.key"
+          [start]="control.startDate"
+          [end]="control.endDate"
+          [format]="control.dateFormat"
+          [allowInvalidDate]="control.allowInvalidDate"
+          [textMaskEnabled]="control.textMaskEnabled"
+          [placeholder]="control.placeholder"
+          (focusEvent)="methods.handleFocus($event)"
+          (blurEvent)="methods.handleBlur($event)"
+        ></novo-date-picker-input>
+      </div>
+    </ng-template>
 
+    <!--Date and Time-->
+    <ng-template novoTemplate="date-time" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div
+        [formGroup]="form"
+        class="novo-control-input-container"
+        [tooltip]="control.tooltip"
+        [tooltipPosition]="control.tooltipPosition"
+        [tooltipSize]="control?.tooltipSize"
+        [tooltipPreline]="control?.tooltipPreline"
+        [removeTooltipArrow]="control?.removeTooltipArrow"
+        [tooltipAutoPosition]="control?.tooltipAutoPosition"
+      >
+        <novo-date-time-picker-input
+          [attr.id]="control.key"
+          [name]="control.key"
+          [formControlName]="control.key"
+          [start]="control.startDate"
+          [end]="control.endDate"
+          [placeholder]="control.placeholder"
+          [military]="control.military"
+          (focusEvent)="methods.handleFocus($event)"
+          (blurEvent)="methods.handleBlur($event)"
+        ></novo-date-time-picker-input>
+      </div>
+    </ng-template>
 
-        <!--Date and Time-->
-        <ng-template novoTemplate="date-time" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-            <novo-date-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [start]="control.startDate" [end]="control.endDate" [placeholder]="control.placeholder" [military]="control.military" (focusEvent)="methods.handleFocus($event)" (blurEvent)="methods.handleBlur($event)"></novo-date-time-picker-input>
-          </div>
-        </ng-template>
+    <!--Address-->
+    <ng-template novoTemplate="address" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-address
+          [formControlName]="control.key"
+          [config]="control?.config"
+          [readOnly]="control?.readOnly"
+          (change)="methods.handleAddressChange($event)"
+          (focus)="methods.handleFocus($event.event, $event.field)"
+          (blur)="methods.handleBlur($event.event, $event.field)"
+          (validityChange)="methods.updateValidity()"
+        ></novo-address>
+      </div>
+    </ng-template>
 
-        <!--Address-->
-        <ng-template novoTemplate="address" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-address [formControlName]="control.key" [config]="control?.config" [readOnly]="control?.readOnly" (change)="methods.handleAddressChange($event)" (focus)="methods.handleFocus($event.event, $event.field)" (blur)="methods.handleBlur($event.event, $event.field)"  (validityChange)="methods.updateValidity()"></novo-address>
-          </div>
-        </ng-template>
+    <!--Checkbox-->
+    <ng-template novoTemplate="checkbox" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-checkbox
+          [formControlName]="control?.key"
+          [name]="control?.key"
+          [label]="control?.checkboxLabel"
+          [tooltip]="control?.tooltip"
+          [tooltipPosition]="control?.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          [layoutOptions]="control?.layoutOptions"
+        ></novo-checkbox>
+      </div>
+    </ng-template>
 
-        <!--Checkbox-->
-        <ng-template novoTemplate="checkbox" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-checkbox [formControlName]="control?.key" [name]="control?.key" [label]="control?.checkboxLabel" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" [layoutOptions]="control?.layoutOptions"></novo-checkbox>
-          </div>
-        </ng-template>
+    <!--Checklist-->
+    <ng-template novoTemplate="checklist" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-check-list
+          [formControlName]="control.key"
+          [name]="control.key"
+          [options]="control?.options"
+          [tooltip]="control?.tooltip"
+          [tooltipPosition]="control?.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [tooltipPreline]="control?.tooltipPreline"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          (onSelect)="methods.modelChange($event)"
+        ></novo-check-list>
+      </div>
+    </ng-template>
 
-        <!--Checklist-->
-        <ng-template novoTemplate="checklist" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-check-list [formControlName]="control.key" [name]="control.key" [options]="control?.options" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" (onSelect)="methods.modelChange($event)"></novo-check-list>
-          </div>
-        </ng-template>
-
-        <!--QuickNote-->
-        <ng-template novoTemplate="quick-note" let-control let-form="form" let-errors="errors" let-methods="methods">
-          <div [formGroup]="form">
-            <novo-quick-note [formControlName]="control.key" [startupFocus]="control?.startupFocus" [placeholder]="control?.placeholder" [config]="control?.config" (change)="methods.modelChange($event)" [tooltip]="control?.tooltip" [tooltipPosition]="control?.tooltipPosition" [tooltipSize]="control?.tooltipSize" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition" [tooltipPreline]="control?.tooltipPreline"></novo-quick-note>
-          </div>
-        </ng-template>
-    `
+    <!--QuickNote-->
+    <ng-template novoTemplate="quick-note" let-control let-form="form" let-errors="errors" let-methods="methods">
+      <div [formGroup]="form">
+        <novo-quick-note
+          [formControlName]="control.key"
+          [startupFocus]="control?.startupFocus"
+          [placeholder]="control?.placeholder"
+          [config]="control?.config"
+          (change)="methods.modelChange($event)"
+          [tooltip]="control?.tooltip"
+          [tooltipPosition]="control?.tooltipPosition"
+          [tooltipSize]="control?.tooltipSize"
+          [removeTooltipArrow]="control?.removeTooltipArrow"
+          [tooltipAutoPosition]="control?.tooltipAutoPosition"
+          [tooltipPreline]="control?.tooltipPreline"
+        ></novo-quick-note>
+      </div>
+    </ng-template>
+  `
             }] }
 ];
 /** @nocollapse */
@@ -53496,7 +53698,9 @@ class DateTableDateTimeRendererPipe {
      */
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
-            return column.format ? value : this.labels.formatDateShort(interpolateCell(value, column));
+            /** @type {?} */
+            let val = interpolateCell(value, column);
+            return this.labels.formatDateShort(val);
         }
         return '';
     }
@@ -53535,7 +53739,7 @@ class DateTableTimeRendererPipe {
      */
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
-            return column.format ? value : this.labels.formatTime(interpolateCell(value, column));
+            return column.format ? value : this.labels.formatDate(interpolateCell(value, column));
         }
         return '';
     }

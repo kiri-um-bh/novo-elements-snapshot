@@ -58,8 +58,6 @@ export declare class FormUtils {
     private getFieldData;
     private getEmbeddedFieldData;
     private getFormFields;
-    private getInlineEmbeddedFields;
-    private getAssociatedFieldsForInlineEmbedded;
     private getEmbeddedFields;
     private isHeader;
     private insertHeaderToFieldsets;
