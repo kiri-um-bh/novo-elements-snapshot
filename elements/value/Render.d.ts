@@ -62,7 +62,7 @@ export declare class RenderPipe implements PipeTransform {
      * @param value - the value to find
      * @param list - list of options (label/value pairs)
      */
-    options(value: any, list: any, args: any): any;
+    options(value: any, list: any): any;
     getNumberDecimalPlaces(value: any): any;
     /**
      * Capitalizes the first letter

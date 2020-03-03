@@ -13,9 +13,6 @@ export declare class NovoFieldsetElement {
     icon: string;
     index: number;
     autoFocus: boolean;
-    isEmbedded: boolean;
-    isInlineEmbedded: boolean;
-    hidden: boolean;
 }
 export declare class NovoDynamicFormElement implements OnChanges, OnInit, AfterContentInit {
     private element;
@@ -27,7 +24,6 @@ export declare class NovoDynamicFormElement implements OnChanges, OnInit, AfterC
     hideNonRequiredFields: boolean;
     autoFocusFirstField: boolean;
     customTemplates: QueryList<NovoTemplate>;
-    private fieldsAlreadyHidden;
     allFieldsRequired: boolean;
     allFieldsNotRequired: boolean;
     showingAllFields: boolean;

@@ -1,6 +1,7 @@
-import { ComponentFactoryResolver, ComponentRef, ViewContainerRef, StaticProvider, Type } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, ViewContainerRef, ResolvedReflectiveProvider } from '@angular/core';
 export declare class ComponentUtils {
     componentFactoryResolver: ComponentFactoryResolver;
     constructor(componentFactoryResolver: ComponentFactoryResolver);
-    append<T>(ComponentClass: Type<T>, location: ViewContainerRef, providers?: StaticProvider[], onTop?: boolean): ComponentRef<T>;
+    appendNextToLocation(ComponentClass: any, location: ViewContainerRef, providers?: ResolvedReflectiveProvider[]): ComponentRef<any>;
+    appendTopOfLocation(ComponentClass: any, location: ViewContainerRef, providers?: ResolvedReflectiveProvider[]): ComponentRef<any>;
 }

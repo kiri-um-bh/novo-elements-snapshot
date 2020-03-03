@@ -11,7 +11,6 @@ export declare class NovoLabelService {
     pickerError: string;
     pickerTextFieldEmpty: string;
     pickerEmpty: string;
-    tabbedGroupPickerEmpty: string;
     quickNoteError: string;
     quickNoteEmpty: string;
     required: string;
@@ -91,7 +90,6 @@ export declare class NovoLabelService {
     selectCountryFirst: string;
     invalidIntegerInput: string;
     maxRecordsReached: string;
-    selectFilterOptions: string;
     constructor(userLocale?: string);
     maxlengthMetWithField(field: string, maxlength: number): string;
     maxlengthMet(maxlength: number): string;
@@ -103,16 +101,12 @@ export declare class NovoLabelService {
     selectedRecords(selected: number): string;
     showingXofXResults(shown: number, total: number): string;
     totalRecords(total: number, select?: boolean): string;
-    dateFormatString(): string;
-    tabbedGroupClearSuggestion(tabLabelPlural: string): string;
     formatDateWithFormat(value: any, format: Intl.DateTimeFormatOptions): any;
-    formatTimeWithFormat(value: any, format: Intl.DateTimeFormatOptions): string;
     getWeekdays(): string[];
     getMonths(): string[];
     getProperty(value: string): any;
     getRangeText(page: number, pageSize: number, length: number, short: boolean): string;
     formatCurrency(value: number): string;
-    formatBigDecimal(value: number): string;
     formatNumber(value: any, options?: Intl.NumberFormatOptions): string;
     formatDateShort(value: any): string;
     formatTime(value: any): string;

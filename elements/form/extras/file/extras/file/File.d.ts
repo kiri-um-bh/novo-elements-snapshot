@@ -10,7 +10,7 @@ export declare class NovoFile {
     dataURL: string;
     reader: FileReader;
     constructor(file: any);
-    read(): Promise<unknown>;
+    read(): Promise<{}>;
     toJSON(): {
         name: string;
         contentType: any;

@@ -26,6 +26,7 @@ export declare class NovoAddressElement implements ControlValueAccessor, OnInit 
     private _readOnly;
     readOnly: boolean;
     states: Array<any>;
+    countries: Array<any>;
     fieldList: Array<string>;
     model: any;
     onModelChange: Function;

@@ -25,11 +25,6 @@ export declare class DateTableNumberRendererPipe<T> implements PipeTransform {
     constructor(labels: NovoLabelService);
     transform(value: any, column: IDataTableColumn<T>, isPercent?: boolean): string;
 }
-export declare class DataTableBigDecimalRendererPipe<T> implements PipeTransform {
-    private labels;
-    constructor(labels: NovoLabelService);
-    transform(value: any, column: IDataTableColumn<T>): string;
-}
 export declare class DateTableCurrencyRendererPipe<T> implements PipeTransform {
     private labels;
     constructor(labels: NovoLabelService);

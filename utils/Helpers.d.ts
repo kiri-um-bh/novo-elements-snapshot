@@ -17,7 +17,6 @@ export declare class Helpers {
      * Checks to see if the object is a string
      */
     static isString(obj: any): boolean;
-    static escapeString(obj: any): any;
     static isNumber(val: any, includeNegatives?: boolean): boolean;
     /**
      * Checks to see if the object is a undefined or null
@@ -35,7 +34,6 @@ export declare class Helpers {
      * Checks to see if the object is a Date
      */
     static isDate(obj: any): boolean;
-    static convertToArray(obj: unknown): any[];
     static sortByField(fields: any, reverse?: boolean): (previous: any, current: any) => any;
     static filterByField(key: any, value: any): (item: any) => boolean;
     static findAncestor(element: Element, selector: string): Element;
@@ -47,17 +45,6 @@ export declare class Helpers {
      * @returns the next sibling node that is of type: Element
      */
     static getNextElementSibling(element: Element): Node;
-    static dateToObject(date: Date): {
-        day: string;
-        dayPeriod: string;
-        era: string;
-        hour: string;
-        minute: string;
-        month: string;
-        second: string;
-        weekday: string;
-        year: string;
-    };
 }
 export declare class Can {
     obj: Object;
@@ -69,4 +56,3 @@ export declare class Can {
  * @param obj
  */
 export declare function can(obj: any): Can;
-export declare function binarySearch<T>(item: T, array: T[], compare: (a: T, b: T) => 1 | -1 | 0 | undefined): T | undefined;
