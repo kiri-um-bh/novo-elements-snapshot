@@ -63587,45 +63587,45 @@
             var targetElHeight = targetEl.offsetHeight;
             /** @type {?} */
             var shiftWidth = {
-                center: (/**
+                center: /**
                  * @return {?}
                  */
                 function () {
                     return hostElPos.left + (hostElPos.width - targetElWidth) / 2;
-                }),
-                right: (/**
+                },
+                right: /**
                  * @return {?}
                  */
                 function () {
                     return hostElPos.left;
-                }),
-                left: (/**
+                },
+                left: /**
                  * @return {?}
                  */
                 function () {
                     return hostElPos.left + (hostElPos.width - targetElWidth);
-                }),
+                },
             };
             /** @type {?} */
             var shiftHeight = {
-                center: (/**
+                center: /**
                  * @return {?}
                  */
                 function () {
                     return hostElPos.top + (hostElPos.height - targetElHeight) / 2;
-                }),
-                bottom: (/**
+                },
+                bottom: /**
                  * @return {?}
                  */
                 function () {
                     return hostElPos.top;
-                }),
-                top: (/**
+                },
+                top: /**
                  * @return {?}
                  */
                 function () {
                     return hostElPos.top + (hostElPos.height - targetElHeight);
-                }),
+                },
             };
             /** @type {?} */
             var targetElPos;

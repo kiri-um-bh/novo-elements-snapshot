@@ -60,12 +60,12 @@ class Helpers {
          */
         (original, key) => {
             /** @type {?} */
-            let keys = key.split('.');
+            const keys = key.split('.');
             /** @type {?} */
             let value = props[keys.shift()];
             while (keys.length && value !== undefined) {
                 /** @type {?} */
-                let k = keys.shift();
+                const k = keys.shift();
                 value = k ? value[k] : `${value}.`;
             }
             return value !== undefined ? value : '';
@@ -83,9 +83,9 @@ class Helpers {
         // or an empty string
         if (Array.isArray(formatString)) {
             /** @type {?} */
-            let successes = [];
+            const successes = [];
             /** @type {?} */
-            let failures = [];
+            const failures = [];
             formatString.forEach((/**
              * @param {?} format
              * @return {?}
@@ -94,19 +94,19 @@ class Helpers {
                 /** @type {?} */
                 let isSuccess = true;
                 /** @type {?} */
-                let attempt = format.replace(/\$([\w\.]+)/g, (/**
+                const attempt = format.replace(/\$([\w\.]+)/g, (/**
                  * @param {?} original
                  * @param {?} key
                  * @return {?}
                  */
                 (original, key) => {
                     /** @type {?} */
-                    let keys = key.split('.');
+                    const keys = key.split('.');
                     /** @type {?} */
                     let value = data[keys.shift()];
                     while (keys.length && value !== undefined) {
                         /** @type {?} */
-                        let k = keys.shift();
+                        const k = keys.shift();
                         value = k ? value[k] : `${value}.`;
                     }
                     if (isSuccess && Helpers.isEmpty(value)) {
@@ -138,7 +138,7 @@ class Helpers {
      */
     static validateInterpolationProps(str, props) {
         /** @type {?} */
-        let keys = str.match(/\$([\w\.]+)/g);
+        const keys = str.match(/\$([\w\.]+)/g);
         return keys.every((/**
          * @param {?} key
          * @return {?}
@@ -252,7 +252,7 @@ class Helpers {
             }
             for (let i = 0; i < fields.length; i++) {
                 /** @type {?} */
-                let field = fields[i];
+                const field = fields[i];
                 /** @type {?} */
                 let first = previous[field] || '';
                 /** @type {?} */
@@ -294,7 +294,7 @@ class Helpers {
          */
         (item) => {
             /** @type {?} */
-            let results = [];
+            const results = [];
             /** @type {?} */
             let field = can(item).have(key);
             if (value instanceof Function) {
@@ -335,10 +335,10 @@ class Helpers {
                 if (value.not) {
                     results.push(!Helpers.filterByField(key, value.not)(item));
                 }
-                for (let subkey in value) {
+                for (const subkey in value) {
                     if (['min', 'max', 'any', 'all', 'not'].indexOf(subkey) < 0) {
                         /** @type {?} */
-                        let subvalue = value[subkey];
+                        const subvalue = value[subkey];
                         results.push(Helpers.filterByField(`${key}.${subkey}`, subvalue)(item));
                     }
                 }
@@ -370,7 +370,7 @@ class Helpers {
     static deepClone(item) {
         if (Array.isArray(item)) {
             /** @type {?} */
-            let newArr = [];
+            const newArr = [];
             for (let i = item.length; i-- > 0;) {
                 // tslint:disable-line
                 newArr[i] = Helpers.deepClone(item[i]);
@@ -381,7 +381,7 @@ class Helpers {
             /** @type {?} */
             let obj;
             eval('obj = ' + item.toString()); // tslint:disable-line
-            for (let k in item) {
+            for (const k in item) {
                 if (k in item) {
                     obj[k] = Helpers.deepClone(item[k]);
                 }
@@ -390,8 +390,8 @@ class Helpers {
         }
         if (item && typeof item === 'object') {
             /** @type {?} */
-            let obj = {};
-            for (let k in item) {
+            const obj = {};
+            for (const k in item) {
                 if (k in item) {
                     obj[k] = Helpers.deepClone(item[k]);
                 }
@@ -494,7 +494,7 @@ class Helpers {
      */
     static dateToObject(date) {
         /** @type {?} */
-        let dateObj = {
+        const dateObj = {
             day: '',
             dayPeriod: '',
             era: '',
@@ -541,7 +541,7 @@ class Can {
      */
     have(key) {
         /** @type {?} */
-        let props = key.split('.');
+        const props = key.split('.');
         /** @type {?} */
         let item = this.obj;
         for (let i = 0; i < props.length; i++) {
@@ -691,7 +691,7 @@ class NovoAceEditor {
      */
     initializeEditor() {
         /** @type {?} */
-        let el = this.elementRef.nativeElement;
+        const el = this.elementRef.nativeElement;
         this.editor = ace.edit(el);
         this.editor.$blockScrolling = Infinity;
     }
@@ -734,9 +734,9 @@ class NovoAceEditor {
      */
     updateText() {
         /** @type {?} */
-        let newVal = this.editor.getValue();
+        const newVal = this.editor.getValue();
         /** @type {?} */
-        let that = this;
+        const that = this;
         if (newVal === this.oldText) {
             return;
         }
@@ -905,15 +905,15 @@ NovoAceEditorModule.decorators = [
 // Rule storage - pluralize and singularize need to be run sequentially,
 // while other rules can be optimized using an object for instant lookups.
 /** @type {?} */
-let pluralRules = [];
+const pluralRules = [];
 /** @type {?} */
-let singularRules = [];
+const singularRules = [];
 /** @type {?} */
-let uncountables = {};
+const uncountables = {};
 /** @type {?} */
-let irregularPlurals = {};
+const irregularPlurals = {};
 /** @type {?} */
-let irregularSingles = {};
+const irregularSingles = {};
 /**
  * Title case a string.
  * @param {?} str
@@ -985,7 +985,7 @@ function sanitizeWord(token, word, collection) {
     // Iterate over the sanitization rules and use the first one to match.
     while (len--) {
         /** @type {?} */
-        let rule = collection[len];
+        const rule = collection[len];
         // If the rule passes, return the replacement.
         if (rule[0].test(word)) {
             return word.replace(rule[0], (/**
@@ -996,7 +996,7 @@ function sanitizeWord(token, word, collection) {
              */
             (match, index, words) => {
                 /** @type {?} */
-                let result = interpolate(rule[1], [match, index, words]);
+                const result = interpolate(rule[1], [match, index, words]);
                 if (match === '') {
                     return restoreCase(words[index - 1], result);
                 }
@@ -1021,7 +1021,7 @@ function replaceWord(replaceMap, keepMap, rules) {
     (word) => {
         // Get the correct token and case restoration functions.
         /** @type {?} */
-        let token = word.toLowerCase();
+        const token = word.toLowerCase();
         // Check against the keep object map.
         if (keepMap.hasOwnProperty(token)) {
             return restoreCase(word, token);
@@ -1043,7 +1043,7 @@ class Pluralize {
      */
     static pluralize(word, count = 1, inclusive) {
         /** @type {?} */
-        let pluralized = count === 1 ? Pluralize.singular(word) : Pluralize.plural(word);
+        const pluralized = count === 1 ? Pluralize.singular(word) : Pluralize.plural(word);
         return (inclusive ? `${count} ` : '') + pluralized;
     }
     /**
@@ -1096,9 +1096,9 @@ class Pluralize {
      */
     static addIrregularRule(single, plural) {
         /** @type {?} */
-        let one = plural.toLowerCase();
+        const one = plural.toLowerCase();
         /** @type {?} */
-        let many = single.toLowerCase();
+        const many = single.toLowerCase();
         irregularSingles[one] = many;
         irregularPlurals[many] = one;
     }
@@ -1725,7 +1725,7 @@ class NovoIsLoadingDirective {
      */
     destroyViews(views) {
         if (views) {
-            for (let view of views) {
+            for (const view of views) {
                 view.destroy();
             }
         }
@@ -1938,7 +1938,7 @@ class TooltipDirective {
         this.overlayRef.detach();
         this.portal = this.portal || new ComponentPortal(NovoTooltip, this.viewContainerRef);
         /** @type {?} */
-        let tooltipInstance = this.overlayRef.attach(this.portal).instance;
+        const tooltipInstance = this.overlayRef.attach(this.portal).instance;
         tooltipInstance.message = this.tooltip;
         tooltipInstance.tooltipType = this.type;
         tooltipInstance.rounded = this.rounded;
@@ -2353,7 +2353,7 @@ class NovoLabelService {
      */
     formatDateWithFormat(value, format) {
         /** @type {?} */
-        let date = value instanceof Date ? value : new Date(value);
+        const date = value instanceof Date ? value : new Date(value);
         if (date.getTime() !== date.getTime()) {
             return value;
         }
@@ -2366,12 +2366,12 @@ class NovoLabelService {
      */
     formatTimeWithFormat(value, format) {
         /** @type {?} */
-        let date = value instanceof Date ? value : new Date(value);
+        const date = value instanceof Date ? value : new Date(value);
         if (date.getTime() !== date.getTime()) {
             return value;
         }
         /** @type {?} */
-        let timeParts = Intl.DateTimeFormat(this.userLocale, format)
+        const timeParts = Intl.DateTimeFormat(this.userLocale, format)
             .formatToParts(date)
             .reduce((/**
          * @param {?} obj
@@ -2396,7 +2396,7 @@ class NovoLabelService {
          */
         function getDay(dayOfWeek) {
             /** @type {?} */
-            let dt = new Date();
+            const dt = new Date();
             return dt.setDate(dt.getDate() - dt.getDay() + dayOfWeek);
         }
         return [getDay(0), getDay(1), getDay(2), getDay(3), getDay(4), getDay(5), getDay(6)].reduce((/**
@@ -2419,7 +2419,7 @@ class NovoLabelService {
          */
         function getMonth(month) {
             /** @type {?} */
-            let dt = new Date();
+            const dt = new Date();
             return dt.setMonth(month, 1);
         }
         return [
@@ -2477,7 +2477,7 @@ class NovoLabelService {
      */
     formatCurrency(value) {
         /** @type {?} */
-        let options = { style: 'currency', currency: 'USD' };
+        const options = { style: 'currency', currency: 'USD' };
         return new Intl.NumberFormat(this.userLocale, options).format(value);
     }
     /**
@@ -2519,7 +2519,7 @@ class NovoLabelService {
      */
     formatDateShort(value) {
         /** @type {?} */
-        let options = {
+        const options = {
             // DD/MM/YYYY, HH:MM A - 02/14/2017, 1:17 PM
             month: '2-digit',
             day: '2-digit',
@@ -2528,7 +2528,7 @@ class NovoLabelService {
             minute: '2-digit',
         };
         /** @type {?} */
-        let _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
+        const _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
         return new Intl.DateTimeFormat(this.userLocale, options).format(_value);
     }
     /**
@@ -2537,13 +2537,13 @@ class NovoLabelService {
      */
     formatTime(value) {
         /** @type {?} */
-        let options = {
+        const options = {
             // HH:MM A - 1:17 PM
             hour: 'numeric',
             minute: '2-digit',
         };
         /** @type {?} */
-        let _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
+        const _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
         return new Intl.DateTimeFormat(this.userLocale, options).format(_value);
     }
     /**
@@ -2552,14 +2552,14 @@ class NovoLabelService {
      */
     formatDate(value) {
         /** @type {?} */
-        let options = {
+        const options = {
             // DD/MM/YYYY - 02/14/2017
             month: '2-digit',
             day: '2-digit',
             year: 'numeric',
         };
         /** @type {?} */
-        let _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
+        const _value = value === null || value === undefined || value === '' ? new Date() : new Date(value);
         return new Intl.DateTimeFormat(this.userLocale, options).format(_value);
     }
 }
@@ -2799,9 +2799,9 @@ class CardElement {
         this.config = this.config || {};
         this.cardAutomationId = `${(this.title || this.config.title || 'no-title').toLowerCase().replace(/\s/g, '-')}-card`;
         /** @type {?} */
-        let newIcon = this.icon || this.config.icon;
+        const newIcon = this.icon || this.config.icon;
         /** @type {?} */
-        let newMessageIcon = this.messageIcon || this.config.messageIcon;
+        const newMessageIcon = this.messageIcon || this.config.messageIcon;
         this.iconClass = newIcon ? `bhi-${newIcon}` : null;
         this.messageIconClass = newMessageIcon ? `bhi-${newMessageIcon}` : null;
     }
@@ -3617,7 +3617,7 @@ function getWeekView({ events = [], viewDate, weekStartsOn, excluded = [], hourS
             }));
             if (otherRowEvents.length > 0) {
                 /** @type {?} */
-                let totalEventsForRow = otherRowEvents.length + 1;
+                const totalEventsForRow = otherRowEvents.length + 1;
                 event.span = 1 / totalEventsForRow;
                 /** @type {?} */
                 let nextOffset = event.span + event.offset;
@@ -6307,7 +6307,7 @@ class NovoNavElement {
         }
         // TODO - remove hack to make DOM rerender - jgodi
         /** @type {?} */
-        let element = (/** @type {?} */ (document.querySelector('novo-tab-link.active span.indicator')));
+        const element = (/** @type {?} */ (document.querySelector('novo-tab-link.active span.indicator')));
         if (element) {
             element.style.opacity = 0.99;
             setTimeout((/**
@@ -6520,7 +6520,7 @@ class NovoNavOutletElement {
      */
     show(index) {
         /** @type {?} */
-        let item = this.items[index];
+        const item = this.items[index];
         /**
          * Deactivates other tab items
          * @param {?} items - deactivated items
@@ -6752,7 +6752,7 @@ class NovoTilesElement {
              */
             (x) => {
                 /** @type {?} */
-                let item = { value: x, label: x, checked: this.model === x };
+                const item = { value: x, label: x, checked: this.model === x };
                 if (item.checked) {
                     this.setTile(item);
                 }
@@ -6789,7 +6789,7 @@ class NovoTilesElement {
                 this.onSelectedOptionClick.emit(item);
                 return;
             }
-            for (let option of this._options) {
+            for (const option of this._options) {
                 option.checked = false;
             }
             item.checked = !item.checked;
@@ -6822,14 +6822,14 @@ class NovoTilesElement {
          */
         () => {
             /** @type {?} */
-            let ind = this.element.nativeElement.querySelector('.active-indicator');
+            const ind = this.element.nativeElement.querySelector('.active-indicator');
             /** @type {?} */
-            let el = this.element.nativeElement.querySelector('.tile.active');
+            const el = this.element.nativeElement.querySelector('.tile.active');
             if (ind && el) {
                 /** @type {?} */
-                let w = el.clientWidth;
+                const w = el.clientWidth;
                 /** @type {?} */
-                let left = el.offsetLeft - el.offsetTop;
+                const left = el.offsetLeft - el.offsetTop;
                 ind.style.width = `calc(${w}px + 0.32em)`;
                 ind.style.left = `${left}px`;
                 this.state = 'active';
@@ -7729,7 +7729,7 @@ class BasePickerResults {
      */
     cleanUp() {
         /** @type {?} */
-        let element = this.getListElement();
+        const element = this.getListElement();
         if (element && element.hasAttribute('scrollListener')) {
             element.removeAttribute('scrollListener');
             element.removeEventListener('scroll', this.scrollHandler);
@@ -7741,12 +7741,12 @@ class BasePickerResults {
      */
     onScrollDown(event) {
         /** @type {?} */
-        let element = event.target;
+        const element = event.target;
         if (element) {
             /** @type {?} */
-            let offset = element.offsetHeight + element.scrollTop;
+            const offset = element.offsetHeight + element.scrollTop;
             /** @type {?} */
-            let bottom = element.scrollHeight - 300;
+            const bottom = element.scrollHeight - 300;
             if (offset >= bottom) {
                 event.stopPropagation();
                 if (!this.lastPage && !this.isLoading) {
@@ -7810,7 +7810,7 @@ class BasePickerResults {
     addScrollListener() {
         if (this.config.enableInfiniteScroll) {
             /** @type {?} */
-            let element = this.getListElement();
+            const element = this.getListElement();
             if (element && !element.hasAttribute('scrollListener')) {
                 element.setAttribute('scrollListener', 'true');
                 element.addEventListener('scroll', this.scrollHandler);
@@ -7873,7 +7873,7 @@ class BasePickerResults {
      */
     search(term, mode) {
         /** @type {?} */
-        let options = this.config.options;
+        const options = this.config.options;
         return from(new Promise((/**
          * @param {?} resolve
          * @param {?} reject
@@ -7913,7 +7913,7 @@ class BasePickerResults {
                         this.isStatic = false;
                         if (typeof this.config.defaultOptions === 'function') {
                             /** @type {?} */
-                            let defaultOptions = this.config.defaultOptions(term, ++this.page);
+                            const defaultOptions = this.config.defaultOptions(term, ++this.page);
                             if (Object.getPrototypeOf(defaultOptions).hasOwnProperty('then')) {
                                 defaultOptions.then(this.structureArray.bind(this)).then(resolve, reject);
                             }
@@ -7959,7 +7959,7 @@ class BasePickerResults {
      */
     structureArray(collection) {
         /** @type {?} */
-        let dataArray = collection.data ? collection.data : collection;
+        const dataArray = collection.data ? collection.data : collection;
         if (dataArray && (typeof dataArray[0] === 'string' || typeof dataArray[0] === 'number')) {
             return collection.map((/**
              * @param {?} item
@@ -7983,7 +7983,7 @@ class BasePickerResults {
                 value = Helpers.interpolate(this.config.valueFormat, data);
             }
             /** @type {?} */
-            let label = this.config.format ? Helpers.interpolate(this.config.format, data) : data.label || String(value);
+            const label = this.config.format ? Helpers.interpolate(this.config.format, data) : data.label || String(value);
             return { value, label, data };
         }));
     }
@@ -8027,7 +8027,7 @@ class BasePickerResults {
      */
     prevActiveMatch() {
         /** @type {?} */
-        let index = this.matches.indexOf(this.activeMatch);
+        const index = this.matches.indexOf(this.activeMatch);
         this.activeMatch = this.matches[index - 1 < 0 ? this.matches.length - 1 : index - 1];
         this.scrollToActive();
         this.ref.markForCheck();
@@ -8040,7 +8040,7 @@ class BasePickerResults {
      */
     nextActiveMatch() {
         /** @type {?} */
-        let index = this.matches.indexOf(this.activeMatch);
+        const index = this.matches.indexOf(this.activeMatch);
         this.activeMatch = this.matches[index + 1 > this.matches.length - 1 ? 0 : index + 1];
         this.scrollToActive();
         this.ref.markForCheck();
@@ -8067,13 +8067,13 @@ class BasePickerResults {
      */
     scrollToActive() {
         /** @type {?} */
-        let list = this.getListElement();
+        const list = this.getListElement();
         /** @type {?} */
-        let items = this.getChildrenOfListElement();
+        const items = this.getChildrenOfListElement();
         /** @type {?} */
-        let index = this.matches.indexOf(this.activeMatch);
+        const index = this.matches.indexOf(this.activeMatch);
         /** @type {?} */
-        let item = items[index];
+        const item = items[index];
         if (item) {
             list.scrollTop = item.offsetTop;
         }
@@ -8155,7 +8155,7 @@ class BasePickerResults {
     preselected(match) {
         if (this.config.preselected) {
             /** @type {?} */
-            let preselectedFunc = this.config.preselected;
+            const preselectedFunc = this.config.preselected;
             return (this.selected.findIndex((/**
              * @param {?} item
              * @return {?}
@@ -8370,7 +8370,7 @@ class QuickNoteResults extends PickerResults {
      */
     search(term, taggingMode) {
         /** @type {?} */
-        let searchCall = this.config.options[taggingMode];
+        const searchCall = this.config.options[taggingMode];
         return from(new Promise((/**
          * @param {?} resolve
          * @param {?} reject
@@ -8437,9 +8437,9 @@ class QuickNoteResults extends PickerResults {
          */
         (data) => {
             /** @type {?} */
-            let value = this.config.field ? data[this.config.field[this.taggingMode]] : data.value || data;
+            const value = this.config.field ? data[this.config.field[this.taggingMode]] : data.value || data;
             /** @type {?} */
-            let label = this.config.format ? Helpers.interpolate(this.config.format[this.taggingMode], data) : data.label || String(value);
+            const label = this.config.format ? Helpers.interpolate(this.config.format[this.taggingMode], data) : data.label || String(value);
             return { value, label, data };
         }));
     }
@@ -8456,7 +8456,7 @@ class QuickNoteResults extends PickerResults {
             event.preventDefault();
         }
         /** @type {?} */
-        let selected = this.activeMatch;
+        const selected = this.activeMatch;
         if (selected) {
             this.parent.onSelected(this.taggingMode, selected);
             this.parent.hideResults();
@@ -8794,14 +8794,14 @@ class QuickNoteElement extends OutsideClick {
             else {
                 // Loop through all triggers and turn on tagging mode if the user just pressed a trigger character
                 /** @type {?} */
-                let triggers = this.config.triggers || {};
+                const triggers = this.config.triggers || {};
                 Object.keys(triggers).forEach((/**
                  * @param {?} key
                  * @return {?}
                  */
                 (key) => {
                     /** @type {?} */
-                    let trigger = triggers[key] || {};
+                    const trigger = triggers[key] || {};
                     if (event.key === trigger) {
                         this.isTagging = true;
                         this.taggingMode = key;
@@ -8823,7 +8823,7 @@ class QuickNoteElement extends OutsideClick {
         let value = this.ckeInstance.getData();
         // Remove empty 'ZERO WIDTH SPACE' characters that can get added erroneously by the editor
         /** @type {?} */
-        let regex = new RegExp(String.fromCharCode(8203), 'g');
+        const regex = new RegExp(String.fromCharCode(8203), 'g');
         value = value.replace(regex, '');
         // Make sure that any references in the model are still valid
         this.validateReferences();
@@ -8853,13 +8853,13 @@ class QuickNoteElement extends OutsideClick {
     showResults() {
         if (this.isTagging) {
             /** @type {?} */
-            let searchTerm = this.getSearchTerm();
+            const searchTerm = this.getSearchTerm();
             if (searchTerm.length) {
                 // Update Matches
                 if (this.quickNoteResults) {
                     // Update existing list
                     this.quickNoteResults.instance.term = {
-                        searchTerm: searchTerm,
+                        searchTerm,
                         taggingMode: this.taggingMode,
                     };
                 }
@@ -8869,7 +8869,7 @@ class QuickNoteElement extends OutsideClick {
                     this.quickNoteResults.instance.parent = this;
                     this.quickNoteResults.instance.config = this.config;
                     this.quickNoteResults.instance.term = {
-                        searchTerm: searchTerm,
+                        searchTerm,
                         taggingMode: this.taggingMode,
                     };
                     this.positionResultsDropdown();
@@ -8909,17 +8909,17 @@ class QuickNoteElement extends OutsideClick {
         this.isTagging = false;
         // Replace searchTerm with link
         /** @type {?} */
-        let symbol = this.config.triggers[taggingMode];
+        const symbol = this.config.triggers[taggingMode];
         /** @type {?} */
-        let renderer = this.getRenderer(taggingMode);
+        const renderer = this.getRenderer(taggingMode);
         /** @type {?} */
-        let renderedText = renderer(symbol, selected);
+        const renderedText = renderer(symbol, selected);
         this.replaceWordAtCursor(renderedText);
         // Add the new reference, if it doesn't already exist
         this.model.references = this.model.references || {};
         this.model.references[taggingMode] = this.model.references[taggingMode] || [];
         /** @type {?} */
-        let matchingItems = this.model.references[taggingMode].filter((/**
+        const matchingItems = this.model.references[taggingMode].filter((/**
          * @param {?} item
          * @return {?}
          */
@@ -8941,7 +8941,7 @@ class QuickNoteElement extends OutsideClick {
         let word = this.getWordAtCursor().trim();
         if (this.isTagging) {
             /** @type {?} */
-            let symbol = this.config.triggers[this.taggingMode];
+            const symbol = this.config.triggers[this.taggingMode];
             if (!word.includes(symbol)) {
                 this.hideResults();
                 return '';
@@ -8959,19 +8959,19 @@ class QuickNoteElement extends OutsideClick {
      */
     getWordAtCursor() {
         /** @type {?} */
-        let range = this.ckeInstance.getSelection().getRanges()[0];
+        const range = this.ckeInstance.getSelection().getRanges()[0];
         /** @type {?} */
-        let start = range.startContainer;
+        const start = range.startContainer;
         if (start.type === CKEDITOR.NODE_TEXT && range.startOffset) {
             /** @type {?} */
-            let text = start.getText();
+            const text = start.getText();
             /** @type {?} */
-            let symbol = this.config.triggers[this.taggingMode];
+            const symbol = this.config.triggers[this.taggingMode];
             /** @type {?} */
             let wordStart = text.lastIndexOf(symbol, range.startOffset - 1);
             if (wordStart > 0) {
                 /** @type {?} */
-                let beforeSymbol = text.charAt(wordStart - 1);
+                const beforeSymbol = text.charAt(wordStart - 1);
                 // We don't want to trigger the lookup call unless the symbol was preceded by whitespace
                 if (beforeSymbol !== '\u200B' && /\S/.test(beforeSymbol)) {
                     return '';
@@ -9005,22 +9005,22 @@ class QuickNoteElement extends OutsideClick {
      */
     replaceWordAtCursor(newWord) {
         /** @type {?} */
-        let originalWord = this.getWordAtCursor().trim();
+        const originalWord = this.getWordAtCursor().trim();
         /** @type {?} */
-        let range = this.ckeInstance.getSelection().getRanges()[0];
+        const range = this.ckeInstance.getSelection().getRanges()[0];
         /** @type {?} */
-        let start = range.startContainer;
+        const start = range.startContainer;
         /** @type {?} */
-        let parentNode = start.getParent();
+        const parentNode = start.getParent();
         if (start.type === CKEDITOR.NODE_TEXT && parentNode) {
             /** @type {?} */
-            let line = parentNode.getHtml();
+            const line = parentNode.getHtml();
             /** @type {?} */
-            let index = line.lastIndexOf(originalWord);
+            const index = line.lastIndexOf(originalWord);
             if (index >= 0) {
                 // Add a space after the replaced word so that multiple references can be added back to back
                 /** @type {?} */
-                let newLine = line.substring(0, index) + newWord + ' ' + line.substring(index + originalWord.length);
+                const newLine = line.substring(0, index) + newWord + ' ' + line.substring(index + originalWord.length);
                 parentNode.setHtml(newLine);
                 // Place selection at the end of the line
                 range.moveToPosition(parentNode, CKEDITOR.POSITION_BEFORE_END);
@@ -9039,7 +9039,7 @@ class QuickNoteElement extends OutsideClick {
         // CKEditor stopped supporting the config.forceSimpleAmpersand setting, so we have to convert '&amp;' to '&'
         // when we pull html from the editor - see: https://dev.ckeditor.com/ticket/13723
         /** @type {?} */
-        let ampRegex = new RegExp('&amp;', 'g');
+        const ampRegex = new RegExp('&amp;', 'g');
         html = html.replace(ampRegex, '&');
         Object.keys(this.model.references).forEach((/**
          * @param {?} taggingMode
@@ -9047,18 +9047,18 @@ class QuickNoteElement extends OutsideClick {
          */
         (taggingMode) => {
             /** @type {?} */
-            let array = this.model.references[taggingMode] || [];
+            const array = this.model.references[taggingMode] || [];
             /** @type {?} */
-            let symbol = this.config.triggers[taggingMode];
+            const symbol = this.config.triggers[taggingMode];
             /** @type {?} */
-            let renderer = this.getRenderer(taggingMode);
+            const renderer = this.getRenderer(taggingMode);
             this.model.references[taggingMode] = array.filter((/**
              * @param {?} item
              * @return {?}
              */
             (item) => {
                 /** @type {?} */
-                let renderedText = renderer(symbol, item);
+                const renderedText = renderer(symbol, item);
                 return html.includes(renderedText);
             }));
             // If no references, then delete the key
@@ -9080,7 +9080,7 @@ class QuickNoteElement extends OutsideClick {
         // Use the height of the wrapper element to set the initial height of the editor, then
         // set it to 100% to allow the editor to resize using the grippy.
         /** @type {?} */
-        let editorHeight = this.wrapper.nativeElement.clientHeight - QuickNoteElement.TOOLBAR_HEIGHT;
+        const editorHeight = this.wrapper.nativeElement.clientHeight - QuickNoteElement.TOOLBAR_HEIGHT;
         this.wrapper.nativeElement.style.setProperty('height', '100%');
         return {
             enterMode: CKEDITOR.ENTER_BR,
@@ -9118,21 +9118,21 @@ class QuickNoteElement extends OutsideClick {
      */
     getCursorPosition() {
         /** @type {?} */
-        let range = this.ckeInstance.getSelection().getRanges()[0];
+        const range = this.ckeInstance.getSelection().getRanges()[0];
         /** @type {?} */
-        let parentElement = range.startContainer.$.parentElement;
+        const parentElement = range.startContainer.$.parentElement;
         /** @type {?} */
-        let editorElement = this.ckeInstance.editable().$;
+        const editorElement = this.ckeInstance.editable().$;
         // Since the editor is a text node in the DOM that does not know about it's position, a temporary element has to
         // be inserted in order to locate the cursor position.
         /** @type {?} */
-        let cursorElement = document.createElement('img');
+        const cursorElement = document.createElement('img');
         cursorElement.setAttribute('src', 'null');
         cursorElement.setAttribute('width', '0');
         cursorElement.setAttribute('height', '0');
         parentElement.appendChild(cursorElement);
         /** @type {?} */
-        let cursorPosition = {
+        const cursorPosition = {
             top: cursorElement.offsetTop - editorElement.scrollTop,
             left: cursorElement.offsetLeft - editorElement.scrollLeft,
         };
@@ -9150,7 +9150,7 @@ class QuickNoteElement extends OutsideClick {
         /** @type {?} */
         const MAX_MARGIN_TOP = this.getContentHeight() + QuickNoteElement.TOOLBAR_HEIGHT;
         /** @type {?} */
-        let cursorPosition = this.getCursorPosition();
+        const cursorPosition = this.getCursorPosition();
         /** @type {?} */
         let marginTop = cursorPosition.top + QuickNoteElement.TOOLBAR_HEIGHT;
         // Check that the margin is within the visible bounds
@@ -9172,7 +9172,7 @@ class QuickNoteElement extends OutsideClick {
             this.ckeInstance.ui.contentsElement.$ &&
             this.ckeInstance.ui.contentsElement.$.style) {
             /** @type {?} */
-            let cssText = this.ckeInstance.ui.contentsElement.$.style.cssText;
+            const cssText = this.ckeInstance.ui.contentsElement.$.style.cssText;
             if (cssText.indexOf('height: ') !== -1) {
                 /** @type {?} */
                 let height = cssText.split('height: ')[1];
@@ -9759,8 +9759,8 @@ class NovoOverlayTemplateComponent {
                 .withFallbackPosition({ originX: 'start', originY: 'top' }, { overlayX: 'start', overlayY: 'top' })
                 .withFallbackPosition({ originX: 'start', originY: 'bottom' }, { overlayX: 'start', overlayY: 'bottom' });
         }
-        let [originX, fallbackX] = this.position.includes('right') ? ['end', 'start'] : ['start', 'end'];
-        let [originY, overlayY] = this.position.includes('top') ? ['top', 'bottom'] : ['bottom', 'top'];
+        const [originX, fallbackX] = this.position.includes('right') ? ['end', 'start'] : ['start', 'end'];
+        const [originY, overlayY] = this.position.includes('top') ? ['top', 'bottom'] : ['bottom', 'top'];
         /** @type {?} */
         let strategy = this.overlay
             .position()
@@ -9776,7 +9776,7 @@ class NovoOverlayTemplateComponent {
                 .withFallbackPosition({ originX: fallbackX, originY: 'top' }, { overlayX: fallbackX, overlayY: 'bottom' });
             if (!this.position.includes('above-below')) {
                 strategy = strategy
-                    .withFallbackPosition({ originX: originX, originY: 'center' }, { overlayX: originX, overlayY: 'center' })
+                    .withFallbackPosition({ originX, originY: 'center' }, { overlayX: originX, overlayY: 'center' })
                     .withFallbackPosition({ originX: fallbackX, originY: 'center' }, { overlayX: fallbackX, overlayY: 'center' });
             }
         }
@@ -9975,7 +9975,7 @@ class NovoDropdownElement {
         }
         // Add a click handler to the button to toggle the menu
         /** @type {?} */
-        let button = this.element.nativeElement.querySelector('button');
+        const button = this.element.nativeElement.querySelector('button');
         button.addEventListener('click', this.clickHandler);
         if (this.parentScrollSelector) {
             this.parentScrollElement = Helpers.findAncestor(this.element.nativeElement, this.parentScrollSelector);
@@ -9987,7 +9987,7 @@ class NovoDropdownElement {
     ngOnDestroy() {
         // Remove listener
         /** @type {?} */
-        let button = this.element.nativeElement.querySelector('button');
+        const button = this.element.nativeElement.querySelector('button');
         if (button) {
             button.removeEventListener('click', this.clickHandler);
         }
@@ -10118,10 +10118,10 @@ class NovoDropdownElement {
                 this.filterTerm = '';
             }), 2000);
             /** @type {?} */
-            let char = String.fromCharCode(event.keyCode);
+            const char = String.fromCharCode(event.keyCode);
             this.filterTerm = this.filterTerm.concat(char);
             /** @type {?} */
-            let index = this._textItems.findIndex((/**
+            const index = this._textItems.findIndex((/**
              * @param {?} value
              * @return {?}
              */
@@ -10166,9 +10166,9 @@ class NovoDropdownElement {
      */
     scrollToActive() {
         /** @type {?} */
-        let container = this.overlay.overlayRef.overlayElement.querySelector('.dropdown-container');
+        const container = this.overlay.overlayRef.overlayElement.querySelector('.dropdown-container');
         /** @type {?} */
-        let item = this._items.toArray()[this.activeIndex];
+        const item = this._items.toArray()[this.activeIndex];
         if (container && item) {
             container.scrollTop = item.element.nativeElement.offsetTop;
         }
@@ -10510,13 +10510,13 @@ class NovoSelectElement {
         }
         else if (this.createdItem) {
             /** @type {?} */
-            let item = this.options.find((/**
+            const item = this.options.find((/**
              * @param {?} i
              * @return {?}
              */
             (i) => i.label === this.createdItem));
             /** @type {?} */
-            let index = this.options.indexOf(item);
+            const index = this.options.indexOf(item);
             this.select(item, index);
         }
         else {
@@ -10686,10 +10686,10 @@ class NovoSelectElement {
                 this.filterTerm = '';
             }), 2000);
             /** @type {?} */
-            let char = String.fromCharCode(event.keyCode);
+            const char = String.fromCharCode(event.keyCode);
             this.filterTerm = this.filterTerm.concat(char);
             /** @type {?} */
-            let item = this.filteredOptions.find((/**
+            const item = this.filteredOptions.find((/**
              * @param {?} i
              * @return {?}
              */
@@ -10722,13 +10722,13 @@ class NovoSelectElement {
      */
     scrollToIndex(index) {
         /** @type {?} */
-        let element = this.overlay.overlayRef.overlayElement;
+        const element = this.overlay.overlayRef.overlayElement;
         /** @type {?} */
-        let list = element.querySelector('.novo-select-list');
+        const list = element.querySelector('.novo-select-list');
         /** @type {?} */
-        let items = list.querySelectorAll('li');
+        const items = list.querySelectorAll('li');
         /** @type {?} */
-        let item = items[this.headerConfig ? index + 1 : index];
+        const item = items[this.headerConfig ? index + 1 : index];
         if (item) {
             list.scrollTop = item.offsetTop;
         }
@@ -11978,7 +11978,7 @@ class ChecklistPickerResults extends BasePickerResults {
      */
     search() {
         /** @type {?} */
-        let options = this.config.options;
+        const options = this.config.options;
         // only set this the first time
         return from(new Promise((/**
          * @param {?} resolve
@@ -12022,7 +12022,7 @@ class ChecklistPickerResults extends BasePickerResults {
              */
             (section) => {
                 /** @type {?} */
-                let items = section.originalData.filter((/**
+                const items = section.originalData.filter((/**
                  * @param {?} match
                  * @return {?}
                  */
@@ -12067,7 +12067,7 @@ class ChecklistPickerResults extends BasePickerResults {
             item.checked = !item.checked;
         }
         /** @type {?} */
-        let selected = this.activeMatch;
+        const selected = this.activeMatch;
         if (selected) {
             this.parent.value = selected;
         }
@@ -12230,7 +12230,7 @@ class GroupedMultiPickerResults extends BasePickerResults {
         if (this.config.displayAll) {
             this.selectedCategory = { value: 'all', label: 'all' };
             /** @type {?} */
-            let allItems = [];
+            const allItems = [];
             Array.from(this.config.categoryMap.values())
                 .filter((/**
              * @param {?} category
@@ -12260,7 +12260,7 @@ class GroupedMultiPickerResults extends BasePickerResults {
         this.inputElement.nativeElement.focus();
         // Find new items
         /** @type {?} */
-        let key = category.value;
+        const key = category.value;
         this.selectedCategory = category;
         // Clear
         this.matches = [];
@@ -12300,7 +12300,7 @@ class GroupedMultiPickerResults extends BasePickerResults {
         if (this.selectCategory) {
             // Find new items
             /** @type {?} */
-            let key = this.selectedCategory.value;
+            const key = this.selectedCategory.value;
             // Get new matches
             this.getNewMatches(this.selectedCategory, key);
             this.ref.markForCheck();
@@ -12350,7 +12350,7 @@ class GroupedMultiPickerResults extends BasePickerResults {
                  * @return {?}
                  */
                 (items) => {
-                    this.internalMap.set(key, { value: category.value, label: category.label, items: items });
+                    this.internalMap.set(key, { value: category.value, label: category.label, items });
                     this.matches = this.filter(items, true);
                     this.isLoading = false;
                     this.ref.markForCheck();
@@ -12825,7 +12825,7 @@ class NovoSearchBoxElement {
              */
             () => {
                 /** @type {?} */
-                let element = this.input.nativeElement;
+                const element = this.input.nativeElement;
                 if (element) {
                     element.focus();
                 }
@@ -13146,8 +13146,8 @@ class NovoDragulaService {
             throw new Error(`Bag named: ${name} already exists.`);
         }
         bag = {
-            name: name,
-            drake: drake,
+            name,
+            drake,
         };
         this.bags.push(bag);
         if (drake.models) {
@@ -13179,9 +13179,9 @@ class NovoDragulaService {
      */
     destroy(name) {
         /** @type {?} */
-        let bag = this.find(name);
+        const bag = this.find(name);
         /** @type {?} */
-        let i = this.bags.indexOf(bag);
+        const i = this.bags.indexOf(bag);
         this.bags.splice(i, 1);
         bag.drake.destroy();
     }
@@ -13193,7 +13193,7 @@ class NovoDragulaService {
      */
     setOptions(name, options) {
         /** @type {?} */
-        let bag = this.add(name, dragula(options));
+        const bag = this.add(name, dragula(options));
         this.handleModels(name, bag.drake);
     }
     /**
@@ -13250,11 +13250,11 @@ class NovoDragulaService {
             }
             else {
                 /** @type {?} */
-                let notCopy = dragElm === dropElm;
+                const notCopy = dragElm === dropElm;
                 /** @type {?} */
-                let targetModel = drake.models[drake.containers.indexOf(target)];
+                const targetModel = drake.models[drake.containers.indexOf(target)];
                 /** @type {?} */
-                let dropElmModel = notCopy ? sourceModel[dragIndex] : JSON.parse(JSON.stringify(sourceModel[dragIndex]));
+                const dropElmModel = notCopy ? sourceModel[dragIndex] : JSON.parse(JSON.stringify(sourceModel[dragIndex]));
                 if (notCopy) {
                     sourceModel.splice(dragIndex, 1);
                 }
@@ -13272,9 +13272,9 @@ class NovoDragulaService {
     setupEvents(bag) {
         bag.initEvents = true;
         /** @type {?} */
-        let that = this;
+        const that = this;
         /** @type {?} */
-        let emitter = (/**
+        const emitter = (/**
          * @param {?} type
          * @return {?}
          */
@@ -13284,7 +13284,7 @@ class NovoDragulaService {
              */
             function replicate() {
                 /** @type {?} */
-                let args = Array.prototype.slice.call(arguments);
+                const args = Array.prototype.slice.call(arguments);
                 that[type].emit([bag.name].concat(args));
             }
             bag.drake.on(type, replicate);
@@ -13355,7 +13355,7 @@ class NovoDragulaElement {
      */
     ngOnInit() {
         /** @type {?} */
-        let bag = this.dragulaService.find(this.bag);
+        const bag = this.dragulaService.find(this.bag);
         if (bag) {
             this.drake = bag.drake;
             this.checkModel();
@@ -13391,7 +13391,7 @@ class NovoDragulaElement {
             if (this.drake) {
                 if (this.drake.models) {
                     /** @type {?} */
-                    let modelIndex = this.drake.models.indexOf(changes.dragulaModel.previousValue);
+                    const modelIndex = this.drake.models.indexOf(changes.dragulaModel.previousValue);
                     this.drake.models.splice(modelIndex, 1, changes.dragulaModel.currentValue);
                 }
                 else {
@@ -13770,8 +13770,8 @@ class NovoChipsElement {
         this.items = [];
         if (this.model && Array.isArray(this.model)) {
             /** @type {?} */
-            let noLabels = [];
-            for (let value of this.model) {
+            const noLabels = [];
+            for (const value of this.model) {
                 /** @type {?} */
                 let label;
                 if (this.source && this.source.format && Helpers.validateInterpolationProps(this.source.format, value)) {
@@ -13805,7 +13805,7 @@ class NovoChipsElement {
                  * @return {?}
                  */
                 (result) => {
-                    for (let value of result) {
+                    for (const value of result) {
                         if (value.hasOwnProperty('label')) {
                             this.items.push({
                                 value,
@@ -13832,7 +13832,7 @@ class NovoChipsElement {
      */
     getLabelFromOptions(value) {
         /** @type {?} */
-        let optLabel = this.source.options.find((/**
+        const optLabel = this.source.options.find((/**
          * @param {?} val
          * @return {?}
          */
@@ -13900,7 +13900,7 @@ class NovoChipsElement {
             (i) => i.value));
             // Set focus on the picker
             /** @type {?} */
-            let input = this.element.nativeElement.querySelector('novo-picker > input');
+            const input = this.element.nativeElement.querySelector('novo-picker > input');
             if (input) {
                 input.focus();
             }
@@ -14336,11 +14336,11 @@ class NovoDatePickerElement {
     ngOnInit() {
         // Determine the year array
         /** @type {?} */
-        let now = new Date();
+        const now = new Date();
         /** @type {?} */
-        let start = this.minYear ? Number(this.minYear) : now.getFullYear() - 100;
+        const start = this.minYear ? Number(this.minYear) : now.getFullYear() - 100;
         /** @type {?} */
-        let end = this.maxYear ? Number(this.maxYear) : now.getFullYear() + 10;
+        const end = this.maxYear ? Number(this.maxYear) : now.getFullYear() + 10;
         for (let i = start; i <= end; i++) {
             this.years.push(i);
         }
@@ -14358,14 +14358,14 @@ class NovoDatePickerElement {
      */
     ngOnChanges(changes) {
         /** @type {?} */
-        let weekRangeSelectChange = changes['weekRangeSelect'];
+        const weekRangeSelectChange = changes['weekRangeSelect'];
         if (weekRangeSelectChange &&
             weekRangeSelectChange.currentValue !== weekRangeSelectChange.previousValue &&
             !weekRangeSelectChange.firstChange) {
             this.clearRange();
         }
         /** @type {?} */
-        let weekStartChanges = changes['weekStart'];
+        const weekStartChanges = changes['weekStart'];
         if (weekStartChanges && weekStartChanges.currentValue !== weekStartChanges.previousValue && !weekStartChanges.firstChange) {
             this.weekdays = this.setupWeekdays();
             this.updateView(this.model, false, false);
@@ -14380,7 +14380,7 @@ class NovoDatePickerElement {
         // Weekstart must be 0-6 (Sunday - Saturday)
         if (!Helpers.isBlank(this.weekStart) && this.weekStart > 0 && this.weekStart <= 6) {
             /** @type {?} */
-            let newStart = weekdays.splice(this.weekStart);
+            const newStart = weekdays.splice(this.weekStart);
             weekdays = [...newStart, ...weekdays];
         }
         return weekdays;
@@ -14398,13 +14398,13 @@ class NovoDatePickerElement {
     isSelectingRange(range, day, selected, selected2, hoverDay, rangeSelectMode, weekRangeSelect) {
         if (range && !weekRangeSelect) {
             /** @type {?} */
-            let isRangeModeEndDate = rangeSelectMode === 'endDate' && (selected && selected2 && isAfter(day, selected2) && isBefore(day, hoverDay));
+            const isRangeModeEndDate = rangeSelectMode === 'endDate' && (selected && selected2 && isAfter(day, selected2) && isBefore(day, hoverDay));
             /** @type {?} */
-            let isRangeModeStartDate = rangeSelectMode === 'startDate' && (selected && selected2 && isBefore(day, selected) && isAfter(day, hoverDay));
+            const isRangeModeStartDate = rangeSelectMode === 'startDate' && (selected && selected2 && isBefore(day, selected) && isAfter(day, hoverDay));
             /** @type {?} */
-            let isNotSelected = !selected && selected2 && isBefore(day, selected2) && isAfter(day, hoverDay);
+            const isNotSelected = !selected && selected2 && isBefore(day, selected2) && isAfter(day, hoverDay);
             /** @type {?} */
-            let isNotSelected2 = selected && !selected2 && isAfter(day, selected) && isBefore(day, hoverDay);
+            const isNotSelected2 = selected && !selected2 && isAfter(day, selected) && isBefore(day, hoverDay);
             return isNotSelected2 || isNotSelected || isRangeModeStartDate || isRangeModeEndDate;
         }
         return false;
@@ -14500,7 +14500,7 @@ class NovoDatePickerElement {
             this.month = new Date(value);
             this.monthLabel = this.labels.formatDateWithFormat(this.month, { month: 'short' });
             /** @type {?} */
-            let start = new Date(value.getTime());
+            const start = new Date(value.getTime());
             start.setDate(1);
             this.removeTime(start.setDate(1));
             this.buildMonth(start, this.month);
@@ -14514,7 +14514,7 @@ class NovoDatePickerElement {
      */
     setToday() {
         /** @type {?} */
-        let tmp = new Date();
+        const tmp = new Date();
         this.updateView(tmp, true, true);
         // Go back to days
         this.open(null, 'days');
@@ -14534,9 +14534,9 @@ class NovoDatePickerElement {
      */
     setMonth(month) {
         /** @type {?} */
-        let date = this.month ? this.month : new Date();
+        const date = this.month ? this.month : new Date();
         /** @type {?} */
-        let tmp = setMonth(date, month);
+        const tmp = setMonth(date, month);
         this.updateView(tmp, true, false);
         // Go back to days
         this.open(null, 'days');
@@ -14547,9 +14547,9 @@ class NovoDatePickerElement {
      */
     setYear(year) {
         /** @type {?} */
-        let date = this.month ? this.month : new Date();
+        const date = this.month ? this.month : new Date();
         /** @type {?} */
-        let tmp = setYear(date, year);
+        const tmp = setYear(date, year);
         this.updateView(tmp, true, false);
         // Go back to days
         this.open(null, 'days');
@@ -14695,9 +14695,9 @@ class NovoDatePickerElement {
              */
             () => {
                 /** @type {?} */
-                let container = this.element.nativeElement.querySelector(`.calendar-content.${this.view}`);
+                const container = this.element.nativeElement.querySelector(`.calendar-content.${this.view}`);
                 /** @type {?} */
-                let selectedItem = this.element.nativeElement.querySelector(`.calendar-content.${this.view} .${this.view === 'years' ? 'year' : 'month'}.selected`);
+                const selectedItem = this.element.nativeElement.querySelector(`.calendar-content.${this.view} .${this.view === 'years' ? 'year' : 'month'}.selected`);
                 if (container && selectedItem) {
                     container.scrollTop = selectedItem.offsetTop - 100;
                 }
@@ -14712,7 +14712,7 @@ class NovoDatePickerElement {
     prevMonth(event) {
         Helpers.swallowEvent(event);
         /** @type {?} */
-        let tmp = subMonths(this.month, 1);
+        const tmp = subMonths(this.month, 1);
         this.updateView(tmp, false, false);
     }
     /**
@@ -14722,7 +14722,7 @@ class NovoDatePickerElement {
     nextMonth(event) {
         Helpers.swallowEvent(event);
         /** @type {?} */
-        let tmp = addMonths(this.month, 1);
+        const tmp = addMonths(this.month, 1);
         this.updateView(tmp, false, false);
     }
     /**
@@ -14746,7 +14746,7 @@ class NovoDatePickerElement {
      */
     removeTime(date) {
         /** @type {?} */
-        let ret = new Date(date);
+        const ret = new Date(date);
         ret.setHours(12);
         ret.setSeconds(0);
         ret.setMilliseconds(0);
@@ -14786,7 +14786,7 @@ class NovoDatePickerElement {
     buildWeek(date, month) {
         // Build out of the days of the week
         /** @type {?} */
-        let days = [];
+        const days = [];
         // Iterate over the days of the week
         for (let i = 0; i < 7; i++) {
             // Push a variable on the day array with lots of helpers to make the template easier
@@ -14794,7 +14794,7 @@ class NovoDatePickerElement {
                 name: this.weekdays[i],
                 number: date.getDate(),
                 isToday: isToday(date),
-                date: date,
+                date,
             });
             // Increment for the next iteration
             date = addDays(date, 1);
@@ -15037,7 +15037,7 @@ class DateFormatService {
         /** @type {?} */
         let timeFormatPartsArray = [];
         /** @type {?} */
-        let timeFormat = this.labels.timeFormatPlaceholderAM.toLowerCase();
+        const timeFormat = this.labels.timeFormatPlaceholderAM.toLowerCase();
         if (militaryTime) {
             return mask;
         }
@@ -15045,7 +15045,7 @@ class DateFormatService {
             timeFormatArray = timeFormat.split('hh:mm');
             if (timeFormatArray && timeFormatArray.length) {
                 mask = [];
-                for (let timeFormatPart of timeFormatArray) {
+                for (const timeFormatPart of timeFormatArray) {
                     if (timeFormatPart === '') {
                         mask = mask.concat([/\d/, /\d|:/, /:|\d/, /\d|\w|\s/, /\d|\s|\w/]);
                     }
@@ -15132,13 +15132,13 @@ class DateFormatService {
         }
         else if (dateFormatTokens && dateFormatTokens.length === 4 && dateString.length >= 1) {
             /** @type {?} */
-            let twoTokens = /\d{1,4}(\/|\.|\-)(\d{1,2})/.exec(dateString);
+            const twoTokens = /\d{1,4}(\/|\.|\-)(\d{1,2})/.exec(dateString);
             /** @type {?} */
-            let oneToken = /^(\d{1,4})$/.exec(dateString);
+            const oneToken = /^(\d{1,4})$/.exec(dateString);
             /** @type {?} */
-            let delimiter = /\w+(\/|\.|\-)\w+[\/|\.|\-]\w+/gi.exec(dateFormat);
+            const delimiter = /\w+(\/|\.|\-)\w+[\/|\.|\-]\w+/gi.exec(dateFormat);
             /** @type {?} */
-            let dateStringWithDelimiter = dateString[dateString.length - 1].match(/\/|\.|\-/);
+            const dateStringWithDelimiter = dateString[dateString.length - 1].match(/\/|\.|\-/);
             if (twoTokens && twoTokens.length === 3 && this.isValidDatePart(twoTokens[2], dateFormatTokens[2]) && !dateStringWithDelimiter) {
                 dateString = `${dateString}${delimiter[1]}`;
             }
@@ -15183,7 +15183,7 @@ class DateFormatService {
                 pm = true;
             }
             if (splits && splits.length) {
-                for (let item of splits) {
+                for (const item of splits) {
                     if (item && item.trim().includes(':')) {
                         timeStringParts = item.trim().split(':');
                     }
@@ -15226,12 +15226,12 @@ class DateFormatService {
         switch (type) {
             case 'datetime':
                 /** @type {?} */
-                let str = dateTimeString.replace(/-/g, '/');
+                const str = dateTimeString.replace(/-/g, '/');
                 /** @type {?} */
-                let parts = str.split(' ');
-                let [dt, dts] = this.parseDateString(parts[0]);
+                const parts = str.split(' ');
+                const [dt, dts] = this.parseDateString(parts[0]);
                 if (parts.length > 1) {
-                    let [tm, tms] = this.parseTimeString(parts[1], militaryTime);
+                    const [tm, tms] = this.parseTimeString(parts[1], militaryTime);
                     return [new Date(dt.setHours(tm.getHours(), tm.getMinutes())), `${dts} ${tms}`];
                 }
                 return [dt, dts];
@@ -15250,7 +15250,7 @@ class DateFormatService {
      */
     isValidDatePart(value, format) {
         /** @type {?} */
-        let datePart = parseInt(value);
+        const datePart = parseInt(value);
         if (format.includes('m') && (datePart >= 2 || value.length === 2)) {
             return true;
         }
@@ -15408,7 +15408,7 @@ class NovoDatePickerInputElement {
      */
     _handleEvent(event, blur) {
         /** @type {?} */
-        let value = ((/** @type {?} */ (event.target))).value;
+        const value = ((/** @type {?} */ (event.target))).value;
         this.formatDate(value, blur);
         this.openPanel();
     }
@@ -15420,10 +15420,10 @@ class NovoDatePickerInputElement {
      */
     formatDate(value, blur) {
         try {
-            let [dateTimeValue, formatted] = this.dateFormatService.parseString(value, false, 'date');
+            const [dateTimeValue, formatted] = this.dateFormatService.parseString(value, false, 'date');
             if (!isNaN(dateTimeValue.getUTCDate())) {
                 /** @type {?} */
-                let dt = new Date(dateTimeValue);
+                const dt = new Date(dateTimeValue);
                 this.dispatchOnChange(dt, blur);
             }
             else {
@@ -15509,7 +15509,7 @@ class NovoDatePickerInputElement {
     _setFormValue(value) {
         if (this.value) {
             /** @type {?} */
-            let test = this.formatDateValue(this.value);
+            const test = this.formatDateValue(this.value);
             this.formattedValue = test;
         }
     }
@@ -15540,7 +15540,7 @@ class NovoDatePickerInputElement {
      */
     formatDateValue(value) {
         /** @type {?} */
-        let originalValue = value;
+        const originalValue = value;
         try {
             if (!value) {
                 return '';
@@ -15741,7 +15741,7 @@ class NovoTimePickerElement {
         }
         else {
             /** @type {?} */
-            let hours = ['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+            const hours = ['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
             this.increments = this.flatten([
                 ...hours.map((/**
                  * @param {?} hour
@@ -15777,7 +15777,7 @@ class NovoTimePickerElement {
      */
     init(value, dispatch) {
         /** @type {?} */
-        let _value = new Date(value);
+        const _value = new Date(value);
         /** @type {?} */
         let hours = _value.getHours();
         /** @type {?} */
@@ -15807,8 +15807,8 @@ class NovoTimePickerElement {
     setValue(event, value) {
         Helpers.swallowEvent(event);
         this.selected = value;
-        let [time, meridian] = value.split(' ');
-        let [hours, minutes] = time.split(':');
+        const [time, meridian] = value.split(' ');
+        const [hours, minutes] = time.split(':');
         this.hours = hours;
         this.minutes = minutes;
         this.meridian = meridian;
@@ -15875,13 +15875,13 @@ class NovoTimePickerElement {
             }
         }
         /** @type {?} */
-        let value = new Date();
+        const value = new Date();
         value.setHours(hours);
         value.setMinutes(this.minutes);
         value.setSeconds(0);
         this.value = `${this.hours}:${this.minutes} ${this.meridian}`;
         this.onSelect.next({
-            hours: hours,
+            hours,
             minutes: this.minutes,
             meridian: this.meridian,
             date: value,
@@ -16081,7 +16081,7 @@ class NovoTimePickerInputElement {
         if (!this.overlay.panelOpen) {
             this.overlay.openPanel();
             /** @type {?} */
-            let hour = new Date().getHours();
+            const hour = new Date().getHours();
             Promise.resolve(null).then((/**
              * @return {?}
              */
@@ -16120,9 +16120,9 @@ class NovoTimePickerInputElement {
         if (document.activeElement === event.target) {
             // this._onChange((event.target as HTMLInputElement).value);
             /** @type {?} */
-            let text = ((/** @type {?} */ (event.target))).value;
+            const text = ((/** @type {?} */ (event.target))).value;
             if (this.military ? text.replace(/_/g, '').length === 5 : text.replace(/_/g, '').length === 8) {
-                let [dateTimeValue, formatted] = this.dateFormatService.parseString(text, this.military, 'time');
+                const [dateTimeValue, formatted] = this.dateFormatService.parseString(text, this.military, 'time');
                 this.dispatchOnChange(dateTimeValue);
             }
             else {
@@ -16130,7 +16130,7 @@ class NovoTimePickerInputElement {
             }
             this.openPanel();
             /** @type {?} */
-            let num = Number(text.split(':')[0]);
+            const num = Number(text.split(':')[0]);
             this.scrollToIndex(num * 4);
         }
     }
@@ -16240,7 +16240,7 @@ class NovoTimePickerInputElement {
             return '';
         }
         /** @type {?} */
-        let format = this.labels.formatTimeWithFormat(value, {
+        const format = this.labels.formatTimeWithFormat(value, {
             hour: 'numeric',
             minute: '2-digit',
             hour12: !this.military,
@@ -16262,13 +16262,13 @@ class NovoTimePickerInputElement {
      */
     scrollToIndex(index) {
         /** @type {?} */
-        let element = this.overlay.overlayRef.overlayElement;
+        const element = this.overlay.overlayRef.overlayElement;
         /** @type {?} */
-        let list = element.querySelector('.increments');
+        const list = element.querySelector('.increments');
         /** @type {?} */
-        let items = list.querySelectorAll('novo-list-item');
+        const items = list.querySelectorAll('novo-list-item');
         /** @type {?} */
-        let item = items[index];
+        const item = items[index];
         if (item) {
             list.scrollTop = ((/** @type {?} */ (item))).offsetTop;
         }
@@ -16443,7 +16443,7 @@ class NovoDateTimePickerElement {
         /** @type {?} */
         let hours = value.getHours();
         /** @type {?} */
-        let minutes = value.getMinutes();
+        const minutes = value.getMinutes();
         this.meridian = value.toLocaleTimeString().slice(-2);
         if (!this.military) {
             hours = this.meridian === 'PM' && hours > 12 ? hours - 12 : hours;
@@ -16756,7 +16756,7 @@ class NovoDateTimePickerInputElement {
         try {
             if (this.datePart instanceof Date && this.timePart instanceof Date) {
                 /** @type {?} */
-                let newDt = new Date(this.datePart.getFullYear(), this.datePart.getMonth(), this.datePart.getDate(), this.timePart.getHours(), this.timePart.getMinutes());
+                const newDt = new Date(this.datePart.getFullYear(), this.datePart.getMonth(), this.datePart.getDate(), this.timePart.getHours(), this.timePart.getMinutes());
                 this.dispatchOnChange(newDt);
             }
             else {
@@ -17008,7 +17008,7 @@ class NovoCKEditorElement {
      */
     ngAfterViewInit() {
         /** @type {?} */
-        let config = Object.assign(this.getBaseConfig(), this.config);
+        const config = Object.assign(this.getBaseConfig(), this.config);
         if (this.startupFocus) {
             config.startupFocus = true;
         }
@@ -17062,7 +17062,7 @@ class NovoCKEditorElement {
         () => {
             this.onTouched();
             /** @type {?} */
-            let value = this.instance.getData();
+            const value = this.instance.getData();
             // Debounce update
             if (this.debounce) {
                 if (this.debounceTimeout) {
@@ -17237,7 +17237,7 @@ class NovoCKEditorElement {
      */
     insertText(text) {
         /** @type {?} */
-        let trimmedText = text.trim();
+        const trimmedText = text.trim();
         this.instance.insertText(trimmedText);
     }
 }
@@ -17389,7 +17389,7 @@ class NovoTipWellElement {
         // Check localStorage for state
         if (this.isLocalStorageEnabled) {
             /** @type {?} */
-            let storedValue = JSON.parse(localStorage.getItem(this.localStorageKey));
+            const storedValue = JSON.parse(localStorage.getItem(this.localStorageKey));
             this.isActive = storedValue !== false;
         }
     }
@@ -17514,7 +17514,7 @@ class NovoTemplateService {
      */
     getAll() {
         /** @type {?} */
-        let templates = {};
+        const templates = {};
         /** @type {?} */
         const customTemplateTypes = Object.keys(this.templates.custom);
         /** @type {?} */
@@ -17731,9 +17731,9 @@ class NovoDynamicFormElement {
             }));
         }
         /** @type {?} */
-        let requiredFields = [];
+        const requiredFields = [];
         /** @type {?} */
-        let nonRequiredFields = [];
+        const nonRequiredFields = [];
         this.fieldsets.forEach((/**
          * @param {?} fieldset
          * @return {?}
@@ -17898,7 +17898,7 @@ class NovoDynamicFormElement {
          */
         (key) => {
             /** @type {?} */
-            let control = this.form.controls[key];
+            const control = this.form.controls[key];
             if (control.required && Helpers.isBlank(this.form.value[control.key])) {
                 control.markAsDirty();
                 control.markAsTouched();
@@ -18080,7 +18080,7 @@ class NovoFormElement {
          */
         (key) => {
             /** @type {?} */
-            let control = this.form.controls[key];
+            const control = this.form.controls[key];
             if (control.required && Helpers.isBlank(this.form.value[control.key])) {
                 control.markAsDirty();
                 control.markAsTouched();
@@ -18242,7 +18242,7 @@ class NovoFormControl extends FormControl {
         // Update validators to have the required
         if (this.required && !this.hasRequiredValidator) {
             /** @type {?} */
-            let validators = [...this.validators];
+            const validators = [...this.validators];
             validators.push(Validators.required);
             // TODO: duplicated below
             this.setValidators(validators);
@@ -18759,7 +18759,7 @@ class FormValidators {
      */
     static isEmail(control) {
         /** @type {?} */
-        let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+        const EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
         return !control.value || EMAIL_REGEXP.test(control.value) ? null : { invalidEmail: true };
     }
     // Makes sure the control value is a valid address
@@ -18769,17 +18769,17 @@ class FormValidators {
      */
     static isValidAddress(control) {
         /** @type {?} */
-        let fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'countryID'];
+        const fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'countryID'];
         /** @type {?} */
-        let invalidAddressFields = [];
+        const invalidAddressFields = [];
         /** @type {?} */
-        let maxlengthFields = [];
+        const maxlengthFields = [];
         /** @type {?} */
         let returnVal = null;
         /** @type {?} */
         let maxlengthError = false;
         /** @type {?} */
-        let showCountryRequiredFlag = (/**
+        const showCountryRequiredFlag = (/**
          * @param {?} subfield
          * @param {?} ctrl
          * @return {?}
@@ -18792,7 +18792,7 @@ class FormValidators {
                 ctrl.config.countryID.updated);
         });
         /** @type {?} */
-        let showStateRequiredFlag = (/**
+        const showStateRequiredFlag = (/**
          * @param {?} subfield
          * @param {?} ctrl
          * @return {?}
@@ -19440,7 +19440,7 @@ class NovoFormGroup extends FormGroup {
      * @return {?}
      */
     enableAllControls() {
-        for (let key in this.controls) {
+        for (const key in this.controls) {
             if (((/** @type {?} */ (this.controls[key]))).readOnly) {
                 ((/** @type {?} */ (this.controls[key]))).readOnly = false;
                 this.controls[key].enable();
@@ -19451,7 +19451,7 @@ class NovoFormGroup extends FormGroup {
      * @return {?}
      */
     disableAllControls() {
-        for (let key in this.controls) {
+        for (const key in this.controls) {
             if (!((/** @type {?} */ (this.controls[key]))).readOnly) {
                 ((/** @type {?} */ (this.controls[key]))).readOnly = true;
                 this.controls[key].disable();
@@ -19575,14 +19575,14 @@ class FormUtils {
      */
     toFormGroup(controls) {
         /** @type {?} */
-        let group = {};
+        const group = {};
         controls.forEach((/**
          * @param {?} control
          * @return {?}
          */
         (control) => {
             /** @type {?} */
-            let value = Helpers.isBlank(control.value) ? '' : control.value;
+            const value = Helpers.isBlank(control.value) ? '' : control.value;
             group[control.key] = new NovoFormControl(value, control);
         }));
         return new NovoFormGroup(group);
@@ -19605,9 +19605,9 @@ class FormUtils {
          */
         (control) => {
             /** @type {?} */
-            let value = Helpers.isBlank(control.value) ? '' : control.value;
+            const value = Helpers.isBlank(control.value) ? '' : control.value;
             /** @type {?} */
-            let formControl = new NovoFormControl(value, control);
+            const formControl = new NovoFormControl(value, control);
             formGroup.addControl(control.key, formControl);
         }));
     }
@@ -19632,7 +19632,7 @@ class FormUtils {
      */
     toFormGroupFromFieldset(fieldsets) {
         /** @type {?} */
-        let controls = [];
+        const controls = [];
         fieldsets.forEach((/**
          * @param {?} fieldset
          * @return {?}
@@ -19659,7 +19659,7 @@ class FormUtils {
         /** @type {?} */
         let type;
         /** @type {?} */
-        let dataSpecializationTypeMap = {
+        const dataSpecializationTypeMap = {
             DATETIME: 'datetime',
             TIME: 'time',
             MONEY: 'currency',
@@ -19674,31 +19674,31 @@ class FormUtils {
             SimplifiedOptionsLookup: 'select',
         };
         /** @type {?} */
-        let dataTypeToTypeMap = {
+        const dataTypeToTypeMap = {
             Timestamp: 'date',
             Date: 'date',
             Boolean: 'tiles',
         };
         /** @type {?} */
-        let inputTypeToTypeMap = {
+        const inputTypeToTypeMap = {
             CHECKBOX: 'radio',
             RADIO: 'radio',
             SELECT: 'select',
             TILES: 'tiles',
         };
         /** @type {?} */
-        let inputTypeMultiToTypeMap = {
+        const inputTypeMultiToTypeMap = {
             CHECKBOX: 'checklist',
             RADIO: 'checklist',
             SELECT: 'chips',
         };
         /** @type {?} */
-        let typeToTypeMap = {
+        const typeToTypeMap = {
             file: 'file',
             COMPOSITE: 'address',
         };
         /** @type {?} */
-        let numberDataTypeToTypeMap = {
+        const numberDataTypeToTypeMap = {
             Double: 'float',
             BigDecimal: 'float',
             Integer: 'number',
@@ -19803,9 +19803,9 @@ class FormUtils {
         /** @type {?} */
         let control;
         /** @type {?} */
-        let controlConfig = {
+        const controlConfig = {
             metaType: field.type,
-            type: type,
+            type,
             key: field.name,
             label: field.label,
             placeholder: field.hint || '',
@@ -19976,7 +19976,7 @@ class FormUtils {
                 controlConfig.config.required = field.required;
                 controlConfig.config.readOnly = controlConfig.readOnly;
                 if (field.fields && field.fields.length) {
-                    for (let subfield of field.fields) {
+                    for (const subfield of field.fields) {
                         controlConfig.config[subfield.name] = {
                             required: !!subfield.required,
                             hidden: !!subfield.readOnly,
@@ -20050,10 +20050,10 @@ class FormUtils {
      */
     toControls(meta, currencyFormat, http, config, overrides, forTable = false) {
         /** @type {?} */
-        let controls = [];
+        const controls = [];
         if (meta && meta.fields) {
             /** @type {?} */
-            let fields = meta.fields;
+            const fields = meta.fields;
             fields.forEach((/**
              * @param {?} field
              * @return {?}
@@ -20061,7 +20061,7 @@ class FormUtils {
             (field) => {
                 if (this.shouldCreateControl(field)) {
                     /** @type {?} */
-                    let control = this.getControlForField(field, http, config, overrides, forTable);
+                    const control = this.getControlForField(field, http, config, overrides, forTable);
                     // Set currency format
                     if (control.subType === 'currency') {
                         control.currencyFormat = currencyFormat;
@@ -20083,9 +20083,9 @@ class FormUtils {
      */
     toTableControls(meta, currencyFormat, http, config, overrides) {
         /** @type {?} */
-        let controls = this.toControls(meta, currencyFormat, http, config, overrides, true);
+        const controls = this.toControls(meta, currencyFormat, http, config, overrides, true);
         /** @type {?} */
-        let ret = {};
+        const ret = {};
         controls.forEach((/**
          * @param {?} control
          * @return {?}
@@ -20109,7 +20109,7 @@ class FormUtils {
      */
     toFieldSets(meta, currencyFormat, http, config, overrides, data) {
         /** @type {?} */
-        let fieldsets = [];
+        const fieldsets = [];
         /** @type {?} */
         let formFields = [];
         if (meta && meta.fields) {
@@ -20127,7 +20127,7 @@ class FormUtils {
                 else if (this.isEmbeddedField(field)) {
                     this.insertHeaderToFieldsets(fieldsets, field);
                     /** @type {?} */
-                    let embeddedFields = this.getEmbeddedFields(field);
+                    const embeddedFields = this.getEmbeddedFields(field);
                     embeddedFields.forEach((/**
                      * @param {?} embeddedField
                      * @return {?}
@@ -20187,7 +20187,7 @@ class FormUtils {
         /** @type {?} */
         const fieldData = this.isEmbeddedFieldData(field, data) ? this.getEmbeddedFieldData(field, data) : this.getFieldData(field, data);
         /** @type {?} */
-        let control = this.getControlForField(field, http, config, overrides, undefined, fieldData);
+        const control = this.getControlForField(field, http, config, overrides, undefined, fieldData);
         // Set currency format
         if (control.subType === 'currency') {
             control.currencyFormat = currencyFormat;
@@ -20219,7 +20219,7 @@ class FormUtils {
      * @return {?}
      */
     getEmbeddedFieldData(field, data) {
-        let [parentFieldName, fieldName] = field.name.split('.');
+        const [parentFieldName, fieldName] = field.name.split('.');
         return (data && data[parentFieldName] && data[parentFieldName][fieldName]) || null;
     }
     /**
@@ -20229,7 +20229,7 @@ class FormUtils {
      */
     getFormFields(meta) {
         /** @type {?} */
-        let sectionHeaders = meta.sectionHeaders
+        const sectionHeaders = meta.sectionHeaders
             ? meta.sectionHeaders.map((/**
              * @param {?} element
              * @return {?}
@@ -20397,7 +20397,7 @@ class FormUtils {
         }
         else if (Array.isArray(field.options) && field.type === 'chips') {
             /** @type {?} */
-            let options = field.options;
+            const options = field.options;
             return {
                 field: 'value',
                 format: '$label',
@@ -20424,7 +20424,7 @@ class FormUtils {
         /** @type {?} */
         const currentWorkflowOption = fieldData.id ? fieldData.id : 'initial';
         /** @type {?} */
-        let updateWorkflowOptions = workflowOptions[currentWorkflowOption] || [];
+        const updateWorkflowOptions = workflowOptions[currentWorkflowOption] || [];
         if (currentValue && !updateWorkflowOptions.find((/**
          * @param {?} option
          * @return {?}
@@ -20537,7 +20537,7 @@ class FormUtils {
          */
         (key) => {
             /** @type {?} */
-            let control = form.controls[key];
+            const control = form.controls[key];
             if (control.required && Helpers.isBlank(form.value[control.key])) {
                 control.markAsDirty();
                 control.markAsTouched();
@@ -20550,7 +20550,7 @@ class FormUtils {
      */
     isAddressEmpty(control) {
         /** @type {?} */
-        let fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'countryID'];
+        const fieldList = ['address1', 'address2', 'city', 'state', 'zip', 'countryID'];
         /** @type {?} */
         let valid = true;
         if (control.value && control.config) {
@@ -20637,7 +20637,7 @@ class FormUtils {
              * @return {?}
              */
             (field) => {
-                let [parentFieldName, fieldName] = field.split('.');
+                const [parentFieldName, fieldName] = field.split('.');
                 if (!data[parentFieldName]) {
                     data[parentFieldName] = {};
                 }
@@ -21310,7 +21310,7 @@ class FieldInteractionApi {
             return null;
         }
         /** @type {?} */
-        let control = this.form.controls[key];
+        const control = this.form.controls[key];
         if (!control) {
             console.error('[FieldInteractionAPI] - could not find a control in the form by the key --', key); // tslint:disable-line
             return null;
@@ -21323,7 +21323,7 @@ class FieldInteractionApi {
      */
     getValue(key) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control) {
             return control.value;
         }
@@ -21335,7 +21335,7 @@ class FieldInteractionApi {
      */
     getRawValue(key) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control) {
             return control.rawValue;
         }
@@ -21347,7 +21347,7 @@ class FieldInteractionApi {
      */
     getInitialValue(key) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control) {
             return control.initialValue;
         }
@@ -21361,10 +21361,10 @@ class FieldInteractionApi {
      */
     setValue(key, value, options) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.setValue(value, options);
-            this.triggerEvent({ controlKey: key, prop: 'value', value: value });
+            this.triggerEvent({ controlKey: key, prop: 'value', value });
         }
     }
     /**
@@ -21375,10 +21375,10 @@ class FieldInteractionApi {
      */
     patchValue(key, value, options) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.setValue(value, options);
-            this.triggerEvent({ controlKey: key, prop: 'value', value: value });
+            this.triggerEvent({ controlKey: key, prop: 'value', value });
         }
     }
     /**
@@ -21388,7 +21388,7 @@ class FieldInteractionApi {
      */
     setReadOnly(key, isReadOnly) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.setReadOnly(isReadOnly);
             this.triggerEvent({ controlKey: key, prop: 'readOnly', value: isReadOnly });
@@ -21401,7 +21401,7 @@ class FieldInteractionApi {
      */
     setRequired(key, required) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.setRequired(required);
             this.triggerEvent({ controlKey: key, prop: 'required', value: required });
@@ -21414,7 +21414,7 @@ class FieldInteractionApi {
      */
     hide(key, clearValue = true) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.hide(clearValue);
             this.disable(key, { emitEvent: false });
@@ -21427,7 +21427,7 @@ class FieldInteractionApi {
      */
     show(key) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.show();
             this.enable(key, { emitEvent: false });
@@ -21463,7 +21463,7 @@ class FieldInteractionApi {
      */
     disable(key, options) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.disable(options);
             this.triggerEvent({ controlKey: key, prop: 'readOnly', value: true });
@@ -21476,7 +21476,7 @@ class FieldInteractionApi {
      */
     enable(key, options) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.enable(options);
             this.triggerEvent({ controlKey: key, prop: 'readOnly', value: false });
@@ -21489,7 +21489,7 @@ class FieldInteractionApi {
      */
     markAsInvalid(key, validationMessage) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control) {
             if (control && !control.restrictFieldInteractions) {
                 control.markAsInvalid(validationMessage);
@@ -21503,7 +21503,7 @@ class FieldInteractionApi {
      */
     markAsDirty(key, options) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.markAsDirty(options);
         }
@@ -21515,7 +21515,7 @@ class FieldInteractionApi {
      */
     markAsPending(key, options) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.markAsPending(options);
         }
@@ -21527,7 +21527,7 @@ class FieldInteractionApi {
      */
     markAsPristine(key, options) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.markAsPristine(options);
         }
@@ -21539,7 +21539,7 @@ class FieldInteractionApi {
      */
     markAsTouched(key, options) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.markAsTouched(options);
         }
@@ -21551,7 +21551,7 @@ class FieldInteractionApi {
      */
     markAsUntouched(key, options) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.markAsUntouched(options);
         }
@@ -21563,7 +21563,7 @@ class FieldInteractionApi {
      */
     updateValueAndValidity(key, options) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.updateValueAndValidity(options);
         }
@@ -21587,11 +21587,11 @@ class FieldInteractionApi {
      */
     displayTip(key, tip, icon, allowDismiss, sanitize) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.tipWell = {
-                tip: tip,
-                icon: icon,
+                tip,
+                icon,
                 button: allowDismiss,
                 sanitize: sanitize !== false,
             };
@@ -21605,7 +21605,7 @@ class FieldInteractionApi {
      */
     setTooltip(key, tooltip) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.tooltip = tooltip;
             if (tooltip.length >= 40 && tooltip.length <= 400) {
@@ -21625,13 +21625,13 @@ class FieldInteractionApi {
      */
     confirmChanges(key, message) {
         /** @type {?} */
-        let history = this.getProperty(key, 'valueHistory');
+        const history = this.getProperty(key, 'valueHistory');
         /** @type {?} */
-        let oldValue = history[history.length - 2];
+        const oldValue = history[history.length - 2];
         /** @type {?} */
-        let newValue = this.getValue(key);
+        const newValue = this.getValue(key);
         /** @type {?} */
-        let label = this.getProperty(key, 'label');
+        const label = this.getProperty(key, 'label');
         ((/** @type {?} */ (document.activeElement))).blur();
         return this.modalService.open(ControlConfirmModal, { oldValue, newValue, label, message, key }).onClosed.then((/**
          * @param {?} result
@@ -21650,9 +21650,9 @@ class FieldInteractionApi {
      */
     promptUser(key, changes) {
         /** @type {?} */
-        let showYes = true;
+        const showYes = true;
         ((/** @type {?} */ (document.activeElement))).blur();
-        return this.modalService.open(ControlPromptModal, { changes: changes, key: key }).onClosed;
+        return this.modalService.open(ControlPromptModal, { changes, key }).onClosed;
     }
     /**
      * @param {?} key
@@ -21662,10 +21662,10 @@ class FieldInteractionApi {
      */
     setProperty(key, prop, value) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control[prop] = value;
-            this.triggerEvent({ controlKey: key, prop: prop, value: value });
+            this.triggerEvent({ controlKey: key, prop, value });
         }
     }
     /**
@@ -21675,7 +21675,7 @@ class FieldInteractionApi {
      */
     getProperty(key, prop) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             return control[prop];
         }
@@ -21687,7 +21687,7 @@ class FieldInteractionApi {
      */
     isValueEmpty(key) {
         /** @type {?} */
-        let value = this.getValue(key);
+        const value = this.getValue(key);
         return Helpers.isEmpty(value);
     }
     /**
@@ -21696,7 +21696,7 @@ class FieldInteractionApi {
      */
     isValueBlank(key) {
         /** @type {?} */
-        let value = this.getValue(key);
+        const value = this.getValue(key);
         return Helpers.isBlank(value);
     }
     /**
@@ -21713,7 +21713,7 @@ class FieldInteractionApi {
      */
     addStaticOption(key, newOption) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         /** @type {?} */
         let optionToAdd = newOption;
         /** @type {?} */
@@ -21723,7 +21723,7 @@ class FieldInteractionApi {
             let currentOptions = this.getProperty(key, 'options');
             if (!currentOptions || !currentOptions.length) {
                 /** @type {?} */
-                let config = this.getProperty(key, 'config');
+                const config = this.getProperty(key, 'config');
                 if (config) {
                     currentOptions = config.options;
                     if (currentOptions && Array.isArray(currentOptions)) {
@@ -21765,13 +21765,13 @@ class FieldInteractionApi {
      */
     removeStaticOption(key, optionToRemove) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             /** @type {?} */
             let currentOptions = this.getProperty(key, 'options');
             if (!currentOptions || !currentOptions.length) {
                 /** @type {?} */
-                let config = this.getProperty(key, 'config');
+                const config = this.getProperty(key, 'config');
                 if (config) {
                     currentOptions = config.options;
                     if (currentOptions && Array.isArray(currentOptions)) {
@@ -21848,7 +21848,7 @@ class FieldInteractionApi {
      */
     mutatePickerConfig(key, args, mapper) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             const { minSearchLength, enableInfiniteScroll, filteredOptionsCreator, format, getLabels, emptyPickerMessage } = control.config;
             /** @type {?} */
@@ -21866,7 +21866,7 @@ class FieldInteractionApi {
      */
     addPropertiesToPickerConfig(key, properties) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (!control || control.restrictFieldInteractions) {
             return;
         }
@@ -21882,7 +21882,7 @@ class FieldInteractionApi {
      */
     setLoading(key, loading) {
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             if (loading) {
                 this.form.controls[key].fieldInteractionloading = true;
@@ -21931,7 +21931,7 @@ class FieldInteractionApi {
             return null;
         }
         /** @type {?} */
-        let control = this.form.controls[key];
+        const control = this.form.controls[key];
         /** @type {?} */
         let fieldsetIndex;
         /** @type {?} */
@@ -21982,10 +21982,10 @@ class FieldInteractionApi {
             }
             if (fieldsetIndex !== -1 && controlIndex !== -1) {
                 /** @type {?} */
-                let novoControl = this.formUtils.getControlForField(metaForNewField, this.http, {});
+                const novoControl = this.formUtils.getControlForField(metaForNewField, this.http, {});
                 novoControl.hidden = false;
                 /** @type {?} */
-                let formControl = new NovoFormControl(initialValue, novoControl);
+                const formControl = new NovoFormControl(initialValue, novoControl);
                 this.form.addControl(novoControl.key, formControl);
                 this.form.fieldsets[fieldsetIndex].controls.splice(controlIndex, 0, novoControl);
                 this.triggerEvent({ controlKey: key, prop: 'addControl', value: formControl });
@@ -22002,7 +22002,7 @@ class FieldInteractionApi {
             return null;
         }
         /** @type {?} */
-        let control = this.getControl(key);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             /** @type {?} */
             let fieldsetIndex = -1;
@@ -22313,7 +22313,7 @@ class NovoControlElement extends OutsideClick {
         /** @type {?} */
         const MAX_LENGTH_CONTROL_TYPES = ['textbox', 'picker', 'text-area'];
         /** @type {?} */
-        let charCount = this.focused &&
+        const charCount = this.focused &&
             !!this.form.controls[this.control.key].maxlength &&
             MAX_LENGTH_CONTROL_TYPES.includes(this.form.controls[this.control.key].controlType);
         return this._showCount || charCount;
@@ -22351,7 +22351,7 @@ class NovoControlElement extends OutsideClick {
              */
             () => {
                 /** @type {?} */
-                let input = this.element.nativeElement.querySelector('input');
+                const input = this.element.nativeElement.querySelector('input');
                 if (input) {
                     input.focus();
                 }
@@ -22364,7 +22364,7 @@ class NovoControlElement extends OutsideClick {
     ngAfterContentInit() {
         // Subscribe to control interactions
         if (this.control.interactions && !this.form.controls[this.control.key].restrictFieldInteractions) {
-            for (let interaction of this.control.interactions) {
+            for (const interaction of this.control.interactions) {
                 switch (interaction.event) {
                     case 'blur':
                         this.valueChangeSubscription = this.onBlur.pipe(debounceTime(300)).subscribe((/**
@@ -22782,7 +22782,7 @@ class NovoControlElement extends OutsideClick {
         /** @type {?} */
         const UTILITY_KEYS = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
         /** @type {?} */
-        let key = event.key;
+        const key = event.key;
         // Numbers or numbers and decimal characters only
         if (this.form.controls[this.control.key].subType === 'number' && !(NUMBERS_ONLY.test(key) || UTILITY_KEYS.includes(key))) {
             event.preventDefault();
@@ -22804,9 +22804,9 @@ class NovoControlElement extends OutsideClick {
      */
     handlePercentChange(event) {
         /** @type {?} */
-        let value = event.target['value'];
+        const value = event.target['value'];
         /** @type {?} */
-        let percent = Helpers.isEmpty(value) ? null : Number((value / 100).toFixed(6).replace(/\.?0*$/, ''));
+        const percent = Helpers.isEmpty(value) ? null : Number((value / 100).toFixed(6).replace(/\.?0*$/, ''));
         if (!Helpers.isEmpty(percent)) {
             this.change.emit(percent);
             this.form.controls[this.control.key].setValue(percent);
@@ -22895,7 +22895,7 @@ class NovoControlElement extends OutsideClick {
      */
     updateValidity(shouldEventBeEmitted) {
         /** @type {?} */
-        let emitEvent = shouldEventBeEmitted ? true : false;
+        const emitEvent = shouldEventBeEmitted ? true : false;
         this.form.controls[this.control.key].updateValueAndValidity({ emitEvent });
     }
 }
@@ -40978,7 +40978,7 @@ class NovoAddressElement {
         this.isInvalid(field);
         this.isValid(field);
         if (event) {
-            this.change.emit({ value: this.model[field], field: field });
+            this.change.emit({ value: this.model[field], field });
         }
     }
     /**
@@ -41005,7 +41005,7 @@ class NovoAddressElement {
      */
     onCountryChange(evt) {
         /** @type {?} */
-        let country = evt && evt.rawValue ? evt.rawValue : null;
+        const country = evt && evt.rawValue ? evt.rawValue : null;
         /** @type {?} */
         let field;
         /** @type {?} */
@@ -41044,7 +41044,7 @@ class NovoAddressElement {
      */
     onStateChange(evt) {
         /** @type {?} */
-        let state = evt && evt.value ? evt.value : null;
+        const state = evt && evt.value ? evt.value : null;
         this.config.state.updated = true;
         this.model.state = state;
         this.updateControl();
@@ -41056,7 +41056,7 @@ class NovoAddressElement {
      */
     setStateLabel(model) {
         /** @type {?} */
-        let state = model.state;
+        const state = model.state;
         if (!Helpers.isBlank(state)) {
             if (this.config.state.required) {
                 this.valid.state = true;
@@ -41162,7 +41162,7 @@ class NovoAddressElement {
                 if (this.config.countryID.pickerConfig && this.config.countryID.pickerConfig.getLabels) {
                     if (Helpers.isFunction(this.config.countryID.pickerConfig.getLabels)) {
                         /** @type {?} */
-                        let promise = this.config.countryID.pickerConfig.getLabels(model.countryID);
+                        const promise = this.config.countryID.pickerConfig.getLabels(model.countryID);
                         loadingCountries = true;
                         if (promise.then) {
                             promise.then((/**
@@ -41182,7 +41182,7 @@ class NovoAddressElement {
             if (countryName) {
                 countryName = countryName.trim();
                 model.state = model.state || '';
-                this.model = Object.assign(model, { countryName: countryName });
+                this.model = Object.assign(model, { countryName });
             }
             else {
                 this.model = model;
@@ -41283,7 +41283,7 @@ class NovoAddressElement {
                  */
                 (resolve) => {
                     /** @type {?} */
-                    let country = findByCountryId(countryID);
+                    const country = findByCountryId(countryID);
                     if (country) {
                         resolve({ value: country.id, label: country.name });
                     }
@@ -41718,7 +41718,7 @@ class NovoCheckListElement {
              */
             (option) => {
                 /** @type {?} */
-                let formattedOption = {
+                const formattedOption = {
                     value: option,
                     label: option,
                     checked: this.model && this.model.length && this.model.indexOf(option.value) !== -1,
@@ -41733,7 +41733,7 @@ class NovoCheckListElement {
              */
             (option) => {
                 /** @type {?} */
-                let formattedOption = option;
+                const formattedOption = option;
                 formattedOption.checked = this.model && this.model.length && this.model.indexOf(option.value) !== -1;
                 this._options.push(formattedOption);
             }));
@@ -41744,7 +41744,7 @@ class NovoCheckListElement {
      */
     setModel() {
         /** @type {?} */
-        let checkedOptions = this.options.filter((/**
+        const checkedOptions = this.options.filter((/**
          * @param {?} checkBox
          * @return {?}
          */
@@ -41988,7 +41988,7 @@ class NovoFileInputElement {
             this.element.nativeElement.removeEventListener(type, this.commands[type]);
         }));
         /** @type {?} */
-        let dragulaHasFileOutputBag = this.dragula.bags.length > 0 && this.dragula.bags.filter((/**
+        const dragulaHasFileOutputBag = this.dragula.bags.length > 0 && this.dragula.bags.filter((/**
          * @param {?} x
          * @return {?}
          */
@@ -42097,9 +42097,9 @@ class NovoFileInputElement {
             return;
         }
         /** @type {?} */
-        let options = this.layoutOptions;
+        const options = this.layoutOptions;
         /** @type {?} */
-        let filelist = Array.from(event.dataTransfer.files);
+        const filelist = Array.from(event.dataTransfer.files);
         if (options.customActions) {
             this.upload.emit(this.multiple ? filelist : [filelist[0]]);
         }
@@ -42603,7 +42603,7 @@ class NovoControlGroup {
      */
     ngOnChanges(changes) {
         /** @type {?} */
-        let initialValueChange = changes['initialValue'];
+        const initialValueChange = changes['initialValue'];
         // If initial value changes, clear the controls
         if (initialValueChange && initialValueChange.currentValue !== initialValueChange.previousValue && !initialValueChange.firstChange) {
             this.clearControls();
@@ -42710,7 +42710,7 @@ class NovoControlGroup {
         /** @type {?} */
         const control = (/** @type {?} */ (this.form.controls[this.key]));
         if (emitEvent) {
-            this.onRemove.emit({ value: control.at(index).value, index: index });
+            this.onRemove.emit({ value: control.at(index).value, index });
         }
         control.removeAt(index);
         this.disabledArray = this.disabledArray.filter((/**
@@ -42730,7 +42730,7 @@ class NovoControlGroup {
     editControl(index) {
         /** @type {?} */
         const control = (/** @type {?} */ (this.form.controls[this.key]));
-        this.onEdit.emit({ value: control.at(index).value, index: index });
+        this.onEdit.emit({ value: control.at(index).value, index });
     }
     /**
      * @param {?} event
@@ -42790,7 +42790,7 @@ class NovoControlGroup {
      */
     getNewControls(controls) {
         /** @type {?} */
-        let ret = [];
+        const ret = [];
         (this.controls || []).forEach((/**
          * @param {?} control
          * @return {?}
@@ -43287,8 +43287,8 @@ class Pagination {
      */
     makePage(number, text, isActive) {
         return {
-            number: number,
-            text: text,
+            number,
+            text,
             active: isActive,
         };
     }
@@ -43299,7 +43299,7 @@ class Pagination {
      */
     getPages(currentPage, totalPages) {
         /** @type {?} */
-        let pages = [];
+        const pages = [];
         // Default page limits
         /** @type {?} */
         let startPage = 1;
@@ -43739,7 +43739,7 @@ class ThOrderable {
         let index = null;
         if (this.element.nativeElement && this.element.nativeElement.parentNode) {
             /** @type {?} */
-            let children = Array.prototype.slice.call(this.element.nativeElement.parentNode.children);
+            const children = Array.prototype.slice.call(this.element.nativeElement.parentNode.children);
             index = children.indexOf(this.element.nativeElement);
         }
         return index;
@@ -44062,7 +44062,7 @@ class NovoDropdownCell extends BaseRenderer {
      */
     onClick(config, option, value) {
         /** @type {?} */
-        let callback = option.callback || config.callback;
+        const callback = option.callback || config.callback;
         callback(this.data, value || option);
     }
 }
@@ -44522,9 +44522,9 @@ class ArrayCollection {
      * @return {?}
      */
     merge(newData) {
-        for (let obj of newData) {
+        for (const obj of newData) {
             /** @type {?} */
-            let existing = ~this.getItemIndex(obj);
+            const existing = ~this.getItemIndex(obj);
             if (existing) {
                 this.replaceItem(obj, existing);
             }
@@ -44556,7 +44556,7 @@ class ArrayCollection {
      */
     removeItem(item) {
         /** @type {?} */
-        let index = this.getItemIndex(item);
+        const index = this.getItemIndex(item);
         return this.removeItemAt(index);
     }
     /**
@@ -44569,7 +44569,7 @@ class ArrayCollection {
      */
     removeItemAt(index) {
         /** @type {?} */
-        let success = !!this.source.splice(index, 1);
+        const success = !!this.source.splice(index, 1);
         this.refresh();
         return success;
     }
@@ -44584,7 +44584,7 @@ class ArrayCollection {
      */
     replaceItem(newItem, oldItem) {
         /** @type {?} */
-        let index = this.getItemIndex(oldItem);
+        const index = this.getItemIndex(oldItem);
         if (index >= 0) {
             this.replaceItemAt(newItem, index);
         }
@@ -44668,10 +44668,10 @@ class ArrayCollection {
      */
     refresh() {
         this.filterData = this.isEditing ? this.editData.slice() : this.source.slice();
-        for (let item of this._sort.reverse()) {
+        for (const item of this._sort.reverse()) {
             this.sortOn(item.field, item.reverse);
         }
-        for (let key in this._filter) {
+        for (const key in this._filter) {
             if (key) {
                 this.filterOn(key, this._filter[key]);
             }
@@ -44811,21 +44811,21 @@ class PagedArrayCollection extends ArrayCollection {
      */
     refresh() {
         this.filterData = this.isEditing ? this.editData.slice() : this.source.slice();
-        for (let item of this._sort.reverse()) {
+        for (const item of this._sort.reverse()) {
             this.sortOn(item.field, item.reverse);
         }
-        for (let key in this._filter) {
+        for (const key in this._filter) {
             if (key) {
                 this.filterOn(key, this._filter[key]);
             }
         }
         if (this.page >= 0) {
             /** @type {?} */
-            let start = (this.page - 1) * this.pageSize;
+            const start = (this.page - 1) * this.pageSize;
             /** @type {?} */
-            let end = start + this.pageSize;
+            const end = start + this.pageSize;
             /** @type {?} */
-            let result = this.filterData.slice(start, end);
+            const result = this.filterData.slice(start, end);
             this.onDataChange(new CollectionEvent(CollectionEvent.CHANGE, result));
         }
         else {
@@ -44976,7 +44976,7 @@ class NovoTableElement {
                     /** @type {?} */
                     let columnsToSum = [];
                     /** @type {?} */
-                    let columnSums = {};
+                    const columnSums = {};
                     if (this.config.footers) {
                         this.config.footers.forEach((/**
                          * @param {?} config
@@ -44996,7 +44996,7 @@ class NovoTableElement {
                     }
                     // Make a form for each row
                     /** @type {?} */
-                    let tableFormRows = (/** @type {?} */ (this.tableForm.controls['rows']));
+                    const tableFormRows = (/** @type {?} */ (this.tableForm.controls['rows']));
                     this._rows.forEach((/**
                      * @param {?} row
                      * @param {?} index
@@ -45004,7 +45004,7 @@ class NovoTableElement {
                      */
                     (row, index) => {
                         /** @type {?} */
-                        let rowControls = [];
+                        const rowControls = [];
                         row.controls = {};
                         row._editing = {};
                         row._expanded = this.config.expandAll;
@@ -45016,7 +45016,7 @@ class NovoTableElement {
                         (column) => {
                             // Use the control passed or use a ReadOnlyControl so that the form has the values
                             /** @type {?} */
-                            let control = column.editorConfig
+                            const control = column.editorConfig
                                 ? ControlFactory.create(column.editorType, column.editorConfig)
                                 : new ReadOnlyControl({ key: column.name });
                             row.controls[column.name] = control;
@@ -45052,7 +45052,7 @@ class NovoTableElement {
                          */
                         (footerConfig, footerConfigIndex) => {
                             /** @type {?} */
-                            let footer = {};
+                            const footer = {};
                             footer[footerConfig.labelColumn] = footerConfig.label;
                             footerConfig.columns.forEach((/**
                              * @param {?} column
@@ -45205,7 +45205,7 @@ class NovoTableElement {
      */
     getRowControlForm(i) {
         /** @type {?} */
-        let tableFormRows = (/** @type {?} */ (this.tableForm.controls['rows']));
+        const tableFormRows = (/** @type {?} */ (this.tableForm.controls['rows']));
         return tableFormRows.controls[i];
     }
     /**
@@ -45418,14 +45418,14 @@ class NovoTableElement {
     onSortChange(column) {
         this.currentSortColumn = column;
         /** @type {?} */
-        let sortedColumns = this.columns.filter((/**
+        const sortedColumns = this.columns.filter((/**
          * @param {?} thisColumn
          * @return {?}
          */
         (thisColumn) => {
             return thisColumn.sort && thisColumn !== this.currentSortColumn;
         }));
-        for (let sortedColumn of sortedColumns) {
+        for (const sortedColumn of sortedColumns) {
             sortedColumn.sort = null;
         }
         if (column) {
@@ -45502,7 +45502,7 @@ class NovoTableElement {
      */
     expandAllOnPage(expanded) {
         this.config.expandAll = !expanded;
-        for (let row of this.dataProvider.list) {
+        for (const row of this.dataProvider.list) {
             row._expanded = this.config.expandAll;
         }
     }
@@ -45521,7 +45521,7 @@ class NovoTableElement {
         else {
             this.indeterminate = false;
             // this.pagedData = this.rows.slice(this.getPageStart(), this.getPageEnd());
-            for (let row of this.pagedData) {
+            for (const row of this.pagedData) {
                 row._selected = this.master;
             }
             this.selected = this.dataProvider.list.filter((/**
@@ -45548,7 +45548,7 @@ class NovoTableElement {
     selectAll(value) {
         this.master = value;
         this.indeterminate = false;
-        for (let row of this.dataProvider.list) {
+        for (const row of this.dataProvider.list) {
             row._selected = value;
         }
         this.selected = value ? this.dataProvider.list : [];
@@ -45596,7 +45596,7 @@ class NovoTableElement {
      * @return {?}
      */
     emitSelected(selected) {
-        this.onRowSelect.emit({ length: selected.length, selected: selected });
+        this.onRowSelect.emit({ length: selected.length, selected });
     }
     /**
      * \@name rowClickHandler
@@ -45616,7 +45616,7 @@ class NovoTableElement {
     getDefaultOptions(column) {
         // TODO - needs to come from label service - https://github.com/bullhorn/novo-elements/issues/116
         /** @type {?} */
-        let opts = [
+        const opts = [
             { label: this.labels.past1Day, min: -1, max: 0 },
             { label: this.labels.past7Days, min: -7, max: 0 },
             { label: this.labels.past30Days, min: -30, max: 0 },
@@ -45658,12 +45658,12 @@ class NovoTableElement {
     onFilterKeywords(config) {
         if (config && config.filtering && config.filtering.freetextFilter) {
             /** @type {?} */
-            let filterKeywords = config.filtering.freetextFilter.toLowerCase();
+            const filterKeywords = config.filtering.freetextFilter.toLowerCase();
             if (!config.filtering.originalOptions) {
                 config.filtering.originalOptions = config.filtering.options;
             }
             /** @type {?} */
-            let newOptions = config.filtering.originalOptions.filter((/**
+            const newOptions = config.filtering.originalOptions.filter((/**
              * @param {?} option
              * @return {?}
              */
@@ -45776,11 +45776,11 @@ class NovoTableElement {
      */
     addEditableRow(defaultValue = {}) {
         /** @type {?} */
-        let tableFormRows = (/** @type {?} */ (this.tableForm.controls['rows']));
+        const tableFormRows = (/** @type {?} */ (this.tableForm.controls['rows']));
         /** @type {?} */
-        let row = {};
+        const row = {};
         /** @type {?} */
-        let rowControls = [];
+        const rowControls = [];
         row.controls = {};
         row._editing = {};
         row.rowId = this._rows.length + 1;
@@ -45791,7 +45791,7 @@ class NovoTableElement {
         (column) => {
             // Use the control passed or use a ReadOnlyControl so that the form has the values
             /** @type {?} */
-            let control = column.editorConfig
+            const control = column.editorConfig
                 ? ControlFactory.create(column.editorType, column.editorConfig)
                 : new ReadOnlyControl({ key: column.name });
             control.value = null; // remove copied column value
@@ -45815,9 +45815,9 @@ class NovoTableElement {
     validateAndGetUpdatedData() {
         if (this.tableForm && this.tableForm.controls && this.tableForm.controls['rows']) {
             /** @type {?} */
-            let changedRows = [];
+            const changedRows = [];
             /** @type {?} */
-            let errors = [];
+            const errors = [];
             // Go over the FormArray's controls
             ((/** @type {?} */ (this.tableForm.controls['rows']))).controls.forEach((/**
              * @param {?} formGroup
@@ -45836,7 +45836,7 @@ class NovoTableElement {
                  */
                 (key) => {
                     /** @type {?} */
-                    let control = formGroup.controls[key];
+                    const control = formGroup.controls[key];
                     // Handle value changing
                     if (control && control.dirty && !control.errors) {
                         if (!changedRow) {
@@ -45865,16 +45865,16 @@ class NovoTableElement {
                     changedRows.push(changedRow);
                 }
                 if (error) {
-                    errors.push({ errors: error, row: this._rows[index], index: index });
+                    errors.push({ errors: error, row: this._rows[index], index });
                 }
             }));
             /** @type {?} */
-            let ret = {};
+            const ret = {};
             // Return errors if any, otherwise return the changed rows
             if (errors.length === 0) {
                 return { changed: changedRows };
             }
-            return { errors: errors };
+            return { errors };
         }
     }
     /**
@@ -46396,7 +46396,7 @@ class NovoValueElement {
             this._type = NOVO_VALUE_TYPE.LINK;
             // Make sure the value has a protocol, otherwise the URL will be relative
             /** @type {?} */
-            let hasProtocol = new RegExp('^(http|https)://', 'i');
+            const hasProtocol = new RegExp('^(http|https)://', 'i');
             if (!hasProtocol.test(this.data)) {
                 this.url = `http://${this.data}`;
             }
@@ -46436,11 +46436,11 @@ class NovoValueElement {
      */
     isLinkField(field, data) {
         /** @type {?} */
-        let linkFields = ['companyURL', 'clientCorporationCompanyURL'];
+        const linkFields = ['companyURL', 'clientCorporationCompanyURL'];
         /** @type {?} */
-        let regex = new RegExp('^(https?://(?:www.|(?!www))[^s.]+.[^s]{2,}|www.[^s]+.[^s]{2,})$', 'gi');
+        const regex = new RegExp('^(https?://(?:www.|(?!www))[^s.]+.[^s]{2,}|www.[^s]+.[^s]{2,})$', 'gi');
         /** @type {?} */
-        let isURL = Helpers.isString(data) && regex.exec(data.trim());
+        const isURL = Helpers.isString(data) && regex.exec(data.trim());
         return linkFields.indexOf(field.name) > -1 || !!isURL || field.type === NOVO_VALUE_TYPE.LINK;
     }
     /**
@@ -46568,9 +46568,9 @@ class RenderPipe {
             return true;
         }
         /** @type {?} */
-        let t1 = typeof objectOne;
+        const t1 = typeof objectOne;
         /** @type {?} */
-        let t2 = typeof objectTwo;
+        const t2 = typeof objectTwo;
         /** @type {?} */
         let length;
         /** @type {?} */
@@ -46739,7 +46739,7 @@ class RenderPipe {
                 case 'SecondaryAddress':
                 case 'BillingAddress':
                     /** @type {?} */
-                    let country = findByCountryId(Number(value.countryName));
+                    const country = findByCountryId(Number(value.countryName));
                     text = '';
                     if (value.address1 || value.address2) {
                         text += `${value.address1 || ''} ${value.address2 || ''}<br />\n`;
@@ -46841,7 +46841,7 @@ class RenderPipe {
                     break;
                 case 'Country':
                     /** @type {?} */
-                    let countryObj = findByCountryId(Number(value));
+                    const countryObj = findByCountryId(Number(value));
                     text = countryObj ? countryObj.name : value;
                     break;
                 case 'Html':
@@ -46902,11 +46902,11 @@ class RenderPipe {
      */
     concat(list, ...fields) {
         /** @type {?} */
-        let data = [];
-        for (let item of list) {
+        const data = [];
+        for (const item of list) {
             /** @type {?} */
-            let label = [];
-            for (let field of fields) {
+            const label = [];
+            for (const field of fields) {
                 label.push(`${item[field]}`);
             }
             data.push(label.join(' '));
@@ -46955,9 +46955,9 @@ class RenderPipe {
         let decimalPlaces;
         if (value) {
             /** @type {?} */
-            let numberString = parseFloat(value).toString();
+            const numberString = parseFloat(value).toString();
             /** @type {?} */
-            let decimalPlace = (numberString || '').split('.')[1] || '';
+            const decimalPlace = (numberString || '').split('.')[1] || '';
             decimalPlaces = decimalPlace.length;
         }
         return decimalPlaces || 1;
@@ -47057,7 +47057,7 @@ class EntityList {
         this.metaDisplay = Helpers.deepClone(this.meta);
         this.metaDisplay.type = 'TO_ONE';
         this.baseEntity = this.meta.associatedEntity.entity;
-        for (let entity of this.data.data) {
+        for (const entity of this.data.data) {
             entity.isLinkable = this.isLinkable(entity);
             entity.class = this.getClass(entity);
         }
@@ -48183,9 +48183,9 @@ class NovoStepper extends CdkStepper {
     get completed() {
         try {
             /** @type {?} */
-            let steps = this._steps.toArray();
+            const steps = this._steps.toArray();
             /** @type {?} */
-            let length = steps.length - 1;
+            const length = steps.length - 1;
             return steps[length].completed && length === this.selectedIndex;
         }
         catch (err) {
@@ -48208,7 +48208,7 @@ class NovoStepper extends CdkStepper {
     complete() {
         try {
             /** @type {?} */
-            let steps = this._steps.toArray();
+            const steps = this._steps.toArray();
             steps[this.selectedIndex].completed = true;
             this.next();
             this._stateChanged();
@@ -48223,7 +48223,7 @@ class NovoStepper extends CdkStepper {
      */
     getIndicatorType(index) {
         /** @type {?} */
-        let steps = this._steps.toArray();
+        const steps = this._steps.toArray();
         if (index === this.selectedIndex) {
             if (steps[index] && index === steps.length - 1 && steps[index].completed) {
                 return 'done';
@@ -48431,7 +48431,7 @@ class NovoCategoryDropdownElement extends OutsideClick {
      */
     ngOnInit() {
         /** @type {?} */
-        let button = this.element.nativeElement.querySelector('button');
+        const button = this.element.nativeElement.querySelector('button');
         button.addEventListener('click', this.clickHandler);
     }
     /**
@@ -48439,7 +48439,7 @@ class NovoCategoryDropdownElement extends OutsideClick {
      */
     ngOnDestroy() {
         /** @type {?} */
-        let button = this.element.nativeElement.querySelector('button');
+        const button = this.element.nativeElement.querySelector('button');
         if (button) {
             button.removeEventListener('click', this.clickHandler);
         }
@@ -48794,7 +48794,7 @@ class NovoMultiPickerElement {
              */
             (option) => {
                 /** @type {?} */
-                let formattedOption = this.setupOptionsByType(option);
+                const formattedOption = this.setupOptionsByType(option);
                 this._options.push(formattedOption);
             }));
         }
@@ -48806,7 +48806,7 @@ class NovoMultiPickerElement {
      */
     setupOptionsByType(section) {
         /** @type {?} */
-        let formattedSection = {
+        const formattedSection = {
             type: section.type,
             label: section.label || section.type,
         };
@@ -48819,7 +48819,7 @@ class NovoMultiPickerElement {
         }));
         if (this.selectAllOption) {
             /** @type {?} */
-            let selectAll = this.createSelectAllOption(section);
+            const selectAll = this.createSelectAllOption(section);
             formattedSection.data.splice(0, 0, selectAll);
         }
         formattedSection.originalData = formattedSection.data.slice();
@@ -48832,7 +48832,7 @@ class NovoMultiPickerElement {
      */
     formatOption(section, item) {
         /** @type {?} */
-        let obj = {
+        const obj = {
             value: section.field ? item[section.field] : item.value || item,
             label: section.format ? Helpers.interpolate(section.format, item) : item.label || String(item.value || item),
             type: section.type,
@@ -48851,7 +48851,7 @@ class NovoMultiPickerElement {
      */
     createSelectAllOption(section) {
         /** @type {?} */
-        let selectAll = {
+        const selectAll = {
             value: 'ALL',
             label: `All ${section.type}`,
             type: section.type,
@@ -48861,7 +48861,7 @@ class NovoMultiPickerElement {
         };
         if (section.isChildOf) {
             /** @type {?} */
-            let allParents = section.data.reduce((/**
+            const allParents = section.data.reduce((/**
              * @param {?} accum
              * @param {?} next
              * @return {?}
@@ -48912,7 +48912,7 @@ class NovoMultiPickerElement {
             this.modifyAffectedParentsOrChildren(event.checked, event);
             // Set focus on the picker
             /** @type {?} */
-            let input = this.element.nativeElement.querySelector('novo-picker > input');
+            const input = this.element.nativeElement.querySelector('novo-picker > input');
             if (input) {
                 input.focus();
             }
@@ -48941,9 +48941,9 @@ class NovoMultiPickerElement {
      */
     updateAllItemState(type) {
         /** @type {?} */
-        let allOfType = this.getAllOfType(type);
+        const allOfType = this.getAllOfType(type);
         /** @type {?} */
-        let allOfTypeSelected = this.allItemsSelected(allOfType, type);
+        const allOfTypeSelected = this.allItemsSelected(allOfType, type);
         if (allOfTypeSelected) {
             this.selectAll(allOfType, type);
         }
@@ -48959,7 +48959,7 @@ class NovoMultiPickerElement {
             return;
         }
         /** @type {?} */
-        let allItem = allOfType[0];
+        const allItem = allOfType[0];
         allItem.indeterminate = status;
     }
     /**
@@ -48969,7 +48969,7 @@ class NovoMultiPickerElement {
      */
     updateDisplayItems(item, action) {
         /** @type {?} */
-        let adding = action === 'add';
+        const adding = action === 'add';
         if (adding) {
             this.items.push(item);
         }
@@ -48988,7 +48988,7 @@ class NovoMultiPickerElement {
     updateDisplayText(items) {
         this.notShown = [];
         /** @type {?} */
-        let notShown = items.slice(this.chipsCount);
+        const notShown = items.slice(this.chipsCount);
         if (notShown.length > 0) {
             this.types.forEach((/**
              * @param {?} type
@@ -48998,7 +48998,7 @@ class NovoMultiPickerElement {
                 /** @type {?} */
                 let count;
                 /** @type {?} */
-                let selectedOfType = notShown.filter((/**
+                const selectedOfType = notShown.filter((/**
                  * @param {?} x
                  * @return {?}
                  */
@@ -49010,9 +49010,9 @@ class NovoMultiPickerElement {
                     count = selectedOfType.length;
                 }
                 /** @type {?} */
-                let displayType = count === 1 ? type.singular : type.plural || type.value;
+                const displayType = count === 1 ? type.singular : type.plural || type.value;
                 if (count > 0) {
-                    this.notShown.push({ type: displayType, count: count });
+                    this.notShown.push({ type: displayType, count });
                 }
             }));
         }
@@ -49029,7 +49029,7 @@ class NovoMultiPickerElement {
             triggeredByEvent = true;
         }
         /** @type {?} */
-        let itemToRemove = item;
+        const itemToRemove = item;
         if (itemToRemove.value === 'ALL') {
             triggeredByEvent = false;
             this.modifyAllOfType(itemToRemove.type, 'unselect');
@@ -49061,7 +49061,7 @@ class NovoMultiPickerElement {
      */
     removeValue(item) {
         /** @type {?} */
-        let updatedValues = this.value[item.type].filter((/**
+        const updatedValues = this.value[item.type].filter((/**
          * @param {?} x
          * @return {?}
          */
@@ -49108,9 +49108,9 @@ class NovoMultiPickerElement {
      */
     modifyAllOfType(type, action) {
         /** @type {?} */
-        let selecting = action === 'select';
+        const selecting = action === 'select';
         /** @type {?} */
-        let allOfType = this.getAllOfType(type);
+        const allOfType = this.getAllOfType(type);
         allOfType.forEach((/**
          * @param {?} item
          * @return {?}
@@ -49141,7 +49141,7 @@ class NovoMultiPickerElement {
      */
     triggerValueUpdate() {
         /** @type {?} */
-        let updatedObject = {};
+        const updatedObject = {};
         this.types.forEach((/**
          * @param {?} x
          * @return {?}
@@ -49160,7 +49160,7 @@ class NovoMultiPickerElement {
         }
         allOfType[0].checked = true;
         /** @type {?} */
-        let values = allOfType.map((/**
+        const values = allOfType.map((/**
          * @param {?} i
          * @return {?}
          */
@@ -49171,7 +49171,7 @@ class NovoMultiPickerElement {
         values.splice(0, 1);
         this.value[type] = values;
         /** @type {?} */
-        let updatedItems = this.items.filter((/**
+        const updatedItems = this.items.filter((/**
          * @param {?} x
          * @return {?}
          */
@@ -49188,22 +49188,22 @@ class NovoMultiPickerElement {
             return;
         }
         /** @type {?} */
-        let type = item.type;
+        const type = item.type;
         /** @type {?} */
-        let allOfType = this.getAllOfType(type);
+        const allOfType = this.getAllOfType(type);
         /** @type {?} */
-        let allItem = allOfType[0];
+        const allItem = allOfType[0];
         this.removeItem(allItem);
         allItem.indeterminate = true;
         /** @type {?} */
-        let selectedItems = allOfType.filter((/**
+        const selectedItems = allOfType.filter((/**
          * @param {?} i
          * @return {?}
          */
         (i) => i.checked === true));
         this.items = [...this.items, ...selectedItems];
         /** @type {?} */
-        let values = selectedItems.map((/**
+        const values = selectedItems.map((/**
          * @param {?} i
          * @return {?}
          */
@@ -49257,21 +49257,21 @@ class NovoMultiPickerElement {
             return;
         }
         /** @type {?} */
-        let parent = this.types.filter((/**
+        const parent = this.types.filter((/**
          * @param {?} x
          * @return {?}
          */
         (x) => !!x.isParentOf))[0];
         /** @type {?} */
-        let parentType = parent.value;
+        const parentType = parent.value;
         /** @type {?} */
-        let allParentType = this.getAllOfType(parentType);
+        const allParentType = this.getAllOfType(parentType);
         /** @type {?} */
-        let childType = allParentType[0].isParentOf;
+        const childType = allParentType[0].isParentOf;
         /** @type {?} */
-        let allChildren = this.getAllOfType(childType);
+        const allChildren = this.getAllOfType(childType);
         /** @type {?} */
-        let allCheckedChildren = allChildren.filter((/**
+        const allCheckedChildren = allChildren.filter((/**
          * @param {?} x
          * @return {?}
          */
@@ -49285,7 +49285,7 @@ class NovoMultiPickerElement {
                 return;
             }
             /** @type {?} */
-            let selectedChildrenOfParent = allCheckedChildren.filter((/**
+            const selectedChildrenOfParent = allCheckedChildren.filter((/**
              * @param {?} x
              * @return {?}
              */
@@ -49304,7 +49304,7 @@ class NovoMultiPickerElement {
             }
             else {
                 /** @type {?} */
-                let allChildrenOfParent = allChildren.filter((/**
+                const allChildrenOfParent = allChildren.filter((/**
                  * @param {?} x
                  * @return {?}
                  */
@@ -49371,11 +49371,11 @@ class NovoMultiPickerElement {
      */
     updateAllChildrenValue(item, action) {
         /** @type {?} */
-        let selecting = action === 'select';
+        const selecting = action === 'select';
         /** @type {?} */
-        let childType = item.isParentOf;
+        const childType = item.isParentOf;
         /** @type {?} */
-        let potentialChildren = this.getAllOfType(childType);
+        const potentialChildren = this.getAllOfType(childType);
         if (this.selectAllOption && this.allOfTypeSelected(childType) && !selecting) {
             this.remove(null, potentialChildren[0]);
             return;
@@ -49406,11 +49406,11 @@ class NovoMultiPickerElement {
      */
     updateAllParentValue(item, action) {
         /** @type {?} */
-        let selecting = action === 'select';
+        const selecting = action === 'select';
         /** @type {?} */
-        let parentType = item.isChildOf;
+        const parentType = item.isChildOf;
         /** @type {?} */
-        let potentialParents = this.getAllOfType(parentType);
+        const potentialParents = this.getAllOfType(parentType);
         potentialParents.forEach((/**
          * @param {?} x
          * @return {?}
@@ -49429,15 +49429,15 @@ class NovoMultiPickerElement {
      */
     updateIndeterminateStates(allParentType, allChildren, allCheckedChildren) {
         /** @type {?} */
-        let allCheckedOrIndeterminateParents = allParentType.filter((/**
+        const allCheckedOrIndeterminateParents = allParentType.filter((/**
          * @param {?} x
          * @return {?}
          */
         (x) => (!!x.checked || !!x.indeterminate) && x.value !== 'ALL'));
         /** @type {?} */
-        let isParentIndeterminate = !!allParentType[0].checked ? false : allCheckedOrIndeterminateParents.length > 0;
+        const isParentIndeterminate = !!allParentType[0].checked ? false : allCheckedOrIndeterminateParents.length > 0;
         /** @type {?} */
-        let isChildIndeterminate = !!allChildren[0].checked ? false : allCheckedChildren.length > 0;
+        const isChildIndeterminate = !!allChildren[0].checked ? false : allCheckedChildren.length > 0;
         this.setIndeterminateState(allParentType, isParentIndeterminate);
         this.setIndeterminateState(allChildren, isChildIndeterminate);
     }
@@ -49448,11 +49448,11 @@ class NovoMultiPickerElement {
      */
     updateChildrenValue(parent, action) {
         /** @type {?} */
-        let selecting = action === 'select';
+        const selecting = action === 'select';
         /** @type {?} */
-        let childType = parent.isParentOf;
+        const childType = parent.isParentOf;
         /** @type {?} */
-        let potentialChildren = this.getAllOfType(childType);
+        const potentialChildren = this.getAllOfType(childType);
         potentialChildren.forEach((/**
          * @param {?} x
          * @return {?}
@@ -49486,7 +49486,7 @@ class NovoMultiPickerElement {
      */
     updateParentValue(child, action) {
         /** @type {?} */
-        let allParentType = this.getAllOfType(child.isChildOf);
+        const allParentType = this.getAllOfType(child.isChildOf);
         if (allParentType[0].checked && action !== 'select') {
             this.handleRemoveItemIfAllSelected(allParentType[0]);
         }
@@ -49544,16 +49544,16 @@ class NovoMultiPickerElement {
          */
         (typeObj) => {
             /** @type {?} */
-            let type = typeObj.value;
+            const type = typeObj.value;
             if (this.value[type]) {
                 /** @type {?} */
                 let indeterminateIsSet = false;
                 /** @type {?} */
-                let options = this.updateAllItemState(type);
+                const options = this.updateAllItemState(type);
                 /** @type {?} */
-                let optionsByType = options.allOfType;
+                const optionsByType = options.allOfType;
                 /** @type {?} */
-                let allSelected = options.allOfTypeSelected;
+                const allSelected = options.allOfTypeSelected;
                 this.value[type].forEach((/**
                  * @param {?} item
                  * @return {?}
@@ -49564,7 +49564,7 @@ class NovoMultiPickerElement {
                         this.setIndeterminateState(optionsByType, true);
                     }
                     /** @type {?} */
-                    let value = optionsByType.filter((/**
+                    const value = optionsByType.filter((/**
                      * @param {?} x
                      * @return {?}
                      */
@@ -49759,16 +49759,16 @@ class Security {
      */
     grant(data) {
         /** @type {?} */
-        let parsed = [];
+        const parsed = [];
         if (data instanceof Array) {
-            for (let permission of data) {
+            for (const permission of data) {
                 parsed.push(permission.replace(/\s/gi, ''));
             }
         }
         else if (typeof data === 'object') {
-            for (let key in data) {
+            for (const key in data) {
                 if (data[key] instanceof Array) {
-                    for (let permission of data[key]) {
+                    for (const permission of data[key]) {
                         parsed.push(`${key}.${permission}`);
                     }
                 }
@@ -49790,7 +49790,7 @@ class Security {
      */
     revoke(value) {
         /** @type {?} */
-        let i = this.credentials.indexOf(value);
+        const i = this.credentials.indexOf(value);
         this.credentials.splice(i, 1);
         this.change.emit(this.credentials);
     }
@@ -49815,8 +49815,8 @@ class Security {
      */
     checkRoutes(routes, options) {
         /** @type {?} */
-        let filtered = [];
-        for (let route of routes) {
+        const filtered = [];
+        for (const route of routes) {
             if (route.entities && ~route.entities.indexOf(options.entityType)) {
                 if (route.permissions instanceof Function) {
                     if (route.permissions(options, this)) {
@@ -49885,8 +49885,8 @@ class Unless {
         let display = false;
         if (~this.permissions.indexOf('||')) {
             /** @type {?} */
-            let ps = this.permissions.split('||');
-            for (let p of ps) {
+            const ps = this.permissions.split('||');
+            for (const p of ps) {
                 if (this.security.has(p.trim())) {
                     display = true;
                 }
@@ -50295,7 +50295,7 @@ class DataTableState {
             }
             if (preferences.filter) {
                 /** @type {?} */
-                let filters = Helpers.convertToArray(preferences.filter);
+                const filters = Helpers.convertToArray(preferences.filter);
                 filters.forEach((/**
                  * @param {?} filter
                  * @return {?}
@@ -50403,7 +50403,7 @@ class StaticDataTableService {
                 this.currentData = this.currentData.slice(page * pageSize, (page + 1) * pageSize);
             }
         }
-        return of({ results: this.currentData, total: total });
+        return of({ results: this.currentData, total });
     }
     /**
      * @param {?} currentData
@@ -50412,7 +50412,7 @@ class StaticDataTableService {
      */
     filterData(currentData, filter) {
         /** @type {?} */
-        let filters = Helpers.convertToArray(filter);
+        const filters = Helpers.convertToArray(filter);
         filters.forEach((/**
          * @param {?} aFilter
          * @return {?}
@@ -50420,12 +50420,12 @@ class StaticDataTableService {
         (aFilter) => {
             if (Array.isArray(aFilter.value)) {
                 /** @type {?} */
-                let values = Helpers.convertToArray(aFilter.value).map(Helpers.escapeString);
+                const values = Helpers.convertToArray(aFilter.value).map(Helpers.escapeString);
                 currentData = currentData.filter(Helpers.filterByField(aFilter.id, values));
             }
             else {
                 /** @type {?} */
-                let value = Helpers.escapeString(aFilter.value);
+                const value = Helpers.escapeString(aFilter.value);
                 currentData = currentData.filter(Helpers.filterByField(aFilter.id, value));
             }
         }));
@@ -50532,7 +50532,7 @@ class NovoDataTable {
             if (this.name !== 'novo-data-table') {
                 this.preferencesChanged.emit({
                     name: this.name,
-                    displayedColumns: displayedColumns,
+                    displayedColumns,
                 });
             }
             else {
@@ -50575,7 +50575,7 @@ class NovoDataTable {
     set rows(rows) {
         this.loading = false;
         /** @type {?} */
-        let service = new StaticDataTableService(rows);
+        const service = new StaticDataTableService(rows);
         this.dataSource = new DataTableSource(service, this.state, this.ref);
         this.ref.detectChanges();
     }
@@ -50815,7 +50815,7 @@ class NovoDataTable {
      */
     expandRow(row) {
         /** @type {?} */
-        let expanded = this.isExpanded(row);
+        const expanded = this.isExpanded(row);
         if (expanded) {
             this.state.expandedRows.delete(`${row[this.rowIdentifier]}`);
         }
@@ -50870,7 +50870,7 @@ class NovoDataTable {
      */
     selectRow(row) {
         /** @type {?} */
-        let selected = this.isSelected(row);
+        const selected = this.isSelected(row);
         if (selected) {
             this.state.selectedRows.delete(`${row[this.rowIdentifier]}`);
         }
@@ -51017,7 +51017,7 @@ class NovoDataTable {
         /** @type {?} */
         const target = (/** @type {?} */ (this.novoDataTableContainer.nativeElement));
         /** @type {?} */
-        let left = target.scrollLeft;
+        const left = target.scrollLeft;
         if (left !== this.scrollLeft) {
             this.scrollLeft = target.scrollLeft;
         }
@@ -51854,7 +51854,7 @@ class NovoDataTableSortFilter {
         }
         this.state.filter = filter;
         this.state.reset(false, true);
-        this.state.updates.next({ filter: filter, sort: this.state.sort });
+        this.state.updates.next({ filter, sort: this.state.sort });
         this.state.onSortFilterChange();
     }
     /**
@@ -51865,10 +51865,10 @@ class NovoDataTableSortFilter {
      */
     sort(id, value, transform) {
         /** @type {?} */
-        let sort = { id, value, transform };
+        const sort = { id, value, transform };
         this.state.sort = sort;
         this.state.reset(false, true);
-        this.state.updates.next({ sort: sort, filter: this.state.filter });
+        this.state.updates.next({ sort, filter: this.state.filter });
         this.state.onSortFilterChange();
     }
     /**
@@ -51884,7 +51884,7 @@ class NovoDataTableSortFilter {
         let filter;
         filter = Helpers.convertToArray(this.state.filter);
         /** @type {?} */
-        let filterIndex = filter.findIndex((/**
+        const filterIndex = filter.findIndex((/**
          * @param {?} aFilter
          * @return {?}
          */
@@ -51976,7 +51976,7 @@ class NovoDataTableCellHeader {
         };
         this.resizable = this.config.resizable;
         /** @type {?} */
-        let transforms = {};
+        const transforms = {};
         if (column.filterable && Helpers.isObject(column.filterable)) {
             this.config.filterConfig = (/** @type {?} */ (column.filterable));
             if (!this.config.filterConfig.type) {
@@ -52074,7 +52074,7 @@ class NovoDataTableCellHeader {
                      * @param {?} option
                      * @return {?}
                      */
-                    (option) => ({ option: option, hidden: false })));
+                    (option) => ({ option, hidden: false })));
                 }
                 else {
                     this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((/**
@@ -52082,7 +52082,7 @@ class NovoDataTableCellHeader {
                      * @return {?}
                      */
                     (option) => ({
-                        option: option,
+                        option,
                         hidden: false,
                     })));
                 }
@@ -52100,7 +52100,7 @@ class NovoDataTableCellHeader {
             /** @type {?} */
             const optionValue = option.hasOwnProperty('value') ? option.value : option;
             /** @type {?} */
-            let found = optionsList.find((/**
+            const found = optionsList.find((/**
              * @param {?} item
              * @return {?}
              */
@@ -52117,7 +52117,7 @@ class NovoDataTableCellHeader {
         /** @type {?} */
         const optionValue = option.hasOwnProperty('value') ? option.value : option;
         /** @type {?} */
-        let optionIndex = this.multiSelectedOptions.findIndex((/**
+        const optionIndex = this.multiSelectedOptions.findIndex((/**
          * @param {?} item
          * @return {?}
          */
@@ -52171,7 +52171,7 @@ class NovoDataTableCellHeader {
         else {
             this.clearOptionFilter();
             /** @type {?} */
-            let actualFilter = this.multiSelectedOptions.length > 0 ? [...this.multiSelectedOptions] : undefined;
+            const actualFilter = this.multiSelectedOptions.length > 0 ? [...this.multiSelectedOptions] : undefined;
             this.filterData(actualFilter);
             this.dropdown.closePanel();
         }
@@ -52279,7 +52279,7 @@ class NovoDataTableCellHeader {
         /** @type {?} */
         const minimumWidth = 60 + (this.config.filterable ? 30 : 0) + (this.config.sortable ? 30 : 0);
         /** @type {?} */
-        let startingWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
+        const startingWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
         /** @type {?} */
         const mouseMoveSubscription = fromEvent(window.document, 'mousemove').subscribe((/**
          * @param {?} middleMouseEvent
@@ -52287,7 +52287,7 @@ class NovoDataTableCellHeader {
          */
         (middleMouseEvent) => {
             /** @type {?} */
-            let differenceWidth = middleMouseEvent.clientX - mouseDownEvent.clientX;
+            const differenceWidth = middleMouseEvent.clientX - mouseDownEvent.clientX;
             /** @type {?} */
             let width = startingWidth + differenceWidth;
             if (width < minimumWidth) {
@@ -52301,7 +52301,7 @@ class NovoDataTableCellHeader {
             this.resized.next(this._column);
         }));
         /** @type {?} */
-        let mouseUpSubscription = fromEvent(window.document, 'mouseup').subscribe((/**
+        const mouseUpSubscription = fromEvent(window.document, 'mouseup').subscribe((/**
          * @return {?}
          */
         () => {
@@ -52418,7 +52418,7 @@ class NovoDataTableCellHeader {
      */
     getDefaultDateFilterOptions() {
         /** @type {?} */
-        let opts = [
+        const opts = [
             { label: this.labels.past1Day, min: -1, max: 0 },
             { label: this.labels.past7Days, min: -7, max: 0 },
             { label: this.labels.past30Days, min: -30, max: 0 },
@@ -53193,7 +53193,7 @@ class NovoDataTablePagination {
      */
     emitPageEvent(isPageSizeChange = false) {
         /** @type {?} */
-        let event = {
+        const event = {
             page: this.page,
             pageSize: this.pageSize,
             length: this.length,
@@ -53228,8 +53228,8 @@ class NovoDataTablePagination {
      */
     makePage(number, text, isActive) {
         return {
-            number: number,
-            text: text,
+            number,
+            text,
             active: isActive,
         };
     }
@@ -53241,7 +53241,7 @@ class NovoDataTablePagination {
      */
     getPages(currentPage, totalPages) {
         /** @type {?} */
-        let pages = [];
+        const pages = [];
         // Default page limits
         /** @type {?} */
         let startPage = 1;
@@ -53620,7 +53620,7 @@ class DataTableBigDecimalRendererPipe {
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
             /** @type {?} */
-            let val = interpolateCell(value, column);
+            const val = interpolateCell(value, column);
             return this.labels.formatBigDecimal(Number(val));
         }
         return '';
@@ -53661,7 +53661,7 @@ class DateTableCurrencyRendererPipe {
     transform(value, column) {
         if (!Helpers.isEmpty(value)) {
             /** @type {?} */
-            let val = interpolateCell(value, column);
+            const val = interpolateCell(value, column);
             return this.labels.formatCurrency(Number(val));
         }
         return '';
@@ -54760,7 +54760,7 @@ class GooglePlacesService {
         (resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 /** @type {?} */
-                let _window = this._global.nativeGlobal;
+                const _window = this._global.nativeGlobal;
                 if (_window.navigator.geolocation) {
                     _window.navigator.geolocation.getCurrentPosition((/**
                      * @param {?} pos
@@ -54768,7 +54768,7 @@ class GooglePlacesService {
                      */
                     (pos) => {
                         /** @type {?} */
-                        let latlng = { lat: parseFloat(pos.coords.latitude + ''), lng: parseFloat(pos.coords.longitude + '') };
+                        const latlng = { lat: parseFloat(pos.coords.latitude + ''), lng: parseFloat(pos.coords.longitude + '') };
                         resolve(latlng);
                     }));
                 }
@@ -54793,9 +54793,9 @@ class GooglePlacesService {
         (resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 /** @type {?} */
-                let _window = this._global.nativeGlobal;
+                const _window = this._global.nativeGlobal;
                 /** @type {?} */
-                let geocoder = new _window.google.maps.Geocoder();
+                const geocoder = new _window.google.maps.Geocoder();
                 geocoder.geocode({ location: latlng }, (/**
                  * @param {?} results
                  * @param {?} status
@@ -54838,13 +54838,13 @@ class GooglePlacesService {
         (resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 /** @type {?} */
-                let _window = this._global.nativeGlobal;
+                const _window = this._global.nativeGlobal;
                 /** @type {?} */
-                let placesService = new _window.google.maps.places.AutocompleteService();
+                const placesService = new _window.google.maps.places.AutocompleteService();
                 /** @type {?} */
                 let queryInput = {};
                 /** @type {?} */
-                let promiseArr = [];
+                const promiseArr = [];
                 if (params.countryRestriction.length) {
                     queryInput = {
                         input: params.query,
@@ -54863,7 +54863,7 @@ class GooglePlacesService {
                 if (params.geoTypes.length) {
                     for (let i = 0; i < params.geoTypes.length; i++) {
                         /** @type {?} */
-                        let _tempQuery = queryInput;
+                        const _tempQuery = queryInput;
                         _tempQuery['types'] = new Array(params.geoTypes[i]);
                         promiseArr.push(this.geoPredictionCall(placesService, _tempQuery));
                     }
@@ -54877,7 +54877,7 @@ class GooglePlacesService {
                  */
                 (values) => {
                     /** @type {?} */
-                    let val = values;
+                    const val = values;
                     if (val.length > 1) {
                         /** @type {?} */
                         let _tempArr = [];
@@ -54911,10 +54911,10 @@ class GooglePlacesService {
         (resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 /** @type {?} */
-                let _window = this._global.nativeGlobal;
+                const _window = this._global.nativeGlobal;
                 /** @type {?} */
-                let placesService = new _window.google.maps.places.PlacesService(document.createElement('div'));
-                placesService.getDetails({ placeId: placeId }, (/**
+                const placesService = new _window.google.maps.places.PlacesService(document.createElement('div'));
+                placesService.getDetails({ placeId }, (/**
                  * @param {?} result
                  * @param {?} status
                  * @return {?}
@@ -54956,9 +54956,9 @@ class GooglePlacesService {
         (resolve) => {
             if (isPlatformBrowser(this.platformId)) {
                 /** @type {?} */
-                let _window = this._global.nativeGlobal;
+                const _window = this._global.nativeGlobal;
                 /** @type {?} */
-                let placesService = new _window.google.maps.places.PlacesService();
+                const placesService = new _window.google.maps.places.PlacesService();
                 placesService.getDetails({ reference: referance }, (/**
                  * @param {?} result
                  * @param {?} status
@@ -55047,7 +55047,7 @@ class GooglePlacesService {
      */
     geoPredictionCall(placesService, queryInput) {
         /** @type {?} */
-        let _window = this._global.nativeGlobal;
+        const _window = this._global.nativeGlobal;
         return new Promise((/**
          * @param {?} resolve
          * @return {?}
@@ -55588,7 +55588,7 @@ class AppBridge {
             }
             else {
                 /** @type {?} */
-                let openListPacket = {};
+                const openListPacket = {};
                 Object.assign(openListPacket, { type: 'List', entityType: packet.type, keywords: packet.keywords, criteria: packet.criteria });
                 postRobot
                     .sendToParent(MESSAGE_TYPES.OPEN_LIST, packet)
@@ -55699,7 +55699,7 @@ class AppBridge {
                     console.info('[AppBridge] - close(packet) is deprecated! Please just use close()!'); // tslint:disable-line
                 }
                 /** @type {?} */
-                let realPacket = { id: this.id, windowName: this.windowName };
+                const realPacket = { id: this.id, windowName: this.windowName };
                 postRobot
                     .sendToParent(MESSAGE_TYPES.CLOSE, realPacket)
                     .then((/**
@@ -55756,7 +55756,7 @@ class AppBridge {
                     console.info('[AppBridge] - refresh(packet) is deprecated! Please just use refresh()!'); // tslint:disable-line
                 }
                 /** @type {?} */
-                let realPacket = { id: this.id, windowName: this.windowName };
+                const realPacket = { id: this.id, windowName: this.windowName };
                 postRobot
                     .sendToParent(MESSAGE_TYPES.REFRESH, realPacket)
                     .then((/**
@@ -55813,7 +55813,7 @@ class AppBridge {
                     console.info('[AppBridge] - pin(packet) is deprecated! Please just use pin()!'); // tslint:disable-line
                 }
                 /** @type {?} */
-                let realPacket = { id: this.id, windowName: this.windowName };
+                const realPacket = { id: this.id, windowName: this.windowName };
                 postRobot
                     .sendToParent(MESSAGE_TYPES.PIN, realPacket)
                     .then((/**
@@ -56013,7 +56013,7 @@ class AppBridge {
          */
         (resolve, reject) => {
             if (this._handlers[AppBridgeHandler.HTTP]) {
-                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.GET, relativeURL: relativeURL }, (/**
+                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.GET, relativeURL }, (/**
                  * @param {?} data
                  * @param {?} error
                  * @return {?}
@@ -56056,7 +56056,7 @@ class AppBridge {
          */
         (resolve, reject) => {
             if (this._handlers[AppBridgeHandler.HTTP]) {
-                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.POST, relativeURL: relativeURL, data: postData }, (/**
+                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.POST, relativeURL, data: postData }, (/**
                  * @param {?} data
                  * @param {?} error
                  * @return {?}
@@ -56067,7 +56067,7 @@ class AppBridge {
             }
             else {
                 postRobot
-                    .sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL: relativeURL, data: postData })
+                    .sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL, data: postData })
                     .then((/**
                  * @param {?} event
                  * @return {?}
@@ -56099,7 +56099,7 @@ class AppBridge {
          */
         (resolve, reject) => {
             if (this._handlers[AppBridgeHandler.HTTP]) {
-                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.PUT, relativeURL: relativeURL, data: putData }, (/**
+                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.PUT, relativeURL, data: putData }, (/**
                  * @param {?} data
                  * @param {?} error
                  * @return {?}
@@ -56110,7 +56110,7 @@ class AppBridge {
             }
             else {
                 postRobot
-                    .sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL: relativeURL, data: putData })
+                    .sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL, data: putData })
                     .then((/**
                  * @param {?} event
                  * @return {?}
@@ -56141,7 +56141,7 @@ class AppBridge {
          */
         (resolve, reject) => {
             if (this._handlers[AppBridgeHandler.HTTP]) {
-                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.DELETE, relativeURL: relativeURL }, (/**
+                this._handlers[AppBridgeHandler.HTTP]({ verb: HTTP_VERBS.DELETE, relativeURL }, (/**
                  * @param {?} data
                  * @param {?} error
                  * @return {?}
@@ -56216,7 +56216,7 @@ class AppBridge {
             (frame) => {
                 postRobot.send(frame.source, MESSAGE_TYPES.CUSTOM_EVENT, {
                     eventType: event,
-                    data: data,
+                    data,
                 });
             }));
         }
@@ -56271,12 +56271,12 @@ class DevAppBridge extends AppBridge {
         super(traceName);
         this.http = http;
         /** @type {?} */
-        let cookie = this.getCookie('UlEncodedIdentity');
+        const cookie = this.getCookie('UlEncodedIdentity');
         if (cookie && cookie.length) {
             /** @type {?} */
-            let identity = JSON.parse(decodeURIComponent(cookie));
+            const identity = JSON.parse(decodeURIComponent(cookie));
             /** @type {?} */
-            let endpoints = identity.sessions.reduce((/**
+            const endpoints = identity.sessions.reduce((/**
              * @param {?} obj
              * @param {?} session
              * @return {?}
@@ -56335,9 +56335,9 @@ class DevAppBridge extends AppBridge {
     getCookie(cname) {
         if (document) {
             /** @type {?} */
-            let name = `${cname}=`;
+            const name = `${cname}=`;
             /** @type {?} */
-            let ca = document.cookie.split(';');
+            const ca = document.cookie.split(';');
             for (let i = 0; i < ca.length; i++) {
                 /** @type {?} */
                 let c = ca[i];
@@ -56488,7 +56488,7 @@ class StaticActivityTableService {
             }
             if (filter) {
                 /** @type {?} */
-                let value = Helpers.isString(filter.value) ? filter.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter.value;
+                const value = Helpers.isString(filter.value) ? filter.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : filter.value;
                 ret = ret.filter(Helpers.filterByField(filter.id, value));
             }
             if (sort) {
@@ -57067,7 +57067,7 @@ class NovoSortFilter {
         }
         this.state.filter = filter;
         this.state.reset(false, true);
-        this.state.updates.next({ filter: filter, sort: this.state.sort });
+        this.state.updates.next({ filter, sort: this.state.sort });
     }
     /**
      * @param {?} id
@@ -57077,10 +57077,10 @@ class NovoSortFilter {
      */
     sort(id, value, transform) {
         /** @type {?} */
-        let sort = { id, value, transform };
+        const sort = { id, value, transform };
         this.state.sort = sort;
         this.state.reset(false, true);
-        this.state.updates.next({ sort: sort, filter: this.state.filter });
+        this.state.updates.next({ sort, filter: this.state.filter });
     }
 }
 NovoSortFilter.decorators = [
@@ -58003,7 +58003,7 @@ class NovoSimpleCellHeader {
      */
     getDefaultDateFilterOptions() {
         /** @type {?} */
-        let opts = [
+        const opts = [
             { label: this.labels.past1Day, min: -1, max: 0 },
             { label: this.labels.past7Days, min: -7, max: 0 },
             { label: this.labels.past30Days, min: -30, max: 0 },
@@ -58360,7 +58360,7 @@ class NovoSimpleTablePagination {
      */
     emitPageEvent() {
         /** @type {?} */
-        let event = {
+        const event = {
             page: this.page,
             pageSize: this.pageSize,
             length: this.length,
@@ -58634,58 +58634,58 @@ class PopOverContent {
      */
     positionElements(hostEl, targetEl, positionStr, appendToBody = false) {
         /** @type {?} */
-        let positionStrParts = positionStr.split('-');
+        const positionStrParts = positionStr.split('-');
         /** @type {?} */
-        let mainSide = (this.effectivePlacement = this.getEffectivePlacement(positionStrParts[0] || 'right', hostEl, targetEl));
+        const mainSide = (this.effectivePlacement = this.getEffectivePlacement(positionStrParts[0] || 'right', hostEl, targetEl));
         /** @type {?} */
-        let orientation = (this.effectiveAlignment = positionStrParts[1] || 'center');
+        const orientation = (this.effectiveAlignment = positionStrParts[1] || 'center');
         /** @type {?} */
-        let hostElPos = appendToBody ? this.offset(hostEl) : this.position(hostEl);
+        const hostElPos = appendToBody ? this.offset(hostEl) : this.position(hostEl);
         /** @type {?} */
-        let targetElWidth = targetEl.offsetWidth;
+        const targetElWidth = targetEl.offsetWidth;
         /** @type {?} */
-        let targetElHeight = targetEl.offsetHeight;
+        const targetElHeight = targetEl.offsetHeight;
         /** @type {?} */
-        let shiftWidth = {
-            center: (/**
+        const shiftWidth = {
+            /**
              * @return {?}
              */
-            function () {
+            center() {
                 return hostElPos.left + (hostElPos.width - targetElWidth) / 2;
-            }),
-            right: (/**
+            },
+            /**
              * @return {?}
              */
-            function () {
+            right() {
                 return hostElPos.left;
-            }),
-            left: (/**
+            },
+            /**
              * @return {?}
              */
-            function () {
+            left() {
                 return hostElPos.left + (hostElPos.width - targetElWidth);
-            }),
+            },
         };
         /** @type {?} */
-        let shiftHeight = {
-            center: (/**
+        const shiftHeight = {
+            /**
              * @return {?}
              */
-            function () {
+            center() {
                 return hostElPos.top + (hostElPos.height - targetElHeight) / 2;
-            }),
-            bottom: (/**
+            },
+            /**
              * @return {?}
              */
-            function () {
+            bottom() {
                 return hostElPos.top;
-            }),
-            top: (/**
+            },
+            /**
              * @return {?}
              */
-            function () {
+            top() {
                 return hostElPos.top + (hostElPos.height - targetElHeight);
-            }),
+            },
         };
         /** @type {?} */
         let targetElPos;
@@ -59283,7 +59283,7 @@ class PlacesListComponent {
      */
     searchinputCallback(event) {
         /** @type {?} */
-        let inputVal = this.locationInput;
+        const inputVal = this.locationInput;
         if (inputVal) {
             this.getListQuery(inputVal);
         }
@@ -59350,7 +59350,7 @@ class PlacesListComponent {
      */
     userQuerySubmit(selectedOption) {
         /** @type {?} */
-        let _userOption = selectedOption === 'false' ? '' : this.userSelectedOption;
+        const _userOption = selectedOption === 'false' ? '' : this.userSelectedOption;
         if (_userOption) {
             this.select.emit(this.userSelectedOption);
         }
@@ -59443,11 +59443,11 @@ class PlacesListComponent {
      */
     setUserSettings() {
         /** @type {?} */
-        let _tempObj = {};
+        const _tempObj = {};
         if (this.userSettings && typeof this.userSettings === 'object') {
             /** @type {?} */
-            let keys = Object.keys(this.defaultSettings);
-            for (let value of keys) {
+            const keys = Object.keys(this.defaultSettings);
+            for (const value of keys) {
                 _tempObj[value] = this.userSettings[value] !== undefined ? this.userSettings[value] : this.defaultSettings[value];
             }
             return _tempObj;
@@ -59466,7 +59466,7 @@ class PlacesListComponent {
         this.recentDropdownOpen = false;
         if (this.settings.useGoogleGeoApi) {
             /** @type {?} */
-            let _tempParams = {
+            const _tempParams = {
                 query: value,
                 countryRestriction: this.settings.geoCountryRestriction,
                 geoTypes: this.settings.geoTypes,
@@ -59505,7 +59505,7 @@ class PlacesListComponent {
         if (arrayList.length) {
             /** @type {?} */
             let _tempData = data;
-            for (let key of arrayList) {
+            for (const key of arrayList) {
                 _tempData = _tempData[key];
             }
             return _tempData;
@@ -59870,7 +59870,7 @@ class ActivityTableRenderers {
      */
     static propertyRenderer(prop) {
         /** @type {?} */
-        let ret = (/**
+        const ret = (/**
          * @param {?} data
          * @return {?}
          */
@@ -59887,7 +59887,7 @@ class ActivityTableRenderers {
      */
     static dateRenderer(prop) {
         /** @type {?} */
-        let ret = (/**
+        const ret = (/**
          * @param {?} data
          * @return {?}
          */
