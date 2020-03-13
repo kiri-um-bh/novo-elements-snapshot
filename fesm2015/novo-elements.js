@@ -21854,7 +21854,7 @@ class FieldInteractionApi {
             /** @type {?} */
             const optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format);
             /** @type {?} */
-            const newConfig = Object.assign({}, (emptyPickerMessage && { emptyPickerMessage }), (Number.isInteger(minSearchLength) && { minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator }), (getLabels && { getLabels }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
+            const newConfig = Object.assign({}, (emptyPickerMessage && { emptyPickerMessage }), (Number.isInteger(minSearchLength) && { minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator }), (getLabels && { getLabels }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate || ('resultsTemplateType' in args && this.getAppropriateResultsTemplate(args.resultsTemplateType)) });
             this.setProperty(key, 'config', newConfig);
             this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args });
         }
@@ -21874,6 +21874,19 @@ class FieldInteractionApi {
         const config = Object.assign({}, control.config, properties);
         this.setProperty(key, 'config', config);
         this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: properties });
+    }
+    /**
+     * @private
+     * @param {?} resultsTemplateType
+     * @return {?}
+     */
+    getAppropriateResultsTemplate(resultsTemplateType) {
+        switch (resultsTemplateType) {
+            case 'entity-picker':
+                return EntityPickerResults;
+            default:
+                return undefined;
+        }
     }
     /**
      * @param {?} key
