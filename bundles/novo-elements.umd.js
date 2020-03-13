@@ -24729,7 +24729,7 @@
                 /** @type {?} */
                 var optionsConfig = this.getOptionsConfig(args, mapper, filteredOptionsCreator, format);
                 /** @type {?} */
-                var newConfig = __assign({}, (emptyPickerMessage && { emptyPickerMessage: emptyPickerMessage }), (Number.isInteger(minSearchLength) && { minSearchLength: minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll: enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator: filteredOptionsCreator }), (getLabels && { getLabels: getLabels }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate });
+                var newConfig = __assign({}, (emptyPickerMessage && { emptyPickerMessage: emptyPickerMessage }), (Number.isInteger(minSearchLength) && { minSearchLength: minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll: enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator: filteredOptionsCreator }), (getLabels && { getLabels: getLabels }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate || ('resultsTemplateType' in args && this.getAppropriateResultsTemplate(args.resultsTemplateType)) });
                 this.setProperty(key, 'config', newConfig);
                 this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args });
             }
@@ -24754,6 +24754,24 @@
             var config = __assign({}, control.config, properties);
             this.setProperty(key, 'config', config);
             this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: properties });
+        };
+        /**
+         * @private
+         * @param {?} resultsTemplateType
+         * @return {?}
+         */
+        FieldInteractionApi.prototype.getAppropriateResultsTemplate = /**
+         * @private
+         * @param {?} resultsTemplateType
+         * @return {?}
+         */
+        function (resultsTemplateType) {
+            switch (resultsTemplateType) {
+                case 'entity-picker':
+                    return EntityPickerResults;
+                default:
+                    return undefined;
+            }
         };
         /**
          * @param {?} key

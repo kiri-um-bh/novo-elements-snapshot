@@ -5,7 +5,7 @@ import { NovoToastService, ToastOptions } from '../toast/ToastService';
 import { NovoModalService } from '../modal/ModalService';
 import { AppBridge } from '../../utils/app-bridge/AppBridge';
 import { NovoLabelService } from '../../services/novo-label-service';
-import { NovoFieldset } from './FormInterfaces';
+import { NovoFieldset, ResultsTemplateType } from './FormInterfaces';
 import { ModifyPickerConfigArgs, OptionsFunction } from './FieldInteractionApiTypes';
 export declare class FieldInteractionApi {
     private toaster;
@@ -108,6 +108,7 @@ export declare class FieldInteractionApi {
         optionsUrlBuilder?: Function;
         optionsPromise?: any;
         options?: any[];
+        resultsTemplateType?: ResultsTemplateType;
     }, mapper?: any): void;
     mutatePickerConfig(key: string, args: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown): void;
     addPropertiesToPickerConfig(key: string, properties: {
@@ -119,6 +120,7 @@ export declare class FieldInteractionApi {
         options: OptionsFunction;
         format?: string;
     };
+    private getAppropriateResultsTemplate;
     createOptionsFunction: (config: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown, filteredOptionsCreator?: (where?: string) => (query: string, page?: number) => Promise<unknown[]>) => (query: string) => Promise<unknown[]>;
     setLoading(key: string, loading: boolean): void;
     addControl(key: string, metaForNewField: any, position?: string, initialValue?: any): void;
