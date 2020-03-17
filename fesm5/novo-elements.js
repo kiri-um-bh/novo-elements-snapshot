@@ -18641,9 +18641,11 @@ var NovoDateTimePickerInputElement = /** @class */ (function () {
     function () {
         try {
             if (this.datePart instanceof Date && this.timePart instanceof Date) {
-                /** @type {?} */
-                var newDt = new Date(this.datePart.getFullYear(), this.datePart.getMonth(), this.datePart.getDate(), this.timePart.getHours(), this.timePart.getMinutes());
-                this.dispatchOnChange(newDt);
+                this.dispatchOnChange(new Date(this.datePart.getFullYear(), this.datePart.getMonth(), this.datePart.getDate(), this.timePart.getHours(), this.timePart.getMinutes()));
+            }
+            else if (this.datePart instanceof Date) {
+                this.timePart = new Date(this.datePart.getFullYear(), this.datePart.getMonth(), this.datePart.getDate(), 12, 0);
+                this.dispatchOnChange(new Date(this.datePart.getFullYear(), this.datePart.getMonth(), this.datePart.getDate(), this.timePart.getHours(), this.timePart.getMinutes()));
             }
             else {
                 this.dispatchOnChange(null);
@@ -18767,7 +18769,7 @@ var NovoDateTimePickerInputElement = /** @class */ (function () {
         { type: Component, args: [{
                     selector: 'novo-date-time-picker-input',
                     providers: [DATE_VALUE_ACCESSOR$2],
-                    template: "\n        <novo-date-picker-input [ngModel]=\"datePart\" (ngModelChange)=\"updateDate($event)\" [start]=\"start\" [end]=\"end\" [maskOptions]=\"maskOptions\" (blurEvent)=\"handleBlur($event)\" (focusEvent)=\"handleFocus($event)\" [disabled]=\"disabled\"></novo-date-picker-input>\n        <novo-time-picker-input [ngModel]=\"timePart\" (ngModelChange)=\"updateTime($event)\" [military]=\"military\" (blurEvent)=\"handleBlur($event)\" (focusEvent)=\"handleFocus($event)\" [disabled]=\"disabled\"></novo-time-picker-input>\n  "
+                    template: "\n    <novo-date-picker-input\n      [ngModel]=\"datePart\"\n      (ngModelChange)=\"updateDate($event)\"\n      [start]=\"start\"\n      [end]=\"end\"\n      [maskOptions]=\"maskOptions\"\n      (blurEvent)=\"handleBlur($event)\"\n      (focusEvent)=\"handleFocus($event)\"\n      [disabled]=\"disabled\"\n    ></novo-date-picker-input>\n    <novo-time-picker-input\n      [ngModel]=\"timePart\"\n      (ngModelChange)=\"updateTime($event)\"\n      [military]=\"military\"\n      (blurEvent)=\"handleBlur($event)\"\n      (focusEvent)=\"handleFocus($event)\"\n      [disabled]=\"disabled\"\n    ></novo-time-picker-input>\n  "
                 }] }
     ];
     /** @nocollapse */
