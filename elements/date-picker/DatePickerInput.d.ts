@@ -24,6 +24,7 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     textMaskEnabled: boolean;
     allowInvalidDate: boolean;
     disabled: boolean;
+    weekStart: number;
     blurEvent: EventEmitter<FocusEvent>;
     focusEvent: EventEmitter<FocusEvent>;
     /** Element for the panel containing the autocomplete options. */

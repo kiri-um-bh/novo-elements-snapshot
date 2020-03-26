@@ -15323,6 +15323,7 @@ class NovoDatePickerInputElement {
         this.textMaskEnabled = true;
         this.allowInvalidDate = false;
         this.disabled = false;
+        this.weekStart = 0;
         this.blurEvent = new EventEmitter();
         this.focusEvent = new EventEmitter();
         this.placeholder = this.labels.dateFormatString().toUpperCase() || this.labels.dateFormatPlaceholder;
@@ -15582,7 +15583,7 @@ NovoDatePickerInputElement.decorators = [
         <i *ngIf="!hasValue" (click)="openPanel()" class="bhi-calendar"></i>
         <i *ngIf="hasValue" (click)="clearValue()" class="bhi-times"></i>
         <novo-overlay-template [parent]="element" position="above-below">
-            <novo-date-picker [start]="start" [end]="end" inline="true" (onSelect)="setValueAndClose($event)" [ngModel]="value"></novo-date-picker>
+            <novo-date-picker [start]="start" [end]="end" inline="true" (onSelect)="setValueAndClose($event)" [ngModel]="value" [weekStart]="weekStart"></novo-date-picker>
         </novo-overlay-template>
   `
             }] }
@@ -15604,6 +15605,7 @@ NovoDatePickerInputElement.propDecorators = {
     textMaskEnabled: [{ type: Input }],
     allowInvalidDate: [{ type: Input }],
     disabled: [{ type: HostBinding, args: ['class.disabled',] }, { type: Input }],
+    weekStart: [{ type: Input }],
     blurEvent: [{ type: Output }],
     focusEvent: [{ type: Output }],
     overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: false },] }]
@@ -15646,6 +15648,8 @@ if (false) {
     NovoDatePickerInputElement.prototype.allowInvalidDate;
     /** @type {?} */
     NovoDatePickerInputElement.prototype.disabled;
+    /** @type {?} */
+    NovoDatePickerInputElement.prototype.weekStart;
     /** @type {?} */
     NovoDatePickerInputElement.prototype.blurEvent;
     /** @type {?} */
@@ -16403,6 +16407,7 @@ class NovoDateTimePickerElement {
     constructor(labels, element) {
         this.labels = labels;
         this.element = element;
+        this.weekStart = 0;
         // Select callback for output
         this.onSelect = new EventEmitter(false);
         this.componentTabState = 'date';
@@ -16598,6 +16603,7 @@ NovoDateTimePickerElement.decorators = [
             [maxYear]="maxYear"
             [start]="start"
             [end]="end"
+            [weekStart]="weekStart"
           ></novo-date-picker>
         </div>
         <div class="time-picker">
@@ -16619,6 +16625,7 @@ NovoDateTimePickerElement.propDecorators = {
     start: [{ type: Input }],
     end: [{ type: Input }],
     military: [{ type: Input }],
+    weekStart: [{ type: Input }],
     onSelect: [{ type: Output }]
 };
 if (false) {
@@ -16632,6 +16639,8 @@ if (false) {
     NovoDateTimePickerElement.prototype.end;
     /** @type {?} */
     NovoDateTimePickerElement.prototype.military;
+    /** @type {?} */
+    NovoDateTimePickerElement.prototype.weekStart;
     /** @type {?} */
     NovoDateTimePickerElement.prototype.onSelect;
     /** @type {?} */
@@ -16704,6 +16713,7 @@ class NovoDateTimePickerInputElement {
         () => { });
         this.military = false;
         this.disabled = false;
+        this.weekStart = 0;
         this.blurEvent = new EventEmitter();
         this.focusEvent = new EventEmitter();
     }
@@ -16854,6 +16864,7 @@ NovoDateTimePickerInputElement.decorators = [
       (blurEvent)="handleBlur($event)"
       (focusEvent)="handleFocus($event)"
       [disabled]="disabled"
+      [weekStart]="weekStart"
     ></novo-date-picker-input>
     <novo-time-picker-input
       [ngModel]="timePart"
@@ -16881,6 +16892,7 @@ NovoDateTimePickerInputElement.propDecorators = {
     military: [{ type: Input }],
     disabled: [{ type: Input }],
     format: [{ type: Input }],
+    weekStart: [{ type: Input }],
     blurEvent: [{ type: Output }],
     focusEvent: [{ type: Output }]
 };
@@ -16917,6 +16929,8 @@ if (false) {
     NovoDateTimePickerInputElement.prototype.disabled;
     /** @type {?} */
     NovoDateTimePickerInputElement.prototype.format;
+    /** @type {?} */
+    NovoDateTimePickerInputElement.prototype.weekStart;
     /** @type {?} */
     NovoDateTimePickerInputElement.prototype.blurEvent;
     /** @type {?} */
@@ -18204,6 +18218,7 @@ class NovoFormControl extends FormControl {
         this.currencyFormat = control.currencyFormat;
         this.startDate = control.startDate;
         this.endDate = control.endDate;
+        this.weekStart = control.weekStart;
         this.textMaskEnabled = control.textMaskEnabled;
         this.textMaskEnabled = control.textMaskEnabled;
         this.maskOptions = control.maskOptions;
@@ -18437,6 +18452,8 @@ if (false) {
     /** @type {?} */
     NovoFormControl.prototype.endDate;
     /** @type {?} */
+    NovoFormControl.prototype.weekStart;
+    /** @type {?} */
     NovoFormControl.prototype.textMaskEnabled;
     /** @type {?} */
     NovoFormControl.prototype.maskOptions;
@@ -18617,6 +18634,8 @@ if (false) {
     ControlConfig.prototype.isEmbedded;
     /** @type {?} */
     ControlConfig.prototype.isInlineEmbedded;
+    /** @type {?} */
+    ControlConfig.prototype.weekStart;
 }
 class BaseControl extends ControlConfig {
     /**
@@ -18707,6 +18726,7 @@ class BaseControl extends ControlConfig {
         if (config.isEmpty) {
             this.isEmpty = config.isEmpty;
         }
+        this.weekStart = config.weekStart || 0;
     }
 }
 if (false) {
@@ -19930,6 +19950,7 @@ class FormUtils {
                 break;
             case 'datetime':
                 controlConfig.military = config ? !!config.military : false;
+                controlConfig.weekStart = config && config.weekStart ? config.weekStart : 0;
                 control = new DateTimeControl(controlConfig);
                 break;
             case 'date':
@@ -19937,6 +19958,7 @@ class FormUtils {
                 controlConfig.textMaskEnabled = field.textMaskEnabled;
                 controlConfig.allowInvalidDate = field.allowInvalidDate;
                 controlConfig.military = config ? !!config.military : false;
+                controlConfig.weekStart = config && config.weekStart ? config.weekStart : 0;
                 control = new DateControl(controlConfig);
                 break;
             case 'time':
@@ -43090,7 +43112,7 @@ NovoControlTemplates.decorators = [
         <!--Date-->
         <ng-template novoTemplate="date" let-control let-form="form" let-errors="errors" let-methods="methods">
           <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-            <novo-date-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [start]="control.startDate" [end]="control.endDate" [format]="control.dateFormat" [allowInvalidDate]="control.allowInvalidDate" [textMaskEnabled]="control.textMaskEnabled" [placeholder]="control.placeholder" (focusEvent)="methods.handleFocus($event)" (blurEvent)="methods.handleBlur($event)"></novo-date-picker-input>
+            <novo-date-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [start]="control.startDate" [end]="control.endDate" [format]="control.dateFormat" [allowInvalidDate]="control.allowInvalidDate" [textMaskEnabled]="control.textMaskEnabled" [placeholder]="control.placeholder" [weekStart]="control.weekStart" (focusEvent)="methods.handleFocus($event)" (blurEvent)="methods.handleBlur($event)"></novo-date-picker-input>
           </div>
         </ng-template>
 
@@ -43098,7 +43120,7 @@ NovoControlTemplates.decorators = [
         <!--Date and Time-->
         <ng-template novoTemplate="date-time" let-control let-form="form" let-errors="errors" let-methods="methods">
           <div [formGroup]="form" class="novo-control-input-container" [tooltip]="control.tooltip" [tooltipPosition]="control.tooltipPosition" [tooltipSize]="control?.tooltipSize" [tooltipPreline]="control?.tooltipPreline" [removeTooltipArrow]="control?.removeTooltipArrow" [tooltipAutoPosition]="control?.tooltipAutoPosition">
-            <novo-date-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [start]="control.startDate" [end]="control.endDate" [placeholder]="control.placeholder" [military]="control.military" (focusEvent)="methods.handleFocus($event)" (blurEvent)="methods.handleBlur($event)"></novo-date-time-picker-input>
+            <novo-date-time-picker-input [attr.id]="control.key" [name]="control.key" [formControlName]="control.key" [start]="control.startDate" [end]="control.endDate" [placeholder]="control.placeholder" [military]="control.military" [weekStart]="control.weekStart" (focusEvent)="methods.handleFocus($event)" (blurEvent)="methods.handleBlur($event)"></novo-date-time-picker-input>
           </div>
         </ng-template>
 
