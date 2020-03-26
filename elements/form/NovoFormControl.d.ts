@@ -51,6 +51,7 @@ export declare class NovoFormControl extends FormControl {
     currencyFormat?: string;
     startDate?: Date | Number;
     endDate?: Date | Number;
+    weekStart?: number;
     textMaskEnabled?: boolean;
     maskOptions: IMaskOptions;
     allowInvalidDate?: boolean;

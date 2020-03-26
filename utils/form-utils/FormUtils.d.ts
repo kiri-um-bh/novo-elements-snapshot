@@ -33,12 +33,14 @@ export declare class FormUtils {
         token?: string;
         restUrl?: string;
         military?: boolean;
+        weekStart?: number;
     }, overrides?: any, forTable?: boolean, fieldData?: any): any;
     private shouldCreateControl;
     toControls(meta: any, currencyFormat: any, http: any, config: {
         token?: string;
         restUrl?: string;
         military?: boolean;
+        weekStart?: number;
     }, overrides?: any, forTable?: boolean): any[];
     toTableControls(meta: any, currencyFormat: any, http: any, config: {
         token?: string;
@@ -49,6 +51,7 @@ export declare class FormUtils {
         token?: string;
         restUrl?: string;
         military?: boolean;
+        weekStart?: number;
     }, overrides?: any, data?: {
         [key: string]: any;
     }): NovoFieldset[];
