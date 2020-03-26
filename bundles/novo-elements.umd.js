@@ -22478,7 +22478,8 @@
                 field.readOnly = false;
             }
             return (field.name !== 'id' &&
-                (field.dataSpecialization !== 'SYSTEM' || ['address', 'billingAddress', 'secondaryAddress'].indexOf(field.name) !== -1) &&
+                (!['SYSTEM', 'SECTION_HEADER'].includes(field.dataSpecialization) ||
+                    ['address', 'billingAddress', 'secondaryAddress'].includes(field.name)) &&
                 !field.readOnly);
         };
         /**
@@ -22609,6 +22610,9 @@
                                 var control = _this.createControl(embeddedField, data, http, config, overrides, currencyFormat);
                                 control = _this.markControlAsEmbedded(control, field.dataSpecialization ? field.dataSpecialization.toLowerCase() : null);
                                 fieldsets[fieldsets.length - 1].controls.push(control);
+                            }
+                            else if (_this.isHeader(embeddedField)) {
+                                _this.insertHeaderToFieldsets(fieldsets, embeddedField);
                             }
                         }));
                     }
@@ -22864,7 +22868,9 @@
          * @return {?}
          */
         function (field) {
-            return !Helpers.isBlank(field) && field.hasOwnProperty('isSectionHeader') && field.isSectionHeader;
+            return (!Helpers.isBlank(field) &&
+                ((field.hasOwnProperty('isSectionHeader') && field.isSectionHeader) ||
+                    (field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'section_header')));
         };
         /**
          * @private
@@ -22879,14 +22885,19 @@
          * @return {?}
          */
         function (fieldsets, field) {
-            fieldsets.push({
-                title: field.label,
-                icon: field.icon || 'bhi-section',
+            /** @type {?} */
+            var constantProperties = {
                 controls: [],
                 isEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'embedded',
                 isInlineEmbedded: field.dataSpecialization && field.dataSpecialization.toLowerCase() === 'inline_embedded',
                 key: field.name,
-            });
+            };
+            if (field.name && field.name.startsWith('customObject') && field.associatedEntity && field.associatedEntity.label) {
+                fieldsets.push(__assign({ title: field.associatedEntity.label || field.label, icon: field.icon || 'bhi-card-expand' }, constantProperties));
+            }
+            else {
+                fieldsets.push(__assign({ title: field.label, icon: field.icon || 'bhi-section' }, constantProperties));
+            }
         };
         /**
          * @private
