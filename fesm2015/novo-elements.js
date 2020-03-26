@@ -41920,6 +41920,9 @@ class NovoFile {
             this.fileContents = event.target.result.split(',')[1];
             this.dataURL = event.target.result;
             this.loaded = true;
+            if (this.readPromise) {
+                this.readPromise(this);
+            }
         });
     }
     /**
@@ -41931,7 +41934,7 @@ class NovoFile {
          * @return {?}
          */
         (resolve) => {
-            resolve(this);
+            this.readPromise = resolve;
             // when the file is read it triggers the onload event above.
             this.reader.readAsDataURL(this.file);
         }));
@@ -41970,6 +41973,8 @@ if (false) {
     NovoFile.prototype.dataURL;
     /** @type {?} */
     NovoFile.prototype.reader;
+    /** @type {?} */
+    NovoFile.prototype.readPromise;
 }
 
 /**
