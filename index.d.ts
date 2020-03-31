@@ -13,6 +13,7 @@ export { NovoModalModule } from './elements/modal/Modal.module';
 export { NovoQuickNoteModule } from './elements/quick-note/QuickNote.module';
 export { NovoRadioModule } from './elements/radio/Radio.module';
 export { NovoDropdownModule } from './elements/dropdown/Dropdown.module';
+export { NovoDropdownElement } from './elements/dropdown/Dropdown';
 export { NovoSelectModule } from './elements/select/Select.module';
 export { NovoListModule } from './elements/list/List.module';
 export { NovoSwitchModule } from './elements/switch/Switch.module';
@@ -49,7 +50,7 @@ export { NovoDataTableFilterUtils } from './elements/data-table/services/data-ta
 export { IDataTableCell, IDataTableChangeEvent, IDataTableColumn, IDataTableColumnFilterConfig, IDataTableColumnFilterOption, IDataTableColumnSortConfig, IDataTablePaginationEvent, IDataTablePaginationOptions, IDataTableSearchOptions, IDataTableSelectionChangeEvent, IDataTableService, IDataTableSortFilter, IDataTablePreferences, IDataTableFilter, } from './elements/data-table/interfaces';
 export { NovoDataTable } from './elements/data-table/data-table.component';
 export { NovoCommonModule } from './elements/common/common.module';
-export { ChildTab, ParentTab, TabbedGroupPickerTab, QuickSelectConfig, TabbedGroupPickerQuickSelect, TabbedGroupPickerButtonConfig } from './elements/tabbed-group-picker/TabbedGroupPicker';
+export { ChildTab, ParentTab, TabbedGroupPickerTab, QuickSelectConfig, TabbedGroupPickerQuickSelect, TabbedGroupPickerButtonConfig, } from './elements/tabbed-group-picker/TabbedGroupPicker';
 export { NovoTabbedGroupPickerModule } from './elements/tabbed-group-picker/TabbedGroupPicker.module';
 export { NovoTableElement, NovoTableConfig } from './elements/table/Table';
 export { NovoCalendarDateChangeElement } from './elements/calendar/common/CalendarDateChange';
