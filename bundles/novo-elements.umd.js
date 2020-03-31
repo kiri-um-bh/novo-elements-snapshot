@@ -45927,7 +45927,10 @@
             if (this.canRemove) {
                 /** @type {?} */
                 var control = (/** @type {?} */ (this.form.controls[this.key]));
-                return this.canRemove(control.at(index).value, index);
+                if (control.at(index)) {
+                    return this.canRemove(control.at(index).value, index);
+                }
+                return true;
             }
             return true;
         };
