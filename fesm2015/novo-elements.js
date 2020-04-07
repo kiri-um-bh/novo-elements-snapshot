@@ -6705,7 +6705,6 @@ class NovoTilesElement {
         this.onDisabledOptionClick = new EventEmitter();
         this._options = [];
         this.activeTile = null;
-        this.state = 'inactive';
         this.focused = false;
         this.onModelChange = (/**
          * @return {?}
@@ -6810,32 +6809,8 @@ class NovoTilesElement {
     setTile(item) {
         if (item) {
             this.activeTile = item.value;
-            this.moveTile();
+            this.ref.markForCheck();
         }
-    }
-    /**
-     * @return {?}
-     */
-    moveTile() {
-        setTimeout((/**
-         * @return {?}
-         */
-        () => {
-            /** @type {?} */
-            const ind = this.element.nativeElement.querySelector('.active-indicator');
-            /** @type {?} */
-            const el = this.element.nativeElement.querySelector('.tile.active');
-            if (ind && el) {
-                /** @type {?} */
-                const w = el.clientWidth;
-                /** @type {?} */
-                const left = el.offsetLeft - el.offsetTop;
-                ind.style.width = `calc(${w}px + 0.32em)`;
-                ind.style.left = `${left}px`;
-                this.state = 'active';
-                this.ref.markForCheck();
-            }
-        }));
     }
     /**
      * @param {?} model
@@ -6897,21 +6872,8 @@ NovoTilesElement.decorators = [
           {{ option.label || option }}
         </label>
       </div>
-      <span class="active-indicator" [@tileState]="state" [hidden]="activeTile === undefined || activeTile === null"></span>
     </div>
   `,
-                animations: [
-                    trigger('tileState', [
-                        state('inactive', style({
-                            opacity: '0',
-                        })),
-                        state('active', style({
-                            opacity: '1',
-                        })),
-                        transition('inactive => active', animate('200ms ease-in')),
-                        transition('active => inactive', animate('200ms ease-out')),
-                    ]),
-                ],
                 changeDetection: ChangeDetectionStrategy.OnPush
             }] }
 ];
@@ -6948,8 +6910,6 @@ if (false) {
     NovoTilesElement.prototype._options;
     /** @type {?} */
     NovoTilesElement.prototype.activeTile;
-    /** @type {?} */
-    NovoTilesElement.prototype.state;
     /** @type {?} */
     NovoTilesElement.prototype.focused;
     /** @type {?} */

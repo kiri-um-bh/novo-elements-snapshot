@@ -12,7 +12,6 @@ export declare class NovoTilesElement implements ControlValueAccessor, AfterCont
     onDisabledOptionClick: EventEmitter<any>;
     _options: Array<any>;
     activeTile: any;
-    state: String;
     focused: boolean;
     model: any;
     onModelChange: Function;
@@ -24,7 +23,6 @@ export declare class NovoTilesElement implements ControlValueAccessor, AfterCont
     setupOptions(): void;
     select(event: any, item: any): void;
     setTile(item: any): void;
-    moveTile(): void;
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
