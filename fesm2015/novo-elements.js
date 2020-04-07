@@ -42729,6 +42729,7 @@ class NovoControlGroup {
             item.edit = this.checkCanEdit(idx);
             item.remove = this.checkCanRemove(idx);
         }));
+        this.ref.markForCheck();
     }
     /**
      * @param {?=} value
