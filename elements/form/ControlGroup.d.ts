@@ -37,8 +37,14 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges {
     canEdit: Function;
     canRemove: Function;
     rowTemplate: TemplateRef<any>;
-    onRemove: EventEmitter<any>;
-    onEdit: EventEmitter<any>;
+    onRemove: EventEmitter<{
+        value: any;
+        index: any;
+    }>;
+    onEdit: EventEmitter<{
+        value: any;
+        index: any;
+    }>;
     onAdd: EventEmitter<any>;
     change: EventEmitter<any>;
     controlLabels: {

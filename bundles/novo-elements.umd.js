@@ -45772,6 +45772,7 @@
                 item.edit = _this.checkCanEdit(idx);
                 item.remove = _this.checkCanRemove(idx);
             }));
+            this.ref.markForCheck();
         };
         /**
          * @param {?=} value
