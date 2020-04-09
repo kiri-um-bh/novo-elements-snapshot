@@ -7477,7 +7477,6 @@
             this.onDisabledOptionClick = new core.EventEmitter();
             this._options = [];
             this.activeTile = null;
-            this.state = 'inactive';
             this.focused = false;
             this.onModelChange = (/**
              * @return {?}
@@ -7617,36 +7616,8 @@
         function (item) {
             if (item) {
                 this.activeTile = item.value;
-                this.moveTile();
+                this.ref.markForCheck();
             }
-        };
-        /**
-         * @return {?}
-         */
-        NovoTilesElement.prototype.moveTile = /**
-         * @return {?}
-         */
-        function () {
-            var _this = this;
-            setTimeout((/**
-             * @return {?}
-             */
-            function () {
-                /** @type {?} */
-                var ind = _this.element.nativeElement.querySelector('.active-indicator');
-                /** @type {?} */
-                var el = _this.element.nativeElement.querySelector('.tile.active');
-                if (ind && el) {
-                    /** @type {?} */
-                    var w = el.clientWidth;
-                    /** @type {?} */
-                    var left = el.offsetLeft - el.offsetTop;
-                    ind.style.width = "calc(" + w + "px + 0.32em)";
-                    ind.style.left = left + "px";
-                    _this.state = 'active';
-                    _this.ref.markForCheck();
-                }
-            }));
         };
         /**
          * @param {?} model
@@ -7699,19 +7670,7 @@
             { type: core.Component, args: [{
                         selector: 'novo-tiles',
                         providers: [TILES_VALUE_ACCESSOR],
-                        template: "\n    <div class=\"tile-container\" [class.active]=\"focused\" [class.disabled]=\"disabled\">\n      <div\n        class=\"tile\"\n        *ngFor=\"let option of _options; let i = index\"\n        [ngClass]=\"{ active: option.checked, disabled: option.disabled }\"\n        (click)=\"select($event, option)\"\n        [attr.data-automation-id]=\"option.label || option\"\n      >\n        <input\n          class=\"tiles-input\"\n          [name]=\"name\"\n          type=\"radio\"\n          [value]=\"option.checked || option.value || option\"\n          [attr.id]=\"name + i\"\n          (change)=\"select($event, option)\"\n          (focus)=\"setFocus(true)\"\n          (blur)=\"setFocus(false)\"\n          [disabled]=\"disabled\"\n        />\n        <label [attr.for]=\"name + i\" [attr.data-automation-id]=\"option.label || option\">\n          {{ option.label || option }}\n        </label>\n      </div>\n      <span class=\"active-indicator\" [@tileState]=\"state\" [hidden]=\"activeTile === undefined || activeTile === null\"></span>\n    </div>\n  ",
-                        animations: [
-                            animations.trigger('tileState', [
-                                animations.state('inactive', animations.style({
-                                    opacity: '0',
-                                })),
-                                animations.state('active', animations.style({
-                                    opacity: '1',
-                                })),
-                                animations.transition('inactive => active', animations.animate('200ms ease-in')),
-                                animations.transition('active => inactive', animations.animate('200ms ease-out')),
-                            ]),
-                        ],
+                        template: "\n    <div class=\"tile-container\" [class.active]=\"focused\" [class.disabled]=\"disabled\">\n      <div\n        class=\"tile\"\n        *ngFor=\"let option of _options; let i = index\"\n        [ngClass]=\"{ active: option.checked, disabled: option.disabled }\"\n        (click)=\"select($event, option)\"\n        [attr.data-automation-id]=\"option.label || option\"\n      >\n        <input\n          class=\"tiles-input\"\n          [name]=\"name\"\n          type=\"radio\"\n          [value]=\"option.checked || option.value || option\"\n          [attr.id]=\"name + i\"\n          (change)=\"select($event, option)\"\n          (focus)=\"setFocus(true)\"\n          (blur)=\"setFocus(false)\"\n          [disabled]=\"disabled\"\n        />\n        <label [attr.for]=\"name + i\" [attr.data-automation-id]=\"option.label || option\">\n          {{ option.label || option }}\n        </label>\n      </div>\n    </div>\n  ",
                         changeDetection: core.ChangeDetectionStrategy.OnPush
                     }] }
         ];
@@ -7750,8 +7709,6 @@
         NovoTilesElement.prototype._options;
         /** @type {?} */
         NovoTilesElement.prototype.activeTile;
-        /** @type {?} */
-        NovoTilesElement.prototype.state;
         /** @type {?} */
         NovoTilesElement.prototype.focused;
         /** @type {?} */
