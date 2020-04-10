@@ -11837,6 +11837,9 @@ var NovoSelectElement = /** @class */ (function () {
      * @return {?}
      */
     function () {
+        if (this.selected) {
+            this.selected.active = false;
+        }
         this.selected = {
             label: this.placeholder,
             value: null,
