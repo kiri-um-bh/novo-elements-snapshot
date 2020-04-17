@@ -15372,9 +15372,15 @@ class NovoDatePickerInputElement {
      */
     _handleEvent(event, blur) {
         /** @type {?} */
-        const value = ((/** @type {?} */ (event.target))).value;
-        this.formatDate(value, blur);
-        this.openPanel();
+        let value = ((/** @type {?} */ (event.target))).value;
+        if (value === '') {
+            this.clearValue();
+            this.closePanel();
+        }
+        else {
+            this.formatDate(value, blur);
+            this.openPanel();
+        }
     }
     /**
      * @protected

@@ -17273,8 +17273,14 @@
         function (event, blur) {
             /** @type {?} */
             var value = ((/** @type {?} */ (event.target))).value;
-            this.formatDate(value, blur);
-            this.openPanel();
+            if (value === '') {
+                this.clearValue();
+                this.closePanel();
+            }
+            else {
+                this.formatDate(value, blur);
+                this.openPanel();
+            }
         };
         /**
          * @protected
