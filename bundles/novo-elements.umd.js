@@ -2656,6 +2656,7 @@
             this.move = 'Move';
             this.startDate = 'Start Date';
             this.endDate = 'End Date';
+            this.rate = 'Rate';
             this.more = 'more';
             this.clearAll = 'CLEAR ALL';
             this.clearAllNormalCase = 'Clear All';
@@ -3177,6 +3178,8 @@
         NovoLabelService.prototype.startDate;
         /** @type {?} */
         NovoLabelService.prototype.endDate;
+        /** @type {?} */
+        NovoLabelService.prototype.rate;
         /** @type {?} */
         NovoLabelService.prototype.more;
         /** @type {?} */
@@ -14195,6 +14198,84 @@
 
     /**
      * @fileoverview added by tsickle
+     * Generated from: elements/picker/extras/workers-comp-codes-picker-results/WorkersCompCodesPickerResults.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var WorkersCompCodesPickerResults = /** @class */ (function (_super) {
+        __extends(WorkersCompCodesPickerResults, _super);
+        function WorkersCompCodesPickerResults(element, sanitizer, labels, ref) {
+            var _this = _super.call(this, element, ref) || this;
+            _this.sanitizer = sanitizer;
+            _this.labels = labels;
+            _this.active = true;
+            _this.sanitizer = sanitizer;
+            return _this;
+        }
+        Object.defineProperty(WorkersCompCodesPickerResults.prototype, "isHidden", {
+            get: /**
+             * @return {?}
+             */
+            function () {
+                return this.matches.length === 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @return {?}
+         */
+        WorkersCompCodesPickerResults.prototype.getListElement = /**
+         * @return {?}
+         */
+        function () {
+            return this.element.nativeElement.querySelector('novo-list');
+        };
+        /**
+         * @param {?} compCode
+         * @param {?} name
+         * @return {?}
+         */
+        WorkersCompCodesPickerResults.prototype.sanitizeHTML = /**
+         * @param {?} compCode
+         * @param {?} name
+         * @return {?}
+         */
+        function (compCode, name) {
+            return this.sanitizer.bypassSecurityTrustHtml(compCode + " | " + name);
+        };
+        WorkersCompCodesPickerResults.decorators = [
+            { type: core.Component, args: [{
+                        selector: 'workers-comp-codes-picker-results',
+                        template: "\n    <section class=\"picker-loading\" *ngIf=\"isLoading && !matches?.length\">\n      <novo-loading theme=\"line\"></novo-loading>\n    </section>\n    <novo-list direction=\"vertical\" *ngIf=\"matches?.length > 0 && !hasError\">\n      <novo-list-item\n        *ngFor=\"let match of matches\"\n        (click)=\"selectMatch($event)\"\n        [class.active]=\"match === activeMatch\"\n        (mouseenter)=\"selectActive(match)\"\n        [class.disabled]=\"preselected(match)\"\n      >\n        <item-header>\n          <item-title>\n            <span [innerHtml]=\"sanitizeHTML(match?.data?.compensation?.code, match?.data?.compensation?.name)\"></span>\n          </item-title>\n        </item-header>\n        <item-content direction=\"horizontal\">\n          <p>\n            <span class=\"label\">{{ labels.state }}: </span><span>{{ match?.data?.compensation?.state }}</span>\n          </p>\n          <p>\n            <span class=\"label\">{{ labels.rate }}: </span><span>{{ labels.formatCurrency(match?.data?.rate) }}</span>\n          </p>\n        </item-content>\n        <item-content direction=\"horizontal\">\n          <p>\n            <span class=\"label\">{{ labels.startDate }}: </span\n            ><span>{{ labels.formatDateWithFormat(match?.data?.startDate, { year: 'numeric', month: 'numeric', day: 'numeric' }) }}</span>\n          </p>\n          <p>\n            <span class=\"label\">{{ labels.endDate }}: </span\n            ><span>{{ labels.formatDateWithFormat(match?.data?.endDate, { year: 'numeric', month: 'numeric', day: 'numeric' }) }}</span>\n          </p>\n        </item-content>\n      </novo-list-item>\n      <novo-loading theme=\"line\" *ngIf=\"isLoading && matches?.length > 0\"></novo-loading>\n    </novo-list>\n  "
+                    }] }
+        ];
+        /** @nocollapse */
+        WorkersCompCodesPickerResults.ctorParameters = function () { return [
+            { type: core.ElementRef },
+            { type: platformBrowser.DomSanitizer },
+            { type: NovoLabelService },
+            { type: core.ChangeDetectorRef }
+        ]; };
+        WorkersCompCodesPickerResults.propDecorators = {
+            active: [{ type: core.HostBinding, args: ['class.active',] }],
+            isHidden: [{ type: core.HostBinding, args: ['hidden',] }]
+        };
+        return WorkersCompCodesPickerResults;
+    }(BasePickerResults));
+    if (false) {
+        /** @type {?} */
+        WorkersCompCodesPickerResults.prototype.active;
+        /**
+         * @type {?}
+         * @private
+         */
+        WorkersCompCodesPickerResults.prototype.sanitizer;
+        /** @type {?} */
+        WorkersCompCodesPickerResults.prototype.labels;
+    }
+
+    /**
+     * @fileoverview added by tsickle
      * Generated from: elements/picker/Picker.module.ts
      * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
@@ -14212,6 +14293,7 @@
                             ChecklistPickerResults,
                             GroupedMultiPickerResults,
                             DistributionListPickerResults,
+                            WorkersCompCodesPickerResults,
                             SkillsSpecialtyPickerResults,
                         ],
                         exports: [
@@ -14222,6 +14304,7 @@
                             ChecklistPickerResults,
                             GroupedMultiPickerResults,
                             DistributionListPickerResults,
+                            WorkersCompCodesPickerResults,
                             SkillsSpecialtyPickerResults,
                         ],
                         entryComponents: [
@@ -14231,6 +14314,7 @@
                             ChecklistPickerResults,
                             GroupedMultiPickerResults,
                             DistributionListPickerResults,
+                            WorkersCompCodesPickerResults,
                             SkillsSpecialtyPickerResults,
                         ],
                     },] }
@@ -65310,6 +65394,7 @@
     exports.TilesControl = TilesControl;
     exports.TimeControl = TimeControl;
     exports.UnlessModule = UnlessModule;
+    exports.WorkersCompCodesPickerResults = WorkersCompCodesPickerResults;
     exports.findByCountryCode = findByCountryCode;
     exports.findByCountryId = findByCountryId;
     exports.findByCountryName = findByCountryName;
