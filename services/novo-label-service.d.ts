@@ -29,6 +29,7 @@ export declare class NovoLabelService {
     move: string;
     startDate: string;
     endDate: string;
+    rate: string;
     more: string;
     clearAll: string;
     clearAllNormalCase: string;
