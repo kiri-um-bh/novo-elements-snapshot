@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
-import { IDataTableChangeEvent, IDataTableFilter } from '../interfaces';
+import { IDataTableChangeEvent, IDataTableFilter, IDataTableSort } from '../interfaces';
 export declare class DataTableState<T> {
     selectionSource: Subject<unknown>;
     paginationSource: Subject<unknown>;
@@ -8,10 +8,7 @@ export declare class DataTableState<T> {
     resetSource: Subject<unknown>;
     expandSource: Subject<unknown>;
     dataLoaded: Subject<unknown>;
-    sort: {
-        id: string;
-        value: string;
-    };
+    sort: IDataTableSort;
     filter: IDataTableFilter | IDataTableFilter[];
     page: number;
     pageSize: number;
