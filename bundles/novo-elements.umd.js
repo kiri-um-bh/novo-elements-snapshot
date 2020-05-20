@@ -20425,398 +20425,6 @@
 
     /**
      * @fileoverview added by tsickle
-     * Generated from: elements/form/NovoFormControl.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    var NovoFormControl = /** @class */ (function (_super) {
-        __extends(NovoFormControl, _super);
-        function NovoFormControl(value, control) {
-            var _this = _super.call(this, value, control.validators, control.asyncValidators) || this;
-            _this.displayValueChanges = new core.EventEmitter();
-            _this.valueHistory = [];
-            _this.validators = control.validators;
-            _this.initialValue = value;
-            _this.valueHistory.push(value);
-            _this.key = control.key;
-            _this.label = control.label;
-            _this.readOnly = control.readOnly;
-            _this.hidden = control.hidden;
-            _this.encrypted = control.encrypted;
-            _this.config = control.config;
-            _this.type = control.type;
-            _this.subType = control.subType;
-            _this.required = control.required;
-            _this.hasRequiredValidator = _this.required;
-            _this.tooltip = control.tooltip;
-            _this.tooltipPosition = control.tooltipPosition;
-            _this.tooltipSize = control.tooltipSize;
-            _this.tooltipPreline = control.tooltipPreline;
-            _this.removeTooltipArrow = control.removeTooltipArrow;
-            _this.tooltipAutoPosition = control.tooltipAutoPosition;
-            _this.label = control.label;
-            _this.name = control.name;
-            _this.required = control.required;
-            _this.sortOrder = control.sortOrder;
-            _this.controlType = control.controlType;
-            _this.placeholder = control.placeholder;
-            _this.minimal = control.minimal;
-            _this.multiple = control.multiple;
-            _this.headerConfig = control.headerConfig;
-            _this.optionsType = control.optionsType;
-            _this.readOnly = control.readOnly;
-            _this.layoutOptions = control.layoutOptions;
-            _this.military = control.military;
-            _this.dateFormat = control.dateFormat;
-            _this.currencyFormat = control.currencyFormat;
-            _this.startDate = control.startDate;
-            _this.endDate = control.endDate;
-            _this.weekStart = control.weekStart;
-            _this.textMaskEnabled = control.textMaskEnabled;
-            _this.textMaskEnabled = control.textMaskEnabled;
-            _this.maskOptions = control.maskOptions;
-            _this.allowInvalidDate = control.allowInvalidDate;
-            _this.maxlength = control.maxlength;
-            _this.minlength = control.minlength;
-            _this.closeOnSelect = control.closeOnSelect;
-            _this.interactions = control.interactions;
-            _this.checkboxLabel = control.checkboxLabel;
-            _this.restrictFieldInteractions = control.restrictFieldInteractions;
-            _this.appendToBody = control.appendToBody;
-            if (_this.appendToBody) {
-                notify("'appendToBody' has been deprecated. Please remove this attribute.");
-            }
-            _this.parentScrollSelector = control.parentScrollSelector;
-            _this.description = control.description;
-            _this.options = control.options;
-            _this.tipWell = control.tipWell;
-            _this.customControlConfig = control.customControlConfig;
-            _this.warning = control.warning;
-            // Reactive Form, need to enable/disable, can't bind to [disabled]
-            if (_this.readOnly) {
-                _this.disable();
-            }
-            else {
-                _this.enable();
-            }
-            return _this;
-        }
-        /**
-         * @name hide
-         * @param clearValue - flag to reset the control's value
-         */
-        /**
-         * \@name hide
-         * @param {?=} clearValue - flag to reset the control's value
-         * @return {?}
-         */
-        NovoFormControl.prototype.hide = /**
-         * \@name hide
-         * @param {?=} clearValue - flag to reset the control's value
-         * @return {?}
-         */
-        function (clearValue) {
-            if (clearValue === void 0) { clearValue = true; }
-            this.hidden = true;
-            if (clearValue) {
-                this.setValue(null);
-            }
-        };
-        /**
-         * @name show
-         */
-        /**
-         * \@name show
-         * @return {?}
-         */
-        NovoFormControl.prototype.show = /**
-         * \@name show
-         * @return {?}
-         */
-        function () {
-            this.hidden = false;
-        };
-        /**
-         * @name setRequired
-         * @param isRequired
-         */
-        /**
-         * \@name setRequired
-         * @param {?} isRequired
-         * @return {?}
-         */
-        NovoFormControl.prototype.setRequired = /**
-         * \@name setRequired
-         * @param {?} isRequired
-         * @return {?}
-         */
-        function (isRequired) {
-            this.required = isRequired;
-            // Update validators to have the required
-            if (this.required && !this.hasRequiredValidator) {
-                /** @type {?} */
-                var validators = __spread(this.validators);
-                validators.push(forms.Validators.required);
-                // TODO: duplicated below
-                this.setValidators(validators);
-                this.updateValueAndValidity({ emitEvent: false });
-                this.hasRequiredValidator = this.required;
-            }
-            else if (!this.required && this.hasRequiredValidator) {
-                /** @type {?} */
-                var validators = __spread(this.validators);
-                validators = validators.filter((/**
-                 * @param {?} val
-                 * @return {?}
-                 */
-                function (val) { return val !== forms.Validators.required; }));
-                // TODO: duplicated above
-                this.setValidators(validators);
-                this.updateValueAndValidity({ emitEvent: false });
-                this.hasRequiredValidator = this.required;
-            }
-        };
-        /**
-         * @name setValue
-         *
-         * @param value
-         * @param onlySelf
-         * @param emitEvent
-         * @param emitModelToViewChange
-         * @param emitViewToModelChange
-         *
-         */
-        /**
-         * \@name setValue
-         *
-         * @param {?} value
-         * @param {?=} __1
-         * @return {?}
-         */
-        NovoFormControl.prototype.setValue = /**
-         * \@name setValue
-         *
-         * @param {?} value
-         * @param {?=} __1
-         * @return {?}
-         */
-        function (value, _a) {
-            var _this = this;
-            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent, emitModelToViewChange = _b.emitModelToViewChange, emitViewToModelChange = _b.emitViewToModelChange;
-            this.markAsDirty();
-            this.markAsTouched();
-            this.displayValueChanges.emit(value);
-            _super.prototype.setValue.call(this, value, { onlySelf: onlySelf, emitEvent: emitEvent, emitModelToViewChange: emitModelToViewChange, emitViewToModelChange: emitViewToModelChange });
-            // History
-            clearTimeout(this.historyTimeout);
-            this.historyTimeout = setTimeout((/**
-             * @return {?}
-             */
-            function () {
-                _this.valueHistory.push(value);
-            }), 300);
-        };
-        /**
-         * @name setReadOnly
-         * @param isReadOnly
-         */
-        /**
-         * \@name setReadOnly
-         * @param {?} isReadOnly
-         * @return {?}
-         */
-        NovoFormControl.prototype.setReadOnly = /**
-         * \@name setReadOnly
-         * @param {?} isReadOnly
-         * @return {?}
-         */
-        function (isReadOnly) {
-            this.readOnly = isReadOnly;
-            if (this.readOnly) {
-                this.disable();
-            }
-            else {
-                this.enable();
-            }
-        };
-        /**
-         * Disables the control. This means the control will be exempt from validation checks and
-         * excluded from the aggregate value of any parent. Its status is `DISABLED`.
-         *
-         * If the control has children, all children will be disabled to maintain the model.
-         */
-        /**
-         * Disables the control. This means the control will be exempt from validation checks and
-         * excluded from the aggregate value of any parent. Its status is `DISABLED`.
-         *
-         * If the control has children, all children will be disabled to maintain the model.
-         * @param {?=} opts
-         * @return {?}
-         */
-        NovoFormControl.prototype.disable = /**
-         * Disables the control. This means the control will be exempt from validation checks and
-         * excluded from the aggregate value of any parent. Its status is `DISABLED`.
-         *
-         * If the control has children, all children will be disabled to maintain the model.
-         * @param {?=} opts
-         * @return {?}
-         */
-        function (opts) {
-            if (opts === void 0) { opts = { emitEvent: false }; }
-            if (typeof opts.emitEvent === 'undefined') {
-                opts.emitEvent = false;
-            }
-            _super.prototype.disable.call(this, opts);
-        };
-        /**
-         * @param {?=} opts
-         * @return {?}
-         */
-        NovoFormControl.prototype.enable = /**
-         * @param {?=} opts
-         * @return {?}
-         */
-        function (opts) {
-            if (opts === void 0) { opts = { emitEvent: false }; }
-            if (typeof opts.emitEvent === 'undefined') {
-                opts.emitEvent = false;
-            }
-            _super.prototype.enable.call(this, opts);
-        };
-        /**
-         * @name markAsInvalid
-         * @param message
-         */
-        /**
-         * \@name markAsInvalid
-         * @param {?} message
-         * @return {?}
-         */
-        NovoFormControl.prototype.markAsInvalid = /**
-         * \@name markAsInvalid
-         * @param {?} message
-         * @return {?}
-         */
-        function (message) {
-            this.markAsDirty();
-            this.markAsTouched();
-            this.setErrors(Object.assign({}, this.errors, { custom: message }));
-        };
-        return NovoFormControl;
-    }(forms.FormControl));
-    if (false) {
-        /** @type {?} */
-        NovoFormControl.prototype.displayValueChanges;
-        /** @type {?} */
-        NovoFormControl.prototype.hidden;
-        /** @type {?} */
-        NovoFormControl.prototype.encrypted;
-        /** @type {?} */
-        NovoFormControl.prototype.key;
-        /** @type {?} */
-        NovoFormControl.prototype.required;
-        /** @type {?} */
-        NovoFormControl.prototype.readOnly;
-        /** @type {?} */
-        NovoFormControl.prototype.hasRequiredValidator;
-        /** @type {?} */
-        NovoFormControl.prototype.label;
-        /** @type {?} */
-        NovoFormControl.prototype.tooltip;
-        /** @type {?} */
-        NovoFormControl.prototype.tooltipPosition;
-        /** @type {?} */
-        NovoFormControl.prototype.tooltipSize;
-        /** @type {?} */
-        NovoFormControl.prototype.tooltipPreline;
-        /** @type {?} */
-        NovoFormControl.prototype.removeTooltipArrow;
-        /** @type {?} */
-        NovoFormControl.prototype.tooltipAutoPosition;
-        /** @type {?} */
-        NovoFormControl.prototype.initialValue;
-        /** @type {?} */
-        NovoFormControl.prototype.valueHistory;
-        /** @type {?} */
-        NovoFormControl.prototype.validators;
-        /** @type {?} */
-        NovoFormControl.prototype.config;
-        /** @type {?} */
-        NovoFormControl.prototype.sortOrder;
-        /** @type {?} */
-        NovoFormControl.prototype.controlType;
-        /** @type {?} */
-        NovoFormControl.prototype.placeholder;
-        /** @type {?} */
-        NovoFormControl.prototype.minimal;
-        /** @type {?} */
-        NovoFormControl.prototype.multiple;
-        /** @type {?} */
-        NovoFormControl.prototype.headerConfig;
-        /** @type {?} */
-        NovoFormControl.prototype.optionsType;
-        /** @type {?} */
-        NovoFormControl.prototype.maxlength;
-        /** @type {?} */
-        NovoFormControl.prototype.minlength;
-        /** @type {?} */
-        NovoFormControl.prototype.options;
-        /** @type {?} */
-        NovoFormControl.prototype.type;
-        /** @type {?} */
-        NovoFormControl.prototype.subType;
-        /** @type {?} */
-        NovoFormControl.prototype.name;
-        /** @type {?} */
-        NovoFormControl.prototype.closeOnSelect;
-        /** @type {?} */
-        NovoFormControl.prototype.interactions;
-        /** @type {?} */
-        NovoFormControl.prototype.appendToBody;
-        /** @type {?} */
-        NovoFormControl.prototype.parentScrollSelector;
-        /** @type {?} */
-        NovoFormControl.prototype.description;
-        /** @type {?} */
-        NovoFormControl.prototype.layoutOptions;
-        /** @type {?} */
-        NovoFormControl.prototype.military;
-        /** @type {?} */
-        NovoFormControl.prototype.dateFormat;
-        /** @type {?} */
-        NovoFormControl.prototype.currencyFormat;
-        /** @type {?} */
-        NovoFormControl.prototype.startDate;
-        /** @type {?} */
-        NovoFormControl.prototype.endDate;
-        /** @type {?} */
-        NovoFormControl.prototype.weekStart;
-        /** @type {?} */
-        NovoFormControl.prototype.textMaskEnabled;
-        /** @type {?} */
-        NovoFormControl.prototype.maskOptions;
-        /** @type {?} */
-        NovoFormControl.prototype.allowInvalidDate;
-        /** @type {?} */
-        NovoFormControl.prototype.tipWell;
-        /** @type {?} */
-        NovoFormControl.prototype.rawValue;
-        /** @type {?} */
-        NovoFormControl.prototype.customControlConfig;
-        /** @type {?} */
-        NovoFormControl.prototype.checkboxLabel;
-        /** @type {?} */
-        NovoFormControl.prototype.restrictFieldInteractions;
-        /** @type {?} */
-        NovoFormControl.prototype.warning;
-        /**
-         * @type {?}
-         * @private
-         */
-        NovoFormControl.prototype.historyTimeout;
-    }
-
-    /**
-     * @fileoverview added by tsickle
      * Generated from: elements/form/controls/BaseControl.ts
      * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
@@ -21848,6 +21456,398 @@
      * Generated from: elements/form/FormControls.ts
      * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
+
+    /**
+     * @fileoverview added by tsickle
+     * Generated from: elements/form/NovoFormControl.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var NovoFormControl = /** @class */ (function (_super) {
+        __extends(NovoFormControl, _super);
+        function NovoFormControl(value, control) {
+            var _this = _super.call(this, value, control.validators, control.asyncValidators) || this;
+            _this.displayValueChanges = new core.EventEmitter();
+            _this.valueHistory = [];
+            _this.validators = control.validators;
+            _this.initialValue = value;
+            _this.valueHistory.push(value);
+            _this.key = control.key;
+            _this.label = control.label;
+            _this.readOnly = control.readOnly;
+            _this.hidden = control.hidden;
+            _this.encrypted = control.encrypted;
+            _this.config = control.config;
+            _this.type = control.type;
+            _this.subType = control.subType;
+            _this.required = control.required;
+            _this.hasRequiredValidator = _this.required;
+            _this.tooltip = control.tooltip;
+            _this.tooltipPosition = control.tooltipPosition;
+            _this.tooltipSize = control.tooltipSize;
+            _this.tooltipPreline = control.tooltipPreline;
+            _this.removeTooltipArrow = control.removeTooltipArrow;
+            _this.tooltipAutoPosition = control.tooltipAutoPosition;
+            _this.label = control.label;
+            _this.name = control.name;
+            _this.required = control.required;
+            _this.sortOrder = control.sortOrder;
+            _this.controlType = control.controlType;
+            _this.placeholder = control.placeholder;
+            _this.minimal = control.minimal;
+            _this.multiple = control.multiple;
+            _this.headerConfig = control.headerConfig;
+            _this.optionsType = control.optionsType;
+            _this.readOnly = control.readOnly;
+            _this.layoutOptions = control.layoutOptions;
+            _this.military = control.military;
+            _this.dateFormat = control.dateFormat;
+            _this.currencyFormat = control.currencyFormat;
+            _this.startDate = control.startDate;
+            _this.endDate = control.endDate;
+            _this.weekStart = control.weekStart;
+            _this.textMaskEnabled = control.textMaskEnabled;
+            _this.textMaskEnabled = control.textMaskEnabled;
+            _this.maskOptions = control.maskOptions;
+            _this.allowInvalidDate = control.allowInvalidDate;
+            _this.maxlength = control.maxlength;
+            _this.minlength = control.minlength;
+            _this.closeOnSelect = control.closeOnSelect;
+            _this.interactions = control.interactions;
+            _this.checkboxLabel = control.checkboxLabel;
+            _this.restrictFieldInteractions = control.restrictFieldInteractions;
+            _this.appendToBody = control.appendToBody;
+            if (_this.appendToBody) {
+                notify("'appendToBody' has been deprecated. Please remove this attribute.");
+            }
+            _this.parentScrollSelector = control.parentScrollSelector;
+            _this.description = control.description;
+            _this.options = control.options;
+            _this.tipWell = control.tipWell;
+            _this.customControlConfig = control.customControlConfig;
+            _this.warning = control.warning;
+            // Reactive Form, need to enable/disable, can't bind to [disabled]
+            if (_this.readOnly) {
+                _this.disable();
+            }
+            else {
+                _this.enable();
+            }
+            return _this;
+        }
+        /**
+         * @name hide
+         * @param clearValue - flag to reset the control's value
+         */
+        /**
+         * \@name hide
+         * @param {?=} clearValue - flag to reset the control's value
+         * @return {?}
+         */
+        NovoFormControl.prototype.hide = /**
+         * \@name hide
+         * @param {?=} clearValue - flag to reset the control's value
+         * @return {?}
+         */
+        function (clearValue) {
+            if (clearValue === void 0) { clearValue = true; }
+            this.hidden = true;
+            if (clearValue) {
+                this.setValue(null);
+            }
+        };
+        /**
+         * @name show
+         */
+        /**
+         * \@name show
+         * @return {?}
+         */
+        NovoFormControl.prototype.show = /**
+         * \@name show
+         * @return {?}
+         */
+        function () {
+            this.hidden = false;
+        };
+        /**
+         * @name setRequired
+         * @param isRequired
+         */
+        /**
+         * \@name setRequired
+         * @param {?} isRequired
+         * @return {?}
+         */
+        NovoFormControl.prototype.setRequired = /**
+         * \@name setRequired
+         * @param {?} isRequired
+         * @return {?}
+         */
+        function (isRequired) {
+            this.required = isRequired;
+            // Update validators to have the required
+            if (this.required && !this.hasRequiredValidator) {
+                /** @type {?} */
+                var validators = __spread(this.validators);
+                validators.push(forms.Validators.required);
+                // TODO: duplicated below
+                this.setValidators(validators);
+                this.updateValueAndValidity({ emitEvent: false });
+                this.hasRequiredValidator = this.required;
+            }
+            else if (!this.required && this.hasRequiredValidator) {
+                /** @type {?} */
+                var validators = __spread(this.validators);
+                validators = validators.filter((/**
+                 * @param {?} val
+                 * @return {?}
+                 */
+                function (val) { return val !== forms.Validators.required; }));
+                // TODO: duplicated above
+                this.setValidators(validators);
+                this.updateValueAndValidity({ emitEvent: false });
+                this.hasRequiredValidator = this.required;
+            }
+        };
+        /**
+         * @name setValue
+         *
+         * @param value
+         * @param onlySelf
+         * @param emitEvent
+         * @param emitModelToViewChange
+         * @param emitViewToModelChange
+         *
+         */
+        /**
+         * \@name setValue
+         *
+         * @param {?} value
+         * @param {?=} __1
+         * @return {?}
+         */
+        NovoFormControl.prototype.setValue = /**
+         * \@name setValue
+         *
+         * @param {?} value
+         * @param {?=} __1
+         * @return {?}
+         */
+        function (value, _a) {
+            var _this = this;
+            var _b = _a === void 0 ? {} : _a, onlySelf = _b.onlySelf, emitEvent = _b.emitEvent, emitModelToViewChange = _b.emitModelToViewChange, emitViewToModelChange = _b.emitViewToModelChange;
+            this.markAsDirty();
+            this.markAsTouched();
+            this.displayValueChanges.emit(value);
+            _super.prototype.setValue.call(this, value, { onlySelf: onlySelf, emitEvent: emitEvent, emitModelToViewChange: emitModelToViewChange, emitViewToModelChange: emitViewToModelChange });
+            // History
+            clearTimeout(this.historyTimeout);
+            this.historyTimeout = setTimeout((/**
+             * @return {?}
+             */
+            function () {
+                _this.valueHistory.push(value);
+            }), 300);
+        };
+        /**
+         * @name setReadOnly
+         * @param isReadOnly
+         */
+        /**
+         * \@name setReadOnly
+         * @param {?} isReadOnly
+         * @return {?}
+         */
+        NovoFormControl.prototype.setReadOnly = /**
+         * \@name setReadOnly
+         * @param {?} isReadOnly
+         * @return {?}
+         */
+        function (isReadOnly) {
+            this.readOnly = isReadOnly;
+            if (this.readOnly) {
+                this.disable();
+            }
+            else {
+                this.enable();
+            }
+        };
+        /**
+         * Disables the control. This means the control will be exempt from validation checks and
+         * excluded from the aggregate value of any parent. Its status is `DISABLED`.
+         *
+         * If the control has children, all children will be disabled to maintain the model.
+         */
+        /**
+         * Disables the control. This means the control will be exempt from validation checks and
+         * excluded from the aggregate value of any parent. Its status is `DISABLED`.
+         *
+         * If the control has children, all children will be disabled to maintain the model.
+         * @param {?=} opts
+         * @return {?}
+         */
+        NovoFormControl.prototype.disable = /**
+         * Disables the control. This means the control will be exempt from validation checks and
+         * excluded from the aggregate value of any parent. Its status is `DISABLED`.
+         *
+         * If the control has children, all children will be disabled to maintain the model.
+         * @param {?=} opts
+         * @return {?}
+         */
+        function (opts) {
+            if (opts === void 0) { opts = { emitEvent: false }; }
+            if (typeof opts.emitEvent === 'undefined') {
+                opts.emitEvent = false;
+            }
+            _super.prototype.disable.call(this, opts);
+        };
+        /**
+         * @param {?=} opts
+         * @return {?}
+         */
+        NovoFormControl.prototype.enable = /**
+         * @param {?=} opts
+         * @return {?}
+         */
+        function (opts) {
+            if (opts === void 0) { opts = { emitEvent: false }; }
+            if (typeof opts.emitEvent === 'undefined') {
+                opts.emitEvent = false;
+            }
+            _super.prototype.enable.call(this, opts);
+        };
+        /**
+         * @name markAsInvalid
+         * @param message
+         */
+        /**
+         * \@name markAsInvalid
+         * @param {?} message
+         * @return {?}
+         */
+        NovoFormControl.prototype.markAsInvalid = /**
+         * \@name markAsInvalid
+         * @param {?} message
+         * @return {?}
+         */
+        function (message) {
+            this.markAsDirty();
+            this.markAsTouched();
+            this.setErrors(Object.assign({}, this.errors, { custom: message }));
+        };
+        return NovoFormControl;
+    }(forms.FormControl));
+    if (false) {
+        /** @type {?} */
+        NovoFormControl.prototype.displayValueChanges;
+        /** @type {?} */
+        NovoFormControl.prototype.hidden;
+        /** @type {?} */
+        NovoFormControl.prototype.encrypted;
+        /** @type {?} */
+        NovoFormControl.prototype.key;
+        /** @type {?} */
+        NovoFormControl.prototype.required;
+        /** @type {?} */
+        NovoFormControl.prototype.readOnly;
+        /** @type {?} */
+        NovoFormControl.prototype.hasRequiredValidator;
+        /** @type {?} */
+        NovoFormControl.prototype.label;
+        /** @type {?} */
+        NovoFormControl.prototype.tooltip;
+        /** @type {?} */
+        NovoFormControl.prototype.tooltipPosition;
+        /** @type {?} */
+        NovoFormControl.prototype.tooltipSize;
+        /** @type {?} */
+        NovoFormControl.prototype.tooltipPreline;
+        /** @type {?} */
+        NovoFormControl.prototype.removeTooltipArrow;
+        /** @type {?} */
+        NovoFormControl.prototype.tooltipAutoPosition;
+        /** @type {?} */
+        NovoFormControl.prototype.initialValue;
+        /** @type {?} */
+        NovoFormControl.prototype.valueHistory;
+        /** @type {?} */
+        NovoFormControl.prototype.validators;
+        /** @type {?} */
+        NovoFormControl.prototype.config;
+        /** @type {?} */
+        NovoFormControl.prototype.sortOrder;
+        /** @type {?} */
+        NovoFormControl.prototype.controlType;
+        /** @type {?} */
+        NovoFormControl.prototype.placeholder;
+        /** @type {?} */
+        NovoFormControl.prototype.minimal;
+        /** @type {?} */
+        NovoFormControl.prototype.multiple;
+        /** @type {?} */
+        NovoFormControl.prototype.headerConfig;
+        /** @type {?} */
+        NovoFormControl.prototype.optionsType;
+        /** @type {?} */
+        NovoFormControl.prototype.maxlength;
+        /** @type {?} */
+        NovoFormControl.prototype.minlength;
+        /** @type {?} */
+        NovoFormControl.prototype.options;
+        /** @type {?} */
+        NovoFormControl.prototype.type;
+        /** @type {?} */
+        NovoFormControl.prototype.subType;
+        /** @type {?} */
+        NovoFormControl.prototype.name;
+        /** @type {?} */
+        NovoFormControl.prototype.closeOnSelect;
+        /** @type {?} */
+        NovoFormControl.prototype.interactions;
+        /** @type {?} */
+        NovoFormControl.prototype.appendToBody;
+        /** @type {?} */
+        NovoFormControl.prototype.parentScrollSelector;
+        /** @type {?} */
+        NovoFormControl.prototype.description;
+        /** @type {?} */
+        NovoFormControl.prototype.layoutOptions;
+        /** @type {?} */
+        NovoFormControl.prototype.military;
+        /** @type {?} */
+        NovoFormControl.prototype.dateFormat;
+        /** @type {?} */
+        NovoFormControl.prototype.currencyFormat;
+        /** @type {?} */
+        NovoFormControl.prototype.startDate;
+        /** @type {?} */
+        NovoFormControl.prototype.endDate;
+        /** @type {?} */
+        NovoFormControl.prototype.weekStart;
+        /** @type {?} */
+        NovoFormControl.prototype.textMaskEnabled;
+        /** @type {?} */
+        NovoFormControl.prototype.maskOptions;
+        /** @type {?} */
+        NovoFormControl.prototype.allowInvalidDate;
+        /** @type {?} */
+        NovoFormControl.prototype.tipWell;
+        /** @type {?} */
+        NovoFormControl.prototype.rawValue;
+        /** @type {?} */
+        NovoFormControl.prototype.customControlConfig;
+        /** @type {?} */
+        NovoFormControl.prototype.checkboxLabel;
+        /** @type {?} */
+        NovoFormControl.prototype.restrictFieldInteractions;
+        /** @type {?} */
+        NovoFormControl.prototype.warning;
+        /**
+         * @type {?}
+         * @private
+         */
+        NovoFormControl.prototype.historyTimeout;
+    }
 
     /**
      * @fileoverview added by tsickle
@@ -23377,6 +23377,71 @@
 
     /**
      * @fileoverview added by tsickle
+     * Generated from: elements/modal/ModalService.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var NovoModalService = /** @class */ (function () {
+        function NovoModalService(componentUtils) {
+            this.componentUtils = componentUtils;
+        }
+        Object.defineProperty(NovoModalService.prototype, "parentViewContainer", {
+            set: /**
+             * @param {?} view
+             * @return {?}
+             */
+            function (view) {
+                this._parentViewContainer = view;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @template T
+         * @param {?} component
+         * @param {?=} scope
+         * @return {?}
+         */
+        NovoModalService.prototype.open = /**
+         * @template T
+         * @param {?} component
+         * @param {?=} scope
+         * @return {?}
+         */
+        function (component, scope) {
+            if (scope === void 0) { scope = {}; }
+            if (!this._parentViewContainer) {
+                throw new Error('No parent view container specified for the ModalService. Set it inside your main application. \nthis.modalService.parentViewContainer = view (ViewContainerRef)');
+            }
+            /** @type {?} */
+            var modal = new NovoModalRef();
+            modal.component = component;
+            modal.open();
+            /** @type {?} */
+            var providers = [{ provide: NovoModalRef, useValue: modal }, { provide: NovoModalParams, useValue: scope }];
+            modal.containerRef = this.componentUtils.append(NovoModalContainerElement, this._parentViewContainer, providers);
+            return modal;
+        };
+        NovoModalService.decorators = [
+            { type: core.Injectable }
+        ];
+        /** @nocollapse */
+        NovoModalService.ctorParameters = function () { return [
+            { type: ComponentUtils }
+        ]; };
+        return NovoModalService;
+    }());
+    if (false) {
+        /** @type {?} */
+        NovoModalService.prototype._parentViewContainer;
+        /**
+         * @type {?}
+         * @private
+         */
+        NovoModalService.prototype.componentUtils;
+    }
+
+    /**
+     * @fileoverview added by tsickle
      * Generated from: elements/toast/ToastService.ts
      * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
@@ -23605,71 +23670,6 @@
          * @private
          */
         NovoToastService.prototype.componentUtils;
-    }
-
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: elements/modal/ModalService.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    var NovoModalService = /** @class */ (function () {
-        function NovoModalService(componentUtils) {
-            this.componentUtils = componentUtils;
-        }
-        Object.defineProperty(NovoModalService.prototype, "parentViewContainer", {
-            set: /**
-             * @param {?} view
-             * @return {?}
-             */
-            function (view) {
-                this._parentViewContainer = view;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @template T
-         * @param {?} component
-         * @param {?=} scope
-         * @return {?}
-         */
-        NovoModalService.prototype.open = /**
-         * @template T
-         * @param {?} component
-         * @param {?=} scope
-         * @return {?}
-         */
-        function (component, scope) {
-            if (scope === void 0) { scope = {}; }
-            if (!this._parentViewContainer) {
-                throw new Error('No parent view container specified for the ModalService. Set it inside your main application. \nthis.modalService.parentViewContainer = view (ViewContainerRef)');
-            }
-            /** @type {?} */
-            var modal = new NovoModalRef();
-            modal.component = component;
-            modal.open();
-            /** @type {?} */
-            var providers = [{ provide: NovoModalRef, useValue: modal }, { provide: NovoModalParams, useValue: scope }];
-            modal.containerRef = this.componentUtils.append(NovoModalContainerElement, this._parentViewContainer, providers);
-            return modal;
-        };
-        NovoModalService.decorators = [
-            { type: core.Injectable }
-        ];
-        /** @nocollapse */
-        NovoModalService.ctorParameters = function () { return [
-            { type: ComponentUtils }
-        ]; };
-        return NovoModalService;
-    }());
-    if (false) {
-        /** @type {?} */
-        NovoModalService.prototype._parentViewContainer;
-        /**
-         * @type {?}
-         * @private
-         */
-        NovoModalService.prototype.componentUtils;
     }
 
     /**
@@ -50155,288 +50155,131 @@
 
     /**
      * @fileoverview added by tsickle
-     * Generated from: elements/value/Value.ts
+     * Generated from: elements/value/EntityList.ts
      * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    /** @enum {number} */
-    var NOVO_VALUE_TYPE = {
-        DEFAULT: 0,
-        ENTITY_LIST: 1,
-        LINK: 2,
-        INTERNAL_LINK: 3,
-    };
-    NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.DEFAULT] = 'DEFAULT';
-    NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.ENTITY_LIST] = 'ENTITY_LIST';
-    NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.LINK] = 'LINK';
-    NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.INTERNAL_LINK] = 'INTERNAL_LINK';
-    /** @enum {number} */
-    var NOVO_VALUE_THEME = {
-        DEFAULT: 0,
-        MOBILE: 1,
-    };
-    NOVO_VALUE_THEME[NOVO_VALUE_THEME.DEFAULT] = 'DEFAULT';
-    NOVO_VALUE_THEME[NOVO_VALUE_THEME.MOBILE] = 'MOBILE';
-    var NovoValueElement = /** @class */ (function () {
-        function NovoValueElement() {
-            // TODO use interface
-            this.meta = { type: 'SCALAR', label: '' }; // TODO use interface
-            // TODO use interface
-            this.theme = NOVO_VALUE_THEME.DEFAULT;
-            this.NOVO_VALUE_TYPE = NOVO_VALUE_TYPE;
-            this.NOVO_VALUE_THEME = NOVO_VALUE_THEME;
-            this.customClass = '';
+    var EntityList = /** @class */ (function () {
+        function EntityList() {
+            this.baseEntity = '';
+            this.ENTITY_SHORT_NAMES = {
+                Lead: 'lead',
+                ClientContact: 'contact',
+                ClientContact1: 'contact',
+                ClientContact2: 'contact',
+                ClientContact3: 'contact',
+                ClientContact4: 'contact',
+                ClientContact5: 'contact',
+                ClientCorporation: 'company',
+                ClientCorporation1: 'company',
+                ClientCorporation2: 'company',
+                ClientCorporation3: 'company',
+                ClientCorporation4: 'company',
+                ClientCorporation5: 'company',
+                Opportunity: 'opportunity',
+                Task: 'task',
+                Note: 'note',
+                CorporateUser: 'user',
+                Candidate: 'candidate',
+                JobOrder: 'job',
+                JobOrder1: 'job',
+                JobOrder2: 'job',
+                JobOrder3: 'job',
+                JobOrder4: 'job',
+                JobOrder5: 'job',
+                Placement: 'placement',
+                JobSubmission: 'submission',
+                CandidateReference: 'references',
+                DistributionList: 'distributionList',
+                Appointment: 'appointment',
+            };
         }
-        Object.defineProperty(NovoValueElement.prototype, "label", {
-            get: /**
-             * @return {?}
-             */
-            function () {
-                return this.meta.label;
-            },
-            set: /**
-             * @param {?} lbl
-             * @return {?}
-             */
-            function (lbl) {
-                this.meta.label = lbl;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(NovoValueElement.prototype, "type", {
-            get: /**
-             * @return {?}
-             */
-            function () {
-                return this.meta.type;
-            },
-            set: /**
-             * @param {?} typ
-             * @return {?}
-             */
-            function (typ) {
-                this.meta.type = typ;
-            },
-            enumerable: true,
-            configurable: true
-        });
         /**
          * @return {?}
          */
-        NovoValueElement.prototype.ngOnInit = /**
+        EntityList.prototype.ngOnInit = /**
          * @return {?}
          */
         function () {
-            if (Helpers.isEmpty(this.meta)) {
-                this.meta = {
-                    label: '',
-                };
-            }
-        };
-        Object.defineProperty(NovoValueElement.prototype, "isMobile", {
-            get: /**
-             * @return {?}
-             */
-            function () {
-                return this.theme === NOVO_VALUE_THEME.MOBILE;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @param {?} icon
-         * @return {?}
-         */
-        NovoValueElement.prototype.iconClass = /**
-         * @param {?} icon
-         * @return {?}
-         */
-        function (icon) {
-            /** @type {?} */
-            var iconClass = '';
-            if (icon && icon.iconCls) {
-                iconClass = "bhi-" + icon.iconCls + " actions";
-                if (icon.onIconClick) {
-                    iconClass = iconClass + " clickable";
-                }
-                return iconClass;
-            }
-            return iconClass;
-        };
-        Object.defineProperty(NovoValueElement.prototype, "isDefault", {
-            get: /**
-             * @return {?}
-             */
-            function () {
-                return true;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(NovoValueElement.prototype, "showLabel", {
-            get: /**
-             * @return {?}
-             */
-            function () {
-                return (this._type === NOVO_VALUE_TYPE.INTERNAL_LINK || this._type === NOVO_VALUE_TYPE.LINK || this._type === NOVO_VALUE_TYPE.ENTITY_LIST);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(NovoValueElement.prototype, "showIcon", {
-            get: /**
-             * @return {?}
-             */
-            function () {
-                return this.meta && this.meta.icons && this.meta.icons.length && !Helpers.isEmpty(this.data);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @param {?} icon
-         * @return {?}
-         */
-        NovoValueElement.prototype.onValueClick = /**
-         * @param {?} icon
-         * @return {?}
-         */
-        function (icon) {
-            if (icon.onIconClick && typeof icon.onIconClick === 'function') {
-                icon.onIconClick(this.data, this.meta);
-            }
-        };
-        /**
-         * @return {?}
-         */
-        NovoValueElement.prototype.openLink = /**
-         * @return {?}
-         */
-        function () {
-            if (this.meta && this.meta.openLink && typeof this.meta.openLink === 'function') {
-                this.meta.openLink(this.data, this.meta);
-            }
-        };
-        /**
-         * @param {?=} changes
-         * @return {?}
-         */
-        NovoValueElement.prototype.ngOnChanges = /**
-         * @param {?=} changes
-         * @return {?}
-         */
-        function (changes) {
-            if (this.meta && this.isLinkField(this.meta, this.data)) {
-                this._type = NOVO_VALUE_TYPE.LINK;
-                // Make sure the value has a protocol, otherwise the URL will be relative
-                /** @type {?} */
-                var hasProtocol = new RegExp('^(http|https)://', 'i');
-                if (!hasProtocol.test(this.data)) {
-                    this.url = "http://" + this.data;
-                }
-                else {
-                    this.url = this.data;
+            var e_1, _a;
+            // use a local copy of the meta to set the type to TO_ONE for proper display
+            // without changing the input object
+            this.metaDisplay = Helpers.deepClone(this.meta);
+            this.metaDisplay.type = 'TO_ONE';
+            this.baseEntity = this.meta.associatedEntity.entity;
+            try {
+                for (var _b = __values(this.data.data), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var entity = _c.value;
+                    entity.isLinkable = this.isLinkable(entity);
+                    entity.class = this.getClass(entity);
                 }
             }
-            else if (this.isEntityList(this.meta.type)) {
-                this._type = NOVO_VALUE_TYPE.ENTITY_LIST;
-            }
-            else if (this.isHTMLField(this.meta)) {
-                this.customClass = this.meta.customClass ? this.meta.customClass : '';
-                if (this.meta.stripHTML && this.data && this.data.replace) {
-                    this.data = this.data.replace(/<(?!style|\/style).+?>/gi, '').trim();
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
                 }
-            }
-            else if (this.meta && this.meta.associatedEntity) {
-                switch (this.meta.associatedEntity.entity) {
-                    case 'ClientCorporation':
-                    case 'ClientContact':
-                    case 'Candidate':
-                    case 'Opportunity':
-                    case 'JobOrder':
-                    case 'Placement':
-                    case 'Lead':
-                        this._type = NOVO_VALUE_TYPE.INTERNAL_LINK;
-                        break;
-                    default:
-                        break;
-                }
+                finally { if (e_1) throw e_1.error; }
             }
         };
         /**
-         * @param {?} field
-         * @param {?} data
+         * @param {?} entity
          * @return {?}
          */
-        NovoValueElement.prototype.isLinkField = /**
-         * @param {?} field
-         * @param {?} data
+        EntityList.prototype.getClass = /**
+         * @param {?} entity
          * @return {?}
          */
-        function (field, data) {
-            /** @type {?} */
-            var linkFields = ['companyURL', 'clientCorporationCompanyURL'];
-            /** @type {?} */
-            var regex = new RegExp('^(https?://(?:www.|(?!www))[^s.]+.[^s]{2,}|www.[^s]+.[^s]{2,})$', 'gi');
-            /** @type {?} */
-            var isURL = Helpers.isString(data) && regex.exec(data.trim());
-            return linkFields.indexOf(field.name) > -1 || !!isURL || field.type === NOVO_VALUE_TYPE.LINK;
+        function (entity) {
+            return this.ENTITY_SHORT_NAMES[entity.personSubtype];
         };
         /**
-         * @param {?} type
+         * @param {?} entity
          * @return {?}
          */
-        NovoValueElement.prototype.isEntityList = /**
-         * @param {?} type
+        EntityList.prototype.openLink = /**
+         * @param {?} entity
          * @return {?}
          */
-        function (type) {
-            return type === 'TO_MANY';
+        function (entity) {
+            entity.openLink(entity);
         };
         /**
-         * @param {?} meta
+         * @param {?} entity
          * @return {?}
          */
-        NovoValueElement.prototype.isHTMLField = /**
-         * @param {?} meta
+        EntityList.prototype.isLinkable = /**
+         * @param {?} entity
          * @return {?}
          */
-        function (meta) {
-            return meta.dataSpecialization === 'HTML' || meta.inputType === 'TEXTAREA';
+        function (entity) {
+            return entity.openLink;
         };
-        NovoValueElement.decorators = [
+        EntityList.decorators = [
             { type: core.Component, args: [{
-                        selector: 'novo-value',
-                        template: "\n      <ng-container [ngSwitch]=\"_type\">\n          <div class=\"value-outer\" *ngIf=\"showLabel\">\n              <label>{{ meta.label }}</label>\n              <span class=\"value\">\n                <i *ngIf=\"meta.showEntityIcon\" class=\"bhi-circle {{meta.entityIconClass}}\"></i>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n              </span>\n              <novo-entity-list *ngSwitchCase=\"NOVO_VALUE_TYPE.ENTITY_LIST\" [data]='data' [meta]=\"meta\"></novo-entity-list>\n          </div>\n          <div *ngSwitchDefault class=\"value-outer\" [ngClass]=\"customClass\">\n              <label>{{ meta.label }}</label>\n              <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n          </div>\n          <div class=\"actions\" *ngIf=\"showIcon\">\n              <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n          </div>\n      </ng-container>\n    "
+                        selector: 'novo-entity-list',
+                        changeDetection: core.ChangeDetectionStrategy.OnPush,
+                        template: "\n        <div *ngFor=\"let entity of data.data\" class=\"entity\">\n            <a *ngIf=\"entity.isLinkable\" (click)=\"openLink(entity)\">\n                <i class=\"bhi-circle {{ entity.class }}\"></i>{{ entity | render : metaDisplay }}\n            </a>\n            <span *ngIf=\"!entity.isLinkable && entity.personSubtype\">\n                <i class=\"bhi-circle {{ entity.class }}\"></i>{{ entity | render : metaDisplay }}\n            </span>\n            <span *ngIf=\"!entity.isLinkable && !entity.personSubtype\">\n                {{ entity | render : metaDisplay }}\n            </span>\n        </div>\n    "
                     }] }
         ];
-        NovoValueElement.propDecorators = {
+        /** @nocollapse */
+        EntityList.ctorParameters = function () { return []; };
+        EntityList.propDecorators = {
             data: [{ type: core.Input }],
-            meta: [{ type: core.Input }],
-            theme: [{ type: core.Input }],
-            label: [{ type: core.Input }],
-            type: [{ type: core.Input }],
-            isMobile: [{ type: core.HostBinding, args: ['class.mobile',] }]
+            meta: [{ type: core.Input }]
         };
-        return NovoValueElement;
+        return EntityList;
     }());
     if (false) {
         /** @type {?} */
-        NovoValueElement.prototype.data;
+        EntityList.prototype.data;
         /** @type {?} */
-        NovoValueElement.prototype.meta;
+        EntityList.prototype.meta;
         /** @type {?} */
-        NovoValueElement.prototype.theme;
+        EntityList.prototype.baseEntity;
         /** @type {?} */
-        NovoValueElement.prototype._type;
+        EntityList.prototype.metaDisplay;
         /** @type {?} */
-        NovoValueElement.prototype.NOVO_VALUE_TYPE;
-        /** @type {?} */
-        NovoValueElement.prototype.NOVO_VALUE_THEME;
-        /** @type {?} */
-        NovoValueElement.prototype.url;
-        /** @type {?} */
-        NovoValueElement.prototype.customClass;
+        EntityList.prototype.ENTITY_SHORT_NAMES;
     }
 
     /**
@@ -51049,131 +50892,288 @@
 
     /**
      * @fileoverview added by tsickle
-     * Generated from: elements/value/EntityList.ts
+     * Generated from: elements/value/Value.ts
      * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    var EntityList = /** @class */ (function () {
-        function EntityList() {
-            this.baseEntity = '';
-            this.ENTITY_SHORT_NAMES = {
-                Lead: 'lead',
-                ClientContact: 'contact',
-                ClientContact1: 'contact',
-                ClientContact2: 'contact',
-                ClientContact3: 'contact',
-                ClientContact4: 'contact',
-                ClientContact5: 'contact',
-                ClientCorporation: 'company',
-                ClientCorporation1: 'company',
-                ClientCorporation2: 'company',
-                ClientCorporation3: 'company',
-                ClientCorporation4: 'company',
-                ClientCorporation5: 'company',
-                Opportunity: 'opportunity',
-                Task: 'task',
-                Note: 'note',
-                CorporateUser: 'user',
-                Candidate: 'candidate',
-                JobOrder: 'job',
-                JobOrder1: 'job',
-                JobOrder2: 'job',
-                JobOrder3: 'job',
-                JobOrder4: 'job',
-                JobOrder5: 'job',
-                Placement: 'placement',
-                JobSubmission: 'submission',
-                CandidateReference: 'references',
-                DistributionList: 'distributionList',
-                Appointment: 'appointment',
-            };
+    /** @enum {number} */
+    var NOVO_VALUE_TYPE = {
+        DEFAULT: 0,
+        ENTITY_LIST: 1,
+        LINK: 2,
+        INTERNAL_LINK: 3,
+    };
+    NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.DEFAULT] = 'DEFAULT';
+    NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.ENTITY_LIST] = 'ENTITY_LIST';
+    NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.LINK] = 'LINK';
+    NOVO_VALUE_TYPE[NOVO_VALUE_TYPE.INTERNAL_LINK] = 'INTERNAL_LINK';
+    /** @enum {number} */
+    var NOVO_VALUE_THEME = {
+        DEFAULT: 0,
+        MOBILE: 1,
+    };
+    NOVO_VALUE_THEME[NOVO_VALUE_THEME.DEFAULT] = 'DEFAULT';
+    NOVO_VALUE_THEME[NOVO_VALUE_THEME.MOBILE] = 'MOBILE';
+    var NovoValueElement = /** @class */ (function () {
+        function NovoValueElement() {
+            // TODO use interface
+            this.meta = { type: 'SCALAR', label: '' }; // TODO use interface
+            // TODO use interface
+            this.theme = NOVO_VALUE_THEME.DEFAULT;
+            this.NOVO_VALUE_TYPE = NOVO_VALUE_TYPE;
+            this.NOVO_VALUE_THEME = NOVO_VALUE_THEME;
+            this.customClass = '';
         }
+        Object.defineProperty(NovoValueElement.prototype, "label", {
+            get: /**
+             * @return {?}
+             */
+            function () {
+                return this.meta.label;
+            },
+            set: /**
+             * @param {?} lbl
+             * @return {?}
+             */
+            function (lbl) {
+                this.meta.label = lbl;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NovoValueElement.prototype, "type", {
+            get: /**
+             * @return {?}
+             */
+            function () {
+                return this.meta.type;
+            },
+            set: /**
+             * @param {?} typ
+             * @return {?}
+             */
+            function (typ) {
+                this.meta.type = typ;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * @return {?}
          */
-        EntityList.prototype.ngOnInit = /**
+        NovoValueElement.prototype.ngOnInit = /**
          * @return {?}
          */
         function () {
-            var e_1, _a;
-            // use a local copy of the meta to set the type to TO_ONE for proper display
-            // without changing the input object
-            this.metaDisplay = Helpers.deepClone(this.meta);
-            this.metaDisplay.type = 'TO_ONE';
-            this.baseEntity = this.meta.associatedEntity.entity;
-            try {
-                for (var _b = __values(this.data.data), _c = _b.next(); !_c.done; _c = _b.next()) {
-                    var entity = _c.value;
-                    entity.isLinkable = this.isLinkable(entity);
-                    entity.class = this.getClass(entity);
-                }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-                }
-                finally { if (e_1) throw e_1.error; }
+            if (Helpers.isEmpty(this.meta)) {
+                this.meta = {
+                    label: '',
+                };
             }
         };
+        Object.defineProperty(NovoValueElement.prototype, "isMobile", {
+            get: /**
+             * @return {?}
+             */
+            function () {
+                return this.theme === NOVO_VALUE_THEME.MOBILE;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
-         * @param {?} entity
+         * @param {?} icon
          * @return {?}
          */
-        EntityList.prototype.getClass = /**
-         * @param {?} entity
+        NovoValueElement.prototype.iconClass = /**
+         * @param {?} icon
          * @return {?}
          */
-        function (entity) {
-            return this.ENTITY_SHORT_NAMES[entity.personSubtype];
+        function (icon) {
+            /** @type {?} */
+            var iconClass = '';
+            if (icon && icon.iconCls) {
+                iconClass = "bhi-" + icon.iconCls + " actions";
+                if (icon.onIconClick) {
+                    iconClass = iconClass + " clickable";
+                }
+                return iconClass;
+            }
+            return iconClass;
+        };
+        Object.defineProperty(NovoValueElement.prototype, "isDefault", {
+            get: /**
+             * @return {?}
+             */
+            function () {
+                return true;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NovoValueElement.prototype, "showLabel", {
+            get: /**
+             * @return {?}
+             */
+            function () {
+                return (this._type === NOVO_VALUE_TYPE.INTERNAL_LINK || this._type === NOVO_VALUE_TYPE.LINK || this._type === NOVO_VALUE_TYPE.ENTITY_LIST);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NovoValueElement.prototype, "showIcon", {
+            get: /**
+             * @return {?}
+             */
+            function () {
+                return this.meta && this.meta.icons && this.meta.icons.length && !Helpers.isEmpty(this.data);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @param {?} icon
+         * @return {?}
+         */
+        NovoValueElement.prototype.onValueClick = /**
+         * @param {?} icon
+         * @return {?}
+         */
+        function (icon) {
+            if (icon.onIconClick && typeof icon.onIconClick === 'function') {
+                icon.onIconClick(this.data, this.meta);
+            }
         };
         /**
-         * @param {?} entity
          * @return {?}
          */
-        EntityList.prototype.openLink = /**
-         * @param {?} entity
+        NovoValueElement.prototype.openLink = /**
          * @return {?}
          */
-        function (entity) {
-            entity.openLink(entity);
+        function () {
+            if (this.meta && this.meta.openLink && typeof this.meta.openLink === 'function') {
+                this.meta.openLink(this.data, this.meta);
+            }
         };
         /**
-         * @param {?} entity
+         * @param {?=} changes
          * @return {?}
          */
-        EntityList.prototype.isLinkable = /**
-         * @param {?} entity
+        NovoValueElement.prototype.ngOnChanges = /**
+         * @param {?=} changes
          * @return {?}
          */
-        function (entity) {
-            return entity.openLink;
+        function (changes) {
+            if (this.meta && this.isLinkField(this.meta, this.data)) {
+                this._type = NOVO_VALUE_TYPE.LINK;
+                // Make sure the value has a protocol, otherwise the URL will be relative
+                /** @type {?} */
+                var hasProtocol = new RegExp('^(http|https)://', 'i');
+                if (!hasProtocol.test(this.data)) {
+                    this.url = "http://" + this.data;
+                }
+                else {
+                    this.url = this.data;
+                }
+            }
+            else if (this.isEntityList(this.meta.type)) {
+                this._type = NOVO_VALUE_TYPE.ENTITY_LIST;
+            }
+            else if (this.isHTMLField(this.meta)) {
+                this.customClass = this.meta.customClass ? this.meta.customClass : '';
+                if (this.meta.stripHTML && this.data && this.data.replace) {
+                    this.data = this.data.replace(/<(?!style|\/style).+?>/gi, '').trim();
+                }
+            }
+            else if (this.meta && this.meta.associatedEntity) {
+                switch (this.meta.associatedEntity.entity) {
+                    case 'ClientCorporation':
+                    case 'ClientContact':
+                    case 'Candidate':
+                    case 'Opportunity':
+                    case 'JobOrder':
+                    case 'Placement':
+                    case 'Lead':
+                        this._type = NOVO_VALUE_TYPE.INTERNAL_LINK;
+                        break;
+                    default:
+                        break;
+                }
+            }
         };
-        EntityList.decorators = [
+        /**
+         * @param {?} field
+         * @param {?} data
+         * @return {?}
+         */
+        NovoValueElement.prototype.isLinkField = /**
+         * @param {?} field
+         * @param {?} data
+         * @return {?}
+         */
+        function (field, data) {
+            /** @type {?} */
+            var linkFields = ['companyURL', 'clientCorporationCompanyURL'];
+            /** @type {?} */
+            var regex = new RegExp('^(https?://(?:www.|(?!www))[^s.]+.[^s]{2,}|www.[^s]+.[^s]{2,})$', 'gi');
+            /** @type {?} */
+            var isURL = Helpers.isString(data) && regex.exec(data.trim());
+            return linkFields.indexOf(field.name) > -1 || !!isURL || field.type === NOVO_VALUE_TYPE.LINK;
+        };
+        /**
+         * @param {?} type
+         * @return {?}
+         */
+        NovoValueElement.prototype.isEntityList = /**
+         * @param {?} type
+         * @return {?}
+         */
+        function (type) {
+            return type === 'TO_MANY';
+        };
+        /**
+         * @param {?} meta
+         * @return {?}
+         */
+        NovoValueElement.prototype.isHTMLField = /**
+         * @param {?} meta
+         * @return {?}
+         */
+        function (meta) {
+            return meta.dataSpecialization === 'HTML' || meta.inputType === 'TEXTAREA';
+        };
+        NovoValueElement.decorators = [
             { type: core.Component, args: [{
-                        selector: 'novo-entity-list',
-                        changeDetection: core.ChangeDetectionStrategy.OnPush,
-                        template: "\n        <div *ngFor=\"let entity of data.data\" class=\"entity\">\n            <a *ngIf=\"entity.isLinkable\" (click)=\"openLink(entity)\">\n                <i class=\"bhi-circle {{ entity.class }}\"></i>{{ entity | render : metaDisplay }}\n            </a>\n            <span *ngIf=\"!entity.isLinkable && entity.personSubtype\">\n                <i class=\"bhi-circle {{ entity.class }}\"></i>{{ entity | render : metaDisplay }}\n            </span>\n            <span *ngIf=\"!entity.isLinkable && !entity.personSubtype\">\n                {{ entity | render : metaDisplay }}\n            </span>\n        </div>\n    "
+                        selector: 'novo-value',
+                        template: "\n      <ng-container [ngSwitch]=\"_type\">\n          <div class=\"value-outer\" *ngIf=\"showLabel\">\n              <label>{{ meta.label }}</label>\n              <span class=\"value\">\n                <i *ngIf=\"meta.showEntityIcon\" class=\"bhi-circle {{meta.entityIconClass}}\"></i>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.INTERNAL_LINK\" (click)=\"openLink()\" [innerHTML]=\"data | render : meta\"></a>\n                <a *ngSwitchCase=\"NOVO_VALUE_TYPE.LINK\" class=\"value\" [href]=\"url\" target=\"_blank\" [innerHTML]=\"data | render : meta\"></a>\n              </span>\n              <novo-entity-list *ngSwitchCase=\"NOVO_VALUE_TYPE.ENTITY_LIST\" [data]='data' [meta]=\"meta\"></novo-entity-list>\n          </div>\n          <div *ngSwitchDefault class=\"value-outer\" [ngClass]=\"customClass\">\n              <label>{{ meta.label }}</label>\n              <div *ngIf=\"isDefault\" class=\"value\" [innerHTML]=\"data | render : meta\"></div>\n          </div>\n          <div class=\"actions\" *ngIf=\"showIcon\">\n              <i *ngFor=\"let icon of meta.icons\" [class]=\"iconClass(icon)\" (click)=\"onValueClick(icon)\"></i>\n          </div>\n      </ng-container>\n    "
                     }] }
         ];
-        /** @nocollapse */
-        EntityList.ctorParameters = function () { return []; };
-        EntityList.propDecorators = {
+        NovoValueElement.propDecorators = {
             data: [{ type: core.Input }],
-            meta: [{ type: core.Input }]
+            meta: [{ type: core.Input }],
+            theme: [{ type: core.Input }],
+            label: [{ type: core.Input }],
+            type: [{ type: core.Input }],
+            isMobile: [{ type: core.HostBinding, args: ['class.mobile',] }]
         };
-        return EntityList;
+        return NovoValueElement;
     }());
     if (false) {
         /** @type {?} */
-        EntityList.prototype.data;
+        NovoValueElement.prototype.data;
         /** @type {?} */
-        EntityList.prototype.meta;
+        NovoValueElement.prototype.meta;
         /** @type {?} */
-        EntityList.prototype.baseEntity;
+        NovoValueElement.prototype.theme;
         /** @type {?} */
-        EntityList.prototype.metaDisplay;
+        NovoValueElement.prototype._type;
         /** @type {?} */
-        EntityList.prototype.ENTITY_SHORT_NAMES;
+        NovoValueElement.prototype.NOVO_VALUE_TYPE;
+        /** @type {?} */
+        NovoValueElement.prototype.NOVO_VALUE_THEME;
+        /** @type {?} */
+        NovoValueElement.prototype.url;
+        /** @type {?} */
+        NovoValueElement.prototype.customClass;
     }
 
     /**

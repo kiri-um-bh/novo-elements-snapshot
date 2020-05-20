@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { NovoFormControl } from './NovoFormControl';
-import { FormUtils } from '../../utils/form-utils/FormUtils';
-import { NovoToastService, ToastOptions } from '../toast/ToastService';
-import { NovoModalService } from '../modal/ModalService';
-import { AppBridge } from '../../utils/app-bridge/AppBridge';
 import { NovoLabelService } from '../../services/novo-label-service';
-import { NovoFieldset, ResultsTemplateType } from './FormInterfaces';
+import { AppBridge } from '../../utils/app-bridge/AppBridge';
+import { FormUtils } from '../../utils/form-utils/FormUtils';
+import { NovoModalService } from '../modal/ModalService';
+import { NovoToastService, ToastOptions } from '../toast/ToastService';
 import { ModifyPickerConfigArgs, OptionsFunction } from './FieldInteractionApiTypes';
+import { NovoFieldset, ResultsTemplateType } from './FormInterfaces';
+import { NovoFormControl } from './NovoFormControl';
 export declare class FieldInteractionApi {
     private toaster;
     private modalService;

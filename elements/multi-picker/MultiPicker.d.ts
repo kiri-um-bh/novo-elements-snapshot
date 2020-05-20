@@ -1,6 +1,6 @@
-import { OnInit, EventEmitter, ElementRef } from '@angular/core';
-import { NovoLabelService } from '../../services/novo-label-service';
+import { ElementRef, EventEmitter, OnInit } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
+import { NovoLabelService } from '../../services/novo-label-service';
 interface Item {
     type: any;
     label: any;

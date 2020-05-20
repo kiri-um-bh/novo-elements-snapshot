@@ -1,4 +1,4 @@
-import { OnInit, EventEmitter } from '@angular/core';
+import { EventEmitter, OnInit } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../../../services/novo-label-service';
 export interface NovoAddressSubfieldConfig {

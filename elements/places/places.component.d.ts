@@ -1,4 +1,4 @@
-import { EventEmitter, OnInit, OnChanges, ElementRef } from '@angular/core';
+import { ElementRef, EventEmitter, OnChanges, OnInit } from '@angular/core';
 import { GlobalRef } from '../../services/global/global.service';
 import { GooglePlacesService } from './places.service';
 export interface Settings {

@@ -1,6 +1,6 @@
-import { OnChanges, EventEmitter, ChangeDetectorRef, OnInit, OnDestroy, TemplateRef } from '@angular/core';
-import { CalendarEvent, DayView, DayViewHour, CalendarEventTimesChangedEvent } from '../../../utils/calendar-utils/CalendarUtils';
+import { ChangeDetectorRef, EventEmitter, OnChanges, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
+import { CalendarEvent, CalendarEventTimesChangedEvent, DayView, DayViewHour } from '../../../utils/calendar-utils/CalendarUtils';
 /**
  * Shows all events on a given day. Example usage:
  *

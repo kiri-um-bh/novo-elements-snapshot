@@ -1,4 +1,4 @@
-import { EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, EventEmitter } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 export declare class NovoRadioGroup {
 }

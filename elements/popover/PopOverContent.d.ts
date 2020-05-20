@@ -1,4 +1,4 @@
-import { AfterViewInit, ElementRef, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, ElementRef, EventEmitter } from '@angular/core';
 import { PopOverDirective } from './PopOver';
 export declare class PopOverContent implements AfterViewInit {
     protected element: ElementRef;

@@ -1,5 +1,5 @@
-import { ElementRef, Renderer2, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CdkCell, CdkColumnDef } from '@angular/cdk/table';
+import { ChangeDetectorRef, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { NovoDataTable } from '../data-table.component';
 export declare class NovoDataTableExpandCell<T> extends CdkCell implements OnInit, OnDestroy {
     columnDef: CdkColumnDef;

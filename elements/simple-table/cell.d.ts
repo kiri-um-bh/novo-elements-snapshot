@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { CdkCell, CdkCellDef, CdkColumnDef, CdkHeaderCell, CdkHeaderCellDef } from '@angular/cdk/table';
-import { NovoSelection } from './sort';
-import { SimpleTableActionColumn, SimpleTableActionColumnOption, SimpleTableColumn } from './interfaces';
+import { ChangeDetectorRef, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { NovoLabelService } from '../../services/novo-label-service';
+import { SimpleTableActionColumn, SimpleTableActionColumnOption, SimpleTableColumn } from './interfaces';
+import { NovoSelection } from './sort';
 /** Workaround for https://github.com/angular/angular/issues/17849 */
 export declare const _NovoCellDef: typeof CdkCellDef;
 export declare const _NovoHeaderCellDef: typeof CdkHeaderCellDef;
