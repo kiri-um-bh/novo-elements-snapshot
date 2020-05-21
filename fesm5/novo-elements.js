@@ -11152,6 +11152,7 @@ var NovoDropdownElement = /** @class */ (function () {
          */
         function (items) {
             this._items = items;
+            this.activeIndex = -1;
             // Get the innerText of all the items to allow for searching
             this._textItems = items.map((/**
              * @param {?} item
@@ -11359,7 +11360,7 @@ var NovoDropdownElement = /** @class */ (function () {
     NovoDropdownElement.decorators = [
         { type: Component, args: [{
                     selector: 'novo-dropdown',
-                    template: "\n    <ng-content select=\"button\" #trigger></ng-content>\n    <novo-overlay-template [parent]=\"element\" [width]=\"width\" [position]=\"side\" [scrollStrategy]=\"scrollStrategy\">\n      <div class=\"dropdown-container {{ containerClass }}\" [style.height.px]=\"height\" [class.has-height]=\"!!height\" (keydown)=\"onOverlayKeyDown($event)\">\n        <ng-content></ng-content>\n      </div>\n    </novo-overlay-template>\n  "
+                    template: "\n    <ng-content select=\"button\" #trigger></ng-content>\n    <novo-overlay-template [parent]=\"element\" [width]=\"width\" [position]=\"side\" [scrollStrategy]=\"scrollStrategy\">\n      <div\n        class=\"dropdown-container {{ containerClass }}\"\n        [style.height.px]=\"height\"\n        [class.has-height]=\"!!height\"\n        (keydown)=\"onOverlayKeyDown($event)\"\n      >\n        <ng-content></ng-content>\n      </div>\n    </novo-overlay-template>\n  "
                 }] }
     ];
     /** @nocollapse */
@@ -11520,7 +11521,14 @@ var NovoListElement$1 = /** @class */ (function () {
      * @return {?}
      */
     function () {
+        var _this = this;
         this.dropdown.items = this.items;
+        this.items.changes.subscribe((/**
+         * @return {?}
+         */
+        function () {
+            _this.dropdown.items = _this.items;
+        }));
     };
     NovoListElement.decorators = [
         { type: Component, args: [{
