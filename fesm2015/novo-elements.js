@@ -9964,6 +9964,7 @@ class NovoDropdownElement {
      */
     set items(items) {
         this._items = items;
+        this.activeIndex = -1;
         // Get the innerText of all the items to allow for searching
         this._textItems = items.map((/**
          * @param {?} item
@@ -10143,7 +10144,12 @@ NovoDropdownElement.decorators = [
                 template: `
     <ng-content select="button" #trigger></ng-content>
     <novo-overlay-template [parent]="element" [width]="width" [position]="side" [scrollStrategy]="scrollStrategy">
-      <div class="dropdown-container {{ containerClass }}" [style.height.px]="height" [class.has-height]="!!height" (keydown)="onOverlayKeyDown($event)">
+      <div
+        class="dropdown-container {{ containerClass }}"
+        [style.height.px]="height"
+        [class.has-height]="!!height"
+        (keydown)="onOverlayKeyDown($event)"
+      >
         <ng-content></ng-content>
       </div>
     </novo-overlay-template>
@@ -10306,6 +10312,12 @@ class NovoListElement$1 {
      */
     ngAfterContentInit() {
         this.dropdown.items = this.items;
+        this.items.changes.subscribe((/**
+         * @return {?}
+         */
+        () => {
+            this.dropdown.items = this.items;
+        }));
     }
 }
 NovoListElement$1.decorators = [
