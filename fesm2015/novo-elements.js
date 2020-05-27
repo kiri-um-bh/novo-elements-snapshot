@@ -2487,12 +2487,15 @@ class NovoLabelService {
      */
     formatBigDecimal(value) {
         /** @type {?} */
+        let prefix = '';
+        /** @type {?} */
         let valueAsString = value ? value.toString() : '0';
         // truncate at two decimals (do not round)
         /** @type {?} */
         const decimalIndex = valueAsString.indexOf('.');
         if (decimalIndex > -1 && decimalIndex + 3 < valueAsString.length) {
             valueAsString = valueAsString.substring(0, valueAsString.indexOf('.') + 3);
+            prefix = '~';
         }
         // convert back to number
         /** @type {?} */
@@ -2502,9 +2505,9 @@ class NovoLabelService {
         /** @type {?} */
         let _value = new Intl.NumberFormat(this.userLocale, options).format(truncatedValue);
         if (value < 0) {
-            _value = `(${_value.slice(1)})`;
+            return `(${prefix}${_value.slice(1)})`;
         }
-        return _value;
+        return `${prefix}${_value}`;
     }
     /**
      * @param {?} value

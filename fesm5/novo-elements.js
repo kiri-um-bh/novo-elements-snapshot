@@ -2824,12 +2824,15 @@ var NovoLabelService = /** @class */ (function () {
      */
     function (value) {
         /** @type {?} */
+        var prefix = '';
+        /** @type {?} */
         var valueAsString = value ? value.toString() : '0';
         // truncate at two decimals (do not round)
         /** @type {?} */
         var decimalIndex = valueAsString.indexOf('.');
         if (decimalIndex > -1 && decimalIndex + 3 < valueAsString.length) {
             valueAsString = valueAsString.substring(0, valueAsString.indexOf('.') + 3);
+            prefix = '~';
         }
         // convert back to number
         /** @type {?} */
@@ -2839,9 +2842,9 @@ var NovoLabelService = /** @class */ (function () {
         /** @type {?} */
         var _value = new Intl.NumberFormat(this.userLocale, options).format(truncatedValue);
         if (value < 0) {
-            _value = "(" + _value.slice(1) + ")";
+            return "(" + prefix + _value.slice(1) + ")";
         }
-        return _value;
+        return "" + prefix + _value;
     };
     /**
      * @param {?} value
