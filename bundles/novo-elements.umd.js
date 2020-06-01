@@ -15590,13 +15590,23 @@
          */
         function (value) {
             /** @type {?} */
+            var id = value;
+            /** @type {?} */
             var optLabel = this.source.options.find((/**
              * @param {?} val
              * @return {?}
              */
             function (val) { return val.value === value; }));
+            if (!optLabel && value.hasOwnProperty('id')) {
+                optLabel = this.source.options.find((/**
+                 * @param {?} val
+                 * @return {?}
+                 */
+                function (val) { return val.value === value.id; }));
+                id = value.id;
+            }
             return {
-                value: value,
+                value: id,
                 label: optLabel ? optLabel.label : value,
             };
         };
