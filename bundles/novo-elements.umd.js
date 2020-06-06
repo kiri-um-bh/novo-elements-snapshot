@@ -57895,6 +57895,106 @@
 
     /**
      * @fileoverview added by tsickle
+     * Generated from: elements/data-table/configure-columns/configure-columns-dropdown.component.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var ConfigureColumnsDropdown = /** @class */ (function (_super) {
+        __extends(ConfigureColumnsDropdown, _super);
+        function ConfigureColumnsDropdown(element, ref) {
+            var _this = _super.call(this, element, ref) || this;
+            _this.applyColumnConfig = new core.EventEmitter();
+            return _this;
+        }
+        /**
+         * @return {?}
+         */
+        ConfigureColumnsDropdown.prototype.ngOnChanges = /**
+         * @return {?}
+         */
+        function () {
+            this.matches = this.columns;
+        };
+        /**
+         * @param {?=} emit
+         * @return {?}
+         */
+        ConfigureColumnsDropdown.prototype.saveColumns = /**
+         * @param {?=} emit
+         * @return {?}
+         */
+        function (emit) {
+            if (emit === void 0) { emit = true; }
+            if (this.columns) {
+                /** @type {?} */
+                var enabledColumns = this.columns.filter((/**
+                 * @param {?} column
+                 * @return {?}
+                 */
+                function (column) { return column.enabled; }));
+                this.displayedColumns = __spread(enabledColumns.map((/**
+                 * @param {?} column
+                 * @return {?}
+                 */
+                function (column) { return column.id; })));
+                this.ref.markForCheck();
+                if (emit) {
+                    this.applyColumnConfig.emit(this.displayedColumns);
+                }
+            }
+            this.clearQuickSearch();
+        };
+        /**
+         * @return {?}
+         */
+        ConfigureColumnsDropdown.prototype.clearQuickSearch = /**
+         * @return {?}
+         */
+        function () {
+            this.term = '';
+        };
+        /**
+         * @return {?}
+         */
+        ConfigureColumnsDropdown.prototype.processSearch = /**
+         * @return {?}
+         */
+        function () {
+            var _this = this;
+            this.matches = this.columns.filter((/**
+             * @param {?} column
+             * @return {?}
+             */
+            function (column) { return column.label.toLowerCase().includes(_this.term.toLowerCase()); }));
+            this.ref.markForCheck();
+        };
+        ConfigureColumnsDropdown.decorators = [
+            { type: core.Component, args: [{
+                        selector: 'configure-columns-dropdown',
+                        template: "<novo-dropdown side=\"left\" containerClass=\"configure-columns-dropdown\">\r\n    <button theme=\"secondary\"\r\n            icon=\"collapse\"><i class=\"bhi-columns\"></i>Columns</button>\r\n    <div class=\"configure-columns-dropdown-list-options\">\r\n        <div class=\"picker-input-filter\">\r\n            <div class=\"input-container\">\r\n                <input [(ngModel)]=\"term\" type=\"text\">\r\n                <i class=\"bhi-search\" *ngIf=\"term === ''\"></i>\r\n                <i class=\"bhi-times\" *ngIf=\"term !== ''\" (click)=\"clearQuickSearch()\"></i>\r\n            </div>\r\n        </div>\r\n        <!--section class=\"picker-loading\" *ngIf=\"isLoading && !matches?.length\">\r\n            <novo-loading theme=\"line\"></novo-loading>\r\n        </section-->\r\n        <list class=\"results-list\" direction=\"vertical\" *ngIf=\"matches?.length > 0 && !hasError\">\r\n            <item keepOpen=\"true\" *ngFor=\"let column of matches\">\r\n                <item-title>\r\n                    <span class=\"column-name\">\r\n                        <novo-checkbox [(ngModel)]=\"column.enabled\"></novo-checkbox>\r\n                        <span>{{ column.label }}</span>\r\n                    </span>\r\n                </item-title>\r\n            </item>\r\n        </list>\r\n    </div>\r\n    <item>\r\n        <div class=\"configure-columns-footer\">\r\n        <button theme=\"standard\"\r\n                (click)=\"clearQuickSearch()\">Cancel</button>\r\n        <button theme=\"primary\"\r\n                icon=\"check\"\r\n                (click)=\"saveColumns()\">Save</button>\r\n        </div>\r\n    </item>\r\n\r\n</novo-dropdown>\r\n"
+                    }] }
+        ];
+        /** @nocollapse */
+        ConfigureColumnsDropdown.ctorParameters = function () { return [
+            { type: core.ElementRef },
+            { type: core.ChangeDetectorRef }
+        ]; };
+        ConfigureColumnsDropdown.propDecorators = {
+            columns: [{ type: core.Input }],
+            applyColumnConfig: [{ type: core.Output }]
+        };
+        return ConfigureColumnsDropdown;
+    }(BasePickerResults));
+    if (false) {
+        /** @type {?} */
+        ConfigureColumnsDropdown.prototype.columns;
+        /** @type {?} */
+        ConfigureColumnsDropdown.prototype.displayedColumns;
+        /** @type {?} */
+        ConfigureColumnsDropdown.prototype.applyColumnConfig;
+    }
+
+    /**
+     * @fileoverview added by tsickle
      * Generated from: elements/data-table/data-table.pipes.ts
      * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
@@ -58449,6 +58549,7 @@
                             NovoCommonModule,
                             NovoSelectModule,
                             NovoTooltipModule,
+                            NovoListModule,
                         ],
                         declarations: [
                             DataTableInterpolatePipe,
@@ -58465,6 +58566,7 @@
                             NovoDataTableHeaderRow,
                             NovoDataTableRow,
                             NovoDataTablePagination,
+                            ConfigureColumnsDropdown,
                             NovoDataTableCheckboxCell,
                             NovoDataTableCheckboxHeaderCell,
                             NovoDataTableExpandCell,
@@ -58484,6 +58586,7 @@
                             DateTableTimeRendererPipe,
                             DataTableBigDecimalRendererPipe,
                             NovoDataTableClearButton,
+                            ConfigureColumnsDropdown,
                         ],
                     },] }
         ];
@@ -65547,20 +65650,21 @@
     exports.ɵfa = NovoDataTableHeaderRow;
     exports.ɵfb = NovoDataTableRow;
     exports.ɵfc = NovoDataTablePagination;
-    exports.ɵfd = NovoDataTableCheckboxCell;
-    exports.ɵfe = NovoDataTableCheckboxHeaderCell;
-    exports.ɵff = NovoDataTableExpandCell;
-    exports.ɵfg = NovoDataTableExpandHeaderCell;
-    exports.ɵfh = NovoDataTableExpandDirective;
-    exports.ɵfi = NovoDataTableClearButton;
-    exports.ɵfj = GlobalRef;
-    exports.ɵfk = BrowserGlobalRef;
-    exports.ɵfl = LocalStorageService;
-    exports.ɵfm = NovoPopOverModule;
-    exports.ɵfn = PopOverContent;
-    exports.ɵfo = PopOverDirective;
-    exports.ɵfp = GooglePlacesModule;
-    exports.ɵfq = PlacesListComponent;
+    exports.ɵfd = ConfigureColumnsDropdown;
+    exports.ɵfe = NovoDataTableCheckboxCell;
+    exports.ɵff = NovoDataTableCheckboxHeaderCell;
+    exports.ɵfg = NovoDataTableExpandCell;
+    exports.ɵfh = NovoDataTableExpandHeaderCell;
+    exports.ɵfi = NovoDataTableExpandDirective;
+    exports.ɵfj = NovoDataTableClearButton;
+    exports.ɵfk = GlobalRef;
+    exports.ɵfl = BrowserGlobalRef;
+    exports.ɵfm = LocalStorageService;
+    exports.ɵfn = NovoPopOverModule;
+    exports.ɵfo = PopOverContent;
+    exports.ɵfp = PopOverDirective;
+    exports.ɵfq = GooglePlacesModule;
+    exports.ɵfr = PlacesListComponent;
     exports.ɵg = NovoModalContainerElement;
     exports.ɵh = NovoModalElement;
     exports.ɵi = NovoModalNotificationElement;
