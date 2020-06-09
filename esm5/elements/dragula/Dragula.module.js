@@ -1,22 +1,22 @@
-/**
- * @fileoverview added by tsickle
- * Generated from: elements/dragula/Dragula.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 // NG2
 import { NgModule } from '@angular/core';
 // APP
 import { NovoDragulaElement } from './Dragula';
+import * as i0 from "@angular/core";
 var NovoDragulaModule = /** @class */ (function () {
     function NovoDragulaModule() {
     }
-    NovoDragulaModule.decorators = [
-        { type: NgModule, args: [{
-                    declarations: [NovoDragulaElement],
-                    exports: [NovoDragulaElement],
-                },] }
-    ];
+    NovoDragulaModule.ɵmod = i0.ɵɵdefineNgModule({ type: NovoDragulaModule });
+    NovoDragulaModule.ɵinj = i0.ɵɵdefineInjector({ factory: function NovoDragulaModule_Factory(t) { return new (t || NovoDragulaModule)(); } });
     return NovoDragulaModule;
 }());
 export { NovoDragulaModule };
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRHJhZ3VsYS5tb2R1bGUuanMiLCJzb3VyY2VSb290Ijoibmc6Ly9ub3ZvLWVsZW1lbnRzLyIsInNvdXJjZXMiOlsiZWxlbWVudHMvZHJhZ3VsYS9EcmFndWxhLm1vZHVsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7QUFDQSxPQUFPLEVBQUUsUUFBUSxFQUFFLE1BQU0sZUFBZSxDQUFDOztBQUV6QyxPQUFPLEVBQUUsa0JBQWtCLEVBQUUsTUFBTSxXQUFXLENBQUM7QUFFL0M7SUFBQTtJQUlnQyxDQUFDOztnQkFKaEMsUUFBUSxTQUFDO29CQUNSLFlBQVksRUFBRSxDQUFDLGtCQUFrQixDQUFDO29CQUNsQyxPQUFPLEVBQUUsQ0FBQyxrQkFBa0IsQ0FBQztpQkFDOUI7O0lBQytCLHdCQUFDO0NBQUEsQUFKakMsSUFJaUM7U0FBcEIsaUJBQWlCIiwic291cmNlc0NvbnRlbnQiOlsiLy8gTkcyXG5pbXBvcnQgeyBOZ01vZHVsZSB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuLy8gQVBQXG5pbXBvcnQgeyBOb3ZvRHJhZ3VsYUVsZW1lbnQgfSBmcm9tICcuL0RyYWd1bGEnO1xuXG5ATmdNb2R1bGUoe1xuICBkZWNsYXJhdGlvbnM6IFtOb3ZvRHJhZ3VsYUVsZW1lbnRdLFxuICBleHBvcnRzOiBbTm92b0RyYWd1bGFFbGVtZW50XSxcbn0pXG5leHBvcnQgY2xhc3MgTm92b0RyYWd1bGFNb2R1bGUge31cbiJdfQ==
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(NovoDragulaModule, { declarations: [NovoDragulaElement], exports: [NovoDragulaElement] }); })();
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoDragulaModule, [{
+        type: NgModule,
+        args: [{
+                declarations: [NovoDragulaElement],
+                exports: [NovoDragulaElement],
+            }]
+    }], null, null); })();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRHJhZ3VsYS5tb2R1bGUuanMiLCJzb3VyY2VSb290Ijoibmc6Ly9ub3ZvLWVsZW1lbnRzLyIsInNvdXJjZXMiOlsiZWxlbWVudHMvZHJhZ3VsYS9EcmFndWxhLm1vZHVsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxNQUFNO0FBQ04sT0FBTyxFQUFFLFFBQVEsRUFBRSxNQUFNLGVBQWUsQ0FBQztBQUN6QyxNQUFNO0FBQ04sT0FBTyxFQUFFLGtCQUFrQixFQUFFLE1BQU0sV0FBVyxDQUFDOztBQUUvQztJQUFBO0tBSWlDO3lEQUFwQixpQkFBaUI7cUhBQWpCLGlCQUFpQjs0QkFUOUI7Q0FTaUMsQUFKakMsSUFJaUM7U0FBcEIsaUJBQWlCO3dGQUFqQixpQkFBaUIsbUJBSGIsa0JBQWtCLGFBQ3ZCLGtCQUFrQjtrREFFakIsaUJBQWlCO2NBSjdCLFFBQVE7ZUFBQztnQkFDUixZQUFZLEVBQUUsQ0FBQyxrQkFBa0IsQ0FBQztnQkFDbEMsT0FBTyxFQUFFLENBQUMsa0JBQWtCLENBQUM7YUFDOUIiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBORzJcbmltcG9ydCB7IE5nTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG4vLyBBUFBcbmltcG9ydCB7IE5vdm9EcmFndWxhRWxlbWVudCB9IGZyb20gJy4vRHJhZ3VsYSc7XG5cbkBOZ01vZHVsZSh7XG4gIGRlY2xhcmF0aW9uczogW05vdm9EcmFndWxhRWxlbWVudF0sXG4gIGV4cG9ydHM6IFtOb3ZvRHJhZ3VsYUVsZW1lbnRdLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvRHJhZ3VsYU1vZHVsZSB7fVxuIl19

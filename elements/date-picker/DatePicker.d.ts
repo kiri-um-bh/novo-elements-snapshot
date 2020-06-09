@@ -1,6 +1,7 @@
 import { ElementRef, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../services/novo-label-service';
+import * as i0 from "@angular/core";
 export interface RangeModal {
     startDate: Date;
     endDate: Date;
@@ -76,4 +77,6 @@ export declare class NovoDatePickerElement implements ControlValueAccessor, OnIn
     writeValue(model: modelTypes): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
+    static ɵfac: i0.ɵɵFactoryDef<NovoDatePickerElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoDatePickerElement, "novo-date-picker", never, { "minYear": "minYear"; "maxYear": "maxYear"; "start": "start"; "end": "end"; "inline": "inline"; "range": "range"; "weekRangeSelect": "weekRangeSelect"; "weekStart": "weekStart"; }, { "onSelect": "onSelect"; }, never, never>;
 }

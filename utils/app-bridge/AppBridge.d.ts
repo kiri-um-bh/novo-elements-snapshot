@@ -47,7 +47,7 @@ export declare class AppBridge {
     private _tracing;
     private _eventListeners;
     constructor(traceName?: string);
-    tracing: boolean;
+    set tracing(tracing: boolean);
     handle(type: AppBridgeHandler, handler: Function): void;
     private _trace;
     protected _setupHandlers(): void;

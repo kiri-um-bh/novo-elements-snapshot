@@ -1,6 +1,7 @@
 import { ElementRef, OnInit, OnDestroy, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { BasePickerResults } from '../base-picker-results/BasePickerResults';
 import { NovoLabelService } from '../../../../services/novo-label-service';
+import * as i0 from "@angular/core";
 export declare class GroupedMultiPickerResults extends BasePickerResults implements OnInit, OnDestroy {
     private renderer;
     labels: NovoLabelService;
@@ -17,8 +18,8 @@ export declare class GroupedMultiPickerResults extends BasePickerResults impleme
     private keyboardSubscription;
     private internalMap;
     customFilterValue: any;
-    term: any;
-    readonly categories: any;
+    set term(value: any);
+    get categories(): any;
     constructor(element: ElementRef, renderer: Renderer2, labels: NovoLabelService, ref: ChangeDetectorRef);
     ngOnInit(): void;
     ngOnDestroy(): void;
@@ -39,4 +40,6 @@ export declare class GroupedMultiPickerResults extends BasePickerResults impleme
     }[];
     private getNewMatches;
     private filter;
+    static ɵfac: i0.ɵɵFactoryDef<GroupedMultiPickerResults, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<GroupedMultiPickerResults, "grouped-multi-picker-results", never, {}, {}, never, never>;
 }

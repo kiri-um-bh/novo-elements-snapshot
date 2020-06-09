@@ -3,6 +3,7 @@ import { ControlValueAccessor } from '@angular/forms';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { DateFormatService } from '../../services/date-format/DateFormat';
+import * as i0 from "@angular/core";
 export declare class NovoDatePickerInputElement implements OnInit, ControlValueAccessor {
     element: ElementRef;
     labels: NovoLabelService;
@@ -34,7 +35,7 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     /** BEGIN: Convenient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
-    readonly panelOpen: boolean;
+    get panelOpen(): boolean;
     /** END: Convenient Panel Methods. */
     _handleKeydown(event: KeyboardEvent): void;
     _handleInput(event: KeyboardEvent): void;
@@ -61,5 +62,7 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
      */
     clearValue(): void;
     formatDateValue(value: any): any;
-    readonly hasValue: boolean;
+    get hasValue(): boolean;
+    static ɵfac: i0.ɵɵFactoryDef<NovoDatePickerInputElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoDatePickerInputElement, "novo-date-picker-input", never, { "name": "name"; "start": "start"; "end": "end"; "placeholder": "placeholder"; "maskOptions": "maskOptions"; "format": "format"; "textMaskEnabled": "textMaskEnabled"; "allowInvalidDate": "allowInvalidDate"; "disabled": "disabled"; "weekStart": "weekStart"; }, { "blurEvent": "blurEvent"; "focusEvent": "focusEvent"; }, never, never>;
 }

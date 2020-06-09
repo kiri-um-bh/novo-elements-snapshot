@@ -2,12 +2,15 @@ import { ElementRef, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BasePickerResults } from '../base-picker-results/BasePickerResults';
 import { NovoLabelService } from '../../../../services/novo-label-service';
+import * as i0 from "@angular/core";
 export declare class DistributionListPickerResults extends BasePickerResults {
     private sanitizer;
     labels: NovoLabelService;
     active: boolean;
-    readonly isHidden: boolean;
+    get isHidden(): boolean;
     constructor(element: ElementRef, sanitizer: DomSanitizer, labels: NovoLabelService, ref: ChangeDetectorRef);
     getListElement(): any;
     sanitizeHTML(html: any): any;
+    static ɵfac: i0.ɵɵFactoryDef<DistributionListPickerResults, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<DistributionListPickerResults, "distribution-list-picker-results", never, {}, {}, never, never>;
 }

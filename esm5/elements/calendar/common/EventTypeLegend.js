@@ -1,33 +1,60 @@
-/**
- * @fileoverview added by tsickle
- * Generated from: elements/calendar/common/EventTypeLegend.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
+import * as i0 from "@angular/core";
+import * as i1 from "@angular/common";
+import * as i2 from "../../../pipes/group-by/GroupBy";
+function NovoEventTypeLegendElement_ng_template_0_div_1_Template(rf, ctx) { if (rf & 1) {
+    var _r6 = i0.ɵɵgetCurrentView();
+    i0.ɵɵelementStart(0, "div", 4);
+    i0.ɵɵlistener("click", function NovoEventTypeLegendElement_ng_template_0_div_1_Template_div_click_0_listener($event) { i0.ɵɵrestoreView(_r6); var type_r4 = ctx.$implicit; var ctx_r5 = i0.ɵɵnextContext(2); $event.stopPropagation(); return ctx_r5.eventTypeClicked.emit({ event: type_r4 == null ? null : type_r4.key }); });
+    i0.ɵɵelement(1, "div", 5);
+    i0.ɵɵelementStart(2, "div");
+    i0.ɵɵtext(3);
+    i0.ɵɵelementEnd();
+    i0.ɵɵelementEnd();
+} if (rf & 2) {
+    var type_r4 = ctx.$implicit;
+    i0.ɵɵadvance(3);
+    i0.ɵɵtextInterpolate(type_r4 == null ? null : type_r4.key);
+} }
+function NovoEventTypeLegendElement_ng_template_0_Template(rf, ctx) { if (rf & 1) {
+    i0.ɵɵelementStart(0, "div", 2);
+    i0.ɵɵtemplate(1, NovoEventTypeLegendElement_ng_template_0_div_1_Template, 4, 1, "div", 3);
+    i0.ɵɵpipe(2, "groupBy");
+    i0.ɵɵelementEnd();
+} if (rf & 2) {
+    var ctx_r1 = i0.ɵɵnextContext();
+    i0.ɵɵadvance(1);
+    i0.ɵɵproperty("ngForOf", i0.ɵɵpipeBind2(2, 1, ctx_r1.events, "type"));
+} }
+function NovoEventTypeLegendElement_ng_template_2_Template(rf, ctx) { }
+var _c0 = function (a0, a1) { return { events: a0, eventTypeClicked: a1 }; };
 var NovoEventTypeLegendElement = /** @class */ (function () {
     function NovoEventTypeLegendElement() {
         this.eventTypeClicked = new EventEmitter();
     }
-    NovoEventTypeLegendElement.decorators = [
-        { type: Component, args: [{
-                    selector: 'novo-event-type-legend',
-                    template: "\n    <ng-template #defaultTemplate>\n      <div class=\"cal-event-legend\">\n        <div class=\"cal-event-type\"\n          *ngFor=\"let type of events | groupBy : 'type'\"\n          (click)=\"$event.stopPropagation(); eventTypeClicked.emit({event:type?.key})\">\n          <div class=\"cal-event-type-swatch\"></div><div>{{type?.key}}</div>\n        </div>\n      </div>\n    </ng-template>\n    <ng-template\n      [ngTemplateOutlet]=\"customTemplate || defaultTemplate\"\n      [ngTemplateOutletContext]=\"{events: events, eventTypeClicked: eventTypeClicked}\">\n    </ng-template>\n  "
-                }] }
-    ];
-    NovoEventTypeLegendElement.propDecorators = {
-        events: [{ type: Input }],
-        customTemplate: [{ type: Input }],
-        eventTypeClicked: [{ type: Output }]
-    };
+    NovoEventTypeLegendElement.ɵfac = function NovoEventTypeLegendElement_Factory(t) { return new (t || NovoEventTypeLegendElement)(); };
+    NovoEventTypeLegendElement.ɵcmp = i0.ɵɵdefineComponent({ type: NovoEventTypeLegendElement, selectors: [["novo-event-type-legend"]], inputs: { events: "events", customTemplate: "customTemplate" }, outputs: { eventTypeClicked: "eventTypeClicked" }, decls: 3, vars: 5, consts: [["defaultTemplate", ""], [3, "ngTemplateOutlet", "ngTemplateOutletContext"], [1, "cal-event-legend"], ["class", "cal-event-type", 3, "click", 4, "ngFor", "ngForOf"], [1, "cal-event-type", 3, "click"], [1, "cal-event-type-swatch"]], template: function NovoEventTypeLegendElement_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵtemplate(0, NovoEventTypeLegendElement_ng_template_0_Template, 3, 4, "ng-template", null, 0, i0.ɵɵtemplateRefExtractor);
+            i0.ɵɵtemplate(2, NovoEventTypeLegendElement_ng_template_2_Template, 0, 0, "ng-template", 1);
+        } if (rf & 2) {
+            var _r0 = i0.ɵɵreference(1);
+            i0.ɵɵadvance(2);
+            i0.ɵɵproperty("ngTemplateOutlet", ctx.customTemplate || _r0)("ngTemplateOutletContext", i0.ɵɵpureFunction2(2, _c0, ctx.events, ctx.eventTypeClicked));
+        } }, directives: [i1.NgTemplateOutlet, i1.NgForOf], pipes: [i2.GroupByPipe], encapsulation: 2 });
     return NovoEventTypeLegendElement;
 }());
 export { NovoEventTypeLegendElement };
-if (false) {
-    /** @type {?} */
-    NovoEventTypeLegendElement.prototype.events;
-    /** @type {?} */
-    NovoEventTypeLegendElement.prototype.customTemplate;
-    /** @type {?} */
-    NovoEventTypeLegendElement.prototype.eventTypeClicked;
-}
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRXZlbnRUeXBlTGVnZW5kLmpzIiwic291cmNlUm9vdCI6Im5nOi8vbm92by1lbGVtZW50cy8iLCJzb3VyY2VzIjpbImVsZW1lbnRzL2NhbGVuZGFyL2NvbW1vbi9FdmVudFR5cGVMZWdlbmQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7QUFBQSxPQUFPLEVBQUUsU0FBUyxFQUFFLEtBQUssRUFBRSxNQUFNLEVBQUUsWUFBWSxFQUFFLFdBQVcsRUFBRSxNQUFNLGVBQWUsQ0FBQztBQUdwRjtJQUFBO1FBMEJFLHFCQUFnQixHQUFzQixJQUFJLFlBQVksRUFBRSxDQUFDO0lBQzNELENBQUM7O2dCQTNCQSxTQUFTLFNBQUM7b0JBQ1QsUUFBUSxFQUFFLHdCQUF3QjtvQkFDbEMsUUFBUSxFQUFFLGtsQkFjVDtpQkFDRjs7O3lCQUVFLEtBQUs7aUNBR0wsS0FBSzttQ0FHTCxNQUFNOztJQUVULGlDQUFDO0NBQUEsQUEzQkQsSUEyQkM7U0FUWSwwQkFBMEI7OztJQUNyQyw0Q0FDd0I7O0lBRXhCLG9EQUNpQzs7SUFFakMsc0RBQ3lEIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQ29tcG9uZW50LCBJbnB1dCwgT3V0cHV0LCBFdmVudEVtaXR0ZXIsIFRlbXBsYXRlUmVmIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG5pbXBvcnQgeyBDYWxlbmRhckV2ZW50IH0gZnJvbSAnLi4vLi4vLi4vdXRpbHMvY2FsZW5kYXItdXRpbHMvQ2FsZW5kYXJVdGlscyc7XG5cbkBDb21wb25lbnQoe1xuICBzZWxlY3RvcjogJ25vdm8tZXZlbnQtdHlwZS1sZWdlbmQnLFxuICB0ZW1wbGF0ZTogYFxuICAgIDxuZy10ZW1wbGF0ZSAjZGVmYXVsdFRlbXBsYXRlPlxuICAgICAgPGRpdiBjbGFzcz1cImNhbC1ldmVudC1sZWdlbmRcIj5cbiAgICAgICAgPGRpdiBjbGFzcz1cImNhbC1ldmVudC10eXBlXCJcbiAgICAgICAgICAqbmdGb3I9XCJsZXQgdHlwZSBvZiBldmVudHMgfCBncm91cEJ5IDogJ3R5cGUnXCJcbiAgICAgICAgICAoY2xpY2spPVwiJGV2ZW50LnN0b3BQcm9wYWdhdGlvbigpOyBldmVudFR5cGVDbGlja2VkLmVtaXQoe2V2ZW50OnR5cGU/LmtleX0pXCI+XG4gICAgICAgICAgPGRpdiBjbGFzcz1cImNhbC1ldmVudC10eXBlLXN3YXRjaFwiPjwvZGl2PjxkaXY+e3t0eXBlPy5rZXl9fTwvZGl2PlxuICAgICAgICA8L2Rpdj5cbiAgICAgIDwvZGl2PlxuICAgIDwvbmctdGVtcGxhdGU+XG4gICAgPG5nLXRlbXBsYXRlXG4gICAgICBbbmdUZW1wbGF0ZU91dGxldF09XCJjdXN0b21UZW1wbGF0ZSB8fCBkZWZhdWx0VGVtcGxhdGVcIlxuICAgICAgW25nVGVtcGxhdGVPdXRsZXRDb250ZXh0XT1cIntldmVudHM6IGV2ZW50cywgZXZlbnRUeXBlQ2xpY2tlZDogZXZlbnRUeXBlQ2xpY2tlZH1cIj5cbiAgICA8L25nLXRlbXBsYXRlPlxuICBgLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvRXZlbnRUeXBlTGVnZW5kRWxlbWVudCB7XG4gIEBJbnB1dCgpXG4gIGV2ZW50czogQ2FsZW5kYXJFdmVudFtdO1xuXG4gIEBJbnB1dCgpXG4gIGN1c3RvbVRlbXBsYXRlOiBUZW1wbGF0ZVJlZjxhbnk+O1xuXG4gIEBPdXRwdXQoKVxuICBldmVudFR5cGVDbGlja2VkOiBFdmVudEVtaXR0ZXI8YW55PiA9IG5ldyBFdmVudEVtaXR0ZXIoKTtcbn1cbiJdfQ==
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoEventTypeLegendElement, [{
+        type: Component,
+        args: [{
+                selector: 'novo-event-type-legend',
+                template: "\n    <ng-template #defaultTemplate>\n      <div class=\"cal-event-legend\">\n        <div class=\"cal-event-type\"\n          *ngFor=\"let type of events | groupBy : 'type'\"\n          (click)=\"$event.stopPropagation(); eventTypeClicked.emit({event:type?.key})\">\n          <div class=\"cal-event-type-swatch\"></div><div>{{type?.key}}</div>\n        </div>\n      </div>\n    </ng-template>\n    <ng-template\n      [ngTemplateOutlet]=\"customTemplate || defaultTemplate\"\n      [ngTemplateOutletContext]=\"{events: events, eventTypeClicked: eventTypeClicked}\">\n    </ng-template>\n  ",
+            }]
+    }], null, { events: [{
+            type: Input
+        }], customTemplate: [{
+            type: Input
+        }], eventTypeClicked: [{
+            type: Output
+        }] }); })();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRXZlbnRUeXBlTGVnZW5kLmpzIiwic291cmNlUm9vdCI6Im5nOi8vbm92by1lbGVtZW50cy8iLCJzb3VyY2VzIjpbImVsZW1lbnRzL2NhbGVuZGFyL2NvbW1vbi9FdmVudFR5cGVMZWdlbmQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxFQUFFLFNBQVMsRUFBRSxLQUFLLEVBQUUsTUFBTSxFQUFFLFlBQVksRUFBRSxXQUFXLEVBQUUsTUFBTSxlQUFlLENBQUM7Ozs7OztJQVE1RSw4QkFHRTtJQURBLDZNQUFTLHdCQUF3QixTQUFFLDZFQUF3QyxJQUFDO0lBQzVFLHlCQUF5QztJQUFBLDJCQUFLO0lBQUEsWUFBYTtJQUFBLGlCQUFNO0lBQ25FLGlCQUFNOzs7SUFEMEMsZUFBYTtJQUFiLDBEQUFhOzs7SUFKL0QsOEJBQ0U7SUFBQSx5RkFHRTs7SUFFSixpQkFBTTs7O0lBSkYsZUFBOEM7SUFBOUMscUVBQThDOzs7O0FBTnhEO0lBQUE7UUEwQkUscUJBQWdCLEdBQXNCLElBQUksWUFBWSxFQUFFLENBQUM7S0FDMUQ7d0dBVFksMEJBQTBCO21FQUExQiwwQkFBMEI7WUFmbkMsNEhBQ0U7WUFRRiwyRkFHQTs7O1lBRkUsZUFBc0Q7WUFBdEQsNERBQXNELHlGQUFBOztxQ0FoQjVEO0NBOEJDLEFBM0JELElBMkJDO1NBVFksMEJBQTBCO2tEQUExQiwwQkFBMEI7Y0FsQnRDLFNBQVM7ZUFBQztnQkFDVCxRQUFRLEVBQUUsd0JBQXdCO2dCQUNsQyxRQUFRLEVBQUUsa2xCQWNUO2FBQ0Y7O2tCQUVFLEtBQUs7O2tCQUdMLEtBQUs7O2tCQUdMLE1BQU0iLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBDb21wb25lbnQsIElucHV0LCBPdXRwdXQsIEV2ZW50RW1pdHRlciwgVGVtcGxhdGVSZWYgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcbmltcG9ydCB7IENhbGVuZGFyRXZlbnQgfSBmcm9tICcuLi8uLi8uLi91dGlscy9jYWxlbmRhci11dGlscy9DYWxlbmRhclV0aWxzJztcblxuQENvbXBvbmVudCh7XG4gIHNlbGVjdG9yOiAnbm92by1ldmVudC10eXBlLWxlZ2VuZCcsXG4gIHRlbXBsYXRlOiBgXG4gICAgPG5nLXRlbXBsYXRlICNkZWZhdWx0VGVtcGxhdGU+XG4gICAgICA8ZGl2IGNsYXNzPVwiY2FsLWV2ZW50LWxlZ2VuZFwiPlxuICAgICAgICA8ZGl2IGNsYXNzPVwiY2FsLWV2ZW50LXR5cGVcIlxuICAgICAgICAgICpuZ0Zvcj1cImxldCB0eXBlIG9mIGV2ZW50cyB8IGdyb3VwQnkgOiAndHlwZSdcIlxuICAgICAgICAgIChjbGljayk9XCIkZXZlbnQuc3RvcFByb3BhZ2F0aW9uKCk7IGV2ZW50VHlwZUNsaWNrZWQuZW1pdCh7ZXZlbnQ6dHlwZT8ua2V5fSlcIj5cbiAgICAgICAgICA8ZGl2IGNsYXNzPVwiY2FsLWV2ZW50LXR5cGUtc3dhdGNoXCI+PC9kaXY+PGRpdj57e3R5cGU/LmtleX19PC9kaXY+XG4gICAgICAgIDwvZGl2PlxuICAgICAgPC9kaXY+XG4gICAgPC9uZy10ZW1wbGF0ZT5cbiAgICA8bmctdGVtcGxhdGVcbiAgICAgIFtuZ1RlbXBsYXRlT3V0bGV0XT1cImN1c3RvbVRlbXBsYXRlIHx8IGRlZmF1bHRUZW1wbGF0ZVwiXG4gICAgICBbbmdUZW1wbGF0ZU91dGxldENvbnRleHRdPVwie2V2ZW50czogZXZlbnRzLCBldmVudFR5cGVDbGlja2VkOiBldmVudFR5cGVDbGlja2VkfVwiPlxuICAgIDwvbmctdGVtcGxhdGU+XG4gIGAsXG59KVxuZXhwb3J0IGNsYXNzIE5vdm9FdmVudFR5cGVMZWdlbmRFbGVtZW50IHtcbiAgQElucHV0KClcbiAgZXZlbnRzOiBDYWxlbmRhckV2ZW50W107XG5cbiAgQElucHV0KClcbiAgY3VzdG9tVGVtcGxhdGU6IFRlbXBsYXRlUmVmPGFueT47XG5cbiAgQE91dHB1dCgpXG4gIGV2ZW50VHlwZUNsaWNrZWQ6IEV2ZW50RW1pdHRlcjxhbnk+ID0gbmV3IEV2ZW50RW1pdHRlcigpO1xufVxuIl19

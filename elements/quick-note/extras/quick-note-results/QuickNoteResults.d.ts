@@ -2,11 +2,13 @@ import { ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PickerResults } from '../../../picker/extras/picker-results/PickerResults';
 import { NovoLabelService } from '../../../../services/novo-label-service';
+import * as i0 from "@angular/core";
 export declare class QuickNoteResults extends PickerResults {
     labels: NovoLabelService;
     taggingMode: string;
     constructor(element: ElementRef, labels: NovoLabelService, ref: ChangeDetectorRef);
-    term: any;
+    get term(): any;
+    set term(value: any);
     search(term: string, taggingMode: any): Observable<any>;
     /**
      * @name structureArray
@@ -26,4 +28,6 @@ export declare class QuickNoteResults extends PickerResults {
      * @description
      */
     selectMatch(event: KeyboardEvent): boolean;
+    static ɵfac: i0.ɵɵFactoryDef<QuickNoteResults, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<QuickNoteResults, "quick-note-results", never, {}, {}, never, never>;
 }

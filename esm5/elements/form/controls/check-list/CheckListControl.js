@@ -1,13 +1,8 @@
-/**
- * @fileoverview added by tsickle
- * Generated from: elements/form/controls/check-list/CheckListControl.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-import * as tslib_1 from "tslib";
+import { __extends } from "tslib";
 // APP
 import { BaseControl } from './../BaseControl';
 var CheckListControl = /** @class */ (function (_super) {
-    tslib_1.__extends(CheckListControl, _super);
+    __extends(CheckListControl, _super);
     function CheckListControl(config) {
         var _this = _super.call(this, 'CheckListControl', config) || this;
         _this.controlType = 'checklist';
@@ -17,8 +12,4 @@ var CheckListControl = /** @class */ (function (_super) {
     return CheckListControl;
 }(BaseControl));
 export { CheckListControl };
-if (false) {
-    /** @type {?} */
-    CheckListControl.prototype.controlType;
-}
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ2hlY2tMaXN0Q29udHJvbC5qcyIsInNvdXJjZVJvb3QiOiJuZzovL25vdm8tZWxlbWVudHMvIiwic291cmNlcyI6WyJlbGVtZW50cy9mb3JtL2NvbnRyb2xzL2NoZWNrLWxpc3QvQ2hlY2tMaXN0Q29udHJvbC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBQ0EsT0FBTyxFQUFFLFdBQVcsRUFBcUIsTUFBTSxrQkFBa0IsQ0FBQztBQUVsRTtJQUFzQyw0Q0FBVztJQUcvQywwQkFBWSxNQUF5QjtRQUFyQyxZQUNFLGtCQUFNLGtCQUFrQixFQUFFLE1BQU0sQ0FBQyxTQUVsQztRQUxELGlCQUFXLEdBQUcsV0FBVyxDQUFDO1FBSXhCLEtBQUksQ0FBQyxPQUFPLEdBQUcsTUFBTSxDQUFDLE9BQU8sSUFBSSxFQUFFLENBQUM7O0lBQ3RDLENBQUM7SUFDSCx1QkFBQztBQUFELENBQUMsQUFQRCxDQUFzQyxXQUFXLEdBT2hEOzs7O0lBTkMsdUNBQTBCIiwic291cmNlc0NvbnRlbnQiOlsiLy8gQVBQXG5pbXBvcnQgeyBCYXNlQ29udHJvbCwgTm92b0NvbnRyb2xDb25maWcgfSBmcm9tICcuLy4uL0Jhc2VDb250cm9sJztcblxuZXhwb3J0IGNsYXNzIENoZWNrTGlzdENvbnRyb2wgZXh0ZW5kcyBCYXNlQ29udHJvbCB7XG4gIGNvbnRyb2xUeXBlID0gJ2NoZWNrbGlzdCc7XG5cbiAgY29uc3RydWN0b3IoY29uZmlnOiBOb3ZvQ29udHJvbENvbmZpZykge1xuICAgIHN1cGVyKCdDaGVja0xpc3RDb250cm9sJywgY29uZmlnKTtcbiAgICB0aGlzLm9wdGlvbnMgPSBjb25maWcub3B0aW9ucyB8fCBbXTtcbiAgfVxufVxuIl19
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ2hlY2tMaXN0Q29udHJvbC5qcyIsInNvdXJjZVJvb3QiOiJuZzovL25vdm8tZWxlbWVudHMvIiwic291cmNlcyI6WyJlbGVtZW50cy9mb3JtL2NvbnRyb2xzL2NoZWNrLWxpc3QvQ2hlY2tMaXN0Q29udHJvbC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBQUEsTUFBTTtBQUNOLE9BQU8sRUFBRSxXQUFXLEVBQXFCLE1BQU0sa0JBQWtCLENBQUM7QUFFbEU7SUFBc0Msb0NBQVc7SUFHL0MsMEJBQVksTUFBeUI7UUFBckMsWUFDRSxrQkFBTSxrQkFBa0IsRUFBRSxNQUFNLENBQUMsU0FFbEM7UUFMRCxpQkFBVyxHQUFHLFdBQVcsQ0FBQztRQUl4QixLQUFJLENBQUMsT0FBTyxHQUFHLE1BQU0sQ0FBQyxPQUFPLElBQUksRUFBRSxDQUFDOztJQUN0QyxDQUFDO0lBQ0gsdUJBQUM7QUFBRCxDQUFDLEFBUEQsQ0FBc0MsV0FBVyxHQU9oRCIsInNvdXJjZXNDb250ZW50IjpbIi8vIEFQUFxuaW1wb3J0IHsgQmFzZUNvbnRyb2wsIE5vdm9Db250cm9sQ29uZmlnIH0gZnJvbSAnLi8uLi9CYXNlQ29udHJvbCc7XG5cbmV4cG9ydCBjbGFzcyBDaGVja0xpc3RDb250cm9sIGV4dGVuZHMgQmFzZUNvbnRyb2wge1xuICBjb250cm9sVHlwZSA9ICdjaGVja2xpc3QnO1xuXG4gIGNvbnN0cnVjdG9yKGNvbmZpZzogTm92b0NvbnRyb2xDb25maWcpIHtcbiAgICBzdXBlcignQ2hlY2tMaXN0Q29udHJvbCcsIGNvbmZpZyk7XG4gICAgdGhpcy5vcHRpb25zID0gY29uZmlnLm9wdGlvbnMgfHwgW107XG4gIH1cbn1cbiJdfQ==

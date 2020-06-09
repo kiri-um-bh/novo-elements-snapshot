@@ -1,24 +1,24 @@
-/**
- * @fileoverview added by tsickle
- * Generated from: elements/popover/PopOver.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 // NG2
 import { NgModule } from '@angular/core';
 // APP
 import { PopOverContent } from './PopOverContent';
 import { PopOverDirective } from './PopOver';
+import * as i0 from "@angular/core";
 var NovoPopOverModule = /** @class */ (function () {
     function NovoPopOverModule() {
     }
-    NovoPopOverModule.decorators = [
-        { type: NgModule, args: [{
-                    declarations: [PopOverContent, PopOverDirective],
-                    exports: [PopOverContent, PopOverDirective],
-                    entryComponents: [PopOverContent],
-                },] }
-    ];
+    NovoPopOverModule.ɵmod = i0.ɵɵdefineNgModule({ type: NovoPopOverModule });
+    NovoPopOverModule.ɵinj = i0.ɵɵdefineInjector({ factory: function NovoPopOverModule_Factory(t) { return new (t || NovoPopOverModule)(); } });
     return NovoPopOverModule;
 }());
 export { NovoPopOverModule };
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUG9wT3Zlci5tb2R1bGUuanMiLCJzb3VyY2VSb290Ijoibmc6Ly9ub3ZvLWVsZW1lbnRzLyIsInNvdXJjZXMiOlsiZWxlbWVudHMvcG9wb3Zlci9Qb3BPdmVyLm1vZHVsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7QUFDQSxPQUFPLEVBQUUsUUFBUSxFQUFFLE1BQU0sZUFBZSxDQUFDOztBQUV6QyxPQUFPLEVBQUUsY0FBYyxFQUFFLE1BQU0sa0JBQWtCLENBQUM7QUFDbEQsT0FBTyxFQUFFLGdCQUFnQixFQUFFLE1BQU0sV0FBVyxDQUFDO0FBRTdDO0lBQUE7SUFLZ0MsQ0FBQzs7Z0JBTGhDLFFBQVEsU0FBQztvQkFDUixZQUFZLEVBQUUsQ0FBQyxjQUFjLEVBQUUsZ0JBQWdCLENBQUM7b0JBQ2hELE9BQU8sRUFBRSxDQUFDLGNBQWMsRUFBRSxnQkFBZ0IsQ0FBQztvQkFDM0MsZUFBZSxFQUFFLENBQUMsY0FBYyxDQUFDO2lCQUNsQzs7SUFDK0Isd0JBQUM7Q0FBQSxBQUxqQyxJQUtpQztTQUFwQixpQkFBaUIiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBORzJcbmltcG9ydCB7IE5nTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG4vLyBBUFBcbmltcG9ydCB7IFBvcE92ZXJDb250ZW50IH0gZnJvbSAnLi9Qb3BPdmVyQ29udGVudCc7XG5pbXBvcnQgeyBQb3BPdmVyRGlyZWN0aXZlIH0gZnJvbSAnLi9Qb3BPdmVyJztcblxuQE5nTW9kdWxlKHtcbiAgZGVjbGFyYXRpb25zOiBbUG9wT3ZlckNvbnRlbnQsIFBvcE92ZXJEaXJlY3RpdmVdLFxuICBleHBvcnRzOiBbUG9wT3ZlckNvbnRlbnQsIFBvcE92ZXJEaXJlY3RpdmVdLFxuICBlbnRyeUNvbXBvbmVudHM6IFtQb3BPdmVyQ29udGVudF0sXG59KVxuZXhwb3J0IGNsYXNzIE5vdm9Qb3BPdmVyTW9kdWxlIHt9XG4iXX0=
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(NovoPopOverModule, { declarations: [PopOverContent, PopOverDirective], exports: [PopOverContent, PopOverDirective] }); })();
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoPopOverModule, [{
+        type: NgModule,
+        args: [{
+                declarations: [PopOverContent, PopOverDirective],
+                exports: [PopOverContent, PopOverDirective],
+                entryComponents: [PopOverContent],
+            }]
+    }], null, null); })();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUG9wT3Zlci5tb2R1bGUuanMiLCJzb3VyY2VSb290Ijoibmc6Ly9ub3ZvLWVsZW1lbnRzLyIsInNvdXJjZXMiOlsiZWxlbWVudHMvcG9wb3Zlci9Qb3BPdmVyLm1vZHVsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxNQUFNO0FBQ04sT0FBTyxFQUFFLFFBQVEsRUFBRSxNQUFNLGVBQWUsQ0FBQztBQUN6QyxNQUFNO0FBQ04sT0FBTyxFQUFFLGNBQWMsRUFBRSxNQUFNLGtCQUFrQixDQUFDO0FBQ2xELE9BQU8sRUFBRSxnQkFBZ0IsRUFBRSxNQUFNLFdBQVcsQ0FBQzs7QUFFN0M7SUFBQTtLQUtpQzt5REFBcEIsaUJBQWlCO3FIQUFqQixpQkFBaUI7NEJBWDlCO0NBV2lDLEFBTGpDLElBS2lDO1NBQXBCLGlCQUFpQjt3RkFBakIsaUJBQWlCLG1CQUpiLGNBQWMsRUFBRSxnQkFBZ0IsYUFDckMsY0FBYyxFQUFFLGdCQUFnQjtrREFHL0IsaUJBQWlCO2NBTDdCLFFBQVE7ZUFBQztnQkFDUixZQUFZLEVBQUUsQ0FBQyxjQUFjLEVBQUUsZ0JBQWdCLENBQUM7Z0JBQ2hELE9BQU8sRUFBRSxDQUFDLGNBQWMsRUFBRSxnQkFBZ0IsQ0FBQztnQkFDM0MsZUFBZSxFQUFFLENBQUMsY0FBYyxDQUFDO2FBQ2xDIiwic291cmNlc0NvbnRlbnQiOlsiLy8gTkcyXG5pbXBvcnQgeyBOZ01vZHVsZSB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuLy8gQVBQXG5pbXBvcnQgeyBQb3BPdmVyQ29udGVudCB9IGZyb20gJy4vUG9wT3ZlckNvbnRlbnQnO1xuaW1wb3J0IHsgUG9wT3ZlckRpcmVjdGl2ZSB9IGZyb20gJy4vUG9wT3Zlcic7XG5cbkBOZ01vZHVsZSh7XG4gIGRlY2xhcmF0aW9uczogW1BvcE92ZXJDb250ZW50LCBQb3BPdmVyRGlyZWN0aXZlXSxcbiAgZXhwb3J0czogW1BvcE92ZXJDb250ZW50LCBQb3BPdmVyRGlyZWN0aXZlXSxcbiAgZW50cnlDb21wb25lbnRzOiBbUG9wT3ZlckNvbnRlbnRdLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvUG9wT3Zlck1vZHVsZSB7fVxuIl19

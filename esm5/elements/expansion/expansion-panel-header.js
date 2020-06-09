@@ -1,21 +1,31 @@
-/**
- * @fileoverview added by tsickle
- * Generated from: elements/expansion/expansion-panel-header.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 import { ENTER, SPACE } from '@angular/cdk/keycodes';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Directive, ElementRef, Host, Input, ViewEncapsulation } from '@angular/core';
 import { merge, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { novoExpansionAnimations } from './expansion-animations';
 import { NovoExpansionPanel } from './expansion-panel';
+import * as i0 from "@angular/core";
+import * as i1 from "./expansion-panel";
+import * as i2 from "@angular/common";
+var _c0 = function (a0, a1) { return { collapsedHeight: a0, expandedHeight: a1 }; };
+var _c1 = function (a0, a1) { return { value: a0, params: a1 }; };
+function NovoExpansionPanelHeader_span_4_Template(rf, ctx) { if (rf & 1) {
+    i0.ɵɵelement(0, "span", 2);
+} if (rf & 2) {
+    var ctx_r0 = i0.ɵɵnextContext();
+    i0.ɵɵproperty("@indicatorRotate", ctx_r0._getExpandedState());
+} }
+var _c2 = [[["novo-panel-title"]], [["novo-panel-description"]], "*"];
+var _c3 = ["novo-panel-title", "novo-panel-description", "*"];
 /**
  * `<novo-expansion-panel-header>`
  *
  * This component corresponds to the header element of an `<novo-expansion-panel>`.
  */
 var NovoExpansionPanelHeader = /** @class */ (function () {
-    function NovoExpansionPanelHeader(panel, _element, _changeDetectorRef) {
+    function NovoExpansionPanelHeader(panel, _element, 
+    // private _focusMonitor: FocusMonitor,
+    _changeDetectorRef) {
         var _this = this;
         this.panel = panel;
         this._element = _element;
@@ -23,88 +33,31 @@ var NovoExpansionPanelHeader = /** @class */ (function () {
         this._parentChangeSubscription = Subscription.EMPTY;
         // Since the toggle state depends on an @Input on the panel, we
         // need to  subscribe and trigger change detection manually.
-        this._parentChangeSubscription = merge(panel.opened, panel.closed, panel._inputChanges.pipe(filter((/**
-         * @param {?} changes
-         * @return {?}
-         */
-        function (changes) { return !!(changes.hideToggle || changes.disabled); })))).subscribe((/**
-         * @return {?}
-         */
-        function () { return _this._changeDetectorRef.markForCheck(); }));
+        this._parentChangeSubscription = merge(panel.opened, panel.closed, panel._inputChanges.pipe(filter(function (changes) { return !!(changes.hideToggle || changes.disabled); }))).subscribe(function () { return _this._changeDetectorRef.markForCheck(); });
         // _focusMonitor.monitor(_element.nativeElement);
     }
     /** Toggles the expanded state of the panel. */
-    /**
-     * Toggles the expanded state of the panel.
-     * @return {?}
-     */
-    NovoExpansionPanelHeader.prototype._toggle = /**
-     * Toggles the expanded state of the panel.
-     * @return {?}
-     */
-    function () {
+    NovoExpansionPanelHeader.prototype._toggle = function () {
         this.panel.toggle();
     };
     /** Gets whether the panel is expanded. */
-    /**
-     * Gets whether the panel is expanded.
-     * @return {?}
-     */
-    NovoExpansionPanelHeader.prototype._isExpanded = /**
-     * Gets whether the panel is expanded.
-     * @return {?}
-     */
-    function () {
+    NovoExpansionPanelHeader.prototype._isExpanded = function () {
         return this.panel.expanded;
     };
     /** Gets the expanded state string of the panel. */
-    /**
-     * Gets the expanded state string of the panel.
-     * @return {?}
-     */
-    NovoExpansionPanelHeader.prototype._getExpandedState = /**
-     * Gets the expanded state string of the panel.
-     * @return {?}
-     */
-    function () {
+    NovoExpansionPanelHeader.prototype._getExpandedState = function () {
         return this.panel._getExpandedState();
     };
     /** Gets the panel id. */
-    /**
-     * Gets the panel id.
-     * @return {?}
-     */
-    NovoExpansionPanelHeader.prototype._getPanelId = /**
-     * Gets the panel id.
-     * @return {?}
-     */
-    function () {
+    NovoExpansionPanelHeader.prototype._getPanelId = function () {
         return this.panel.id;
     };
     /** Gets whether the expand indicator should be shown. */
-    /**
-     * Gets whether the expand indicator should be shown.
-     * @return {?}
-     */
-    NovoExpansionPanelHeader.prototype._showToggle = /**
-     * Gets whether the expand indicator should be shown.
-     * @return {?}
-     */
-    function () {
+    NovoExpansionPanelHeader.prototype._showToggle = function () {
         return !this.panel.hideToggle && !this.panel.disabled;
     };
     /** Handle keydown event calling to toggle() if appropriate. */
-    /**
-     * Handle keydown event calling to toggle() if appropriate.
-     * @param {?} event
-     * @return {?}
-     */
-    NovoExpansionPanelHeader.prototype._keydown = /**
-     * Handle keydown event calling to toggle() if appropriate.
-     * @param {?} event
-     * @return {?}
-     */
-    function (event) {
+    NovoExpansionPanelHeader.prototype._keydown = function (event) {
         switch (event.keyCode) {
             // Toggle for space and enter keys.
             case SPACE:
@@ -116,81 +69,62 @@ var NovoExpansionPanelHeader = /** @class */ (function () {
                 return;
         }
     };
-    /**
-     * @return {?}
-     */
-    NovoExpansionPanelHeader.prototype.ngOnDestroy = /**
-     * @return {?}
-     */
-    function () {
+    NovoExpansionPanelHeader.prototype.ngOnDestroy = function () {
         this._parentChangeSubscription.unsubscribe();
         // this._focusMonitor.stopMonitoring(this._element.nativeElement);
     };
-    NovoExpansionPanelHeader.decorators = [
-        { type: Component, args: [{
-                    selector: 'novo-expansion-panel-header',
-                    template: "<span class=\"novo-content\">\n  <ng-content select=\"novo-panel-title\"></ng-content>\n  <ng-content select=\"novo-panel-description\"></ng-content>\n  <ng-content></ng-content>\n</span>\n<span [@indicatorRotate]=\"_getExpandedState()\" *ngIf=\"_showToggle()\"\n      class=\"novo-expansion-indicator\"></span>\n",
-                    encapsulation: ViewEncapsulation.None,
-                    changeDetection: ChangeDetectionStrategy.OnPush,
-                    animations: [novoExpansionAnimations.indicatorRotate, novoExpansionAnimations.expansionHeaderHeight],
-                    host: {
-                        class: 'novo-expansion-panel-header',
-                        role: 'button',
-                        '[attr.id]': 'panel._headerId',
-                        '[attr.tabindex]': 'panel.disabled ? -1 : 0',
-                        '[attr.aria-controls]': '_getPanelId()',
-                        '[attr.aria-expanded]': '_isExpanded()',
-                        '[attr.aria-disabled]': 'panel.disabled',
-                        '[class.novo-expanded]': '_isExpanded()',
-                        '(click)': '_toggle()',
-                        '(keydown)': '_keydown($event)',
-                        '[@expansionHeight]': "{\n        value: _getExpandedState(),\n        params: {\n          collapsedHeight: collapsedHeight,\n          expandedHeight: expandedHeight\n        }\n    }",
-                    },
-                    styles: [".novo-expansion-panel-header{display:flex;flex-direction:row;align-items:center;padding:0 24px}.novo-expansion-panel-header:focus,.novo-expansion-panel-header:hover{outline:0}.novo-expansion-panel-header.novo-expanded:focus,.novo-expansion-panel-header.novo-expanded:hover{background:inherit}.novo-expansion-panel-header:not([aria-disabled=true]){cursor:pointer}.novo-content{display:flex;flex:1;flex-direction:row;overflow:hidden}.novo-expansion-panel-header-description,.novo-expansion-panel-header-title{display:flex;flex-grow:1;margin-right:16px;align-items:center}[dir=rtl] .novo-expansion-panel-header-description,[dir=rtl] .novo-expansion-panel-header-title{margin-right:0;margin-left:16px}.novo-expansion-panel-header-description{flex-grow:2}.novo-expansion-indicator::after{border-style:solid;border-width:0 2px 2px 0;content:\"\";display:inline-block;padding:3px;transform:rotate(45deg);vertical-align:middle}"]
-                }] }
-    ];
-    /** @nocollapse */
-    NovoExpansionPanelHeader.ctorParameters = function () { return [
-        { type: NovoExpansionPanel, decorators: [{ type: Host }] },
-        { type: ElementRef },
-        { type: ChangeDetectorRef }
-    ]; };
-    NovoExpansionPanelHeader.propDecorators = {
-        expandedHeight: [{ type: Input }],
-        collapsedHeight: [{ type: Input }]
-    };
+    NovoExpansionPanelHeader.ɵfac = function NovoExpansionPanelHeader_Factory(t) { return new (t || NovoExpansionPanelHeader)(i0.ɵɵdirectiveInject(i1.NovoExpansionPanel, 1), i0.ɵɵdirectiveInject(i0.ElementRef), i0.ɵɵdirectiveInject(i0.ChangeDetectorRef)); };
+    NovoExpansionPanelHeader.ɵcmp = i0.ɵɵdefineComponent({ type: NovoExpansionPanelHeader, selectors: [["novo-expansion-panel-header"]], hostAttrs: ["role", "button", 1, "novo-expansion-panel-header"], hostVars: 14, hostBindings: function NovoExpansionPanelHeader_HostBindings(rf, ctx) { if (rf & 1) {
+            i0.ɵɵlistener("click", function NovoExpansionPanelHeader_click_HostBindingHandler() { return ctx._toggle(); })("keydown", function NovoExpansionPanelHeader_keydown_HostBindingHandler($event) { return ctx._keydown($event); });
+        } if (rf & 2) {
+            i0.ɵɵattribute("id", ctx.panel._headerId)("tabindex", ctx.panel.disabled ? 0 - 1 : 0)("aria-controls", ctx._getPanelId())("aria-expanded", ctx._isExpanded())("aria-disabled", ctx.panel.disabled);
+            i0.ɵɵupdateSyntheticHostBinding("@expansionHeight", i0.ɵɵpureFunction2(11, _c1, ctx._getExpandedState(), i0.ɵɵpureFunction2(8, _c0, ctx.collapsedHeight, ctx.expandedHeight)));
+            i0.ɵɵclassProp("novo-expanded", ctx._isExpanded());
+        } }, inputs: { expandedHeight: "expandedHeight", collapsedHeight: "collapsedHeight" }, ngContentSelectors: _c3, decls: 5, vars: 1, consts: [[1, "novo-content"], ["class", "novo-expansion-indicator", 4, "ngIf"], [1, "novo-expansion-indicator"]], template: function NovoExpansionPanelHeader_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵprojectionDef(_c2);
+            i0.ɵɵelementStart(0, "span", 0);
+            i0.ɵɵprojection(1);
+            i0.ɵɵprojection(2, 1);
+            i0.ɵɵprojection(3, 2);
+            i0.ɵɵelementEnd();
+            i0.ɵɵtemplate(4, NovoExpansionPanelHeader_span_4_Template, 1, 1, "span", 1);
+        } if (rf & 2) {
+            i0.ɵɵadvance(4);
+            i0.ɵɵproperty("ngIf", ctx._showToggle());
+        } }, directives: [i2.NgIf], styles: [".novo-expansion-panel-header{display:flex;flex-direction:row;align-items:center;padding:0 24px}.novo-expansion-panel-header:focus,.novo-expansion-panel-header:hover{outline:0}.novo-expansion-panel-header.novo-expanded:focus,.novo-expansion-panel-header.novo-expanded:hover{background:inherit}.novo-expansion-panel-header:not([aria-disabled=true]){cursor:pointer}.novo-content{display:flex;flex:1;flex-direction:row;overflow:hidden}.novo-expansion-panel-header-description,.novo-expansion-panel-header-title{display:flex;flex-grow:1;margin-right:16px;align-items:center}[dir=rtl] .novo-expansion-panel-header-description,[dir=rtl] .novo-expansion-panel-header-title{margin-right:0;margin-left:16px}.novo-expansion-panel-header-description{flex-grow:2}.novo-expansion-indicator::after{border-style:solid;border-width:0 2px 2px 0;content:\"\";display:inline-block;padding:3px;transform:rotate(45deg);vertical-align:middle}"], encapsulation: 2, data: { animation: [novoExpansionAnimations.indicatorRotate, novoExpansionAnimations.expansionHeaderHeight] }, changeDetection: 0 });
     return NovoExpansionPanelHeader;
 }());
 export { NovoExpansionPanelHeader };
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanelHeader.prototype._parentChangeSubscription;
-    /**
-     * Height of the header while the panel is expanded.
-     * @type {?}
-     */
-    NovoExpansionPanelHeader.prototype.expandedHeight;
-    /**
-     * Height of the header while the panel is collapsed.
-     * @type {?}
-     */
-    NovoExpansionPanelHeader.prototype.collapsedHeight;
-    /** @type {?} */
-    NovoExpansionPanelHeader.prototype.panel;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanelHeader.prototype._element;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoExpansionPanelHeader.prototype._changeDetectorRef;
-}
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoExpansionPanelHeader, [{
+        type: Component,
+        args: [{
+                selector: 'novo-expansion-panel-header',
+                styleUrls: ['./expansion-panel-header.scss'],
+                templateUrl: './expansion-panel-header.html',
+                encapsulation: ViewEncapsulation.None,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                animations: [novoExpansionAnimations.indicatorRotate, novoExpansionAnimations.expansionHeaderHeight],
+                host: {
+                    class: 'novo-expansion-panel-header',
+                    role: 'button',
+                    '[attr.id]': 'panel._headerId',
+                    '[attr.tabindex]': 'panel.disabled ? -1 : 0',
+                    '[attr.aria-controls]': '_getPanelId()',
+                    '[attr.aria-expanded]': '_isExpanded()',
+                    '[attr.aria-disabled]': 'panel.disabled',
+                    '[class.novo-expanded]': '_isExpanded()',
+                    '(click)': '_toggle()',
+                    '(keydown)': '_keydown($event)',
+                    '[@expansionHeight]': "{\n        value: _getExpandedState(),\n        params: {\n          collapsedHeight: collapsedHeight,\n          expandedHeight: expandedHeight\n        }\n    }",
+                },
+            }]
+    }], function () { return [{ type: i1.NovoExpansionPanel, decorators: [{
+                type: Host
+            }] }, { type: i0.ElementRef }, { type: i0.ChangeDetectorRef }]; }, { expandedHeight: [{
+            type: Input
+        }], collapsedHeight: [{
+            type: Input
+        }] }); })();
 /**
  * `<novo-panel-description>`
  *
@@ -199,17 +133,20 @@ if (false) {
 var NovoExpansionPanelDescription = /** @class */ (function () {
     function NovoExpansionPanelDescription() {
     }
-    NovoExpansionPanelDescription.decorators = [
-        { type: Directive, args: [{
-                    selector: 'novo-panel-description',
-                    host: {
-                        class: 'novo-expansion-panel-header-description',
-                    },
-                },] }
-    ];
+    NovoExpansionPanelDescription.ɵfac = function NovoExpansionPanelDescription_Factory(t) { return new (t || NovoExpansionPanelDescription)(); };
+    NovoExpansionPanelDescription.ɵdir = i0.ɵɵdefineDirective({ type: NovoExpansionPanelDescription, selectors: [["novo-panel-description"]], hostAttrs: [1, "novo-expansion-panel-header-description"] });
     return NovoExpansionPanelDescription;
 }());
 export { NovoExpansionPanelDescription };
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoExpansionPanelDescription, [{
+        type: Directive,
+        args: [{
+                selector: 'novo-panel-description',
+                host: {
+                    class: 'novo-expansion-panel-header-description',
+                },
+            }]
+    }], null, null); })();
 /**
  * `<novo-panel-title>`
  *
@@ -218,15 +155,18 @@ export { NovoExpansionPanelDescription };
 var NovoExpansionPanelTitle = /** @class */ (function () {
     function NovoExpansionPanelTitle() {
     }
-    NovoExpansionPanelTitle.decorators = [
-        { type: Directive, args: [{
-                    selector: 'novo-panel-title',
-                    host: {
-                        class: 'novo-expansion-panel-header-title',
-                    },
-                },] }
-    ];
+    NovoExpansionPanelTitle.ɵfac = function NovoExpansionPanelTitle_Factory(t) { return new (t || NovoExpansionPanelTitle)(); };
+    NovoExpansionPanelTitle.ɵdir = i0.ɵɵdefineDirective({ type: NovoExpansionPanelTitle, selectors: [["novo-panel-title"]], hostAttrs: [1, "novo-expansion-panel-header-title"] });
     return NovoExpansionPanelTitle;
 }());
 export { NovoExpansionPanelTitle };
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZXhwYW5zaW9uLXBhbmVsLWhlYWRlci5qcyIsInNvdXJjZVJvb3QiOiJuZzovL25vdm8tZWxlbWVudHMvIiwic291cmNlcyI6WyJlbGVtZW50cy9leHBhbnNpb24vZXhwYW5zaW9uLXBhbmVsLWhlYWRlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztBQUFBLE9BQU8sRUFBRSxLQUFLLEVBQUUsS0FBSyxFQUFFLE1BQU0sdUJBQXVCLENBQUM7QUFDckQsT0FBTyxFQUFFLHVCQUF1QixFQUFFLGlCQUFpQixFQUFFLFNBQVMsRUFBRSxTQUFTLEVBQUUsVUFBVSxFQUFFLElBQUksRUFBRSxLQUFLLEVBQWEsaUJBQWlCLEVBQUUsTUFBTSxlQUFlLENBQUM7QUFDeEosT0FBTyxFQUFFLEtBQUssRUFBRSxZQUFZLEVBQUUsTUFBTSxNQUFNLENBQUM7QUFDM0MsT0FBTyxFQUFFLE1BQU0sRUFBRSxNQUFNLGdCQUFnQixDQUFDO0FBQ3hDLE9BQU8sRUFBRSx1QkFBdUIsRUFBRSxNQUFNLHdCQUF3QixDQUFDO0FBQ2pFLE9BQU8sRUFBRSxrQkFBa0IsRUFBRSxNQUFNLG1CQUFtQixDQUFDOzs7Ozs7QUFPdkQ7SUE4QkUsa0NBQ2lCLEtBQXlCLEVBQ2hDLFFBQW9CLEVBRXBCLGtCQUFxQztRQUovQyxpQkFlQztRQWRnQixVQUFLLEdBQUwsS0FBSyxDQUFvQjtRQUNoQyxhQUFRLEdBQVIsUUFBUSxDQUFZO1FBRXBCLHVCQUFrQixHQUFsQixrQkFBa0IsQ0FBbUI7UUFOdkMsOEJBQXlCLEdBQUcsWUFBWSxDQUFDLEtBQUssQ0FBQztRQVFyRCwrREFBK0Q7UUFDL0QsNERBQTREO1FBQzVELElBQUksQ0FBQyx5QkFBeUIsR0FBRyxLQUFLLENBQ3BDLEtBQUssQ0FBQyxNQUFNLEVBQ1osS0FBSyxDQUFDLE1BQU0sRUFDWixLQUFLLENBQUMsYUFBYSxDQUFDLElBQUksQ0FBQyxNQUFNOzs7O1FBQUMsVUFBQyxPQUFPLElBQUssT0FBQSxDQUFDLENBQUMsQ0FBQyxPQUFP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Q2pEO2lCQUNGOztJQUM0QyxvQ0FBQztDQUFBLEFBTjlDLElBTThDO1NBQWpDLDZCQUE2Qjs7Ozs7O0FBTzFDO0lBQUE7SUFNdUMsQ0FBQzs7Z0JBTnZDLFNBQVMsU0FBQztvQkFDVCxRQUFRLEVBQUUsa0JBQWtCO29CQUM1QixJQUFJLEVBQUU7d0JBQ0osS0FBSyxFQUFFLG1DQUFtQztxQkFDM0M7aUJBQ0Y7O0lBQ3NDLDhCQUFDO0NBQUEsQUFOeEMsSUFNd0M7U0FBM0IsdUJBQXVCIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgRU5URVIsIFNQQUNFIH0gZnJvbSAnQGFuZ3VsYXIvY2RrL2tleWNvZGVzJztcbmltcG9ydCB7IENoYW5nZURldGVjdGlvblN0cmF0ZWd5LCBDaGFuZ2VEZXRlY3RvclJlZiwgQ29tcG9uZW50LCBEaXJlY3RpdmUsIEVsZW1lbnRSZWYsIEhvc3QsIElucHV0LCBPbkRlc3Ryb3ksIFZpZXdFbmNhcHN1bGF0aW9uIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG5pbXBvcnQgeyBtZXJnZSwgU3Vic2NyaXB0aW9uIH0gZnJvbSAncnhqcyc7XG5pbXBvcnQgeyBmaWx0ZXIgfSBmcm9tICdyeGpzL29wZXJhdG9ycyc7XG5pbXBvcnQgeyBub3ZvRXhwYW5zaW9uQW5pbWF0aW9ucyB9IGZyb20gJy4vZXhwYW5zaW9uLWFuaW1hdGlvbnMnO1xuaW1wb3J0IHsgTm92b0V4cGFuc2lvblBhbmVsIH0gZnJvbSAnLi9leHBhbnNpb24tcGFuZWwnO1xuXG4vKipcbiAqIGA8bm92by1leHBhbnNpb24tcGFuZWwtaGVhZGVyPmBcbiAqXG4gKiBUaGlzIGNvbXBvbmVudCBjb3JyZXNwb25kcyB0byB0aGUgaGVhZGVyIGVsZW1lbnQgb2YgYW4gYDxub3ZvLWV4cGFuc2lvbi1wYW5lbD5gLlxuICovXG5AQ29tcG9uZW50KHtcbiAgc2VsZWN0b3I6ICdub3ZvLWV4cGFuc2lvbi1wYW5lbC1oZWFkZXInLFxuICBzdHlsZVVybHM6IFsnLi9leHBhbnNpb24tcGFuZWwtaGVhZGVyLnNjc3MnXSxcbiAgdGVtcGxhdGVVcmw6ICcuL2V4cGFuc2lvbi1wYW5lbC1oZWFkZXIuaHRtbCcsXG4gIGVuY2Fwc3VsYXRpb246IFZpZXdFbmNhcHN1bGF0aW9uLk5vbmUsXG4gIGNoYW5nZURldGVjdGlvbjogQ2hhbmdlRGV0ZWN0aW9uU3RyYXRlZ3kuT25QdXNoLFxuICBhbmltYXRpb25zOiBbbm92b0V4cGFuc2lvbkFuaW1hdGlvbnMuaW5kaWNhdG9yUm90YXRlLCBub3ZvRXhwYW5zaW9uQW5pbWF0aW9ucy5leHBhbnNpb25IZWFkZXJIZWlnaHRdLFxuICBob3N0OiB7XG4gICAgY2xhc3M6ICdub3ZvLWV4cGFuc2lvbi1wYW5lbC1oZWFkZXInLFxuICAgIHJvbGU6ICdidXR0b24nLFxuICAgICdbYXR0ci5pZF0nOiAncGFuZWwuX2hlYWRlcklkJyxcbiAgICAnW2F0dHIudGFiaW5kZXhdJzogJ3BhbmVsLmRpc2FibGVkID8gLTEgOiAwJyxcbiAgICAnW2F0dHIuYXJpYS1jb250cm9sc10nOiAnX2dldFBhbmVsSWQoKScsXG4gICAgJ1thdHRyLmFyaWEtZXhwYW5kZWRdJzogJ19pc0V4cGFuZGVkKCknLFxuICAgICdbYXR0ci5hcmlhLWRpc2FibGVkXSc6ICdwYW5lbC5kaXNhYmxlZCcsXG4gICAgJ1tjbGFzcy5ub3ZvLWV4cGFuZGVkXSc6ICdfaXNFeHBhbmRlZCgpJyxcbiAgICAnKGNsaWNrKSc6ICdfdG9nZ2xlKCknLFxuICAgICcoa2V5ZG93biknOiAnX2tleWRvd24oJGV2ZW50KScsXG4gICAgJ1tAZXhwYW5zaW9uSGVpZ2h0XSc6IGB7XG4gICAgICAgIHZhbHVlOiBfZ2V0RXhwYW5kZWRTdGF0ZSgpLFxuICAgICAgICBwYXJhbXM6IHtcbiAgICAgICAgICBjb2xsYXBzZWRIZWlnaHQ6IGNvbGxhcHNlZEhlaWdodCxcbiAgICAgICAgICBleHBhbmRlZEhlaWdodDogZXhwYW5kZWRIZWlnaHRcbiAgICAgICAgfVxuICAgIH1gLFxuICB9LFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvRXhwYW5zaW9uUGFuZWxIZWFkZXIgaW1wbGVtZW50cyBPbkRlc3Ryb3kge1xuICBwcml2YXRlIF9wYXJlbnRDaGFuZ2VTdWJzY3JpcHRpb24gPSBTdWJzY3JpcHRpb24uRU1QVFk7XG5cbiAgY29uc3RydWN0b3IoXG4gICAgQEhvc3QoKSBwdWJsaWMgcGFuZWw6IE5vdm9FeHBhbnNpb25QYW5lbCxcbiAgICBwcml2YXRlIF9lbGVtZW50OiBFbGVtZW50UmVmLFxuICAgIC8vIHByaXZhdGUgX2ZvY3VzTW9uaXRvcjogRm9jdXNNb25pdG9yLFxuICAgIHByaXZhdGUgX2NoYW5nZURldGVjdG9yUmVmOiBDaGFuZ2VEZXRlY3RvclJlZixcbiAgKSB7XG4gICAgLy8gU2luY2UgdGhlIHRvZ2dsZSBzdGF0ZSBkZXBlbmRzIG9uIGFuIEBJbnB1dCBvbiB0aGUgcGFuZWwsIHdlXG4gICAgLy8gbmVlZCB0byAgc3Vic2NyaWJlIGFuZCB0cmlnZ2VyIGNoYW5nZSBkZXRlY3Rpb24gbWFudWFsbHkuXG4gICAgdGhpcy5fcGFyZW50Q2hhbmdlU3Vic2NyaXB0aW9uID0gbWVyZ2UoXG4gICAgICBwYW5lbC5vcGVuZWQsXG4gICAgICBwYW5lbC5jbG9zZWQsXG4gICAgICBwYW5lbC5faW5wdXRDaGFuZ2VzLnBpcGUoZmlsdGVyKChjaGFuZ2VzKSA9PiAhIShjaGFuZ2VzLmhpZGVUb2dnbGUgfHwgY2hhbmdlcy5kaXNhYmxlZCkpKSxcbiAgICApLnN1YnNjcmliZSgoKSA9PiB0aGlzLl9jaGFuZ2VEZXRlY3RvclJlZi5tYXJrRm9yQ2hlY2soKSk7XG5cbiAgICAvLyBfZm9jdXNNb25pdG9yLm1vbml0b3IoX2VsZW1lbnQubmF0aXZlRWxlbWVudCk7XG4gIH1cblxuICAvKiogSGVpZ2h0IG9mIHRoZSBoZWFkZXIgd2hpbGUgdGhlIHBhbmVsIGlzIGV4cGFuZGVkLiAqL1xuICBASW5wdXQoKVxuICBleHBhbmRlZEhlaWdodDogc3RyaW5nO1xuXG4gIC8qKiBIZWlnaHQgb2YgdGhlIGhlYWRlciB3aGlsZSB0aGUgcGFuZWwgaXMgY29sbGFwc2VkLiAqL1xuICBASW5wdXQoKVxuICBjb2xsYXBzZWRIZWlnaHQ6IHN0cmluZztcblxuICAvKiogVG9nZ2xlcyB0aGUgZXhwYW5kZWQgc3RhdGUgb2YgdGhlIHBhbmVsLiAqL1xuICBfdG9nZ2xlKCk6IHZvaWQge1xuICAgIHRoaXMucGFuZWwudG9nZ2xlKCk7XG4gIH1cblxuICAvKiogR2V0cyB3aGV0aGVyIHRoZSBwYW5lbCBpcyBleHBhbmRlZC4gKi9cbiAgX2lzRXhwYW5kZWQoKTogYm9vbGVhbiB7XG4gICAgcmV0dXJuIHRoaXMucGFuZWwuZXhwYW5kZWQ7XG4gIH1cblxuICAvKiogR2V0cyB0aGUgZXhwYW5kZWQgc3RhdGUgc3RyaW5nIG9mIHRoZSBwYW5lbC4gKi9cbiAgX2dldEV4cGFuZGVkU3RhdGUoKTogc3RyaW5nIHtcbiAgICByZXR1cm4gdGhpcy5wYW5lbC5fZ2V0RXhwYW5kZWRTdGF0ZSgpO1xuICB9XG5cbiAgLyoqIEdldHMgdGhlIHBhbmVsIGlkLiAqL1xuICBfZ2V0UGFuZWxJZCgpOiBzdHJpbmcge1xuICAgIHJldHVybiB0aGlzLnBhbmVsLmlkO1xuICB9XG5cbiAgLyoqIEdldHMgd2hldGhlciB0aGUgZXhwYW5kIGluZGljYXRvciBzaG91bGQgYmUgc2hvd24uICovXG4gIF9zaG93VG9nZ2xlKCk6IGJvb2xlYW4ge1xuICAgIHJldHVybiAhdGhpcy5wYW5lbC5oaWRlVG9nZ2xlICYmICF0aGlzLnBhbmVsLmRpc2FibGVkO1xuICB9XG5cbiAgLyoqIEhhbmRsZSBrZXlkb3duIGV2ZW50IGNhbGxpbmcgdG8gdG9nZ2xlKCkgaWYgYXBwcm9wcmlhdGUuICovXG4gIF9rZXlkb3duKGV2ZW50OiBLZXlib2FyZEV2ZW50KSB7XG4gICAgc3dpdGNoIChldmVudC5rZXlDb2RlKSB7XG4gICAgICAvLyBUb2dnbGUgZm9yIHNwYWNlIGFuZCBlbnRlciBrZXlzLlxuICAgICAgY2FzZSBTUEFDRTpcbiAgICAgIGNhc2UgRU5URVI6XG4gICAgICAgIGV2ZW50LnByZXZlbnREZWZhdWx0KCk7XG4gICAgICAgIHRoaXMuX3RvZ2dsZSgpO1xuICAgICAgICBicmVhaztcbiAgICAgIGRlZmF1bHQ6XG4gICAgICAgIHJldHVybjtcbiAgICB9XG4gIH1cblxuICBuZ09uRGVzdHJveSgpIHtcbiAgICB0aGlzLl9wYXJlbnRDaGFuZ2VTdWJzY3JpcHRpb24udW5zdWJzY3JpYmUoKTtcbiAgICAvLyB0aGlzLl9mb2N1c01vbml0b3Iuc3RvcE1vbml0b3JpbmcodGhpcy5fZWxlbWVudC5uYXRpdmVFbGVtZW50KTtcbiAgfVxufVxuXG4vKipcbiAqIGA8bm92by1wYW5lbC1kZXNjcmlwdGlvbj5gXG4gKlxuICogVGhpcyBkaXJlY3Rpb24gaXMgdG8gYmUgdXNlZCBpbnNpZGUgb2YgdGhlIE5vdm9FeHBhbnNpb25QYW5lbEhlYWRlciBjb21wb25lbnQuXG4gKi9cbkBEaXJlY3RpdmUoe1xuICBzZWxlY3RvcjogJ25vdm8tcGFuZWwtZGVzY3JpcHRpb24nLFxuICBob3N0OiB7XG4gICAgY2xhc3M6ICdub3ZvLWV4cGFuc2lvbi1wYW5lbC1oZWFkZXItZGVzY3JpcHRpb24nLFxuICB9LFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvRXhwYW5zaW9uUGFuZWxEZXNjcmlwdGlvbiB7IH1cblxuLyoqXG4gKiBgPG5vdm8tcGFuZWwtdGl0bGU+YFxuICpcbiAqIFRoaXMgZGlyZWN0aW9uIGlzIHRvIGJlIHVzZWQgaW5zaWRlIG9mIHRoZSBOb3ZvRXhwYW5zaW9uUGFuZWxIZWFkZXIgY29tcG9uZW50LlxuICovXG5ARGlyZWN0aXZlKHtcbiAgc2VsZWN0b3I6ICdub3ZvLXBhbmVsLXRpdGxlJyxcbiAgaG9zdDoge1xuICAgIGNsYXNzOiAnbm92by1leHBhbnNpb24tcGFuZWwtaGVhZGVyLXRpdGxlJyxcbiAgfSxcbn0pXG5leHBvcnQgY2xhc3MgTm92b0V4cGFuc2lvblBhbmVsVGl0bGUgeyB9XG4iXX0=
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoExpansionPanelTitle, [{
+        type: Directive,
+        args: [{
+                selector: 'novo-panel-title',
+                host: {
+                    class: 'novo-expansion-panel-header-title',
+                },
+            }]
+    }], null, null); })();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZXhwYW5zaW9uLXBhbmVsLWhlYWRlci5qcyIsInNvdXJjZVJvb3QiOiJuZzovL25vdm8tZWxlbWVudHMvIiwic291cmNlcyI6WyJlbGVtZW50cy9leHBhbnNpb24vZXhwYW5zaW9uLXBhbmVsLWhlYWRlci50cyIsImVsZW1lbnRzL2V4cGFuc2lvbi9leHBhbnNpb24tcGFuZWwtaGVhZGVyLmh0bWwiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsTUFBTSx1QkFBdUIsQ0FBQztBQUNyRCxPQUFPLEVBQUUsdUJBQXVCLEVBQUUsaUJBQWlCLEVBQUUsU0FBUyxFQUFFLFNBQVMsRUFBRSxVQUFVLEVBQUUsSUFBSSxFQUFFLEtBQUssRUFBYSxpQkFBaUIsRUFBRSxNQUFNLGVBQWUsQ0FBQztBQUN4SixPQUFPLEVBQUUsS0FBSyxFQUFFLFlBQVksRUFBRSxNQUFNLE1BQU0sQ0FBQztBQUMzQyxPQUFPLEVBQUUsTUFBTSxFQUFFLE1BQU0sZ0JBQWdCLENBQUM7QUFDeEMsT0FBTyxFQUFFLHVCQUF1QixFQUFFLE1BQU0sd0JBQXdCLENBQUM7QUFDakUsT0FBTyxFQUFFLGtCQUFrQixFQUFFLE1BQU0sbUJBQW1CLENBQUM7Ozs7Ozs7SUNBdkQsMEJBQzhDOzs7SUFEeEMsNkRBQXdDOzs7O0FERTlDOzs7O0dBSUc7QUFDSDtJQThCRSxrQ0FDaUIsS0FBeUIsRUFDaEMsUUFBb0I7SUFDNUIsdUNBQXVDO0lBQy9CLGtCQUFxQztRQUovQyxpQkFlQztRQWRnQixVQUFLLEdBQUwsS0FBSyxDQUFvQjtRQUNoQyxhQUFRLEdBQVIsUUFBUSxDQUFZO1FBRXBCLHVCQUFrQixHQUFsQixrQkFBa0IsQ0FBbUI7UUFOdkMsOEJBQXlCLEdBQUcsWUFBWSxDQUFDLEtBQUssQ0FBQztRQVFyRCwrREFBK0Q7UUFDL0QsNERBQTREO1FBQzVELElBQUksQ0FBQyx5QkFBeUIsR0FBRyxLQUFLLENBQ3BDLEtBQUssQ0FBQyxNQUFNLEVBQ1os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S0FNcEI7aUJBQ0g7YUFDRjs7c0JBS0ksSUFBSTs7a0JBaUJOLEtBQUs7O2tCQUlMLEtBQUs7O0FBZ0RSOzs7O0dBSUc7QUFDSDtJQUFBO0tBTThDOzhHQUFqQyw2QkFBNkI7c0VBQTdCLDZCQUE2Qjt3Q0EzSDFDO0NBMkg4QyxBQU45QyxJQU04QztTQUFqQyw2QkFBNkI7a0RBQTdCLDZCQUE2QjtjQU56QyxTQUFTO2VBQUM7Z0JBQ1QsUUFBUSxFQUFFLHdCQUF3QjtnQkFDbEMsSUFBSSxFQUFFO29CQUNKLEtBQUssRUFBRSx5Q0FBeUM7aUJBQ2pEO2FBQ0Y7O0FBR0Q7Ozs7R0FJRztBQUNIO0lBQUE7S0FNd0M7a0dBQTNCLHVCQUF1QjtnRUFBdkIsdUJBQXVCO2tDQXhJcEM7Q0F3SXdDLEFBTnhDLElBTXdDO1NBQTNCLHVCQUF1QjtrREFBdkIsdUJBQXVCO2NBTm5DLFNBQVM7ZUFBQztnQkFDVCxRQUFRLEVBQUUsa0JBQWtCO2dCQUM1QixJQUFJLEVBQUU7b0JBQ0osS0FBSyxFQUFFLG1DQUFtQztpQkFDM0M7YUFDRiIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEVOVEVSLCBTUEFDRSB9IGZyb20gJ0Bhbmd1bGFyL2Nkay9rZXljb2Rlcyc7XG5pbXBvcnQgeyBDaGFuZ2VEZXRlY3Rpb25TdHJhdGVneSwgQ2hhbmdlRGV0ZWN0b3JSZWYsIENvbXBvbmVudCwgRGlyZWN0aXZlLCBFbGVtZW50UmVmLCBIb3N0LCBJbnB1dCwgT25EZXN0cm95LCBWaWV3RW5jYXBzdWxhdGlvbiB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuaW1wb3J0IHsgbWVyZ2UsIFN1YnNjcmlwdGlvbiB9IGZyb20gJ3J4anMnO1xuaW1wb3J0IHsgZmlsdGVyIH0gZnJvbSAncnhqcy9vcGVyYXRvcnMnO1xuaW1wb3J0IHsgbm92b0V4cGFuc2lvbkFuaW1hdGlvbnMgfSBmcm9tICcuL2V4cGFuc2lvbi1hbmltYXRpb25zJztcbmltcG9ydCB7IE5vdm9FeHBhbnNpb25QYW5lbCB9IGZyb20gJy4vZXhwYW5zaW9uLXBhbmVsJztcblxuLyoqXG4gKiBgPG5vdm8tZXhwYW5zaW9uLXBhbmVsLWhlYWRlcj5gXG4gKlxuICogVGhpcyBjb21wb25lbnQgY29ycmVzcG9uZHMgdG8gdGhlIGhlYWRlciBlbGVtZW50IG9mIGFuIGA8bm92by1leHBhbnNpb24tcGFuZWw+YC5cbiAqL1xuQENvbXBvbmVudCh7XG4gIHNlbGVjdG9yOiAnbm92by1leHBhbnNpb24tcGFuZWwtaGVhZGVyJyxcbiAgc3R5bGVVcmxzOiBbJy4vZXhwYW5zaW9uLXBhbmVsLWhlYWRlci5zY3NzJ10sXG4gIHRlbXBsYXRlVXJsOiAnLi9leHBhbnNpb24tcGFuZWwtaGVhZGVyLmh0bWwnLFxuICBlbmNhcHN1bGF0aW9uOiBWaWV3RW5jYXBzdWxhdGlvbi5Ob25lLFxuICBjaGFuZ2VEZXRlY3Rpb246IENoYW5nZURldGVjdGlvblN0cmF0ZWd5Lk9uUHVzaCxcbiAgYW5pbWF0aW9uczogW25vdm9FeHBhbnNpb25BbmltYXRpb25zLmluZGljYXRvclJvdGF0ZSwgbm92b0V4cGFuc2lvbkFuaW1hdGlvbnMuZXhwYW5zaW9uSGVhZGVySGVpZ2h0XSxcbiAgaG9zdDoge1xuICAgIGNsYXNzOiAnbm92by1leHBhbnNpb24tcGFuZWwtaGVhZGVyJyxcbiAgICByb2xlOiAnYnV0dG9uJyxcbiAgICAnW2F0dHIuaWRdJzogJ3BhbmVsLl9oZWFkZXJJZCcsXG4gICAgJ1thdHRyLnRhYmluZGV4XSc6ICdwYW5lbC5kaXNhYmxlZCA/IC0xIDogMCcsXG4gICAgJ1thdHRyLmFyaWEtY29udHJvbHNdJzogJ19nZXRQYW5lbElkKCknLFxuICAgICdbYXR0ci5hcmlhLWV4cGFuZGVkXSc6ICdfaXNFeHBhbmRlZCgpJyxcbiAgICAnW2F0dHIuYXJpYS1kaXNhYmxlZF0nOiAncGFuZWwuZGlzYWJsZWQnLFxuICAgICdbY2xhc3Mubm92by1leHBhbmRlZF0nOiAnX2lzRXhwYW5kZWQoKScsXG4gICAgJyhjbGljayknOiAnX3RvZ2dsZSgpJyxcbiAgICAnKGtleWRvd24pJzogJ19rZXlkb3duKCRldmVudCknLFxuICAgICdbQGV4cGFuc2lvbkhlaWdodF0nOiBge1xuICAgICAgICB2YWx1ZTogX2dldEV4cGFuZGVkU3RhdGUoKSxcbiAgICAgICAgcGFyYW1zOiB7XG4gICAgICAgICAgY29sbGFwc2VkSGVpZ2h0OiBjb2xsYXBzZWRIZWlnaHQsXG4gICAgICAgICAgZXhwYW5kZWRIZWlnaHQ6IGV4cGFuZGVkSGVpZ2h0XG4gICAgICAgIH1cbiAgICB9YCxcbiAgfSxcbn0pXG5leHBvcnQgY2xhc3MgTm92b0V4cGFuc2lvblBhbmVsSGVhZGVyIGltcGxlbWVudHMgT25EZXN0cm95IHtcbiAgcHJpdmF0ZSBfcGFyZW50Q2hhbmdlU3Vic2NyaXB0aW9uID0gU3Vic2NyaXB0aW9uLkVNUFRZO1xuXG4gIGNvbnN0cnVjdG9yKFxuICAgIEBIb3N0KCkgcHVibGljIHBhbmVsOiBOb3ZvRXhwYW5zaW9uUGFuZWwsXG4gICAgcHJpdmF0ZSBfZWxlbWVudDogRWxlbWVudFJlZixcbiAgICAvLyBwcml2YXRlIF9mb2N1c01vbml0b3I6IEZvY3VzTW9uaXRvcixcbiAgICBwcml2YXRlIF9jaGFuZ2VEZXRlY3RvclJlZjogQ2hhbmdlRGV0ZWN0b3JSZWYsXG4gICkge1xuICAgIC8vIFNpbmNlIHRoZSB0b2dnbGUgc3RhdGUgZGVwZW5kcyBvbiBhbiBASW5wdXQgb24gdGhlIHBhbmVsLCB3ZVxuICAgIC8vIG5lZWQgdG8gIHN1YnNjcmliZSBhbmQgdHJpZ2dlciBjaGFuZ2UgZGV0ZWN0aW9uIG1hbnVhbGx5LlxuICAgIHRoaXMuX3BhcmVudENoYW5nZVN1YnNjcmlwdGlvbiA9IG1lcmdlKFxuICAgICAgcGFuZWwub3BlbmVkLFxuICAgICAgcGFuZWwuY2xvc2VkLFxuICAgICAgcGFuZWwuX2lucHV0Q2hhbmdlcy5waXBlKGZpbHRlcigoY2hhbmdlcykgPT4gISEoY2hhbmdlcy5oaWRlVG9nZ2xlIHx8IGNoYW5nZXMuZGlzYWJsZWQpKSksXG4gICAgKS5zdWJzY3JpYmUoKCkgPT4gdGhpcy5fY2hhbmdlRGV0ZWN0b3JSZWYubWFya0ZvckNoZWNrKCkpO1xuXG4gICAgLy8gX2ZvY3VzTW9uaXRvci5tb25pdG9yKF9lbGVtZW50Lm5hdGl2ZUVsZW1lbnQpO1xuICB9XG5cbiAgLyoqIEhlaWdodCBvZiB0aGUgaGVhZGVyIHdoaWxlIHRoZSBwYW5lbCBpcyBleHBhbmRlZC4gKi9cbiAgQElucHV0KClcbiAgZXhwYW5kZWRIZWlnaHQ6IHN0cmluZztcblxuICAvKiogSGVpZ2h0IG9mIHRoZSBoZWFkZXIgd2hpbGUgdGhlIHBhbmVsIGlzIGNvbGxhcHNlZC4gKi9cbiAgQElucHV0KClcbiAgY29sbGFwc2VkSGVpZ2h0OiBzdHJpbmc7XG5cbiAgLyoqIFRvZ2dsZXMgdGhlIGV4cGFuZGVkIHN0YXRlIG9mIHRoZSBwYW5lbC4gKi9cbiAgX3RvZ2dsZSgpOiB2b2lkIHtcbiAgICB0aGlzLnBhbmVsLnRvZ2dsZSgpO1xuICB9XG5cbiAgLyoqIEdldHMgd2hldGhlciB0aGUgcGFuZWwgaXMgZXhwYW5kZWQuICovXG4gIF9pc0V4cGFuZGVkKCk6IGJvb2xlYW4ge1xuICAgIHJldHVybiB0aGlzLnBhbmVsLmV4cGFuZGVkO1xuICB9XG5cbiAgLyoqIEdldHMgdGhlIGV4cGFuZGVkIHN0YXRlIHN0cmluZyBvZiB0aGUgcGFuZWwuICovXG4gIF9nZXRFeHBhbmRlZFN0YXRlKCk6IHN0cmluZyB7XG4gICAgcmV0dXJuIHRoaXMucGFuZWwuX2dldEV4cGFuZGVkU3RhdGUoKTtcbiAgfVxuXG4gIC8qKiBHZXRzIHRoZSBwYW5lbCBpZC4gKi9cbiAgX2dldFBhbmVsSWQoKTogc3RyaW5nIHtcbiAgICByZXR1cm4gdGhpcy5wYW5lbC5pZDtcbiAgfVxuXG4gIC8qKiBHZXRzIHdoZXRoZXIgdGhlIGV4cGFuZCBpbmRpY2F0b3Igc2hvdWxkIGJlIHNob3duLiAqL1xuICBfc2hvd1RvZ2dsZSgpOiBib29sZWFuIHtcbiAgICByZXR1cm4gIXRoaXMucGFuZWwuaGlkZVRvZ2dsZSAmJiAhdGhpcy5wYW5lbC5kaXNhYmxlZDtcbiAgfVxuXG4gIC8qKiBIYW5kbGUga2V5ZG93biBldmVudCBjYWxsaW5nIHRvIHRvZ2dsZSgpIGlmIGFwcHJvcHJpYXRlLiAqL1xuICBfa2V5ZG93bihldmVudDogS2V5Ym9hcmRFdmVudCkge1xuICAgIHN3aXRjaCAoZXZlbnQua2V5Q29kZSkge1xuICAgICAgLy8gVG9nZ2xlIGZvciBzcGFjZSBhbmQgZW50ZXIga2V5cy5cbiAgICAgIGNhc2UgU1BBQ0U6XG4gICAgICBjYXNlIEVOVEVSOlxuICAgICAgICBldmVudC5wcmV2ZW50RGVmYXVsdCgpO1xuICAgICAgICB0aGlzLl90b2dnbGUoKTtcbiAgICAgICAgYnJlYWs7XG4gICAgICBkZWZhdWx0OlxuICAgICAgICByZXR1cm47XG4gICAgfVxuICB9XG5cbiAgbmdPbkRlc3Ryb3koKSB7XG4gICAgdGhpcy5fcGFyZW50Q2hhbmdlU3Vic2NyaXB0aW9uLnVuc3Vic2NyaWJlKCk7XG4gICAgLy8gdGhpcy5fZm9jdXNNb25pdG9yLnN0b3BNb25pdG9yaW5nKHRoaXMuX2VsZW1lbnQubmF0aXZlRWxlbWVudCk7XG4gIH1cbn1cblxuLyoqXG4gKiBgPG5vdm8tcGFuZWwtZGVzY3JpcHRpb24+YFxuICpcbiAqIFRoaXMgZGlyZWN0aW9uIGlzIHRvIGJlIHVzZWQgaW5zaWRlIG9mIHRoZSBOb3ZvRXhwYW5zaW9uUGFuZWxIZWFkZXIgY29tcG9uZW50LlxuICovXG5ARGlyZWN0aXZlKHtcbiAgc2VsZWN0b3I6ICdub3ZvLXBhbmVsLWRlc2NyaXB0aW9uJyxcbiAgaG9zdDoge1xuICAgIGNsYXNzOiAnbm92by1leHBhbnNpb24tcGFuZWwtaGVhZGVyLWRlc2NyaXB0aW9uJyxcbiAgfSxcbn0pXG5leHBvcnQgY2xhc3MgTm92b0V4cGFuc2lvblBhbmVsRGVzY3JpcHRpb24geyB9XG5cbi8qKlxuICogYDxub3ZvLXBhbmVsLXRpdGxlPmBcbiAqXG4gKiBUaGlzIGRpcmVjdGlvbiBpcyB0byBiZSB1c2VkIGluc2lkZSBvZiB0aGUgTm92b0V4cGFuc2lvblBhbmVsSGVhZGVyIGNvbXBvbmVudC5cbiAqL1xuQERpcmVjdGl2ZSh7XG4gIHNlbGVjdG9yOiAnbm92by1wYW5lbC10aXRsZScsXG4gIGhvc3Q6IHtcbiAgICBjbGFzczogJ25vdm8tZXhwYW5zaW9uLXBhbmVsLWhlYWRlci10aXRsZScsXG4gIH0sXG59KVxuZXhwb3J0IGNsYXNzIE5vdm9FeHBhbnNpb25QYW5lbFRpdGxlIHsgfVxuIiwiPHNwYW4gY2xhc3M9XCJub3ZvLWNvbnRlbnRcIj5cbiAgPG5nLWNvbnRlbnQgc2VsZWN0PVwibm92by1wYW5lbC10aXRsZVwiPjwvbmctY29udGVudD5cbiAgPG5nLWNvbnRlbnQgc2VsZWN0PVwibm92by1wYW5lbC1kZXNjcmlwdGlvblwiPjwvbmctY29udGVudD5cbiAgPG5nLWNvbnRlbnQ+PC9uZy1jb250ZW50PlxuPC9zcGFuPlxuPHNwYW4gW0BpbmRpY2F0b3JSb3RhdGVdPVwiX2dldEV4cGFuZGVkU3RhdGUoKVwiICpuZ0lmPVwiX3Nob3dUb2dnbGUoKVwiXG4gICAgICBjbGFzcz1cIm5vdm8tZXhwYW5zaW9uLWluZGljYXRvclwiPjwvc3Bhbj5cbiJdfQ==

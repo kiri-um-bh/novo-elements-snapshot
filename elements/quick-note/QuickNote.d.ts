@@ -1,6 +1,7 @@
 import { EventEmitter, ElementRef, ViewContainerRef, OnInit, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
 import { OutsideClick } from './../../utils/outside-click/OutsideClick';
 import { ComponentUtils } from './../../utils/component-utils/ComponentUtils';
+import * as i0 from "@angular/core";
 export declare class QuickNoteElement extends OutsideClick implements OnInit, OnDestroy, AfterViewInit {
     private zone;
     private componentUtils;
@@ -135,5 +136,7 @@ export declare class QuickNoteElement extends OutsideClick implements OnInit, On
     /**
      * Get or create the single placeholder object that is constructed only when needed.
      */
-    private readonly placeholderElement;
+    private get placeholderElement();
+    static ɵfac: i0.ɵɵFactoryDef<QuickNoteElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<QuickNoteElement, "novo-quick-note", never, { "config": "config"; "startupFocus": "startupFocus"; "placeholder": "placeholder"; }, { "focus": "focus"; "blur": "blur"; "change": "change"; }, never, never>;
 }

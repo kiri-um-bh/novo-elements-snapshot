@@ -1,6 +1,7 @@
 import { ElementRef, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { BasePickerResults } from '../base-picker-results/BasePickerResults';
 import { NovoLabelService } from '../../../../services/novo-label-service';
+import * as i0 from "@angular/core";
 export declare class EntityPickerResult {
     labels: NovoLabelService;
     match: any;
@@ -18,12 +19,16 @@ export declare class EntityPickerResult {
     getIconForResult(result?: any): string;
     renderTimestamp(date?: any): string;
     getNameForResult(result?: any): string;
+    static ɵfac: i0.ɵɵFactoryDef<EntityPickerResult, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<EntityPickerResult, "entity-picker-result", never, { "match": "match"; "term": "term"; }, {}, never, never>;
 }
 export declare class EntityPickerResults extends BasePickerResults {
     labels: NovoLabelService;
     select: EventEmitter<any>;
     constructor(element: ElementRef, labels: NovoLabelService, ref: ChangeDetectorRef);
-    readonly hasNonErrorMessage: boolean;
+    get hasNonErrorMessage(): boolean;
     getListElement(): any;
     selectMatch(event?: any, item?: any): boolean;
+    static ɵfac: i0.ɵɵFactoryDef<EntityPickerResults, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<EntityPickerResults, "entity-picker-results", never, {}, { "select": "select"; }, never, never>;
 }

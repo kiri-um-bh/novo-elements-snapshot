@@ -1,193 +1,208 @@
-/**
- * @fileoverview added by tsickle
- * Generated from: elements/list/List.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 // NG2
 import { Component, ElementRef, Input } from '@angular/core';
+import * as i0 from "@angular/core";
+import * as i1 from "@angular/common";
+var _c0 = ["*"];
+var _c1 = [[["item-header"]], [["item-content"]], "*", [["item-end"]]];
+var _c2 = function (a0) { return { "avatar": a0 }; };
+var _c3 = ["item-header", "item-content", "*", "item-end"];
+function NovoItemAvatarElement_i_0_Template(rf, ctx) { if (rf & 1) {
+    i0.ɵɵelement(0, "i", 1);
+} if (rf & 2) {
+    var ctx_r0 = i0.ɵɵnextContext();
+    i0.ɵɵproperty("ngClass", ctx_r0.classMap);
+} }
+var _c4 = [[["item-avatar"]], [["item-title"]], [["item-header-end"]]];
+var _c5 = ["item-avatar", "item-title", "item-header-end"];
 var NovoListElement = /** @class */ (function () {
     function NovoListElement(element) {
         this.element = element;
     }
-    NovoListElement.decorators = [
-        { type: Component, args: [{
-                    selector: 'novo-list',
-                    host: {
-                        '[class.vertical-list]': 'direction === "vertical"',
-                        '[class.horizontal-list]': 'direction === "horizontal"',
-                        '[attr.theme]': 'theme',
-                    },
-                    template: "\n        <ng-content></ng-content>\n    "
-                }] }
-    ];
-    /** @nocollapse */
-    NovoListElement.ctorParameters = function () { return [
-        { type: ElementRef }
-    ]; };
-    NovoListElement.propDecorators = {
-        theme: [{ type: Input }],
-        direction: [{ type: Input }]
-    };
+    NovoListElement.ɵfac = function NovoListElement_Factory(t) { return new (t || NovoListElement)(i0.ɵɵdirectiveInject(i0.ElementRef)); };
+    NovoListElement.ɵcmp = i0.ɵɵdefineComponent({ type: NovoListElement, selectors: [["novo-list"]], hostVars: 5, hostBindings: function NovoListElement_HostBindings(rf, ctx) { if (rf & 2) {
+            i0.ɵɵattribute("theme", ctx.theme);
+            i0.ɵɵclassProp("vertical-list", ctx.direction === "vertical")("horizontal-list", ctx.direction === "horizontal");
+        } }, inputs: { theme: "theme", direction: "direction" }, ngContentSelectors: _c0, decls: 1, vars: 0, template: function NovoListElement_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵprojectionDef();
+            i0.ɵɵprojection(0);
+        } }, encapsulation: 2 });
     return NovoListElement;
 }());
 export { NovoListElement };
-if (false) {
-    /** @type {?} */
-    NovoListElement.prototype.theme;
-    /** @type {?} */
-    NovoListElement.prototype.direction;
-    /** @type {?} */
-    NovoListElement.prototype.element;
-}
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoListElement, [{
+        type: Component,
+        args: [{
+                selector: 'novo-list',
+                host: {
+                    '[class.vertical-list]': 'direction === "vertical"',
+                    '[class.horizontal-list]': 'direction === "horizontal"',
+                    '[attr.theme]': 'theme',
+                },
+                template: "\n        <ng-content></ng-content>\n    ",
+            }]
+    }], function () { return [{ type: i0.ElementRef }]; }, { theme: [{
+            type: Input
+        }], direction: [{
+            type: Input
+        }] }); })();
 var NovoListItemElement = /** @class */ (function () {
     function NovoListItemElement(element) {
         this.element = element;
         this.avatar = false;
     }
-    /**
-     * @return {?}
-     */
-    NovoListItemElement.prototype.ngOnInit = /**
-     * @return {?}
-     */
-    function () {
+    NovoListItemElement.prototype.ngOnInit = function () {
         this.avatar = !!this.element.nativeElement.querySelector('item-avatar');
     };
-    NovoListItemElement.decorators = [
-        { type: Component, args: [{
-                    selector: 'novo-list-item',
-                    template: "\n        <div class=\"list-item\" [ngClass]=\"{'avatar': avatar}\">\n            <ng-content select=\"item-header\"></ng-content>\n            <ng-content select=\"item-content\"></ng-content>\n        </div>\n        <ng-content></ng-content>\n        <ng-content select=\"item-end\"></ng-content>\n    "
-                }] }
-    ];
-    /** @nocollapse */
-    NovoListItemElement.ctorParameters = function () { return [
-        { type: ElementRef }
-    ]; };
+    NovoListItemElement.ɵfac = function NovoListItemElement_Factory(t) { return new (t || NovoListItemElement)(i0.ɵɵdirectiveInject(i0.ElementRef)); };
+    NovoListItemElement.ɵcmp = i0.ɵɵdefineComponent({ type: NovoListItemElement, selectors: [["novo-list-item"]], ngContentSelectors: _c3, decls: 5, vars: 3, consts: [[1, "list-item", 3, "ngClass"]], template: function NovoListItemElement_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵprojectionDef(_c1);
+            i0.ɵɵelementStart(0, "div", 0);
+            i0.ɵɵprojection(1);
+            i0.ɵɵprojection(2, 1);
+            i0.ɵɵelementEnd();
+            i0.ɵɵprojection(3, 2);
+            i0.ɵɵprojection(4, 3);
+        } if (rf & 2) {
+            i0.ɵɵproperty("ngClass", i0.ɵɵpureFunction1(1, _c2, ctx.avatar));
+        } }, directives: [i1.NgClass], encapsulation: 2 });
     return NovoListItemElement;
 }());
 export { NovoListItemElement };
-if (false) {
-    /** @type {?} */
-    NovoListItemElement.prototype.avatar;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoListItemElement.prototype.element;
-}
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoListItemElement, [{
+        type: Component,
+        args: [{
+                selector: 'novo-list-item',
+                template: "\n        <div class=\"list-item\" [ngClass]=\"{'avatar': avatar}\">\n            <ng-content select=\"item-header\"></ng-content>\n            <ng-content select=\"item-content\"></ng-content>\n        </div>\n        <ng-content></ng-content>\n        <ng-content select=\"item-end\"></ng-content>\n    ",
+            }]
+    }], function () { return [{ type: i0.ElementRef }]; }, null); })();
 var NovoItemAvatarElement = /** @class */ (function () {
     function NovoItemAvatarElement() {
     }
-    /**
-     * @param {?=} changes
-     * @return {?}
-     */
-    NovoItemAvatarElement.prototype.ngOnChanges = /**
-     * @param {?=} changes
-     * @return {?}
-     */
-    function (changes) {
+    NovoItemAvatarElement.prototype.ngOnChanges = function (changes) {
         this.iconClass = this.icon ? "bhi-" + this.icon : null;
         this.classMap = [this.iconClass, this.icon];
     };
-    /**
-     * @return {?}
-     */
-    NovoItemAvatarElement.prototype.ngOnInit = /**
-     * @return {?}
-     */
-    function () {
+    NovoItemAvatarElement.prototype.ngOnInit = function () {
         this.ngOnChanges();
     };
-    NovoItemAvatarElement.decorators = [
-        { type: Component, args: [{
-                    selector: 'item-avatar',
-                    template: "\n        <i *ngIf=\"iconClass\" [ngClass]=\"classMap\" theme=\"contained\"></i>\n    "
-                }] }
-    ];
-    NovoItemAvatarElement.propDecorators = {
-        icon: [{ type: Input }]
-    };
+    NovoItemAvatarElement.ɵfac = function NovoItemAvatarElement_Factory(t) { return new (t || NovoItemAvatarElement)(); };
+    NovoItemAvatarElement.ɵcmp = i0.ɵɵdefineComponent({ type: NovoItemAvatarElement, selectors: [["item-avatar"]], inputs: { icon: "icon" }, features: [i0.ɵɵNgOnChangesFeature], decls: 1, vars: 1, consts: [["theme", "contained", 3, "ngClass", 4, "ngIf"], ["theme", "contained", 3, "ngClass"]], template: function NovoItemAvatarElement_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵtemplate(0, NovoItemAvatarElement_i_0_Template, 1, 1, "i", 0);
+        } if (rf & 2) {
+            i0.ɵɵproperty("ngIf", ctx.iconClass);
+        } }, directives: [i1.NgIf, i1.NgClass], encapsulation: 2 });
     return NovoItemAvatarElement;
 }());
 export { NovoItemAvatarElement };
-if (false) {
-    /** @type {?} */
-    NovoItemAvatarElement.prototype.icon;
-    /** @type {?} */
-    NovoItemAvatarElement.prototype.iconClass;
-    /** @type {?} */
-    NovoItemAvatarElement.prototype.classMap;
-}
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoItemAvatarElement, [{
+        type: Component,
+        args: [{
+                selector: 'item-avatar',
+                template: "\n        <i *ngIf=\"iconClass\" [ngClass]=\"classMap\" theme=\"contained\"></i>\n    ",
+            }]
+    }], null, { icon: [{
+            type: Input
+        }] }); })();
 var NovoItemTitleElement = /** @class */ (function () {
     function NovoItemTitleElement() {
     }
-    NovoItemTitleElement.decorators = [
-        { type: Component, args: [{
-                    selector: 'item-title',
-                    template: "\n        <h6><ng-content></ng-content></h6>\n    "
-                }] }
-    ];
+    NovoItemTitleElement.ɵfac = function NovoItemTitleElement_Factory(t) { return new (t || NovoItemTitleElement)(); };
+    NovoItemTitleElement.ɵcmp = i0.ɵɵdefineComponent({ type: NovoItemTitleElement, selectors: [["item-title"]], ngContentSelectors: _c0, decls: 2, vars: 0, template: function NovoItemTitleElement_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵprojectionDef();
+            i0.ɵɵelementStart(0, "h6");
+            i0.ɵɵprojection(1);
+            i0.ɵɵelementEnd();
+        } }, encapsulation: 2 });
     return NovoItemTitleElement;
 }());
 export { NovoItemTitleElement };
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoItemTitleElement, [{
+        type: Component,
+        args: [{
+                selector: 'item-title',
+                template: "\n        <h6><ng-content></ng-content></h6>\n    ",
+            }]
+    }], null, null); })();
 var NovoItemHeaderElement = /** @class */ (function () {
     function NovoItemHeaderElement() {
     }
-    NovoItemHeaderElement.decorators = [
-        { type: Component, args: [{
-                    selector: 'item-header',
-                    template: "\n        <ng-content select=\"item-avatar\"></ng-content>\n        <ng-content select=\"item-title\"></ng-content>\n        <ng-content select=\"item-header-end\"></ng-content>\n    "
-                }] }
-    ];
+    NovoItemHeaderElement.ɵfac = function NovoItemHeaderElement_Factory(t) { return new (t || NovoItemHeaderElement)(); };
+    NovoItemHeaderElement.ɵcmp = i0.ɵɵdefineComponent({ type: NovoItemHeaderElement, selectors: [["item-header"]], ngContentSelectors: _c5, decls: 3, vars: 0, template: function NovoItemHeaderElement_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵprojectionDef(_c4);
+            i0.ɵɵprojection(0);
+            i0.ɵɵprojection(1, 1);
+            i0.ɵɵprojection(2, 2);
+        } }, encapsulation: 2 });
     return NovoItemHeaderElement;
 }());
 export { NovoItemHeaderElement };
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoItemHeaderElement, [{
+        type: Component,
+        args: [{
+                selector: 'item-header',
+                template: "\n        <ng-content select=\"item-avatar\"></ng-content>\n        <ng-content select=\"item-title\"></ng-content>\n        <ng-content select=\"item-header-end\"></ng-content>\n    ",
+            }]
+    }], null, null); })();
 var NovoItemDateElement = /** @class */ (function () {
     function NovoItemDateElement() {
     }
-    NovoItemDateElement.decorators = [
-        { type: Component, args: [{
-                    selector: 'item-header-end',
-                    template: "\n        <ng-content></ng-content>\n    "
-                }] }
-    ];
+    NovoItemDateElement.ɵfac = function NovoItemDateElement_Factory(t) { return new (t || NovoItemDateElement)(); };
+    NovoItemDateElement.ɵcmp = i0.ɵɵdefineComponent({ type: NovoItemDateElement, selectors: [["item-header-end"]], ngContentSelectors: _c0, decls: 1, vars: 0, template: function NovoItemDateElement_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵprojectionDef();
+            i0.ɵɵprojection(0);
+        } }, encapsulation: 2 });
     return NovoItemDateElement;
 }());
 export { NovoItemDateElement };
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoItemDateElement, [{
+        type: Component,
+        args: [{
+                selector: 'item-header-end',
+                template: "\n        <ng-content></ng-content>\n    ",
+            }]
+    }], null, null); })();
 var NovoItemContentElement = /** @class */ (function () {
     function NovoItemContentElement() {
     }
-    NovoItemContentElement.decorators = [
-        { type: Component, args: [{
-                    selector: 'item-content',
-                    host: {
-                        '[class.vertical-list]': 'direction === "vertical"',
-                        '[class.horizontal-list]': 'direction === "horizontal"',
-                    },
-                    template: "\n        <ng-content></ng-content>\n    "
-                }] }
-    ];
-    NovoItemContentElement.propDecorators = {
-        direction: [{ type: Input }]
-    };
+    NovoItemContentElement.ɵfac = function NovoItemContentElement_Factory(t) { return new (t || NovoItemContentElement)(); };
+    NovoItemContentElement.ɵcmp = i0.ɵɵdefineComponent({ type: NovoItemContentElement, selectors: [["item-content"]], hostVars: 4, hostBindings: function NovoItemContentElement_HostBindings(rf, ctx) { if (rf & 2) {
+            i0.ɵɵclassProp("vertical-list", ctx.direction === "vertical")("horizontal-list", ctx.direction === "horizontal");
+        } }, inputs: { direction: "direction" }, ngContentSelectors: _c0, decls: 1, vars: 0, template: function NovoItemContentElement_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵprojectionDef();
+            i0.ɵɵprojection(0);
+        } }, encapsulation: 2 });
     return NovoItemContentElement;
 }());
 export { NovoItemContentElement };
-if (false) {
-    /** @type {?} */
-    NovoItemContentElement.prototype.direction;
-}
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoItemContentElement, [{
+        type: Component,
+        args: [{
+                selector: 'item-content',
+                host: {
+                    '[class.vertical-list]': 'direction === "vertical"',
+                    '[class.horizontal-list]': 'direction === "horizontal"',
+                },
+                template: "\n        <ng-content></ng-content>\n    ",
+            }]
+    }], null, { direction: [{
+            type: Input
+        }] }); })();
 var NovoItemEndElement = /** @class */ (function () {
     function NovoItemEndElement() {
     }
-    NovoItemEndElement.decorators = [
-        { type: Component, args: [{
-                    selector: 'item-end',
-                    template: "\n        <ng-content></ng-content>\n    "
-                }] }
-    ];
+    NovoItemEndElement.ɵfac = function NovoItemEndElement_Factory(t) { return new (t || NovoItemEndElement)(); };
+    NovoItemEndElement.ɵcmp = i0.ɵɵdefineComponent({ type: NovoItemEndElement, selectors: [["item-end"]], ngContentSelectors: _c0, decls: 1, vars: 0, template: function NovoItemEndElement_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵprojectionDef();
+            i0.ɵɵprojection(0);
+        } }, encapsulation: 2 });
     return NovoItemEndElement;
 }());
 export { NovoItemEndElement };
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTGlzdC5qcyIsInNvdXJjZVJvb3QiOiJuZzovL25vdm8tZWxlbWVudHMvIiwic291cmNlcyI6WyJlbGVtZW50cy9saXN0L0xpc3QudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7O0FBQ0EsT0FBTyxFQUFFLFNBQVMsRUFBRSxVQUFVLEVBQUUsS0FBSyxFQUFvQyxNQUFNLGVBQWUsQ0FBQztBQUUvRjtJQWlCRSx5QkFBbUIsT0FBbUI7UUFBbkIsWUFBTyxHQUFQLE9BQU8sQ0FBWTtJQUFHLENBQUM7O2dCQWpCM0MsU0FBUyxTQUFDO29CQUNULFFBQVEsRUFBRSxXQUFXO29CQUNyQixJQUFJLEVBQUU7d0JBQ0osdUJBQXVCLEVBQUUsMEJBQTBCO3dCQUNuRCx5QkFBeUIsRUFBRSw0QkFBNEI7d0JBQ3ZELGNBQWMsRUFBRSxPQUFPO3FCQUN4QjtvQkFDRCxRQUFRLEVBQUUsMkNBRVA7aUJBQ0o7Ozs7Z0JBWm1CLFVBQVU7Ozt3QkFjM0IsS0FBSzs0QkFFTCxLQUFLOztJQUlSLHNCQUFDO0NBQUEsQUFsQkQsSUFrQkM7U0FQWSxlQUFlOzs7SUFDMUIsZ0NBQ2M7O0lBQ2Qsb0NBQ2tCOztJQUVOLGtDQUEwQjs7QUFHeEM7SUFjRSw2QkFBb0IsT0FBbUI7UUFBbkIsWUFBTyxHQUFQLE9BQU8sQ0FBWTtRQUZ2QyxXQUFNLEdBQVksS0FBSyxDQUFDO0lBRWtCLENBQUM7Ozs7SUFFM0Msc0NBQVE7OztJQUFSO1FBQ0UsSUFBSSxDQUFDLE1BQU0sR0FBRyxDQUFDLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxhQUFhLENBQUMsYUFBYSxDQUFDLGFBQWEsQ0FBQyxDQUFDO0lBQzFFLENBQUM7O2dCQWxCRixTQUFTLFNBQUM7b0JBQ1QsUUFBUSxFQUFFLGdCQUFnQjtvQkFDMUIsUUFBUSxFQUFFLG1UQU9QO2lCQUNKOzs7O2dCQWhDbUIsVUFBVTs7SUF5QzlCLDBCQUFDO0NBQUEsQUFuQkQsSUFtQkM7U0FSWSxtQkFBbUI7OztJQUM5QixxQ0FBd0I7Ozs7O0lBRVosc0NBQTJCOztBQU96QztJQUFBO0lBcUJBLENBQUM7Ozs7O0lBUkMsMkNBQVc7Ozs7SUFBWCxVQUFZLE9BQXVCO1FBQ2pDLElBQUksQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUMsU0FBTyxJQUFJLENBQUMsSUFBTSxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUM7UUFDdkQsSUFBSSxDQUFDLFFBQVEsR0FBRyxDQUFDLElBQUksQ0FBQyxTQUFTLEVBQUUsSUFBSSxDQUFDLElBQUksQ0FBQyxDQUFDO0lBQzlDLENBQUM7Ozs7SUFFRCx3Q0FBUTs7O0lBQVI7UUFDRSxJQUFJLENBQUMsV0FBVyxFQUFFLENBQUM7SUFDckIsQ0FBQzs7Z0JBcEJGLFNBQVMsU0FBQztvQkFDVCxRQUFRLEVBQUUsYUFBYTtvQkFDdkIsUUFBUSxFQUFFLHdGQUVQO2lCQUNKOzs7dUJBRUUsS0FBSzs7SUFjUiw0QkFBQztDQUFBLEFBckJELElBcUJDO1NBZlkscUJBQXFCOzs7SUFDaEMscUNBQ2E7O0lBRWIsMENBQWtCOztJQUNsQix5Q0FBYzs7QUFZaEI7SUFBQTtJQU1tQyxDQUFDOztnQkFObkMsU0FBUyxTQUFDO29CQUNULFFBQVEsRUFBRSxZQUFZO29CQUN0QixRQUFRLEVBQUUsb0RBRVA7aUJBQ0o7O0lBQ2tDLDJCQUFDO0NBQUEsQUFOcEMsSUFNb0M7U0FBdkIsb0JBQW9CO0FBRWpDO0lBQUE7SUFRb0MsQ0FBQzs7Z0JBUnBDLFNBQVMsU0FBQztvQkFDVCxRQUFRLEVBQUUsYUFBYTtvQkFDdkIsUUFBUSxFQUFFLHlMQUlQO2lCQUNKOztJQUNtQyw0QkFBQztDQUFBLEFBUnJDLElBUXFDO1NBQXhCLHFCQUFxQjtBQUVsQztJQUFBO0lBTWtDLENBQUM7O2dCQU5sQyxTQUFTLFNBQUM7b0JBQ1QsUUFBUSxFQUFFLGlCQUFpQjtvQkFDM0IsUUFBUSxFQUFFLDJDQUVQO2lCQUNKOztJQUNpQywwQkFBQztDQUFBLEFBTm5DLElBTW1DO1NBQXRCLG1CQUFtQjtBQUVoQztJQUFBO0lBYUEsQ0FBQzs7Z0JBYkEsU0FBUyxTQUFDO29CQUNULFFBQVEsRUFBRSxjQUFjO29CQUN4QixJQUFJLEVBQUU7d0JBQ0osdUJBQXVCLEVBQUUsMEJBQTBCO3dCQUNuRCx5QkFBeUIsRUFBRSw0QkFBNEI7cUJBQ3hEO29CQUNELFFBQVEsRUFBRSwyQ0FFUDtpQkFDSjs7OzRCQUVFLEtBQUs7O0lBRVIsNkJBQUM7Q0FBQSxBQWJELElBYUM7U0FIWSxzQkFBc0I7OztJQUNqQywyQ0FDa0I7O0FBR3BCO0lBQUE7SUFNaUMsQ0FBQzs7Z0JBTmpDLFNBQVMsU0FBQztvQkFDVCxRQUFRLEVBQUUsVUFBVTtvQkFDcEIsUUFBUSxFQUFFLDJDQUVQO2lCQUNKOztJQUNnQyx5QkFBQztDQUFBLEFBTmxDLElBTWtDO1NBQXJCLGtCQUFrQiIsInNvdXJjZXNDb250ZW50IjpbIi8vIE5HMlxuaW1wb3J0IHsgQ29tcG9uZW50LCBFbGVtZW50UmVmLCBJbnB1dCwgT25DaGFuZ2VzLCBPbkluaXQsIFNpbXBsZUNoYW5nZXMgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcblxuQENvbXBvbmVudCh7XG4gIHNlbGVjdG9yOiAnbm92by1saXN0JyxcbiAgaG9zdDoge1xuICAgICdbY2xhc3MudmVydGljYWwtbGlzdF0nOiAnZGlyZWN0aW9uID09PSBcInZlcnRpY2FsXCInLFxuICAgICdbY2xhc3MuaG9yaXpvbnRhbC1saXN0XSc6ICdkaXJlY3Rpb24gPT09IFwiaG9yaXpvbnRhbFwiJyxcbiAgICAnW2F0dHIudGhlbWVdJzogJ3RoZW1lJyxcbiAgfSxcbiAgdGVtcGxhdGU6IGBcbiAgICAgICAgPG5nLWNvbnRlbnQ+PC9uZy1jb250ZW50PlxuICAgIGAsXG59KVxuZXhwb3J0IGNsYXNzIE5vdm9MaXN0RWxlbWVudCB7XG4gIEBJbnB1dCgpXG4gIHRoZW1lOiBzdHJpbmc7XG4gIEBJbnB1dCgpXG4gIGRpcmVjdGlvbjogc3RyaW5nO1xuXG4gIGNvbnN0cnVjdG9yKHB1YmxpYyBlbGVtZW50OiBFbGVtZW50UmVmKSB7fVxufVxuXG5AQ29tcG9uZW50KHtcbiAgc2VsZWN0b3I6ICdub3ZvLWxpc3QtaXRlbScsXG4gIHRlbXBsYXRlOiBgXG4gICAgICAgIDxkaXYgY2xhc3M9XCJsaXN0LWl0ZW1cIiBbbmdDbGFzc109XCJ7J2F2YXRhcic6IGF2YXRhcn1cIj5cbiAgICAgICAgICAgIDxuZy1jb250ZW50IHNlbGVjdD1cIml0ZW0taGVhZGVyXCI+PC9uZy1jb250ZW50PlxuICAgICAgICAgICAgPG5nLWNvbnRlbnQgc2VsZWN0PVwiaXRlbS1jb250ZW50XCI+PC9uZy1jb250ZW50PlxuICAgICAgICA8L2Rpdj5cbiAgICAgICAgPG5nLWNvbnRlbnQ+PC9uZy1jb250ZW50PlxuICAgICAgICA8bmctY29udGVudCBzZWxlY3Q9XCJpdGVtLWVuZFwiPjwvbmctY29udGVudD5cbiAgICBgLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvTGlzdEl0ZW1FbGVtZW50IGltcGxlbWVudHMgT25Jbml0IHtcbiAgYXZhdGFyOiBib29sZWFuID0gZmFsc2U7XG5cbiAgY29uc3RydWN0b3IocHJpdmF0ZSBlbGVtZW50OiBFbGVtZW50UmVmKSB7fVxuXG4gIG5nT25Jbml0KCkge1xuICAgIHRoaXMuYXZhdGFyID0gISF0aGlzLmVsZW1lbnQubmF0aXZlRWxlbWVudC5xdWVyeVNlbGVjdG9yKCdpdGVtLWF2YXRhcicpO1xuICB9XG59XG5cbkBDb21wb25lbnQoe1xuICBzZWxlY3RvcjogJ2l0ZW0tYXZhdGFyJyxcbiAgdGVtcGxhdGU6IGBcbiAgICAgICAgPGkgKm5nSWY9XCJpY29uQ2xhc3NcIiBbbmdDbGFzc109XCJjbGFzc01hcFwiIHRoZW1lPVwiY29udGFpbmVkXCI+PC9pPlxuICAgIGAsXG59KVxuZXhwb3J0IGNsYXNzIE5vdm9JdGVtQXZhdGFyRWxlbWVudCBpbXBsZW1lbnRzIE9uQ2hhbmdlcywgT25Jbml0IHtcbiAgQElucHV0KClcbiAgaWNvbjogc3RyaW5nO1xuXG4gIGljb25DbGFzczogc3RyaW5nO1xuICBjbGFzc01hcDogYW55O1xuXG4gIG5nT25DaGFuZ2VzKGNoYW5nZXM/OiBTaW1wbGVDaGFuZ2VzKSB7XG4gICAgdGhpcy5pY29uQ2xhc3MgPSB0aGlzLmljb24gPyBgYmhpLSR7dGhpcy5pY29ufWAgOiBudWxsO1xuICAgIHRoaXMuY2xhc3NNYXAgPSBbdGhpcy5pY29uQ2xhc3MsIHRoaXMuaWNvbl07XG4gIH1cblxuICBuZ09uSW5pdCgpIHtcbiAgICB0aGlzLm5nT25DaGFuZ2VzKCk7XG4gIH1cbn1cblxuQENvbXBvbmVudCh7XG4gIHNlbGVjdG9yOiAnaXRlbS10aXRsZScsXG4gIHRlbXBsYXRlOiBgXG4gICAgICAgIDxoNj48bmctY29udGVudD48L25nLWNvbnRlbnQ+PC9oNj5cbiAgICBgLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvSXRlbVRpdGxlRWxlbWVudCB7fVxuXG5AQ29tcG9uZW50KHtcbiAgc2VsZWN0b3I6ICdpdGVtLWhlYWRlcicsXG4gIHRlbXBsYXRlOiBgXG4gICAgICAgIDxuZy1jb250ZW50IHNlbGVjdD1cIml0ZW0tYXZhdGFyXCI+PC9uZy1jb250ZW50PlxuICAgICAgICA8bmctY29udGVudCBzZWxlY3Q9XCJpdGVtLXRpdGxlXCI+PC9uZy1jb250ZW50PlxuICAgICAgICA8bmctY29udGVudCBzZWxlY3Q9XCJpdGVtLWhlYWRlci1lbmRcIj48L25nLWNvbnRlbnQ+XG4gICAgYCxcbn0pXG5leHBvcnQgY2xhc3MgTm92b0l0ZW1IZWFkZXJFbGVtZW50IHt9XG5cbkBDb21wb25lbnQoe1xuICBzZWxlY3RvcjogJ2l0ZW0taGVhZGVyLWVuZCcsXG4gIHRlbXBsYXRlOiBgXG4gICAgICAgIDxuZy1jb250ZW50PjwvbmctY29udGVudD5cbiAgICBgLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvSXRlbURhdGVFbGVtZW50IHt9XG5cbkBDb21wb25lbnQoe1xuICBzZWxlY3RvcjogJ2l0ZW0tY29udGVudCcsXG4gIGhvc3Q6IHtcbiAgICAnW2NsYXNzLnZlcnRpY2FsLWxpc3RdJzogJ2RpcmVjdGlvbiA9PT0gXCJ2ZXJ0aWNhbFwiJyxcbiAgICAnW2NsYXNzLmhvcml6b250YWwtbGlzdF0nOiAnZGlyZWN0aW9uID09PSBcImhvcml6b250YWxcIicsXG4gIH0sXG4gIHRlbXBsYXRlOiBgXG4gICAgICAgIDxuZy1jb250ZW50PjwvbmctY29udGVudD5cbiAgICBgLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvSXRlbUNvbnRlbnRFbGVtZW50IHtcbiAgQElucHV0KClcbiAgZGlyZWN0aW9uOiBzdHJpbmc7XG59XG5cbkBDb21wb25lbnQoe1xuICBzZWxlY3RvcjogJ2l0ZW0tZW5kJyxcbiAgdGVtcGxhdGU6IGBcbiAgICAgICAgPG5nLWNvbnRlbnQ+PC9uZy1jb250ZW50PlxuICAgIGAsXG59KVxuZXhwb3J0IGNsYXNzIE5vdm9JdGVtRW5kRWxlbWVudCB7fVxuIl19
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoItemEndElement, [{
+        type: Component,
+        args: [{
+                selector: 'item-end',
+                template: "\n        <ng-content></ng-content>\n    ",
+            }]
+    }], null, null); })();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTGlzdC5qcyIsInNvdXJjZVJvb3QiOiJuZzovL25vdm8tZWxlbWVudHMvIiwic291cmNlcyI6WyJlbGVtZW50cy9saXN0L0xpc3QudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsTUFBTTtBQUNOLE9BQU8sRUFBRSxTQUFTLEVBQUUsVUFBVSxFQUFFLEtBQUssRUFBb0MsTUFBTSxlQUFlLENBQUM7Ozs7Ozs7O0lBOEN2Rix1QkFBZ0U7OztJQUEzQyx5Q0FBb0I7Ozs7QUE1Q2pEO0lBaUJFLHlCQUFtQixPQUFtQjtRQUFuQixZQUFPLEdBQVAsT0FBTyxDQUFZO0lBQUcsQ0FBQztrRkFOL0IsZUFBZTt3REFBZixlQUFlOzs7OztZQUhwQixrQkFBWTs7MEJBWHBCO0NBcUJDLEFBbEJELElBa0JDO1NBUFksZUFBZTtrREFBZixlQUFlO2NBWDNCLFNBQVM7ZUFBQztnQkFDVCxRQUFRLEVBQUUsV0FBVztnQkFDckIsSUFBSSxFQUFFO29CQUNKLHVCQUF1QixFQUFFLDBCQUEwQjtvQkFDbkQseUJBQXlCLEVBQUUsNEJBQTRCO29CQUN2RCxjQUFjLEVBQUUsT0FBTztpQkFDeEI7Z0JBQ0QsUUFBUSxFQUFFLDJDQUVQO2FBQ0o7O2tCQUVFLEtBQUs7O2tCQUVMLEtBQUs7O0FBTVI7SUFjRSw2QkFBb0IsT0FBbUI7UUFBbkIsWUFBTyxHQUFQLE9BQU8sQ0FBWTtRQUZ2QyxXQUFNLEdBQVksS0FBSyxDQUFDO0lBRWtCLENBQUM7SUFFM0Msc0NBQVEsR0FBUjtRQUNFLElBQUksQ0FBQyxNQUFNLEdBQUcsQ0FBQyxDQUFDLElBQUksQ0FBQyxPQUFPLENBQUMsYUFBYSxDQUFDLGFBQWEsQ0FBQyxhQUFhLENBQUMsQ0FBQztJQUMxRSxDQUFDOzBGQVBVLG1CQUFtQjs0REFBbkIsbUJBQW1COztZQVJ4Qiw4QkFDSTtZQUFBLGtCQUFpQztZQUNqQyxxQkFBa0M7WUFDdEMsaUJBQU07WUFDTixxQkFBWTtZQUNaLHFCQUE4Qjs7WUFMUCxnRUFBOEI7OzhCQTFCN0Q7Q0EwQ0MsQUFuQkQsSUFtQkM7U0FSWSxtQkFBbUI7a0RBQW5CLG1CQUFtQjtjQVgvQixTQUFTO2VBQUM7Z0JBQ1QsUUFBUSxFQUFFLGdCQUFnQjtnQkFDMUIsUUFBUSxFQUFFLG1UQU9QO2FBQ0o7O0FBV0Q7SUFBQTtLQXFCQztJQVJDLDJDQUFXLEdBQVgsVUFBWSxPQUF1QjtRQUNqQyxJQUFJLENBQUMsU0FBUyxHQUFHLElBQUksQ0FBQyxJQUFJLENBQUMsQ0FBQyxDQUFDLFNBQU8sSUFBSSxDQUFDLElBQU0sQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDO1FBQ3ZELElBQUksQ0FBQyxRQUFRLEdBQUcsQ0FBQyxJQUFJLENBQUMsU0FBUyxFQUFFLElBQUksQ0FBQyxJQUFJLENBQUMsQ0FBQztJQUM5QyxDQUFDO0lBRUQsd0NBQVEsR0FBUjtRQUNFLElBQUksQ0FBQyxXQUFXLEVBQUUsQ0FBQztJQUNyQixDQUFDOzhGQWRVLHFCQUFxQjs4REFBckIscUJBQXFCO1lBSDFCLGtFQUE0RDs7WUFBekQsb0NBQWlCOztnQ0EvQzVCO0NBaUVDLEFBckJELElBcUJDO1NBZlkscUJBQXFCO2tEQUFyQixxQkFBcUI7Y0FOakMsU0FBUztlQUFDO2dCQUNULFFBQVEsRUFBRSxhQUFhO2dCQUN2QixRQUFRLEVBQUUsd0ZBRVA7YUFDSjs7a0JBRUUsS0FBSzs7QUFnQlI7SUFBQTtLQU1vQzs0RkFBdkIsb0JBQW9COzZEQUFwQixvQkFBb0I7O1lBSHpCLDBCQUFJO1lBQUEsa0JBQVk7WUFBYSxpQkFBSzs7K0JBdEUxQztDQXlFb0MsQUFOcEMsSUFNb0M7U0FBdkIsb0JBQW9CO2tEQUFwQixvQkFBb0I7Y0FOaEMsU0FBUztlQUFDO2dCQUNULFFBQVEsRUFBRSxZQUFZO2dCQUN0QixRQUFRLEVBQUUsb0RBRVA7YUFDSjs7QUFHRDtJQUFBO0tBUXFDOzhGQUF4QixxQkFBcUI7OERBQXJCLHFCQUFxQjs7WUFMMUIsa0JBQWlDO1lBQ2pDLHFCQUFnQztZQUNoQyxxQkFBcUM7O2dDQWhGN0M7Q0FtRnFDLEFBUnJDLElBUXFDO1NBQXhCLHFCQUFxQjtrREFBckIscUJBQXFCO2NBUmpDLFNBQVM7ZUFBQztnQkFDVCxRQUFRLEVBQUUsYUFBYTtnQkFDdkIsUUFBUSxFQUFFLHlMQUlQO2FBQ0o7O0FBR0Q7SUFBQTtLQU1tQzswRkFBdEIsbUJBQW1COzREQUFuQixtQkFBbUI7O1lBSHhCLGtCQUFZOzs4QkF4RnBCO0NBMkZtQyxBQU5uQyxJQU1tQztTQUF0QixtQkFBbUI7a0RBQW5CLG1CQUFtQjtjQU4vQixTQUFTO2VBQUM7Z0JBQ1QsUUFBUSxFQUFFLGlCQUFpQjtnQkFDM0IsUUFBUSxFQUFFLDJDQUVQO2FBQ0o7O0FBR0Q7SUFBQTtLQWFDO2dHQUhZLHNCQUFzQjsrREFBdEIsc0JBQXNCOzs7O1lBSDNCLGtCQUFZOztpQ0FwR3BCO0NBMEdDLEFBYkQsSUFhQztTQUhZLHNCQUFzQjtrREFBdEIsc0JBQXNCO2NBVmxDLFNBQVM7ZUFBQztnQkFDVCxRQUFRLEVBQUUsY0FBYztnQkFDeEIsSUFBSSxFQUFFO29CQUNKLHVCQUF1QixFQUFFLDBCQUEwQjtvQkFDbkQseUJBQXlCLEVBQUUsNEJBQTRCO2lCQUN4RDtnQkFDRCxRQUFRLEVBQUUsMkNBRVA7YUFDSjs7a0JBRUUsS0FBSzs7QUFJUjtJQUFBO0tBTWtDO3dGQUFyQixrQkFBa0I7MkRBQWxCLGtCQUFrQjs7WUFIdkIsa0JBQVk7OzZCQS9HcEI7Q0FrSGtDLEFBTmxDLElBTWtDO1NBQXJCLGtCQUFrQjtrREFBbEIsa0JBQWtCO2NBTjlCLFNBQVM7ZUFBQztnQkFDVCxRQUFRLEVBQUUsVUFBVTtnQkFDcEIsUUFBUSxFQUFFLDJDQUVQO2FBQ0oiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBORzJcbmltcG9ydCB7IENvbXBvbmVudCwgRWxlbWVudFJlZiwgSW5wdXQsIE9uQ2hhbmdlcywgT25Jbml0LCBTaW1wbGVDaGFuZ2VzIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG5cbkBDb21wb25lbnQoe1xuICBzZWxlY3RvcjogJ25vdm8tbGlzdCcsXG4gIGhvc3Q6IHtcbiAgICAnW2NsYXNzLnZlcnRpY2FsLWxpc3RdJzogJ2RpcmVjdGlvbiA9PT0gXCJ2ZXJ0aWNhbFwiJyxcbiAgICAnW2NsYXNzLmhvcml6b250YWwtbGlzdF0nOiAnZGlyZWN0aW9uID09PSBcImhvcml6b250YWxcIicsXG4gICAgJ1thdHRyLnRoZW1lXSc6ICd0aGVtZScsXG4gIH0sXG4gIHRlbXBsYXRlOiBgXG4gICAgICAgIDxuZy1jb250ZW50PjwvbmctY29udGVudD5cbiAgICBgLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvTGlzdEVsZW1lbnQge1xuICBASW5wdXQoKVxuICB0aGVtZTogc3RyaW5nO1xuICBASW5wdXQoKVxuICBkaXJlY3Rpb246IHN0cmluZztcblxuICBjb25zdHJ1Y3RvcihwdWJsaWMgZWxlbWVudDogRWxlbWVudFJlZikge31cbn1cblxuQENvbXBvbmVudCh7XG4gIHNlbGVjdG9yOiAnbm92by1saXN0LWl0ZW0nLFxuICB0ZW1wbGF0ZTogYFxuICAgICAgICA8ZGl2IGNsYXNzPVwibGlzdC1pdGVtXCIgW25nQ2xhc3NdPVwieydhdmF0YXInOiBhdmF0YXJ9XCI+XG4gICAgICAgICAgICA8bmctY29udGVudCBzZWxlY3Q9XCJpdGVtLWhlYWRlclwiPjwvbmctY29udGVudD5cbiAgICAgICAgICAgIDxuZy1jb250ZW50IHNlbGVjdD1cIml0ZW0tY29udGVudFwiPjwvbmctY29udGVudD5cbiAgICAgICAgPC9kaXY+XG4gICAgICAgIDxuZy1jb250ZW50PjwvbmctY29udGVudD5cbiAgICAgICAgPG5nLWNvbnRlbnQgc2VsZWN0PVwiaXRlbS1lbmRcIj48L25nLWNvbnRlbnQ+XG4gICAgYCxcbn0pXG5leHBvcnQgY2xhc3MgTm92b0xpc3RJdGVtRWxlbWVudCBpbXBsZW1lbnRzIE9uSW5pdCB7XG4gIGF2YXRhcjogYm9vbGVhbiA9IGZhbHNlO1xuXG4gIGNvbnN0cnVjdG9yKHByaXZhdGUgZWxlbWVudDogRWxlbWVudFJlZikge31cblxuICBuZ09uSW5pdCgpIHtcbiAgICB0aGlzLmF2YXRhciA9ICEhdGhpcy5lbGVtZW50Lm5hdGl2ZUVsZW1lbnQucXVlcnlTZWxlY3RvcignaXRlbS1hdmF0YXInKTtcbiAgfVxufVxuXG5AQ29tcG9uZW50KHtcbiAgc2VsZWN0b3I6ICdpdGVtLWF2YXRhcicsXG4gIHRlbXBsYXRlOiBgXG4gICAgICAgIDxpICpuZ0lmPVwiaWNvbkNsYXNzXCIgW25nQ2xhc3NdPVwiY2xhc3NNYXBcIiB0aGVtZT1cImNvbnRhaW5lZFwiPjwvaT5cbiAgICBgLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvSXRlbUF2YXRhckVsZW1lbnQgaW1wbGVtZW50cyBPbkNoYW5nZXMsIE9uSW5pdCB7XG4gIEBJbnB1dCgpXG4gIGljb246IHN0cmluZztcblxuICBpY29uQ2xhc3M6IHN0cmluZztcbiAgY2xhc3NNYXA6IGFueTtcblxuICBuZ09uQ2hhbmdlcyhjaGFuZ2VzPzogU2ltcGxlQ2hhbmdlcykge1xuICAgIHRoaXMuaWNvbkNsYXNzID0gdGhpcy5pY29uID8gYGJoaS0ke3RoaXMuaWNvbn1gIDogbnVsbDtcbiAgICB0aGlzLmNsYXNzTWFwID0gW3RoaXMuaWNvbkNsYXNzLCB0aGlzLmljb25dO1xuICB9XG5cbiAgbmdPbkluaXQoKSB7XG4gICAgdGhpcy5uZ09uQ2hhbmdlcygpO1xuICB9XG59XG5cbkBDb21wb25lbnQoe1xuICBzZWxlY3RvcjogJ2l0ZW0tdGl0bGUnLFxuICB0ZW1wbGF0ZTogYFxuICAgICAgICA8aDY+PG5nLWNvbnRlbnQ+PC9uZy1jb250ZW50PjwvaDY+XG4gICAgYCxcbn0pXG5leHBvcnQgY2xhc3MgTm92b0l0ZW1UaXRsZUVsZW1lbnQge31cblxuQENvbXBvbmVudCh7XG4gIHNlbGVjdG9yOiAnaXRlbS1oZWFkZXInLFxuICB0ZW1wbGF0ZTogYFxuICAgICAgICA8bmctY29udGVudCBzZWxlY3Q9XCJpdGVtLWF2YXRhclwiPjwvbmctY29udGVudD5cbiAgICAgICAgPG5nLWNvbnRlbnQgc2VsZWN0PVwiaXRlbS10aXRsZVwiPjwvbmctY29udGVudD5cbiAgICAgICAgPG5nLWNvbnRlbnQgc2VsZWN0PVwiaXRlbS1oZWFkZXItZW5kXCI+PC9uZy1jb250ZW50PlxuICAgIGAsXG59KVxuZXhwb3J0IGNsYXNzIE5vdm9JdGVtSGVhZGVyRWxlbWVudCB7fVxuXG5AQ29tcG9uZW50KHtcbiAgc2VsZWN0b3I6ICdpdGVtLWhlYWRlci1lbmQnLFxuICB0ZW1wbGF0ZTogYFxuICAgICAgICA8bmctY29udGVudD48L25nLWNvbnRlbnQ+XG4gICAgYCxcbn0pXG5leHBvcnQgY2xhc3MgTm92b0l0ZW1EYXRlRWxlbWVudCB7fVxuXG5AQ29tcG9uZW50KHtcbiAgc2VsZWN0b3I6ICdpdGVtLWNvbnRlbnQnLFxuICBob3N0OiB7XG4gICAgJ1tjbGFzcy52ZXJ0aWNhbC1saXN0XSc6ICdkaXJlY3Rpb24gPT09IFwidmVydGljYWxcIicsXG4gICAgJ1tjbGFzcy5ob3Jpem9udGFsLWxpc3RdJzogJ2RpcmVjdGlvbiA9PT0gXCJob3Jpem9udGFsXCInLFxuICB9LFxuICB0ZW1wbGF0ZTogYFxuICAgICAgICA8bmctY29udGVudD48L25nLWNvbnRlbnQ+XG4gICAgYCxcbn0pXG5leHBvcnQgY2xhc3MgTm92b0l0ZW1Db250ZW50RWxlbWVudCB7XG4gIEBJbnB1dCgpXG4gIGRpcmVjdGlvbjogc3RyaW5nO1xufVxuXG5AQ29tcG9uZW50KHtcbiAgc2VsZWN0b3I6ICdpdGVtLWVuZCcsXG4gIHRlbXBsYXRlOiBgXG4gICAgICAgIDxuZy1jb250ZW50PjwvbmctY29udGVudD5cbiAgICBgLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvSXRlbUVuZEVsZW1lbnQge31cbiJdfQ==

@@ -4,6 +4,7 @@ import { NovoTemplate } from '../common/novo-template/novo-template.directive';
 import { DataTableSource } from './data-table.source';
 import { IDataTableColumn, IDataTablePaginationOptions, IDataTablePreferences, IDataTableSearchOptions, IDataTableService } from './interfaces';
 import { DataTableState } from './state/data-table-state.service';
+import * as i0 from "@angular/core";
 export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     labels: NovoLabelService;
     private ref;
@@ -13,7 +14,8 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     defaultTemplates: QueryList<NovoTemplate>;
     novoDataTableContainer: ElementRef;
     resized: EventEmitter<IDataTableColumn<T>>;
-    displayedColumns: string[];
+    set displayedColumns(displayedColumns: string[]);
+    get displayedColumns(): string[];
     private _disabledColumns;
     paginationOptions: IDataTablePaginationOptions;
     searchOptions: IDataTableSearchOptions;
@@ -31,18 +33,23 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     };
     fixedHeader: boolean;
     paginatorDataFeatureId: string;
-    dataTableService: IDataTableService<T>;
-    rows: T[];
-    outsideFilter: EventEmitter<any>;
-    refreshSubject: EventEmitter<any>;
-    columns: IDataTableColumn<T>[];
-    customFilter: boolean;
+    set dataTableService(service: IDataTableService<T>);
+    set rows(rows: T[]);
+    set outsideFilter(outsideFilter: EventEmitter<any>);
+    set refreshSubject(refreshSubject: EventEmitter<any>);
+    set columns(columns: IDataTableColumn<T>[]);
+    get columns(): IDataTableColumn<T>[];
+    set customFilter(v: boolean);
+    get customFilter(): boolean;
     private _customFilter;
-    hasExandedRows: boolean;
+    set hasExandedRows(v: boolean);
+    get hasExandedRows(): boolean;
     private _hasExandedRows;
-    forceShowHeader: boolean;
+    set forceShowHeader(v: boolean);
+    get forceShowHeader(): boolean;
     private _forceShowHeader;
-    hideGlobalSearch: boolean;
+    set hideGlobalSearch(v: boolean);
+    get hideGlobalSearch(): boolean;
     private _hideGlobalSearch;
     preferencesChanged: EventEmitter<IDataTablePreferences>;
     dataSource: DataTableSource<T>;
@@ -62,8 +69,8 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     private _columns;
     private scrollListenerHandler;
     private initialized;
-    readonly empty: boolean;
-    readonly loadingClass: boolean;
+    get empty(): boolean;
+    get loadingClass(): boolean;
     constructor(labels: NovoLabelService, ref: ChangeDetectorRef, state: DataTableState<T>);
     ngOnDestroy(): void;
     ngAfterContentInit(): void;
@@ -81,4 +88,6 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     private configureLastDisplayedColumn;
     private configureColumns;
     private scrollListener;
+    static ɵfac: i0.ɵɵFactoryDef<NovoDataTable<any>, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoDataTable<any>, "novo-data-table", never, { "displayedColumns": "displayedColumns"; "paginationOptions": "paginationOptions"; "searchOptions": "searchOptions"; "defaultSort": "defaultSort"; "name": "name"; "allowMultipleFilters": "allowMultipleFilters"; "rowIdentifier": "rowIdentifier"; "activeRowIdentifier": "activeRowIdentifier"; "trackByFn": "trackByFn"; "templates": "templates"; "fixedHeader": "fixedHeader"; "paginatorDataFeatureId": "paginatorDataFeatureId"; "dataTableService": "dataTableService"; "rows": "rows"; "outsideFilter": "outsideFilter"; "refreshSubject": "refreshSubject"; "columns": "columns"; "customFilter": "customFilter"; "hasExandedRows": "hasExandedRows"; "forceShowHeader": "forceShowHeader"; "hideGlobalSearch": "hideGlobalSearch"; }, { "resized": "resized"; "preferencesChanged": "preferencesChanged"; }, ["customTemplates"], ["*"]>;
 }

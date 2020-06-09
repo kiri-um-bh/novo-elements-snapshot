@@ -1,3 +1,4 @@
+import * as i0 from "@angular/core";
 export declare class NovoLabelService {
     userLocale: string;
     filters: string;
@@ -120,6 +121,8 @@ export declare class NovoLabelService {
     formatDateShort(value: string | number | Date): string;
     formatTime(value: string | number | Date): string;
     formatDate(value: string | number | Date): string;
+    static ɵfac: i0.ɵɵFactoryDef<NovoLabelService, [{ optional: true; }]>;
+    static ɵprov: i0.ɵɵInjectableDef<NovoLabelService>;
 }
 export declare const NOVO_ELEMENTS_LABELS_PROVIDERS: {
     provide: typeof NovoLabelService;

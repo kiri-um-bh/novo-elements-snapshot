@@ -3,6 +3,7 @@ import { ControlValueAccessor } from '@angular/forms';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { DateFormatService } from '../../services/date-format/DateFormat';
+import * as i0 from "@angular/core";
 export declare class NovoTimePickerInputElement implements OnInit, ControlValueAccessor {
     element: ElementRef;
     labels: NovoLabelService;
@@ -28,7 +29,7 @@ export declare class NovoTimePickerInputElement implements OnInit, ControlValueA
     /** BEGIN: Convenient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
-    readonly panelOpen: boolean;
+    get panelOpen(): boolean;
     /** END: Convenient Panel Methods. */
     _handleKeydown(event: KeyboardEvent): void;
     _handleInput(event: KeyboardEvent): void;
@@ -47,6 +48,8 @@ export declare class NovoTimePickerInputElement implements OnInit, ControlValueA
      */
     clearValue(): void;
     formatDateValue(value: any): string;
-    readonly hasValue: boolean;
+    get hasValue(): boolean;
     scrollToIndex(index: number): void;
+    static ɵfac: i0.ɵɵFactoryDef<NovoTimePickerInputElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoTimePickerInputElement, "novo-time-picker-input", never, { "name": "name"; "placeholder": "placeholder"; "military": "military"; "maskOptions": "maskOptions"; "disabled": "disabled"; }, { "blurEvent": "blurEvent"; "focusEvent": "focusEvent"; }, never, never>;
 }

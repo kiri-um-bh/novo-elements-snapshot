@@ -1,21 +1,21 @@
-/**
- * @fileoverview added by tsickle
- * Generated from: elements/ckeditor/CKEditor.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 // NG2
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 // APP
 import { NovoCKEditorElement } from './CKEditor';
+import * as i0 from "@angular/core";
 export class NovoNovoCKEditorModule {
 }
-NovoNovoCKEditorModule.decorators = [
-    { type: NgModule, args: [{
+NovoNovoCKEditorModule.ɵmod = i0.ɵɵdefineNgModule({ type: NovoNovoCKEditorModule });
+NovoNovoCKEditorModule.ɵinj = i0.ɵɵdefineInjector({ factory: function NovoNovoCKEditorModule_Factory(t) { return new (t || NovoNovoCKEditorModule)(); }, imports: [[CommonModule, FormsModule]] });
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(NovoNovoCKEditorModule, { declarations: [NovoCKEditorElement], imports: [CommonModule, FormsModule], exports: [NovoCKEditorElement] }); })();
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoNovoCKEditorModule, [{
+        type: NgModule,
+        args: [{
                 imports: [CommonModule, FormsModule],
                 declarations: [NovoCKEditorElement],
                 exports: [NovoCKEditorElement],
-            },] }
-];
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ0tFZGl0b3IubW9kdWxlLmpzIiwic291cmNlUm9vdCI6Im5nOi8vbm92by1lbGVtZW50cy8iLCJzb3VyY2VzIjpbImVsZW1lbnRzL2NrZWRpdG9yL0NLRWRpdG9yLm1vZHVsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7QUFDQSxPQUFPLEVBQUUsUUFBUSxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBQ3pDLE9BQU8sRUFBRSxXQUFXLEVBQUUsTUFBTSxnQkFBZ0IsQ0FBQztBQUM3QyxPQUFPLEVBQUUsWUFBWSxFQUFFLE1BQU0saUJBQWlCLENBQUM7O0FBRS9DLE9BQU8sRUFBRSxtQkFBbUIsRUFBRSxNQUFNLFlBQVksQ0FBQztBQU9qRCxNQUFNLE9BQU8sc0JBQXNCOzs7WUFMbEMsUUFBUSxTQUFDO2dCQUNSLE9BQU8sRUFBRSxDQUFDLFlBQVksRUFBRSxXQUFXLENBQUM7Z0JBQ3BDLFlBQVksRUFBRSxDQUFDLG1CQUFtQixDQUFDO2dCQUNuQyxPQUFPLEVBQUUsQ0FBQyxtQkFBbUIsQ0FBQzthQUMvQiIsInNvdXJjZXNDb250ZW50IjpbIi8vIE5HMlxuaW1wb3J0IHsgTmdNb2R1bGUgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcbmltcG9ydCB7IEZvcm1zTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvZm9ybXMnO1xuaW1wb3J0IHsgQ29tbW9uTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvY29tbW9uJztcbi8vIEFQUFxuaW1wb3J0IHsgTm92b0NLRWRpdG9yRWxlbWVudCB9IGZyb20gJy4vQ0tFZGl0b3InO1xuXG5ATmdNb2R1bGUoe1xuICBpbXBvcnRzOiBbQ29tbW9uTW9kdWxlLCBGb3Jtc01vZHVsZV0sXG4gIGRlY2xhcmF0aW9uczogW05vdm9DS0VkaXRvckVsZW1lbnRdLFxuICBleHBvcnRzOiBbTm92b0NLRWRpdG9yRWxlbWVudF0sXG59KVxuZXhwb3J0IGNsYXNzIE5vdm9Ob3ZvQ0tFZGl0b3JNb2R1bGUge31cbiJdfQ==
+            }]
+    }], null, null); })();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ0tFZGl0b3IubW9kdWxlLmpzIiwic291cmNlUm9vdCI6Im5nOi8vbm92by1lbGVtZW50cy8iLCJzb3VyY2VzIjpbImVsZW1lbnRzL2NrZWRpdG9yL0NLRWRpdG9yLm1vZHVsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxNQUFNO0FBQ04sT0FBTyxFQUFFLFFBQVEsRUFBRSxNQUFNLGVBQWUsQ0FBQztBQUN6QyxPQUFPLEVBQUUsV0FBVyxFQUFFLE1BQU0sZ0JBQWdCLENBQUM7QUFDN0MsT0FBTyxFQUFFLFlBQVksRUFBRSxNQUFNLGlCQUFpQixDQUFDO0FBQy9DLE1BQU07QUFDTixPQUFPLEVBQUUsbUJBQW1CLEVBQUUsTUFBTSxZQUFZLENBQUM7O0FBT2pELE1BQU0sT0FBTyxzQkFBc0I7OzBEQUF0QixzQkFBc0I7MkhBQXRCLHNCQUFzQixrQkFKeEIsQ0FBQyxZQUFZLEVBQUUsV0FBVyxDQUFDO3dGQUl6QixzQkFBc0IsbUJBSGxCLG1CQUFtQixhQUR4QixZQUFZLEVBQUUsV0FBVyxhQUV6QixtQkFBbUI7a0RBRWxCLHNCQUFzQjtjQUxsQyxRQUFRO2VBQUM7Z0JBQ1IsT0FBTyxFQUFFLENBQUMsWUFBWSxFQUFFLFdBQVcsQ0FBQztnQkFDcEMsWUFBWSxFQUFFLENBQUMsbUJBQW1CLENBQUM7Z0JBQ25DLE9BQU8sRUFBRSxDQUFDLG1CQUFtQixDQUFDO2FBQy9CIiwic291cmNlc0NvbnRlbnQiOlsiLy8gTkcyXG5pbXBvcnQgeyBOZ01vZHVsZSB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuaW1wb3J0IHsgRm9ybXNNb2R1bGUgfSBmcm9tICdAYW5ndWxhci9mb3Jtcyc7XG5pbXBvcnQgeyBDb21tb25Nb2R1bGUgfSBmcm9tICdAYW5ndWxhci9jb21tb24nO1xuLy8gQVBQXG5pbXBvcnQgeyBOb3ZvQ0tFZGl0b3JFbGVtZW50IH0gZnJvbSAnLi9DS0VkaXRvcic7XG5cbkBOZ01vZHVsZSh7XG4gIGltcG9ydHM6IFtDb21tb25Nb2R1bGUsIEZvcm1zTW9kdWxlXSxcbiAgZGVjbGFyYXRpb25zOiBbTm92b0NLRWRpdG9yRWxlbWVudF0sXG4gIGV4cG9ydHM6IFtOb3ZvQ0tFZGl0b3JFbGVtZW50XSxcbn0pXG5leHBvcnQgY2xhc3MgTm92b05vdm9DS0VkaXRvck1vZHVsZSB7fVxuIl19
