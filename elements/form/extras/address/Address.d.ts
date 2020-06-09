@@ -54,7 +54,7 @@ export declare class NovoAddressElement implements ControlValueAccessor, OnInit 
     onStateChange(evt: any): void;
     setStateLabel(model: any): void;
     updateStates(): void;
-    getStateOptions(filter: string, countryID: number): any[];
+    getStateOptions(filter: string, countryID: number): string[];
     updateControl(): void;
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;

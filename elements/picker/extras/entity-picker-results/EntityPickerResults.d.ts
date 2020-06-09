@@ -7,18 +7,11 @@ export declare class EntityPickerResult {
     term: any;
     constructor(labels: NovoLabelService);
     /**
-     * @name escapeRegexp
-     * @param queryToEscape
-     *
      * @description This function captures the whole query string and replace it with the string that will be used to
      * match.
      */
     escapeRegexp(queryToEscape: any): any;
     /**
-     * @name highlight
-     * @param match
-     * @param query
-     *
      * @description This function should return a <strong>-tag wrapped HTML string.
      */
     highlight(match: any, query: any): any;

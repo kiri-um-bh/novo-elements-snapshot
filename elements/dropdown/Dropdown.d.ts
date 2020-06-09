@@ -45,11 +45,11 @@ export declare class NovoItemElement {
     constructor(dropdown: NovoDropdownElement, element: ElementRef);
     onClick(event: Event): void;
 }
-export declare class NovoListElement implements AfterContentInit {
+export declare class NovoDropdownListElement implements AfterContentInit {
     private dropdown;
     items: QueryList<NovoItemElement>;
     constructor(dropdown: NovoDropdownElement);
     ngAfterContentInit(): void;
 }
-export declare class NovoItemHeaderElement {
+export declare class NovoDropDownItemHeaderElement {
 }

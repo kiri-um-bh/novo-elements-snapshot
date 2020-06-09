@@ -1,4 +1,4 @@
-import { EventEmitter, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { NovoLabelService } from '../../services/novo-label-service';
 export declare type TabbedGroupPickerTab = {

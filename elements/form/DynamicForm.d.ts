@@ -1,7 +1,7 @@
-import { OnInit, OnChanges, SimpleChanges, ElementRef, QueryList, AfterContentInit } from '@angular/core';
-import { NovoFieldset, NovoFormGroup } from './FormInterfaces';
+import { AfterContentInit, ElementRef, OnChanges, OnInit, QueryList, SimpleChanges } from '@angular/core';
 import { NovoTemplateService } from '../../services/template/NovoTemplateService';
 import { NovoTemplate } from '../common/novo-template/novo-template.directive';
+import { NovoFieldset, NovoFormGroup } from './FormInterfaces';
 export declare class NovoFieldsetHeaderElement {
     title: string;
     icon: string;

@@ -1,7 +1,6 @@
 export declare class Helpers {
     /**
      * Swallows an event to stop further execution
-     * @param event
      */
     static swallowEvent(event: any): void;
     static interpolate(str: string, props: any): string;
@@ -65,8 +64,5 @@ export declare class Can {
     have(key: string): any;
     check(thing: any): boolean;
 }
-/**
- * @param obj
- */
 export declare function can(obj: any): Can;
 export declare function binarySearch<T>(item: T, array: T[], compare: (a: T, b: T) => 1 | -1 | 0 | undefined): T | undefined;
