@@ -18,7 +18,7 @@ export declare class NovoRadioElement implements ControlValueAccessor {
     onModelChange: Function;
     onModelTouched: Function;
     constructor(ref: ChangeDetectorRef);
-    select(event: any): void;
+    select(event: MouseEvent): void;
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;

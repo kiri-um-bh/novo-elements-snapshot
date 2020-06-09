@@ -33,7 +33,11 @@ declare class ControlConfig {
     forceClear: EventEmitter<any>;
     headerConfig: any;
     hidden: boolean;
-    interactions: Array<Object>;
+    interactions: Array<{
+        event?: 'change' | 'focus' | string;
+        invokeOnInit?: boolean;
+        script?: any;
+    }>;
     isEmpty?: Function;
     key: string;
     label: string;

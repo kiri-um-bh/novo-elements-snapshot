@@ -64,16 +64,12 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     registerOnTouched(fn: Function): void;
     setDisabledState(disabled: boolean): void;
     /**
-     * @name showPreview
-     *
      * @description This method creates an instance of the preview (called popup) and adds all the bindings to that
      * instance. Will reuse the popup or create a new one if it does not already exist. Will only work if there is
      * a previewTemplate given in the config.
      */
     showPreview(): void;
     /**
-     * @name hidePreview
-     *
      * @description - This method deletes the preview popup from the DOM.
      */
     hidePreview(): void;

@@ -19,8 +19,5 @@ export declare class NovoTipWellElement implements OnInit {
     constructor(labels: NovoLabelService, sanitizer: DomSanitizer);
     readonly tipWithStyles: SafeHtml;
     ngOnInit(): void;
-    /**
-     * @name hideTip
-     */
     hideTip(): void;
 }

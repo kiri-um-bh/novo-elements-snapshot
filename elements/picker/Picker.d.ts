@@ -3,8 +3,6 @@ import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
 import { NovoControlConfig } from '../form/FormControls';
 /**
- * @name Picker
- *
  * @description This class is the directive definition of the Picker. If you add and attribute of `picker` to an input,
  * it will create an instance of the picker which wraps the input in all of the picker HTML elements and functionality.
  * Picker should be added as a two-way bound ngModel instance `[(picker)]=""` in order to have the picker options
@@ -52,7 +50,6 @@ export declare class NovoPickerElement implements OnInit {
     onKeyDown(event: KeyboardEvent): void;
     clearValue(wipeTerm: any): void;
     /**
-     * @name onFocus
      * @description When the input's focus event is called this method calls the debounced function that displays the
      * results.
      */

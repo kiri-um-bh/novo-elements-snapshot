@@ -1,4 +1,4 @@
-import { TemplateRef, ViewContainerRef, EmbeddedViewRef, QueryList } from '@angular/core';
+import { EmbeddedViewRef, QueryList, TemplateRef, ViewContainerRef } from '@angular/core';
 export declare class NovoLoadingElement {
     theme: string;
 }

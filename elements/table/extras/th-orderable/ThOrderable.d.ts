@@ -9,15 +9,7 @@ export declare class ThOrderable implements OnInit {
     constructor(element: ElementRef);
     readonly index: number;
     ngOnInit(): void;
-    /**
-     * @name onDragStart
-     * @param event
-     */
     onDragStart(event?: any): void;
-    /**
-     * @name deleteColumns
-     * @param table
-     */
     deleteColumns(table: {
         rows: Array<any>;
         deleteRow: Function;
@@ -26,10 +18,6 @@ export declare class ThOrderable implements OnInit {
     onDrag(event?: any): boolean;
     onDragEnd(event?: any): boolean;
     onDrop(event?: any): boolean;
-    /**
-     * @name onDragOver
-     * @param event
-     */
     onDragOver(event: {
         preventDefault: Function;
         dataTransfer: {

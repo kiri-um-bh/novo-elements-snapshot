@@ -1,5 +1,10 @@
-import { EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NovoLabelService } from '../../../../services/novo-label-service';
+interface Page {
+    num: number;
+    text: string;
+    active: boolean;
+}
 export declare class Pagination implements OnInit, OnChanges {
     labels: NovoLabelService;
     page: number;
@@ -14,7 +19,7 @@ export declare class Pagination implements OnInit, OnChanges {
     pageSelectDisabled: boolean;
     maxPagesDisplayed: number;
     totalPages: number;
-    pages: Array<any>;
+    pages: Array<Page>;
     constructor(labels: NovoLabelService);
     ngOnInit(): void;
     ngOnChanges(changes?: SimpleChanges): void;
@@ -23,14 +28,11 @@ export declare class Pagination implements OnInit, OnChanges {
         label: string;
     }[];
     onPageSizeChanged(event: any): void;
-    selectPage(page: any, event?: any): void;
+    selectPage(page: number, event?: MouseEvent): void;
     noPrevious(): boolean;
     noNext(): boolean;
-    makePage(number: any, text: any, isActive: any): {
-        number: any;
-        text: any;
-        active: any;
-    };
-    getPages(currentPage: any, totalPages: any): any[];
+    makePage(num: number, text: string, isActive: boolean): Page;
+    getPages(currentPage: number, totalPages: number): Page[];
     calculateTotalPages(): number;
 }
+export {};

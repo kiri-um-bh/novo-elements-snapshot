@@ -107,6 +107,8 @@ export declare class NovoLabelService {
     dateFormatString(): string;
     tabbedGroupClearSuggestion(tabLabelPlural: string): string;
     formatDateWithFormat(value: any, format: Intl.DateTimeFormatOptions): any;
+    formatToTimeOnly(param: any): void;
+    formatToDateOnly(param: any): void;
     formatTimeWithFormat(value: any, format: Intl.DateTimeFormatOptions): string;
     getWeekdays(): string[];
     getMonths(): string[];
@@ -115,9 +117,9 @@ export declare class NovoLabelService {
     formatCurrency(value: number): string;
     formatBigDecimal(value: number): string;
     formatNumber(value: any, options?: Intl.NumberFormatOptions): string;
-    formatDateShort(value: any): string;
-    formatTime(value: any): string;
-    formatDate(value: any): string;
+    formatDateShort(value: string | number | Date): string;
+    formatTime(value: string | number | Date): string;
+    formatDate(value: string | number | Date): string;
 }
 export declare const NOVO_ELEMENTS_LABELS_PROVIDERS: {
     provide: typeof NovoLabelService;
