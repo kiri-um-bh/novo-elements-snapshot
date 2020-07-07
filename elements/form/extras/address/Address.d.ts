@@ -1,4 +1,4 @@
-import { EventEmitter, OnInit } from '@angular/core';
+import { OnInit, EventEmitter } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../../../services/novo-label-service';
 export interface NovoAddressSubfieldConfig {
@@ -54,7 +54,7 @@ export declare class NovoAddressElement implements ControlValueAccessor, OnInit 
     onStateChange(evt: any): void;
     setStateLabel(model: any): void;
     updateStates(): void;
-    getStateOptions(filter: string, countryID: number): string[];
+    getStateOptions(filter: string, countryID: number): any[];
     updateControl(): void;
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;

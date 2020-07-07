@@ -66,6 +66,7 @@ export declare class NovoDatePickerElement implements ControlValueAccessor, OnIn
     updateHeading(): void;
     /**
      * Remove the time aspect of the date
+     * @param date
      * @returns with time stripped out
      */
     removeTime(date: any): Date;

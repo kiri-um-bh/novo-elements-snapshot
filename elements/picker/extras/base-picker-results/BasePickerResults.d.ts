@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { NovoControlConfig } from '../../../form/controls/BaseControl';
 /**
+ * @name: PickerResults
+ *
  * @description This is the actual list of matches that gets injected into the DOM. It's also the piece that can be
  * overwritten if custom list options are needed.
  */
@@ -36,6 +38,7 @@ export declare class BasePickerResults {
     search(term: any, mode?: any): Observable<any>;
     shouldCallOptionsFunction(term: string): boolean;
     /**
+     * @name structureArray
      * @param collection - the data once getData resolves it
      *
      * @description This function structures an array of nodes into an array of objects with a
@@ -43,6 +46,7 @@ export declare class BasePickerResults {
      */
     structureArray(collection: any): any;
     /**
+     * @name filterData=
      * @param matches - Collection of objects=
      *
      * @description This function loops through the picker options and creates a filtered list of objects that contain
@@ -50,14 +54,20 @@ export declare class BasePickerResults {
      */
     filterData(matches: any): Array<any>;
     /**
+     * @name selectActiveMatch
+     *
      * @description This function is called when the user presses the enter key to call the selectMatch method.
      */
     selectActiveMatch(): void;
     /**
+     * @name prevActiveMatch
+     *
      * @description This function sets activeMatch to the match before the current node.
      */
     prevActiveMatch(): void;
     /**
+     * @name nextActiveMatch
+     *
      * @description This function sets activeMatch to the match after the current node.
      */
     nextActiveMatch(): void;
@@ -65,23 +75,40 @@ export declare class BasePickerResults {
     getChildrenOfListElement(): any[];
     scrollToActive(): void;
     /**
+     * @name selectActive
+     * @param match
+     *
      * @description
      */
     selectActive(match: any): void;
     /**
+     * @name isActive
+     * @param match
+     *
      * @description
      */
     isActive(match: any): boolean;
     /**
+     * @name selectMatch
+     * @param event
+     * @param item
+     *
      * @description
      */
     selectMatch(event?: any, item?: any): boolean;
     /**
+     * @name escapeRegexp
+     * @param queryToEscape
+     *
      * @description This function captures the whole query string and replace it with the string that will be used to
      * match.
      */
     escapeRegexp(queryToEscape: any): any;
     /**
+     * @name highlight
+     * @param match
+     * @param query
+     *
      * @description This function should return a <strong>-tag wrapped HTML string.
      */
     highlight(match: any, query: any): any;

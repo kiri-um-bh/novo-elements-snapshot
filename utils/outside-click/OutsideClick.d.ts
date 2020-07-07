@@ -15,10 +15,13 @@ export declare class OutsideClick implements OnDestroy {
     ngOnDestroy(): void;
     /**
      * Toggles the element as active and adds/removes the outside click handler
+     * @param event
+     * @param forceValue
      */
     toggleActive(event?: MouseEvent, forceValue?: boolean): void;
     /**
      * When clicking outside, checks the element and closes if outside
+     * @param event
      */
     handleOutsideClick(event: MouseEvent): void;
 }

@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, ComponentRef, StaticProvider, Type, ViewContainerRef } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, ViewContainerRef, StaticProvider, Type } from '@angular/core';
 export declare class ComponentUtils {
     componentFactoryResolver: ComponentFactoryResolver;
     constructor(componentFactoryResolver: ComponentFactoryResolver);

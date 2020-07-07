@@ -13,8 +13,20 @@ export declare class FormUtils {
     emptyFormGroup(): NovoFormGroup;
     addControls(formGroup: NovoFormGroup, controls: Array<NovoControlConfig>): void;
     removeControls(formGroup: NovoFormGroup, controls: Array<NovoControlConfig>): void;
+    /**
+     * @name toFormGroupFromFieldset
+     * @param fieldsets
+     */
     toFormGroupFromFieldset(fieldsets: Array<NovoFieldset>): NovoFormGroup;
+    /**
+     * @name hasAssociatedEntity
+     * @param field
+     */
     hasAssociatedEntity(field: FormField): boolean;
+    /**
+     * @name determineInputType
+     * @param field
+     */
     determineInputType(field: FormField): string;
     isFieldEncrypted(key: string): boolean;
     getControlForField(field: any, http: any, config: {

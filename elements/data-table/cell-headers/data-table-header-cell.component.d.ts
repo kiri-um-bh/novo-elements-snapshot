@@ -1,9 +1,9 @@
+import { ChangeDetectorRef, OnDestroy, OnInit, ElementRef, Renderer2, EventEmitter, TemplateRef } from '@angular/core';
 import { CdkColumnDef } from '@angular/cdk/table';
-import { ChangeDetectorRef, ElementRef, EventEmitter, OnDestroy, OnInit, Renderer2, TemplateRef } from '@angular/core';
-import { NovoLabelService } from '../../../services/novo-label-service';
-import { NovoDropdownElement } from '../../dropdown/Dropdown';
-import { IDataTableChangeEvent, IDataTableColumn, IDataTableColumnFilterConfig, IDataTableColumnFilterOption, IDataTableSortFilter } from '../interfaces';
+import { IDataTableSortFilter, IDataTableChangeEvent, IDataTableColumn, IDataTableColumnFilterOption, IDataTableColumnFilterConfig } from '../interfaces';
 import { NovoDataTableSortFilter } from '../sort-filter/sort-filter.directive';
+import { NovoDropdownElement } from '../../dropdown/Dropdown';
+import { NovoLabelService } from '../../../services/novo-label-service';
 import { DataTableState } from '../state/data-table-state.service';
 export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter, OnInit, OnDestroy {
     private changeDetectorRef;
