@@ -35303,6 +35303,8 @@
         RangeModal.prototype.startDate;
         /** @type {?} */
         RangeModal.prototype.endDate;
+        /** @type {?|undefined} */
+        RangeModal.prototype.selectedDate;
     }
     /**
      * @record
@@ -35570,7 +35572,13 @@
                     this.clearRange();
                 }
                 /** @type {?} */
-                var value = date ? new Date(date) : new Date();
+                var value = void 0;
+                if (date && date.selectedDate) {
+                    value = new Date(date.selectedDate);
+                }
+                else {
+                    value = date ? new Date(date) : new Date();
+                }
                 value = this.removeTime(value);
                 this.month = new Date(value);
                 this.monthLabel = this.labels.formatDateWithFormat(this.month, { month: 'short' });
@@ -35728,10 +35736,12 @@
                     this._onChange({
                         startDate: this.selected,
                         endDate: this.selected2 ? this.selected2 : null,
+                        selectedDate: day.date,
                     });
                     this.model = {
                         startDate: this.selected,
                         endDate: this.selected2 ? this.selected2 : null,
+                        selectedDate: day.date,
                     };
                 }
                 if (!this.range) {

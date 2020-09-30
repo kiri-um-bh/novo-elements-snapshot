@@ -33961,6 +33961,8 @@ if (false) {
     RangeModal.prototype.startDate;
     /** @type {?} */
     RangeModal.prototype.endDate;
+    /** @type {?|undefined} */
+    RangeModal.prototype.selectedDate;
 }
 /**
  * @record
@@ -34172,7 +34174,13 @@ class NovoDatePickerElement {
                 this.clearRange();
             }
             /** @type {?} */
-            let value = date ? new Date(date) : new Date();
+            let value;
+            if (date && date.selectedDate) {
+                value = new Date(date.selectedDate);
+            }
+            else {
+                value = date ? new Date(date) : new Date();
+            }
             value = this.removeTime(value);
             this.month = new Date(value);
             this.monthLabel = this.labels.formatDateWithFormat(this.month, { month: 'short' });
@@ -34310,10 +34318,12 @@ class NovoDatePickerElement {
                 this._onChange({
                     startDate: this.selected,
                     endDate: this.selected2 ? this.selected2 : null,
+                    selectedDate: day.date,
                 });
                 this.model = {
                     startDate: this.selected,
                     endDate: this.selected2 ? this.selected2 : null,
+                    selectedDate: day.date,
                 };
             }
             if (!this.range) {

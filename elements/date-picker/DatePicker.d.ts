@@ -4,6 +4,7 @@ import { NovoLabelService } from '../../services/novo-label-service';
 export interface RangeModal {
     startDate: Date;
     endDate: Date;
+    selectedDate?: Date;
 }
 export declare type modelTypes = Date | RangeModal;
 export interface Day {
