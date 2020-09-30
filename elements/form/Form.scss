@@ -56,9 +56,6 @@ novo-form {
             margin-top: -3px; // Icon itself is not centered in the SVG
           }
         }
-        &.hidden {
-          display: none;
-        }
       }
       div.novo-form-row,
       div.novo-control-group-control,
@@ -441,15 +438,8 @@ novo-form {
                     > div.novo-control-input-with-label {
                       display: flex;
                       align-items: center;
-                      @supports (not (-moz-appearance:none)) {
-                        input {
-                          flex: 1;
-                        }
-                      }
-                      @supports (-moz-appearance:none) {
-                        input {
-                          flex: auto;
-                        }
+                      input {
+                        flex: 1;
                       }
                       label.input-label {
                         padding-left: 5px;

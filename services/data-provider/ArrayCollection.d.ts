@@ -45,6 +45,7 @@ export declare class ArrayCollection<T> implements Collection<T> {
     /**
      * Appends an item to the end of the data provider.
      *
+     * @param item
      *
      * @memberOf ArrayCollection
      */
@@ -52,6 +53,8 @@ export declare class ArrayCollection<T> implements Collection<T> {
     /**
      * Adds a new item to the data provider at the specified index.
      *
+     * @param item
+     * @param index
      *
      * @memberOf ArrayCollection
      */
@@ -59,11 +62,16 @@ export declare class ArrayCollection<T> implements Collection<T> {
     /**
      *  Appends multiple items to the end of the DataProvider and dispatches a CollectionEvent.ADD event.
      *
+     * @param items
+     *
      * @memberOf ArrayCollection
      */
     addItems(items: Array<T>): void;
     /**
      * Adds several items to the data provider at the specified index and dispatches a CollectionEvent.ADD event.
+     *
+     * @param items
+     * @param index
      *
      * @memberOf ArrayCollection
      */
@@ -79,9 +87,11 @@ export declare class ArrayCollection<T> implements Collection<T> {
      *
      * @memberOf ArrayCollection
      */
-    copy(array: any[]): any;
+    copy(array: any[]): any[];
     /**
      * Concatenates the specified items to the end of the current data provider.
+     *
+     * @param items
      *
      * @memberOf ArrayCollection
      */
@@ -89,11 +99,15 @@ export declare class ArrayCollection<T> implements Collection<T> {
     /**
      * Returns the item at the specified index.
      *
+     * @param index
+     *
      * @memberOf ArrayCollection
      */
     getItemAt(index: number): any;
     /**
      *  Returns the index of the specified item.
+     *
+     * @param item
      *
      * @memberOf ArrayCollection
      */
@@ -107,15 +121,21 @@ export declare class ArrayCollection<T> implements Collection<T> {
     /**
      * Invalidates the specified item.
      *
+     * @param item
+     *
      * @memberOf ArrayCollection
      */
     /**
      * Invalidates the item at the specified index.
      *
+     * @param index
+     *
      * @memberOf ArrayCollection
      */
     /**
      * Appends the specified data into the data that the data provider contains and removes any duplicate items.
+     *
+     * @param newData
      *
      * @memberOf ArrayCollection
      */
@@ -129,11 +149,15 @@ export declare class ArrayCollection<T> implements Collection<T> {
     /**
      * Removes the specified item from the data provider and dispatches a CollectionEvent.REMOVE event.
      *
+     * @param item
+     *
      * @memberOf ArrayCollection
      */
     removeItem(item: T): boolean;
     /**
      * Removes the item at the specified index and dispatches a CollectionEvent.REMOVE event.
+     *
+     * @param index
      *
      * @memberOf ArrayCollection
      */
@@ -141,11 +165,17 @@ export declare class ArrayCollection<T> implements Collection<T> {
     /**
      * Replaces an existing item with a new item and dispatches a CollectionEvent.REPLACE event.
      *
+     * @param newItem
+     * @param oldItem
+     *
      * @memberOf ArrayCollection
      */
     replaceItem(newItem: any, oldItem: any): any;
     /**
      * Replaces the item at the specified index and dispatches a CollectionEvent.REPLACE event.
+     *
+     * @param newItem
+     * @param index
      *
      * @memberOf ArrayCollection
      */
@@ -153,11 +183,18 @@ export declare class ArrayCollection<T> implements Collection<T> {
     /**
      * Sorts the items that the data provider contains and dispatches a CollectionEvent.SORT event.
      *
+     * @param sortArgs
+     * @returns null
+     *
      * @memberOf ArrayCollection
      */
     sort: Array<any>;
     /**
      * Sorts the items that the data provider contains by the specified field and dispatches a CollectionEvent.SORT event.
+     *
+     * @param fieldName
+     * @param [options=null]
+     * @returns null
      *
      * @memberOf ArrayCollection
      */

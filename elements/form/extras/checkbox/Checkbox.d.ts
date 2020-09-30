@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, EventEmitter, OnInit } from '@angular/core';
+import { OnInit, ChangeDetectorRef, EventEmitter } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 export declare class NovoCheckboxElement implements ControlValueAccessor, OnInit {
     private ref;

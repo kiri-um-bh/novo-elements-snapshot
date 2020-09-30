@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 export declare class NovoRadioGroup {
 }
@@ -18,7 +18,7 @@ export declare class NovoRadioElement implements ControlValueAccessor {
     onModelChange: Function;
     onModelTouched: Function;
     constructor(ref: ChangeDetectorRef);
-    select(event: MouseEvent): void;
+    select(event: any): void;
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
