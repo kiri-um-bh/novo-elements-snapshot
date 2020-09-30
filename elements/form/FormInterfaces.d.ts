@@ -10,11 +10,7 @@ export interface NovoFormGroup {
 export interface NovoFieldset {
     title?: string;
     icon?: string;
-    key?: string;
     controls: any[];
-    isEmbedded?: boolean;
-    isInlineEmbedded?: boolean;
-    hidden?: boolean;
 }
 export interface IFieldInteractionEvent {
     controlKey: string;
@@ -34,4 +30,3 @@ export interface FormField {
     optionsUrl?: string;
     optionsType?: string;
 }
-export declare type ResultsTemplateType = 'entity-picker';

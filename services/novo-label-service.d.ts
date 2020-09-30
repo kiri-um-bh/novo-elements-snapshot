@@ -11,7 +11,6 @@ export declare class NovoLabelService {
     pickerError: string;
     pickerTextFieldEmpty: string;
     pickerEmpty: string;
-    tabbedGroupPickerEmpty: string;
     quickNoteError: string;
     quickNoteEmpty: string;
     required: string;
@@ -29,7 +28,6 @@ export declare class NovoLabelService {
     move: string;
     startDate: string;
     endDate: string;
-    rate: string;
     more: string;
     clearAll: string;
     clearAllNormalCase: string;
@@ -104,11 +102,7 @@ export declare class NovoLabelService {
     selectedRecords(selected: number): string;
     showingXofXResults(shown: number, total: number): string;
     totalRecords(total: number, select?: boolean): string;
-    dateFormatString(): string;
-    tabbedGroupClearSuggestion(tabLabelPlural: string): string;
     formatDateWithFormat(value: any, format: Intl.DateTimeFormatOptions): any;
-    formatToTimeOnly(param: any): void;
-    formatToDateOnly(param: any): void;
     formatTimeWithFormat(value: any, format: Intl.DateTimeFormatOptions): string;
     getWeekdays(): string[];
     getMonths(): string[];
@@ -117,9 +111,9 @@ export declare class NovoLabelService {
     formatCurrency(value: number): string;
     formatBigDecimal(value: number): string;
     formatNumber(value: any, options?: Intl.NumberFormatOptions): string;
-    formatDateShort(value: string | number | Date): string;
-    formatTime(value: string | number | Date): string;
-    formatDate(value: string | number | Date): string;
+    formatDateShort(value: any): string;
+    formatTime(value: any): string;
+    formatDate(value: any): string;
 }
 export declare const NOVO_ELEMENTS_LABELS_PROVIDERS: {
     provide: typeof NovoLabelService;

@@ -24,7 +24,6 @@ export declare class NovoFormControl extends FormControl {
     sortOrder: number;
     controlType: string;
     placeholder: string;
-    minimal: boolean;
     multiple: boolean;
     headerConfig: any;
     optionsType: string;
@@ -51,7 +50,6 @@ export declare class NovoFormControl extends FormControl {
     currencyFormat?: string;
     startDate?: Date | Number;
     endDate?: Date | Number;
-    weekStart?: number;
     textMaskEnabled?: boolean;
     maskOptions: IMaskOptions;
     allowInvalidDate?: boolean;
@@ -59,7 +57,6 @@ export declare class NovoFormControl extends FormControl {
         tip: string;
         icon?: string;
         button?: boolean;
-        sanitize?: boolean;
     };
     rawValue?: any;
     customControlConfig?: any;
@@ -69,17 +66,39 @@ export declare class NovoFormControl extends FormControl {
     private historyTimeout;
     constructor(value: any, control: NovoControlConfig);
     /**
+     * @name hide
      * @param clearValue - flag to reset the control's value
      */
     hide(clearValue?: boolean): void;
+    /**
+     * @name show
+     */
     show(): void;
+    /**
+     * @name setRequired
+     * @param isRequired
+     */
     setRequired(isRequired: boolean): void;
+    /**
+     * @name setValue
+     *
+     * @param value
+     * @param onlySelf
+     * @param emitEvent
+     * @param emitModelToViewChange
+     * @param emitViewToModelChange
+     *
+     */
     setValue(value: any, { onlySelf, emitEvent, emitModelToViewChange, emitViewToModelChange, }?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
         emitModelToViewChange?: boolean;
         emitViewToModelChange?: boolean;
     }): void;
+    /**
+     * @name setReadOnly
+     * @param isReadOnly
+     */
     setReadOnly(isReadOnly: boolean): void;
     /**
      * Disables the control. This means the control will be exempt from validation checks and
@@ -95,5 +114,9 @@ export declare class NovoFormControl extends FormControl {
         onlySelf?: boolean;
         emitEvent?: boolean;
     }): void;
+    /**
+     * @name markAsInvalid
+     * @param message
+     */
     markAsInvalid(message: string): void;
 }

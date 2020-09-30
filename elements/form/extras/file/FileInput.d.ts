@@ -28,7 +28,6 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
         removableWhenNew?: boolean;
     };
     value: Array<any>;
-    dataFeatureId: string;
     edit: EventEmitter<any>;
     save: EventEmitter<any>;
     delete: EventEmitter<any>;
@@ -63,7 +62,7 @@ export declare class NovoFileInputElement implements ControlValueAccessor, OnIni
     process(filelist: any): void;
     download(file: any): void;
     remove(file: any): void;
-    readFile(file: any): Promise<unknown>;
+    readFile(file: any): Promise<{}>;
     customEdit(file: any): void;
     customSave(file: any): void;
     customDelete(file: any): void;

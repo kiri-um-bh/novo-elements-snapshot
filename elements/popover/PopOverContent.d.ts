@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, ElementRef, EventEmitter } from '@angular/core';
+import { AfterViewInit, ElementRef, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { PopOverDirective } from './PopOver';
 export declare class PopOverContent implements AfterViewInit {
     protected element: ElementRef;
@@ -9,7 +9,7 @@ export declare class PopOverContent implements AfterViewInit {
     animation: boolean;
     popoverDiv: ElementRef;
     popover: PopOverDirective;
-    onCloseFromOutside: EventEmitter<any>;
+    onCloseFromOutside: EventEmitter<{}>;
     top: number;
     left: number;
     displayType: string;

@@ -1,9 +1,9 @@
-import { AfterContentInit, ChangeDetectorRef, ElementRef, EventEmitter, OnDestroy, QueryList, TemplateRef } from '@angular/core';
-import { NovoLabelService } from '../../services/novo-label-service';
-import { NovoTemplate } from '../common/novo-template/novo-template.directive';
+import { EventEmitter, AfterContentInit, ChangeDetectorRef, OnDestroy, QueryList, TemplateRef, ElementRef } from '@angular/core';
+import { IDataTableColumn, IDataTablePaginationOptions, IDataTableSearchOptions, IDataTableService, IDataTablePreferences } from './interfaces';
 import { DataTableSource } from './data-table.source';
-import { IDataTableColumn, IDataTablePaginationOptions, IDataTablePreferences, IDataTableSearchOptions, IDataTableService } from './interfaces';
+import { NovoLabelService } from '../../services/novo-label-service';
 import { DataTableState } from './state/data-table-state.service';
+import { NovoTemplate } from '../common/novo-template/novo-template.directive';
 export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     labels: NovoLabelService;
     private ref;
@@ -25,12 +25,11 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     allowMultipleFilters: boolean;
     rowIdentifier: string;
     activeRowIdentifier: string;
-    trackByFn: (index: any, item: any) => any;
+    trackByFn: Function;
     templates: {
         [key: string]: TemplateRef<any>;
     };
     fixedHeader: boolean;
-    paginatorDataFeatureId: string;
     dataTableService: IDataTableService<T>;
     rows: T[];
     outsideFilter: EventEmitter<any>;
