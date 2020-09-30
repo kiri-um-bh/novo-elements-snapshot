@@ -33,11 +33,7 @@ declare class ControlConfig {
     forceClear: EventEmitter<any>;
     headerConfig: any;
     hidden: boolean;
-    interactions: Array<{
-        event?: 'change' | 'focus' | string;
-        invokeOnInit?: boolean;
-        script?: any;
-    }>;
+    interactions: Array<Object>;
     isEmpty?: Function;
     key: string;
     label: string;
@@ -45,7 +41,6 @@ declare class ControlConfig {
     maxlength: number;
     metaType: string;
     military?: boolean;
-    minimal?: boolean;
     minlength: number;
     multiple: boolean;
     name: string;
@@ -93,9 +88,6 @@ declare class ControlConfig {
         icon?: string;
         tip: string;
     };
-    isEmbedded: boolean;
-    isInlineEmbedded: boolean;
-    weekStart?: number;
 }
 export declare type NovoControlConfig = Partial<ControlConfig>;
 export declare class BaseControl extends ControlConfig {

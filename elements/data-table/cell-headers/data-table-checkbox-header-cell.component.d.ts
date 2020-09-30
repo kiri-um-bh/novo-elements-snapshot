@@ -1,5 +1,5 @@
-import { CdkColumnDef, CdkHeaderCell } from '@angular/cdk/table';
-import { ChangeDetectorRef, ElementRef, OnDestroy, Renderer2 } from '@angular/core';
+import { OnDestroy, ElementRef, Renderer2, ChangeDetectorRef } from '@angular/core';
+import { CdkHeaderCell, CdkColumnDef } from '@angular/cdk/table';
 import { NovoDataTable } from '../data-table.component';
 export declare class NovoDataTableCheckboxHeaderCell<T> extends CdkHeaderCell implements OnDestroy {
     private dataTable;

@@ -1,8 +1,8 @@
-import { FocusMonitor } from '@angular/cdk/a11y';
-import { ChangeDetectorRef, ElementRef, EventEmitter, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { EventEmitter, ElementRef, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef, OnDestroy, NgZone } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { NovoLabelService } from '../../services/novo-label-service';
+import { FocusMonitor } from '@angular/cdk/a11y';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
+import { NovoLabelService } from '../../services/novo-label-service';
 export declare class NovoSelectElement implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     element: ElementRef;
     labels: NovoLabelService;

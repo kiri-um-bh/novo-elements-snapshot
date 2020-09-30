@@ -40,10 +40,7 @@ export declare function findByCountryCode(code: string): {
  * Gets states by country name
  * @param name - Name of the country to search by
  */
-export declare function getStateObjects(name: string): {
-    code: string;
-    name: string;
-}[];
+export declare function getStateObjects(name: string): any[];
 /**
  * Gets state names by country name
  * @param name - Name of the country to search by

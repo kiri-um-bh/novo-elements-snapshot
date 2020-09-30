@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { NovoLabelService } from '../../services/novo-label-service';
-import { AppBridge } from '../../utils/app-bridge/AppBridge';
-import { FormUtils } from '../../utils/form-utils/FormUtils';
-import { NovoModalService } from '../modal/ModalService';
-import { NovoToastService, ToastOptions } from '../toast/ToastService';
-import { ModifyPickerConfigArgs, OptionsFunction } from './FieldInteractionApiTypes';
-import { NovoFieldset, ResultsTemplateType, NovoFormGroup } from './FormInterfaces';
 import { NovoFormControl } from './NovoFormControl';
+import { FormUtils } from '../../utils/form-utils/FormUtils';
+import { NovoToastService, ToastOptions } from '../toast/ToastService';
+import { NovoModalService } from '../modal/ModalService';
+import { AppBridge } from '../../utils/app-bridge/AppBridge';
+import { NovoLabelService } from '../../services/novo-label-service';
+import { ModifyPickerConfigArgs, OptionsFunction } from './FieldInteractionApiTypes';
 export declare class FieldInteractionApi {
     private toaster;
     private modalService;
@@ -14,9 +13,9 @@ export declare class FieldInteractionApi {
     private http;
     private labels;
     private _globals;
-    form: NovoFormGroup | any;
+    private _form;
     private _currentKey;
-    appBridge: AppBridge;
+    private _appBridge;
     private asyncBlockTimeout;
     static FIELD_POSITIONS: {
         ABOVE_FIELD: string;
@@ -25,19 +24,20 @@ export declare class FieldInteractionApi {
         BOTTOM_OF_FORM: string;
     };
     constructor(toaster: NovoToastService, modalService: NovoModalService, formUtils: FormUtils, http: HttpClient, labels: NovoLabelService);
-    readonly associations: any;
+    form: any;
+    readonly associations: object;
     readonly currentEntity: string;
     readonly currentEntityId: string;
     readonly isEdit: boolean;
     readonly isAdd: boolean;
     globals: any;
     currentKey: string;
+    appBridge: AppBridge;
     isActiveControlValid(): boolean;
     getActiveControl(): NovoFormControl;
     getActiveKey(): string;
     getActiveValue(): any;
     getActiveInitialValue(): any;
-    getFieldSet(key: string): NovoFieldset;
     getControl(key: string): NovoFormControl;
     getValue(key: string): any;
     getRawValue(key: string): any;
@@ -56,10 +56,8 @@ export declare class FieldInteractionApi {
     }): void;
     setReadOnly(key: string, isReadOnly: boolean): void;
     setRequired(key: string, required: boolean): void;
-    hide(key: string, clearValue?: boolean): NovoFormControl;
+    hide(key: string, clearValue?: boolean): void;
     show(key: string): void;
-    hideFieldSetHeader(key: string): void;
-    showFieldSetHeader(key: string): void;
     disable(key: string, options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
@@ -89,7 +87,7 @@ export declare class FieldInteractionApi {
         emitEvent?: boolean;
     }): void;
     displayToast(toastConfig: ToastOptions): void;
-    displayTip(key: string, tip: string, icon?: string, allowDismiss?: boolean, sanitize?: boolean): void;
+    displayTip(key: string, tip: string, icon?: string, allowDismiss?: boolean): void;
     setTooltip(key: string, tooltip: string): void;
     confirmChanges(key: string, message?: string): Promise<boolean>;
     promptUser(key: string, changes: string[]): Promise<boolean>;
@@ -106,7 +104,6 @@ export declare class FieldInteractionApi {
         optionsUrlBuilder?: Function;
         optionsPromise?: any;
         options?: any[];
-        resultsTemplateType?: ResultsTemplateType;
     }, mapper?: any): void;
     mutatePickerConfig(key: string, args: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown): void;
     addPropertiesToPickerConfig(key: string, properties: {
@@ -118,15 +115,9 @@ export declare class FieldInteractionApi {
         options: OptionsFunction;
         format?: string;
     };
-    private getAppropriateResultsTemplate;
     createOptionsFunction: (config: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown, filteredOptionsCreator?: (where?: string) => (query: string, page?: number) => Promise<unknown[]>) => (query: string) => Promise<unknown[]>;
     setLoading(key: string, loading: boolean): void;
-    addControl(key: string, metaForNewField: {
-        key?: string;
-        type?: string;
-        name?: string;
-        label?: string;
-    }, position?: string, initialValue?: any): void;
+    addControl(key: string, metaForNewField: any, position?: string, initialValue?: any): void;
     removeControl(key: string): void;
     debounce(func: () => void, wait?: number): void;
     private triggerEvent;

@@ -1,8 +1,8 @@
-import { CdkCell, CdkCellDef, CdkColumnDef, CdkHeaderCell, CdkHeaderCellDef } from '@angular/cdk/table';
 import { ChangeDetectorRef, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { NovoLabelService } from '../../services/novo-label-service';
-import { SimpleTableActionColumn, SimpleTableActionColumnOption, SimpleTableColumn } from './interfaces';
+import { CdkCell, CdkCellDef, CdkColumnDef, CdkHeaderCell, CdkHeaderCellDef } from '@angular/cdk/table';
 import { NovoSelection } from './sort';
+import { SimpleTableActionColumn, SimpleTableActionColumnOption, SimpleTableColumn } from './interfaces';
+import { NovoLabelService } from '../../services/novo-label-service';
 /** Workaround for https://github.com/angular/angular/issues/17849 */
 export declare const _NovoCellDef: typeof CdkCellDef;
 export declare const _NovoHeaderCellDef: typeof CdkHeaderCellDef;
@@ -43,6 +43,7 @@ export declare class NovoSimpleCell<T> extends _NovoCell implements OnInit {
     role: string;
     row: any;
     column: SimpleTableColumn<T>;
+    private spanElement;
     constructor(columnDef: CdkColumnDef, elementRef: ElementRef, renderer: Renderer2);
     ngOnInit(): void;
     onClick(event: MouseEvent): void;

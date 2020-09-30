@@ -40,6 +40,9 @@ export declare class RenderPipe implements PipeTransform {
     /**
      * Define the fields to set or retrieve for the given entity. Getter and Setter methods will automagically
      * be set up on the entity once the fields are defined.
+     * @name fields
+     * @memberOf Entity#
+     * @param value
      * @param args - fields can either be sent as a list of arguments or as an Array
      * @return text
      */
@@ -48,12 +51,14 @@ export declare class RenderPipe implements PipeTransform {
     transform(value?: any, args?: any): any;
     /**
      * Simple function concat a list of fields from a list of objects
+     * @name options
      * @param list - the list of values to use
      * @param fields - list of fields to extract
      */
     concat(list: any, ...fields: any[]): any;
     /**
      * Simple function to look up the **label** to display from options
+     * @name options
      * @param value - the value to find
      * @param list - list of options (label/value pairs)
      */
@@ -61,6 +66,7 @@ export declare class RenderPipe implements PipeTransform {
     getNumberDecimalPlaces(value: any): any;
     /**
      * Capitalizes the first letter
+     * @param value
      */
     capitalize(value: any): string;
 }

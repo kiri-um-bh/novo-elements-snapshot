@@ -1,9 +1,10 @@
-import { ElementRef, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { ElementRef, EventEmitter, OnInit, TemplateRef, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../services/novo-label-service';
 export interface RangeModal {
     startDate: Date;
     endDate: Date;
+    selectedDate?: Date;
 }
 export declare type modelTypes = Date | RangeModal;
 export interface Day {
@@ -26,6 +27,7 @@ export declare class NovoDatePickerElement implements ControlValueAccessor, OnIn
     weekRangeSelect: boolean;
     weekStart: number;
     onSelect: EventEmitter<any>;
+    template: TemplateRef<any>;
     weekdays: string[];
     months: string[];
     years: Array<any>;
@@ -66,6 +68,7 @@ export declare class NovoDatePickerElement implements ControlValueAccessor, OnIn
     updateHeading(): void;
     /**
      * Remove the time aspect of the date
+     * @param date
      * @returns with time stripped out
      */
     removeTime(date: any): Date;
