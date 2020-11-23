@@ -1,3 +1,6 @@
+export interface BigDecimalFormatOptions extends Intl.NumberFormatOptions {
+    useAccountingFormat?: boolean;
+}
 export declare class NovoLabelService {
     userLocale: string;
     filters: string;
@@ -115,7 +118,19 @@ export declare class NovoLabelService {
     getProperty(value: string): any;
     getRangeText(page: number, pageSize: number, length: number, short: boolean): string;
     formatCurrency(value: number): string;
-    formatBigDecimal(value: number): string;
+    /**
+     * Extends the Intl.numberFormat capability with two extra features:
+     *  - Does NOT round values, but instead truncates to maximumFractionDigits
+     *  - By default uses accounting format for negative numbers: (3.14) instead of -3.14.
+     *
+     * @param value           The number value to convert to string
+     * @param overrideOptions Allows for overriding options used and passed to Intl.NumberFormat()
+     */
+    formatBigDecimal(value: number, overrideOptions?: BigDecimalFormatOptions): string;
+    /**
+     * Performs a string-based truncating of a number with no rounding
+     */
+    truncateToPrecision(value: number, precision: number): number;
     formatNumber(value: any, options?: Intl.NumberFormatOptions): string;
     formatDateShort(value: string | number | Date): string;
     formatTime(value: string | number | Date): string;

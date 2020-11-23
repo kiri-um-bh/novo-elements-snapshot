@@ -5431,6 +5431,14 @@ if (false) {
     /** @type {?|undefined} */
     TimeFormatParts.prototype.dayPeriod;
 }
+/**
+ * @record
+ */
+function BigDecimalFormatOptions() { }
+if (false) {
+    /** @type {?|undefined} */
+    BigDecimalFormatOptions.prototype.useAccountingFormat;
+}
 var NovoLabelService = /** @class */ (function () {
     function NovoLabelService(userLocale) {
         if (userLocale === void 0) { userLocale = 'en-US'; }
@@ -5834,33 +5842,74 @@ var NovoLabelService = /** @class */ (function () {
         return new Intl.NumberFormat(this.userLocale, options).format(value);
     };
     /**
-     * @param {?} value
+     * Extends the Intl.numberFormat capability with two extra features:
+     *  - Does NOT round values, but instead truncates to maximumFractionDigits
+     *  - By default uses accounting format for negative numbers: (3.14) instead of -3.14.
+     *
+     * @param value           The number value to convert to string
+     * @param overrideOptions Allows for overriding options used and passed to Intl.NumberFormat()
+     */
+    /**
+     * Extends the Intl.numberFormat capability with two extra features:
+     *  - Does NOT round values, but instead truncates to maximumFractionDigits
+     *  - By default uses accounting format for negative numbers: (3.14) instead of -3.14.
+     *
+     * @param {?} value           The number value to convert to string
+     * @param {?=} overrideOptions Allows for overriding options used and passed to Intl.NumberFormat()
      * @return {?}
      */
     NovoLabelService.prototype.formatBigDecimal = /**
-     * @param {?} value
+     * Extends the Intl.numberFormat capability with two extra features:
+     *  - Does NOT round values, but instead truncates to maximumFractionDigits
+     *  - By default uses accounting format for negative numbers: (3.14) instead of -3.14.
+     *
+     * @param {?} value           The number value to convert to string
+     * @param {?=} overrideOptions Allows for overriding options used and passed to Intl.NumberFormat()
      * @return {?}
      */
-    function (value) {
+    function (value, overrideOptions) {
         /** @type {?} */
-        var valueAsString = value ? value.toString() : '0';
-        // truncate at two decimals (do not round)
+        var defaultOptions = {
+            style: 'decimal',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+            useAccountingFormat: true,
+        };
         /** @type {?} */
-        var decimalIndex = valueAsString.indexOf('.');
-        if (decimalIndex > -1 && decimalIndex + 3 < valueAsString.length) {
-            valueAsString = valueAsString.substring(0, valueAsString.indexOf('.') + 3);
-        }
-        // convert back to number
+        var options = Object.assign(defaultOptions, overrideOptions);
         /** @type {?} */
-        var truncatedValue = Number(valueAsString);
-        /** @type {?} */
-        var options = { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 };
+        var truncatedValue = this.truncateToPrecision(value, options.maximumFractionDigits);
         /** @type {?} */
         var _value = new Intl.NumberFormat(this.userLocale, options).format(truncatedValue);
         if (value < 0) {
-            _value = "(" + _value.slice(1) + ")";
+            _value = options.useAccountingFormat ? "(" + _value.slice(1) + ")" : "-" + _value.slice(1);
         }
         return _value;
+    };
+    /**
+     * Performs a string-based truncating of a number with no rounding
+     */
+    /**
+     * Performs a string-based truncating of a number with no rounding
+     * @param {?} value
+     * @param {?} precision
+     * @return {?}
+     */
+    NovoLabelService.prototype.truncateToPrecision = /**
+     * Performs a string-based truncating of a number with no rounding
+     * @param {?} value
+     * @param {?} precision
+     * @return {?}
+     */
+    function (value, precision) {
+        /** @type {?} */
+        var valueAsString = value ? value.toString() : '0';
+        /** @type {?} */
+        var decimalIndex = valueAsString.indexOf('.');
+        if (decimalIndex > -1 && decimalIndex + precision + 1 < valueAsString.length) {
+            valueAsString = valueAsString.substring(0, valueAsString.indexOf('.') + precision + 1);
+        }
+        return Number(valueAsString);
     };
     /**
      * @param {?} value
