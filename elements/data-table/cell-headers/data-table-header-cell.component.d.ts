@@ -6,7 +6,7 @@ import { IDataTableChangeEvent, IDataTableColumn, IDataTableColumnFilterConfig, 
 import { NovoDataTableSortFilter } from '../sort-filter/sort-filter.directive';
 import { DataTableState } from '../state/data-table-state.service';
 export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter, OnInit, OnDestroy {
-    private changeDetectorRef;
+    changeDetectorRef: ChangeDetectorRef;
     labels: NovoLabelService;
     private state;
     private renderer;
@@ -56,6 +56,7 @@ export declare class NovoDataTableCellHeader<T> implements IDataTableSortFilter,
     private _column;
     constructor(changeDetectorRef: ChangeDetectorRef, labels: NovoLabelService, state: DataTableState<T>, renderer: Renderer2, elementRef: ElementRef, _sort: NovoDataTableSortFilter<T>, _cdkColumnDef: CdkColumnDef);
     ngOnInit(): void;
+    setupFilterOptions(): void;
     ngOnDestroy(): void;
     checkSortFilterState(sortFilterState: IDataTableChangeEvent, initialConfig?: boolean): void;
     isSelected(option: any, optionsList: any): boolean;
