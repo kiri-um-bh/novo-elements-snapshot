@@ -4,6 +4,8 @@ import { NovoTemplate } from '../common/novo-template/novo-template.directive';
 import { DataTableSource } from './data-table.source';
 import { IDataTableColumn, IDataTablePaginationOptions, IDataTablePreferences, IDataTableSearchOptions, IDataTableService } from './interfaces';
 import { DataTableState } from './state/data-table-state.service';
+import { NovoDataTableCellHeader } from './cell-headers/data-table-header-cell.component';
+import { ListInteractionDictionary, ListInteractionEvent } from './ListInteractionTypes';
 export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     labels: NovoLabelService;
     private ref;
@@ -11,6 +13,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     globalSearchHiddenClassToggle: boolean;
     customTemplates: QueryList<NovoTemplate>;
     defaultTemplates: QueryList<NovoTemplate>;
+    cellHeaders: QueryList<NovoDataTableCellHeader<T>>;
     novoDataTableContainer: ElementRef;
     resized: EventEmitter<IDataTableColumn<T>>;
     displayedColumns: string[];
@@ -64,7 +67,12 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     private initialized;
     readonly empty: boolean;
     readonly loadingClass: boolean;
+    listInteractions: ListInteractionDictionary;
     constructor(labels: NovoLabelService, ref: ChangeDetectorRef, state: DataTableState<T>);
+    modifyCellHeaderMultiSelectFilterOptions(column: string, newOptions: {
+        value: any;
+        label: string;
+    }[]): void;
     ngOnDestroy(): void;
     ngAfterContentInit(): void;
     onSearchChange(term: string): void;
@@ -81,4 +89,5 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     private configureLastDisplayedColumn;
     private configureColumns;
     private scrollListener;
+    performInteractions(event: ListInteractionEvent): void;
 }

@@ -14,7 +14,7 @@ import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coerci
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, startWith, map, catchError, take, takeUntil } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DataSource, CdkCell, CdkColumnDef, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CdkCellDef, CdkHeaderCellDef, CdkHeaderRowDef, CdkRowDef, CdkTable, CDK_TABLE_TEMPLATE } from '@angular/cdk/table';
+import { DataSource, CdkColumnDef, CdkCell, CdkHeaderRow, CDK_ROW_TEMPLATE, CdkRow, CdkHeaderCell, CdkTableModule, CdkCellDef, CdkHeaderCellDef, CdkHeaderRowDef, CdkRowDef, CdkTable, CDK_TABLE_TEMPLATE } from '@angular/cdk/table';
 import { FocusMonitor, A11yModule } from '@angular/cdk/a11y';
 import * as dragulaImported from '@bullhorn/dragula';
 import { ESCAPE, ENTER, TAB, SPACE } from '@angular/cdk/keycodes';
@@ -11657,970 +11657,6 @@ if (false) {
 
 /**
  * @fileoverview added by tsickle
- * Generated from: elements/data-table/data-table.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
- * @template T
- */
-class NovoDataTable {
-    /**
-     * @param {?} labels
-     * @param {?} ref
-     * @param {?} state
-     */
-    constructor(labels, ref, state) {
-        this.labels = labels;
-        this.ref = ref;
-        this.state = state;
-        this.globalSearchHiddenClassToggle = false;
-        this.resized = new EventEmitter();
-        this.name = 'novo-data-table';
-        this.allowMultipleFilters = false;
-        this.rowIdentifier = 'id';
-        this.activeRowIdentifier = '';
-        // prettier-ignore
-        this.trackByFn = (/**
-         * @param {?} index
-         * @param {?} item
-         * @return {?}
-         */
-        (index, item) => item.id);
-        this.templates = {};
-        this.fixedHeader = false;
-        this._hideGlobalSearch = true;
-        this.preferencesChanged = new EventEmitter();
-        this.loading = true;
-        this.columnToTemplate = {};
-        this.columnsLoaded = false;
-        this.selection = new Set();
-        this.scrollLeft = 0;
-        this.expandable = false;
-        this.initialized = false;
-        this.scrollListenerHandler = this.scrollListener.bind(this);
-        this.sortFilterSubscription = this.state.sortFilterSource.subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
-            if (this.name !== 'novo-data-table') {
-                this.preferencesChanged.emit({ name: this.name, sort: event.sort, filter: event.filter, globalSearch: event.globalSearch });
-            }
-            else {
-                notify('Must have [name] set on data-table to use preferences!');
-            }
-        }));
-        this.paginationSubscription = this.state.paginationSource.subscribe((/**
-         * @param {?} event
-         * @return {?}
-         */
-        (event) => {
-            if (this.name !== 'novo-data-table') {
-                if (event.isPageSizeChange) {
-                    this.preferencesChanged.emit({ name: this.name, pageSize: event.pageSize });
-                }
-            }
-            else {
-                notify('Must have [name] set on data-table to use preferences!');
-            }
-        }));
-        this.resetSubscription = this.state.resetSource.subscribe((/**
-         * @return {?}
-         */
-        () => {
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
-                this.ref.detectChanges();
-            }), 300);
-        }));
-    }
-    /**
-     * @param {?} displayedColumns
-     * @return {?}
-     */
-    set displayedColumns(displayedColumns) {
-        if (this.displayedColumns && this.displayedColumns.length !== 0) {
-            if (this.name !== 'novo-data-table') {
-                this.preferencesChanged.emit({
-                    name: this.name,
-                    displayedColumns,
-                });
-            }
-            else {
-                notify('Must have [name] set on data-table to use preferences!');
-            }
-        }
-        this._disabledColumns = displayedColumns;
-        this.configureLastDisplayedColumn();
-        if (this.initialized) {
-            setTimeout((/**
-             * @return {?}
-             */
-            () => {
-                this.scrollListener();
-            }));
-        }
-    }
-    /**
-     * @return {?}
-     */
-    get displayedColumns() {
-        return this._disabledColumns;
-    }
-    /**
-     * @param {?} service
-     * @return {?}
-     */
-    set dataTableService(service) {
-        this.loading = false;
-        if (!service) {
-            service = new StaticDataTableService([]);
-        }
-        this.dataSource = new DataTableSource(service, this.state, this.ref);
-        this.ref.detectChanges();
-    }
-    /**
-     * @param {?} rows
-     * @return {?}
-     */
-    set rows(rows) {
-        this.loading = false;
-        /** @type {?} */
-        const service = new StaticDataTableService(rows);
-        this.dataSource = new DataTableSource(service, this.state, this.ref);
-        this.ref.detectChanges();
-    }
-    /**
-     * @param {?} outsideFilter
-     * @return {?}
-     */
-    set outsideFilter(outsideFilter) {
-        // Unsubscribe
-        if (this.outsideFilterSubscription) {
-            this.outsideFilterSubscription.unsubscribe();
-        }
-        if (outsideFilter) {
-            // Re-subscribe
-            this.outsideFilterSubscription = outsideFilter.subscribe((/**
-             * @param {?} filter
-             * @return {?}
-             */
-            (filter) => {
-                this.state.outsideFilter = filter;
-                this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
-                this.ref.markForCheck();
-            }));
-        }
-    }
-    /**
-     * @param {?} refreshSubject
-     * @return {?}
-     */
-    set refreshSubject(refreshSubject) {
-        // Unsubscribe
-        if (this.refreshSubscription) {
-            this.refreshSubscription.unsubscribe();
-        }
-        if (refreshSubject) {
-            // Re-subscribe
-            this.refreshSubscription = refreshSubject.subscribe((/**
-             * @param {?} filter
-             * @return {?}
-             */
-            (filter) => {
-                this.state.isForceRefresh = true;
-                this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
-                this.ref.markForCheck();
-            }));
-        }
-    }
-    /**
-     * @param {?} columns
-     * @return {?}
-     */
-    set columns(columns) {
-        this._columns = columns;
-        this.configureColumns();
-    }
-    /**
-     * @return {?}
-     */
-    get columns() {
-        return this._columns;
-    }
-    /**
-     * @param {?} v
-     * @return {?}
-     */
-    set customFilter(v) {
-        this._customFilter = coerceBooleanProperty(v);
-    }
-    /**
-     * @return {?}
-     */
-    get customFilter() {
-        return this._customFilter;
-    }
-    /**
-     * @param {?} v
-     * @return {?}
-     */
-    set hasExandedRows(v) {
-        this._hasExandedRows = coerceBooleanProperty(v);
-    }
-    /**
-     * @return {?}
-     */
-    get hasExandedRows() {
-        return this._hasExandedRows;
-    }
-    /**
-     * @param {?} v
-     * @return {?}
-     */
-    set forceShowHeader(v) {
-        this._forceShowHeader = coerceBooleanProperty(v);
-    }
-    /**
-     * @return {?}
-     */
-    get forceShowHeader() {
-        return this._forceShowHeader;
-    }
-    /**
-     * @param {?} v
-     * @return {?}
-     */
-    set hideGlobalSearch(v) {
-        this._hideGlobalSearch = coerceBooleanProperty(v);
-        this.globalSearchHiddenClassToggle = this._hideGlobalSearch;
-    }
-    /**
-     * @return {?}
-     */
-    get hideGlobalSearch() {
-        return this._hideGlobalSearch;
-    }
-    /**
-     * @return {?}
-     */
-    get empty() {
-        return this.dataSource && this.dataSource.totallyEmpty;
-    }
-    /**
-     * @return {?}
-     */
-    get loadingClass() {
-        return this.loading || (this.dataSource && this.dataSource.loading);
-    }
-    /**
-     * @return {?}
-     */
-    ngOnDestroy() {
-        if (this.outsideFilterSubscription) {
-            this.outsideFilterSubscription.unsubscribe();
-        }
-        if (this.novoDataTableContainer) {
-            ((/** @type {?} */ (this.novoDataTableContainer.nativeElement))).removeEventListener('scroll', this.scrollListenerHandler);
-        }
-        if (this.refreshSubscription) {
-            this.refreshSubscription.unsubscribe();
-        }
-        if (this.resetSubscription) {
-            this.resetSubscription.unsubscribe();
-        }
-        if (this.sortFilterSubscription) {
-            this.sortFilterSubscription.unsubscribe();
-        }
-    }
-    /**
-     * @return {?}
-     */
-    ngAfterContentInit() {
-        if (this.displayedColumns && this.displayedColumns.length) {
-            this.expandable = this.displayedColumns.includes('expand');
-        }
-        // Default templates defined here
-        this.defaultTemplates.forEach((/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => {
-            // Only override if it doesn't already exist
-            if (!this.templates[item.getType()]) {
-                this.templates[item.getType()] = item.template;
-            }
-        }));
-        // Custom templates passed in
-        this.customTemplates.forEach((/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => {
-            // Override anything that is custom and in HTML
-            this.templates[item.getType()] = item.template;
-        }));
-        // Load columns
-        this.configureColumns();
-        // State
-        if (this.paginationOptions && !this.paginationOptions.page) {
-            this.paginationOptions.page = 0;
-        }
-        if (this.paginationOptions && !this.paginationOptions.pageSize) {
-            this.paginationOptions.pageSize = 50;
-        }
-        if (this.paginationOptions && !this.paginationOptions.pageSizeOptions) {
-            this.paginationOptions.pageSizeOptions = [10, 25, 50, 100];
-        }
-        this.state.page = this.paginationOptions ? this.paginationOptions.page : undefined;
-        this.state.pageSize = this.paginationOptions ? this.paginationOptions.pageSize : undefined;
-        // Scrolling inside table
-        ((/** @type {?} */ (this.novoDataTableContainer.nativeElement))).addEventListener('scroll', this.scrollListenerHandler);
-        this.initialized = true;
-        this.ref.markForCheck();
-    }
-    /**
-     * @param {?} term
-     * @return {?}
-     */
-    onSearchChange(term) {
-        this.state.globalSearch = term;
-        this.state.reset(false, true);
-        this.state.updates.next({ globalSearch: term, filter: this.state.filter, sort: this.state.sort });
-    }
-    /**
-     * @param {?} index
-     * @param {?} item
-     * @return {?}
-     */
-    trackColumnsBy(index, item) {
-        return item.id;
-    }
-    /**
-     * @param {?} check
-     * @param {?} row
-     * @return {?}
-     */
-    isDisabled(check, row) {
-        if (check.disabled === true) {
-            return true;
-        }
-        if (check.disabledFunc) {
-            return check.disabledFunc(row);
-        }
-        return false;
-    }
-    /**
-     * @param {?} row
-     * @return {?}
-     */
-    isExpanded(row) {
-        if (!row) {
-            return false;
-        }
-        return this.state.expandedRows.has(`${row[this.rowIdentifier]}`);
-    }
-    /**
-     * @param {?} row
-     * @return {?}
-     */
-    expandRow(row) {
-        /** @type {?} */
-        const expanded = this.isExpanded(row);
-        if (expanded) {
-            this.state.expandedRows.delete(`${row[this.rowIdentifier]}`);
-        }
-        else {
-            this.state.expandedRows.add(`${row[this.rowIdentifier]}`);
-        }
-        this.state.onExpandChange(((/** @type {?} */ (((/** @type {?} */ (row)))))).id);
-    }
-    /**
-     * @param {?} expand
-     * @return {?}
-     */
-    expandRows(expand) {
-        (this.dataSource.data || []).forEach((/**
-         * @param {?} row
-         * @return {?}
-         */
-        (row) => {
-            if (!expand) {
-                this.state.expandedRows.delete(`${row[this.rowIdentifier]}`);
-            }
-            else {
-                this.state.expandedRows.add(`${row[this.rowIdentifier]}`);
-            }
-        }));
-        this.state.onExpandChange();
-    }
-    /**
-     * @return {?}
-     */
-    allCurrentRowsExpanded() {
-        for (let i = 0; i < (this.dataSource.data || []).length; i++) {
-            if (!this.isExpanded((this.dataSource.data || [])[i])) {
-                return false;
-            }
-        }
-        return true;
-    }
-    /**
-     * @param {?} row
-     * @return {?}
-     */
-    isSelected(row) {
-        if (!row) {
-            return false;
-        }
-        return this.state.selectedRows.has(`${row[this.rowIdentifier]}`);
-    }
-    /**
-     * @param {?} row
-     * @return {?}
-     */
-    selectRow(row) {
-        /** @type {?} */
-        const selected = this.isSelected(row);
-        if (selected) {
-            this.state.selectedRows.delete(`${row[this.rowIdentifier]}`);
-        }
-        else {
-            this.state.selectedRows.set(`${row[this.rowIdentifier]}`, row);
-        }
-        this.state.onSelectionChange();
-    }
-    /**
-     * @param {?} selected
-     * @return {?}
-     */
-    selectRows(selected) {
-        (this.dataSource.data || []).forEach((/**
-         * @param {?} row
-         * @return {?}
-         */
-        (row) => {
-            if (!selected) {
-                this.state.selectedRows.delete(`${row[this.rowIdentifier]}`);
-            }
-            else {
-                this.state.selectedRows.set(`${row[this.rowIdentifier]}`, row);
-            }
-        }));
-        this.state.onSelectionChange();
-    }
-    /**
-     * @return {?}
-     */
-    allCurrentRowsSelected() {
-        for (let i = 0; i < (this.dataSource.data || []).length; i++) {
-            if (!this.isSelected((this.dataSource.data || [])[i])) {
-                return false;
-            }
-        }
-        return true;
-    }
-    /**
-     * @private
-     * @return {?}
-     */
-    configureLastDisplayedColumn() {
-        if (this.columns && this.displayedColumns && 0 !== this.columns.length && 0 !== this.displayedColumns.length) {
-            this.columns.forEach((/**
-             * @param {?} column
-             * @return {?}
-             */
-            (column) => {
-                if (column.initialResizable) {
-                    column.resizable = column.initialResizable.resizable;
-                    column.width = column.initialResizable.width;
-                    column.initialResizable = undefined;
-                }
-            }));
-            /** @type {?} */
-            const resizableColumns = this.displayedColumns.filter((/**
-             * @param {?} name
-             * @return {?}
-             */
-            (name) => {
-                return (this.columns.findIndex((/**
-                 * @param {?} column
-                 * @return {?}
-                 */
-                (column) => {
-                    return column.resizable && column.id === name;
-                })) !== -1);
-            }));
-            if (resizableColumns && resizableColumns.length > 0) {
-                /** @type {?} */
-                const lastResizableColumn = this.columns.find((/**
-                 * @param {?} column
-                 * @return {?}
-                 */
-                (column) => {
-                    return column.id === resizableColumns[resizableColumns.length - 1];
-                }));
-                lastResizableColumn.initialResizable = {
-                    resizable: lastResizableColumn.resizable,
-                    width: lastResizableColumn.width,
-                };
-                lastResizableColumn.width = undefined;
-                lastResizableColumn.resizable = false;
-            }
-        }
-    }
-    /**
-     * @private
-     * @return {?}
-     */
-    configureColumns() {
-        if (this.columns && this.columns.length !== 0 && Object.keys(this.templates).length !== 0) {
-            // Figure the column templates
-            this.columns.forEach((/**
-             * @param {?} column
-             * @return {?}
-             */
-            (column) => {
-                // Figure the template
-                /** @type {?} */
-                let templateName;
-                if (column.template) {
-                    // Pass it in as template
-                    templateName = column.template;
-                }
-                else if (!!this.templates[column.id]) {
-                    // Custom template for the column id
-                    templateName = column.id;
-                }
-                else {
-                    // Default to the defaulCellTemplate
-                    if (column.type === 'action') {
-                        if (column.action && column.action.options) {
-                            if (!column.action.icon) {
-                                column.action.icon = 'collapse';
-                            }
-                            templateName = 'dropdownCellTemplate';
-                        }
-                        else {
-                            templateName = 'buttonCellTemplate';
-                        }
-                    }
-                    else {
-                        if (column.type === 'link:tel' || column.type === 'link:mailto') {
-                            templateName = `${column.type.split(':')[1]}CellTemplate`;
-                        }
-                        else {
-                            templateName = `${column.type}CellTemplate`;
-                        }
-                    }
-                }
-                this.columnToTemplate[column.id] = this.templates[templateName];
-            }));
-            this.configureLastDisplayedColumn();
-            this.columnsLoaded = true;
-        }
-    }
-    /**
-     * @private
-     * @return {?}
-     */
-    scrollListener() {
-        /** @type {?} */
-        const target = (/** @type {?} */ (this.novoDataTableContainer.nativeElement));
-        /** @type {?} */
-        const left = target.scrollLeft;
-        if (left !== this.scrollLeft) {
-            this.scrollLeft = target.scrollLeft;
-        }
-        this.ref.markForCheck();
-    }
-}
-NovoDataTable.decorators = [
-    { type: Component, args: [{
-                selector: 'novo-data-table',
-                animations: [
-                    trigger('expand', [
-                        state('void', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
-                        state('*', style({ height: '*', visibility: 'visible' })),
-                        transition('void <=> *', animate('70ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-                    ]),
-                ],
-                template: `
-    <header
-      *ngIf="(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader"
-      [class.empty]="hideGlobalSearch && !paginationOptions && !templates['customActions']"
-    >
-      <ng-container *ngTemplateOutlet="templates['customHeader']"></ng-container>
-      <novo-search
-        alwaysOpen="true"
-        (searchChanged)="onSearchChange($event)"
-        [(ngModel)]="state.globalSearch"
-        *ngIf="!hideGlobalSearch"
-        [placeholder]="searchOptions?.placeholder"
-        [hint]="searchOptions?.tooltip"
-      >
-      </novo-search>
-      <novo-data-table-pagination
-        *ngIf="paginationOptions"
-        [theme]="paginationOptions.theme"
-        [length]="dataSource?.currentTotal"
-        [page]="paginationOptions.page"
-        [pageSize]="paginationOptions.pageSize"
-        [pageSizeOptions]="paginationOptions.pageSizeOptions"
-        [dataFeatureId]="paginatorDataFeatureId"
-      >
-      </novo-data-table-pagination>
-      <div class="novo-data-table-actions" *ngIf="templates['customActions']">
-        <ng-container *ngTemplateOutlet="templates['customActions']"></ng-container>
-      </div>
-    </header>
-    <div class="novo-data-table-loading-mask" *ngIf="dataSource?.loading || loading" data-automation-id="novo-data-table-loading">
-      <novo-loading></novo-loading>
-    </div>
-    <div class="novo-data-table-outside-container" [ngClass]="{ 'novo-data-table-outside-container-fixed': fixedHeader }">
-      <div class="novo-data-table-custom-filter" *ngIf="customFilter">
-        <ng-container *ngTemplateOutlet="templates['customFilter']"></ng-container>
-      </div>
-      <div
-        #novoDataTableContainer
-        class="novo-data-table-container"
-        [ngClass]="{ 'novo-data-table-container-fixed': fixedHeader }"
-        [class.empty-user-filtered]="dataSource?.currentlyEmpty && state.userFiltered"
-        [class.empty]="dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine"
-      >
-        <cdk-table
-          *ngIf="columns?.length > 0 && columnsLoaded && dataSource"
-          [dataSource]="dataSource"
-          [trackBy]="trackByFn"
-          novoDataTableSortFilter
-          [class.expandable]="expandable"
-          [class.empty]="dataSource?.currentlyEmpty && state.userFiltered"
-          [hidden]="dataSource?.totallyEmpty && !state.userFiltered"
-        >
-          <ng-container cdkColumnDef="selection">
-            <novo-data-table-checkbox-header-cell *cdkHeaderCellDef></novo-data-table-checkbox-header-cell>
-            <novo-data-table-checkbox-cell *cdkCellDef="let row; let i = index" [row]="row"></novo-data-table-checkbox-cell>
-          </ng-container>
-          <ng-container cdkColumnDef="expand">
-            <novo-data-table-expand-header-cell *cdkHeaderCellDef></novo-data-table-expand-header-cell>
-            <novo-data-table-expand-cell *cdkCellDef="let row; let i = index" [row]="row"></novo-data-table-expand-cell>
-          </ng-container>
-          <ng-container *ngFor="let column of columns; trackBy: trackColumnsBy" [cdkColumnDef]="column.id">
-            <novo-data-table-header-cell
-              *cdkHeaderCellDef
-              [column]="column"
-              [filterTemplate]="templates['column-filter-' + column.id]"
-              [novo-data-table-cell-config]="column"
-              [resized]="resized"
-              [defaultSort]="defaultSort"
-              [allowMultipleFilters]="allowMultipleFilters"
-              [class.empty]="column?.type === 'action' && !column?.label"
-              [class.button-header-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)"
-              [class.dropdown-header-cell]="column?.type === 'action' && column?.action?.options"
-              [class.fixed-header]="fixedHeader"
-            ></novo-data-table-header-cell>
-            <novo-data-table-cell
-              *cdkCellDef="let row"
-              [resized]="resized"
-              [column]="column"
-              [row]="row"
-              [template]="columnToTemplate[column.id]"
-              [class.empty]="column?.type === 'action' && !column?.label"
-              [class.button-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)"
-              [class.dropdown-cell]="column?.type === 'action' && column?.action?.options"
-            ></novo-data-table-cell>
-          </ng-container>
-          <novo-data-table-header-row
-            *cdkHeaderRowDef="displayedColumns"
-            [fixedHeader]="fixedHeader"
-            data-automation-id="novo-data-table-header-row"
-          ></novo-data-table-header-row>
-          <novo-data-table-row
-            *cdkRowDef="let row; columns: displayedColumns"
-            [ngClass]="{ active: row[rowIdentifier] == activeRowIdentifier }"
-            [novoDataTableExpand]="detailRowTemplate"
-            [row]="row"
-            [id]="name + '-' + row[rowIdentifier]"
-            [dataAutomationId]="row[rowIdentifier]"
-          ></novo-data-table-row>
-        </cdk-table>
-        <div class="novo-data-table-footer" *ngIf="templates['footer']">
-          <ng-container *ngTemplateOutlet="templates['footer']; context: { $implicit: columns, data: dataSource.data }"></ng-container>
-        </div>
-        <div
-          class="novo-data-table-no-results-container"
-          [style.left.px]="scrollLeft"
-          *ngIf="dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine"
-        >
-          <div class="novo-data-table-empty-message">
-            <ng-container *ngTemplateOutlet="templates['noResultsMessage'] || templates['defaultNoResultsMessage']"></ng-container>
-          </div>
-        </div>
-      </div>
-      <div
-        class="novo-data-table-empty-container"
-        *ngIf="dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine"
-      >
-        <div class="novo-data-table-empty-message">
-          <ng-container *ngTemplateOutlet="templates['emptyMessage'] || templates['defaultNoResultsMessage']"></ng-container>
-        </div>
-      </div>
-    </div>
-    <!-- DEFAULT CELL TEMPLATE -->
-    <ng-template novoTemplate="textCellTemplate" let-row let-col="col">
-      <span [style.width.px]="col?.width" [style.min-width.px]="col?.width" [style.max-width.px]="col?.width">{{
-        row[col.id] | dataTableInterpolate: col
-      }}</span>
-    </ng-template>
-    <ng-template novoTemplate="dateCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateRenderer: col }}</span>
-    </ng-template>
-    <ng-template novoTemplate="datetimeCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateTimeRenderer: col }}</span>
-    </ng-template>
-    <ng-template novoTemplate="timeCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableTimeRenderer: col }}</span>
-    </ng-template>
-    <ng-template novoTemplate="currencyCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableCurrencyRenderer: col }}</span>
-    </ng-template>
-    <ng-template novoTemplate="bigdecimalCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableBigDecimalRenderer: col }}</span>
-    </ng-template>
-    <ng-template novoTemplate="numberCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col }}</span>
-    </ng-template>
-    <ng-template novoTemplate="percentCellTemplate" let-row let-col="col">
-      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col:true }}</span>
-    </ng-template>
-    <ng-template novoTemplate="linkCellTemplate" let-row let-col="col">
-      <a
-        [attr.data-feature-id]="col?.attributes?.dataFeatureId"
-        (click)="col.handlers?.click({ originalEvent: $event, row: row })"
-        [style.width.px]="col?.width"
-        [style.min-width.px]="col?.width"
-        [style.max-width.px]="col?.width"
-        >{{ row[col.id] | dataTableInterpolate: col }}</a
-      >
-    </ng-template>
-    <ng-template novoTemplate="telCellTemplate" let-row let-col="col">
-      <a href="tel:{{ row[col.id] | dataTableInterpolate: col }}" [target]="col?.attributes?.target">{{
-        row[col.id] | dataTableInterpolate: col
-      }}</a>
-    </ng-template>
-    <ng-template novoTemplate="mailtoCellTemplate" let-row let-col="col">
-      <a href="mailto:{{ row[col.id] | dataTableInterpolate: col }}" [target]="col?.attributes?.target">{{
-        row[col.id] | dataTableInterpolate: col
-      }}</a>
-    </ng-template>
-    <ng-template novoTemplate="buttonCellTemplate" let-row let-col="col">
-      <p [tooltip]="col?.action?.tooltip" tooltipPosition="right" [attr.data-feature-id]="col?.attributes?.dataFeatureId">
-        <i
-          class="bhi-{{ col?.action?.icon }} data-table-icon"
-          (click)="col.handlers?.click({ originalEvent: $event, row: row })"
-          [class.disabled]="isDisabled(col, row)"
-        ></i>
-      </p>
-    </ng-template>
-    <ng-template novoTemplate="dropdownCellTemplate" let-row let-col="col">
-      <novo-dropdown parentScrollSelector=".novo-data-table-container" containerClass="novo-data-table-dropdown">
-        <button type="button" theme="dialogue" [icon]="col.action.icon" inverse>{{ col.label }}</button>
-        <list>
-          <item
-            *ngFor="let option of col?.action?.options"
-            (action)="option.handlers.click({ originalEvent: $event?.originalEvent, row: row })"
-            [disabled]="isDisabled(option, row)"
-          >
-            <span [attr.data-automation-id]="option.label">{{ option.label }}</span>
-          </item>
-        </list>
-      </novo-dropdown>
-    </ng-template>
-    <ng-template novoTemplate="defaultNoResultsMessage">
-      <h4><i class="bhi-search-question"></i> {{ labels.noMatchingRecordsMessage }}</h4>
-    </ng-template>
-    <ng-template novoTemplate="defaultEmptyMessage">
-      <h4><i class="bhi-search-question"></i> {{ labels.emptyTableMessage }}</h4>
-    </ng-template>
-    <ng-template novoTemplate="expandedRow"> You did not provide an "expandedRow" template! </ng-template>
-    <ng-template #detailRowTemplate let-row>
-      <div class="novo-data-table-detail-row" [@expand] style="overflow: hidden">
-        <ng-container *ngTemplateOutlet="templates['expandedRow']; context: { $implicit: row }"></ng-container>
-      </div>
-    </ng-template>
-    <!-- CUSTOM CELLS PASSED IN -->
-    <ng-content></ng-content>
-  `,
-                changeDetection: ChangeDetectionStrategy.OnPush,
-                providers: [DataTableState]
-            }] }
-];
-/** @nocollapse */
-NovoDataTable.ctorParameters = () => [
-    { type: NovoLabelService },
-    { type: ChangeDetectorRef },
-    { type: DataTableState }
-];
-NovoDataTable.propDecorators = {
-    globalSearchHiddenClassToggle: [{ type: HostBinding, args: ['class.global-search-hidden',] }],
-    customTemplates: [{ type: ContentChildren, args: [NovoTemplate,] }],
-    defaultTemplates: [{ type: ViewChildren, args: [NovoTemplate,] }],
-    novoDataTableContainer: [{ type: ViewChild, args: ['novoDataTableContainer', { static: false },] }],
-    resized: [{ type: Output }],
-    displayedColumns: [{ type: Input }],
-    paginationOptions: [{ type: Input }],
-    searchOptions: [{ type: Input }],
-    defaultSort: [{ type: Input }],
-    name: [{ type: Input }],
-    allowMultipleFilters: [{ type: Input }],
-    rowIdentifier: [{ type: Input }],
-    activeRowIdentifier: [{ type: Input }],
-    trackByFn: [{ type: Input }],
-    templates: [{ type: Input }],
-    fixedHeader: [{ type: Input }],
-    paginatorDataFeatureId: [{ type: Input }],
-    dataTableService: [{ type: Input }],
-    rows: [{ type: Input }],
-    outsideFilter: [{ type: Input }],
-    refreshSubject: [{ type: Input }],
-    columns: [{ type: Input }],
-    customFilter: [{ type: Input }],
-    hasExandedRows: [{ type: Input }],
-    forceShowHeader: [{ type: Input }],
-    hideGlobalSearch: [{ type: Input }],
-    preferencesChanged: [{ type: Output }],
-    empty: [{ type: HostBinding, args: ['class.empty',] }],
-    loadingClass: [{ type: HostBinding, args: ['class.loading',] }]
-};
-if (false) {
-    /** @type {?} */
-    NovoDataTable.prototype.globalSearchHiddenClassToggle;
-    /** @type {?} */
-    NovoDataTable.prototype.customTemplates;
-    /** @type {?} */
-    NovoDataTable.prototype.defaultTemplates;
-    /** @type {?} */
-    NovoDataTable.prototype.novoDataTableContainer;
-    /** @type {?} */
-    NovoDataTable.prototype.resized;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._disabledColumns;
-    /** @type {?} */
-    NovoDataTable.prototype.paginationOptions;
-    /** @type {?} */
-    NovoDataTable.prototype.searchOptions;
-    /** @type {?} */
-    NovoDataTable.prototype.defaultSort;
-    /** @type {?} */
-    NovoDataTable.prototype.name;
-    /** @type {?} */
-    NovoDataTable.prototype.allowMultipleFilters;
-    /** @type {?} */
-    NovoDataTable.prototype.rowIdentifier;
-    /** @type {?} */
-    NovoDataTable.prototype.activeRowIdentifier;
-    /** @type {?} */
-    NovoDataTable.prototype.trackByFn;
-    /** @type {?} */
-    NovoDataTable.prototype.templates;
-    /** @type {?} */
-    NovoDataTable.prototype.fixedHeader;
-    /** @type {?} */
-    NovoDataTable.prototype.paginatorDataFeatureId;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._customFilter;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._hasExandedRows;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._forceShowHeader;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._hideGlobalSearch;
-    /** @type {?} */
-    NovoDataTable.prototype.preferencesChanged;
-    /** @type {?} */
-    NovoDataTable.prototype.dataSource;
-    /** @type {?} */
-    NovoDataTable.prototype.loading;
-    /** @type {?} */
-    NovoDataTable.prototype.columnToTemplate;
-    /** @type {?} */
-    NovoDataTable.prototype.columnsLoaded;
-    /** @type {?} */
-    NovoDataTable.prototype.selection;
-    /** @type {?} */
-    NovoDataTable.prototype.scrollLeft;
-    /** @type {?} */
-    NovoDataTable.prototype.expandable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.outsideFilterSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.refreshSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.resetSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.paginationSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.sortFilterSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype._columns;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.scrollListenerHandler;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.initialized;
-    /** @type {?} */
-    NovoDataTable.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTable.prototype.ref;
-    /** @type {?} */
-    NovoDataTable.prototype.state;
-}
-
-/**
- * @fileoverview added by tsickle
  * Generated from: elements/dropdown/Dropdown.ts
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
@@ -13066,6 +12102,1924 @@ NovoDropDownItemHeaderElement.decorators = [
                 template: '<ng-content></ng-content>'
             }] }
 ];
+
+/**
+ * @fileoverview added by tsickle
+ * Generated from: elements/data-table/sort-filter/sort-filter.directive.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @template T
+ */
+class NovoDataTableSortFilter {
+    /**
+     * @param {?} state
+     */
+    constructor(state) {
+        this.state = state;
+    }
+    /**
+     * @param {?} id
+     * @param {?} type
+     * @param {?} value
+     * @param {?} transform
+     * @param {?=} allowMultipleFilters
+     * @param {?=} selectedOption
+     * @return {?}
+     */
+    filter(id, type, value, transform, allowMultipleFilters = false, selectedOption) {
+        /** @type {?} */
+        let filter;
+        if (allowMultipleFilters) {
+            filter = this.resolveMultiFilter(id, type, value, transform, selectedOption);
+        }
+        else {
+            if (!Helpers.isBlank(value)) {
+                filter = Object.assign({ id, type, value, transform }, (selectedOption && { selectedOption }));
+            }
+            else {
+                filter = undefined;
+            }
+        }
+        this.state.filter = filter;
+        this.state.reset(false, true);
+        this.state.updates.next({ filter, sort: this.state.sort });
+        this.state.onSortFilterChange();
+    }
+    /**
+     * @param {?} id
+     * @param {?} value
+     * @param {?} transform
+     * @return {?}
+     */
+    sort(id, value, transform) {
+        /** @type {?} */
+        const sort = { id, value, transform };
+        this.state.sort = sort;
+        this.state.reset(false, true);
+        this.state.updates.next({ sort, filter: this.state.filter });
+        this.state.onSortFilterChange();
+    }
+    /**
+     * @param {?} id
+     * @param {?} type
+     * @param {?} value
+     * @param {?} transform
+     * @param {?} selectedOption
+     * @return {?}
+     */
+    resolveMultiFilter(id, type, value, transform, selectedOption) {
+        /** @type {?} */
+        let filter;
+        filter = Helpers.convertToArray(this.state.filter);
+        /** @type {?} */
+        const filterIndex = filter.findIndex((/**
+         * @param {?} aFilter
+         * @return {?}
+         */
+        (aFilter) => aFilter && aFilter.id === id));
+        if (filterIndex > -1) {
+            filter.splice(filterIndex, 1);
+        }
+        if (!Helpers.isBlank(value)) {
+            filter = [...filter, Object.assign({ id, type, value, transform }, (selectedOption && { selectedOption }))];
+        }
+        if (filter.length < 1) {
+            filter = undefined;
+        }
+        return filter;
+    }
+}
+NovoDataTableSortFilter.decorators = [
+    { type: Directive, args: [{
+                selector: '[novoDataTableSortFilter]',
+            },] }
+];
+/** @nocollapse */
+NovoDataTableSortFilter.ctorParameters = () => [
+    { type: DataTableState }
+];
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTableSortFilter.prototype.state;
+}
+
+/**
+ * @fileoverview added by tsickle
+ * Generated from: elements/data-table/cell-headers/data-table-header-cell.component.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @template T
+ */
+class NovoDataTableCellHeader {
+    /**
+     * @param {?} changeDetectorRef
+     * @param {?} labels
+     * @param {?} state
+     * @param {?} renderer
+     * @param {?} elementRef
+     * @param {?} _sort
+     * @param {?} _cdkColumnDef
+     */
+    constructor(changeDetectorRef, labels, state, renderer, elementRef, _sort, _cdkColumnDef) {
+        this.changeDetectorRef = changeDetectorRef;
+        this.labels = labels;
+        this.state = state;
+        this.renderer = renderer;
+        this.elementRef = elementRef;
+        this._sort = _sort;
+        this._cdkColumnDef = _cdkColumnDef;
+        this.allowMultipleFilters = false;
+        this.icon = 'sortable';
+        this.filterActive = false;
+        this.sortActive = false;
+        this.showCustomRange = false;
+        this.multiSelect = false;
+        this.multiSelectedOptions = [];
+        this.multiSelectedOptionIsHidden = [];
+        this.optionFilter = '';
+        this.error = false;
+        this.subscriptions = [];
+        this._rerenderSubscription = state.updates.subscribe((/**
+         * @param {?} change
+         * @return {?}
+         */
+        (change) => this.checkSortFilterState(change)));
+    }
+    /**
+     * @param {?} column
+     * @return {?}
+     */
+    set column(column) {
+        this._column = column;
+        this.label = column.type === 'action' ? '' : column.label;
+        this.labelIcon = column.labelIcon;
+        this.config = {
+            sortable: !!column.sortable,
+            filterable: !!column.filterable,
+            resizable: !!column.resizable,
+        };
+        this.resizable = this.config.resizable;
+        /** @type {?} */
+        const transforms = {};
+        if (column.filterable && Helpers.isObject(column.filterable)) {
+            this.config.filterConfig = (/** @type {?} */ (column.filterable));
+            if (!this.config.filterConfig.type) {
+                this.config.filterConfig = { type: 'text' };
+            }
+            if (((/** @type {?} */ (column.filterable))).transform) {
+                transforms.filter = ((/** @type {?} */ (column.filterable))).transform;
+            }
+        }
+        else {
+            this.config.filterConfig = { type: 'text' };
+        }
+        if (column.sortable && Helpers.isObject(column.sortable)) {
+            if (((/** @type {?} */ (column.sortable))).transform) {
+                transforms.sort = ((/** @type {?} */ (column.sortable))).transform;
+            }
+        }
+        if (this.config.filterConfig.type === 'date' && !this.config.filterConfig.options) {
+            this.config.filterConfig.options = this.getDefaultDateFilterOptions();
+        }
+        this.config.transforms = transforms;
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+        if (this._cdkColumnDef) {
+            this.id = this._cdkColumnDef.name;
+        }
+        this.setupFilterOptions();
+        this.changeDetectorRef.markForCheck();
+    }
+    /**
+     * @return {?}
+     */
+    setupFilterOptions() {
+        this.checkSortFilterState({ filter: this.state.filter, sort: this.state.sort }, true);
+        this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
+        if (this.multiSelect) {
+            this.multiSelectedOptions = this.filter ? [...this.filter] : [];
+        }
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        this._rerenderSubscription.unsubscribe();
+        this.subscriptions.forEach((/**
+         * @param {?} subscription
+         * @return {?}
+         */
+        (subscription) => {
+            subscription.unsubscribe();
+        }));
+    }
+    /**
+     * @param {?} sortFilterState
+     * @param {?=} initialConfig
+     * @return {?}
+     */
+    checkSortFilterState(sortFilterState, initialConfig = false) {
+        if (sortFilterState.sort && sortFilterState.sort.id === this.id) {
+            this.icon = `sort-${sortFilterState.sort.value}`;
+            this.sortActive = true;
+        }
+        else {
+            this.icon = 'sortable';
+            this.sortActive = false;
+        }
+        /** @type {?} */
+        const tableFilter = Helpers.convertToArray(sortFilterState.filter);
+        /** @type {?} */
+        const thisFilter = tableFilter.find((/**
+         * @param {?} filter
+         * @return {?}
+         */
+        (filter) => filter && filter.id === this.id));
+        if (thisFilter) {
+            this.filterActive = true;
+            if (initialConfig && thisFilter.type === 'date' && thisFilter.selectedOption) {
+                this.activeDateFilter = thisFilter.selectedOption.label || this.labels.customDateRange;
+            }
+            this.filter = thisFilter.value;
+        }
+        else {
+            this.filterActive = false;
+            this.filter = undefined;
+            this.activeDateFilter = undefined;
+            this.multiSelectedOptions = [];
+        }
+        if (this.defaultSort && this.id === this.defaultSort.id) {
+            this.icon = `sort-${this.defaultSort.value}`;
+            this.sortActive = true;
+        }
+        this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
+        if (this.multiSelect) {
+            this.multiSelectedOptions = this.filter ? [...this.filter] : [];
+            if (this.config.filterConfig.options) {
+                if (typeof this.config.filterConfig.options[0] === 'string') {
+                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((/**
+                     * @param {?} option
+                     * @return {?}
+                     */
+                    (option) => ({ option, hidden: false })));
+                }
+                else {
+                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((/**
+                     * @param {?} option
+                     * @return {?}
+                     */
+                    (option) => ({
+                        option,
+                        hidden: false,
+                    })));
+                }
+            }
+        }
+        this.changeDetectorRef.markForCheck();
+    }
+    /**
+     * @param {?} option
+     * @param {?} optionsList
+     * @return {?}
+     */
+    isSelected(option, optionsList) {
+        if (optionsList) {
+            /** @type {?} */
+            const optionValue = option.hasOwnProperty('value') ? option.value : option;
+            /** @type {?} */
+            const found = optionsList.find((/**
+             * @param {?} item
+             * @return {?}
+             */
+            (item) => this.optionPresentCheck(item, optionValue)));
+            return found !== undefined;
+        }
+        return false;
+    }
+    /**
+     * @param {?} option
+     * @return {?}
+     */
+    toggleSelection(option) {
+        /** @type {?} */
+        const optionValue = option.hasOwnProperty('value') ? option.value : option;
+        /** @type {?} */
+        const optionIndex = this.multiSelectedOptions.findIndex((/**
+         * @param {?} item
+         * @return {?}
+         */
+        (item) => this.optionPresentCheck(item, optionValue)));
+        this.error = false;
+        if (optionIndex > -1) {
+            this.multiSelectedOptions.splice(optionIndex, 1);
+            if (this.optionFilter &&
+                !this.getOptionText(option)
+                    .toLowerCase()
+                    .startsWith(this.optionFilter.toLowerCase())) {
+                this.multiSelectedOptionIsHidden[this.multiSelectedOptionIsHidden.findIndex((/**
+                 * @param {?} record
+                 * @return {?}
+                 */
+                (record) => record.option === option))].hidden = true;
+            }
+        }
+        else {
+            this.multiSelectedOptions.push(optionValue);
+        }
+    }
+    /**
+     * @param {?} item
+     * @param {?} optionValue
+     * @return {?}
+     */
+    optionPresentCheck(item, optionValue) {
+        if (item.hasOwnProperty('value')) {
+            return item.value === optionValue;
+        }
+        else {
+            return item === optionValue;
+        }
+    }
+    /**
+     * @return {?}
+     */
+    cancel() {
+        this.multiSelectedOptions = this.filter ? [...this.filter] : [];
+        this.dropdown.closePanel();
+        this.clearOptionFilter();
+    }
+    /**
+     * @return {?}
+     */
+    filterMultiSelect() {
+        if (this.multiSelectedOptions.length === 0 && !this.filter) {
+            this.multiSelectHasVisibleOptions() && this.dropdown ? (this.error = true) : null;
+        }
+        else {
+            this.clearOptionFilter();
+            /** @type {?} */
+            const actualFilter = this.multiSelectedOptions.length > 0 ? [...this.multiSelectedOptions] : undefined;
+            this.filterData(actualFilter);
+            this.dropdown.closePanel();
+        }
+    }
+    /**
+     * @param {?} optionFilter
+     * @return {?}
+     */
+    multiSelectOptionFilter(optionFilter) {
+        this.multiSelectedOptionIsHidden.forEach((/**
+         * @param {?} record
+         * @return {?}
+         */
+        (record) => {
+            if (record.option) {
+                record.hidden = !(this.getOptionText(record.option)
+                    .toLowerCase()
+                    .startsWith(optionFilter.toLowerCase()) || this.isSelected(record.option, this.multiSelectedOptions));
+            }
+        }));
+    }
+    /**
+     * @param {?} option
+     * @return {?}
+     */
+    multiSelectOptionIsHidden(option) {
+        return this.multiSelectedOptionIsHidden.find((/**
+         * @param {?} record
+         * @return {?}
+         */
+        (record) => record.option === option)).hidden;
+    }
+    /**
+     * @return {?}
+     */
+    multiSelectHasVisibleOptions() {
+        return this.multiSelectedOptionIsHidden.some((/**
+         * @param {?} record
+         * @return {?}
+         */
+        (record) => !record.hidden));
+    }
+    /**
+     * @private
+     * @param {?} option
+     * @return {?}
+     */
+    getOptionText(option) {
+        if (typeof option !== 'object') {
+            return option.toString();
+        }
+        else {
+            /** @type {?} */
+            const opt = (/** @type {?} */ (option));
+            return (opt.label.length > 0 ? opt.label : opt.value).toString();
+        }
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    multiSelectOptionFilterHandleKeydown(event) {
+        if (this.multiSelect) {
+            this.error = false;
+            if (this.dropdown.panelOpen && event.keyCode === KeyCodes.ESC) {
+                // escape = clear text box and close
+                Helpers.swallowEvent(event);
+                this.clearOptionFilter();
+                this.dropdown.closePanel();
+            }
+            else if (event.keyCode === KeyCodes.ENTER) {
+                Helpers.swallowEvent(event);
+                this.filterMultiSelect();
+            }
+            else if ((event.keyCode >= 65 && event.keyCode <= 90) ||
+                (event.keyCode >= 96 && event.keyCode <= 105) ||
+                (event.keyCode >= 48 && event.keyCode <= 57)) {
+                this.optionFilterInput.nativeElement.focus();
+            }
+        }
+    }
+    /**
+     * @private
+     * @return {?}
+     */
+    clearOptionFilter() {
+        this.error = false;
+        if (this.optionFilter.length > 0) {
+            this.optionFilter = '';
+            this.multiSelectedOptionIsHidden.forEach((/**
+             * @param {?} record
+             * @return {?}
+             */
+            (record) => {
+                record.hidden = false;
+            }));
+        }
+    }
+    /**
+     * @param {?} mouseDownEvent
+     * @return {?}
+     */
+    startResize(mouseDownEvent) {
+        mouseDownEvent.preventDefault();
+        /** @type {?} */
+        const minimumWidth = 60 + (this.config.filterable ? 30 : 0) + (this.config.sortable ? 30 : 0);
+        /** @type {?} */
+        const startingWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
+        /** @type {?} */
+        const mouseMoveSubscription = fromEvent(window.document, 'mousemove').subscribe((/**
+         * @param {?} middleMouseEvent
+         * @return {?}
+         */
+        (middleMouseEvent) => {
+            /** @type {?} */
+            const differenceWidth = middleMouseEvent.clientX - mouseDownEvent.clientX;
+            /** @type {?} */
+            let width = startingWidth + differenceWidth;
+            if (width < minimumWidth) {
+                width = minimumWidth;
+            }
+            this._column.width = width;
+            this.renderer.setStyle(this.elementRef.nativeElement, 'min-width', `${this._column.width}px`);
+            this.renderer.setStyle(this.elementRef.nativeElement, 'max-width', `${this._column.width}px`);
+            this.renderer.setStyle(this.elementRef.nativeElement, 'width', `${this._column.width}px`);
+            this.changeDetectorRef.markForCheck();
+            this.resized.next(this._column);
+        }));
+        /** @type {?} */
+        const mouseUpSubscription = fromEvent(window.document, 'mouseup').subscribe((/**
+         * @return {?}
+         */
+        () => {
+            mouseUpSubscription.unsubscribe();
+            mouseMoveSubscription.unsubscribe();
+            this.changeDetectorRef.markForCheck();
+        }));
+        this.subscriptions.push(mouseMoveSubscription);
+        this.subscriptions.push(mouseUpSubscription);
+    }
+    /**
+     * @param {?} event
+     * @param {?} value
+     * @return {?}
+     */
+    toggleCustomRange(event, value) {
+        Helpers.swallowEvent(event);
+        this.showCustomRange = value;
+        this.changeDetectorRef.markForCheck();
+        this.dropdown.openPanel(); // Ensures that the panel correctly updates to the dynamic size of the dropdown
+    }
+    /**
+     * @return {?}
+     */
+    focusInput() {
+        if (this.filterInput && this.filterInput.nativeElement) {
+            setTimeout((/**
+             * @return {?}
+             */
+            () => this.filterInput.nativeElement.focus()), 0);
+        }
+        if (this.multiSelect && this.dropdown) {
+            this.dropdown.onKeyDown = (/**
+             * @param {?} event
+             * @return {?}
+             */
+            (event) => {
+                this.multiSelectOptionFilterHandleKeydown(event);
+            });
+            setTimeout((/**
+             * @return {?}
+             */
+            () => this.optionFilterInput.nativeElement.focus()), 0);
+            this.changeDetectorRef.markForCheck();
+        }
+    }
+    /**
+     * @return {?}
+     */
+    sort() {
+        if (this.changeTimeout) {
+            clearTimeout(this.changeTimeout);
+        }
+        this.changeTimeout = setTimeout((/**
+         * @return {?}
+         */
+        () => {
+            this.direction = this.getNextSortDirection(this.direction);
+            this._sort.sort(this.id, this.direction, this.config.transforms.sort);
+            this.changeDetectorRef.markForCheck();
+        }), 300);
+    }
+    /**
+     * @param {?=} filter
+     * @return {?}
+     */
+    filterData(filter) {
+        /** @type {?} */
+        let actualFilter = NovoDataTableFilterUtils.constructFilter(filter, this.config.filterConfig.type, this.multiSelect);
+        /** @type {?} */
+        const selectedOption = this.config.filterConfig.type === 'date' && filter ? filter : undefined;
+        if (this.changeTimeout) {
+            clearTimeout(this.changeTimeout);
+        }
+        this.changeTimeout = setTimeout((/**
+         * @return {?}
+         */
+        () => {
+            if (actualFilter === '') {
+                actualFilter = undefined;
+            }
+            this._sort.filter(this.id, this.config.filterConfig.type, actualFilter, this.config.transforms.filter, this.allowMultipleFilters, selectedOption);
+            this.changeDetectorRef.markForCheck();
+        }), 300);
+    }
+    /**
+     * @return {?}
+     */
+    clearFilter() {
+        this.filter = undefined;
+        this.multiSelectedOptions = [];
+        this.activeDateFilter = undefined;
+        this.filterData(undefined);
+        this.clearOptionFilter();
+        this.dropdown.closePanel();
+    }
+    /**
+     * @private
+     * @param {?} direction
+     * @return {?}
+     */
+    getNextSortDirection(direction) {
+        if (!direction) {
+            return 'asc';
+        }
+        if (direction === 'asc') {
+            return 'desc';
+        }
+        return 'asc';
+    }
+    /**
+     * @private
+     * @return {?}
+     */
+    getDefaultDateFilterOptions() {
+        /** @type {?} */
+        const opts = [
+            { label: this.labels.past1Day, min: -1, max: 0 },
+            { label: this.labels.past7Days, min: -7, max: 0 },
+            { label: this.labels.past30Days, min: -30, max: 0 },
+            { label: this.labels.past90Days, min: -90, max: 0 },
+            { label: this.labels.past1Year, min: -366, max: 0 },
+            { label: this.labels.next1Day, min: 0, max: 1 },
+            { label: this.labels.next7Days, min: 0, max: 7 },
+            { label: this.labels.next30Days, min: 0, max: 30 },
+            { label: this.labels.next90Days, min: 0, max: 90 },
+            { label: this.labels.next1Year, min: 0, max: 366 },
+        ];
+        return opts;
+    }
+}
+NovoDataTableCellHeader.decorators = [
+    { type: Component, args: [{
+                selector: '[novo-data-table-cell-config]',
+                template: `
+    <i class="bhi-{{ labelIcon }} label-icon" *ngIf="labelIcon" data-automation-id="novo-data-table-header-icon"></i>
+    <label data-automation-id="novo-data-table-label">{{ label }}</label>
+    <div>
+      <button
+        *ngIf="config.sortable"
+        tooltipPosition="right"
+        [tooltip]="labels.sort"
+        theme="icon"
+        [icon]="icon"
+        (click)="sort()"
+        [class.active]="sortActive"
+        data-automation-id="novo-data-table-sort"
+        [attr.data-feature-id]="'novo-data-table-sort-' + this.id"
+      ></button>
+      <novo-dropdown
+        *ngIf="config.filterable"
+        side="right"
+        parentScrollSelector=".novo-data-table-container"
+        containerClass="data-table-dropdown"
+        data-automation-id="novo-data-table-filter"
+      >
+        <button
+          type="button"
+          theme="icon"
+          icon="filter"
+          [class.active]="filterActive"
+          (click)="focusInput()"
+          tooltipPosition="right"
+          [tooltip]="labels.filters"
+          [attr.data-feature-id]="'novo-data-table-filter-' + this.id"
+        ></button>
+        <div class="header">
+          <span>{{ labels.filters }}</span>
+          <button
+            theme="dialogue"
+            color="negative"
+            icon="times"
+            (click)="clearFilter()"
+            *ngIf="filter !== null && filter !== undefined && filter !== ''"
+            data-automation-id="novo-data-table-filter-clear"
+          >
+            {{ labels.clear }}
+          </button>
+        </div>
+        <ng-container [ngSwitch]="config.filterConfig.type">
+          <list *ngSwitchCase="'date'">
+            <ng-container *ngIf="!showCustomRange">
+              <item
+                [class.active]="activeDateFilter === option.label"
+                *ngFor="let option of config.filterConfig.options"
+                (click)="filterData(option)"
+                [attr.data-automation-id]="'novo-data-table-filter-' + option.label"
+              >
+                {{ option.label }} <i class="bhi-check" *ngIf="activeDateFilter === option.label"></i>
+              </item>
+            </ng-container>
+            <item
+              [class.active]="labels.customDateRange === activeDateFilter"
+              (click)="toggleCustomRange($event, true)"
+              *ngIf="config.filterConfig.allowCustomRange && !showCustomRange"
+              [keepOpen]="true"
+            >
+              {{ labels.customDateRange }} <i class="bhi-check" *ngIf="labels.customDateRange === activeDateFilter"></i>
+            </item>
+            <div class="calendar-container" *ngIf="showCustomRange">
+              <div (click)="toggleCustomRange($event, false)"><i class="bhi-previous"></i>{{ labels.backToPresetFilters }}</div>
+              <novo-date-picker (onSelect)="filterData($event)" [(ngModel)]="filter" range="true"></novo-date-picker>
+            </div>
+          </list>
+          <list *ngSwitchCase="'select'">
+            <item
+              [class.active]="filter === option"
+              *ngFor="let option of config.filterConfig.options"
+              (click)="filterData(option)"
+              [attr.data-automation-id]="'novo-data-table-filter-' + (option?.label || option)"
+            >
+              <span>{{ option?.label || option }}</span>
+              <i class="bhi-check" *ngIf="option.hasOwnProperty('value') ? filter === option.value : filter === option"></i>
+            </item>
+          </list>
+          <list *ngSwitchCase="'multi-select'">
+            <div class="dropdown-list-filter" (keydown)="multiSelectOptionFilterHandleKeydown($event)">
+              <item class="filter-search" keepOpen="true">
+                <input
+                  [(ngModel)]="optionFilter"
+                  (ngModelChange)="multiSelectOptionFilter($event)"
+                  #optionFilterInput
+                  data-automation-id="novo-data-table-multi-select-option-filter-input"
+                />
+                <i class="bhi-search"></i>
+                <span class="error-text" [hidden]="!error || !multiSelectHasVisibleOptions()">{{ labels.selectFilterOptions }}</span>
+              </item>
+            </div>
+            <div class="dropdown-list-options">
+              <item
+                *ngFor="let option of config.filterConfig.options"
+                [hidden]="multiSelectOptionIsHidden(option)"
+                (click)="toggleSelection(option)"
+                [attr.data-automation-id]="'novo-data-table-filter-' + (option?.label || option)"
+                [keepOpen]="true"
+              >
+                <span>{{ option?.label || option }}</span>
+                <i
+                  [class.bhi-checkbox-empty]="!isSelected(option, multiSelectedOptions)"
+                  [class.bhi-checkbox-filled]="isSelected(option, multiSelectedOptions)"
+                ></i>
+              </item>
+            </div>
+            <p class="filter-null-results" [hidden]="multiSelectHasVisibleOptions()">{{ labels.pickerEmpty }}</p>
+          </list>
+          <list *ngSwitchCase="'custom'">
+            <item class="filter-search" keepOpen="true">
+              <ng-container *ngTemplateOutlet="filterTemplate; context: { $implicit: config }"></ng-container>
+            </item>
+          </list>
+          <list *ngSwitchDefault>
+            <item class="filter-search" keepOpen="true">
+              <input
+                [type]="config.filterConfig.type"
+                [(ngModel)]="filter"
+                (ngModelChange)="filterData($event)"
+                #filterInput
+                data-automation-id="novo-data-table-filter-input"
+              />
+            </item>
+          </list>
+        </ng-container>
+        <div class="footer" *ngIf="multiSelect">
+          <button theme="dialogue" color="dark" (click)="cancel()" data-automation-id="novo-data-table-multi-select-cancel">
+            {{ labels.cancel }}
+          </button>
+          <button theme="dialogue" color="positive" (click)="filterMultiSelect()" data-automation-id="novo-data-table-multi-select-filter">
+            {{ labels.filters }}
+          </button>
+        </div>
+      </novo-dropdown>
+    </div>
+    <div class="spacer"></div>
+    <div class="data-table-header-resizable" *ngIf="config.resizable"><span (mousedown)="startResize($event)">&nbsp;</span></div>
+  `,
+                changeDetection: ChangeDetectionStrategy.OnPush
+            }] }
+];
+/** @nocollapse */
+NovoDataTableCellHeader.ctorParameters = () => [
+    { type: ChangeDetectorRef },
+    { type: NovoLabelService },
+    { type: DataTableState },
+    { type: Renderer2 },
+    { type: ElementRef },
+    { type: NovoDataTableSortFilter, decorators: [{ type: Optional }] },
+    { type: CdkColumnDef, decorators: [{ type: Optional }] }
+];
+NovoDataTableCellHeader.propDecorators = {
+    filterInput: [{ type: ViewChild, args: ['filterInput', { static: false },] }],
+    dropdown: [{ type: ViewChild, args: [NovoDropdownElement, { static: false },] }],
+    optionFilterInput: [{ type: ViewChild, args: ['optionFilterInput', { static: false },] }],
+    defaultSort: [{ type: Input }],
+    allowMultipleFilters: [{ type: Input }],
+    resized: [{ type: Input }],
+    filterTemplate: [{ type: Input }],
+    resizable: [{ type: HostBinding, args: ['class.resizable',] }],
+    column: [{ type: Input, args: ['novo-data-table-cell-config',] }],
+    multiSelectOptionFilterHandleKeydown: [{ type: HostListener, args: ['keydown', ['$event'],] }]
+};
+if (false) {
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.filterInput;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.dropdown;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.optionFilterInput;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.defaultSort;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.allowMultipleFilters;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.resized;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.filterTemplate;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.resizable;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTableCellHeader.prototype._rerenderSubscription;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTableCellHeader.prototype.changeTimeout;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.label;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.icon;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.labelIcon;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.id;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.filter;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.direction;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.filterActive;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.sortActive;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.showCustomRange;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.activeDateFilter;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.config;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.multiSelect;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.multiSelectedOptions;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTableCellHeader.prototype.multiSelectedOptionIsHidden;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.optionFilter;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.error;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTableCellHeader.prototype.subscriptions;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTableCellHeader.prototype._column;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.changeDetectorRef;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype.labels;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTableCellHeader.prototype.state;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTableCellHeader.prototype.renderer;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTableCellHeader.prototype.elementRef;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype._sort;
+    /** @type {?} */
+    NovoDataTableCellHeader.prototype._cdkColumnDef;
+}
+
+/**
+ * @fileoverview added by tsickle
+ * Generated from: elements/data-table/data-table.component.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @template T
+ */
+class NovoDataTable {
+    /**
+     * @param {?} labels
+     * @param {?} ref
+     * @param {?} state
+     */
+    constructor(labels, ref, state) {
+        this.labels = labels;
+        this.ref = ref;
+        this.state = state;
+        this.globalSearchHiddenClassToggle = false;
+        this.resized = new EventEmitter();
+        this.name = 'novo-data-table';
+        this.allowMultipleFilters = false;
+        this.rowIdentifier = 'id';
+        this.activeRowIdentifier = '';
+        // prettier-ignore
+        this.trackByFn = (/**
+         * @param {?} index
+         * @param {?} item
+         * @return {?}
+         */
+        (index, item) => item.id);
+        this.templates = {};
+        this.fixedHeader = false;
+        this._hideGlobalSearch = true;
+        this.preferencesChanged = new EventEmitter();
+        this.loading = true;
+        this.columnToTemplate = {};
+        this.columnsLoaded = false;
+        this.selection = new Set();
+        this.scrollLeft = 0;
+        this.expandable = false;
+        this.initialized = false;
+        this.scrollListenerHandler = this.scrollListener.bind(this);
+        this.sortFilterSubscription = this.state.sortFilterSource.subscribe((/**
+         * @param {?} event
+         * @return {?}
+         */
+        (event) => {
+            if (this.name !== 'novo-data-table') {
+                this.preferencesChanged.emit({ name: this.name, sort: event.sort, filter: event.filter, globalSearch: event.globalSearch });
+                this.performInteractions('change');
+            }
+            else {
+                notify('Must have [name] set on data-table to use preferences!');
+            }
+        }));
+        this.paginationSubscription = this.state.paginationSource.subscribe((/**
+         * @param {?} event
+         * @return {?}
+         */
+        (event) => {
+            if (this.name !== 'novo-data-table') {
+                if (event.isPageSizeChange) {
+                    this.preferencesChanged.emit({ name: this.name, pageSize: event.pageSize });
+                }
+            }
+            else {
+                notify('Must have [name] set on data-table to use preferences!');
+            }
+        }));
+        this.resetSubscription = this.state.resetSource.subscribe((/**
+         * @return {?}
+         */
+        () => {
+            setTimeout((/**
+             * @return {?}
+             */
+            () => {
+                this.ref.detectChanges();
+            }), 300);
+        }));
+    }
+    /**
+     * @param {?} displayedColumns
+     * @return {?}
+     */
+    set displayedColumns(displayedColumns) {
+        if (this.displayedColumns && this.displayedColumns.length !== 0) {
+            if (this.name !== 'novo-data-table') {
+                this.preferencesChanged.emit({
+                    name: this.name,
+                    displayedColumns,
+                });
+            }
+            else {
+                notify('Must have [name] set on data-table to use preferences!');
+            }
+        }
+        this._disabledColumns = displayedColumns;
+        this.configureLastDisplayedColumn();
+        if (this.initialized) {
+            setTimeout((/**
+             * @return {?}
+             */
+            () => {
+                this.scrollListener();
+            }));
+        }
+    }
+    /**
+     * @return {?}
+     */
+    get displayedColumns() {
+        return this._disabledColumns;
+    }
+    /**
+     * @param {?} service
+     * @return {?}
+     */
+    set dataTableService(service) {
+        this.loading = false;
+        if (!service) {
+            service = new StaticDataTableService([]);
+        }
+        this.dataSource = new DataTableSource(service, this.state, this.ref);
+        this.ref.detectChanges();
+    }
+    /**
+     * @param {?} rows
+     * @return {?}
+     */
+    set rows(rows) {
+        this.loading = false;
+        /** @type {?} */
+        const service = new StaticDataTableService(rows);
+        this.dataSource = new DataTableSource(service, this.state, this.ref);
+        this.ref.detectChanges();
+    }
+    /**
+     * @param {?} outsideFilter
+     * @return {?}
+     */
+    set outsideFilter(outsideFilter) {
+        // Unsubscribe
+        if (this.outsideFilterSubscription) {
+            this.outsideFilterSubscription.unsubscribe();
+        }
+        if (outsideFilter) {
+            // Re-subscribe
+            this.outsideFilterSubscription = outsideFilter.subscribe((/**
+             * @param {?} filter
+             * @return {?}
+             */
+            (filter) => {
+                this.state.outsideFilter = filter;
+                this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
+                this.ref.markForCheck();
+            }));
+        }
+    }
+    /**
+     * @param {?} refreshSubject
+     * @return {?}
+     */
+    set refreshSubject(refreshSubject) {
+        // Unsubscribe
+        if (this.refreshSubscription) {
+            this.refreshSubscription.unsubscribe();
+        }
+        if (refreshSubject) {
+            // Re-subscribe
+            this.refreshSubscription = refreshSubject.subscribe((/**
+             * @param {?} filter
+             * @return {?}
+             */
+            (filter) => {
+                this.state.isForceRefresh = true;
+                this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
+                this.ref.markForCheck();
+            }));
+        }
+    }
+    /**
+     * @param {?} columns
+     * @return {?}
+     */
+    set columns(columns) {
+        this._columns = columns;
+        this.configureColumns();
+        this.performInteractions('init');
+    }
+    /**
+     * @return {?}
+     */
+    get columns() {
+        return this._columns;
+    }
+    /**
+     * @param {?} v
+     * @return {?}
+     */
+    set customFilter(v) {
+        this._customFilter = coerceBooleanProperty(v);
+    }
+    /**
+     * @return {?}
+     */
+    get customFilter() {
+        return this._customFilter;
+    }
+    /**
+     * @param {?} v
+     * @return {?}
+     */
+    set hasExandedRows(v) {
+        this._hasExandedRows = coerceBooleanProperty(v);
+    }
+    /**
+     * @return {?}
+     */
+    get hasExandedRows() {
+        return this._hasExandedRows;
+    }
+    /**
+     * @param {?} v
+     * @return {?}
+     */
+    set forceShowHeader(v) {
+        this._forceShowHeader = coerceBooleanProperty(v);
+    }
+    /**
+     * @return {?}
+     */
+    get forceShowHeader() {
+        return this._forceShowHeader;
+    }
+    /**
+     * @param {?} v
+     * @return {?}
+     */
+    set hideGlobalSearch(v) {
+        this._hideGlobalSearch = coerceBooleanProperty(v);
+        this.globalSearchHiddenClassToggle = this._hideGlobalSearch;
+    }
+    /**
+     * @return {?}
+     */
+    get hideGlobalSearch() {
+        return this._hideGlobalSearch;
+    }
+    /**
+     * @return {?}
+     */
+    get empty() {
+        return this.dataSource && this.dataSource.totallyEmpty;
+    }
+    /**
+     * @return {?}
+     */
+    get loadingClass() {
+        return this.loading || (this.dataSource && this.dataSource.loading);
+    }
+    /**
+     * @param {?} column
+     * @param {?} newOptions
+     * @return {?}
+     */
+    modifyCellHeaderMultiSelectFilterOptions(column, newOptions) {
+        /** @type {?} */
+        const header = this.cellHeaders.find((/**
+         * @param {?} cellHeader
+         * @return {?}
+         */
+        (cellHeader) => cellHeader.id === column));
+        if (header && header.config && header.config.filterConfig && header.config.filterConfig.options) {
+            /** @type {?} */
+            const filterOptions = header.config.filterConfig.options;
+            /** @type {?} */
+            const optionsToKeep = filterOptions.filter((/**
+             * @param {?} opt
+             * @return {?}
+             */
+            (opt) => header.isSelected(opt, header.multiSelectedOptions) &&
+                !newOptions.find((/**
+                 * @param {?} newOpt
+                 * @return {?}
+                 */
+                (newOpt) => opt.value && newOpt.value && newOpt.value === opt.value))));
+            header.config.filterConfig.options = [...optionsToKeep, ...newOptions];
+        }
+        else {
+            header.config.filterConfig['options'] = newOptions;
+        }
+        header.setupFilterOptions();
+        header.changeDetectorRef.markForCheck();
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        if (this.outsideFilterSubscription) {
+            this.outsideFilterSubscription.unsubscribe();
+        }
+        if (this.novoDataTableContainer) {
+            ((/** @type {?} */ (this.novoDataTableContainer.nativeElement))).removeEventListener('scroll', this.scrollListenerHandler);
+        }
+        if (this.refreshSubscription) {
+            this.refreshSubscription.unsubscribe();
+        }
+        if (this.resetSubscription) {
+            this.resetSubscription.unsubscribe();
+        }
+        if (this.sortFilterSubscription) {
+            this.sortFilterSubscription.unsubscribe();
+        }
+    }
+    /**
+     * @return {?}
+     */
+    ngAfterContentInit() {
+        if (this.displayedColumns && this.displayedColumns.length) {
+            this.expandable = this.displayedColumns.includes('expand');
+        }
+        // Default templates defined here
+        this.defaultTemplates.forEach((/**
+         * @param {?} item
+         * @return {?}
+         */
+        (item) => {
+            // Only override if it doesn't already exist
+            if (!this.templates[item.getType()]) {
+                this.templates[item.getType()] = item.template;
+            }
+        }));
+        // Custom templates passed in
+        this.customTemplates.forEach((/**
+         * @param {?} item
+         * @return {?}
+         */
+        (item) => {
+            // Override anything that is custom and in HTML
+            this.templates[item.getType()] = item.template;
+        }));
+        // Load columns
+        this.configureColumns();
+        // State
+        if (this.paginationOptions && !this.paginationOptions.page) {
+            this.paginationOptions.page = 0;
+        }
+        if (this.paginationOptions && !this.paginationOptions.pageSize) {
+            this.paginationOptions.pageSize = 50;
+        }
+        if (this.paginationOptions && !this.paginationOptions.pageSizeOptions) {
+            this.paginationOptions.pageSizeOptions = [10, 25, 50, 100];
+        }
+        this.state.page = this.paginationOptions ? this.paginationOptions.page : undefined;
+        this.state.pageSize = this.paginationOptions ? this.paginationOptions.pageSize : undefined;
+        // Scrolling inside table
+        ((/** @type {?} */ (this.novoDataTableContainer.nativeElement))).addEventListener('scroll', this.scrollListenerHandler);
+        this.initialized = true;
+        this.ref.markForCheck();
+    }
+    /**
+     * @param {?} term
+     * @return {?}
+     */
+    onSearchChange(term) {
+        this.state.globalSearch = term;
+        this.state.reset(false, true);
+        this.state.updates.next({ globalSearch: term, filter: this.state.filter, sort: this.state.sort });
+    }
+    /**
+     * @param {?} index
+     * @param {?} item
+     * @return {?}
+     */
+    trackColumnsBy(index, item) {
+        return item.id;
+    }
+    /**
+     * @param {?} check
+     * @param {?} row
+     * @return {?}
+     */
+    isDisabled(check, row) {
+        if (check.disabled === true) {
+            return true;
+        }
+        if (check.disabledFunc) {
+            return check.disabledFunc(row);
+        }
+        return false;
+    }
+    /**
+     * @param {?} row
+     * @return {?}
+     */
+    isExpanded(row) {
+        if (!row) {
+            return false;
+        }
+        return this.state.expandedRows.has(`${row[this.rowIdentifier]}`);
+    }
+    /**
+     * @param {?} row
+     * @return {?}
+     */
+    expandRow(row) {
+        /** @type {?} */
+        const expanded = this.isExpanded(row);
+        if (expanded) {
+            this.state.expandedRows.delete(`${row[this.rowIdentifier]}`);
+        }
+        else {
+            this.state.expandedRows.add(`${row[this.rowIdentifier]}`);
+        }
+        this.state.onExpandChange(((/** @type {?} */ (((/** @type {?} */ (row)))))).id);
+    }
+    /**
+     * @param {?} expand
+     * @return {?}
+     */
+    expandRows(expand) {
+        (this.dataSource.data || []).forEach((/**
+         * @param {?} row
+         * @return {?}
+         */
+        (row) => {
+            if (!expand) {
+                this.state.expandedRows.delete(`${row[this.rowIdentifier]}`);
+            }
+            else {
+                this.state.expandedRows.add(`${row[this.rowIdentifier]}`);
+            }
+        }));
+        this.state.onExpandChange();
+    }
+    /**
+     * @return {?}
+     */
+    allCurrentRowsExpanded() {
+        for (let i = 0; i < (this.dataSource.data || []).length; i++) {
+            if (!this.isExpanded((this.dataSource.data || [])[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+    /**
+     * @param {?} row
+     * @return {?}
+     */
+    isSelected(row) {
+        if (!row) {
+            return false;
+        }
+        return this.state.selectedRows.has(`${row[this.rowIdentifier]}`);
+    }
+    /**
+     * @param {?} row
+     * @return {?}
+     */
+    selectRow(row) {
+        /** @type {?} */
+        const selected = this.isSelected(row);
+        if (selected) {
+            this.state.selectedRows.delete(`${row[this.rowIdentifier]}`);
+        }
+        else {
+            this.state.selectedRows.set(`${row[this.rowIdentifier]}`, row);
+        }
+        this.state.onSelectionChange();
+    }
+    /**
+     * @param {?} selected
+     * @return {?}
+     */
+    selectRows(selected) {
+        (this.dataSource.data || []).forEach((/**
+         * @param {?} row
+         * @return {?}
+         */
+        (row) => {
+            if (!selected) {
+                this.state.selectedRows.delete(`${row[this.rowIdentifier]}`);
+            }
+            else {
+                this.state.selectedRows.set(`${row[this.rowIdentifier]}`, row);
+            }
+        }));
+        this.state.onSelectionChange();
+    }
+    /**
+     * @return {?}
+     */
+    allCurrentRowsSelected() {
+        for (let i = 0; i < (this.dataSource.data || []).length; i++) {
+            if (!this.isSelected((this.dataSource.data || [])[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+    /**
+     * @private
+     * @return {?}
+     */
+    configureLastDisplayedColumn() {
+        if (this.columns && this.displayedColumns && 0 !== this.columns.length && 0 !== this.displayedColumns.length) {
+            this.columns.forEach((/**
+             * @param {?} column
+             * @return {?}
+             */
+            (column) => {
+                if (column.initialResizable) {
+                    column.resizable = column.initialResizable.resizable;
+                    column.width = column.initialResizable.width;
+                    column.initialResizable = undefined;
+                }
+            }));
+            /** @type {?} */
+            const resizableColumns = this.displayedColumns.filter((/**
+             * @param {?} name
+             * @return {?}
+             */
+            (name) => {
+                return (this.columns.findIndex((/**
+                 * @param {?} column
+                 * @return {?}
+                 */
+                (column) => {
+                    return column.resizable && column.id === name;
+                })) !== -1);
+            }));
+            if (resizableColumns && resizableColumns.length > 0) {
+                /** @type {?} */
+                const lastResizableColumn = this.columns.find((/**
+                 * @param {?} column
+                 * @return {?}
+                 */
+                (column) => {
+                    return column.id === resizableColumns[resizableColumns.length - 1];
+                }));
+                lastResizableColumn.initialResizable = {
+                    resizable: lastResizableColumn.resizable,
+                    width: lastResizableColumn.width,
+                };
+                lastResizableColumn.width = undefined;
+                lastResizableColumn.resizable = false;
+            }
+        }
+    }
+    /**
+     * @private
+     * @return {?}
+     */
+    configureColumns() {
+        if (this.columns && this.columns.length !== 0 && Object.keys(this.templates).length !== 0) {
+            // Figure the column templates
+            this.columns.forEach((/**
+             * @param {?} column
+             * @return {?}
+             */
+            (column) => {
+                // Figure the template
+                /** @type {?} */
+                let templateName;
+                if (column.template) {
+                    // Pass it in as template
+                    templateName = column.template;
+                }
+                else if (!!this.templates[column.id]) {
+                    // Custom template for the column id
+                    templateName = column.id;
+                }
+                else {
+                    // Default to the defaulCellTemplate
+                    if (column.type === 'action') {
+                        if (column.action && column.action.options) {
+                            if (!column.action.icon) {
+                                column.action.icon = 'collapse';
+                            }
+                            templateName = 'dropdownCellTemplate';
+                        }
+                        else {
+                            templateName = 'buttonCellTemplate';
+                        }
+                    }
+                    else {
+                        if (column.type === 'link:tel' || column.type === 'link:mailto') {
+                            templateName = `${column.type.split(':')[1]}CellTemplate`;
+                        }
+                        else {
+                            templateName = `${column.type}CellTemplate`;
+                        }
+                    }
+                }
+                this.columnToTemplate[column.id] = this.templates[templateName];
+            }));
+            this.configureLastDisplayedColumn();
+            this.columnsLoaded = true;
+        }
+    }
+    /**
+     * @private
+     * @return {?}
+     */
+    scrollListener() {
+        /** @type {?} */
+        const target = (/** @type {?} */ (this.novoDataTableContainer.nativeElement));
+        /** @type {?} */
+        const left = target.scrollLeft;
+        if (left !== this.scrollLeft) {
+            this.scrollLeft = target.scrollLeft;
+        }
+        this.ref.markForCheck();
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    performInteractions(event) {
+        if (this.listInteractions) {
+            for (const column of this.columns) {
+                /** @type {?} */
+                const allListColumnInteractions = this.listInteractions[column.id];
+                /** @type {?} */
+                const listColumnInteraction = allListColumnInteractions && allListColumnInteractions.find((/**
+                 * @param {?} int
+                 * @return {?}
+                 */
+                (int) => int.event.includes(event)));
+                if (listColumnInteraction) {
+                    listColumnInteraction.script(this, column.id);
+                }
+            }
+        }
+    }
+}
+NovoDataTable.decorators = [
+    { type: Component, args: [{
+                selector: 'novo-data-table',
+                animations: [
+                    trigger('expand', [
+                        state('void', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+                        state('*', style({ height: '*', visibility: 'visible' })),
+                        transition('void <=> *', animate('70ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+                    ]),
+                ],
+                template: `
+    <header
+      *ngIf="(!(dataSource?.totallyEmpty && !state.userFiltered) && !loading) || forceShowHeader"
+      [class.empty]="hideGlobalSearch && !paginationOptions && !templates['customActions']"
+    >
+      <ng-container *ngTemplateOutlet="templates['customHeader']"></ng-container>
+      <novo-search
+        alwaysOpen="true"
+        (searchChanged)="onSearchChange($event)"
+        [(ngModel)]="state.globalSearch"
+        *ngIf="!hideGlobalSearch"
+        [placeholder]="searchOptions?.placeholder"
+        [hint]="searchOptions?.tooltip"
+      >
+      </novo-search>
+      <novo-data-table-pagination
+        *ngIf="paginationOptions"
+        [theme]="paginationOptions.theme"
+        [length]="dataSource?.currentTotal"
+        [page]="paginationOptions.page"
+        [pageSize]="paginationOptions.pageSize"
+        [pageSizeOptions]="paginationOptions.pageSizeOptions"
+        [dataFeatureId]="paginatorDataFeatureId"
+      >
+      </novo-data-table-pagination>
+      <div class="novo-data-table-actions" *ngIf="templates['customActions']">
+        <ng-container *ngTemplateOutlet="templates['customActions']"></ng-container>
+      </div>
+    </header>
+    <div class="novo-data-table-loading-mask" *ngIf="dataSource?.loading || loading" data-automation-id="novo-data-table-loading">
+      <novo-loading></novo-loading>
+    </div>
+    <div class="novo-data-table-outside-container" [ngClass]="{ 'novo-data-table-outside-container-fixed': fixedHeader }">
+      <div class="novo-data-table-custom-filter" *ngIf="customFilter">
+        <ng-container *ngTemplateOutlet="templates['customFilter']"></ng-container>
+      </div>
+      <div
+        #novoDataTableContainer
+        class="novo-data-table-container"
+        [ngClass]="{ 'novo-data-table-container-fixed': fixedHeader }"
+        [class.empty-user-filtered]="dataSource?.currentlyEmpty && state.userFiltered"
+        [class.empty]="dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine"
+      >
+        <cdk-table
+          *ngIf="columns?.length > 0 && columnsLoaded && dataSource"
+          [dataSource]="dataSource"
+          [trackBy]="trackByFn"
+          novoDataTableSortFilter
+          [class.expandable]="expandable"
+          [class.empty]="dataSource?.currentlyEmpty && state.userFiltered"
+          [hidden]="dataSource?.totallyEmpty && !state.userFiltered"
+        >
+          <ng-container cdkColumnDef="selection">
+            <novo-data-table-checkbox-header-cell *cdkHeaderCellDef></novo-data-table-checkbox-header-cell>
+            <novo-data-table-checkbox-cell *cdkCellDef="let row; let i = index" [row]="row"></novo-data-table-checkbox-cell>
+          </ng-container>
+          <ng-container cdkColumnDef="expand">
+            <novo-data-table-expand-header-cell *cdkHeaderCellDef></novo-data-table-expand-header-cell>
+            <novo-data-table-expand-cell *cdkCellDef="let row; let i = index" [row]="row"></novo-data-table-expand-cell>
+          </ng-container>
+          <ng-container *ngFor="let column of columns; trackBy: trackColumnsBy" [cdkColumnDef]="column.id">
+            <novo-data-table-header-cell
+              *cdkHeaderCellDef
+              [column]="column"
+              [filterTemplate]="templates['column-filter-' + column.id]"
+              [novo-data-table-cell-config]="column"
+              [resized]="resized"
+              [defaultSort]="defaultSort"
+              [allowMultipleFilters]="allowMultipleFilters"
+              [class.empty]="column?.type === 'action' && !column?.label"
+              [class.button-header-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)"
+              [class.dropdown-header-cell]="column?.type === 'action' && column?.action?.options"
+              [class.fixed-header]="fixedHeader"
+            ></novo-data-table-header-cell>
+            <novo-data-table-cell
+              *cdkCellDef="let row"
+              [resized]="resized"
+              [column]="column"
+              [row]="row"
+              [template]="columnToTemplate[column.id]"
+              [class.empty]="column?.type === 'action' && !column?.label"
+              [class.button-cell]="column?.type === 'expand' || (column?.type === 'action' && !column?.action?.options)"
+              [class.dropdown-cell]="column?.type === 'action' && column?.action?.options"
+            ></novo-data-table-cell>
+          </ng-container>
+          <novo-data-table-header-row
+            *cdkHeaderRowDef="displayedColumns"
+            [fixedHeader]="fixedHeader"
+            data-automation-id="novo-data-table-header-row"
+          ></novo-data-table-header-row>
+          <novo-data-table-row
+            *cdkRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ active: row[rowIdentifier] == activeRowIdentifier }"
+            [novoDataTableExpand]="detailRowTemplate"
+            [row]="row"
+            [id]="name + '-' + row[rowIdentifier]"
+            [dataAutomationId]="row[rowIdentifier]"
+          ></novo-data-table-row>
+        </cdk-table>
+        <div class="novo-data-table-footer" *ngIf="templates['footer']">
+          <ng-container *ngTemplateOutlet="templates['footer']; context: { $implicit: columns, data: dataSource.data }"></ng-container>
+        </div>
+        <div
+          class="novo-data-table-no-results-container"
+          [style.left.px]="scrollLeft"
+          *ngIf="dataSource?.currentlyEmpty && state.userFiltered && !dataSource?.loading && !loading && !dataSource.pristine"
+        >
+          <div class="novo-data-table-empty-message">
+            <ng-container *ngTemplateOutlet="templates['noResultsMessage'] || templates['defaultNoResultsMessage']"></ng-container>
+          </div>
+        </div>
+      </div>
+      <div
+        class="novo-data-table-empty-container"
+        *ngIf="dataSource?.totallyEmpty && !dataSource?.loading && !loading && !state.userFiltered && !dataSource.pristine"
+      >
+        <div class="novo-data-table-empty-message">
+          <ng-container *ngTemplateOutlet="templates['emptyMessage'] || templates['defaultNoResultsMessage']"></ng-container>
+        </div>
+      </div>
+    </div>
+    <!-- DEFAULT CELL TEMPLATE -->
+    <ng-template novoTemplate="textCellTemplate" let-row let-col="col">
+      <span [style.width.px]="col?.width" [style.min-width.px]="col?.width" [style.max-width.px]="col?.width">{{
+        row[col.id] | dataTableInterpolate: col
+      }}</span>
+    </ng-template>
+    <ng-template novoTemplate="dateCellTemplate" let-row let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateRenderer: col }}</span>
+    </ng-template>
+    <ng-template novoTemplate="datetimeCellTemplate" let-row let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableDateTimeRenderer: col }}</span>
+    </ng-template>
+    <ng-template novoTemplate="timeCellTemplate" let-row let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableTimeRenderer: col }}</span>
+    </ng-template>
+    <ng-template novoTemplate="currencyCellTemplate" let-row let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableCurrencyRenderer: col }}</span>
+    </ng-template>
+    <ng-template novoTemplate="bigdecimalCellTemplate" let-row let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableBigDecimalRenderer: col }}</span>
+    </ng-template>
+    <ng-template novoTemplate="numberCellTemplate" let-row let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col }}</span>
+    </ng-template>
+    <ng-template novoTemplate="percentCellTemplate" let-row let-col="col">
+      <span>{{ row[col.id] | dataTableInterpolate: col | dataTableNumberRenderer: col:true }}</span>
+    </ng-template>
+    <ng-template novoTemplate="linkCellTemplate" let-row let-col="col">
+      <a
+        [attr.data-feature-id]="col?.attributes?.dataFeatureId"
+        (click)="col.handlers?.click({ originalEvent: $event, row: row })"
+        [style.width.px]="col?.width"
+        [style.min-width.px]="col?.width"
+        [style.max-width.px]="col?.width"
+        >{{ row[col.id] | dataTableInterpolate: col }}</a
+      >
+    </ng-template>
+    <ng-template novoTemplate="telCellTemplate" let-row let-col="col">
+      <a href="tel:{{ row[col.id] | dataTableInterpolate: col }}" [target]="col?.attributes?.target">{{
+        row[col.id] | dataTableInterpolate: col
+      }}</a>
+    </ng-template>
+    <ng-template novoTemplate="mailtoCellTemplate" let-row let-col="col">
+      <a href="mailto:{{ row[col.id] | dataTableInterpolate: col }}" [target]="col?.attributes?.target">{{
+        row[col.id] | dataTableInterpolate: col
+      }}</a>
+    </ng-template>
+    <ng-template novoTemplate="buttonCellTemplate" let-row let-col="col">
+      <p [tooltip]="col?.action?.tooltip" tooltipPosition="right" [attr.data-feature-id]="col?.attributes?.dataFeatureId">
+        <i
+          class="bhi-{{ col?.action?.icon }} data-table-icon"
+          (click)="col.handlers?.click({ originalEvent: $event, row: row })"
+          [class.disabled]="isDisabled(col, row)"
+        ></i>
+      </p>
+    </ng-template>
+    <ng-template novoTemplate="dropdownCellTemplate" let-row let-col="col">
+      <novo-dropdown parentScrollSelector=".novo-data-table-container" containerClass="novo-data-table-dropdown">
+        <button type="button" theme="dialogue" [icon]="col.action.icon" inverse>{{ col.label }}</button>
+        <list>
+          <item
+            *ngFor="let option of col?.action?.options"
+            (action)="option.handlers.click({ originalEvent: $event?.originalEvent, row: row })"
+            [disabled]="isDisabled(option, row)"
+          >
+            <span [attr.data-automation-id]="option.label">{{ option.label }}</span>
+          </item>
+        </list>
+      </novo-dropdown>
+    </ng-template>
+    <ng-template novoTemplate="defaultNoResultsMessage">
+      <h4><i class="bhi-search-question"></i> {{ labels.noMatchingRecordsMessage }}</h4>
+    </ng-template>
+    <ng-template novoTemplate="defaultEmptyMessage">
+      <h4><i class="bhi-search-question"></i> {{ labels.emptyTableMessage }}</h4>
+    </ng-template>
+    <ng-template novoTemplate="expandedRow"> You did not provide an "expandedRow" template! </ng-template>
+    <ng-template #detailRowTemplate let-row>
+      <div class="novo-data-table-detail-row" [@expand] style="overflow: hidden">
+        <ng-container *ngTemplateOutlet="templates['expandedRow']; context: { $implicit: row }"></ng-container>
+      </div>
+    </ng-template>
+    <!-- CUSTOM CELLS PASSED IN -->
+    <ng-content></ng-content>
+  `,
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                providers: [DataTableState]
+            }] }
+];
+/** @nocollapse */
+NovoDataTable.ctorParameters = () => [
+    { type: NovoLabelService },
+    { type: ChangeDetectorRef },
+    { type: DataTableState }
+];
+NovoDataTable.propDecorators = {
+    globalSearchHiddenClassToggle: [{ type: HostBinding, args: ['class.global-search-hidden',] }],
+    customTemplates: [{ type: ContentChildren, args: [NovoTemplate,] }],
+    defaultTemplates: [{ type: ViewChildren, args: [NovoTemplate,] }],
+    cellHeaders: [{ type: ViewChildren, args: [NovoDataTableCellHeader,] }],
+    novoDataTableContainer: [{ type: ViewChild, args: ['novoDataTableContainer', { static: false },] }],
+    resized: [{ type: Output }],
+    displayedColumns: [{ type: Input }],
+    paginationOptions: [{ type: Input }],
+    searchOptions: [{ type: Input }],
+    defaultSort: [{ type: Input }],
+    name: [{ type: Input }],
+    allowMultipleFilters: [{ type: Input }],
+    rowIdentifier: [{ type: Input }],
+    activeRowIdentifier: [{ type: Input }],
+    trackByFn: [{ type: Input }],
+    templates: [{ type: Input }],
+    fixedHeader: [{ type: Input }],
+    paginatorDataFeatureId: [{ type: Input }],
+    dataTableService: [{ type: Input }],
+    rows: [{ type: Input }],
+    outsideFilter: [{ type: Input }],
+    refreshSubject: [{ type: Input }],
+    columns: [{ type: Input }],
+    customFilter: [{ type: Input }],
+    hasExandedRows: [{ type: Input }],
+    forceShowHeader: [{ type: Input }],
+    hideGlobalSearch: [{ type: Input }],
+    preferencesChanged: [{ type: Output }],
+    empty: [{ type: HostBinding, args: ['class.empty',] }],
+    loadingClass: [{ type: HostBinding, args: ['class.loading',] }],
+    listInteractions: [{ type: Input }]
+};
+if (false) {
+    /** @type {?} */
+    NovoDataTable.prototype.globalSearchHiddenClassToggle;
+    /** @type {?} */
+    NovoDataTable.prototype.customTemplates;
+    /** @type {?} */
+    NovoDataTable.prototype.defaultTemplates;
+    /** @type {?} */
+    NovoDataTable.prototype.cellHeaders;
+    /** @type {?} */
+    NovoDataTable.prototype.novoDataTableContainer;
+    /** @type {?} */
+    NovoDataTable.prototype.resized;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype._disabledColumns;
+    /** @type {?} */
+    NovoDataTable.prototype.paginationOptions;
+    /** @type {?} */
+    NovoDataTable.prototype.searchOptions;
+    /** @type {?} */
+    NovoDataTable.prototype.defaultSort;
+    /** @type {?} */
+    NovoDataTable.prototype.name;
+    /** @type {?} */
+    NovoDataTable.prototype.allowMultipleFilters;
+    /** @type {?} */
+    NovoDataTable.prototype.rowIdentifier;
+    /** @type {?} */
+    NovoDataTable.prototype.activeRowIdentifier;
+    /** @type {?} */
+    NovoDataTable.prototype.trackByFn;
+    /** @type {?} */
+    NovoDataTable.prototype.templates;
+    /** @type {?} */
+    NovoDataTable.prototype.fixedHeader;
+    /** @type {?} */
+    NovoDataTable.prototype.paginatorDataFeatureId;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype._customFilter;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype._hasExandedRows;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype._forceShowHeader;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype._hideGlobalSearch;
+    /** @type {?} */
+    NovoDataTable.prototype.preferencesChanged;
+    /** @type {?} */
+    NovoDataTable.prototype.dataSource;
+    /** @type {?} */
+    NovoDataTable.prototype.loading;
+    /** @type {?} */
+    NovoDataTable.prototype.columnToTemplate;
+    /** @type {?} */
+    NovoDataTable.prototype.columnsLoaded;
+    /** @type {?} */
+    NovoDataTable.prototype.selection;
+    /** @type {?} */
+    NovoDataTable.prototype.scrollLeft;
+    /** @type {?} */
+    NovoDataTable.prototype.expandable;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype.outsideFilterSubscription;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype.refreshSubscription;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype.resetSubscription;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype.paginationSubscription;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype.sortFilterSubscription;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype._columns;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype.scrollListenerHandler;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype.initialized;
+    /** @type {?} */
+    NovoDataTable.prototype.listInteractions;
+    /** @type {?} */
+    NovoDataTable.prototype.labels;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype.ref;
+    /** @type {?} */
+    NovoDataTable.prototype.state;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -35792,894 +36746,6 @@ if (false) {
     NovoDataTableRow.prototype.id;
     /** @type {?} */
     NovoDataTableRow.prototype.dataAutomationId;
-}
-
-/**
- * @fileoverview added by tsickle
- * Generated from: elements/data-table/sort-filter/sort-filter.directive.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
- * @template T
- */
-class NovoDataTableSortFilter {
-    /**
-     * @param {?} state
-     */
-    constructor(state) {
-        this.state = state;
-    }
-    /**
-     * @param {?} id
-     * @param {?} type
-     * @param {?} value
-     * @param {?} transform
-     * @param {?=} allowMultipleFilters
-     * @param {?=} selectedOption
-     * @return {?}
-     */
-    filter(id, type, value, transform, allowMultipleFilters = false, selectedOption) {
-        /** @type {?} */
-        let filter;
-        if (allowMultipleFilters) {
-            filter = this.resolveMultiFilter(id, type, value, transform, selectedOption);
-        }
-        else {
-            if (!Helpers.isBlank(value)) {
-                filter = Object.assign({ id, type, value, transform }, (selectedOption && { selectedOption }));
-            }
-            else {
-                filter = undefined;
-            }
-        }
-        this.state.filter = filter;
-        this.state.reset(false, true);
-        this.state.updates.next({ filter, sort: this.state.sort });
-        this.state.onSortFilterChange();
-    }
-    /**
-     * @param {?} id
-     * @param {?} value
-     * @param {?} transform
-     * @return {?}
-     */
-    sort(id, value, transform) {
-        /** @type {?} */
-        const sort = { id, value, transform };
-        this.state.sort = sort;
-        this.state.reset(false, true);
-        this.state.updates.next({ sort, filter: this.state.filter });
-        this.state.onSortFilterChange();
-    }
-    /**
-     * @param {?} id
-     * @param {?} type
-     * @param {?} value
-     * @param {?} transform
-     * @param {?} selectedOption
-     * @return {?}
-     */
-    resolveMultiFilter(id, type, value, transform, selectedOption) {
-        /** @type {?} */
-        let filter;
-        filter = Helpers.convertToArray(this.state.filter);
-        /** @type {?} */
-        const filterIndex = filter.findIndex((/**
-         * @param {?} aFilter
-         * @return {?}
-         */
-        (aFilter) => aFilter && aFilter.id === id));
-        if (filterIndex > -1) {
-            filter.splice(filterIndex, 1);
-        }
-        if (!Helpers.isBlank(value)) {
-            filter = [...filter, Object.assign({ id, type, value, transform }, (selectedOption && { selectedOption }))];
-        }
-        if (filter.length < 1) {
-            filter = undefined;
-        }
-        return filter;
-    }
-}
-NovoDataTableSortFilter.decorators = [
-    { type: Directive, args: [{
-                selector: '[novoDataTableSortFilter]',
-            },] }
-];
-/** @nocollapse */
-NovoDataTableSortFilter.ctorParameters = () => [
-    { type: DataTableState }
-];
-if (false) {
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableSortFilter.prototype.state;
-}
-
-/**
- * @fileoverview added by tsickle
- * Generated from: elements/data-table/cell-headers/data-table-header-cell.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
- * @template T
- */
-class NovoDataTableCellHeader {
-    /**
-     * @param {?} changeDetectorRef
-     * @param {?} labels
-     * @param {?} state
-     * @param {?} renderer
-     * @param {?} elementRef
-     * @param {?} _sort
-     * @param {?} _cdkColumnDef
-     */
-    constructor(changeDetectorRef, labels, state, renderer, elementRef, _sort, _cdkColumnDef) {
-        this.changeDetectorRef = changeDetectorRef;
-        this.labels = labels;
-        this.state = state;
-        this.renderer = renderer;
-        this.elementRef = elementRef;
-        this._sort = _sort;
-        this._cdkColumnDef = _cdkColumnDef;
-        this.allowMultipleFilters = false;
-        this.icon = 'sortable';
-        this.filterActive = false;
-        this.sortActive = false;
-        this.showCustomRange = false;
-        this.multiSelect = false;
-        this.multiSelectedOptions = [];
-        this.multiSelectedOptionIsHidden = [];
-        this.optionFilter = '';
-        this.error = false;
-        this.subscriptions = [];
-        this._rerenderSubscription = state.updates.subscribe((/**
-         * @param {?} change
-         * @return {?}
-         */
-        (change) => this.checkSortFilterState(change)));
-    }
-    /**
-     * @param {?} column
-     * @return {?}
-     */
-    set column(column) {
-        this._column = column;
-        this.label = column.type === 'action' ? '' : column.label;
-        this.labelIcon = column.labelIcon;
-        this.config = {
-            sortable: !!column.sortable,
-            filterable: !!column.filterable,
-            resizable: !!column.resizable,
-        };
-        this.resizable = this.config.resizable;
-        /** @type {?} */
-        const transforms = {};
-        if (column.filterable && Helpers.isObject(column.filterable)) {
-            this.config.filterConfig = (/** @type {?} */ (column.filterable));
-            if (!this.config.filterConfig.type) {
-                this.config.filterConfig = { type: 'text' };
-            }
-            if (((/** @type {?} */ (column.filterable))).transform) {
-                transforms.filter = ((/** @type {?} */ (column.filterable))).transform;
-            }
-        }
-        else {
-            this.config.filterConfig = { type: 'text' };
-        }
-        if (column.sortable && Helpers.isObject(column.sortable)) {
-            if (((/** @type {?} */ (column.sortable))).transform) {
-                transforms.sort = ((/** @type {?} */ (column.sortable))).transform;
-            }
-        }
-        if (this.config.filterConfig.type === 'date' && !this.config.filterConfig.options) {
-            this.config.filterConfig.options = this.getDefaultDateFilterOptions();
-        }
-        this.config.transforms = transforms;
-    }
-    /**
-     * @return {?}
-     */
-    ngOnInit() {
-        if (this._cdkColumnDef) {
-            this.id = this._cdkColumnDef.name;
-        }
-        this.checkSortFilterState({ filter: this.state.filter, sort: this.state.sort }, true);
-        this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
-        if (this.multiSelect) {
-            this.multiSelectedOptions = this.filter ? [...this.filter] : [];
-        }
-        this.changeDetectorRef.markForCheck();
-    }
-    /**
-     * @return {?}
-     */
-    ngOnDestroy() {
-        this._rerenderSubscription.unsubscribe();
-        this.subscriptions.forEach((/**
-         * @param {?} subscription
-         * @return {?}
-         */
-        (subscription) => {
-            subscription.unsubscribe();
-        }));
-    }
-    /**
-     * @param {?} sortFilterState
-     * @param {?=} initialConfig
-     * @return {?}
-     */
-    checkSortFilterState(sortFilterState, initialConfig = false) {
-        if (sortFilterState.sort && sortFilterState.sort.id === this.id) {
-            this.icon = `sort-${sortFilterState.sort.value}`;
-            this.sortActive = true;
-        }
-        else {
-            this.icon = 'sortable';
-            this.sortActive = false;
-        }
-        /** @type {?} */
-        const tableFilter = Helpers.convertToArray(sortFilterState.filter);
-        /** @type {?} */
-        const thisFilter = tableFilter.find((/**
-         * @param {?} filter
-         * @return {?}
-         */
-        (filter) => filter && filter.id === this.id));
-        if (thisFilter) {
-            this.filterActive = true;
-            if (initialConfig && thisFilter.type === 'date' && thisFilter.selectedOption) {
-                this.activeDateFilter = thisFilter.selectedOption.label || this.labels.customDateRange;
-            }
-            this.filter = thisFilter.value;
-        }
-        else {
-            this.filterActive = false;
-            this.filter = undefined;
-            this.activeDateFilter = undefined;
-            this.multiSelectedOptions = [];
-        }
-        if (this.defaultSort && this.id === this.defaultSort.id) {
-            this.icon = `sort-${this.defaultSort.value}`;
-            this.sortActive = true;
-        }
-        this.multiSelect = this.config.filterConfig && this.config.filterConfig.type ? this.config.filterConfig.type === 'multi-select' : false;
-        if (this.multiSelect) {
-            this.multiSelectedOptions = this.filter ? [...this.filter] : [];
-            if (this.config.filterConfig.options) {
-                if (typeof this.config.filterConfig.options[0] === 'string') {
-                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((/**
-                     * @param {?} option
-                     * @return {?}
-                     */
-                    (option) => ({ option, hidden: false })));
-                }
-                else {
-                    this.multiSelectedOptionIsHidden = ((/** @type {?} */ (this.config.filterConfig.options))).map((/**
-                     * @param {?} option
-                     * @return {?}
-                     */
-                    (option) => ({
-                        option,
-                        hidden: false,
-                    })));
-                }
-            }
-        }
-        this.changeDetectorRef.markForCheck();
-    }
-    /**
-     * @param {?} option
-     * @param {?} optionsList
-     * @return {?}
-     */
-    isSelected(option, optionsList) {
-        if (optionsList) {
-            /** @type {?} */
-            const optionValue = option.hasOwnProperty('value') ? option.value : option;
-            /** @type {?} */
-            const found = optionsList.find((/**
-             * @param {?} item
-             * @return {?}
-             */
-            (item) => this.optionPresentCheck(item, optionValue)));
-            return found !== undefined;
-        }
-        return false;
-    }
-    /**
-     * @param {?} option
-     * @return {?}
-     */
-    toggleSelection(option) {
-        /** @type {?} */
-        const optionValue = option.hasOwnProperty('value') ? option.value : option;
-        /** @type {?} */
-        const optionIndex = this.multiSelectedOptions.findIndex((/**
-         * @param {?} item
-         * @return {?}
-         */
-        (item) => this.optionPresentCheck(item, optionValue)));
-        this.error = false;
-        if (optionIndex > -1) {
-            this.multiSelectedOptions.splice(optionIndex, 1);
-            if (this.optionFilter &&
-                !this.getOptionText(option)
-                    .toLowerCase()
-                    .startsWith(this.optionFilter.toLowerCase())) {
-                this.multiSelectedOptionIsHidden[this.multiSelectedOptionIsHidden.findIndex((/**
-                 * @param {?} record
-                 * @return {?}
-                 */
-                (record) => record.option === option))].hidden = true;
-            }
-        }
-        else {
-            this.multiSelectedOptions.push(optionValue);
-        }
-    }
-    /**
-     * @param {?} item
-     * @param {?} optionValue
-     * @return {?}
-     */
-    optionPresentCheck(item, optionValue) {
-        if (item.hasOwnProperty('value')) {
-            return item.value === optionValue;
-        }
-        else {
-            return item === optionValue;
-        }
-    }
-    /**
-     * @return {?}
-     */
-    cancel() {
-        this.multiSelectedOptions = this.filter ? [...this.filter] : [];
-        this.dropdown.closePanel();
-        this.clearOptionFilter();
-    }
-    /**
-     * @return {?}
-     */
-    filterMultiSelect() {
-        if (this.multiSelectedOptions.length === 0 && !this.filter) {
-            this.multiSelectHasVisibleOptions() && this.dropdown ? (this.error = true) : null;
-        }
-        else {
-            this.clearOptionFilter();
-            /** @type {?} */
-            const actualFilter = this.multiSelectedOptions.length > 0 ? [...this.multiSelectedOptions] : undefined;
-            this.filterData(actualFilter);
-            this.dropdown.closePanel();
-        }
-    }
-    /**
-     * @param {?} optionFilter
-     * @return {?}
-     */
-    multiSelectOptionFilter(optionFilter) {
-        this.multiSelectedOptionIsHidden.forEach((/**
-         * @param {?} record
-         * @return {?}
-         */
-        (record) => {
-            if (record.option) {
-                record.hidden = !(this.getOptionText(record.option)
-                    .toLowerCase()
-                    .startsWith(optionFilter.toLowerCase()) || this.isSelected(record.option, this.multiSelectedOptions));
-            }
-        }));
-    }
-    /**
-     * @param {?} option
-     * @return {?}
-     */
-    multiSelectOptionIsHidden(option) {
-        return this.multiSelectedOptionIsHidden.find((/**
-         * @param {?} record
-         * @return {?}
-         */
-        (record) => record.option === option)).hidden;
-    }
-    /**
-     * @return {?}
-     */
-    multiSelectHasVisibleOptions() {
-        return this.multiSelectedOptionIsHidden.some((/**
-         * @param {?} record
-         * @return {?}
-         */
-        (record) => !record.hidden));
-    }
-    /**
-     * @private
-     * @param {?} option
-     * @return {?}
-     */
-    getOptionText(option) {
-        if (typeof option !== 'object') {
-            return option.toString();
-        }
-        else {
-            /** @type {?} */
-            const opt = (/** @type {?} */ (option));
-            return (opt.label.length > 0 ? opt.label : opt.value).toString();
-        }
-    }
-    /**
-     * @param {?} event
-     * @return {?}
-     */
-    multiSelectOptionFilterHandleKeydown(event) {
-        if (this.multiSelect) {
-            this.error = false;
-            if (this.dropdown.panelOpen && event.keyCode === KeyCodes.ESC) {
-                // escape = clear text box and close
-                Helpers.swallowEvent(event);
-                this.clearOptionFilter();
-                this.dropdown.closePanel();
-            }
-            else if (event.keyCode === KeyCodes.ENTER) {
-                Helpers.swallowEvent(event);
-                this.filterMultiSelect();
-            }
-            else if ((event.keyCode >= 65 && event.keyCode <= 90) ||
-                (event.keyCode >= 96 && event.keyCode <= 105) ||
-                (event.keyCode >= 48 && event.keyCode <= 57)) {
-                this.optionFilterInput.nativeElement.focus();
-            }
-        }
-    }
-    /**
-     * @private
-     * @return {?}
-     */
-    clearOptionFilter() {
-        this.error = false;
-        if (this.optionFilter.length > 0) {
-            this.optionFilter = '';
-            this.multiSelectedOptionIsHidden.forEach((/**
-             * @param {?} record
-             * @return {?}
-             */
-            (record) => {
-                record.hidden = false;
-            }));
-        }
-    }
-    /**
-     * @param {?} mouseDownEvent
-     * @return {?}
-     */
-    startResize(mouseDownEvent) {
-        mouseDownEvent.preventDefault();
-        /** @type {?} */
-        const minimumWidth = 60 + (this.config.filterable ? 30 : 0) + (this.config.sortable ? 30 : 0);
-        /** @type {?} */
-        const startingWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
-        /** @type {?} */
-        const mouseMoveSubscription = fromEvent(window.document, 'mousemove').subscribe((/**
-         * @param {?} middleMouseEvent
-         * @return {?}
-         */
-        (middleMouseEvent) => {
-            /** @type {?} */
-            const differenceWidth = middleMouseEvent.clientX - mouseDownEvent.clientX;
-            /** @type {?} */
-            let width = startingWidth + differenceWidth;
-            if (width < minimumWidth) {
-                width = minimumWidth;
-            }
-            this._column.width = width;
-            this.renderer.setStyle(this.elementRef.nativeElement, 'min-width', `${this._column.width}px`);
-            this.renderer.setStyle(this.elementRef.nativeElement, 'max-width', `${this._column.width}px`);
-            this.renderer.setStyle(this.elementRef.nativeElement, 'width', `${this._column.width}px`);
-            this.changeDetectorRef.markForCheck();
-            this.resized.next(this._column);
-        }));
-        /** @type {?} */
-        const mouseUpSubscription = fromEvent(window.document, 'mouseup').subscribe((/**
-         * @return {?}
-         */
-        () => {
-            mouseUpSubscription.unsubscribe();
-            mouseMoveSubscription.unsubscribe();
-            this.changeDetectorRef.markForCheck();
-        }));
-        this.subscriptions.push(mouseMoveSubscription);
-        this.subscriptions.push(mouseUpSubscription);
-    }
-    /**
-     * @param {?} event
-     * @param {?} value
-     * @return {?}
-     */
-    toggleCustomRange(event, value) {
-        Helpers.swallowEvent(event);
-        this.showCustomRange = value;
-        this.changeDetectorRef.markForCheck();
-        this.dropdown.openPanel(); // Ensures that the panel correctly updates to the dynamic size of the dropdown
-    }
-    /**
-     * @return {?}
-     */
-    focusInput() {
-        if (this.filterInput && this.filterInput.nativeElement) {
-            setTimeout((/**
-             * @return {?}
-             */
-            () => this.filterInput.nativeElement.focus()), 0);
-        }
-        if (this.multiSelect && this.dropdown) {
-            this.dropdown.onKeyDown = (/**
-             * @param {?} event
-             * @return {?}
-             */
-            (event) => {
-                this.multiSelectOptionFilterHandleKeydown(event);
-            });
-            setTimeout((/**
-             * @return {?}
-             */
-            () => this.optionFilterInput.nativeElement.focus()), 0);
-            this.changeDetectorRef.markForCheck();
-        }
-    }
-    /**
-     * @return {?}
-     */
-    sort() {
-        if (this.changeTimeout) {
-            clearTimeout(this.changeTimeout);
-        }
-        this.changeTimeout = setTimeout((/**
-         * @return {?}
-         */
-        () => {
-            this.direction = this.getNextSortDirection(this.direction);
-            this._sort.sort(this.id, this.direction, this.config.transforms.sort);
-            this.changeDetectorRef.markForCheck();
-        }), 300);
-    }
-    /**
-     * @param {?=} filter
-     * @return {?}
-     */
-    filterData(filter) {
-        /** @type {?} */
-        let actualFilter = NovoDataTableFilterUtils.constructFilter(filter, this.config.filterConfig.type, this.multiSelect);
-        /** @type {?} */
-        const selectedOption = this.config.filterConfig.type === 'date' && filter ? filter : undefined;
-        if (this.changeTimeout) {
-            clearTimeout(this.changeTimeout);
-        }
-        this.changeTimeout = setTimeout((/**
-         * @return {?}
-         */
-        () => {
-            if (actualFilter === '') {
-                actualFilter = undefined;
-            }
-            this._sort.filter(this.id, this.config.filterConfig.type, actualFilter, this.config.transforms.filter, this.allowMultipleFilters, selectedOption);
-            this.changeDetectorRef.markForCheck();
-        }), 300);
-    }
-    /**
-     * @return {?}
-     */
-    clearFilter() {
-        this.filter = undefined;
-        this.multiSelectedOptions = [];
-        this.activeDateFilter = undefined;
-        this.filterData(undefined);
-        this.clearOptionFilter();
-        this.dropdown.closePanel();
-    }
-    /**
-     * @private
-     * @param {?} direction
-     * @return {?}
-     */
-    getNextSortDirection(direction) {
-        if (!direction) {
-            return 'asc';
-        }
-        if (direction === 'asc') {
-            return 'desc';
-        }
-        return 'asc';
-    }
-    /**
-     * @private
-     * @return {?}
-     */
-    getDefaultDateFilterOptions() {
-        /** @type {?} */
-        const opts = [
-            { label: this.labels.past1Day, min: -1, max: 0 },
-            { label: this.labels.past7Days, min: -7, max: 0 },
-            { label: this.labels.past30Days, min: -30, max: 0 },
-            { label: this.labels.past90Days, min: -90, max: 0 },
-            { label: this.labels.past1Year, min: -366, max: 0 },
-            { label: this.labels.next1Day, min: 0, max: 1 },
-            { label: this.labels.next7Days, min: 0, max: 7 },
-            { label: this.labels.next30Days, min: 0, max: 30 },
-            { label: this.labels.next90Days, min: 0, max: 90 },
-            { label: this.labels.next1Year, min: 0, max: 366 },
-        ];
-        return opts;
-    }
-}
-NovoDataTableCellHeader.decorators = [
-    { type: Component, args: [{
-                selector: '[novo-data-table-cell-config]',
-                template: `
-    <i class="bhi-{{ labelIcon }} label-icon" *ngIf="labelIcon" data-automation-id="novo-data-table-header-icon"></i>
-    <label data-automation-id="novo-data-table-label">{{ label }}</label>
-    <div>
-      <button
-        *ngIf="config.sortable"
-        tooltipPosition="right"
-        [tooltip]="labels.sort"
-        theme="icon"
-        [icon]="icon"
-        (click)="sort()"
-        [class.active]="sortActive"
-        data-automation-id="novo-data-table-sort"
-        [attr.data-feature-id]="'novo-data-table-sort-' + this.id"
-      ></button>
-      <novo-dropdown
-        *ngIf="config.filterable"
-        side="right"
-        parentScrollSelector=".novo-data-table-container"
-        containerClass="data-table-dropdown"
-        data-automation-id="novo-data-table-filter"
-      >
-        <button
-          type="button"
-          theme="icon"
-          icon="filter"
-          [class.active]="filterActive"
-          (click)="focusInput()"
-          tooltipPosition="right"
-          [tooltip]="labels.filters"
-          [attr.data-feature-id]="'novo-data-table-filter-' + this.id"
-        ></button>
-        <div class="header">
-          <span>{{ labels.filters }}</span>
-          <button
-            theme="dialogue"
-            color="negative"
-            icon="times"
-            (click)="clearFilter()"
-            *ngIf="filter !== null && filter !== undefined && filter !== ''"
-            data-automation-id="novo-data-table-filter-clear"
-          >
-            {{ labels.clear }}
-          </button>
-        </div>
-        <ng-container [ngSwitch]="config.filterConfig.type">
-          <list *ngSwitchCase="'date'">
-            <ng-container *ngIf="!showCustomRange">
-              <item
-                [class.active]="activeDateFilter === option.label"
-                *ngFor="let option of config.filterConfig.options"
-                (click)="filterData(option)"
-                [attr.data-automation-id]="'novo-data-table-filter-' + option.label"
-              >
-                {{ option.label }} <i class="bhi-check" *ngIf="activeDateFilter === option.label"></i>
-              </item>
-            </ng-container>
-            <item
-              [class.active]="labels.customDateRange === activeDateFilter"
-              (click)="toggleCustomRange($event, true)"
-              *ngIf="config.filterConfig.allowCustomRange && !showCustomRange"
-              [keepOpen]="true"
-            >
-              {{ labels.customDateRange }} <i class="bhi-check" *ngIf="labels.customDateRange === activeDateFilter"></i>
-            </item>
-            <div class="calendar-container" *ngIf="showCustomRange">
-              <div (click)="toggleCustomRange($event, false)"><i class="bhi-previous"></i>{{ labels.backToPresetFilters }}</div>
-              <novo-date-picker (onSelect)="filterData($event)" [(ngModel)]="filter" range="true"></novo-date-picker>
-            </div>
-          </list>
-          <list *ngSwitchCase="'select'">
-            <item
-              [class.active]="filter === option"
-              *ngFor="let option of config.filterConfig.options"
-              (click)="filterData(option)"
-              [attr.data-automation-id]="'novo-data-table-filter-' + (option?.label || option)"
-            >
-              <span>{{ option?.label || option }}</span>
-              <i class="bhi-check" *ngIf="option.hasOwnProperty('value') ? filter === option.value : filter === option"></i>
-            </item>
-          </list>
-          <list *ngSwitchCase="'multi-select'">
-            <div class="dropdown-list-filter" (keydown)="multiSelectOptionFilterHandleKeydown($event)">
-              <item class="filter-search" keepOpen="true">
-                <input
-                  [(ngModel)]="optionFilter"
-                  (ngModelChange)="multiSelectOptionFilter($event)"
-                  #optionFilterInput
-                  data-automation-id="novo-data-table-multi-select-option-filter-input"
-                />
-                <i class="bhi-search"></i>
-                <span class="error-text" [hidden]="!error || !multiSelectHasVisibleOptions()">{{ labels.selectFilterOptions }}</span>
-              </item>
-            </div>
-            <div class="dropdown-list-options">
-              <item
-                *ngFor="let option of config.filterConfig.options"
-                [hidden]="multiSelectOptionIsHidden(option)"
-                (click)="toggleSelection(option)"
-                [attr.data-automation-id]="'novo-data-table-filter-' + (option?.label || option)"
-                [keepOpen]="true"
-              >
-                <span>{{ option?.label || option }}</span>
-                <i
-                  [class.bhi-checkbox-empty]="!isSelected(option, multiSelectedOptions)"
-                  [class.bhi-checkbox-filled]="isSelected(option, multiSelectedOptions)"
-                ></i>
-              </item>
-            </div>
-            <p class="filter-null-results" [hidden]="multiSelectHasVisibleOptions()">{{ labels.pickerEmpty }}</p>
-          </list>
-          <list *ngSwitchCase="'custom'">
-            <item class="filter-search" keepOpen="true">
-              <ng-container *ngTemplateOutlet="filterTemplate; context: { $implicit: config }"></ng-container>
-            </item>
-          </list>
-          <list *ngSwitchDefault>
-            <item class="filter-search" keepOpen="true">
-              <input
-                [type]="config.filterConfig.type"
-                [(ngModel)]="filter"
-                (ngModelChange)="filterData($event)"
-                #filterInput
-                data-automation-id="novo-data-table-filter-input"
-              />
-            </item>
-          </list>
-        </ng-container>
-        <div class="footer" *ngIf="multiSelect">
-          <button theme="dialogue" color="dark" (click)="cancel()" data-automation-id="novo-data-table-multi-select-cancel">
-            {{ labels.cancel }}
-          </button>
-          <button theme="dialogue" color="positive" (click)="filterMultiSelect()" data-automation-id="novo-data-table-multi-select-filter">
-            {{ labels.filters }}
-          </button>
-        </div>
-      </novo-dropdown>
-    </div>
-    <div class="spacer"></div>
-    <div class="data-table-header-resizable" *ngIf="config.resizable"><span (mousedown)="startResize($event)">&nbsp;</span></div>
-  `,
-                changeDetection: ChangeDetectionStrategy.OnPush
-            }] }
-];
-/** @nocollapse */
-NovoDataTableCellHeader.ctorParameters = () => [
-    { type: ChangeDetectorRef },
-    { type: NovoLabelService },
-    { type: DataTableState },
-    { type: Renderer2 },
-    { type: ElementRef },
-    { type: NovoDataTableSortFilter, decorators: [{ type: Optional }] },
-    { type: CdkColumnDef, decorators: [{ type: Optional }] }
-];
-NovoDataTableCellHeader.propDecorators = {
-    filterInput: [{ type: ViewChild, args: ['filterInput', { static: false },] }],
-    dropdown: [{ type: ViewChild, args: [NovoDropdownElement, { static: false },] }],
-    optionFilterInput: [{ type: ViewChild, args: ['optionFilterInput', { static: false },] }],
-    defaultSort: [{ type: Input }],
-    allowMultipleFilters: [{ type: Input }],
-    resized: [{ type: Input }],
-    filterTemplate: [{ type: Input }],
-    resizable: [{ type: HostBinding, args: ['class.resizable',] }],
-    column: [{ type: Input, args: ['novo-data-table-cell-config',] }],
-    multiSelectOptionFilterHandleKeydown: [{ type: HostListener, args: ['keydown', ['$event'],] }]
-};
-if (false) {
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.filterInput;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.dropdown;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.optionFilterInput;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.defaultSort;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.allowMultipleFilters;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.resized;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.filterTemplate;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.resizable;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype._rerenderSubscription;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.changeTimeout;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.label;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.icon;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.labelIcon;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.id;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.filter;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.direction;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.filterActive;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.sortActive;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.showCustomRange;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.activeDateFilter;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.config;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.multiSelect;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.multiSelectedOptions;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.multiSelectedOptionIsHidden;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.optionFilter;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.error;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.subscriptions;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype._column;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.changeDetectorRef;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype.labels;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.state;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.renderer;
-    /**
-     * @type {?}
-     * @private
-     */
-    NovoDataTableCellHeader.prototype.elementRef;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype._sort;
-    /** @type {?} */
-    NovoDataTableCellHeader.prototype._cdkColumnDef;
 }
 
 /**
@@ -59997,5 +60063,5 @@ if (false) {
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { AceEditorControl, ActivityTableDataSource, ActivityTableRenderers, AddressControl, AppBridge, AppBridgeHandler, AppBridgeService, ArrayCollection, BaseControl, BasePickerResults, BaseRenderer, BrowserGlobalRef, COUNTRIES, CalendarEventResponse, CardActionsElement, CardElement, CheckListControl, CheckboxControl, ChecklistPickerResults, CollectionEvent, ComponentUtils, ControlFactory, CustomControl, DataTableBigDecimalRendererPipe, DataTableInterpolatePipe, DateCell, DateControl, DateTableCurrencyRendererPipe, DateTableDateRendererPipe, DateTableDateTimeRendererPipe, DateTableNumberRendererPipe, DateTableTimeRendererPipe, DateTimeControl, DayOfMonthPipe, DecodeURIPipe, Deferred, DevAppBridge, DevAppBridgeService, DistributionListPickerResults, EditorControl, EndOfWeekDisplayPipe, EntityList, EntityPickerResult, EntityPickerResults, FieldInteractionApi, FileControl, FormUtils, FormValidators, GlobalRef, GooglePlacesModule, GooglePlacesService, GroupByPipe, GroupedControl, GroupedMultiPickerResults, Helpers, HoursPipe, KeyCodes, LocalStorageService, MonthDayPipe, MonthPipe, NOVO_VALUE_THEME, NOVO_VALUE_TYPE, NativeSelectControl, NovoAccordion, NovoAceEditor, NovoAceEditorModule, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableCustomHeader, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableState, NovoAddressElement, NovoAutoSize, NovoButtonElement, NovoButtonModule, NovoCKEditorElement, NovoCalendarAllDayEventElement, NovoCalendarDateChangeElement, NovoCalendarDayEventElement, NovoCalendarDayViewElement, NovoCalendarHourSegmentElement, NovoCalendarModule, NovoCalendarMonthDayElement, NovoCalendarMonthHeaderElement, NovoCalendarMonthViewElement, NovoCalendarWeekEventElement, NovoCalendarWeekHeaderElement, NovoCalendarWeekViewElement, NovoCardModule, NovoCategoryDropdownElement, NovoCategoryDropdownModule, NovoCheckListElement, NovoCheckboxElement, NovoChipElement, NovoChipsElement, NovoChipsModule, NovoCommonModule, NovoControlElement, NovoControlGroup, NovoControlTemplates, NovoDataTable, NovoDataTableClearButton, NovoDataTableFilterUtils, NovoDataTableModule, NovoDatePickerElement, NovoDatePickerInputElement, NovoDatePickerModule, NovoDateTimePickerElement, NovoDateTimePickerInputElement, NovoDateTimePickerModule, NovoDragulaElement, NovoDragulaModule, NovoDragulaService, NovoDropDownItemHeaderElement, NovoDropdownCell, NovoDropdownElement, NovoDropdownListElement, NovoDropdownModule, NovoDynamicFormElement, NovoElementProviders, NovoElementsModule, NovoEventTypeLegendElement, NovoExpansionModule, NovoExpansionPanel, NovoExpansionPanelActionRow, NovoExpansionPanelContent, NovoExpansionPanelDescription, NovoExpansionPanelHeader, NovoExpansionPanelTitle, NovoFieldsetHeaderElement, NovoFile, NovoFileInputElement, NovoFormControl, NovoFormElement, NovoFormExtrasModule, NovoFormGroup, NovoFormModule, NovoHeaderComponent, NovoHeaderModule, NovoHeaderSpacer, NovoHorizontalStepper, NovoIconComponent, NovoIconModule, NovoIsLoadingDirective, NovoItemAvatarElement, NovoItemContentElement, NovoItemDateElement, NovoItemElement, NovoItemEndElement, NovoItemHeaderElement, NovoItemTitleElement, NovoLabelService, NovoListElement, NovoListItemElement, NovoListModule, NovoLoadedDirective, NovoLoadingElement, NovoLoadingModule, NovoModalElement, NovoModalModule, NovoModalNotificationElement, NovoModalParams, NovoModalRef, NovoModalService, NovoMultiPickerElement, NovoMultiPickerModule, NovoNavContentElement, NovoNavElement, NovoNavHeaderElement, NovoNavOutletElement, NovoNovoCKEditorModule, NovoOverlayModule, NovoOverlayTemplateComponent, NovoPickerElement, NovoPickerModule, NovoPipesModule, NovoPopOverModule, NovoQuickNoteModule, NovoRadioElement, NovoRadioGroup, NovoRadioModule, NovoRowChipElement, NovoRowChipsElement, NovoSearchBoxElement, NovoSearchBoxModule, NovoSelectElement, NovoSelectModule, NovoSelection, NovoSimpleActionCell, NovoSimpleCell, NovoSimpleCellDef, NovoSimpleCellHeader, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleColumnDef, NovoSimpleEmptyHeaderCell, NovoSimpleFilterFocus, NovoSimpleHeaderCell, NovoSimpleHeaderCellDef, NovoSimpleHeaderRow, NovoSimpleHeaderRowDef, NovoSimpleRow, NovoSimpleRowDef, NovoSimpleTableModule, NovoSimpleTablePagination, NovoSkeletonDirective, NovoSliderElement, NovoSliderModule, NovoSortFilter, NovoSpinnerElement, NovoStep, NovoStepHeader, NovoStepLabel, NovoStepStatus, NovoStepper, NovoStepperModule, NovoSwitchElement, NovoSwitchModule, NovoTabButtonElement, NovoTabElement, NovoTabLinkElement, NovoTabModule, NovoTabbedGroupPickerElement, NovoTabbedGroupPickerModule, NovoTable, NovoTableActionsElement, NovoTableElement, NovoTableExtrasModule, NovoTableFooterElement, NovoTableHeaderElement, NovoTableKeepFilterFocus, NovoTableMode, NovoTableModule, NovoTemplate, NovoTemplateService, NovoTilesElement, NovoTilesModule, NovoTimePickerElement, NovoTimePickerInputElement, NovoTimePickerModule, NovoTipWellElement, NovoTipWellModule, NovoToastElement, NovoToastModule, NovoToastService, NovoTooltipModule, NovoUtilActionComponent, NovoUtilsComponent, NovoValueElement, NovoValueModule, NovoVerticalStepper, OptionsService, OutsideClick, PagedArrayCollection, Pagination, PercentageCell, PickerControl, PickerResults, PlacesListComponent, PluralPipe, PopOverContent, PopOverDirective, QuickNoteControl, QuickNoteElement, QuickNoteResults, RadioControl, ReadOnlyControl, RemoteActivityTableService, RemoteDataTableService, RenderPipe, RowDetails, Security, SelectControl, SkillsSpecialtyPickerResults, StaticActivityTableService, StaticDataTableService, TableCell, TableFilter, TablePickerControl, TextAreaControl, TextBoxControl, ThOrderable, ThSortable, TilesControl, TimeControl, TooltipDirective, Unless, UnlessModule, WeekdayPipe, WorkersCompCodesPickerResults, YearPipe, findByCountryCode, findByCountryId, findByCountryName, getCountries, getStateObjects, getStates, notify, NovoFieldsetElement as ɵa, NovoModalContainerElement as ɵb, NovoTooltip as ɵc, DataTableState as ɵd, DateFormatService as ɵe, NovoDataTableCellHeader as ɵf, NovoDataTableSortFilter as ɵg, NovoDataTableHeaderCell as ɵh, NovoDataTableCell as ɵi, NovoDataTableHeaderRow as ɵj, NovoDataTableRow as ɵk, NovoDataTablePagination as ɵl, NovoDataTableCheckboxCell as ɵm, NovoDataTableCheckboxHeaderCell as ɵn, NovoDataTableExpandCell as ɵo, NovoDataTableExpandHeaderCell as ɵp, NovoDataTableExpandDirective as ɵq, novoExpansionAnimations as ɵr, ControlConfirmModal as ɵs, ControlPromptModal as ɵt, novoStepperAnimations as ɵu };
+export { AceEditorControl, ActivityTableDataSource, ActivityTableRenderers, AddressControl, AppBridge, AppBridgeHandler, AppBridgeService, ArrayCollection, BaseControl, BasePickerResults, BaseRenderer, BrowserGlobalRef, COUNTRIES, CalendarEventResponse, CardActionsElement, CardElement, CheckListControl, CheckboxControl, ChecklistPickerResults, CollectionEvent, ComponentUtils, ControlFactory, CustomControl, DataTableBigDecimalRendererPipe, DataTableInterpolatePipe, DateCell, DateControl, DateTableCurrencyRendererPipe, DateTableDateRendererPipe, DateTableDateTimeRendererPipe, DateTableNumberRendererPipe, DateTableTimeRendererPipe, DateTimeControl, DayOfMonthPipe, DecodeURIPipe, Deferred, DevAppBridge, DevAppBridgeService, DistributionListPickerResults, EditorControl, EndOfWeekDisplayPipe, EntityList, EntityPickerResult, EntityPickerResults, FieldInteractionApi, FileControl, FormUtils, FormValidators, GlobalRef, GooglePlacesModule, GooglePlacesService, GroupByPipe, GroupedControl, GroupedMultiPickerResults, Helpers, HoursPipe, KeyCodes, LocalStorageService, MonthDayPipe, MonthPipe, NOVO_VALUE_THEME, NOVO_VALUE_TYPE, NativeSelectControl, NovoAccordion, NovoAceEditor, NovoAceEditorModule, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableCustomHeader, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableState, NovoAddressElement, NovoAutoSize, NovoButtonElement, NovoButtonModule, NovoCKEditorElement, NovoCalendarAllDayEventElement, NovoCalendarDateChangeElement, NovoCalendarDayEventElement, NovoCalendarDayViewElement, NovoCalendarHourSegmentElement, NovoCalendarModule, NovoCalendarMonthDayElement, NovoCalendarMonthHeaderElement, NovoCalendarMonthViewElement, NovoCalendarWeekEventElement, NovoCalendarWeekHeaderElement, NovoCalendarWeekViewElement, NovoCardModule, NovoCategoryDropdownElement, NovoCategoryDropdownModule, NovoCheckListElement, NovoCheckboxElement, NovoChipElement, NovoChipsElement, NovoChipsModule, NovoCommonModule, NovoControlElement, NovoControlGroup, NovoControlTemplates, NovoDataTable, NovoDataTableClearButton, NovoDataTableFilterUtils, NovoDataTableModule, NovoDatePickerElement, NovoDatePickerInputElement, NovoDatePickerModule, NovoDateTimePickerElement, NovoDateTimePickerInputElement, NovoDateTimePickerModule, NovoDragulaElement, NovoDragulaModule, NovoDragulaService, NovoDropDownItemHeaderElement, NovoDropdownCell, NovoDropdownElement, NovoDropdownListElement, NovoDropdownModule, NovoDynamicFormElement, NovoElementProviders, NovoElementsModule, NovoEventTypeLegendElement, NovoExpansionModule, NovoExpansionPanel, NovoExpansionPanelActionRow, NovoExpansionPanelContent, NovoExpansionPanelDescription, NovoExpansionPanelHeader, NovoExpansionPanelTitle, NovoFieldsetHeaderElement, NovoFile, NovoFileInputElement, NovoFormControl, NovoFormElement, NovoFormExtrasModule, NovoFormGroup, NovoFormModule, NovoHeaderComponent, NovoHeaderModule, NovoHeaderSpacer, NovoHorizontalStepper, NovoIconComponent, NovoIconModule, NovoIsLoadingDirective, NovoItemAvatarElement, NovoItemContentElement, NovoItemDateElement, NovoItemElement, NovoItemEndElement, NovoItemHeaderElement, NovoItemTitleElement, NovoLabelService, NovoListElement, NovoListItemElement, NovoListModule, NovoLoadedDirective, NovoLoadingElement, NovoLoadingModule, NovoModalElement, NovoModalModule, NovoModalNotificationElement, NovoModalParams, NovoModalRef, NovoModalService, NovoMultiPickerElement, NovoMultiPickerModule, NovoNavContentElement, NovoNavElement, NovoNavHeaderElement, NovoNavOutletElement, NovoNovoCKEditorModule, NovoOverlayModule, NovoOverlayTemplateComponent, NovoPickerElement, NovoPickerModule, NovoPipesModule, NovoPopOverModule, NovoQuickNoteModule, NovoRadioElement, NovoRadioGroup, NovoRadioModule, NovoRowChipElement, NovoRowChipsElement, NovoSearchBoxElement, NovoSearchBoxModule, NovoSelectElement, NovoSelectModule, NovoSelection, NovoSimpleActionCell, NovoSimpleCell, NovoSimpleCellDef, NovoSimpleCellHeader, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleColumnDef, NovoSimpleEmptyHeaderCell, NovoSimpleFilterFocus, NovoSimpleHeaderCell, NovoSimpleHeaderCellDef, NovoSimpleHeaderRow, NovoSimpleHeaderRowDef, NovoSimpleRow, NovoSimpleRowDef, NovoSimpleTableModule, NovoSimpleTablePagination, NovoSkeletonDirective, NovoSliderElement, NovoSliderModule, NovoSortFilter, NovoSpinnerElement, NovoStep, NovoStepHeader, NovoStepLabel, NovoStepStatus, NovoStepper, NovoStepperModule, NovoSwitchElement, NovoSwitchModule, NovoTabButtonElement, NovoTabElement, NovoTabLinkElement, NovoTabModule, NovoTabbedGroupPickerElement, NovoTabbedGroupPickerModule, NovoTable, NovoTableActionsElement, NovoTableElement, NovoTableExtrasModule, NovoTableFooterElement, NovoTableHeaderElement, NovoTableKeepFilterFocus, NovoTableMode, NovoTableModule, NovoTemplate, NovoTemplateService, NovoTilesElement, NovoTilesModule, NovoTimePickerElement, NovoTimePickerInputElement, NovoTimePickerModule, NovoTipWellElement, NovoTipWellModule, NovoToastElement, NovoToastModule, NovoToastService, NovoTooltipModule, NovoUtilActionComponent, NovoUtilsComponent, NovoValueElement, NovoValueModule, NovoVerticalStepper, OptionsService, OutsideClick, PagedArrayCollection, Pagination, PercentageCell, PickerControl, PickerResults, PlacesListComponent, PluralPipe, PopOverContent, PopOverDirective, QuickNoteControl, QuickNoteElement, QuickNoteResults, RadioControl, ReadOnlyControl, RemoteActivityTableService, RemoteDataTableService, RenderPipe, RowDetails, Security, SelectControl, SkillsSpecialtyPickerResults, StaticActivityTableService, StaticDataTableService, TableCell, TableFilter, TablePickerControl, TextAreaControl, TextBoxControl, ThOrderable, ThSortable, TilesControl, TimeControl, TooltipDirective, Unless, UnlessModule, WeekdayPipe, WorkersCompCodesPickerResults, YearPipe, findByCountryCode, findByCountryId, findByCountryName, getCountries, getStateObjects, getStates, notify, NovoFieldsetElement as ɵa, NovoModalContainerElement as ɵb, NovoTooltip as ɵc, DataTableState as ɵd, NovoDataTableCellHeader as ɵe, NovoDataTableSortFilter as ɵf, DateFormatService as ɵg, NovoDataTableHeaderCell as ɵh, NovoDataTableCell as ɵi, NovoDataTableHeaderRow as ɵj, NovoDataTableRow as ɵk, NovoDataTablePagination as ɵl, NovoDataTableCheckboxCell as ɵm, NovoDataTableCheckboxHeaderCell as ɵn, NovoDataTableExpandCell as ɵo, NovoDataTableExpandHeaderCell as ɵp, NovoDataTableExpandDirective as ɵq, novoExpansionAnimations as ɵr, ControlConfirmModal as ɵs, ControlPromptModal as ɵt, novoStepperAnimations as ɵu };
 //# sourceMappingURL=novo-elements.js.map
