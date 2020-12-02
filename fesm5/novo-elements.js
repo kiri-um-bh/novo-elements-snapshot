@@ -39124,7 +39124,7 @@ var DataTableBigDecimalRendererPipe = /** @class */ (function () {
         if (!Helpers.isEmpty(value)) {
             /** @type {?} */
             var val = interpolateCell(value, column);
-            return this.labels.formatBigDecimal(Number(val));
+            return this.labels.formatBigDecimal(Number(val), column.configuration);
         }
         return '';
     };
