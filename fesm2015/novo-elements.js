@@ -47813,6 +47813,8 @@ class NovoHeaderComponent {
     constructor() {
         this.headerClass = 'novo-header';
         this.condensed = false;
+        this.movable = true;
+        this.resizable = true;
         this.inverse = 'inverse';
     }
     /**
@@ -47842,6 +47844,77 @@ class NovoHeaderComponent {
     get icon() {
         return this._icon;
     }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+        /** @type {?} */
+        let elmnt = (/** @type {?} */ (document.getElementsByTagName('novo-modal')[0]));
+        if (elmnt) {
+            if (this.resizable) {
+                elmnt.classList.add('resizable');
+            }
+        }
+        else {
+            this.movable = false;
+        }
+    }
+    /**
+     * @return {?}
+     */
+    dragModal() {
+        /** @type {?} */
+        let elmnt = (/** @type {?} */ (document.getElementsByTagName('novo-modal')[0]));
+        if (elmnt) {
+            /** @type {?} */
+            let pos1 = 0;
+            /** @type {?} */
+            let pos2 = 0;
+            /** @type {?} */
+            let pos3 = 0;
+            /** @type {?} */
+            let pos4 = 0;
+            document.getElementById('dragger').onmousedown = dragMouseDown;
+            /**
+             * @param {?} e
+             * @return {?}
+             */
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // get the mouse cursor position at startup
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+            /**
+             * @param {?} e
+             * @return {?}
+             */
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // calculate the new cursor position
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // set the element's new position
+                elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
+                elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
+                elmnt.style.resize = 'both';
+            }
+            /**
+             * @return {?}
+             */
+            function closeDragElement() {
+                // stop moving when mouse button is released
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+    }
 }
 NovoHeaderComponent.decorators = [
     { type: Component, args: [{
@@ -47850,6 +47923,7 @@ NovoHeaderComponent.decorators = [
     <section>
       <div class="header-title">
         <ng-container *ngIf="title">
+          <i *ngIf="movable" class="header-icon" class="bhi-move" id="dragger" (mouseenter)="dragModal()"></i>
           <i *ngIf="icon" class="header-icon" [ngClass]="icon"></i>
           <div class="header-titles">
             <h1>{{ title }}</h1>
@@ -47877,6 +47951,8 @@ NovoHeaderComponent.propDecorators = {
     condensed: [{ type: HostBinding, args: ['class.condensed',] }, { type: Input }],
     title: [{ type: Input }],
     subTitle: [{ type: Input }],
+    movable: [{ type: Input }],
+    resizable: [{ type: Input }],
     theme: [{ type: HostBinding, args: ['attr.theme',] }, { type: Input }],
     icon: [{ type: Input }]
 };
@@ -47889,6 +47965,10 @@ if (false) {
     NovoHeaderComponent.prototype.title;
     /** @type {?} */
     NovoHeaderComponent.prototype.subTitle;
+    /** @type {?} */
+    NovoHeaderComponent.prototype.movable;
+    /** @type {?} */
+    NovoHeaderComponent.prototype.resizable;
     /** @type {?} */
     NovoHeaderComponent.prototype.inverse;
     /**

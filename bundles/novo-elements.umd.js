@@ -50717,6 +50717,8 @@
         function NovoHeaderComponent() {
             this.headerClass = 'novo-header';
             this.condensed = false;
+            this.movable = true;
+            this.resizable = true;
             this.inverse = 'inverse';
         }
         Object.defineProperty(NovoHeaderComponent.prototype, "theme", {
@@ -50754,10 +50756,87 @@
             enumerable: true,
             configurable: true
         });
+        /**
+         * @return {?}
+         */
+        NovoHeaderComponent.prototype.ngOnInit = /**
+         * @return {?}
+         */
+        function () {
+            /** @type {?} */
+            var elmnt = (/** @type {?} */ (document.getElementsByTagName('novo-modal')[0]));
+            if (elmnt) {
+                if (this.resizable) {
+                    elmnt.classList.add('resizable');
+                }
+            }
+            else {
+                this.movable = false;
+            }
+        };
+        /**
+         * @return {?}
+         */
+        NovoHeaderComponent.prototype.dragModal = /**
+         * @return {?}
+         */
+        function () {
+            /** @type {?} */
+            var elmnt = (/** @type {?} */ (document.getElementsByTagName('novo-modal')[0]));
+            if (elmnt) {
+                /** @type {?} */
+                var pos1_1 = 0;
+                /** @type {?} */
+                var pos2_1 = 0;
+                /** @type {?} */
+                var pos3_1 = 0;
+                /** @type {?} */
+                var pos4_1 = 0;
+                document.getElementById('dragger').onmousedown = dragMouseDown;
+                /**
+                 * @param {?} e
+                 * @return {?}
+                 */
+                function dragMouseDown(e) {
+                    e = e || window.event;
+                    e.preventDefault();
+                    // get the mouse cursor position at startup
+                    pos3_1 = e.clientX;
+                    pos4_1 = e.clientY;
+                    document.onmouseup = closeDragElement;
+                    document.onmousemove = elementDrag;
+                }
+                /**
+                 * @param {?} e
+                 * @return {?}
+                 */
+                function elementDrag(e) {
+                    e = e || window.event;
+                    e.preventDefault();
+                    // calculate the new cursor position
+                    pos1_1 = pos3_1 - e.clientX;
+                    pos2_1 = pos4_1 - e.clientY;
+                    pos3_1 = e.clientX;
+                    pos4_1 = e.clientY;
+                    // set the element's new position
+                    elmnt.style.top = elmnt.offsetTop - pos2_1 + 'px';
+                    elmnt.style.left = elmnt.offsetLeft - pos1_1 + 'px';
+                    elmnt.style.resize = 'both';
+                }
+                /**
+                 * @return {?}
+                 */
+                function closeDragElement() {
+                    // stop moving when mouse button is released
+                    document.onmouseup = null;
+                    document.onmousemove = null;
+                }
+            }
+        };
         NovoHeaderComponent.decorators = [
             { type: core.Component, args: [{
                         selector: 'header[theme]',
-                        template: "\n    <section>\n      <div class=\"header-title\">\n        <ng-container *ngIf=\"title\">\n          <i *ngIf=\"icon\" class=\"header-icon\" [ngClass]=\"icon\"></i>\n          <div class=\"header-titles\">\n            <h1>{{ title }}</h1>\n            <small *ngIf=\"subTitle\">{{ subTitle }}</small>\n          </div>\n        </ng-container>\n        <ng-container *ngIf=\"!title\">\n          <ng-content select=\"novo-icon, [novo-icon]\"></ng-content>\n          <div class=\"header-titles\">\n            <ng-content select=\"h1, h2, h3, h4, h5, h6, small, [novo-title], [novo-subtitle]\"></ng-content>\n          </div>\n        </ng-container>\n      </div>\n      <ng-content select=\"section\"></ng-content>\n      <span flex></span>\n      <ng-content select=\"utils\"></ng-content>\n      <ng-content select=\"novo-action\"></ng-content>\n    </section>\n    <ng-content></ng-content>\n  "
+                        template: "\n    <section>\n      <div class=\"header-title\">\n        <ng-container *ngIf=\"title\">\n          <i *ngIf=\"movable\" class=\"header-icon\" class=\"bhi-move\" id=\"dragger\" (mouseenter)=\"dragModal()\"></i>\n          <i *ngIf=\"icon\" class=\"header-icon\" [ngClass]=\"icon\"></i>\n          <div class=\"header-titles\">\n            <h1>{{ title }}</h1>\n            <small *ngIf=\"subTitle\">{{ subTitle }}</small>\n          </div>\n        </ng-container>\n        <ng-container *ngIf=\"!title\">\n          <ng-content select=\"novo-icon, [novo-icon]\"></ng-content>\n          <div class=\"header-titles\">\n            <ng-content select=\"h1, h2, h3, h4, h5, h6, small, [novo-title], [novo-subtitle]\"></ng-content>\n          </div>\n        </ng-container>\n      </div>\n      <ng-content select=\"section\"></ng-content>\n      <span flex></span>\n      <ng-content select=\"utils\"></ng-content>\n      <ng-content select=\"novo-action\"></ng-content>\n    </section>\n    <ng-content></ng-content>\n  "
                     }] }
         ];
         NovoHeaderComponent.propDecorators = {
@@ -50765,6 +50844,8 @@
             condensed: [{ type: core.HostBinding, args: ['class.condensed',] }, { type: core.Input }],
             title: [{ type: core.Input }],
             subTitle: [{ type: core.Input }],
+            movable: [{ type: core.Input }],
+            resizable: [{ type: core.Input }],
             theme: [{ type: core.HostBinding, args: ['attr.theme',] }, { type: core.Input }],
             icon: [{ type: core.Input }]
         };
@@ -50779,6 +50860,10 @@
         NovoHeaderComponent.prototype.title;
         /** @type {?} */
         NovoHeaderComponent.prototype.subTitle;
+        /** @type {?} */
+        NovoHeaderComponent.prototype.movable;
+        /** @type {?} */
+        NovoHeaderComponent.prototype.resizable;
         /** @type {?} */
         NovoHeaderComponent.prototype.inverse;
         /**
