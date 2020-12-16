@@ -16,6 +16,7 @@ export declare class DataTableState<T> {
     selectedRows: Map<string, T>;
     expandedRows: Set<string>;
     outsideFilter: any;
+    advancedFilter: IDataTableFilter[];
     isForceRefresh: boolean;
     updates: EventEmitter<IDataTableChangeEvent>;
     readonly userFiltered: boolean;

@@ -7757,14 +7757,15 @@ class NovoOverlayTemplateComponent {
             /** @type {?} */
             const clickTarget = (/** @type {?} */ (event.target));
             /** @type {?} */
-            const clicked = this.panelOpen &&
+            const clickedOutside = this.panelOpen &&
                 clickTarget !== this.getConnectedElement().nativeElement &&
                 !this.getConnectedElement().nativeElement.contains(clickTarget) &&
-                (!!this.overlayRef && !this.overlayRef.overlayElement.contains(clickTarget));
+                (!!this.overlayRef && !this.overlayRef.overlayElement.contains(clickTarget)) &&
+                !this.elementIsInNestedOverlay(clickTarget);
             if (this.panelOpen && !!this.overlayRef && this.overlayRef.overlayElement.contains(clickTarget) && this.closeOnSelect) {
                 this.select.emit(event);
             }
-            return clicked;
+            return clickedOutside;
         })));
     }
     /**
@@ -7917,6 +7918,20 @@ class NovoOverlayTemplateComponent {
      */
     getConnectedElement() {
         return this.parent;
+    }
+    /**
+     * @protected
+     * @param {?} el
+     * @return {?}
+     */
+    elementIsInNestedOverlay(el) {
+        while (el.parentNode) {
+            if (el.id && el.id.includes('novo-overlay')) {
+                return this.id < el.id;
+            }
+            el = el.parentNode;
+        }
+        return false;
     }
     /**
      * @protected
@@ -11184,6 +11199,7 @@ class DataTableState {
         this.globalSearch = undefined;
         this.selectedRows = new Map();
         this.expandedRows = new Set();
+        this.advancedFilter = undefined;
         this.isForceRefresh = false;
         this.updates = new EventEmitter();
     }
@@ -11191,7 +11207,7 @@ class DataTableState {
      * @return {?}
      */
     get userFiltered() {
-        return !!(this.filter || this.sort || this.globalSearch || this.outsideFilter);
+        return !!(this.filter || this.sort || this.globalSearch || this.outsideFilter || this.advancedFilter);
     }
     /**
      * @return {?}
@@ -11320,6 +11336,24 @@ class DataTableState {
                 }));
                 this.filter = filters;
             }
+            if (preferences.advancedFilter) {
+                /** @type {?} */
+                const advancedFilters = Helpers.convertToArray(preferences.advancedFilter);
+                advancedFilters.forEach((/**
+                 * @param {?} filter
+                 * @return {?}
+                 */
+                (filter) => {
+                    filter.value =
+                        filter.selectedOption && filter.type
+                            ? NovoDataTableFilterUtils.constructFilter(filter.selectedOption, filter.type)
+                            : filter.value;
+                }));
+                this.advancedFilter = advancedFilters;
+            }
+            if (preferences.globalSearch) {
+                this.globalSearch = preferences.globalSearch;
+            }
         }
     }
 }
@@ -11352,6 +11386,8 @@ if (false) {
     DataTableState.prototype.expandedRows;
     /** @type {?} */
     DataTableState.prototype.outsideFilter;
+    /** @type {?} */
+    DataTableState.prototype.advancedFilter;
     /** @type {?} */
     DataTableState.prototype.isForceRefresh;
     /** @type {?} */
@@ -11412,8 +11448,8 @@ NovoDataTableClearButton.decorators = [
       <button type="button" theme="primary" color="negative" icon="collapse" data-automation-id="novo-data-table-clear-dropdown-btn">{{ labels.clear }}</button>
       <list>
           <item *ngIf="state.sort" (click)="clearSort()" data-automation-id="novo-data-table-clear-dropdown-clear-sort">{{ labels.clearSort }}</item>
-          <item *ngIf="state.filter" (click)="clearFilter()" data-automation-id="novo-data-table-clear-dropdown-clear-filter">{{ labels.clearFilter }}</item>
-          <item *ngIf="state.sort && state.filter" (click)="clearAll()" data-automation-id="novo-data-table-clear-dropdown-clear-all">{{ labels.clearAllNormalCase }}</item>
+          <item *ngIf="state.filter || state.globalSearch" (click)="clearFilter()" data-automation-id="novo-data-table-clear-dropdown-clear-filter">{{ labels.clearFilter }}</item>
+          <item *ngIf="state.sort && (state.filter || state.globalSearch)" (click)="clearAll()" data-automation-id="novo-data-table-clear-dropdown-clear-all">{{ labels.clearAllNormalCase }}</item>
       </list>
     </novo-dropdown>
   `,
@@ -11499,7 +11535,7 @@ class DataTableSource extends DataSource {
         () => {
             this.pristine = false;
             this.loading = true;
-            return this.tableService.getTableResults(this.state.sort, this.state.filter, this.state.page, this.state.pageSize, this.state.globalSearch, this.state.outsideFilter);
+            return this.tableService.getTableResults(this.state.sort, this.state.filter, this.state.page, this.state.pageSize, this.state.globalSearch, this.state.outsideFilter, this.state.advancedFilter);
         })), map((/**
          * @param {?} data
          * @return {?}
@@ -13176,7 +13212,29 @@ class NovoDataTable {
              */
             (filter) => {
                 this.state.outsideFilter = filter;
-                this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort });
+                this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort, advancedFilter: this.state.advancedFilter });
+                this.ref.markForCheck();
+            }));
+        }
+    }
+    /**
+     * @param {?} advancedFilter
+     * @return {?}
+     */
+    set advancedFilter(advancedFilter) {
+        // Unsubscribe
+        if (this.advancedFilterSubscription) {
+            this.advancedFilterSubscription.unsubscribe();
+        }
+        if (advancedFilter) {
+            // Re-subscribe
+            this.advancedFilterSubscription = advancedFilter.subscribe((/**
+             * @param {?} filter
+             * @return {?}
+             */
+            (filter) => {
+                this.state.advancedFilter = filter;
+                this.state.updates.next({ globalSearch: this.state.globalSearch, filter: this.state.filter, sort: this.state.sort, outsideFilter: this.state.outsideFilter });
                 this.ref.markForCheck();
             }));
         }
@@ -13321,6 +13379,9 @@ class NovoDataTable {
      * @return {?}
      */
     ngOnDestroy() {
+        if (this.advancedFilterSubscription) {
+            this.advancedFilterSubscription.unsubscribe();
+        }
         if (this.outsideFilterSubscription) {
             this.outsideFilterSubscription.unsubscribe();
         }
@@ -13908,6 +13969,7 @@ NovoDataTable.propDecorators = {
     dataTableService: [{ type: Input }],
     rows: [{ type: Input }],
     outsideFilter: [{ type: Input }],
+    advancedFilter: [{ type: Input }],
     refreshSubject: [{ type: Input }],
     columns: [{ type: Input }],
     customFilter: [{ type: Input }],
@@ -14000,6 +14062,11 @@ if (false) {
      * @private
      */
     NovoDataTable.prototype.outsideFilterSubscription;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype.advancedFilterSubscription;
     /**
      * @type {?}
      * @private
@@ -34596,11 +34663,14 @@ class NovoSearchBoxElement {
         this._changeDetectorRef = _changeDetectorRef;
         this._zone = _zone;
         this.icon = 'search';
+        this.position = 'bottom-left';
         this.placeholder = 'Search...';
         this.alwaysOpen = false;
         this.theme = 'positive';
         this.closeOnSelect = true;
+        this.keepOpen = false;
         this.searchChanged = new EventEmitter();
+        this.applySearch = new EventEmitter();
         this.focused = false;
         /**
          * View -> model callback called when value changes
@@ -34656,7 +34726,17 @@ class NovoSearchBoxElement {
      * @return {?}
      */
     onBlur() {
-        this.focused = false;
+        if (!this.keepOpen || !this.panelOpen) {
+            this.focused = false;
+        }
+    }
+    /**
+     * @return {?}
+     */
+    onSelect() {
+        if (!this.keepOpen) {
+            this.closePanel();
+        }
     }
     /**
      * BEGIN: Convenient Panel Methods.
@@ -34670,6 +34750,7 @@ class NovoSearchBoxElement {
      */
     closePanel() {
         this.overlay.closePanel();
+        this.focused = false;
     }
     /**
      * @return {?}
@@ -34690,6 +34771,9 @@ class NovoSearchBoxElement {
      */
     _handleKeydown(event) {
         if ((event.keyCode === ESCAPE || event.keyCode === ENTER || event.keyCode === TAB) && this.panelOpen) {
+            if (event.keyCode === ENTER) {
+                this.applySearch.emit(event);
+            }
             this.closePanel();
             event.stopPropagation();
         }
@@ -34808,8 +34892,8 @@ NovoSearchBoxElement.decorators = [
     <novo-overlay-template
       [parent]="element"
       [closeOnSelect]="closeOnSelect"
-      position="above-below"
-      (select)="closePanel()"
+      [position]="position"
+      (select)="onSelect()"
       (closing)="onBlur()"
     >
       <ng-content></ng-content>
@@ -34827,16 +34911,19 @@ NovoSearchBoxElement.ctorParameters = () => [
 NovoSearchBoxElement.propDecorators = {
     name: [{ type: Input }],
     icon: [{ type: Input }],
+    position: [{ type: Input }],
     placeholder: [{ type: Input }],
-    alwaysOpen: [{ type: Input }],
+    alwaysOpen: [{ type: Input }, { type: HostBinding, args: ['class.always-open',] }],
     theme: [{ type: Input }],
     closeOnSelect: [{ type: Input }],
     displayField: [{ type: Input }],
     displayValue: [{ type: Input }],
     hint: [{ type: Input }],
+    keepOpen: [{ type: Input }],
     searchChanged: [{ type: Output }],
+    applySearch: [{ type: Output }],
     focused: [{ type: HostBinding, args: ['class.focused',] }],
-    overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: false },] }],
+    overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: true },] }],
     input: [{ type: ViewChild, args: ['input', { static: true },] }],
     active: [{ type: HostBinding, args: ['class.active',] }]
 };
@@ -34845,6 +34932,8 @@ if (false) {
     NovoSearchBoxElement.prototype.name;
     /** @type {?} */
     NovoSearchBoxElement.prototype.icon;
+    /** @type {?} */
+    NovoSearchBoxElement.prototype.position;
     /** @type {?} */
     NovoSearchBoxElement.prototype.placeholder;
     /** @type {?} */
@@ -34860,7 +34949,11 @@ if (false) {
     /** @type {?} */
     NovoSearchBoxElement.prototype.hint;
     /** @type {?} */
+    NovoSearchBoxElement.prototype.keepOpen;
+    /** @type {?} */
     NovoSearchBoxElement.prototype.searchChanged;
+    /** @type {?} */
+    NovoSearchBoxElement.prototype.applySearch;
     /** @type {?} */
     NovoSearchBoxElement.prototype.focused;
     /** @type {?} */
@@ -48177,6 +48270,7 @@ class NovoIconComponent {
         this.element = element;
         this.cdr = cdr;
         this.size = 'medium';
+        this.shape = 'box';
         this.role = 'img';
     }
     /**
@@ -48238,6 +48332,7 @@ NovoIconComponent.propDecorators = {
     raised: [{ type: HostBinding, args: ['attr.raised',] }, { type: Input }],
     size: [{ type: HostBinding, args: ['attr.size',] }, { type: Input }],
     theme: [{ type: HostBinding, args: ['attr.theme',] }, { type: Input }],
+    shape: [{ type: HostBinding, args: ['attr.shape',] }, { type: Input }],
     color: [{ type: HostBinding, args: ['attr.color',] }, { type: Input }],
     role: [{ type: HostBinding, args: ['attr.role',] }],
     ariaLabel: [{ type: HostBinding, args: ['attr.aria-label',] }],
@@ -48251,6 +48346,8 @@ if (false) {
     NovoIconComponent.prototype.size;
     /** @type {?} */
     NovoIconComponent.prototype.theme;
+    /** @type {?} */
+    NovoIconComponent.prototype.shape;
     /** @type {?} */
     NovoIconComponent.prototype.color;
     /** @type {?} */

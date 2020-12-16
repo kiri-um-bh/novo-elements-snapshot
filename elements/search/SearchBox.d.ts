@@ -1,4 +1,4 @@
-import { EventEmitter, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, EventEmitter, NgZone } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../services/novo-label-service';
 export declare class NovoSearchBoxElement implements ControlValueAccessor {
@@ -8,6 +8,7 @@ export declare class NovoSearchBoxElement implements ControlValueAccessor {
     private _zone;
     name: string;
     icon: string;
+    position: string;
     placeholder: string;
     alwaysOpen: boolean;
     theme: string;
@@ -15,7 +16,9 @@ export declare class NovoSearchBoxElement implements ControlValueAccessor {
     displayField: string;
     displayValue: string;
     hint: string;
+    keepOpen: boolean;
     searchChanged: EventEmitter<string>;
+    applySearch: EventEmitter<KeyboardEvent>;
     focused: boolean;
     value: any;
     /** View -> model callback called when value changes */
@@ -34,6 +37,7 @@ export declare class NovoSearchBoxElement implements ControlValueAccessor {
     showSearch(event?: any, forceClose?: boolean): void;
     onFocus(): void;
     onBlur(): void;
+    onSelect(): void;
     /** BEGIN: Convenient Panel Methods. */
     openPanel(): void;
     closePanel(): void;

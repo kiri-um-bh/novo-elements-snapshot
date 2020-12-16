@@ -8740,14 +8740,15 @@
                     /** @type {?} */
                     var clickTarget = (/** @type {?} */ (event.target));
                     /** @type {?} */
-                    var clicked = _this.panelOpen &&
+                    var clickedOutside = _this.panelOpen &&
                         clickTarget !== _this.getConnectedElement().nativeElement &&
                         !_this.getConnectedElement().nativeElement.contains(clickTarget) &&
-                        (!!_this.overlayRef && !_this.overlayRef.overlayElement.contains(clickTarget));
+                        (!!_this.overlayRef && !_this.overlayRef.overlayElement.contains(clickTarget)) &&
+                        !_this.elementIsInNestedOverlay(clickTarget);
                     if (_this.panelOpen && !!_this.overlayRef && _this.overlayRef.overlayElement.contains(clickTarget) && _this.closeOnSelect) {
                         _this.select.emit(event);
                     }
-                    return clicked;
+                    return clickedOutside;
                 })));
             },
             enumerable: true,
@@ -8950,6 +8951,25 @@
          */
         function () {
             return this.parent;
+        };
+        /**
+         * @protected
+         * @param {?} el
+         * @return {?}
+         */
+        NovoOverlayTemplateComponent.prototype.elementIsInNestedOverlay = /**
+         * @protected
+         * @param {?} el
+         * @return {?}
+         */
+        function (el) {
+            while (el.parentNode) {
+                if (el.id && el.id.includes('novo-overlay')) {
+                    return this.id < el.id;
+                }
+                el = el.parentNode;
+            }
+            return false;
         };
         /**
          * @protected
@@ -12389,6 +12409,7 @@
             this.globalSearch = undefined;
             this.selectedRows = new Map();
             this.expandedRows = new Set();
+            this.advancedFilter = undefined;
             this.isForceRefresh = false;
             this.updates = new core.EventEmitter();
         }
@@ -12397,7 +12418,7 @@
              * @return {?}
              */
             function () {
-                return !!(this.filter || this.sort || this.globalSearch || this.outsideFilter);
+                return !!(this.filter || this.sort || this.globalSearch || this.outsideFilter || this.advancedFilter);
             },
             enumerable: true,
             configurable: true
@@ -12572,6 +12593,24 @@
                     }));
                     this.filter = filters;
                 }
+                if (preferences.advancedFilter) {
+                    /** @type {?} */
+                    var advancedFilters = Helpers.convertToArray(preferences.advancedFilter);
+                    advancedFilters.forEach((/**
+                     * @param {?} filter
+                     * @return {?}
+                     */
+                    function (filter) {
+                        filter.value =
+                            filter.selectedOption && filter.type
+                                ? NovoDataTableFilterUtils.constructFilter(filter.selectedOption, filter.type)
+                                : filter.value;
+                    }));
+                    this.advancedFilter = advancedFilters;
+                }
+                if (preferences.globalSearch) {
+                    this.globalSearch = preferences.globalSearch;
+                }
             }
         };
         return DataTableState;
@@ -12605,6 +12644,8 @@
         DataTableState.prototype.expandedRows;
         /** @type {?} */
         DataTableState.prototype.outsideFilter;
+        /** @type {?} */
+        DataTableState.prototype.advancedFilter;
         /** @type {?} */
         DataTableState.prototype.isForceRefresh;
         /** @type {?} */
@@ -12663,7 +12704,7 @@
         NovoDataTableClearButton.decorators = [
             { type: core.Component, args: [{
                         selector: 'novo-data-table-clear-button',
-                        template: "\n    <novo-dropdown side=\"bottom-right\" class=\"novo-data-table-clear-button\" data-automation-id=\"novo-data-table-clear-dropdown\">\n      <button type=\"button\" theme=\"primary\" color=\"negative\" icon=\"collapse\" data-automation-id=\"novo-data-table-clear-dropdown-btn\">{{ labels.clear }}</button>\n      <list>\n          <item *ngIf=\"state.sort\" (click)=\"clearSort()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-sort\">{{ labels.clearSort }}</item>\n          <item *ngIf=\"state.filter\" (click)=\"clearFilter()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-filter\">{{ labels.clearFilter }}</item>\n          <item *ngIf=\"state.sort && state.filter\" (click)=\"clearAll()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-all\">{{ labels.clearAllNormalCase }}</item>\n      </list>\n    </novo-dropdown>\n  ",
+                        template: "\n    <novo-dropdown side=\"bottom-right\" class=\"novo-data-table-clear-button\" data-automation-id=\"novo-data-table-clear-dropdown\">\n      <button type=\"button\" theme=\"primary\" color=\"negative\" icon=\"collapse\" data-automation-id=\"novo-data-table-clear-dropdown-btn\">{{ labels.clear }}</button>\n      <list>\n          <item *ngIf=\"state.sort\" (click)=\"clearSort()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-sort\">{{ labels.clearSort }}</item>\n          <item *ngIf=\"state.filter || state.globalSearch\" (click)=\"clearFilter()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-filter\">{{ labels.clearFilter }}</item>\n          <item *ngIf=\"state.sort && (state.filter || state.globalSearch)\" (click)=\"clearAll()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-all\">{{ labels.clearAllNormalCase }}</item>\n      </list>\n    </novo-dropdown>\n  ",
                         changeDetection: core.ChangeDetectionStrategy.OnPush
                     }] }
         ];
@@ -12760,7 +12801,7 @@
             function () {
                 _this.pristine = false;
                 _this.loading = true;
-                return _this.tableService.getTableResults(_this.state.sort, _this.state.filter, _this.state.page, _this.state.pageSize, _this.state.globalSearch, _this.state.outsideFilter);
+                return _this.tableService.getTableResults(_this.state.sort, _this.state.filter, _this.state.page, _this.state.pageSize, _this.state.globalSearch, _this.state.outsideFilter, _this.state.advancedFilter);
             })), operators.map((/**
              * @param {?} data
              * @return {?}
@@ -14478,7 +14519,34 @@
                      */
                     function (filter) {
                         _this.state.outsideFilter = filter;
-                        _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort });
+                        _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort, advancedFilter: _this.state.advancedFilter });
+                        _this.ref.markForCheck();
+                    }));
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NovoDataTable.prototype, "advancedFilter", {
+            set: /**
+             * @param {?} advancedFilter
+             * @return {?}
+             */
+            function (advancedFilter) {
+                var _this = this;
+                // Unsubscribe
+                if (this.advancedFilterSubscription) {
+                    this.advancedFilterSubscription.unsubscribe();
+                }
+                if (advancedFilter) {
+                    // Re-subscribe
+                    this.advancedFilterSubscription = advancedFilter.subscribe((/**
+                     * @param {?} filter
+                     * @return {?}
+                     */
+                    function (filter) {
+                        _this.state.advancedFilter = filter;
+                        _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort, outsideFilter: _this.state.outsideFilter });
                         _this.ref.markForCheck();
                     }));
                 }
@@ -14669,6 +14737,9 @@
          * @return {?}
          */
         function () {
+            if (this.advancedFilterSubscription) {
+                this.advancedFilterSubscription.unsubscribe();
+            }
             if (this.outsideFilterSubscription) {
                 this.outsideFilterSubscription.unsubscribe();
             }
@@ -15129,6 +15200,7 @@
             dataTableService: [{ type: core.Input }],
             rows: [{ type: core.Input }],
             outsideFilter: [{ type: core.Input }],
+            advancedFilter: [{ type: core.Input }],
             refreshSubject: [{ type: core.Input }],
             columns: [{ type: core.Input }],
             customFilter: [{ type: core.Input }],
@@ -15223,6 +15295,11 @@
          * @private
          */
         NovoDataTable.prototype.outsideFilterSubscription;
+        /**
+         * @type {?}
+         * @private
+         */
+        NovoDataTable.prototype.advancedFilterSubscription;
         /**
          * @type {?}
          * @private
@@ -35905,11 +35982,14 @@
             this._changeDetectorRef = _changeDetectorRef;
             this._zone = _zone;
             this.icon = 'search';
+            this.position = 'bottom-left';
             this.placeholder = 'Search...';
             this.alwaysOpen = false;
             this.theme = 'positive';
             this.closeOnSelect = true;
+            this.keepOpen = false;
             this.searchChanged = new core.EventEmitter();
+            this.applySearch = new core.EventEmitter();
             this.focused = false;
             /**
              * View -> model callback called when value changes
@@ -35985,7 +36065,20 @@
          * @return {?}
          */
         function () {
-            this.focused = false;
+            if (!this.keepOpen || !this.panelOpen) {
+                this.focused = false;
+            }
+        };
+        /**
+         * @return {?}
+         */
+        NovoSearchBoxElement.prototype.onSelect = /**
+         * @return {?}
+         */
+        function () {
+            if (!this.keepOpen) {
+                this.closePanel();
+            }
         };
         /** BEGIN: Convenient Panel Methods. */
         /**
@@ -36007,6 +36100,7 @@
          */
         function () {
             this.overlay.closePanel();
+            this.focused = false;
         };
         Object.defineProperty(NovoSearchBoxElement.prototype, "panelOpen", {
             get: /**
@@ -36041,6 +36135,9 @@
          */
         function (event) {
             if ((event.keyCode === keycodes.ESCAPE || event.keyCode === keycodes.ENTER || event.keyCode === keycodes.TAB) && this.panelOpen) {
+                if (event.keyCode === keycodes.ENTER) {
+                    this.applySearch.emit(event);
+                }
                 this.closePanel();
                 event.stopPropagation();
             }
@@ -36172,7 +36269,7 @@
                         selector: 'novo-search',
                         providers: [SEARCH_VALUE_ACCESSOR],
                         changeDetection: core.ChangeDetectionStrategy.OnPush,
-                        template: "\n    <!-- SEARCH ICON -->\n    <button\n      theme=\"fab\"\n      [color]=\"theme\"\n      [icon]=\"icon\"\n      (click)=\"showSearch()\"\n      [tooltip]=\"hint\"\n      tooltipPosition=\"bottom\"\n      data-automation-id=\"novo-search-fab\"\n    ></button>\n    <!-- SEARCH INPUT -->\n    <input\n      type=\"text\"\n      [attr.name]=\"name\"\n      [attr.value]=\"displayValue\"\n      [attr.placeholder]=\"placeholder\"\n      (focus)=\"onFocus()\"\n      (blur)=\"onBlur()\"\n      (keydown)=\"_handleKeydown($event)\"\n      (input)=\"_handleInput($event)\"\n      #input\n      data-automation-id=\"novo-search-input\"\n    />\n    <!-- SEARCH OVERLAY -->\n    <novo-overlay-template\n      [parent]=\"element\"\n      [closeOnSelect]=\"closeOnSelect\"\n      position=\"above-below\"\n      (select)=\"closePanel()\"\n      (closing)=\"onBlur()\"\n    >\n      <ng-content></ng-content>\n    </novo-overlay-template>\n  "
+                        template: "\n    <!-- SEARCH ICON -->\n    <button\n      theme=\"fab\"\n      [color]=\"theme\"\n      [icon]=\"icon\"\n      (click)=\"showSearch()\"\n      [tooltip]=\"hint\"\n      tooltipPosition=\"bottom\"\n      data-automation-id=\"novo-search-fab\"\n    ></button>\n    <!-- SEARCH INPUT -->\n    <input\n      type=\"text\"\n      [attr.name]=\"name\"\n      [attr.value]=\"displayValue\"\n      [attr.placeholder]=\"placeholder\"\n      (focus)=\"onFocus()\"\n      (blur)=\"onBlur()\"\n      (keydown)=\"_handleKeydown($event)\"\n      (input)=\"_handleInput($event)\"\n      #input\n      data-automation-id=\"novo-search-input\"\n    />\n    <!-- SEARCH OVERLAY -->\n    <novo-overlay-template\n      [parent]=\"element\"\n      [closeOnSelect]=\"closeOnSelect\"\n      [position]=\"position\"\n      (select)=\"onSelect()\"\n      (closing)=\"onBlur()\"\n    >\n      <ng-content></ng-content>\n    </novo-overlay-template>\n  "
                     }] }
         ];
         /** @nocollapse */
@@ -36185,16 +36282,19 @@
         NovoSearchBoxElement.propDecorators = {
             name: [{ type: core.Input }],
             icon: [{ type: core.Input }],
+            position: [{ type: core.Input }],
             placeholder: [{ type: core.Input }],
-            alwaysOpen: [{ type: core.Input }],
+            alwaysOpen: [{ type: core.Input }, { type: core.HostBinding, args: ['class.always-open',] }],
             theme: [{ type: core.Input }],
             closeOnSelect: [{ type: core.Input }],
             displayField: [{ type: core.Input }],
             displayValue: [{ type: core.Input }],
             hint: [{ type: core.Input }],
+            keepOpen: [{ type: core.Input }],
             searchChanged: [{ type: core.Output }],
+            applySearch: [{ type: core.Output }],
             focused: [{ type: core.HostBinding, args: ['class.focused',] }],
-            overlay: [{ type: core.ViewChild, args: [NovoOverlayTemplateComponent, { static: false },] }],
+            overlay: [{ type: core.ViewChild, args: [NovoOverlayTemplateComponent, { static: true },] }],
             input: [{ type: core.ViewChild, args: ['input', { static: true },] }],
             active: [{ type: core.HostBinding, args: ['class.active',] }]
         };
@@ -36205,6 +36305,8 @@
         NovoSearchBoxElement.prototype.name;
         /** @type {?} */
         NovoSearchBoxElement.prototype.icon;
+        /** @type {?} */
+        NovoSearchBoxElement.prototype.position;
         /** @type {?} */
         NovoSearchBoxElement.prototype.placeholder;
         /** @type {?} */
@@ -36220,7 +36322,11 @@
         /** @type {?} */
         NovoSearchBoxElement.prototype.hint;
         /** @type {?} */
+        NovoSearchBoxElement.prototype.keepOpen;
+        /** @type {?} */
         NovoSearchBoxElement.prototype.searchChanged;
+        /** @type {?} */
+        NovoSearchBoxElement.prototype.applySearch;
         /** @type {?} */
         NovoSearchBoxElement.prototype.focused;
         /** @type {?} */
@@ -51073,6 +51179,7 @@
             this.element = element;
             this.cdr = cdr;
             this.size = 'medium';
+            this.shape = 'box';
             this.role = 'img';
         }
         Object.defineProperty(NovoIconComponent.prototype, "alt", {
@@ -51143,6 +51250,7 @@
             raised: [{ type: core.HostBinding, args: ['attr.raised',] }, { type: core.Input }],
             size: [{ type: core.HostBinding, args: ['attr.size',] }, { type: core.Input }],
             theme: [{ type: core.HostBinding, args: ['attr.theme',] }, { type: core.Input }],
+            shape: [{ type: core.HostBinding, args: ['attr.shape',] }, { type: core.Input }],
             color: [{ type: core.HostBinding, args: ['attr.color',] }, { type: core.Input }],
             role: [{ type: core.HostBinding, args: ['attr.role',] }],
             ariaLabel: [{ type: core.HostBinding, args: ['attr.aria-label',] }],
@@ -51158,6 +51266,8 @@
         NovoIconComponent.prototype.size;
         /** @type {?} */
         NovoIconComponent.prototype.theme;
+        /** @type {?} */
+        NovoIconComponent.prototype.shape;
         /** @type {?} */
         NovoIconComponent.prototype.color;
         /** @type {?} */

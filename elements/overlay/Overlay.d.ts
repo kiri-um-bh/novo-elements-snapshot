@@ -52,5 +52,6 @@ export declare class NovoOverlayTemplateComponent implements OnDestroy {
     protected getScrollStrategy(): ScrollStrategy;
     protected checkSizes(): void;
     protected getConnectedElement(): ElementRef;
+    protected elementIsInNestedOverlay(el: any): boolean;
     protected getHostWidth(): number;
 }

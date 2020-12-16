@@ -8542,14 +8542,15 @@ var NovoOverlayTemplateComponent = /** @class */ (function () {
                 /** @type {?} */
                 var clickTarget = (/** @type {?} */ (event.target));
                 /** @type {?} */
-                var clicked = _this.panelOpen &&
+                var clickedOutside = _this.panelOpen &&
                     clickTarget !== _this.getConnectedElement().nativeElement &&
                     !_this.getConnectedElement().nativeElement.contains(clickTarget) &&
-                    (!!_this.overlayRef && !_this.overlayRef.overlayElement.contains(clickTarget));
+                    (!!_this.overlayRef && !_this.overlayRef.overlayElement.contains(clickTarget)) &&
+                    !_this.elementIsInNestedOverlay(clickTarget);
                 if (_this.panelOpen && !!_this.overlayRef && _this.overlayRef.overlayElement.contains(clickTarget) && _this.closeOnSelect) {
                     _this.select.emit(event);
                 }
-                return clicked;
+                return clickedOutside;
             })));
         },
         enumerable: true,
@@ -8752,6 +8753,25 @@ var NovoOverlayTemplateComponent = /** @class */ (function () {
      */
     function () {
         return this.parent;
+    };
+    /**
+     * @protected
+     * @param {?} el
+     * @return {?}
+     */
+    NovoOverlayTemplateComponent.prototype.elementIsInNestedOverlay = /**
+     * @protected
+     * @param {?} el
+     * @return {?}
+     */
+    function (el) {
+        while (el.parentNode) {
+            if (el.id && el.id.includes('novo-overlay')) {
+                return this.id < el.id;
+            }
+            el = el.parentNode;
+        }
+        return false;
     };
     /**
      * @protected
@@ -12191,6 +12211,7 @@ DataTableState = /** @class */ (function () {
         this.globalSearch = undefined;
         this.selectedRows = new Map();
         this.expandedRows = new Set();
+        this.advancedFilter = undefined;
         this.isForceRefresh = false;
         this.updates = new EventEmitter();
     }
@@ -12199,7 +12220,7 @@ DataTableState = /** @class */ (function () {
          * @return {?}
          */
         function () {
-            return !!(this.filter || this.sort || this.globalSearch || this.outsideFilter);
+            return !!(this.filter || this.sort || this.globalSearch || this.outsideFilter || this.advancedFilter);
         },
         enumerable: true,
         configurable: true
@@ -12374,6 +12395,24 @@ DataTableState = /** @class */ (function () {
                 }));
                 this.filter = filters;
             }
+            if (preferences.advancedFilter) {
+                /** @type {?} */
+                var advancedFilters = Helpers.convertToArray(preferences.advancedFilter);
+                advancedFilters.forEach((/**
+                 * @param {?} filter
+                 * @return {?}
+                 */
+                function (filter) {
+                    filter.value =
+                        filter.selectedOption && filter.type
+                            ? NovoDataTableFilterUtils.constructFilter(filter.selectedOption, filter.type)
+                            : filter.value;
+                }));
+                this.advancedFilter = advancedFilters;
+            }
+            if (preferences.globalSearch) {
+                this.globalSearch = preferences.globalSearch;
+            }
         }
     };
     return DataTableState;
@@ -12407,6 +12446,8 @@ if (false) {
     DataTableState.prototype.expandedRows;
     /** @type {?} */
     DataTableState.prototype.outsideFilter;
+    /** @type {?} */
+    DataTableState.prototype.advancedFilter;
     /** @type {?} */
     DataTableState.prototype.isForceRefresh;
     /** @type {?} */
@@ -12465,7 +12506,7 @@ var NovoDataTableClearButton = /** @class */ (function () {
     NovoDataTableClearButton.decorators = [
         { type: Component, args: [{
                     selector: 'novo-data-table-clear-button',
-                    template: "\n    <novo-dropdown side=\"bottom-right\" class=\"novo-data-table-clear-button\" data-automation-id=\"novo-data-table-clear-dropdown\">\n      <button type=\"button\" theme=\"primary\" color=\"negative\" icon=\"collapse\" data-automation-id=\"novo-data-table-clear-dropdown-btn\">{{ labels.clear }}</button>\n      <list>\n          <item *ngIf=\"state.sort\" (click)=\"clearSort()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-sort\">{{ labels.clearSort }}</item>\n          <item *ngIf=\"state.filter\" (click)=\"clearFilter()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-filter\">{{ labels.clearFilter }}</item>\n          <item *ngIf=\"state.sort && state.filter\" (click)=\"clearAll()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-all\">{{ labels.clearAllNormalCase }}</item>\n      </list>\n    </novo-dropdown>\n  ",
+                    template: "\n    <novo-dropdown side=\"bottom-right\" class=\"novo-data-table-clear-button\" data-automation-id=\"novo-data-table-clear-dropdown\">\n      <button type=\"button\" theme=\"primary\" color=\"negative\" icon=\"collapse\" data-automation-id=\"novo-data-table-clear-dropdown-btn\">{{ labels.clear }}</button>\n      <list>\n          <item *ngIf=\"state.sort\" (click)=\"clearSort()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-sort\">{{ labels.clearSort }}</item>\n          <item *ngIf=\"state.filter || state.globalSearch\" (click)=\"clearFilter()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-filter\">{{ labels.clearFilter }}</item>\n          <item *ngIf=\"state.sort && (state.filter || state.globalSearch)\" (click)=\"clearAll()\" data-automation-id=\"novo-data-table-clear-dropdown-clear-all\">{{ labels.clearAllNormalCase }}</item>\n      </list>\n    </novo-dropdown>\n  ",
                     changeDetection: ChangeDetectionStrategy.OnPush
                 }] }
     ];
@@ -12562,7 +12603,7 @@ DataTableSource = /** @class */ (function (_super) {
         function () {
             _this.pristine = false;
             _this.loading = true;
-            return _this.tableService.getTableResults(_this.state.sort, _this.state.filter, _this.state.page, _this.state.pageSize, _this.state.globalSearch, _this.state.outsideFilter);
+            return _this.tableService.getTableResults(_this.state.sort, _this.state.filter, _this.state.page, _this.state.pageSize, _this.state.globalSearch, _this.state.outsideFilter, _this.state.advancedFilter);
         })), map((/**
          * @param {?} data
          * @return {?}
@@ -14280,7 +14321,34 @@ var NovoDataTable = /** @class */ (function () {
                  */
                 function (filter) {
                     _this.state.outsideFilter = filter;
-                    _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort });
+                    _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort, advancedFilter: _this.state.advancedFilter });
+                    _this.ref.markForCheck();
+                }));
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoDataTable.prototype, "advancedFilter", {
+        set: /**
+         * @param {?} advancedFilter
+         * @return {?}
+         */
+        function (advancedFilter) {
+            var _this = this;
+            // Unsubscribe
+            if (this.advancedFilterSubscription) {
+                this.advancedFilterSubscription.unsubscribe();
+            }
+            if (advancedFilter) {
+                // Re-subscribe
+                this.advancedFilterSubscription = advancedFilter.subscribe((/**
+                 * @param {?} filter
+                 * @return {?}
+                 */
+                function (filter) {
+                    _this.state.advancedFilter = filter;
+                    _this.state.updates.next({ globalSearch: _this.state.globalSearch, filter: _this.state.filter, sort: _this.state.sort, outsideFilter: _this.state.outsideFilter });
                     _this.ref.markForCheck();
                 }));
             }
@@ -14471,6 +14539,9 @@ var NovoDataTable = /** @class */ (function () {
      * @return {?}
      */
     function () {
+        if (this.advancedFilterSubscription) {
+            this.advancedFilterSubscription.unsubscribe();
+        }
         if (this.outsideFilterSubscription) {
             this.outsideFilterSubscription.unsubscribe();
         }
@@ -14931,6 +15002,7 @@ var NovoDataTable = /** @class */ (function () {
         dataTableService: [{ type: Input }],
         rows: [{ type: Input }],
         outsideFilter: [{ type: Input }],
+        advancedFilter: [{ type: Input }],
         refreshSubject: [{ type: Input }],
         columns: [{ type: Input }],
         customFilter: [{ type: Input }],
@@ -15025,6 +15097,11 @@ if (false) {
      * @private
      */
     NovoDataTable.prototype.outsideFilterSubscription;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoDataTable.prototype.advancedFilterSubscription;
     /**
      * @type {?}
      * @private
@@ -35707,11 +35784,14 @@ var NovoSearchBoxElement = /** @class */ (function () {
         this._changeDetectorRef = _changeDetectorRef;
         this._zone = _zone;
         this.icon = 'search';
+        this.position = 'bottom-left';
         this.placeholder = 'Search...';
         this.alwaysOpen = false;
         this.theme = 'positive';
         this.closeOnSelect = true;
+        this.keepOpen = false;
         this.searchChanged = new EventEmitter();
+        this.applySearch = new EventEmitter();
         this.focused = false;
         /**
          * View -> model callback called when value changes
@@ -35787,7 +35867,20 @@ var NovoSearchBoxElement = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        this.focused = false;
+        if (!this.keepOpen || !this.panelOpen) {
+            this.focused = false;
+        }
+    };
+    /**
+     * @return {?}
+     */
+    NovoSearchBoxElement.prototype.onSelect = /**
+     * @return {?}
+     */
+    function () {
+        if (!this.keepOpen) {
+            this.closePanel();
+        }
     };
     /** BEGIN: Convenient Panel Methods. */
     /**
@@ -35809,6 +35902,7 @@ var NovoSearchBoxElement = /** @class */ (function () {
      */
     function () {
         this.overlay.closePanel();
+        this.focused = false;
     };
     Object.defineProperty(NovoSearchBoxElement.prototype, "panelOpen", {
         get: /**
@@ -35843,6 +35937,9 @@ var NovoSearchBoxElement = /** @class */ (function () {
      */
     function (event) {
         if ((event.keyCode === ESCAPE || event.keyCode === ENTER || event.keyCode === TAB) && this.panelOpen) {
+            if (event.keyCode === ENTER) {
+                this.applySearch.emit(event);
+            }
             this.closePanel();
             event.stopPropagation();
         }
@@ -35974,7 +36071,7 @@ var NovoSearchBoxElement = /** @class */ (function () {
                     selector: 'novo-search',
                     providers: [SEARCH_VALUE_ACCESSOR],
                     changeDetection: ChangeDetectionStrategy.OnPush,
-                    template: "\n    <!-- SEARCH ICON -->\n    <button\n      theme=\"fab\"\n      [color]=\"theme\"\n      [icon]=\"icon\"\n      (click)=\"showSearch()\"\n      [tooltip]=\"hint\"\n      tooltipPosition=\"bottom\"\n      data-automation-id=\"novo-search-fab\"\n    ></button>\n    <!-- SEARCH INPUT -->\n    <input\n      type=\"text\"\n      [attr.name]=\"name\"\n      [attr.value]=\"displayValue\"\n      [attr.placeholder]=\"placeholder\"\n      (focus)=\"onFocus()\"\n      (blur)=\"onBlur()\"\n      (keydown)=\"_handleKeydown($event)\"\n      (input)=\"_handleInput($event)\"\n      #input\n      data-automation-id=\"novo-search-input\"\n    />\n    <!-- SEARCH OVERLAY -->\n    <novo-overlay-template\n      [parent]=\"element\"\n      [closeOnSelect]=\"closeOnSelect\"\n      position=\"above-below\"\n      (select)=\"closePanel()\"\n      (closing)=\"onBlur()\"\n    >\n      <ng-content></ng-content>\n    </novo-overlay-template>\n  "
+                    template: "\n    <!-- SEARCH ICON -->\n    <button\n      theme=\"fab\"\n      [color]=\"theme\"\n      [icon]=\"icon\"\n      (click)=\"showSearch()\"\n      [tooltip]=\"hint\"\n      tooltipPosition=\"bottom\"\n      data-automation-id=\"novo-search-fab\"\n    ></button>\n    <!-- SEARCH INPUT -->\n    <input\n      type=\"text\"\n      [attr.name]=\"name\"\n      [attr.value]=\"displayValue\"\n      [attr.placeholder]=\"placeholder\"\n      (focus)=\"onFocus()\"\n      (blur)=\"onBlur()\"\n      (keydown)=\"_handleKeydown($event)\"\n      (input)=\"_handleInput($event)\"\n      #input\n      data-automation-id=\"novo-search-input\"\n    />\n    <!-- SEARCH OVERLAY -->\n    <novo-overlay-template\n      [parent]=\"element\"\n      [closeOnSelect]=\"closeOnSelect\"\n      [position]=\"position\"\n      (select)=\"onSelect()\"\n      (closing)=\"onBlur()\"\n    >\n      <ng-content></ng-content>\n    </novo-overlay-template>\n  "
                 }] }
     ];
     /** @nocollapse */
@@ -35987,16 +36084,19 @@ var NovoSearchBoxElement = /** @class */ (function () {
     NovoSearchBoxElement.propDecorators = {
         name: [{ type: Input }],
         icon: [{ type: Input }],
+        position: [{ type: Input }],
         placeholder: [{ type: Input }],
-        alwaysOpen: [{ type: Input }],
+        alwaysOpen: [{ type: Input }, { type: HostBinding, args: ['class.always-open',] }],
         theme: [{ type: Input }],
         closeOnSelect: [{ type: Input }],
         displayField: [{ type: Input }],
         displayValue: [{ type: Input }],
         hint: [{ type: Input }],
+        keepOpen: [{ type: Input }],
         searchChanged: [{ type: Output }],
+        applySearch: [{ type: Output }],
         focused: [{ type: HostBinding, args: ['class.focused',] }],
-        overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: false },] }],
+        overlay: [{ type: ViewChild, args: [NovoOverlayTemplateComponent, { static: true },] }],
         input: [{ type: ViewChild, args: ['input', { static: true },] }],
         active: [{ type: HostBinding, args: ['class.active',] }]
     };
@@ -36007,6 +36107,8 @@ if (false) {
     NovoSearchBoxElement.prototype.name;
     /** @type {?} */
     NovoSearchBoxElement.prototype.icon;
+    /** @type {?} */
+    NovoSearchBoxElement.prototype.position;
     /** @type {?} */
     NovoSearchBoxElement.prototype.placeholder;
     /** @type {?} */
@@ -36022,7 +36124,11 @@ if (false) {
     /** @type {?} */
     NovoSearchBoxElement.prototype.hint;
     /** @type {?} */
+    NovoSearchBoxElement.prototype.keepOpen;
+    /** @type {?} */
     NovoSearchBoxElement.prototype.searchChanged;
+    /** @type {?} */
+    NovoSearchBoxElement.prototype.applySearch;
     /** @type {?} */
     NovoSearchBoxElement.prototype.focused;
     /** @type {?} */
@@ -50875,6 +50981,7 @@ var NovoIconComponent = /** @class */ (function () {
         this.element = element;
         this.cdr = cdr;
         this.size = 'medium';
+        this.shape = 'box';
         this.role = 'img';
     }
     Object.defineProperty(NovoIconComponent.prototype, "alt", {
@@ -50945,6 +51052,7 @@ var NovoIconComponent = /** @class */ (function () {
         raised: [{ type: HostBinding, args: ['attr.raised',] }, { type: Input }],
         size: [{ type: HostBinding, args: ['attr.size',] }, { type: Input }],
         theme: [{ type: HostBinding, args: ['attr.theme',] }, { type: Input }],
+        shape: [{ type: HostBinding, args: ['attr.shape',] }, { type: Input }],
         color: [{ type: HostBinding, args: ['attr.color',] }, { type: Input }],
         role: [{ type: HostBinding, args: ['attr.role',] }],
         ariaLabel: [{ type: HostBinding, args: ['attr.aria-label',] }],
@@ -50960,6 +51068,8 @@ if (false) {
     NovoIconComponent.prototype.size;
     /** @type {?} */
     NovoIconComponent.prototype.theme;
+    /** @type {?} */
+    NovoIconComponent.prototype.shape;
     /** @type {?} */
     NovoIconComponent.prototype.color;
     /** @type {?} */

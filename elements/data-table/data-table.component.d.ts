@@ -37,6 +37,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     dataTableService: IDataTableService<T>;
     rows: T[];
     outsideFilter: EventEmitter<any>;
+    advancedFilter: EventEmitter<any>;
     refreshSubject: EventEmitter<any>;
     columns: IDataTableColumn<T>[];
     customFilter: boolean;
@@ -58,6 +59,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     scrollLeft: number;
     expandable: boolean;
     private outsideFilterSubscription;
+    private advancedFilterSubscription;
     private refreshSubscription;
     private resetSubscription;
     private paginationSubscription;

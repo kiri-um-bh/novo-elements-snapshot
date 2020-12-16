@@ -5,6 +5,7 @@ export declare class NovoIconComponent implements AfterViewInit {
     raised: boolean;
     size: string;
     theme: string;
+    shape: string;
     color: string;
     role: string;
     ariaLabel: string;
