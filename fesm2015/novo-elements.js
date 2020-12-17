@@ -43788,8 +43788,6 @@ class FieldInteractionApi {
      * @return {?}
      */
     promptUser(key, changes) {
-        /** @type {?} */
-        const showYes = true;
         ((/** @type {?} */ (document.activeElement))).blur();
         return this.modalService.open(ControlPromptModal, { changes, key }).onClosed;
     }
@@ -57204,8 +57202,6 @@ class NovoTableElement {
                     errors.push({ errors: error, row: this._rows[index], index });
                 }
             }));
-            /** @type {?} */
-            const ret = {};
             // Return errors if any, otherwise return the changed rows
             if (errors.length === 0) {
                 return { changed: changedRows };
