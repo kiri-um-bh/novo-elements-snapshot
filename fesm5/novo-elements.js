@@ -46029,8 +46029,6 @@ var FieldInteractionApi = /** @class */ (function () {
      * @return {?}
      */
     function (key, changes) {
-        /** @type {?} */
-        var showYes = true;
         ((/** @type {?} */ (document.activeElement))).blur();
         return this.modalService.open(ControlPromptModal, { changes: changes, key: key }).onClosed;
     };
@@ -61469,8 +61467,6 @@ var NovoTableElement = /** @class */ (function () {
                     errors_1.push({ errors: error, row: _this._rows[index], index: index });
                 }
             }));
-            /** @type {?} */
-            var ret = {};
             // Return errors if any, otherwise return the changed rows
             if (errors_1.length === 0) {
                 return { changed: changedRows_1 };
