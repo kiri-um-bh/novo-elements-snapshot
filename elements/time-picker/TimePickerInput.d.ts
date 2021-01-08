@@ -1,15 +1,15 @@
-import { ChangeDetectorRef, ElementRef, OnInit, EventEmitter } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, EventEmitter, OnInit } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
-import { NovoLabelService } from '../../services/novo-label-service';
 import { DateFormatService } from '../../services/date-format/DateFormat';
+import { NovoLabelService } from '../../services/novo-label-service';
+import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
+import * as i0 from "@angular/core";
 export declare class NovoTimePickerInputElement implements OnInit, ControlValueAccessor {
     element: ElementRef;
     labels: NovoLabelService;
     dateFormatService: DateFormatService;
     protected _changeDetectorRef: ChangeDetectorRef;
     value: any;
-    formattedValue: string;
     /** View -> model callback called when value changes */
     _onChange: (value: any) => void;
     /** View -> model callback called when autocomplete has been touched */
@@ -25,10 +25,11 @@ export declare class NovoTimePickerInputElement implements OnInit, ControlValueA
     overlay: NovoOverlayTemplateComponent;
     constructor(element: ElementRef, labels: NovoLabelService, dateFormatService: DateFormatService, _changeDetectorRef: ChangeDetectorRef);
     ngOnInit(): void;
+    onComplete(dt: any): void;
     /** BEGIN: Convenient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
-    readonly panelOpen: boolean;
+    get panelOpen(): boolean;
     /** END: Convenient Panel Methods. */
     _handleKeydown(event: KeyboardEvent): void;
     _handleInput(event: KeyboardEvent): void;
@@ -46,7 +47,9 @@ export declare class NovoTimePickerInputElement implements OnInit, ControlValueA
      * Clear any previous selected option and emit a selection change event for this option
      */
     clearValue(): void;
-    formatDateValue(value: any): string;
-    readonly hasValue: boolean;
+    get hasValue(): boolean;
     scrollToIndex(index: number): void;
+    convertTime12to24(time12h: string): string;
+    static ɵfac: i0.ɵɵFactoryDef<NovoTimePickerInputElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoTimePickerInputElement, "novo-time-picker-input", never, { "name": "name"; "placeholder": "placeholder"; "military": "military"; "maskOptions": "maskOptions"; "disabled": "disabled"; }, { "blurEvent": "blurEvent"; "focusEvent": "focusEvent"; }, never, never>;
 }

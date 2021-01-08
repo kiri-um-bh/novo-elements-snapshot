@@ -1,0 +1,35 @@
+import { EventEmitter, QueryList } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
+import { NovoRadioElement } from './Radio';
+import * as i0 from "@angular/core";
+export declare class NovoRadioGroup implements ControlValueAccessor {
+    private _uniqueId;
+    id: string;
+    tabindex: number;
+    disabled: boolean;
+    change: EventEmitter<any>;
+    blur: EventEmitter<any>;
+    focus: EventEmitter<any>;
+    _radios: QueryList<NovoRadioElement>;
+    _appearance: 'horizontal' | 'vertical';
+    get appearance(): any;
+    set appearance(value: any);
+    get value(): any;
+    set value(value: any);
+    get name(): string;
+    set name(value: string);
+    get selected(): NovoRadioElement;
+    private _name;
+    private _value;
+    private _selected;
+    writeValue(value: any): void;
+    registerOnChange(fn: any): void;
+    registerOnTouched(fn: any): void;
+    private onChangeCallback;
+    private onTouchedCallback;
+    private _updateRadioButtonAppearance;
+    private _updateRadioButtonNames;
+    private _updateSelectedRadioFromValue;
+    static ɵfac: i0.ɵɵFactoryDef<NovoRadioGroup, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoRadioGroup, "novo-radio-group", never, { "id": "id"; "tabindex": "tabindex"; "disabled": "disabled"; "appearance": "appearance"; "value": "value"; "name": "name"; }, { "change": "change"; "blur": "blur"; "focus": "focus"; }, ["_radios"], ["*"]>;
+}

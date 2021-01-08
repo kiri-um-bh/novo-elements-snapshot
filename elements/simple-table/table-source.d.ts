@@ -1,5 +1,5 @@
-import { ChangeDetectorRef } from '@angular/core';
 import { DataSource } from '@angular/cdk/table';
+import { ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NovoActivityTableState } from './state';
 export interface ActivityTableService<T> {
@@ -54,8 +54,8 @@ export declare class ActivityTableDataSource<T> extends DataSource<T> {
     current: number;
     loading: boolean;
     pristine: boolean;
-    readonly totallyEmpty: boolean;
-    readonly currentlyEmpty: boolean;
+    get totallyEmpty(): boolean;
+    get currentlyEmpty(): boolean;
     constructor(tableService: ActivityTableService<T>, state: NovoActivityTableState, ref: ChangeDetectorRef);
     connect(): Observable<any[]>;
     disconnect(): void;

@@ -3,6 +3,7 @@ import { ChangeDetectorRef, ElementRef, EventEmitter, NgZone, OnChanges, OnDestr
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
+import * as i0 from "@angular/core";
 export declare class NovoSelectElement implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     element: ElementRef;
     labels: NovoLabelService;
@@ -14,6 +15,7 @@ export declare class NovoSelectElement implements OnInit, OnChanges, OnDestroy, 
     placeholder: string;
     readonly: boolean;
     headerConfig: any;
+    position: string;
     onSelect: EventEmitter<any>;
     selectedIndex: number;
     empty: boolean;
@@ -38,7 +40,7 @@ export declare class NovoSelectElement implements OnInit, OnChanges, OnDestroy, 
     openPanel(): void;
     closePanel(): void;
     togglePanel(): void;
-    readonly panelOpen: boolean;
+    get panelOpen(): boolean;
     /** END: Convenient Panel Methods. */
     /**
      * This method closes the panel, and if a value is specified, also sets the associated
@@ -59,4 +61,6 @@ export declare class NovoSelectElement implements OnInit, OnChanges, OnDestroy, 
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
     setDisabledState(disabled: boolean): void;
+    static ɵfac: i0.ɵɵFactoryDef<NovoSelectElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoSelectElement, "novo-select", never, { "name": "name"; "options": "options"; "placeholder": "placeholder"; "readonly": "readonly"; "headerConfig": "headerConfig"; "position": "position"; }, { "onSelect": "onSelect"; }, never, ["*"]>;
 }

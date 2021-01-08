@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
-import { NovoControlGroupAddConfig } from '../ControlGroup';
 import { IMaskOptions } from '../Control';
+import { NovoControlGroupAddConfig } from '../ControlGroup';
 export interface NovoGroupedControlConfig {
     label?: string;
     icon?: string;
@@ -10,6 +10,7 @@ export interface NovoGroupedControlConfig {
     initialValue?: {}[];
 }
 declare class ControlConfig {
+    alwaysActive?: Boolean;
     allowInvalidDate?: boolean;
     appendToBody: boolean;
     associatedEntity: string;

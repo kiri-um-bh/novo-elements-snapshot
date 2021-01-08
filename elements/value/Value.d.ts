@@ -1,4 +1,5 @@
-import { OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import * as i0 from "@angular/core";
 export declare enum NOVO_VALUE_TYPE {
     DEFAULT = 0,
     ENTITY_LIST = 1,
@@ -18,14 +19,16 @@ export declare class NovoValueElement implements OnInit, OnChanges {
     NOVO_VALUE_THEME: typeof NOVO_VALUE_THEME;
     url: string;
     customClass: string;
-    label: string;
-    type: string;
+    set label(lbl: string);
+    get label(): string;
+    set type(typ: string);
+    get type(): string;
     ngOnInit(): void;
-    readonly isMobile: boolean;
+    get isMobile(): boolean;
     iconClass(icon: any): string;
-    readonly isDefault: boolean;
-    readonly showLabel: boolean;
-    readonly showIcon: boolean;
+    get isDefault(): boolean;
+    get showLabel(): boolean;
+    get showIcon(): boolean;
     onValueClick(icon: any): void;
     openLink(): void;
     ngOnChanges(changes?: SimpleChanges): any;
@@ -35,4 +38,6 @@ export declare class NovoValueElement implements OnInit, OnChanges {
     }, data: any): boolean;
     isEntityList(type: string): boolean;
     isHTMLField(meta: any): boolean;
+    static ɵfac: i0.ɵɵFactoryDef<NovoValueElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoValueElement, "novo-value", never, { "data": "data"; "meta": "meta"; "theme": "theme"; "label": "label"; "type": "type"; }, {}, never, never>;
 }
