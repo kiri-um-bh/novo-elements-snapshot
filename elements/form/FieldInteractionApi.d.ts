@@ -2,11 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { AppBridge } from '../../utils/app-bridge/AppBridge';
 import { FormUtils } from '../../utils/form-utils/FormUtils';
-import { NovoModalService } from '../modal/ModalService';
+import { NovoModalService } from '../modal/modal.service';
 import { NovoToastService, ToastOptions } from '../toast/ToastService';
 import { ModifyPickerConfigArgs, OptionsFunction } from './FieldInteractionApiTypes';
-import { NovoFieldset, ResultsTemplateType, NovoFormGroup } from './FormInterfaces';
+import { NovoFieldset, ResultsTemplateType } from './FormInterfaces';
 import { NovoFormControl } from './NovoFormControl';
+import { NovoFormGroup } from './NovoFormGroup';
+import * as i0 from "@angular/core";
 export declare class FieldInteractionApi {
     private toaster;
     private modalService;
@@ -25,13 +27,15 @@ export declare class FieldInteractionApi {
         BOTTOM_OF_FORM: string;
     };
     constructor(toaster: NovoToastService, modalService: NovoModalService, formUtils: FormUtils, http: HttpClient, labels: NovoLabelService);
-    readonly associations: any;
-    readonly currentEntity: string;
-    readonly currentEntityId: string;
-    readonly isEdit: boolean;
-    readonly isAdd: boolean;
-    globals: any;
-    currentKey: string;
+    get associations(): any;
+    get currentEntity(): string;
+    get currentEntityId(): string;
+    get isEdit(): boolean;
+    get isAdd(): boolean;
+    set globals(globals: any);
+    get globals(): any;
+    set currentKey(key: string);
+    get currentKey(): string;
     isActiveControlValid(): boolean;
     getActiveControl(): NovoFormControl;
     getActiveKey(): string;
@@ -112,7 +116,7 @@ export declare class FieldInteractionApi {
     addPropertiesToPickerConfig(key: string, properties: {
         [key: string]: unknown;
     }): void;
-    getOptionsConfig: (args: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown, filteredOptionsCreator?: (where: string) => (query: string) => Promise<unknown[]>, pickerConfigFormat?: string) => {
+    getOptionsConfig: (args: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown, filteredOptionsCreator?: (where: string) => (query: string) => Promise<unknown[]>, pickerConfigFormat?: string) => undefined | {
         options: unknown[];
     } | {
         options: OptionsFunction;
@@ -130,4 +134,6 @@ export declare class FieldInteractionApi {
     removeControl(key: string): void;
     debounce(func: () => void, wait?: number): void;
     private triggerEvent;
+    static ɵfac: i0.ɵɵFactoryDef<FieldInteractionApi, never>;
+    static ɵprov: i0.ɵɵInjectableDef<FieldInteractionApi>;
 }

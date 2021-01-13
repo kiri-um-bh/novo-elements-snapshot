@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { NovoSimpleTableChange } from './interfaces';
+import * as i0 from "@angular/core";
 export declare class NovoActivityTableState {
     id: number;
     sort: {
@@ -17,6 +18,8 @@ export declare class NovoActivityTableState {
     outsideFilter: any;
     updates: EventEmitter<NovoSimpleTableChange>;
     onReset: EventEmitter<boolean>;
-    readonly userFiltered: boolean;
+    get userFiltered(): boolean;
     reset(fireUpdate?: boolean, persistUserFilters?: boolean): void;
+    static ɵfac: i0.ɵɵFactoryDef<NovoActivityTableState, never>;
+    static ɵprov: i0.ɵɵInjectableDef<NovoActivityTableState>;
 }

@@ -1,0 +1,53 @@
+import { OverlayRef } from '@angular/cdk/overlay';
+import { AfterViewInit, ChangeDetectorRef, ElementRef, EventEmitter, OnDestroy, OnInit, QueryList } from '@angular/core';
+import { MenuItemDirective } from './menu-item.directive';
+import { CloseLeafMenuEvent, IMenuClickEvent } from './menu.service';
+import { ILinkConfig, IMenuOptions } from './menu.types';
+import * as i0 from "@angular/core";
+export declare class MenuContentComponent implements OnInit, OnDestroy, AfterViewInit {
+    private changeDetector;
+    private elementRef;
+    private options;
+    menuItems: MenuItemDirective[];
+    item: any;
+    event: MouseEvent | KeyboardEvent;
+    parentMenu: MenuContentComponent;
+    menuClass: string;
+    overlay: OverlayRef;
+    isLeaf: boolean;
+    execute: EventEmitter<{
+        event: MouseEvent | KeyboardEvent;
+        item: any;
+        menuItem: MenuItemDirective;
+    }>;
+    openSubMenu: EventEmitter<IMenuClickEvent>;
+    closeLeafMenu: EventEmitter<CloseLeafMenuEvent>;
+    closeAllMenus: EventEmitter<{
+        event: MouseEvent;
+    }>;
+    menuElement: ElementRef;
+    menuItemElements: QueryList<ElementRef>;
+    autoFocus: boolean;
+    private _keyManager;
+    private subscription;
+    constructor(changeDetector: ChangeDetectorRef, elementRef: ElementRef, options: IMenuOptions);
+    ngOnInit(): void;
+    ngAfterViewInit(): void;
+    ngOnDestroy(): void;
+    focus(): void;
+    stopEvent($event: MouseEvent): void;
+    isMenuItemEnabled(menuItem: MenuItemDirective): boolean;
+    isMenuItemVisible(menuItem: MenuItemDirective): boolean;
+    evaluateIfFunction(value: any): any;
+    isDisabled(link: ILinkConfig): boolean;
+    onKeyEvent(event: KeyboardEvent): void;
+    keyboardOpenSubMenu(event?: KeyboardEvent): void;
+    keyboardMenuItemSelect(event?: KeyboardEvent): void;
+    onCloseLeafMenu(event: KeyboardEvent): void;
+    closeMenu(event: MouseEvent): void;
+    onOpenSubMenu(menuItem: MenuItemDirective, event?: MouseEvent | KeyboardEvent): void;
+    onMenuItemSelect(menuItem: MenuItemDirective, event: MouseEvent | KeyboardEvent): void;
+    private cancelEvent;
+    static ɵfac: i0.ɵɵFactoryDef<MenuContentComponent, [null, null, { optional: true; }]>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<MenuContentComponent, "menu-content", never, { "menuItems": "menuItems"; "item": "item"; "event": "event"; "parentMenu": "parentMenu"; "menuClass": "menuClass"; "overlay": "overlay"; "isLeaf": "isLeaf"; }, { "execute": "execute"; "openSubMenu": "openSubMenu"; "closeLeafMenu": "closeLeafMenu"; "closeAllMenus": "closeAllMenus"; }, never, never>;
+}

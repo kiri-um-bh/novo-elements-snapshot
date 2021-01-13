@@ -1,20 +1,25 @@
 import { ChangeDetectorRef, EventEmitter, OnDestroy, OnInit } from '@angular/core';
-import { IDataTablePaginationEvent } from '../interfaces';
 import { NovoLabelService } from '../../../services/novo-label-service';
+import { IDataTablePaginationEvent } from '../interfaces';
 import { DataTableState } from '../state/data-table-state.service';
+import * as i0 from "@angular/core";
 export declare class NovoDataTablePagination<T> implements OnInit, OnDestroy {
     private changeDetectorRef;
     labels: NovoLabelService;
     private state;
     theme: string;
-    page: number;
+    get page(): number;
+    set page(page: number);
     _page: number;
-    pageSize: number;
+    get pageSize(): number;
+    set pageSize(pageSize: number);
     private _pageSize;
     dataFeatureId: string;
-    pageSizeOptions: any[];
+    get pageSizeOptions(): any[];
+    set pageSizeOptions(pageSizeOptions: any[]);
     private _pageSizeOptions;
-    length: number;
+    get length(): number;
+    set length(length: number);
     _length: number;
     pageChange: EventEmitter<IDataTablePaginationEvent>;
     displayedPageSizeOptions: {
@@ -45,4 +50,6 @@ export declare class NovoDataTablePagination<T> implements OnInit, OnDestroy {
     private calculateTotalPages;
     private makePage;
     private getPages;
+    static ɵfac: i0.ɵɵFactoryDef<NovoDataTablePagination<any>, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoDataTablePagination<any>, "novo-data-table-pagination", never, { "theme": "theme"; "page": "page"; "pageSize": "pageSize"; "dataFeatureId": "dataFeatureId"; "pageSizeOptions": "pageSizeOptions"; "length": "length"; }, { "pageChange": "pageChange"; }, never, never>;
 }
