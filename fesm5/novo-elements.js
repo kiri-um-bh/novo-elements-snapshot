@@ -41681,6 +41681,8 @@ if (false) {
     ControlConfig.prototype.isInlineEmbedded;
     /** @type {?} */
     ControlConfig.prototype.weekStart;
+    /** @type {?} */
+    ControlConfig.prototype.controls;
 }
 var BaseControl = /** @class */ (function (_super) {
     __extends(BaseControl, _super);
@@ -41727,6 +41729,7 @@ var BaseControl = /** @class */ (function (_super) {
         _this.startDate = config.startDate;
         _this.endDate = config.endDate;
         _this.restrictFieldInteractions = !!config.restrictFieldInteractions;
+        _this.controls = config.controls;
         if (!Helpers.isEmpty(config.warning)) {
             _this.warning = config.warning;
         }
@@ -42552,6 +42555,30 @@ if (false) {
 
 /**
  * @fileoverview added by tsickle
+ * Generated from: elements/form/controls/embedded-form-group/EmbeddedFormGroupControl.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var EmbeddedFormGroupControl = /** @class */ (function (_super) {
+    __extends(EmbeddedFormGroupControl, _super);
+    function EmbeddedFormGroupControl(config) {
+        var _this = _super.call(this, 'embedded-form-group', config) || this;
+        _this.controlType = 'embedded-form-group';
+        _this.options = [];
+        _this.options = config.options || [];
+        _this.placeholder = config.placeholder || '';
+        return _this;
+    }
+    return EmbeddedFormGroupControl;
+}(BaseControl));
+if (false) {
+    /** @type {?} */
+    EmbeddedFormGroupControl.prototype.controlType;
+    /** @type {?} */
+    EmbeddedFormGroupControl.prototype.options;
+}
+
+/**
+ * @fileoverview added by tsickle
  * Generated from: elements/form/FormControls.ts
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
@@ -42624,6 +42651,7 @@ var NovoFormControl = /** @class */ (function (_super) {
         _this.tipWell = control.tipWell;
         _this.customControlConfig = control.customControlConfig;
         _this.warning = control.warning;
+        _this.associatedEntity = control.associatedEntity || null;
         // Reactive Form, need to enable/disable, can't bind to [disabled]
         if (_this.readOnly) {
             _this.disable();
@@ -42906,6 +42934,8 @@ if (false) {
      * @private
      */
     NovoFormControl.prototype.historyTimeout;
+    /** @type {?} */
+    NovoFormControl.prototype.associatedEntity;
 }
 
 /**
@@ -43258,6 +43288,9 @@ var FormUtils = /** @class */ (function () {
                     type = 'chips';
                 }
             }
+            if (field.dataType === 'AbstractEmbeddedToManyEntity') {
+                type = 'embedded-form-group';
+            }
         }
         else if (field.type === 'TO_ONE') {
             if ('SYSTEM' === field.dataSpecialization && ['WorkflowOptionsLookup', 'SpecializedOptionsLookup'].includes(field.dataType)) {
@@ -43388,6 +43421,7 @@ var FormUtils = /** @class */ (function () {
             config: field.config || {},
             closeOnSelect: field.closeOnSelect,
             layoutOptions: field.layoutOptions,
+            controls: field.controls,
         };
         this.inferStartDate(controlConfig, field);
         // TODO: getControlOptions should always return the correct format
@@ -43585,6 +43619,9 @@ var FormUtils = /** @class */ (function () {
             case 'custom':
                 control = new CustomControl(controlConfig);
                 break;
+            case 'embedded-form-group':
+                control = new EmbeddedFormGroupControl(controlConfig);
+                break;
             default:
                 control = new TextBoxControl(controlConfig);
                 break;
@@ -43606,7 +43643,7 @@ var FormUtils = /** @class */ (function () {
             field.readOnly = false;
         }
         return (field.name !== 'id' &&
-            (!['SYSTEM', 'SECTION_HEADER'].includes(field.dataSpecialization) ||
+            ((!['SYSTEM', 'SECTION_HEADER'].includes(field.dataSpecialization) || field.dataType === 'AbstractEmbeddedToManyEntity') ||
                 ['address', 'billingAddress', 'secondaryAddress'].includes(field.name)) &&
             !field.readOnly);
     };
@@ -48427,7 +48464,7 @@ var NovoFieldsetHeaderElement = /** @class */ (function () {
     NovoFieldsetHeaderElement.decorators = [
         { type: Component, args: [{
                     selector: 'novo-fieldset-header',
-                    template: "\n        <h6><i [class]=\"icon || 'bhi-section'\"></i>{{title}}</h6>\n    "
+                    template: "\n    <h6><i [class]=\"icon || 'bhi-section'\"></i>{{ title }}</h6>\n  "
                 }] }
     ];
     NovoFieldsetHeaderElement.propDecorators = {
@@ -48452,7 +48489,7 @@ var NovoFieldsetElement = /** @class */ (function () {
     NovoFieldsetElement.decorators = [
         { type: Component, args: [{
                     selector: 'novo-fieldset',
-                    template: "\n        <div class=\"novo-fieldset-container\">\n            <novo-fieldset-header [icon]=\"icon\" [title]=\"title\" *ngIf=\"title\" [class.embedded]=\"isEmbedded\" [class.inline-embedded]=\"isInlineEmbedded\" [class.hidden]=\"hidden\"></novo-fieldset-header>\n            <ng-container *ngFor=\"let control of controls;let controlIndex = index;\">\n                <div class=\"novo-form-row\" [class.disabled]=\"control.disabled\" *ngIf=\"control.__type !== 'GroupedControl'\">\n                    <novo-control [autoFocus]=\"autoFocus && index === 0 && controlIndex === 0\" [control]=\"control\" [form]=\"form\"></novo-control>\n                </div>\n                <div *ngIf=\"control.__type === 'GroupedControl'\">TODO - GroupedControl</div>\n            </ng-container>\n        </div>\n    "
+                    template: "\n    <div class=\"novo-fieldset-container\">\n      <novo-fieldset-header\n        [icon]=\"icon\"\n        [title]=\"title\"\n        *ngIf=\"title\"\n        [class.embedded]=\"isEmbedded\"\n        [class.inline-embedded]=\"isInlineEmbedded\"\n        [class.hidden]=\"hidden\"\n      ></novo-fieldset-header>\n      <ng-container *ngFor=\"let control of controls; let controlIndex = index\">\n        <div class=\"novo-form-row\" [class.disabled]=\"control.disabled\" *ngIf=\"control.__type !== 'embedded-form-group'\">\n          <novo-control [autoFocus]=\"autoFocus && index === 0 && controlIndex === 0\" [control]=\"control\" [form]=\"form\"></novo-control>\n        </div>\n        <div *ngIf=\"control.__type === 'embedded-form-group'\">\n          <novo-embedded-form-group [control]=\"control\" [parentForm]=\"form\"></novo-embedded-form-group>\n        </div>\n      </ng-container>\n    </div>\n  "
                 }] }
     ];
     NovoFieldsetElement.propDecorators = {
@@ -48746,7 +48783,7 @@ var NovoDynamicFormElement = /** @class */ (function () {
     NovoDynamicFormElement.decorators = [
         { type: Component, args: [{
                     selector: 'novo-dynamic-form',
-                    template: "\n        <novo-control-templates></novo-control-templates>\n        <div class=\"novo-form-container\">\n            <header>\n                <ng-content select=\"form-title\"></ng-content>\n                <ng-content select=\"form-subtitle\"></ng-content>\n            </header>\n            <form class=\"novo-form\" [formGroup]=\"form\">\n                <ng-container *ngFor=\"let fieldset of form.fieldsets;let i = index\">\n                    <novo-fieldset *ngIf=\"fieldset.controls.length\" [index]=\"i\" [autoFocus]=\"autoFocusFirstField\" [icon]=\"fieldset.icon\" [controls]=\"fieldset.controls\" [title]=\"fieldset.title\" [form]=\"form\" [isEmbedded]=\"fieldset.isEmbedded\" [isInlineEmbedded]=\"fieldset.isInlineEmbedded\" [hidden]=\"fieldset.hidden\"></novo-fieldset>\n                </ng-container>\n            </form>\n        </div>\n    ",
+                    template: "\n    <novo-control-templates></novo-control-templates>\n    <div class=\"novo-form-container\">\n      <header>\n        <ng-content select=\"form-title\"></ng-content>\n        <ng-content select=\"form-subtitle\"></ng-content>\n      </header>\n      <form class=\"novo-form\" [formGroup]=\"form\">\n        <ng-container *ngFor=\"let fieldset of form.fieldsets; let i = index\">\n          <novo-fieldset\n            *ngIf=\"fieldset.controls.length\"\n            [index]=\"i\"\n            [autoFocus]=\"autoFocusFirstField\"\n            [icon]=\"fieldset.icon\"\n            [controls]=\"fieldset.controls\"\n            [title]=\"fieldset.title\"\n            [form]=\"form\"\n            [isEmbedded]=\"fieldset.isEmbedded\"\n            [isInlineEmbedded]=\"fieldset.isInlineEmbedded\"\n            [hidden]=\"fieldset.hidden\"\n          ></novo-fieldset>\n        </ng-container>\n      </form>\n    </div>\n  ",
                     providers: [NovoTemplateService]
                 }] }
     ];
@@ -48806,6 +48843,376 @@ if (false) {
      * @private
      */
     NovoDynamicFormElement.prototype.templates;
+}
+
+/**
+ * @fileoverview added by tsickle
+ * Generated from: elements/form/EmbeddedFormGroup.ts
+ * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var NovoEmbeddedFormGroupElement = /** @class */ (function () {
+    function NovoEmbeddedFormGroupElement(formUtils, ref, fb) {
+        this.formUtils = formUtils;
+        this.ref = ref;
+        this.fb = fb;
+        this._remove = false;
+        this._edit = false;
+        this.controls = [];
+        this.onRemove = new EventEmitter();
+        this.onEdit = new EventEmitter();
+        this.onAdd = new EventEmitter();
+        this.change = new EventEmitter();
+        this.currentIndex = 0;
+        this.disabledArray = [];
+        this.controlLabels = [];
+    }
+    Object.defineProperty(NovoEmbeddedFormGroupElement.prototype, "remove", {
+        get: /**
+         * @return {?}
+         */
+        function () {
+            return this._remove;
+        },
+        set: /**
+         * @param {?} v
+         * @return {?}
+         */
+        function (v) {
+            this._remove = coerceBooleanProperty(v);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NovoEmbeddedFormGroupElement.prototype, "edit", {
+        get: /**
+         * @return {?}
+         */
+        function () {
+            return this._edit;
+        },
+        // Hide/shows the edit button for editing a control
+        set: 
+        // Hide/shows the edit button for editing a control
+        /**
+         * @param {?} v
+         * @return {?}
+         */
+        function (v) {
+            this._edit = coerceBooleanProperty(v);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    NovoEmbeddedFormGroupElement.prototype.ngOnInit = /**
+     * @return {?}
+     */
+    function () {
+        this.key = this.control.key;
+        this.controls = this.formUtils.toControls(this.control.associatedEntity, null, null, {});
+        this.form = this.formUtils.toFormGroup(this.controls);
+    };
+    /**
+     * @return {?}
+     */
+    NovoEmbeddedFormGroupElement.prototype.ngOnChanges = /**
+     * @return {?}
+     */
+    function () {
+        this.controlLabels = (this.controls || []).map((/**
+         * @param {?} control
+         * @return {?}
+         */
+        function (control) {
+            return {
+                value: control.label,
+                width: control.width,
+                required: control.required,
+                key: control.key,
+            };
+        }));
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoEmbeddedFormGroupElement.prototype.onChange = /**
+     * @param {?} event
+     * @return {?}
+     */
+    function (event) {
+        this.change.emit(event);
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    NovoEmbeddedFormGroupElement.prototype.onRemoveEvent = /**
+     * @param {?} event
+     * @return {?}
+     */
+    function (event) {
+        this.onRemove.emit(event);
+    };
+    /**
+     * @param {?=} value
+     * @return {?}
+     */
+    NovoEmbeddedFormGroupElement.prototype.addNewControl = /**
+     * @param {?=} value
+     * @return {?}
+     */
+    function (value) {
+        /** @type {?} */
+        var control = (/** @type {?} */ (this.form.controls[this.key]));
+        /** @type {?} */
+        var newCtrl = this.buildControl(value);
+        if (control) {
+            control.push(newCtrl);
+        }
+        else {
+            this.form.addControl(this.key, this.fb.array([newCtrl]));
+        }
+        this.disabledArray.push({
+            edit: true,
+            remove: true,
+        });
+        this.resetAddRemove();
+        if (!value) {
+            this.onAdd.emit();
+        }
+        this.currentIndex++;
+        this.ref.markForCheck();
+    };
+    /**
+     * @param {?} index
+     * @param {?=} emitEvent
+     * @return {?}
+     */
+    NovoEmbeddedFormGroupElement.prototype.removeControl = /**
+     * @param {?} index
+     * @param {?=} emitEvent
+     * @return {?}
+     */
+    function (index, emitEvent) {
+        if (emitEvent === void 0) { emitEvent = true; }
+        /** @type {?} */
+        var control = (/** @type {?} */ (this.form.controls[this.key]));
+        if (emitEvent) {
+            this.onRemove.emit({ value: control.at(index).value, index: index });
+        }
+        control.removeAt(index);
+        this.disabledArray = this.disabledArray.filter((/**
+         * @param {?} value
+         * @param {?} idx
+         * @return {?}
+         */
+        function (value, idx) { return idx !== index; }));
+        this.resetAddRemove();
+        this.currentIndex--;
+        this.ref.markForCheck();
+    };
+    /**
+     * @param {?} index
+     * @return {?}
+     */
+    NovoEmbeddedFormGroupElement.prototype.editControl = /**
+     * @param {?} index
+     * @return {?}
+     */
+    function (index) {
+        /** @type {?} */
+        var control = (/** @type {?} */ (this.form.controls[this.key]));
+        this.onEdit.emit({ value: control.at(index).value, index: index });
+    };
+    /**
+     * @return {?}
+     */
+    NovoEmbeddedFormGroupElement.prototype.resetAddRemove = /**
+     * @return {?}
+     */
+    function () {
+        var _this = this;
+        this.disabledArray.forEach((/**
+         * @param {?} item
+         * @param {?} idx
+         * @return {?}
+         */
+        function (item, idx) {
+            item.edit = _this.checkCanEdit(idx);
+            item.remove = _this.checkCanRemove(idx);
+        }));
+        this.ref.markForCheck();
+    };
+    /**
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    NovoEmbeddedFormGroupElement.prototype.checkCanEdit = /**
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    function (index) {
+        if (this.canEdit) {
+            /** @type {?} */
+            var control = (/** @type {?} */ (this.form.controls[this.key]));
+            return this.canEdit(control.at(index).value, index);
+        }
+        return true;
+    };
+    /**
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    NovoEmbeddedFormGroupElement.prototype.checkCanRemove = /**
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    function (index) {
+        if (this.canRemove) {
+            /** @type {?} */
+            var control = (/** @type {?} */ (this.form.controls[this.key]));
+            if (control.at(index)) {
+                return this.canRemove(control.at(index).value, index);
+            }
+            return true;
+        }
+        return true;
+    };
+    /**
+     * @private
+     * @param {?} controls
+     * @return {?}
+     */
+    NovoEmbeddedFormGroupElement.prototype.getNewControls = /**
+     * @private
+     * @param {?} controls
+     * @return {?}
+     */
+    function (controls) {
+        /** @type {?} */
+        var ret = [];
+        (this.controls || []).forEach((/**
+         * @param {?} control
+         * @return {?}
+         */
+        function (control) {
+            ret.push(new BaseControl(control.__type, control));
+        }));
+        return ret;
+    };
+    /**
+     * @param {?=} value
+     * @return {?}
+     */
+    NovoEmbeddedFormGroupElement.prototype.buildControl = /**
+     * @param {?=} value
+     * @return {?}
+     */
+    function (value) {
+        /** @type {?} */
+        var newControls = this.getNewControls(this.controls);
+        if (value) {
+            this.formUtils.setInitialValues(newControls, value);
+        }
+        /** @type {?} */
+        var ctrl = this.formUtils.toFormGroup(newControls);
+        return ctrl;
+    };
+    NovoEmbeddedFormGroupElement.decorators = [
+        { type: Component, args: [{
+                    selector: 'novo-embedded-form-group',
+                    template: "\n    <novo-control-templates></novo-control-templates>\n    <div class=\"novo-control-group-controls horizontal\">\n      <div class=\"novo-control-group-control\">\n        <div\n          *ngFor=\"let c of controls; let i = index\"\n          class=\"novo-control-container {{ c.key }}\"\n          [class.is-label]=\"c.controlType === 'read-only'\"\n          [style.max-width.px]=\"c.width\"\n        >\n          <div class=\"novo-form-row\" [class.disabled]=\"control.disabled\" *ngIf=\"c.__type !== 'embedded-form-group'\">\n            <novo-control\n              (change)=\"onChange($event)\"\n              [form]=\"form\"\n              [control]=\"c\"\n              [condensed]=\"c.controlType === 'read-only'\"\n            ></novo-control>\n          </div>\n          <div *ngIf=\"c.__type === 'embedded-form-group'\">\n            <novo-embedded-form-group [control]=\"c\"></novo-embedded-form-group>\n          </div>\n          <div class=\"novo-control-container last\" *ngIf=\"edit\">\n            <button\n              [disabled]=\"!disabledArray[i].edit\"\n              type=\"button\"\n              *ngIf=\"edit\"\n              theme=\"icon\"\n              icon=\"edit\"\n              (click)=\"editControl(i)\"\n              [attr.data-automation-id]=\"'novo-control-group-edit-' + key\"\n              index=\"-1\"\n            ></button>\n          </div>\n          <div class=\"novo-control-container last\" *ngIf=\"remove\">\n            <button\n              [disabled]=\"!disabledArray[i].remove\"\n              type=\"button\"\n              *ngIf=\"remove\"\n              theme=\"icon\"\n              icon=\"delete-o\"\n              (click)=\"removeControl(i)\"\n              [attr.data-automation-id]=\"'novo-control-group-delete-' + key\"\n              index=\"-1\"\n            ></button>\n          </div>\n        </div>\n      </div>\n      <div\n        class=\"novo-control-group-control-label {{ label.key }}\"\n        *ngFor=\"let label of controlLabels\"\n        [style.max-width.px]=\"label.width\"\n        [class.column-required]=\"label.required\"\n      >\n        <span [attr.data-automation-id]=\"'novo-control-group-label-' + label.value\">{{ label.value }}</span>\n      </div>\n      <div class=\"novo-control-group-control-label last\" *ngIf=\"edit\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\"></div>\n      <div\n        class=\"novo-control-group-control-label last\"\n        *ngIf=\"remove\"\n        [attr.data-automation-id]=\"'novo-control-group-delete-' + key\"\n      ></div>\n      <p *ngIf=\"add\">\n        <button\n          type=\"button\"\n          theme=\"dialogue\"\n          icon=\"add-thin\"\n          (click)=\"addNewControl()\"\n          [attr.data-automation-id]=\"'novo-control-group-bottom-add-' + key\"\n          index=\"-1\"\n        >\n          {{ add?.label }}\n        </button>\n      </p>\n    </div>\n  "
+                }] }
+    ];
+    /** @nocollapse */
+    NovoEmbeddedFormGroupElement.ctorParameters = function () { return [
+        { type: FormUtils },
+        { type: ChangeDetectorRef },
+        { type: FormBuilder }
+    ]; };
+    NovoEmbeddedFormGroupElement.propDecorators = {
+        onCanRemove: [{ type: Input }],
+        add: [{ type: Input }],
+        remove: [{ type: Input }],
+        edit: [{ type: Input }],
+        canEdit: [{ type: Input }],
+        canRemove: [{ type: Input }],
+        control: [{ type: Input }],
+        parentForm: [{ type: Input }],
+        onRemove: [{ type: Output }],
+        onEdit: [{ type: Output }],
+        onAdd: [{ type: Output }],
+        change: [{ type: Output }]
+    };
+    return NovoEmbeddedFormGroupElement;
+}());
+if (false) {
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.onCanRemove;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.add;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoEmbeddedFormGroupElement.prototype._remove;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoEmbeddedFormGroupElement.prototype._edit;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.canEdit;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.canRemove;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.control;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.parentForm;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.controls;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.onRemove;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.onEdit;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.onAdd;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.change;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.key;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.form;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.initialValue;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.currentIndex;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.disabledArray;
+    /** @type {?} */
+    NovoEmbeddedFormGroupElement.prototype.controlLabels;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoEmbeddedFormGroupElement.prototype.formUtils;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoEmbeddedFormGroupElement.prototype.ref;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoEmbeddedFormGroupElement.prototype.fb;
 }
 
 /**
@@ -50837,24 +51244,26 @@ var NovoFormModule = /** @class */ (function () {
                     ],
                     declarations: [
                         NovoAutoSize,
-                        NovoControlElement,
                         NovoDynamicFormElement,
                         NovoFormElement,
                         NovoFieldsetElement,
                         NovoFieldsetHeaderElement,
+                        NovoControlElement,
                         ControlConfirmModal,
                         ControlPromptModal,
                         NovoControlGroup,
                         NovoControlTemplates,
+                        NovoEmbeddedFormGroupElement,
                     ],
                     exports: [
                         NovoAutoSize,
                         NovoDynamicFormElement,
-                        NovoControlElement,
                         NovoFormElement,
                         NovoFieldsetHeaderElement,
+                        NovoControlElement,
                         NovoControlGroup,
                         NovoControlTemplates,
+                        NovoEmbeddedFormGroupElement,
                     ],
                     entryComponents: [ControlConfirmModal, ControlPromptModal],
                     providers: [NovoTemplateService],
@@ -64730,5 +65139,5 @@ if (false) {
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { AceEditorControl, ActivityTableDataSource, ActivityTableRenderers, AddressControl, AppBridge, AppBridgeHandler, AppBridgeService, ArrayCollection, BaseControl, BasePickerResults, BaseRenderer, BrowserGlobalRef, COUNTRIES, CalendarEventResponse, CardActionsElement, CardElement, CheckListControl, CheckboxControl, ChecklistPickerResults, CollectionEvent, ComponentUtils, ControlFactory, CustomControl, DataTableBigDecimalRendererPipe, DataTableInterpolatePipe, DateCell, DateControl, DateTableCurrencyRendererPipe, DateTableDateRendererPipe, DateTableDateTimeRendererPipe, DateTableNumberRendererPipe, DateTableTimeRendererPipe, DateTimeControl, DayOfMonthPipe, DecodeURIPipe, Deferred, DevAppBridge, DevAppBridgeService, DistributionListPickerResults, EditorControl, EndOfWeekDisplayPipe, EntityList, EntityPickerResult, EntityPickerResults, FieldInteractionApi, FileControl, FormUtils, FormValidators, GlobalRef, GooglePlacesModule, GooglePlacesService, GroupByPipe, GroupedControl, GroupedMultiPickerResults, Helpers, HoursPipe, KeyCodes, LocalStorageService, MonthDayPipe, MonthPipe, NOVO_VALUE_THEME, NOVO_VALUE_TYPE, NativeSelectControl, NovoAccordion, NovoAceEditor, NovoAceEditorModule, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableCustomHeader, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableState, NovoAddressElement, NovoAutoSize, NovoButtonElement, NovoButtonModule, NovoCKEditorElement, NovoCalendarAllDayEventElement, NovoCalendarDateChangeElement, NovoCalendarDayEventElement, NovoCalendarDayViewElement, NovoCalendarHourSegmentElement, NovoCalendarModule, NovoCalendarMonthDayElement, NovoCalendarMonthHeaderElement, NovoCalendarMonthViewElement, NovoCalendarWeekEventElement, NovoCalendarWeekHeaderElement, NovoCalendarWeekViewElement, NovoCardModule, NovoCategoryDropdownElement, NovoCategoryDropdownModule, NovoCheckListElement, NovoCheckboxElement, NovoChipElement, NovoChipsElement, NovoChipsModule, NovoCommonModule, NovoControlElement, NovoControlGroup, NovoControlTemplates, NovoDataTable, NovoDataTableClearButton, NovoDataTableFilterUtils, NovoDataTableModule, NovoDatePickerElement, NovoDatePickerInputElement, NovoDatePickerModule, NovoDateTimePickerElement, NovoDateTimePickerInputElement, NovoDateTimePickerModule, NovoDragulaElement, NovoDragulaModule, NovoDragulaService, NovoDropDownItemHeaderElement, NovoDropdownCell, NovoDropdownElement, NovoDropdownListElement, NovoDropdownModule, NovoDynamicFormElement, NovoElementProviders, NovoElementsModule, NovoEventTypeLegendElement, NovoExpansionModule, NovoExpansionPanel, NovoExpansionPanelActionRow, NovoExpansionPanelContent, NovoExpansionPanelDescription, NovoExpansionPanelHeader, NovoExpansionPanelTitle, NovoFieldsetHeaderElement, NovoFile, NovoFileInputElement, NovoFormControl, NovoFormElement, NovoFormExtrasModule, NovoFormGroup, NovoFormModule, NovoHeaderComponent, NovoHeaderModule, NovoHeaderSpacer, NovoHorizontalStepper, NovoIconComponent, NovoIconModule, NovoIsLoadingDirective, NovoItemAvatarElement, NovoItemContentElement, NovoItemDateElement, NovoItemElement, NovoItemEndElement, NovoItemHeaderElement, NovoItemTitleElement, NovoLabelService, NovoListElement, NovoListItemElement, NovoListModule, NovoLoadedDirective, NovoLoadingElement, NovoLoadingModule, NovoModalElement, NovoModalModule, NovoModalNotificationElement, NovoModalParams, NovoModalRef, NovoModalService, NovoMultiPickerElement, NovoMultiPickerModule, NovoNavContentElement, NovoNavElement, NovoNavHeaderElement, NovoNavOutletElement, NovoNovoCKEditorModule, NovoOverlayModule, NovoOverlayTemplateComponent, NovoPickerElement, NovoPickerModule, NovoPipesModule, NovoPopOverModule, NovoQuickNoteModule, NovoRadioElement, NovoRadioGroup, NovoRadioModule, NovoRowChipElement, NovoRowChipsElement, NovoSearchBoxElement, NovoSearchBoxModule, NovoSelectElement, NovoSelectModule, NovoSelection, NovoSimpleActionCell, NovoSimpleCell, NovoSimpleCellDef, NovoSimpleCellHeader, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleColumnDef, NovoSimpleEmptyHeaderCell, NovoSimpleFilterFocus, NovoSimpleHeaderCell, NovoSimpleHeaderCellDef, NovoSimpleHeaderRow, NovoSimpleHeaderRowDef, NovoSimpleRow, NovoSimpleRowDef, NovoSimpleTableModule, NovoSimpleTablePagination, NovoSkeletonDirective, NovoSliderElement, NovoSliderModule, NovoSortFilter, NovoSpinnerElement, NovoStep, NovoStepHeader, NovoStepLabel, NovoStepStatus, NovoStepper, NovoStepperModule, NovoSwitchElement, NovoSwitchModule, NovoTabButtonElement, NovoTabElement, NovoTabLinkElement, NovoTabModule, NovoTabbedGroupPickerElement, NovoTabbedGroupPickerModule, NovoTable, NovoTableActionsElement, NovoTableElement, NovoTableExtrasModule, NovoTableFooterElement, NovoTableHeaderElement, NovoTableKeepFilterFocus, NovoTableMode, NovoTableModule, NovoTemplate, NovoTemplateService, NovoTilesElement, NovoTilesModule, NovoTimePickerElement, NovoTimePickerInputElement, NovoTimePickerModule, NovoTipWellElement, NovoTipWellModule, NovoToastElement, NovoToastModule, NovoToastService, NovoTooltipModule, NovoUtilActionComponent, NovoUtilsComponent, NovoValueElement, NovoValueModule, NovoVerticalStepper, OptionsService, OutsideClick, PagedArrayCollection, Pagination, PercentageCell, PickerControl, PickerResults, PlacesListComponent, PluralPipe, PopOverContent, PopOverDirective, QuickNoteControl, QuickNoteElement, QuickNoteResults, RadioControl, ReadOnlyControl, RemoteActivityTableService, RemoteDataTableService, RenderPipe, RowDetails, Security, SelectControl, SkillsSpecialtyPickerResults, StaticActivityTableService, StaticDataTableService, TableCell, TableFilter, TablePickerControl, TextAreaControl, TextBoxControl, ThOrderable, ThSortable, TilesControl, TimeControl, TooltipDirective, Unless, UnlessModule, WeekdayPipe, WorkersCompCodesPickerResults, YearPipe, findByCountryCode, findByCountryId, findByCountryName, getCountries, getStateObjects, getStates, notify, NovoFieldsetElement as ɵa, NovoModalContainerElement as ɵb, NovoTooltip as ɵc, DataTableState as ɵd, NovoDataTableCellHeader as ɵe, NovoDataTableSortFilter as ɵf, DateFormatService as ɵg, NovoDataTableHeaderCell as ɵh, NovoDataTableCell as ɵi, NovoDataTableHeaderRow as ɵj, NovoDataTableRow as ɵk, NovoDataTablePagination as ɵl, NovoDataTableCheckboxCell as ɵm, NovoDataTableCheckboxHeaderCell as ɵn, NovoDataTableExpandCell as ɵo, NovoDataTableExpandHeaderCell as ɵp, NovoDataTableExpandDirective as ɵq, novoExpansionAnimations as ɵr, ControlConfirmModal as ɵs, ControlPromptModal as ɵt, novoStepperAnimations as ɵu };
+export { AceEditorControl, ActivityTableDataSource, ActivityTableRenderers, AddressControl, AppBridge, AppBridgeHandler, AppBridgeService, ArrayCollection, BaseControl, BasePickerResults, BaseRenderer, BrowserGlobalRef, COUNTRIES, CalendarEventResponse, CardActionsElement, CardElement, CheckListControl, CheckboxControl, ChecklistPickerResults, CollectionEvent, ComponentUtils, ControlFactory, CustomControl, DataTableBigDecimalRendererPipe, DataTableInterpolatePipe, DateCell, DateControl, DateTableCurrencyRendererPipe, DateTableDateRendererPipe, DateTableDateTimeRendererPipe, DateTableNumberRendererPipe, DateTableTimeRendererPipe, DateTimeControl, DayOfMonthPipe, DecodeURIPipe, Deferred, DevAppBridge, DevAppBridgeService, DistributionListPickerResults, EditorControl, EmbeddedFormGroupControl, EndOfWeekDisplayPipe, EntityList, EntityPickerResult, EntityPickerResults, FieldInteractionApi, FileControl, FormUtils, FormValidators, GlobalRef, GooglePlacesModule, GooglePlacesService, GroupByPipe, GroupedControl, GroupedMultiPickerResults, Helpers, HoursPipe, KeyCodes, LocalStorageService, MonthDayPipe, MonthPipe, NOVO_VALUE_THEME, NOVO_VALUE_TYPE, NativeSelectControl, NovoAccordion, NovoAceEditor, NovoAceEditorModule, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableCustomHeader, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableState, NovoAddressElement, NovoAutoSize, NovoButtonElement, NovoButtonModule, NovoCKEditorElement, NovoCalendarAllDayEventElement, NovoCalendarDateChangeElement, NovoCalendarDayEventElement, NovoCalendarDayViewElement, NovoCalendarHourSegmentElement, NovoCalendarModule, NovoCalendarMonthDayElement, NovoCalendarMonthHeaderElement, NovoCalendarMonthViewElement, NovoCalendarWeekEventElement, NovoCalendarWeekHeaderElement, NovoCalendarWeekViewElement, NovoCardModule, NovoCategoryDropdownElement, NovoCategoryDropdownModule, NovoCheckListElement, NovoCheckboxElement, NovoChipElement, NovoChipsElement, NovoChipsModule, NovoCommonModule, NovoControlElement, NovoControlGroup, NovoControlTemplates, NovoDataTable, NovoDataTableClearButton, NovoDataTableFilterUtils, NovoDataTableModule, NovoDatePickerElement, NovoDatePickerInputElement, NovoDatePickerModule, NovoDateTimePickerElement, NovoDateTimePickerInputElement, NovoDateTimePickerModule, NovoDragulaElement, NovoDragulaModule, NovoDragulaService, NovoDropDownItemHeaderElement, NovoDropdownCell, NovoDropdownElement, NovoDropdownListElement, NovoDropdownModule, NovoDynamicFormElement, NovoElementProviders, NovoElementsModule, NovoEmbeddedFormGroupElement, NovoEventTypeLegendElement, NovoExpansionModule, NovoExpansionPanel, NovoExpansionPanelActionRow, NovoExpansionPanelContent, NovoExpansionPanelDescription, NovoExpansionPanelHeader, NovoExpansionPanelTitle, NovoFieldsetHeaderElement, NovoFile, NovoFileInputElement, NovoFormControl, NovoFormElement, NovoFormExtrasModule, NovoFormGroup, NovoFormModule, NovoHeaderComponent, NovoHeaderModule, NovoHeaderSpacer, NovoHorizontalStepper, NovoIconComponent, NovoIconModule, NovoIsLoadingDirective, NovoItemAvatarElement, NovoItemContentElement, NovoItemDateElement, NovoItemElement, NovoItemEndElement, NovoItemHeaderElement, NovoItemTitleElement, NovoLabelService, NovoListElement, NovoListItemElement, NovoListModule, NovoLoadedDirective, NovoLoadingElement, NovoLoadingModule, NovoModalElement, NovoModalModule, NovoModalNotificationElement, NovoModalParams, NovoModalRef, NovoModalService, NovoMultiPickerElement, NovoMultiPickerModule, NovoNavContentElement, NovoNavElement, NovoNavHeaderElement, NovoNavOutletElement, NovoNovoCKEditorModule, NovoOverlayModule, NovoOverlayTemplateComponent, NovoPickerElement, NovoPickerModule, NovoPipesModule, NovoPopOverModule, NovoQuickNoteModule, NovoRadioElement, NovoRadioGroup, NovoRadioModule, NovoRowChipElement, NovoRowChipsElement, NovoSearchBoxElement, NovoSearchBoxModule, NovoSelectElement, NovoSelectModule, NovoSelection, NovoSimpleActionCell, NovoSimpleCell, NovoSimpleCellDef, NovoSimpleCellHeader, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleColumnDef, NovoSimpleEmptyHeaderCell, NovoSimpleFilterFocus, NovoSimpleHeaderCell, NovoSimpleHeaderCellDef, NovoSimpleHeaderRow, NovoSimpleHeaderRowDef, NovoSimpleRow, NovoSimpleRowDef, NovoSimpleTableModule, NovoSimpleTablePagination, NovoSkeletonDirective, NovoSliderElement, NovoSliderModule, NovoSortFilter, NovoSpinnerElement, NovoStep, NovoStepHeader, NovoStepLabel, NovoStepStatus, NovoStepper, NovoStepperModule, NovoSwitchElement, NovoSwitchModule, NovoTabButtonElement, NovoTabElement, NovoTabLinkElement, NovoTabModule, NovoTabbedGroupPickerElement, NovoTabbedGroupPickerModule, NovoTable, NovoTableActionsElement, NovoTableElement, NovoTableExtrasModule, NovoTableFooterElement, NovoTableHeaderElement, NovoTableKeepFilterFocus, NovoTableMode, NovoTableModule, NovoTemplate, NovoTemplateService, NovoTilesElement, NovoTilesModule, NovoTimePickerElement, NovoTimePickerInputElement, NovoTimePickerModule, NovoTipWellElement, NovoTipWellModule, NovoToastElement, NovoToastModule, NovoToastService, NovoTooltipModule, NovoUtilActionComponent, NovoUtilsComponent, NovoValueElement, NovoValueModule, NovoVerticalStepper, OptionsService, OutsideClick, PagedArrayCollection, Pagination, PercentageCell, PickerControl, PickerResults, PlacesListComponent, PluralPipe, PopOverContent, PopOverDirective, QuickNoteControl, QuickNoteElement, QuickNoteResults, RadioControl, ReadOnlyControl, RemoteActivityTableService, RemoteDataTableService, RenderPipe, RowDetails, Security, SelectControl, SkillsSpecialtyPickerResults, StaticActivityTableService, StaticDataTableService, TableCell, TableFilter, TablePickerControl, TextAreaControl, TextBoxControl, ThOrderable, ThSortable, TilesControl, TimeControl, TooltipDirective, Unless, UnlessModule, WeekdayPipe, WorkersCompCodesPickerResults, YearPipe, findByCountryCode, findByCountryId, findByCountryName, getCountries, getStateObjects, getStates, notify, NovoFieldsetElement as ɵa, NovoModalContainerElement as ɵb, NovoTooltip as ɵc, DataTableState as ɵd, NovoDataTableCellHeader as ɵe, NovoDataTableSortFilter as ɵf, DateFormatService as ɵg, NovoDataTableHeaderCell as ɵh, NovoDataTableCell as ɵi, NovoDataTableHeaderRow as ɵj, NovoDataTableRow as ɵk, NovoDataTablePagination as ɵl, NovoDataTableCheckboxCell as ɵm, NovoDataTableCheckboxHeaderCell as ɵn, NovoDataTableExpandCell as ɵo, NovoDataTableExpandHeaderCell as ɵp, NovoDataTableExpandDirective as ɵq, novoExpansionAnimations as ɵr, ControlConfirmModal as ɵs, ControlPromptModal as ɵt, novoStepperAnimations as ɵu };
 //# sourceMappingURL=novo-elements.js.map

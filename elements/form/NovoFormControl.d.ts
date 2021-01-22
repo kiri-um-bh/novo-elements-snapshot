@@ -67,6 +67,7 @@ export declare class NovoFormControl extends FormControl {
     restrictFieldInteractions?: boolean;
     warning?: string;
     private historyTimeout;
+    associatedEntity: any;
     constructor(value: any, control: NovoControlConfig);
     /**
      * @param clearValue - flag to reset the control's value
