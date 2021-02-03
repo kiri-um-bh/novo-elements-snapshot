@@ -27,6 +27,7 @@ export declare class NovoDatePickerInputElement implements OnInit, ControlValueA
     weekStart: number;
     blurEvent: EventEmitter<FocusEvent>;
     focusEvent: EventEmitter<FocusEvent>;
+    changeEvent: EventEmitter<FocusEvent>;
     /** Element for the panel containing the autocomplete options. */
     overlay: NovoOverlayTemplateComponent;
     constructor(element: ElementRef, labels: NovoLabelService, _changeDetectorRef: ChangeDetectorRef, dateFormatService: DateFormatService);

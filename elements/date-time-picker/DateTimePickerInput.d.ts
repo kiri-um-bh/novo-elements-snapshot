@@ -23,6 +23,7 @@ export declare class NovoDateTimePickerInputElement implements ControlValueAcces
     weekStart: number;
     blurEvent: EventEmitter<FocusEvent>;
     focusEvent: EventEmitter<FocusEvent>;
+    changeEvent: EventEmitter<FocusEvent>;
     constructor(element: ElementRef, labels: NovoLabelService, _changeDetectorRef: ChangeDetectorRef);
     writeValue(value: any): void;
     updateDate(event: any): void;
