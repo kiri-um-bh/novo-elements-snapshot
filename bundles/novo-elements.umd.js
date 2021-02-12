@@ -37217,6 +37217,7 @@
          * @return {?}
          */
         function (dateString) {
+            console.log("jbTest - parseDateString() / dateString = " + dateString);
             /** @type {?} */
             var dateFormat = this.labels.dateFormatString();
             /** @type {?} */
@@ -37242,6 +37243,7 @@
             else {
                 dateFormat = dateFormat.toLowerCase();
             }
+            console.log("jbTest - parseDateString() / dateFormat = " + dateFormat);
             dateFormatTokens = dateFormatRegex.exec(dateFormat);
             dateValueTokens = dateValueRegex.exec(dateString);
             if (dateFormatTokens && dateFormatTokens.length === 4 && dateValueTokens && dateValueTokens.length === 4) {
@@ -37256,8 +37258,10 @@
                         year = parseInt(dateValueTokens[i], 10);
                     }
                 }
+                console.log("jbTest - parseDateString() / month = " + month + " day = " + day + " year = " + year);
                 if (month >= 0 && month <= 11 && year > 1900 && day > 0 && day <= 31) {
                     date = new Date(year, month, day);
+                    console.log("jbTest - parseDateString() / date = " + date + " dateString = " + dateString);
                 }
             }
             else if (dateFormatTokens && dateFormatTokens.length === 4 && dateString.length >= 1) {
@@ -37271,11 +37275,14 @@
                 var dateStringWithDelimiter = dateString[dateString.length - 1].match(/\/|\.|\-/);
                 if (twoTokens && twoTokens.length === 3 && this.isValidDatePart(twoTokens[2], dateFormatTokens[2]) && !dateStringWithDelimiter) {
                     dateString = "" + dateString + delimiter[1];
+                    console.log("jbTest - parseDateString() dateString twotokens = " + dateString + " dateStringWithDelimiter = " + dateStringWithDelimiter);
                 }
                 else if (oneToken && oneToken.length === 2 && this.isValidDatePart(oneToken[1], dateFormatTokens[1]) && !dateStringWithDelimiter) {
                     dateString = "" + dateString + delimiter[1];
+                    console.log("jbTest - parseDateString() dateString onetoken = " + dateString + " dateStringWithDelimiter = " + dateStringWithDelimiter);
                 }
             }
+            console.log("jbTest - parseDateString() before return/ date = " + date + " dateString = " + dateString);
             return [date, dateString];
         };
         /**
@@ -37559,6 +37566,7 @@
          * @return {?}
          */
         function (event) {
+            console.log("jbTest - handleInput = " + event.target);
             if (document.activeElement === event.target) {
                 this._handleEvent(event, false);
             }
@@ -37605,6 +37613,7 @@
                 this.closePanel();
             }
             else {
+                console.log("jbTest - handleEvent = " + value);
                 this.formatDate(value, blur);
                 this.openPanel();
             }
@@ -37623,13 +37632,17 @@
          */
         function (value, blur) {
             try {
+                console.log("jbTest - formatDate() = " + value);
                 var _a = __read(this.dateFormatService.parseString(value, false, 'date'), 2), dateTimeValue = _a[0], formatted = _a[1];
+                console.log("jbTest - formatDate() / dateTimeValue = " + value);
                 if (!isNaN(dateTimeValue.getUTCDate())) {
                     /** @type {?} */
                     var dt = new Date(dateTimeValue);
+                    console.log("jbTest - formatDate() / dt = = " + value);
                     this.dispatchOnChange(dt, blur);
                 }
                 else {
+                    console.log("jbTest - formatDate() / utcDate is NaN = " + dateTimeValue.getUTCDate());
                     this.dispatchOnChange(null, blur);
                 }
             }
@@ -37698,6 +37711,7 @@
         function (newValue, blur, skip) {
             if (blur === void 0) { blur = false; }
             if (skip === void 0) { skip = false; }
+            console.log("jbTest - dispatchOnChange() newValue = " + newValue + " blur = " + blur + " skip = " + skip);
             if (newValue !== this.value) {
                 this._onChange(newValue);
                 if (blur) {
@@ -37734,9 +37748,12 @@
          * @return {?}
          */
         function (value) {
+            console.log("jbTest - _setCalendarValue() value = " + value);
             if (value instanceof Date && this.value instanceof Date) {
                 value = new Date(value).setHours(0, 0, 0, 0);
+                console.log("jbTest - _setCalendarValue() inside if value = " + value);
             }
+            console.log("jbTest - _setCalendarValue() before assignment value = " + value);
             this.value = value;
         };
         /**
