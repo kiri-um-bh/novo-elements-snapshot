@@ -15427,7 +15427,7 @@ var NovoSelectElement = /** @class */ (function () {
             }), 2000);
             /** @type {?} */
             var char = event.key;
-            this.filterTerm = this.filterTerm.concat(char);
+            this.filterTerm = this.filterTerm.concat(char).toUpperCase();
             /** @type {?} */
             var item = this.filteredOptions.find((/**
              * @param {?} i
