@@ -1,9 +1,8 @@
-import { TemplateRef, AfterContentInit, ChangeDetectorRef, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterContentInit, ChangeDetectorRef, EventEmitter, OnChanges, OnDestroy, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NovoFormGroup } from './NovoFormGroup';
 import { BaseControl } from './controls/BaseControl';
-import { FormUtils } from './../../utils/form-utils/FormUtils';
-import { NovoLabelService } from '../../services/novo-label-service';
+import { FormUtils } from '../../utils/form-utils/FormUtils';
 export interface NovoControlGroupAddConfig {
     label: string;
 }
@@ -11,11 +10,10 @@ export interface NovoControlGroupRowConfig {
     edit: boolean;
     remove: boolean;
 }
-export declare class NovoControlGroup implements AfterContentInit, OnChanges {
+export declare class NovoControlGroup implements AfterContentInit, OnChanges, OnDestroy {
     private formUtils;
     private fb;
     private ref;
-    private labels;
     vertical: boolean;
     private _vertical;
     add: NovoControlGroupAddConfig;
@@ -60,18 +58,21 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges {
         remove: boolean;
     }[];
     currentIndex: number;
-    constructor(formUtils: FormUtils, fb: FormBuilder, ref: ChangeDetectorRef, labels: NovoLabelService);
+    constructor(formUtils: FormUtils, fb: FormBuilder, ref: ChangeDetectorRef);
     ngAfterContentInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
-    onChange(change: any): void;
+    ngOnDestroy(): void;
+    onChange(): void;
     resetAddRemove(): void;
     addNewControl(value?: {}): void;
-    buildControl(value?: {}): NovoFormGroup;
     removeControl(index: number, emitEvent?: boolean): void;
     editControl(index: number): void;
     toggle(event: MouseEvent): void;
+    private buildNestedFormGroup;
     private clearControls;
     private checkCanEdit;
     private checkCanRemove;
     private getNewControls;
+    private assignIndexes;
+    private onFieldInteractionEvent;
 }

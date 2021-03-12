@@ -96,4 +96,5 @@ export declare class NovoFormControl extends FormControl {
         emitEvent?: boolean;
     }): void;
     markAsInvalid(message: string): void;
+    markAsValid(): void;
 }
