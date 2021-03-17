@@ -37375,7 +37375,6 @@ var NovoDatePickerInputElement = /** @class */ (function () {
      */
     function (event) {
         this.blurEvent.emit(event);
-        this.changeEvent.emit(event);
     };
     /**
      * @param {?} event
@@ -37502,6 +37501,7 @@ var NovoDatePickerInputElement = /** @class */ (function () {
         if (skip === void 0) { skip = false; }
         if (newValue !== this.value) {
             this._onChange(newValue);
+            this.changeEvent.emit(newValue);
             if (blur) {
                 !skip && this.writeValue(newValue);
             }

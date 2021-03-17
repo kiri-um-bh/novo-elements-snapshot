@@ -36048,7 +36048,6 @@ class NovoDatePickerInputElement {
      */
     _handleBlur(event) {
         this.blurEvent.emit(event);
-        this.changeEvent.emit(event);
     }
     /**
      * @param {?} event
@@ -36135,6 +36134,7 @@ class NovoDatePickerInputElement {
     dispatchOnChange(newValue, blur = false, skip = false) {
         if (newValue !== this.value) {
             this._onChange(newValue);
+            this.changeEvent.emit(newValue);
             if (blur) {
                 !skip && this.writeValue(newValue);
             }
