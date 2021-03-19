@@ -14452,6 +14452,10 @@ class NovoSelectElement {
              * @param {?} i
              * @return {?}
              */
+            (i) => i.value === model || (model && i.value === model.id))) || this.options.find((/**
+             * @param {?} i
+             * @return {?}
+             */
             (i) => i.value === model || (model && i.value === model.id)));
             if (!item && !Helpers.isEmpty(model)) {
                 item = {
@@ -42135,11 +42139,7 @@ class FormUtils {
         }
         else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS' ||
             (field.options && ['SpecializedOptionsLookup', 'SimplifiedOptionsLookup'].includes(field.dataType))) {
-            return field.options.filter((/**
-             * @param {?} o
-             * @return {?}
-             */
-            (o) => !o.readOnly));
+            return field.options;
         }
         else if (field.optionsUrl) {
             return this.optionsService.getOptionsConfig(http, field, config);

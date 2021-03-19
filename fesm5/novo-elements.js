@@ -15561,6 +15561,10 @@ var NovoSelectElement = /** @class */ (function () {
              * @param {?} i
              * @return {?}
              */
+            function (i) { return i.value === model || (model && i.value === model.id); })) || this.options.find((/**
+             * @param {?} i
+             * @return {?}
+             */
             function (i) { return i.value === model || (model && i.value === model.id); }));
             if (!item && !Helpers.isEmpty(model)) {
                 item = {
@@ -44095,11 +44099,7 @@ var FormUtils = /** @class */ (function () {
         }
         else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS' ||
             (field.options && ['SpecializedOptionsLookup', 'SimplifiedOptionsLookup'].includes(field.dataType))) {
-            return field.options.filter((/**
-             * @param {?} o
-             * @return {?}
-             */
-            function (o) { return !o.readOnly; }));
+            return field.options;
         }
         else if (field.optionsUrl) {
             return this.optionsService.getOptionsConfig(http, field, config);
