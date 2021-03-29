@@ -64485,15 +64485,18 @@ var AppBridge = /** @class */ (function () {
     /**
      * Fires or responds to an HTTP_GET event
      * @param {?} relativeURL
+     * @param {?=} timeout
      * @return {?}
      */
     AppBridge.prototype.httpGET = /**
      * Fires or responds to an HTTP_GET event
      * @param {?} relativeURL
+     * @param {?=} timeout
      * @return {?}
      */
-    function (relativeURL) {
+    function (relativeURL, timeout) {
         var _this = this;
+        if (timeout === void 0) { timeout = 10000; }
         return new Promise((/**
          * @param {?} resolve
          * @param {?} reject
@@ -64512,7 +64515,7 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 postRobot
-                    .sendToParent(MESSAGE_TYPES.HTTP_GET, { relativeURL: relativeURL })
+                    .sendToParent(MESSAGE_TYPES.HTTP_GET, { relativeURL: relativeURL }, { timeout: timeout })
                     .then((/**
                  * @param {?} event
                  * @return {?}
@@ -64538,16 +64541,19 @@ var AppBridge = /** @class */ (function () {
      * Fires or responds to an HTTP_POST event
      * @param {?} relativeURL
      * @param {?} postData
+     * @param {?=} timeout
      * @return {?}
      */
     AppBridge.prototype.httpPOST = /**
      * Fires or responds to an HTTP_POST event
      * @param {?} relativeURL
      * @param {?} postData
+     * @param {?=} timeout
      * @return {?}
      */
-    function (relativeURL, postData) {
+    function (relativeURL, postData, timeout) {
         var _this = this;
+        if (timeout === void 0) { timeout = 10000; }
         return new Promise((/**
          * @param {?} resolve
          * @param {?} reject
@@ -64566,7 +64572,7 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 postRobot
-                    .sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL: relativeURL, data: postData })
+                    .sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL: relativeURL, data: postData }, { timeout: timeout })
                     .then((/**
                  * @param {?} event
                  * @return {?}
@@ -64592,16 +64598,19 @@ var AppBridge = /** @class */ (function () {
      * Fires or responds to an HTTP_PUT event
      * @param {?} relativeURL
      * @param {?} putData
+     * @param {?=} timeout
      * @return {?}
      */
     AppBridge.prototype.httpPUT = /**
      * Fires or responds to an HTTP_PUT event
      * @param {?} relativeURL
      * @param {?} putData
+     * @param {?=} timeout
      * @return {?}
      */
-    function (relativeURL, putData) {
+    function (relativeURL, putData, timeout) {
         var _this = this;
+        if (timeout === void 0) { timeout = 10000; }
         return new Promise((/**
          * @param {?} resolve
          * @param {?} reject
@@ -64620,7 +64629,7 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 postRobot
-                    .sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL: relativeURL, data: putData })
+                    .sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL: relativeURL, data: putData }, { timeout: timeout })
                     .then((/**
                  * @param {?} event
                  * @return {?}
@@ -64645,15 +64654,18 @@ var AppBridge = /** @class */ (function () {
     /**
      * Fires or responds to an HTTP_DELETE event
      * @param {?} relativeURL
+     * @param {?=} timeout
      * @return {?}
      */
     AppBridge.prototype.httpDELETE = /**
      * Fires or responds to an HTTP_DELETE event
      * @param {?} relativeURL
+     * @param {?=} timeout
      * @return {?}
      */
-    function (relativeURL) {
+    function (relativeURL, timeout) {
         var _this = this;
+        if (timeout === void 0) { timeout = 10000; }
         return new Promise((/**
          * @param {?} resolve
          * @param {?} reject
@@ -64672,7 +64684,7 @@ var AppBridge = /** @class */ (function () {
             }
             else {
                 postRobot
-                    .sendToParent(MESSAGE_TYPES.HTTP_DELETE, { relativeURL: relativeURL })
+                    .sendToParent(MESSAGE_TYPES.HTTP_DELETE, { relativeURL: relativeURL }, { timeout: timeout })
                     .then((/**
                  * @param {?} event
                  * @return {?}

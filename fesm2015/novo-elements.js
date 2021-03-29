@@ -59872,9 +59872,10 @@ class AppBridge {
     /**
      * Fires or responds to an HTTP_GET event
      * @param {?} relativeURL
+     * @param {?=} timeout
      * @return {?}
      */
-    httpGET(relativeURL) {
+    httpGET(relativeURL, timeout = 10000) {
         return new Promise((/**
          * @param {?} resolve
          * @param {?} reject
@@ -59893,7 +59894,7 @@ class AppBridge {
             }
             else {
                 postRobot
-                    .sendToParent(MESSAGE_TYPES.HTTP_GET, { relativeURL })
+                    .sendToParent(MESSAGE_TYPES.HTTP_GET, { relativeURL }, { timeout })
                     .then((/**
                  * @param {?} event
                  * @return {?}
@@ -59915,9 +59916,10 @@ class AppBridge {
      * Fires or responds to an HTTP_POST event
      * @param {?} relativeURL
      * @param {?} postData
+     * @param {?=} timeout
      * @return {?}
      */
-    httpPOST(relativeURL, postData) {
+    httpPOST(relativeURL, postData, timeout = 10000) {
         return new Promise((/**
          * @param {?} resolve
          * @param {?} reject
@@ -59936,7 +59938,7 @@ class AppBridge {
             }
             else {
                 postRobot
-                    .sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL, data: postData })
+                    .sendToParent(MESSAGE_TYPES.HTTP_POST, { relativeURL, data: postData }, { timeout })
                     .then((/**
                  * @param {?} event
                  * @return {?}
@@ -59958,9 +59960,10 @@ class AppBridge {
      * Fires or responds to an HTTP_PUT event
      * @param {?} relativeURL
      * @param {?} putData
+     * @param {?=} timeout
      * @return {?}
      */
-    httpPUT(relativeURL, putData) {
+    httpPUT(relativeURL, putData, timeout = 10000) {
         return new Promise((/**
          * @param {?} resolve
          * @param {?} reject
@@ -59979,7 +59982,7 @@ class AppBridge {
             }
             else {
                 postRobot
-                    .sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL, data: putData })
+                    .sendToParent(MESSAGE_TYPES.HTTP_PUT, { relativeURL, data: putData }, { timeout })
                     .then((/**
                  * @param {?} event
                  * @return {?}
@@ -60000,9 +60003,10 @@ class AppBridge {
     /**
      * Fires or responds to an HTTP_DELETE event
      * @param {?} relativeURL
+     * @param {?=} timeout
      * @return {?}
      */
-    httpDELETE(relativeURL) {
+    httpDELETE(relativeURL, timeout = 10000) {
         return new Promise((/**
          * @param {?} resolve
          * @param {?} reject
@@ -60021,7 +60025,7 @@ class AppBridge {
             }
             else {
                 postRobot
-                    .sendToParent(MESSAGE_TYPES.HTTP_DELETE, { relativeURL })
+                    .sendToParent(MESSAGE_TYPES.HTTP_DELETE, { relativeURL }, { timeout })
                     .then((/**
                  * @param {?} event
                  * @return {?}
