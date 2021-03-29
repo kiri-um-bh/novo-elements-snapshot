@@ -113,22 +113,22 @@ export declare class AppBridge {
      * Fires or responds to an HTTP_GET event
      * @param packet any - packet of data to send with the event
      */
-    httpGET(relativeURL: string): Promise<any>;
+    httpGET(relativeURL: string, timeout?: number): Promise<any>;
     /**
      * Fires or responds to an HTTP_POST event
      * @param packet any - packet of data to send with the event
      */
-    httpPOST(relativeURL: string, postData: any): Promise<any>;
+    httpPOST(relativeURL: string, postData: any, timeout?: number): Promise<any>;
     /**
      * Fires or responds to an HTTP_PUT event
      * @param packet any - packet of data to send with the event
      */
-    httpPUT(relativeURL: string, putData: any): Promise<any>;
+    httpPUT(relativeURL: string, putData: any, timeout?: number): Promise<any>;
     /**
      * Fires or responds to an HTTP_DELETE event
      * @param packet any - packet of data to send with the event
      */
-    httpDELETE(relativeURL: string): Promise<any>;
+    httpDELETE(relativeURL: string, timeout?: number): Promise<any>;
     /**
      * Fires a custom event to anywhere in the application
      * @param event string - event name to fire
