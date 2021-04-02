@@ -8,7 +8,6 @@ export declare class NovoFormGroup extends FormGroup {
     currentEntity: string;
     currentEntityId: string;
     associations: object;
-    fieldsets: any[];
     _value: any;
     value: any;
     enableAllControls(): void;
