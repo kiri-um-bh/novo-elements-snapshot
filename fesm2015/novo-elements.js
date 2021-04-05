@@ -41035,12 +41035,6 @@ class NovoFormControl extends FormControl {
         this.markAsTouched();
         this.setErrors(Object.assign({}, this.errors, { custom: message }));
     }
-    /**
-     * @return {?}
-     */
-    markAsValid() {
-        this.setErrors(null);
-    }
 }
 if (false) {
     /** @type {?} */
@@ -41213,8 +41207,6 @@ if (false) {
     NovoFormGroup.prototype.currentEntityId;
     /** @type {?} */
     NovoFormGroup.prototype.associations;
-    /** @type {?} */
-    NovoFormGroup.prototype.fieldsets;
     /** @type {?} */
     NovoFormGroup.prototype._value;
 }
@@ -43437,18 +43429,15 @@ class FieldInteractionApi {
     }
     /**
      * @param {?} key
-     * @param {?=} otherForm
      * @return {?}
      */
-    getFieldSet(key, otherForm) {
+    getFieldSet(key) {
         if (!key) {
             console.error('[FieldInteractionAPI] - invalid or missing "key"'); // tslint:disable-line
             return null;
         }
         /** @type {?} */
-        const form = otherForm || this.form;
-        /** @type {?} */
-        const fieldSet = form.fieldsets.find((/**
+        const fieldSet = this.form.fieldsets.find((/**
          * @param {?} fs
          * @return {?}
          */
@@ -43461,18 +43450,15 @@ class FieldInteractionApi {
     }
     /**
      * @param {?} key
-     * @param {?=} otherForm
      * @return {?}
      */
-    getControl(key, otherForm) {
+    getControl(key) {
         if (!key) {
             console.error('[FieldInteractionAPI] - invalid or missing "key"'); // tslint:disable-line
             return null;
         }
         /** @type {?} */
-        const form = otherForm || this.form;
-        /** @type {?} */
-        const control = (/** @type {?} */ (form.controls[key]));
+        const control = (/** @type {?} */ (this.form.controls[key]));
         if (!control) {
             console.error('[FieldInteractionAPI] - could not find a control in the form by the key --', key); // tslint:disable-line
             return null;
@@ -43481,32 +43467,11 @@ class FieldInteractionApi {
     }
     /**
      * @param {?} key
-     * @param {?=} otherForm
      * @return {?}
      */
-    getFormGroupArray(key, otherForm) {
-        if (!key) {
-            console.error('[FieldInteractionAPI] - invalid or missing "key"'); // tslint:disable-line
-            return null;
-        }
+    getValue(key) {
         /** @type {?} */
-        const form = otherForm || this.form;
-        /** @type {?} */
-        const formArray = (/** @type {?} */ (form.controls[key]));
-        if (!formArray || !formArray.controls) {
-            console.error('[FieldInteractionAPI] - could not find a form array in the form by the key --', key); // tslint:disable-line
-            return null;
-        }
-        return (/** @type {?} */ (formArray.controls));
-    }
-    /**
-     * @param {?} key
-     * @param {?=} otherForm
-     * @return {?}
-     */
-    getValue(key, otherForm) {
-        /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control) {
             return control.value;
         }
@@ -43514,12 +43479,11 @@ class FieldInteractionApi {
     }
     /**
      * @param {?} key
-     * @param {?=} otherForm
      * @return {?}
      */
-    getRawValue(key, otherForm) {
+    getRawValue(key) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control) {
             return control.rawValue;
         }
@@ -43527,12 +43491,11 @@ class FieldInteractionApi {
     }
     /**
      * @param {?} key
-     * @param {?=} otherForm
      * @return {?}
      */
-    getInitialValue(key, otherForm) {
+    getInitialValue(key) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control) {
             return control.initialValue;
         }
@@ -43542,88 +43505,82 @@ class FieldInteractionApi {
      * @param {?} key
      * @param {?} value
      * @param {?=} options
-     * @param {?=} otherForm
      * @return {?}
      */
-    setValue(key, value, options, otherForm) {
+    setValue(key, value, options) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.setValue(value, options);
-            this.triggerEvent({ controlKey: key, prop: 'value', value }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'value', value });
         }
     }
     /**
      * @param {?} key
      * @param {?} value
      * @param {?=} options
-     * @param {?=} otherForm
      * @return {?}
      */
-    patchValue(key, value, options, otherForm) {
+    patchValue(key, value, options) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.setValue(value, options);
-            this.triggerEvent({ controlKey: key, prop: 'value', value }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'value', value });
         }
     }
     /**
      * @param {?} key
      * @param {?} isReadOnly
-     * @param {?=} otherForm
      * @return {?}
      */
-    setReadOnly(key, isReadOnly, otherForm) {
+    setReadOnly(key, isReadOnly) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.setReadOnly(isReadOnly);
-            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: isReadOnly }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: isReadOnly });
         }
     }
     /**
      * @param {?} key
      * @param {?} required
-     * @param {?=} otherForm
      * @return {?}
      */
-    setRequired(key, required, otherForm) {
+    setRequired(key, required) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.setRequired(required);
-            this.triggerEvent({ controlKey: key, prop: 'required', value: required }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'required', value: required });
         }
     }
     /**
      * @param {?} key
      * @param {?=} clearValue
-     * @param {?=} otherForm
      * @return {?}
      */
-    hide(key, clearValue = true, otherForm) {
+    hide(key, clearValue = true) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.hide(clearValue);
             this.disable(key, { emitEvent: false });
-            this.triggerEvent({ controlKey: key, prop: 'hidden', value: true }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'hidden', value: true });
         }
         return control;
     }
     /**
      * @param {?} key
-     * @param {?=} otherForm
      * @return {?}
      */
-    show(key, otherForm) {
+    show(key) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.show();
             this.enable(key, { emitEvent: false });
-            this.triggerEvent({ controlKey: key, prop: 'hidden', value: false }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'hidden', value: false });
         }
     }
     /**
@@ -43651,71 +43608,51 @@ class FieldInteractionApi {
     /**
      * @param {?} key
      * @param {?=} options
-     * @param {?=} otherForm
      * @return {?}
      */
-    disable(key, options, otherForm) {
+    disable(key, options) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.disable(options);
-            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: true }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: true });
         }
     }
     /**
      * @param {?} key
      * @param {?=} options
-     * @param {?=} otherForm
      * @return {?}
      */
-    enable(key, options, otherForm) {
+    enable(key, options) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.enable(options);
-            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: false }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'readOnly', value: false });
         }
     }
     /**
      * @param {?} key
      * @param {?=} validationMessage
-     * @param {?=} otherForm
      * @return {?}
      */
-    markAsInvalid(key, validationMessage, otherForm) {
+    markAsInvalid(key, validationMessage) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control) {
             if (control && !control.restrictFieldInteractions) {
                 control.markAsInvalid(validationMessage);
-                this.triggerEvent({ controlKey: key, prop: 'errors', value: validationMessage }, otherForm);
-            }
-        }
-    }
-    /**
-     * @param {?} key
-     * @param {?=} otherForm
-     * @return {?}
-     */
-    markAsValid(key, otherForm) {
-        /** @type {?} */
-        const control = this.getControl(key, otherForm);
-        if (control) {
-            if (control && !control.restrictFieldInteractions) {
-                control.markAsValid();
-                this.triggerEvent({ controlKey: key, prop: 'errors', value: null }, otherForm);
             }
         }
     }
     /**
      * @param {?} key
      * @param {?=} options
-     * @param {?=} otherForm
      * @return {?}
      */
-    markAsDirty(key, options, otherForm) {
+    markAsDirty(key, options) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.markAsDirty(options);
         }
@@ -43723,12 +43660,11 @@ class FieldInteractionApi {
     /**
      * @param {?} key
      * @param {?=} options
-     * @param {?=} otherForm
      * @return {?}
      */
-    markAsPending(key, options, otherForm) {
+    markAsPending(key, options) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.markAsPending(options);
         }
@@ -43736,12 +43672,11 @@ class FieldInteractionApi {
     /**
      * @param {?} key
      * @param {?=} options
-     * @param {?=} otherForm
      * @return {?}
      */
-    markAsPristine(key, options, otherForm) {
+    markAsPristine(key, options) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.markAsPristine(options);
         }
@@ -43749,12 +43684,11 @@ class FieldInteractionApi {
     /**
      * @param {?} key
      * @param {?=} options
-     * @param {?=} otherForm
      * @return {?}
      */
-    markAsTouched(key, options, otherForm) {
+    markAsTouched(key, options) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.markAsTouched(options);
         }
@@ -43762,12 +43696,11 @@ class FieldInteractionApi {
     /**
      * @param {?} key
      * @param {?=} options
-     * @param {?=} otherForm
      * @return {?}
      */
-    markAsUntouched(key, options, otherForm) {
+    markAsUntouched(key, options) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.markAsUntouched(options);
         }
@@ -43775,12 +43708,11 @@ class FieldInteractionApi {
     /**
      * @param {?} key
      * @param {?=} options
-     * @param {?=} otherForm
      * @return {?}
      */
-    updateValueAndValidity(key, options, otherForm) {
+    updateValueAndValidity(key, options) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.updateValueAndValidity(options);
         }
@@ -43800,12 +43732,11 @@ class FieldInteractionApi {
      * @param {?=} icon
      * @param {?=} allowDismiss
      * @param {?=} sanitize
-     * @param {?=} otherForm
      * @return {?}
      */
-    displayTip(key, tip, icon, allowDismiss, sanitize, otherForm) {
+    displayTip(key, tip, icon, allowDismiss, sanitize) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.tipWell = {
                 tip,
@@ -43813,31 +43744,17 @@ class FieldInteractionApi {
                 button: allowDismiss,
                 sanitize: sanitize !== false,
             };
-            this.triggerEvent({ controlKey: key, prop: 'tipWell', value: tip }, otherForm);
-        }
-    }
-    /**
-     * @param {?} key
-     * @param {?=} otherForm
-     * @return {?}
-     */
-    clearTip(key, otherForm) {
-        /** @type {?} */
-        const control = this.getControl(key, otherForm);
-        if (control && !control.restrictFieldInteractions) {
-            control.tipWell = null;
-            this.triggerEvent({ controlKey: key, prop: 'tipWell', value: null }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'tipWell', value: tip });
         }
     }
     /**
      * @param {?} key
      * @param {?} tooltip
-     * @param {?=} otherForm
      * @return {?}
      */
-    setTooltip(key, tooltip, otherForm) {
+    setTooltip(key, tooltip) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control.tooltip = tooltip;
             if (tooltip.length >= 40 && tooltip.length <= 400) {
@@ -43847,7 +43764,7 @@ class FieldInteractionApi {
             else if (tooltip.length > 400) {
                 control.tooltipSize = 'extra-large';
             }
-            this.triggerEvent({ controlKey: key, prop: 'tooltip', value: tooltip }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'tooltip', value: tooltip });
         }
     }
     /**
@@ -43888,26 +43805,24 @@ class FieldInteractionApi {
      * @param {?} key
      * @param {?} prop
      * @param {?} value
-     * @param {?=} otherForm
      * @return {?}
      */
-    setProperty(key, prop, value, otherForm) {
+    setProperty(key, prop, value) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             control[prop] = value;
-            this.triggerEvent({ controlKey: key, prop, value }, otherForm);
+            this.triggerEvent({ controlKey: key, prop, value });
         }
     }
     /**
      * @param {?} key
      * @param {?} prop
-     * @param {?=} otherForm
      * @return {?}
      */
-    getProperty(key, prop, otherForm) {
+    getProperty(key, prop) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             return control[prop];
         }
@@ -43933,23 +43848,19 @@ class FieldInteractionApi {
     }
     /**
      * @param {?} key
-     * @param {?=} otherForm
      * @return {?}
      */
-    hasField(key, otherForm) {
-        /** @type {?} */
-        const form = otherForm || this.form;
-        return !!form.controls[key];
+    hasField(key) {
+        return !!this.form.controls[key];
     }
     /**
      * @param {?} key
      * @param {?} newOption
-     * @param {?=} otherForm
      * @return {?}
      */
-    addStaticOption(key, newOption, otherForm) {
+    addStaticOption(key, newOption) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         /** @type {?} */
         let optionToAdd = newOption;
         /** @type {?} */
@@ -43990,19 +43901,18 @@ class FieldInteractionApi {
                 }
             }
             if (isUnique) {
-                this.triggerEvent({ controlKey: key, prop: 'options', value: [...currentOptions, optionToAdd] }, otherForm);
+                this.triggerEvent({ controlKey: key, prop: 'options', value: [...currentOptions, optionToAdd] });
             }
         }
     }
     /**
      * @param {?} key
      * @param {?} optionToRemove
-     * @param {?=} otherForm
      * @return {?}
      */
-    removeStaticOption(key, optionToRemove, otherForm) {
+    removeStaticOption(key, optionToRemove) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             /** @type {?} */
             let currentOptions = this.getProperty(key, 'options');
@@ -44064,7 +43974,7 @@ class FieldInteractionApi {
                 }
                 this.setProperty(key, 'options', [...currentOptions]);
             }
-            this.triggerEvent({ controlKey: key, prop: 'options', value: control.options }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'options', value: control.options });
         }
     }
     /**
@@ -44081,12 +43991,11 @@ class FieldInteractionApi {
      * @param {?} key
      * @param {?} args
      * @param {?=} mapper
-     * @param {?=} otherForm
      * @return {?}
      */
-    mutatePickerConfig(key, args, mapper, otherForm) {
+    mutatePickerConfig(key, args, mapper) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             const { minSearchLength, enableInfiniteScroll, filteredOptionsCreator, format, getLabels, emptyPickerMessage } = control.config;
             /** @type {?} */
@@ -44094,25 +44003,24 @@ class FieldInteractionApi {
             /** @type {?} */
             const newConfig = Object.assign({}, (emptyPickerMessage && { emptyPickerMessage }), (Number.isInteger(minSearchLength) && { minSearchLength }), (enableInfiniteScroll && { enableInfiniteScroll }), (filteredOptionsCreator && { filteredOptionsCreator }), (getLabels && { getLabels }), (optionsConfig && optionsConfig), { resultsTemplate: control.config.resultsTemplate || ('resultsTemplateType' in args && this.getAppropriateResultsTemplate(args.resultsTemplateType)) });
             this.setProperty(key, 'config', newConfig);
-            this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: args });
         }
     }
     /**
      * @param {?} key
      * @param {?} properties
-     * @param {?=} otherForm
      * @return {?}
      */
-    addPropertiesToPickerConfig(key, properties, otherForm) {
+    addPropertiesToPickerConfig(key, properties) {
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (!control || control.restrictFieldInteractions) {
             return;
         }
         /** @type {?} */
         const config = Object.assign({}, control.config, properties);
         this.setProperty(key, 'config', config);
-        this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: properties }, otherForm);
+        this.triggerEvent({ controlKey: key, prop: 'pickerConfig', value: properties });
     }
     /**
      * @private
@@ -44130,17 +44038,14 @@ class FieldInteractionApi {
     /**
      * @param {?} key
      * @param {?} loading
-     * @param {?=} otherForm
      * @return {?}
      */
-    setLoading(key, loading, otherForm) {
+    setLoading(key, loading) {
         /** @type {?} */
-        const form = otherForm || this.form;
-        /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             if (loading) {
-                form.controls[key].fieldInteractionloading = true;
+                this.form.controls[key].fieldInteractionloading = true;
                 control.setErrors({ loading: true });
                 // History
                 clearTimeout(this.asyncBlockTimeout);
@@ -44154,7 +44059,7 @@ class FieldInteractionApi {
                 }), 10000);
             }
             else {
-                form.controls[key].fieldInteractionloading = false;
+                this.form.controls[key].fieldInteractionloading = false;
                 clearTimeout(this.asyncBlockTimeout);
                 control.setErrors({ loading: null });
                 control.updateValueAndValidity({ emitEvent: false });
@@ -44162,7 +44067,7 @@ class FieldInteractionApi {
                     this.setProperty(key, 'tipWell', null);
                 }
             }
-            this.triggerEvent({ controlKey: key, prop: 'loading', value: loading }, otherForm);
+            this.triggerEvent({ controlKey: key, prop: 'loading', value: loading });
         }
     }
     /**
@@ -44170,10 +44075,9 @@ class FieldInteractionApi {
      * @param {?} metaForNewField
      * @param {?=} position
      * @param {?=} initialValue
-     * @param {?=} otherForm
      * @return {?}
      */
-    addControl(key, metaForNewField, position = FieldInteractionApi.FIELD_POSITIONS.ABOVE_FIELD, initialValue, otherForm) {
+    addControl(key, metaForNewField, position = FieldInteractionApi.FIELD_POSITIONS.ABOVE_FIELD, initialValue) {
         if (!metaForNewField.key && !metaForNewField.name) {
             console.error('[FieldInteractionAPI] - missing "key" in meta for new field'); // tslint:disable-line
             return null;
@@ -44182,14 +44086,12 @@ class FieldInteractionApi {
             // If key is not explicitly declared, use name as key
             metaForNewField.key = metaForNewField.name;
         }
-        /** @type {?} */
-        const form = otherForm || this.form;
-        if (form.controls[metaForNewField.key]) {
+        if (this.form.controls[metaForNewField.key]) {
             // Field is already on the form
             return null;
         }
         /** @type {?} */
-        const control = form.controls[key];
+        const control = this.form.controls[key];
         /** @type {?} */
         let fieldsetIndex;
         /** @type {?} */
@@ -44197,7 +44099,7 @@ class FieldInteractionApi {
         if (control) {
             fieldsetIndex = -1;
             controlIndex = -1;
-            form.fieldsets.forEach((/**
+            this.form.fieldsets.forEach((/**
              * @param {?} fieldset
              * @param {?} fi
              * @return {?}
@@ -44232,8 +44134,8 @@ class FieldInteractionApi {
                     break;
                 case FieldInteractionApi.FIELD_POSITIONS.BOTTOM_OF_FORM:
                     // Adding field to the bottom of the form
-                    fieldsetIndex = form.fieldsets.length - 1;
-                    controlIndex = form.fieldsets[fieldsetIndex].controls.length;
+                    fieldsetIndex = this.form.fieldsets.length - 1;
+                    controlIndex = this.form.fieldsets[fieldsetIndex].controls.length;
                     break;
                 default:
                     break;
@@ -44244,32 +44146,29 @@ class FieldInteractionApi {
                 novoControl.hidden = false;
                 /** @type {?} */
                 const formControl = new NovoFormControl(initialValue, novoControl);
-                form.addControl(novoControl.key, formControl);
-                form.fieldsets[fieldsetIndex].controls.splice(controlIndex, 0, novoControl);
-                this.triggerEvent({ controlKey: key, prop: 'addControl', value: formControl }, otherForm);
+                this.form.addControl(novoControl.key, formControl);
+                this.form.fieldsets[fieldsetIndex].controls.splice(controlIndex, 0, novoControl);
+                this.triggerEvent({ controlKey: key, prop: 'addControl', value: formControl });
             }
         }
     }
     /**
      * @param {?} key
-     * @param {?=} otherForm
      * @return {?}
      */
-    removeControl(key, otherForm) {
-        /** @type {?} */
-        const form = otherForm || this.form;
-        if (!form.controls[key]) {
+    removeControl(key) {
+        if (!this.form.controls[key]) {
             // Field is not on the form
             return null;
         }
         /** @type {?} */
-        const control = this.getControl(key, otherForm);
+        const control = this.getControl(key);
         if (control && !control.restrictFieldInteractions) {
             /** @type {?} */
             let fieldsetIndex = -1;
             /** @type {?} */
             let controlIndex = -1;
-            form.fieldsets.forEach((/**
+            this.form.fieldsets.forEach((/**
              * @param {?} fieldset
              * @param {?} fi
              * @return {?}
@@ -44288,9 +44187,9 @@ class FieldInteractionApi {
                 }));
             }));
             if (fieldsetIndex !== -1 && controlIndex !== -1) {
-                form.removeControl(key);
-                form.fieldsets[fieldsetIndex].controls.splice(controlIndex, 1);
-                this.triggerEvent({ controlKey: key, prop: 'removeControl', value: key }, otherForm);
+                this.form.removeControl(key);
+                this.form.fieldsets[fieldsetIndex].controls.splice(controlIndex, 1);
+                this.triggerEvent({ controlKey: key, prop: 'removeControl', value: key });
             }
         }
     }
@@ -44309,39 +44208,13 @@ class FieldInteractionApi {
         () => func()), wait);
     }
     /**
-     * Allows traversing nested forms by accessing the parent form.
-     *
-     * @param {?=} otherForm optional parameter for getting the parent of a different form.
-     * If not provided will default to the parent of the current form.
-     * @return {?}
-     */
-    getParent(otherForm) {
-        /** @type {?} */
-        const form = otherForm || this.form;
-        return form.parent;
-    }
-    /**
-     * The index is assigned as a property on the form's associations object when the form is part of a NovoControlGroup array.
-     *
-     * @param {?=} otherForm optional parameter for getting the index of a different form. If not provided will default to the current form.
-     * @return {?} the index if it exists for the current or form, or null otherwise.
-     */
-    getIndex(otherForm) {
-        /** @type {?} */
-        const form = otherForm || this.form;
-        return (form.associations && form.associations.hasOwnProperty('index')) ? form.associations.index : null;
-    }
-    /**
      * @private
      * @param {?} event
-     * @param {?=} otherForm
      * @return {?}
      */
-    triggerEvent(event, otherForm) {
-        /** @type {?} */
-        const form = otherForm || this.form;
-        if (form && form.fieldInteractionEvents) {
-            form.fieldInteractionEvents.emit(event);
+    triggerEvent(event) {
+        if (this.form && this.form.fieldInteractionEvents) {
+            this.form.fieldInteractionEvents.emit(event);
         }
     }
 }
@@ -45531,11 +45404,13 @@ class NovoControlGroup {
      * @param {?} formUtils
      * @param {?} fb
      * @param {?} ref
+     * @param {?} labels
      */
-    constructor(formUtils, fb, ref) {
+    constructor(formUtils, fb, ref, labels) {
         this.formUtils = formUtils;
         this.fb = fb;
         this.ref = ref;
+        this.labels = labels;
         this._vertical = false;
         this._remove = false;
         this._edit = false;
@@ -45671,15 +45546,10 @@ class NovoControlGroup {
         }
     }
     /**
+     * @param {?} change
      * @return {?}
      */
-    ngOnDestroy() {
-        this.clearControls();
-    }
-    /**
-     * @return {?}
-     */
-    onChange() {
+    onChange(change) {
         this.change.emit(this);
     }
     /**
@@ -45703,16 +45573,14 @@ class NovoControlGroup {
      */
     addNewControl(value) {
         /** @type {?} */
-        const controlsArray = (/** @type {?} */ (this.form.controls[this.key]));
+        const control = (/** @type {?} */ (this.form.controls[this.key]));
         /** @type {?} */
-        const nestedFormGroup = this.buildNestedFormGroup(value);
-        if (controlsArray) {
-            controlsArray.push(nestedFormGroup);
+        const newCtrl = this.buildControl(value);
+        if (control) {
+            control.push(newCtrl);
         }
         else {
-            this.form.addControl(this.key, this.fb.array([nestedFormGroup]));
-            // Ensure that field interaction changes for nested forms originating from outside the form will be reflected in the nested elements
-            nestedFormGroup.fieldInteractionEvents.subscribe(this.onFieldInteractionEvent.bind(this));
+            this.form.addControl(this.key, this.fb.array([newCtrl]));
         }
         this.disabledArray.push({
             edit: true,
@@ -45723,8 +45591,21 @@ class NovoControlGroup {
             this.onAdd.emit();
         }
         this.currentIndex++;
-        this.assignIndexes();
         this.ref.markForCheck();
+    }
+    /**
+     * @param {?=} value
+     * @return {?}
+     */
+    buildControl(value) {
+        /** @type {?} */
+        const newControls = this.getNewControls(this.controls);
+        if (value) {
+            this.formUtils.setInitialValues(newControls, value);
+        }
+        /** @type {?} */
+        const ctrl = this.formUtils.toFormGroup(newControls);
+        return ctrl;
     }
     /**
      * @param {?} index
@@ -45733,14 +45614,11 @@ class NovoControlGroup {
      */
     removeControl(index, emitEvent = true) {
         /** @type {?} */
-        const controlsArray = (/** @type {?} */ (this.form.controls[this.key]));
-        /** @type {?} */
-        const nestedFormGroup = (/** @type {?} */ (controlsArray.at(index)));
-        nestedFormGroup.fieldInteractionEvents.unsubscribe();
+        const control = (/** @type {?} */ (this.form.controls[this.key]));
         if (emitEvent) {
-            this.onRemove.emit({ value: nestedFormGroup.value, index });
+            this.onRemove.emit({ value: control.at(index).value, index });
         }
-        controlsArray.removeAt(index);
+        control.removeAt(index);
         this.disabledArray = this.disabledArray.filter((/**
          * @param {?} value
          * @param {?} idx
@@ -45749,7 +45627,6 @@ class NovoControlGroup {
         (value, idx) => idx !== index));
         this.resetAddRemove();
         this.currentIndex--;
-        this.assignIndexes();
         this.ref.markForCheck();
     }
     /**
@@ -45758,8 +45635,8 @@ class NovoControlGroup {
      */
     editControl(index) {
         /** @type {?} */
-        const controlsArray = (/** @type {?} */ (this.form.controls[this.key]));
-        this.onEdit.emit({ value: controlsArray.at(index).value, index });
+        const control = (/** @type {?} */ (this.form.controls[this.key]));
+        this.onEdit.emit({ value: control.at(index).value, index });
     }
     /**
      * @param {?} event
@@ -45774,26 +45651,13 @@ class NovoControlGroup {
     }
     /**
      * @private
-     * @param {?=} value
-     * @return {?}
-     */
-    buildNestedFormGroup(value) {
-        /** @type {?} */
-        const newControls = this.getNewControls();
-        if (value) {
-            this.formUtils.setInitialValues(newControls, value);
-        }
-        return this.formUtils.toFormGroup(newControls);
-    }
-    /**
-     * @private
      * @return {?}
      */
     clearControls() {
         /** @type {?} */
-        const controlsArray = (/** @type {?} */ (this.form.controls[this.key]));
-        if (controlsArray) {
-            for (let i = controlsArray.length - 1; i >= 0; i--) {
+        const control = (/** @type {?} */ (this.form.controls[this.key]));
+        if (control) {
+            for (let i = control.controls.length; i >= 0; i--) {
                 this.removeControl(i, false);
             }
             this.currentIndex = 0;
@@ -45807,8 +45671,8 @@ class NovoControlGroup {
     checkCanEdit(index) {
         if (this.canEdit) {
             /** @type {?} */
-            const controlsArray = (/** @type {?} */ (this.form.controls[this.key]));
-            return this.canEdit(controlsArray.at(index).value, index);
+            const control = (/** @type {?} */ (this.form.controls[this.key]));
+            return this.canEdit(control.at(index).value, index);
         }
         return true;
     }
@@ -45820,9 +45684,9 @@ class NovoControlGroup {
     checkCanRemove(index) {
         if (this.canRemove) {
             /** @type {?} */
-            const controlsArray = (/** @type {?} */ (this.form.controls[this.key]));
-            if (controlsArray.at(index)) {
-                return this.canRemove(controlsArray.at(index).value, index);
+            const control = (/** @type {?} */ (this.form.controls[this.key]));
+            if (control.at(index)) {
+                return this.canRemove(control.at(index).value, index);
             }
             return true;
         }
@@ -45830,9 +45694,10 @@ class NovoControlGroup {
     }
     /**
      * @private
+     * @param {?} controls
      * @return {?}
      */
-    getNewControls() {
+    getNewControls(controls) {
         /** @type {?} */
         const ret = [];
         (this.controls || []).forEach((/**
@@ -45844,33 +45709,11 @@ class NovoControlGroup {
         }));
         return ret;
     }
-    /**
-     * @private
-     * @return {?}
-     */
-    assignIndexes() {
-        /** @type {?} */
-        const controlsArray = (/** @type {?} */ (this.form.controls[this.key]));
-        if (controlsArray) {
-            for (let i = 0; i < controlsArray.length; i++) {
-                /** @type {?} */
-                const form = (/** @type {?} */ (controlsArray.at(i)));
-                form.associations = Object.assign({}, form.associations, { index: i });
-            }
-        }
-    }
-    /**
-     * @private
-     * @return {?}
-     */
-    onFieldInteractionEvent() {
-        this.ref.markForCheck();
-    }
 }
 NovoControlGroup.decorators = [
     { type: Component, args: [{
                 selector: 'novo-control-group',
-                template: "<h6 class=\"novo-section-header\" *ngIf=\"label\">\n  <span (click)=\"toggle($event)\" [class.clickable]=\"collapsible\">\n    <i *ngIf=\"icon && !collapsible\" [ngClass]=\"icon\" [attr.data-automation-id]=\"'novo-control-group-icon-' + key\"></i>\n    <i *ngIf=\"collapsible\" class=\"bhi-next\" [class.toggled]=\"toggled\" [attr.data-automation-id]=\"'novo-control-group-collapse-' + key\"></i>\n    <span [attr.data-automation-id]=\"'novo-control-group-label-' + key\">{{ label }}</span>\n  </span>\n  <label class=\"novo-control-group-description\" *ngIf=\"description\" [attr.data-automation-id]=\"'novo-control-group-description-' + key\">{{ description }}</label>\n</h6>\n<div class=\"novo-control-group-controls\" [class.vertical]=\"vertical\" [class.horizontal]=\"!vertical\" [class.hidden]=\"collapsible && !toggled\">\n  <ng-template #defaultTemplate let-index=\"index\" let-form=\"form\" let-key=\"key\">\n    <div class=\"novo-control-group-control\">\n      <div *ngFor=\"let c of controls\" class=\"novo-control-container {{c.key}}\" [class.is-label]=\"c.controlType === 'read-only'\" [style.max-width.px]=\"c.width\">\n        <novo-control (change)=\"onChange()\" [form]=\"(form?.controls)[key]['controls'][index]\" [control]=\"c\" [condensed]=\"!vertical || c.controlType === 'read-only'\"></novo-control>\n      </div>\n      <div class=\"novo-control-container last\" *ngIf=\"edit && !vertical\">\n        <button [disabled]=\"!disabledArray[index].edit\" type=\"button\" *ngIf=\"edit && !vertical\" theme=\"icon\" icon=\"edit\" (click)=\"editControl(index)\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\" index=\"-1\"></button>\n      </div>\n      <div class=\"novo-control-container last\" *ngIf=\"remove && !vertical\">\n        <button [disabled]=\"!disabledArray[index].remove\" type=\"button\" *ngIf=\"remove && !vertical\" theme=\"icon\" icon=\"delete-o\" (click)=\"removeControl(index)\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\" index=\"-1\"></button>\n      </div>\n    </div>\n    <button [disabled]=\"!disabledArray[index].edit\" type=\"button\" *ngIf=\"edit && vertical\" theme=\"icon\" icon=\"edit\" (click)=\"editControl(index)\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\" index=\"-1\"></button>\n    <button [disabled]=\"!disabledArray[index].remove\" type=\"button\" *ngIf=\"remove && vertical\" theme=\"icon\" icon=\"delete-o\" (click)=\"removeControl(index)\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\" index=\"-1\"></button>\n  </ng-template>\n  <ng-template #defaultColumnLabelTemplate let-form=\"form\" let-key=\"key\">\n      <div class=\"novo-control-group-control-label {{ label.key }}\" *ngFor=\"let label of controlLabels\" [style.max-width.px]=\"label.width\" [class.column-required]=\"label.required\">\n        <span [attr.data-automation-id]=\"'novo-control-group-label-' + label.value\">{{ label.value }}</span>\n      </div>\n      <div class=\"novo-control-group-control-label last\" *ngIf=\"edit\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\"></div>\n      <div class=\"novo-control-group-control-label last\" *ngIf=\"remove\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\"></div>\n  </ng-template>\n  <ng-container *ngIf=\"!vertical && (form?.controls)[key] && (form?.controls)[key]['controls'].length !== 0\">\n    <div class=\"novo-control-group-labels\" *ngIf=\"!vertical && (form?.controls)[key] && (form?.controls)[key]['controls'].length !== 0\">\n      <ng-template [ngTemplateOutlet]=\"columnLabelTemplate || defaultColumnLabelTemplate\" [ngTemplateOutletContext]=\"{ form: form, key: key, controlLabels: controlLabels }\">\n      </ng-template>\n    </div>\n  </ng-container>\n  <ng-container *ngIf=\"(form?.controls)[key]\">\n    <div class=\"novo-control-group-row\" *ngFor=\"let control of (form?.controls)[key]['controls']; let index = index\">\n      <ng-template [ngTemplateOutlet]=\"rowTemplate || defaultTemplate\" [ngTemplateOutletContext]=\"{ form: form, index: index, key: key, controls: controls }\">\n      </ng-template>\n    </div>\n  </ng-container>\n  <div class=\"novo-control-group-empty\" *ngIf=\"(form?.controls)[key] && (form?.controls)[key]['controls'].length === 0\" [attr.data-automation-id]=\"'novo-control-group-empty-' + key\">\n    {{ emptyMessage }}\n  </div>\n  <p *ngIf=\"add\">\n    <button type=\"button\" theme=\"dialogue\" icon=\"add-thin\" (click)=\"addNewControl()\" [attr.data-automation-id]=\"'novo-control-group-bottom-add-' + key\" index=\"-1\">\n      {{ add?.label }}\n    </button>\n  </p>\n</div>\n",
+                template: "<h6 class=\"novo-section-header\" *ngIf=\"label\">\n  <span (click)=\"toggle($event)\" [class.clickable]=\"collapsible\">\n    <i *ngIf=\"icon && !collapsible\" [ngClass]=\"icon\" [attr.data-automation-id]=\"'novo-control-group-icon-' + key\"></i>\n    <i *ngIf=\"collapsible\" class=\"bhi-next\" [class.toggled]=\"toggled\" [attr.data-automation-id]=\"'novo-control-group-collapse-' + key\"></i>\n    <span [attr.data-automation-id]=\"'novo-control-group-label-' + key\">{{ label }}</span>\n  </span>\n  <label class=\"novo-control-group-description\" *ngIf=\"description\" [attr.data-automation-id]=\"'novo-control-group-description-' + key\">{{ description }}</label>\n</h6>\n<div class=\"novo-control-group-controls\" [class.vertical]=\"vertical\" [class.horizontal]=\"!vertical\" [class.hidden]=\"collapsible && !toggled\">\n  <ng-template #defaultTemplate let-index=\"index\" let-form=\"form\" let-key=\"key\">\n    <div class=\"novo-control-group-control\">\n      <div *ngFor=\"let c of controls\" class=\"novo-control-container {{c.key}}\" [class.is-label]=\"c.controlType === 'read-only'\" [style.max-width.px]=\"c.width\">\n        <novo-control (change)=\"onChange($event)\" [form]=\"(form?.controls)[key]['controls'][index]\" [control]=\"c\" [condensed]=\"!vertical || c.controlType === 'read-only'\"></novo-control>\n      </div>\n      <div class=\"novo-control-container last\" *ngIf=\"edit && !vertical\">\n        <button [disabled]=\"!disabledArray[index].edit\" type=\"button\" *ngIf=\"edit && !vertical\" theme=\"icon\" icon=\"edit\" (click)=\"editControl(index)\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\" index=\"-1\"></button>\n      </div>\n      <div class=\"novo-control-container last\" *ngIf=\"remove && !vertical\">\n        <button [disabled]=\"!disabledArray[index].remove\" type=\"button\" *ngIf=\"remove && !vertical\" theme=\"icon\" icon=\"delete-o\" (click)=\"removeControl(index)\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\" index=\"-1\"></button>\n      </div>\n    </div>\n    <button [disabled]=\"!disabledArray[index].edit\" type=\"button\" *ngIf=\"edit && vertical\" theme=\"icon\" icon=\"edit\" (click)=\"editControl(index)\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\" index=\"-1\"></button>\n    <button [disabled]=\"!disabledArray[index].remove\" type=\"button\" *ngIf=\"remove && vertical\" theme=\"icon\" icon=\"delete-o\" (click)=\"removeControl(index)\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\" index=\"-1\"></button>\n  </ng-template>\n  <ng-template #defaultColumnLabelTemplate let-form=\"form\" let-key=\"key\">\n      <div class=\"novo-control-group-control-label {{ label.key }}\" *ngFor=\"let label of controlLabels\" [style.max-width.px]=\"label.width\" [class.column-required]=\"label.required\">\n        <span [attr.data-automation-id]=\"'novo-control-group-label-' + label.value\">{{ label.value }}</span>\n      </div>\n      <div class=\"novo-control-group-control-label last\" *ngIf=\"edit\" [attr.data-automation-id]=\"'novo-control-group-edit-' + key\"></div>\n      <div class=\"novo-control-group-control-label last\" *ngIf=\"remove\" [attr.data-automation-id]=\"'novo-control-group-delete-' + key\"></div>\n  </ng-template>\n  <ng-container *ngIf=\"!vertical && (form?.controls)[key] && (form?.controls)[key]['controls'].length !== 0\">\n    <div class=\"novo-control-group-labels\" *ngIf=\"!vertical && (form?.controls)[key] && (form?.controls)[key]['controls'].length !== 0\">\n      <ng-template [ngTemplateOutlet]=\"columnLabelTemplate || defaultColumnLabelTemplate\" [ngTemplateOutletContext]=\"{ form: form, key: key, controlLabels: controlLabels }\">\n      </ng-template>\n    </div>\n  </ng-container>\n  <ng-container *ngIf=\"(form?.controls)[key]\">\n    <div class=\"novo-control-group-row\" *ngFor=\"let control of (form?.controls)[key]['controls']; let index = index\">\n      <ng-template [ngTemplateOutlet]=\"rowTemplate || defaultTemplate\" [ngTemplateOutletContext]=\"{ form: form, index: index, key: key, controls: controls }\">\n      </ng-template>\n    </div>\n  </ng-container>\n  <div class=\"novo-control-group-empty\" *ngIf=\"(form?.controls)[key] && (form?.controls)[key]['controls'].length === 0\" [attr.data-automation-id]=\"'novo-control-group-empty-' + key\">\n    {{ emptyMessage }}\n  </div>\n  <p *ngIf=\"add\">\n    <button type=\"button\" theme=\"dialogue\" icon=\"add-thin\" (click)=\"addNewControl()\" [attr.data-automation-id]=\"'novo-control-group-bottom-add-' + key\" index=\"-1\">\n      {{ add?.label }}\n    </button>\n  </p>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush
             }] }
 ];
@@ -45878,7 +45721,8 @@ NovoControlGroup.decorators = [
 NovoControlGroup.ctorParameters = () => [
     { type: FormUtils },
     { type: FormBuilder },
-    { type: ChangeDetectorRef }
+    { type: ChangeDetectorRef },
+    { type: NovoLabelService }
 ];
 NovoControlGroup.propDecorators = {
     vertical: [{ type: Input }],
@@ -45984,6 +45828,11 @@ if (false) {
      * @private
      */
     NovoControlGroup.prototype.ref;
+    /**
+     * @type {?}
+     * @private
+     */
+    NovoControlGroup.prototype.labels;
 }
 
 /**
