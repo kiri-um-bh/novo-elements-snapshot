@@ -1,17 +1,29 @@
-/**
- * @fileoverview added by tsickle
- * Generated from: elements/tabs/Tabs.module.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 // NG2
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 // APP
-import { NovoNavElement, NovoTabElement, NovoTabButtonElement, NovoTabLinkElement, NovoNavOutletElement, NovoNavContentElement, NovoNavHeaderElement, } from './Tabs';
+import { NovoNavContentElement, NovoNavElement, NovoNavHeaderElement, NovoNavOutletElement, NovoTabButtonElement, NovoTabElement, NovoTabLinkElement, } from './Tabs';
+import * as i0 from "@angular/core";
 export class NovoTabModule {
 }
-NovoTabModule.decorators = [
-    { type: NgModule, args: [{
+NovoTabModule.ɵmod = i0.ɵɵdefineNgModule({ type: NovoTabModule });
+NovoTabModule.ɵinj = i0.ɵɵdefineInjector({ factory: function NovoTabModule_Factory(t) { return new (t || NovoTabModule)(); }, imports: [[CommonModule]] });
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(NovoTabModule, { declarations: [NovoNavElement,
+        NovoTabElement,
+        NovoTabButtonElement,
+        NovoTabLinkElement,
+        NovoNavOutletElement,
+        NovoNavContentElement,
+        NovoNavHeaderElement], imports: [CommonModule], exports: [NovoNavElement,
+        NovoTabElement,
+        NovoTabButtonElement,
+        NovoTabLinkElement,
+        NovoNavOutletElement,
+        NovoNavContentElement,
+        NovoNavHeaderElement] }); })();
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoTabModule, [{
+        type: NgModule,
+        args: [{
                 imports: [CommonModule],
                 declarations: [
                     NovoNavElement,
@@ -31,6 +43,6 @@ NovoTabModule.decorators = [
                     NovoNavContentElement,
                     NovoNavHeaderElement,
                 ],
-            },] }
-];
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVGFicy5tb2R1bGUuanMiLCJzb3VyY2VSb290Ijoibmc6Ly9ub3ZvLWVsZW1lbnRzLyIsInNvdXJjZXMiOlsiZWxlbWVudHMvdGFicy9UYWJzLm1vZHVsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7QUFDQSxPQUFPLEVBQUUsUUFBUSxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBQ3pDLE9BQU8sRUFBRSxZQUFZLEVBQUUsTUFBTSxpQkFBaUIsQ0FBQzs7QUFFL0MsT0FBTyxFQUNMLGNBQWMsRUFDZCxjQUFjLEVBQ2Qsb0JBQW9CLEVBQ3BCLGtCQUFrQixFQUNsQixvQkFBb0IsRUFDcEIscUJBQXFCLEVBQ3JCLG9CQUFvQixHQUNyQixNQUFNLFFBQVEsQ0FBQztBQXVCaEIsTUFBTSxPQUFPLGFBQWE7OztZQXJCekIsUUFBUSxTQUFDO2dCQUNSLE9BQU8sRUFBRSxDQUFDLFlBQVksQ0FBQztnQkFDdkIsWUFBWSxFQUFFO29CQUNaLGNBQWM7b0JBQ2QsY0FBYztvQkFDZCxvQkFBb0I7b0JBQ3BCLGtCQUFrQjtvQkFDbEIsb0JBQW9CO29CQUNwQixxQkFBcUI7b0JBQ3JCLG9CQUFvQjtpQkFDckI7Z0JBQ0QsT0FBTyxFQUFFO29CQUNQLGNBQWM7b0JBQ2QsY0FBYztvQkFDZCxvQkFBb0I7b0JBQ3BCLGtCQUFrQjtvQkFDbEIsb0JBQW9CO29CQUNwQixxQkFBcUI7b0JBQ3JCLG9CQUFvQjtpQkFDckI7YUFDRiIsInNvdXJjZXNDb250ZW50IjpbIi8vIE5HMlxuaW1wb3J0IHsgTmdNb2R1bGUgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcbmltcG9ydCB7IENvbW1vbk1vZHVsZSB9IGZyb20gJ0Bhbmd1bGFyL2NvbW1vbic7XG4vLyBBUFBcbmltcG9ydCB7XG4gIE5vdm9OYXZFbGVtZW50LFxuICBOb3ZvVGFiRWxlbWVudCxcbiAgTm92b1RhYkJ1dHRvbkVsZW1lbnQsXG4gIE5vdm9UYWJMaW5rRWxlbWVudCxcbiAgTm92b05hdk91dGxldEVsZW1lbnQsXG4gIE5vdm9OYXZDb250ZW50RWxlbWVudCxcbiAgTm92b05hdkhlYWRlckVsZW1lbnQsXG59IGZyb20gJy4vVGFicyc7XG5cbkBOZ01vZHVsZSh7XG4gIGltcG9ydHM6IFtDb21tb25Nb2R1bGVdLFxuICBkZWNsYXJhdGlvbnM6IFtcbiAgICBOb3ZvTmF2RWxlbWVudCxcbiAgICBOb3ZvVGFiRWxlbWVudCxcbiAgICBOb3ZvVGFiQnV0dG9uRWxlbWVudCxcbiAgICBOb3ZvVGFiTGlua0VsZW1lbnQsXG4gICAgTm92b05hdk91dGxldEVsZW1lbnQsXG4gICAgTm92b05hdkNvbnRlbnRFbGVtZW50LFxuICAgIE5vdm9OYXZIZWFkZXJFbGVtZW50LFxuICBdLFxuICBleHBvcnRzOiBbXG4gICAgTm92b05hdkVsZW1lbnQsXG4gICAgTm92b1RhYkVsZW1lbnQsXG4gICAgTm92b1RhYkJ1dHRvbkVsZW1lbnQsXG4gICAgTm92b1RhYkxpbmtFbGVtZW50LFxuICAgIE5vdm9OYXZPdXRsZXRFbGVtZW50LFxuICAgIE5vdm9OYXZDb250ZW50RWxlbWVudCxcbiAgICBOb3ZvTmF2SGVhZGVyRWxlbWVudCxcbiAgXSxcbn0pXG5leHBvcnQgY2xhc3MgTm92b1RhYk1vZHVsZSB7fVxuIl19
+            }]
+    }], null, null); })();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVGFicy5tb2R1bGUuanMiLCJzb3VyY2VSb290IjoiL2hvbWUvdHJhdmlzL2J1aWxkL2J1bGxob3JuL25vdm8tZWxlbWVudHMvcHJvamVjdHMvbm92by1lbGVtZW50cy9zcmMvIiwic291cmNlcyI6WyJlbGVtZW50cy90YWJzL1RhYnMubW9kdWxlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLE1BQU07QUFDTixPQUFPLEVBQUUsWUFBWSxFQUFFLE1BQU0saUJBQWlCLENBQUM7QUFDL0MsT0FBTyxFQUFFLFFBQVEsRUFBRSxNQUFNLGVBQWUsQ0FBQztBQUN6QyxNQUFNO0FBQ04sT0FBTyxFQUNMLHFCQUFxQixFQUNyQixjQUFjLEVBQ2Qsb0JBQW9CLEVBQ3BCLG9CQUFvQixFQUNwQixvQkFBb0IsRUFDcEIsY0FBYyxFQUNkLGtCQUFrQixHQUNuQixNQUFNLFFBQVEsQ0FBQzs7QUF1QmhCLE1BQU0sT0FBTyxhQUFhOztpREFBYixhQUFhO3lHQUFiLGFBQWEsa0JBcEJmLENBQUMsWUFBWSxDQUFDO3dGQW9CWixhQUFhLG1CQWxCdEIsY0FBYztRQUNkLGNBQWM7UUFDZCxvQkFBb0I7UUFDcEIsa0JBQWtCO1FBQ2xCLG9CQUFvQjtRQUNwQixxQkFBcUI7UUFDckIsb0JBQW9CLGFBUlosWUFBWSxhQVdwQixjQUFjO1FBQ2QsY0FBYztRQUNkLG9CQUFvQjtRQUNwQixrQkFBa0I7UUFDbEIsb0JBQW9CO1FBQ3BCLHFCQUFxQjtRQUNyQixvQkFBb0I7a0RBR1gsYUFBYTtjQXJCekIsUUFBUTtlQUFDO2dCQUNSLE9BQU8sRUFBRSxDQUFDLFlBQVksQ0FBQztnQkFDdkIsWUFBWSxFQUFFO29CQUNaLGNBQWM7b0JBQ2QsY0FBYztvQkFDZCxvQkFBb0I7b0JBQ3BCLGtCQUFrQjtvQkFDbEIsb0JBQW9CO29CQUNwQixxQkFBcUI7b0JBQ3JCLG9CQUFvQjtpQkFDckI7Z0JBQ0QsT0FBTyxFQUFFO29CQUNQLGNBQWM7b0JBQ2QsY0FBYztvQkFDZCxvQkFBb0I7b0JBQ3BCLGtCQUFrQjtvQkFDbEIsb0JBQW9CO29CQUNwQixxQkFBcUI7b0JBQ3JCLG9CQUFvQjtpQkFDckI7YUFDRiIsInNvdXJjZXNDb250ZW50IjpbIi8vIE5HMlxuaW1wb3J0IHsgQ29tbW9uTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvY29tbW9uJztcbmltcG9ydCB7IE5nTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG4vLyBBUFBcbmltcG9ydCB7XG4gIE5vdm9OYXZDb250ZW50RWxlbWVudCxcbiAgTm92b05hdkVsZW1lbnQsXG4gIE5vdm9OYXZIZWFkZXJFbGVtZW50LFxuICBOb3ZvTmF2T3V0bGV0RWxlbWVudCxcbiAgTm92b1RhYkJ1dHRvbkVsZW1lbnQsXG4gIE5vdm9UYWJFbGVtZW50LFxuICBOb3ZvVGFiTGlua0VsZW1lbnQsXG59IGZyb20gJy4vVGFicyc7XG5cbkBOZ01vZHVsZSh7XG4gIGltcG9ydHM6IFtDb21tb25Nb2R1bGVdLFxuICBkZWNsYXJhdGlvbnM6IFtcbiAgICBOb3ZvTmF2RWxlbWVudCxcbiAgICBOb3ZvVGFiRWxlbWVudCxcbiAgICBOb3ZvVGFiQnV0dG9uRWxlbWVudCxcbiAgICBOb3ZvVGFiTGlua0VsZW1lbnQsXG4gICAgTm92b05hdk91dGxldEVsZW1lbnQsXG4gICAgTm92b05hdkNvbnRlbnRFbGVtZW50LFxuICAgIE5vdm9OYXZIZWFkZXJFbGVtZW50LFxuICBdLFxuICBleHBvcnRzOiBbXG4gICAgTm92b05hdkVsZW1lbnQsXG4gICAgTm92b1RhYkVsZW1lbnQsXG4gICAgTm92b1RhYkJ1dHRvbkVsZW1lbnQsXG4gICAgTm92b1RhYkxpbmtFbGVtZW50LFxuICAgIE5vdm9OYXZPdXRsZXRFbGVtZW50LFxuICAgIE5vdm9OYXZDb250ZW50RWxlbWVudCxcbiAgICBOb3ZvTmF2SGVhZGVyRWxlbWVudCxcbiAgXSxcbn0pXG5leHBvcnQgY2xhc3MgTm92b1RhYk1vZHVsZSB7fVxuIl19

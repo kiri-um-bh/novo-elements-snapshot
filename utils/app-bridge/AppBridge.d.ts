@@ -47,7 +47,7 @@ export declare class AppBridge {
     private _tracing;
     private _eventListeners;
     constructor(traceName?: string);
-    tracing: boolean;
+    set tracing(tracing: boolean);
     handle(type: AppBridgeHandler, handler: Function): void;
     private _trace;
     protected _setupHandlers(): void;
@@ -113,22 +113,22 @@ export declare class AppBridge {
      * Fires or responds to an HTTP_GET event
      * @param packet any - packet of data to send with the event
      */
-    httpGET(relativeURL: string, timeout?: number): Promise<any>;
+    httpGET(relativeURL: string): Promise<any>;
     /**
      * Fires or responds to an HTTP_POST event
      * @param packet any - packet of data to send with the event
      */
-    httpPOST(relativeURL: string, postData: any, timeout?: number): Promise<any>;
+    httpPOST(relativeURL: string, postData: any): Promise<any>;
     /**
      * Fires or responds to an HTTP_PUT event
      * @param packet any - packet of data to send with the event
      */
-    httpPUT(relativeURL: string, putData: any, timeout?: number): Promise<any>;
+    httpPUT(relativeURL: string, putData: any): Promise<any>;
     /**
      * Fires or responds to an HTTP_DELETE event
      * @param packet any - packet of data to send with the event
      */
-    httpDELETE(relativeURL: string, timeout?: number): Promise<any>;
+    httpDELETE(relativeURL: string): Promise<any>;
     /**
      * Fires a custom event to anywhere in the application
      * @param event string - event name to fire

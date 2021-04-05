@@ -1,7 +1,8 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
+import { CdkStepHeader } from '@angular/cdk/stepper';
 import { ElementRef, OnDestroy, TemplateRef } from '@angular/core';
 import { NovoStepLabel } from './step-label.component';
-import { CdkStepHeader } from '@angular/cdk/stepper';
+import * as i0 from "@angular/core";
 export declare class NovoStepHeader extends CdkStepHeader implements OnDestroy {
     private _focusMonitor;
     private _element;
@@ -17,18 +18,22 @@ export declare class NovoStepHeader extends CdkStepHeader implements OnDestroy {
         [key: string]: TemplateRef<any>;
     };
     /** Index of the given step. */
-    index: number;
+    get index(): number;
+    set index(value: number);
     private _index;
     /** Whether the given step is selected. */
-    selected: boolean;
+    get selected(): boolean;
+    set selected(value: boolean);
     private _selected;
     /** Whether the given step label is active. */
-    active: boolean;
+    get active(): boolean;
+    set active(value: boolean);
     private _active;
     /** Whether the given step label is active. */
-    readonly touched: boolean;
+    get touched(): boolean;
     /** Whether the given step is optional. */
-    optional: boolean;
+    get optional(): boolean;
+    set optional(value: boolean);
     private _optional;
     constructor(_focusMonitor: FocusMonitor, _element: ElementRef);
     ngOnDestroy(): void;
@@ -38,4 +43,6 @@ export declare class NovoStepHeader extends CdkStepHeader implements OnDestroy {
     _templateLabel(): NovoStepLabel | null;
     /** Returns the host HTML element. */
     _getHostElement(): any;
+    static ɵfac: i0.ɵɵFactoryDef<NovoStepHeader, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoStepHeader, "novo-step-header", never, { "theme": "theme"; "color": "color"; "icon": "icon"; "state": "state"; "label": "label"; "iconOverrides": "iconOverrides"; "index": "index"; "selected": "selected"; "active": "active"; "optional": "optional"; }, {}, never, never>;
 }

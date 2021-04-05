@@ -1,25 +1,17 @@
-/**
- * @fileoverview added by tsickle
- * Generated from: elements/stepper/step-label.component.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-import { Directive, TemplateRef } from '@angular/core';
 import { CdkStepLabel } from '@angular/cdk/stepper';
+import { Directive, TemplateRef } from '@angular/core';
+import * as i0 from "@angular/core";
 export class NovoStepLabel extends CdkStepLabel {
-    /**
-     * @param {?} template
-     */
     constructor(template) {
         super(template);
     }
 }
-NovoStepLabel.decorators = [
-    { type: Directive, args: [{
+NovoStepLabel.ɵfac = function NovoStepLabel_Factory(t) { return new (t || NovoStepLabel)(i0.ɵɵdirectiveInject(i0.TemplateRef)); };
+NovoStepLabel.ɵdir = i0.ɵɵdefineDirective({ type: NovoStepLabel, selectors: [["", "novoStepLabel", ""]], features: [i0.ɵɵInheritDefinitionFeature] });
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(NovoStepLabel, [{
+        type: Directive,
+        args: [{
                 selector: '[novoStepLabel]',
-            },] }
-];
-/** @nocollapse */
-NovoStepLabel.ctorParameters = () => [
-    { type: TemplateRef }
-];
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3RlcC1sYWJlbC5jb21wb25lbnQuanMiLCJzb3VyY2VSb290Ijoibmc6Ly9ub3ZvLWVsZW1lbnRzLyIsInNvdXJjZXMiOlsiZWxlbWVudHMvc3RlcHBlci9zdGVwLWxhYmVsLmNvbXBvbmVudC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7OztBQUFBLE9BQU8sRUFBRSxTQUFTLEVBQUUsV0FBVyxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBQ3ZELE9BQU8sRUFBRSxZQUFZLEVBQUUsTUFBTSxzQkFBc0IsQ0FBQztBQUtwRCxNQUFNLE9BQU8sYUFBYyxTQUFRLFlBQVk7Ozs7SUFDN0MsWUFBWSxRQUEwQjtRQUNwQyxLQUFLLENBQUMsUUFBUSxDQUFDLENBQUM7SUFDbEIsQ0FBQzs7O1lBTkYsU0FBUyxTQUFDO2dCQUNULFFBQVEsRUFBRSxpQkFBaUI7YUFDNUI7Ozs7WUFMbUIsV0FBVyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IERpcmVjdGl2ZSwgVGVtcGxhdGVSZWYgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcbmltcG9ydCB7IENka1N0ZXBMYWJlbCB9IGZyb20gJ0Bhbmd1bGFyL2Nkay9zdGVwcGVyJztcblxuQERpcmVjdGl2ZSh7XG4gIHNlbGVjdG9yOiAnW25vdm9TdGVwTGFiZWxdJyxcbn0pXG5leHBvcnQgY2xhc3MgTm92b1N0ZXBMYWJlbCBleHRlbmRzIENka1N0ZXBMYWJlbCB7XG4gIGNvbnN0cnVjdG9yKHRlbXBsYXRlOiBUZW1wbGF0ZVJlZjxhbnk+KSB7XG4gICAgc3VwZXIodGVtcGxhdGUpO1xuICB9XG59XG4iXX0=
+            }]
+    }], function () { return [{ type: i0.TemplateRef }]; }, null); })();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3RlcC1sYWJlbC5jb21wb25lbnQuanMiLCJzb3VyY2VSb290IjoiL2hvbWUvdHJhdmlzL2J1aWxkL2J1bGxob3JuL25vdm8tZWxlbWVudHMvcHJvamVjdHMvbm92by1lbGVtZW50cy9zcmMvIiwic291cmNlcyI6WyJlbGVtZW50cy9zdGVwcGVyL3N0ZXAtbGFiZWwuY29tcG9uZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLE9BQU8sRUFBRSxZQUFZLEVBQUUsTUFBTSxzQkFBc0IsQ0FBQztBQUNwRCxPQUFPLEVBQUUsU0FBUyxFQUFFLFdBQVcsRUFBRSxNQUFNLGVBQWUsQ0FBQzs7QUFLdkQsTUFBTSxPQUFPLGFBQWMsU0FBUSxZQUFZO0lBQzdDLFlBQVksUUFBMEI7UUFDcEMsS0FBSyxDQUFDLFFBQVEsQ0FBQyxDQUFDO0lBQ2xCLENBQUM7OzBFQUhVLGFBQWE7a0RBQWIsYUFBYTtrREFBYixhQUFhO2NBSHpCLFNBQVM7ZUFBQztnQkFDVCxRQUFRLEVBQUUsaUJBQWlCO2FBQzVCIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQ2RrU3RlcExhYmVsIH0gZnJvbSAnQGFuZ3VsYXIvY2RrL3N0ZXBwZXInO1xuaW1wb3J0IHsgRGlyZWN0aXZlLCBUZW1wbGF0ZVJlZiB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuXG5ARGlyZWN0aXZlKHtcbiAgc2VsZWN0b3I6ICdbbm92b1N0ZXBMYWJlbF0nLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvU3RlcExhYmVsIGV4dGVuZHMgQ2RrU3RlcExhYmVsIHtcbiAgY29uc3RydWN0b3IodGVtcGxhdGU6IFRlbXBsYXRlUmVmPGFueT4pIHtcbiAgICBzdXBlcih0ZW1wbGF0ZSk7XG4gIH1cbn1cbiJdfQ==

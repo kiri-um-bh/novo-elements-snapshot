@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, ElementRef, EventEmitter, NgZone, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 import { ConnectedPositionStrategy, Overlay, OverlayConfig, OverlayRef, ScrollStrategy } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { ChangeDetectorRef, ElementRef, EventEmitter, NgZone, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import * as i0 from "@angular/core";
 export declare class NovoOverlayTemplateComponent implements OnDestroy {
     protected overlay: Overlay;
     protected viewContainerRef: ViewContainerRef;
@@ -24,8 +25,9 @@ export declare class NovoOverlayTemplateComponent implements OnDestroy {
     private _parent;
     constructor(overlay: Overlay, viewContainerRef: ViewContainerRef, zone: NgZone, changeDetectorRef: ChangeDetectorRef, document: any);
     ngOnDestroy(): void;
-    readonly panelOpen: boolean;
-    parent: ElementRef;
+    get panelOpen(): boolean;
+    set parent(value: ElementRef);
+    get parent(): ElementRef;
     openPanel(): void;
     closePanel(): void;
     onClosingAction(event: any): void;
@@ -33,9 +35,9 @@ export declare class NovoOverlayTemplateComponent implements OnDestroy {
      * A stream of actions that should close the autocomplete panel, including
      * when an option is selected, on blur, and when TAB is pressed.
      */
-    readonly panelClosingActions: Observable<any>;
+    get panelClosingActions(): Observable<any>;
     /** Stream of clicks outside of the autocomplete panel. */
-    protected readonly outsideClickStream: Observable<any>;
+    protected get outsideClickStream(): Observable<any>;
     /**
      * This method listens to a stream of panel closing actions and resets the
      * stream every time the option list changes.
@@ -53,4 +55,6 @@ export declare class NovoOverlayTemplateComponent implements OnDestroy {
     protected checkSizes(): void;
     protected getConnectedElement(): ElementRef;
     protected getHostWidth(): number;
+    static ɵfac: i0.ɵɵFactoryDef<NovoOverlayTemplateComponent, [null, null, null, null, { optional: true; }]>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoOverlayTemplateComponent, "novo-overlay-template", never, { "position": "position"; "scrollStrategy": "scrollStrategy"; "width": "width"; "height": "height"; "closeOnSelect": "closeOnSelect"; "parent": "parent"; }, { "select": "select"; "closing": "closing"; }, never, ["*"]>;
 }

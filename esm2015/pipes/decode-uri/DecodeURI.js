@@ -1,19 +1,10 @@
-/**
- * @fileoverview added by tsickle
- * Generated from: pipes/decode-uri/DecodeURI.ts
- * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 // NG2
 import { Injectable, Pipe } from '@angular/core';
 // App
 import { Helpers } from '../../utils/Helpers';
+import * as i0 from "@angular/core";
 export class DecodeURIPipe {
-    /**
-     * @param {?} encodedString
-     * @return {?}
-     */
     transform(encodedString) {
-        /** @type {?} */
         let decodedString = '';
         if (!Helpers.isBlank(encodedString) && typeof encodedString === 'string') {
             decodedString = decodeURIComponent(encodedString);
@@ -21,8 +12,13 @@ export class DecodeURIPipe {
         return decodedString;
     }
 }
-DecodeURIPipe.decorators = [
-    { type: Pipe, args: [{ name: 'decodeURI' },] },
-    { type: Injectable }
-];
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRGVjb2RlVVJJLmpzIiwic291cmNlUm9vdCI6Im5nOi8vbm92by1lbGVtZW50cy8iLCJzb3VyY2VzIjpbInBpcGVzL2RlY29kZS11cmkvRGVjb2RlVVJJLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7OztBQUNBLE9BQU8sRUFBRSxVQUFVLEVBQUUsSUFBSSxFQUFpQixNQUFNLGVBQWUsQ0FBQzs7QUFFaEUsT0FBTyxFQUFFLE9BQU8sRUFBRSxNQUFNLHFCQUFxQixDQUFDO0FBSTlDLE1BQU0sT0FBTyxhQUFhOzs7OztJQUN4QixTQUFTLENBQUMsYUFBcUI7O1lBQ3pCLGFBQWEsR0FBVyxFQUFFO1FBQzlCLElBQUksQ0FBQyxPQUFPLENBQUMsT0FBTyxDQUFDLGFBQWEsQ0FBQyxJQUFJLE9BQU8sYUFBYSxLQUFLLFFBQVEsRUFBRTtZQUN4RSxhQUFhLEdBQUcsa0JBQWtCLENBQUMsYUFBYSxDQUFDLENBQUM7U0FDbkQ7UUFDRCxPQUFPLGFBQWEsQ0FBQztJQUN2QixDQUFDOzs7WUFURixJQUFJLFNBQUMsRUFBRSxJQUFJLEVBQUUsV0FBVyxFQUFFO1lBQzFCLFVBQVUiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBORzJcbmltcG9ydCB7IEluamVjdGFibGUsIFBpcGUsIFBpcGVUcmFuc2Zvcm0gfSBmcm9tICdAYW5ndWxhci9jb3JlJztcbi8vIEFwcFxuaW1wb3J0IHsgSGVscGVycyB9IGZyb20gJy4uLy4uL3V0aWxzL0hlbHBlcnMnO1xuXG5AUGlwZSh7IG5hbWU6ICdkZWNvZGVVUkknIH0pXG5ASW5qZWN0YWJsZSgpXG5leHBvcnQgY2xhc3MgRGVjb2RlVVJJUGlwZSBpbXBsZW1lbnRzIFBpcGVUcmFuc2Zvcm0ge1xuICB0cmFuc2Zvcm0oZW5jb2RlZFN0cmluZzogc3RyaW5nKTogc3RyaW5nIHtcbiAgICBsZXQgZGVjb2RlZFN0cmluZzogc3RyaW5nID0gJyc7XG4gICAgaWYgKCFIZWxwZXJzLmlzQmxhbmsoZW5jb2RlZFN0cmluZykgJiYgdHlwZW9mIGVuY29kZWRTdHJpbmcgPT09ICdzdHJpbmcnKSB7XG4gICAgICBkZWNvZGVkU3RyaW5nID0gZGVjb2RlVVJJQ29tcG9uZW50KGVuY29kZWRTdHJpbmcpO1xuICAgIH1cbiAgICByZXR1cm4gZGVjb2RlZFN0cmluZztcbiAgfVxufVxuIl19
+DecodeURIPipe.ɵfac = function DecodeURIPipe_Factory(t) { return new (t || DecodeURIPipe)(); };
+DecodeURIPipe.ɵpipe = i0.ɵɵdefinePipe({ name: "decodeURI", type: DecodeURIPipe, pure: true });
+DecodeURIPipe.ɵprov = i0.ɵɵdefineInjectable({ token: DecodeURIPipe, factory: DecodeURIPipe.ɵfac });
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(DecodeURIPipe, [{
+        type: Pipe,
+        args: [{ name: 'decodeURI' }]
+    }, {
+        type: Injectable
+    }], null, null); })();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRGVjb2RlVVJJLmpzIiwic291cmNlUm9vdCI6Ii9ob21lL3RyYXZpcy9idWlsZC9idWxsaG9ybi9ub3ZvLWVsZW1lbnRzL3Byb2plY3RzL25vdm8tZWxlbWVudHMvc3JjLyIsInNvdXJjZXMiOlsicGlwZXMvZGVjb2RlLXVyaS9EZWNvZGVVUkkudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsTUFBTTtBQUNOLE9BQU8sRUFBRSxVQUFVLEVBQUUsSUFBSSxFQUFpQixNQUFNLGVBQWUsQ0FBQztBQUNoRSxNQUFNO0FBQ04sT0FBTyxFQUFFLE9BQU8sRUFBRSxNQUFNLHFCQUFxQixDQUFDOztBQUk5QyxNQUFNLE9BQU8sYUFBYTtJQUN4QixTQUFTLENBQUMsYUFBcUI7UUFDN0IsSUFBSSxhQUFhLEdBQVcsRUFBRSxDQUFDO1FBQy9CLElBQUksQ0FBQyxPQUFPLENBQUMsT0FBTyxDQUFDLGFBQWEsQ0FBQyxJQUFJLE9BQU8sYUFBYSxLQUFLLFFBQVEsRUFBRTtZQUN4RSxhQUFhLEdBQUcsa0JBQWtCLENBQUMsYUFBYSxDQUFDLENBQUM7U0FDbkQ7UUFDRCxPQUFPLGFBQWEsQ0FBQztJQUN2QixDQUFDOzswRUFQVSxhQUFhO2lFQUFiLGFBQWE7cURBQWIsYUFBYSxXQUFiLGFBQWE7a0RBQWIsYUFBYTtjQUZ6QixJQUFJO2VBQUMsRUFBRSxJQUFJLEVBQUUsV0FBVyxFQUFFOztjQUMxQixVQUFVIiwic291cmNlc0NvbnRlbnQiOlsiLy8gTkcyXG5pbXBvcnQgeyBJbmplY3RhYmxlLCBQaXBlLCBQaXBlVHJhbnNmb3JtIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG4vLyBBcHBcbmltcG9ydCB7IEhlbHBlcnMgfSBmcm9tICcuLi8uLi91dGlscy9IZWxwZXJzJztcblxuQFBpcGUoeyBuYW1lOiAnZGVjb2RlVVJJJyB9KVxuQEluamVjdGFibGUoKVxuZXhwb3J0IGNsYXNzIERlY29kZVVSSVBpcGUgaW1wbGVtZW50cyBQaXBlVHJhbnNmb3JtIHtcbiAgdHJhbnNmb3JtKGVuY29kZWRTdHJpbmc6IHN0cmluZyk6IHN0cmluZyB7XG4gICAgbGV0IGRlY29kZWRTdHJpbmc6IHN0cmluZyA9ICcnO1xuICAgIGlmICghSGVscGVycy5pc0JsYW5rKGVuY29kZWRTdHJpbmcpICYmIHR5cGVvZiBlbmNvZGVkU3RyaW5nID09PSAnc3RyaW5nJykge1xuICAgICAgZGVjb2RlZFN0cmluZyA9IGRlY29kZVVSSUNvbXBvbmVudChlbmNvZGVkU3RyaW5nKTtcbiAgICB9XG4gICAgcmV0dXJuIGRlY29kZWRTdHJpbmc7XG4gIH1cbn1cbiJdfQ==

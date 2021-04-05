@@ -1,6 +1,27 @@
 import { EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NovoLabelService } from '../../services/novo-label-service';
+import * as i0 from "@angular/core";
 export declare class CardActionsElement {
+    static ɵfac: i0.ɵɵFactoryDef<CardActionsElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<CardActionsElement, "novo-card-actions", never, {}, {}, never, ["*"]>;
+}
+/**
+ * Content of a card, needed as it's used as a selector in the API.
+ */
+export declare class CardContentElement {
+    static ɵfac: i0.ɵɵFactoryDef<CardContentElement, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<CardContentElement, "novo-card-content, [novo-card-content], [novoCardContent]", never, {}, {}, never>;
+}
+/**
+ * Content of a card, needed as it's used as a selector in the API.
+ */
+export declare class CardHeaderElement {
+    static ɵfac: i0.ɵɵFactoryDef<CardHeaderElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<CardHeaderElement, "novo-card-header, [novo-card-header], [novoCardHeader]", never, {}, {}, never, ["novo-avatar, [novo-avatar], novo-icon", "novo-title, [novo-title], novo-text, novo-label, novo-caption", "*", "novo-action"]>;
+}
+export declare class CardFooterElement {
+    static ɵfac: i0.ɵɵFactoryDef<CardFooterElement, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<CardFooterElement, "novo-card-footer, [novo-card-footer], [novoCardFooter]", never, {}, {}, never>;
 }
 export declare class CardElement implements OnChanges, OnInit {
     padding: boolean;
@@ -25,4 +46,6 @@ export declare class CardElement implements OnChanges, OnInit {
     ngOnChanges(changes?: SimpleChanges): void;
     toggleClose(): void;
     toggleRefresh(): void;
+    static ɵfac: i0.ɵɵFactoryDef<CardElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<CardElement, "novo-card", never, { "padding": "padding"; "config": "config"; "title": "title"; "message": "message"; "messageIcon": "messageIcon"; "icon": "icon"; "iconTooltip": "iconTooltip"; "refresh": "refresh"; "close": "close"; "move": "move"; "loading": "loading"; }, { "onClose": "onClose"; "onRefresh": "onRefresh"; }, never, ["novo-card-actions", "*", "footer"]>;
 }

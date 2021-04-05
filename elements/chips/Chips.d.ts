@@ -1,20 +1,9 @@
-import { EventEmitter, ElementRef, OnInit, ViewContainerRef } from '@angular/core';
+import { ElementRef, EventEmitter, OnInit, ViewContainerRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
-export declare class NovoChipElement {
-    type: string;
-    disabled: boolean;
-    select: EventEmitter<any>;
-    remove: EventEmitter<any>;
-    deselect: EventEmitter<any>;
-    entity: string;
-    _type: string;
-    onRemove(e: any): boolean;
-    onSelect(e: any): boolean;
-    onDeselect(e: any): boolean;
-}
+import * as i0 from "@angular/core";
 export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     element: ElementRef;
     private componentUtils;
@@ -24,7 +13,8 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     source: any;
     maxlength: any;
     type: any;
-    disablePickerInput: boolean;
+    set disablePickerInput(v: boolean);
+    get disablePickerInput(): boolean;
     private _disablePickerInput;
     changed: EventEmitter<any>;
     focus: EventEmitter<any>;
@@ -43,7 +33,8 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     onModelTouched: Function;
     constructor(element: ElementRef, componentUtils: ComponentUtils, labels: NovoLabelService);
     ngOnInit(): void;
-    value: any;
+    get value(): any;
+    set value(selected: any);
     clearValue(): void;
     setItems(): void;
     getLabelFromOptions(value: any): {
@@ -64,13 +55,19 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     registerOnTouched(fn: Function): void;
     setDisabledState(disabled: boolean): void;
     /**
+     * @name showPreview
+     *
      * @description This method creates an instance of the preview (called popup) and adds all the bindings to that
      * instance. Will reuse the popup or create a new one if it does not already exist. Will only work if there is
      * a previewTemplate given in the config.
      */
     showPreview(): void;
     /**
+     * @name hidePreview
+     *
      * @description - This method deletes the preview popup from the DOM.
      */
     hidePreview(): void;
+    static ɵfac: i0.ɵɵFactoryDef<NovoChipsElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoChipsElement, "chips,novo-chips", never, { "closeOnSelect": "closeOnSelect"; "placeholder": "placeholder"; "source": "source"; "maxlength": "maxlength"; "type": "type"; "disablePickerInput": "disablePickerInput"; "value": "value"; }, { "changed": "changed"; "focus": "focus"; "blur": "blur"; "typing": "typing"; }, never, never>;
 }
