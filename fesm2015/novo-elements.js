@@ -43278,6 +43278,7 @@ class FieldInteractionApi {
         this.formUtils = formUtils;
         this.http = http;
         this.labels = labels;
+        this._isInvokedOnInit = false;
         this.getOptionsConfig = (/**
          * @param {?} args
          * @param {?=} mapper
@@ -43404,6 +43405,19 @@ class FieldInteractionApi {
      */
     get currentKey() {
         return this._currentKey;
+    }
+    /**
+     * @param {?} isOnInit
+     * @return {?}
+     */
+    set isInvokedOnInit(isOnInit) {
+        this._isInvokedOnInit = isOnInit;
+    }
+    /**
+     * @return {?}
+     */
+    get isInvokedOnInit() {
+        return this._isInvokedOnInit;
     }
     /**
      * @return {?}
@@ -44384,6 +44398,11 @@ if (false) {
      * @private
      */
     FieldInteractionApi.prototype.asyncBlockTimeout;
+    /**
+     * @type {?}
+     * @private
+     */
+    FieldInteractionApi.prototype._isInvokedOnInit;
     /** @type {?} */
     FieldInteractionApi.prototype.getOptionsConfig;
     /** @type {?} */
@@ -44750,7 +44769,7 @@ class NovoControlElement extends OutsideClick {
                 }
                 if (interaction.invokeOnInit) {
                     if (!this.form.controls[this.control.key].restrictFieldInteractions) {
-                        this.executeInteraction(interaction);
+                        this.executeInteraction(interaction, true);
                     }
                 }
             }
@@ -44982,9 +45001,10 @@ class NovoControlElement extends OutsideClick {
     }
     /**
      * @param {?} interaction
+     * @param {?=} isInvokedOnInit
      * @return {?}
      */
-    executeInteraction(interaction) {
+    executeInteraction(interaction, isInvokedOnInit = false) {
         if (interaction.script && Helpers.isFunction(interaction.script)) {
             setTimeout((/**
              * @return {?}
@@ -44992,6 +45012,7 @@ class NovoControlElement extends OutsideClick {
             () => {
                 this.fieldInteractionApi.form = this.form;
                 this.fieldInteractionApi.currentKey = this.control.key;
+                this.fieldInteractionApi.isInvokedOnInit = isInvokedOnInit;
                 try {
                     interaction.script(this.fieldInteractionApi, this.control.key);
                 }

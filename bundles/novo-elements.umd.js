@@ -45544,6 +45544,7 @@
             this.formUtils = formUtils;
             this.http = http;
             this.labels = labels;
+            this._isInvokedOnInit = false;
             this.getOptionsConfig = (/**
              * @param {?} args
              * @param {?=} mapper
@@ -45695,6 +45696,23 @@
              */
             function (key) {
                 this._currentKey = key;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FieldInteractionApi.prototype, "isInvokedOnInit", {
+            get: /**
+             * @return {?}
+             */
+            function () {
+                return this._isInvokedOnInit;
+            },
+            set: /**
+             * @param {?} isOnInit
+             * @return {?}
+             */
+            function (isOnInit) {
+                this._isInvokedOnInit = isOnInit;
             },
             enumerable: true,
             configurable: true
@@ -46984,6 +47002,11 @@
          * @private
          */
         FieldInteractionApi.prototype.asyncBlockTimeout;
+        /**
+         * @type {?}
+         * @private
+         */
+        FieldInteractionApi.prototype._isInvokedOnInit;
         /** @type {?} */
         FieldInteractionApi.prototype.getOptionsConfig;
         /** @type {?} */
@@ -47419,7 +47442,7 @@
                     }
                     if (interaction.invokeOnInit) {
                         if (!this_1.form.controls[this_1.control.key].restrictFieldInteractions) {
-                            this_1.executeInteraction(interaction);
+                            this_1.executeInteraction(interaction, true);
                         }
                     }
                 };
@@ -47720,14 +47743,17 @@
         });
         /**
          * @param {?} interaction
+         * @param {?=} isInvokedOnInit
          * @return {?}
          */
         NovoControlElement.prototype.executeInteraction = /**
          * @param {?} interaction
+         * @param {?=} isInvokedOnInit
          * @return {?}
          */
-        function (interaction) {
+        function (interaction, isInvokedOnInit) {
             var _this = this;
+            if (isInvokedOnInit === void 0) { isInvokedOnInit = false; }
             if (interaction.script && Helpers.isFunction(interaction.script)) {
                 setTimeout((/**
                  * @return {?}
@@ -47735,6 +47761,7 @@
                 function () {
                     _this.fieldInteractionApi.form = _this.form;
                     _this.fieldInteractionApi.currentKey = _this.control.key;
+                    _this.fieldInteractionApi.isInvokedOnInit = isInvokedOnInit;
                     try {
                         interaction.script(_this.fieldInteractionApi, _this.control.key);
                     }
