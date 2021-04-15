@@ -18,6 +18,7 @@ export declare class FieldInteractionApi {
     private _currentKey;
     appBridge: AppBridge;
     private asyncBlockTimeout;
+    private _isInvokedOnInit;
     static FIELD_POSITIONS: {
         ABOVE_FIELD: string;
         BELOW_FIELD: string;
@@ -32,6 +33,7 @@ export declare class FieldInteractionApi {
     readonly isAdd: boolean;
     globals: any;
     currentKey: string;
+    isInvokedOnInit: boolean;
     isActiveControlValid(): boolean;
     getActiveControl(): NovoFormControl;
     getActiveKey(): string;
