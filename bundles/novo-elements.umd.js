@@ -47553,6 +47553,9 @@
                     if (!Helpers.isEmpty(value)) {
                         _this.templateContext.$implicit.percentValue = Number((value * 100).toFixed(6).replace(/\.?0*$/, ''));
                     }
+                    else {
+                        _this.templateContext.$implicit.percentValue = null;
+                    }
                 }));
             }
         };
