@@ -131,6 +131,11 @@ export declare class FieldInteractionApi {
         type?: string;
         name?: string;
         label?: string;
+        interactions?: Array<{
+            event?: string;
+            invokeOnInit?: boolean;
+            script?: any;
+        }>;
     }, position?: string, initialValue?: any, otherForm?: NovoFormGroup): void;
     removeControl(key: string, otherForm?: NovoFormGroup): void;
     debounce(func: () => void, wait?: number): void;
