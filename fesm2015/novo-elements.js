@@ -13525,6 +13525,27 @@ class NovoDataTable {
         return true;
     }
     /**
+     * @param {?} id
+     * @param {?} type
+     * @param {?} value
+     * @param {?} transform
+     * @param {?=} allowMultipleFilters
+     * @param {?=} selectedOption
+     * @return {?}
+     */
+    filter(id, type, value, transform, allowMultipleFilters = false, selectedOption) {
+        this.sortFilterDirective.filter(id, type, value, transform, allowMultipleFilters, selectedOption);
+    }
+    /**
+     * @param {?} id
+     * @param {?} value
+     * @param {?} transform
+     * @return {?}
+     */
+    sort(id, value, transform) {
+        this.sortFilterDirective.sort(id, value, transform);
+    }
+    /**
      * @private
      * @return {?}
      */
@@ -13892,6 +13913,10 @@ NovoDataTable.propDecorators = {
     defaultTemplates: [{ type: ViewChildren, args: [NovoTemplate,] }],
     cellHeaders: [{ type: ViewChildren, args: [NovoDataTableCellHeader,] }],
     novoDataTableContainer: [{ type: ViewChild, args: ['novoDataTableContainer', { static: false },] }],
+    sortFilterDirective: [{ type: ViewChild, args: [forwardRef((/**
+                 * @return {?}
+                 */
+                () => NovoDataTableSortFilter)), { static: false },] }],
     resized: [{ type: Output }],
     displayedColumns: [{ type: Input }],
     paginationOptions: [{ type: Input }],
@@ -13930,6 +13955,8 @@ if (false) {
     NovoDataTable.prototype.cellHeaders;
     /** @type {?} */
     NovoDataTable.prototype.novoDataTableContainer;
+    /** @type {?} */
+    NovoDataTable.prototype.sortFilterDirective;
     /** @type {?} */
     NovoDataTable.prototype.resized;
     /**

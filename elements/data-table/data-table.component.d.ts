@@ -6,6 +6,7 @@ import { IDataTableColumn, IDataTablePaginationOptions, IDataTablePreferences, I
 import { DataTableState } from './state/data-table-state.service';
 import { NovoDataTableCellHeader } from './cell-headers/data-table-header-cell.component';
 import { ListInteractionDictionary, ListInteractionEvent } from './ListInteractionTypes';
+import { NovoDataTableSortFilter } from './sort-filter/sort-filter.directive';
 export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     labels: NovoLabelService;
     private ref;
@@ -15,6 +16,7 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     defaultTemplates: QueryList<NovoTemplate>;
     cellHeaders: QueryList<NovoDataTableCellHeader<T>>;
     novoDataTableContainer: ElementRef;
+    sortFilterDirective: NovoDataTableSortFilter<T>;
     resized: EventEmitter<IDataTableColumn<T>>;
     displayedColumns: string[];
     private _disabledColumns;
@@ -86,6 +88,8 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     selectRow(row: T): void;
     selectRows(selected: boolean): void;
     allCurrentRowsSelected(): boolean;
+    filter(id: string, type: string, value: any, transform: Function, allowMultipleFilters?: boolean, selectedOption?: Object): void;
+    sort(id: string, value: string, transform: Function): void;
     private configureLastDisplayedColumn;
     private configureColumns;
     private scrollListener;

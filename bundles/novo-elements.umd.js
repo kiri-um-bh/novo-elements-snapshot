@@ -14923,6 +14923,43 @@
             return true;
         };
         /**
+         * @param {?} id
+         * @param {?} type
+         * @param {?} value
+         * @param {?} transform
+         * @param {?=} allowMultipleFilters
+         * @param {?=} selectedOption
+         * @return {?}
+         */
+        NovoDataTable.prototype.filter = /**
+         * @param {?} id
+         * @param {?} type
+         * @param {?} value
+         * @param {?} transform
+         * @param {?=} allowMultipleFilters
+         * @param {?=} selectedOption
+         * @return {?}
+         */
+        function (id, type, value, transform, allowMultipleFilters, selectedOption) {
+            if (allowMultipleFilters === void 0) { allowMultipleFilters = false; }
+            this.sortFilterDirective.filter(id, type, value, transform, allowMultipleFilters, selectedOption);
+        };
+        /**
+         * @param {?} id
+         * @param {?} value
+         * @param {?} transform
+         * @return {?}
+         */
+        NovoDataTable.prototype.sort = /**
+         * @param {?} id
+         * @param {?} value
+         * @param {?} transform
+         * @return {?}
+         */
+        function (id, value, transform) {
+            this.sortFilterDirective.sort(id, value, transform);
+        };
+        /**
          * @private
          * @return {?}
          */
@@ -15113,6 +15150,10 @@
             defaultTemplates: [{ type: core.ViewChildren, args: [NovoTemplate,] }],
             cellHeaders: [{ type: core.ViewChildren, args: [NovoDataTableCellHeader,] }],
             novoDataTableContainer: [{ type: core.ViewChild, args: ['novoDataTableContainer', { static: false },] }],
+            sortFilterDirective: [{ type: core.ViewChild, args: [core.forwardRef((/**
+                         * @return {?}
+                         */
+                        function () { return NovoDataTableSortFilter; })), { static: false },] }],
             resized: [{ type: core.Output }],
             displayedColumns: [{ type: core.Input }],
             paginationOptions: [{ type: core.Input }],
@@ -15153,6 +15194,8 @@
         NovoDataTable.prototype.cellHeaders;
         /** @type {?} */
         NovoDataTable.prototype.novoDataTableContainer;
+        /** @type {?} */
+        NovoDataTable.prototype.sortFilterDirective;
         /** @type {?} */
         NovoDataTable.prototype.resized;
         /**
