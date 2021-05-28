@@ -47352,11 +47352,11 @@ var NovoControlElement = /** @class */ (function (_super) {
              * @return {?}
              */
             function (value) {
-                if (!Helpers.isEmpty(value)) {
+                if (!Helpers.isEmpty(value) && !isNaN(value)) {
                     _this.templateContext.$implicit.percentValue = Number((value * 100).toFixed(6).replace(/\.?0*$/, ''));
                 }
-                else {
-                    _this.templateContext.$implicit.percentValue = null;
+                else if (Helpers.isEmpty(value)) {
+                    _this.templateContext.$implicit.percentValue = undefined;
                 }
             }));
         }
@@ -47772,9 +47772,9 @@ var NovoControlElement = /** @class */ (function (_super) {
      */
     function (event) {
         /** @type {?} */
-        var value = event.target['value'];
+        var value = event.target['value'] || event['data'];
         /** @type {?} */
-        var percent = Helpers.isEmpty(value) ? null : Number((value / 100).toFixed(6).replace(/\.?0*$/, ''));
+        var percent = (Helpers.isEmpty(value) || isNaN(value)) ? value : Number((value / 100).toFixed(6).replace(/\.?0*$/, ''));
         if (!Helpers.isEmpty(percent)) {
             this.change.emit(percent);
             this.form.controls[this.control.key].setValue(percent);
