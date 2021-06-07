@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { NovoFormGroup } from './NovoFormGroup';
 import { BaseControl } from './controls/BaseControl';
 import { FormUtils } from '../../utils/form-utils/FormUtils';
+import * as ɵngcc0 from '@angular/core';
 export interface NovoControlGroupAddConfig {
     label: string;
 }
@@ -14,14 +15,18 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges, On
     private formUtils;
     private fb;
     private ref;
-    vertical: boolean;
+    set vertical(v: boolean);
+    get vertical(): boolean;
     private _vertical;
     add: NovoControlGroupAddConfig;
-    remove: boolean;
+    set remove(v: boolean);
+    get remove(): boolean;
     private _remove;
-    edit: boolean;
+    set edit(v: boolean);
+    get edit(): boolean;
     private _edit;
-    collapsible: boolean;
+    set collapsible(v: boolean);
+    get collapsible(): boolean;
     private _collapsible;
     form: NovoFormGroup;
     controls: BaseControl[];
@@ -29,7 +34,8 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges, On
     label: string;
     description: string;
     emptyMessage: string;
-    icon: string;
+    set icon(v: string);
+    get icon(): string;
     private _icon;
     initialValue: {}[];
     canEdit: Function;
@@ -75,4 +81,8 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges, On
     private getNewControls;
     private assignIndexes;
     private onFieldInteractionEvent;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoControlGroup, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoControlGroup, "novo-control-group", never, { "vertical": "vertical"; "remove": "remove"; "edit": "edit"; "collapsible": "collapsible"; "icon": "icon"; "add": "add"; "form": "form"; "controls": "controls"; "key": "key"; "label": "label"; "description": "description"; "emptyMessage": "emptyMessage"; "initialValue": "initialValue"; "canEdit": "canEdit"; "canRemove": "canRemove"; "rowTemplate": "rowTemplate"; "columnLabelTemplate": "columnLabelTemplate"; }, { "onRemove": "onRemove"; "onEdit": "onEdit"; "onAdd": "onAdd"; "change": "change"; }, never, never>;
 }
+
+//# sourceMappingURL=ControlGroup.d.ts.map

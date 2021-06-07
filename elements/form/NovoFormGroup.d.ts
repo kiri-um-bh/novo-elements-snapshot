@@ -10,7 +10,8 @@ export declare class NovoFormGroup extends FormGroup {
     associations: object;
     fieldsets: any[];
     _value: any;
-    value: any;
+    get value(): any;
+    set value(v: any);
     enableAllControls(): void;
     disableAllControls(): void;
 }

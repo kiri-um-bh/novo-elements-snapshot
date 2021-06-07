@@ -14,8 +14,8 @@ export declare class DataTableSource<T> extends DataSource<T> {
     pristine: boolean;
     data: T[];
     private totalSet;
-    readonly totallyEmpty: boolean;
-    readonly currentlyEmpty: boolean;
+    get totallyEmpty(): boolean;
+    get currentlyEmpty(): boolean;
     constructor(tableService: IDataTableService<T>, state: DataTableState<T>, ref: ChangeDetectorRef);
     connect(): Observable<any>;
     disconnect(): void;

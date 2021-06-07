@@ -1,4 +1,5 @@
 import { EventEmitter, ElementRef, OnInit } from '@angular/core';
+import * as ɵngcc0 from '@angular/core';
 export declare class ThOrderable implements OnInit {
     private element;
     column: any;
@@ -7,7 +8,7 @@ export declare class ThOrderable implements OnInit {
     clone: any;
     target: any;
     constructor(element: ElementRef);
-    readonly index: number;
+    get index(): number;
     ngOnInit(): void;
     onDragStart(event?: any): void;
     deleteColumns(table: {
@@ -27,4 +28,8 @@ export declare class ThOrderable implements OnInit {
     }): boolean;
     onDragEnter(event: any): void;
     onDragLeave(event?: any): void;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<ThOrderable, never>;
+    static ɵdir: ɵngcc0.ɵɵDirectiveDefWithMeta<ThOrderable, "[novoThOrderable]", never, { "column": "novoThOrderable"; }, { "onOrderChange": "onOrderChange"; }, never>;
 }
+
+//# sourceMappingURL=ThOrderable.d.ts.map

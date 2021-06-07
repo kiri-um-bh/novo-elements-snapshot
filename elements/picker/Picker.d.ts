@@ -8,6 +8,7 @@ import { NovoControlConfig } from '../form/FormControls';
  * Picker should be added as a two-way bound ngModel instance `[(picker)]=""` in order to have the picker options
  * dynamically populate.
  */
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoPickerElement implements OnInit {
     element: ElementRef;
     private componentUtils;
@@ -25,7 +26,8 @@ export declare class NovoPickerElement implements OnInit {
     side: string;
     autoSelectFirstOption: boolean;
     overrideElement: ElementRef;
-    disablePickerInput: boolean;
+    set disablePickerInput(v: boolean);
+    get disablePickerInput(): boolean;
     private _disablePickerInput;
     changed: EventEmitter<any>;
     select: EventEmitter<any>;
@@ -45,7 +47,7 @@ export declare class NovoPickerElement implements OnInit {
     private onDebouncedKeyup;
     openPanel(): void;
     closePanel(): void;
-    readonly panelOpen: boolean;
+    get panelOpen(): boolean;
     private show;
     onKeyDown(event: KeyboardEvent): void;
     clearValue(wipeTerm: any): void;
@@ -57,11 +59,16 @@ export declare class NovoPickerElement implements OnInit {
     showResults(term?: any): void;
     hideResults(err?: any): void;
     onOverlayClosed(): void;
-    value: any;
+    get value(): any;
+    set value(selected: any);
     checkTerm(event: any): void;
     onTouched(event?: Event): void;
     writeValue(value: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
     setDisabledState(disabled: boolean): void;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoPickerElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoPickerElement, "novo-picker", never, { "closeOnSelect": "closeOnSelect"; "selected": "selected"; "appendToBody": "appendToBody"; "parentScrollAction": "parentScrollAction"; "side": "side"; "autoSelectFirstOption": "autoSelectFirstOption"; "disablePickerInput": "disablePickerInput"; "config": "config"; "placeholder": "placeholder"; "clearValueOnSelect": "clearValueOnSelect"; "parentScrollSelector": "parentScrollSelector"; "containerClass": "containerClass"; "overrideElement": "overrideElement"; }, { "changed": "changed"; "select": "select"; "focus": "focus"; "blur": "blur"; "typing": "typing"; }, never, ["*"]>;
 }
+
+//# sourceMappingURL=Picker.d.ts.map

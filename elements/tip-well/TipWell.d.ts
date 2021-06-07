@@ -1,6 +1,7 @@
 import { OnInit, EventEmitter } from '@angular/core';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoTipWellElement implements OnInit {
     private labels;
     private sanitizer;
@@ -17,7 +18,11 @@ export declare class NovoTipWellElement implements OnInit {
     private _tipWithStyles;
     private _lastTipStyled;
     constructor(labels: NovoLabelService, sanitizer: DomSanitizer);
-    readonly tipWithStyles: SafeHtml;
+    get tipWithStyles(): SafeHtml;
     ngOnInit(): void;
     hideTip(): void;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoTipWellElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoTipWellElement, "novo-tip-well", never, { "button": "button"; "sanitize": "sanitize"; "tip": "tip"; "buttonText": "buttonText"; "icon": "icon"; "name": "name"; }, { "confirmed": "confirmed"; }, never, never>;
 }
+
+//# sourceMappingURL=TipWell.d.ts.map
