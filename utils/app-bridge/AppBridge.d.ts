@@ -12,7 +12,6 @@ export declare enum AppBridgeHandler {
     CALLBACK = 9
 }
 export declare type NovoApps = 'record' | 'add' | 'fast-add' | 'custom' | 'preview';
-export declare type AlleyLinkColors = 'purple' | 'green' | 'blue' | 'lead' | 'candidate' | 'contact' | 'company' | 'opportunity' | 'job' | 'billable-charge' | 'earn-code' | 'invoice-statement' | 'job-code' | 'payable-charge' | 'sales-tax-rate' | 'tax-rules' | 'submission' | 'placement' | 'navigation' | 'canvas' | 'neutral' | 'neutral-italic' | 'initial' | 'distributionList' | 'contract';
 export interface IAppBridgeOpenEvent {
     type: NovoApps;
     entityType: string;
@@ -48,7 +47,7 @@ export declare class AppBridge {
     private _tracing;
     private _eventListeners;
     constructor(traceName?: string);
-    tracing: boolean;
+    set tracing(tracing: boolean);
     handle(type: AppBridgeHandler, handler: Function): void;
     private _trace;
     protected _setupHandlers(): void;
@@ -71,7 +70,7 @@ export declare class AppBridge {
         entityId: string;
         title: string;
         titleKey: string;
-        color: AlleyLinkColors;
+        color: string;
     }>): Promise<boolean>;
     /**
      * Fires or responds to an close event
@@ -108,28 +107,28 @@ export declare class AppBridge {
     register(packet?: Partial<{
         title: string;
         url: string;
-        color: AlleyLinkColors;
+        color: string;
     }>): Promise<string>;
     /**
      * Fires or responds to an HTTP_GET event
      * @param packet any - packet of data to send with the event
      */
-    httpGET(relativeURL: string, timeout?: number): Promise<any>;
+    httpGET(relativeURL: string): Promise<any>;
     /**
      * Fires or responds to an HTTP_POST event
      * @param packet any - packet of data to send with the event
      */
-    httpPOST(relativeURL: string, postData: any, timeout?: number): Promise<any>;
+    httpPOST(relativeURL: string, postData: any): Promise<any>;
     /**
      * Fires or responds to an HTTP_PUT event
      * @param packet any - packet of data to send with the event
      */
-    httpPUT(relativeURL: string, putData: any, timeout?: number): Promise<any>;
+    httpPUT(relativeURL: string, putData: any): Promise<any>;
     /**
      * Fires or responds to an HTTP_DELETE event
      * @param packet any - packet of data to send with the event
      */
-    httpDELETE(relativeURL: string, timeout?: number): Promise<any>;
+    httpDELETE(relativeURL: string): Promise<any>;
     /**
      * Fires a custom event to anywhere in the application
      * @param event string - event name to fire
