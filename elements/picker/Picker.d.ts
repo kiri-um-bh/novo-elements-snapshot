@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, ComponentRef, ElementRef, EventEmitter, OnInit, ViewContainerRef } from '@angular/core';
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
-import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
+import { NovoOverlayTemplateComponent } from '../common/overlay/Overlay';
 import { NovoControlConfig } from '../form/FormControls';
+import * as i0 from "@angular/core";
 /**
  * @description This class is the directive definition of the Picker. If you add and attribute of `picker` to an input,
  * it will create an instance of the picker which wraps the input in all of the picker HTML elements and functionality.
@@ -25,7 +26,8 @@ export declare class NovoPickerElement implements OnInit {
     side: string;
     autoSelectFirstOption: boolean;
     overrideElement: ElementRef;
-    disablePickerInput: boolean;
+    set disablePickerInput(v: boolean);
+    get disablePickerInput(): boolean;
     private _disablePickerInput;
     changed: EventEmitter<any>;
     select: EventEmitter<any>;
@@ -45,7 +47,7 @@ export declare class NovoPickerElement implements OnInit {
     private onDebouncedKeyup;
     openPanel(): void;
     closePanel(): void;
-    readonly panelOpen: boolean;
+    get panelOpen(): boolean;
     private show;
     onKeyDown(event: KeyboardEvent): void;
     clearValue(wipeTerm: any): void;
@@ -57,11 +59,14 @@ export declare class NovoPickerElement implements OnInit {
     showResults(term?: any): void;
     hideResults(err?: any): void;
     onOverlayClosed(): void;
-    value: any;
+    get value(): any;
+    set value(selected: any);
     checkTerm(event: any): void;
     onTouched(event?: Event): void;
     writeValue(value: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
     setDisabledState(disabled: boolean): void;
+    static ɵfac: i0.ɵɵFactoryDef<NovoPickerElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoPickerElement, "novo-picker", never, { "config": "config"; "placeholder": "placeholder"; "clearValueOnSelect": "clearValueOnSelect"; "closeOnSelect": "closeOnSelect"; "selected": "selected"; "appendToBody": "appendToBody"; "parentScrollSelector": "parentScrollSelector"; "parentScrollAction": "parentScrollAction"; "containerClass": "containerClass"; "side": "side"; "autoSelectFirstOption": "autoSelectFirstOption"; "overrideElement": "overrideElement"; "disablePickerInput": "disablePickerInput"; }, { "changed": "changed"; "select": "select"; "focus": "focus"; "blur": "blur"; "typing": "typing"; }, never, ["*"]>;
 }

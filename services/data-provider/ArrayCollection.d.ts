@@ -23,9 +23,9 @@ export declare class ArrayCollection<T> implements Collection<T> {
     _filter: any;
     _sort: Array<any>;
     constructor(source?: Array<T>);
-    readonly length: number;
-    readonly total: number;
-    readonly list: Array<T>;
+    get length(): number;
+    get total(): number;
+    get list(): Array<T>;
     isEmpty(): boolean;
     hasErrors(): boolean;
     isLoading(): boolean;
@@ -155,14 +155,16 @@ export declare class ArrayCollection<T> implements Collection<T> {
      *
      * @memberOf ArrayCollection
      */
-    sort: Array<any>;
+    get sort(): Array<any>;
+    set sort(value: Array<any>);
     /**
      * Sorts the items that the data provider contains by the specified field and dispatches a CollectionEvent.SORT event.
      *
      * @memberOf ArrayCollection
      */
     sortOn(fieldName: any, reverse?: boolean): Array<T>;
-    filter: any;
+    get filter(): any;
+    set filter(value: any);
     filterOn(fieldName: any, value?: any): Array<T>;
     onDataChange(event: CollectionEvent): void;
     refresh(): void;
