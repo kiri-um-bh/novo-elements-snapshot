@@ -3,8 +3,9 @@ import { ControlValueAccessor } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoChipElement {
-    type: string;
+    set type(type: string);
     disabled: boolean;
     select: EventEmitter<any>;
     remove: EventEmitter<any>;
@@ -14,6 +15,8 @@ export declare class NovoChipElement {
     onRemove(e: any): boolean;
     onSelect(e: any): boolean;
     onDeselect(e: any): boolean;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoChipElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoChipElement, "chip,novo-chip", never, { "disabled": "disabled"; "type": "type"; }, { "select": "select"; "remove": "remove"; "deselect": "deselect"; }, never, ["*"]>;
 }
 export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     element: ElementRef;
@@ -24,7 +27,8 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     source: any;
     maxlength: any;
     type: any;
-    disablePickerInput: boolean;
+    set disablePickerInput(v: boolean);
+    get disablePickerInput(): boolean;
     private _disablePickerInput;
     changed: EventEmitter<any>;
     focus: EventEmitter<any>;
@@ -43,7 +47,8 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     onModelTouched: Function;
     constructor(element: ElementRef, componentUtils: ComponentUtils, labels: NovoLabelService);
     ngOnInit(): void;
-    value: any;
+    get value(): any;
+    set value(selected: any);
     clearValue(): void;
     setItems(): void;
     getLabelFromOptions(value: any): {
@@ -73,4 +78,8 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
      * @description - This method deletes the preview popup from the DOM.
      */
     hidePreview(): void;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoChipsElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoChipsElement, "chips,novo-chips", never, { "closeOnSelect": "closeOnSelect"; "placeholder": "placeholder"; "disablePickerInput": "disablePickerInput"; "value": "value"; "source": "source"; "maxlength": "maxlength"; "type": "type"; }, { "changed": "changed"; "focus": "focus"; "blur": "blur"; "typing": "typing"; }, never, never>;
 }
+
+//# sourceMappingURL=Chips.d.ts.map

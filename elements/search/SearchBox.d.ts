@@ -1,6 +1,7 @@
 import { EventEmitter, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../services/novo-label-service';
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoSearchBoxElement implements ControlValueAccessor {
     element: ElementRef;
     labels: NovoLabelService;
@@ -37,8 +38,8 @@ export declare class NovoSearchBoxElement implements ControlValueAccessor {
     /** BEGIN: Convenient Panel Methods. */
     openPanel(): void;
     closePanel(): void;
-    readonly panelOpen: boolean;
-    readonly active: boolean;
+    get panelOpen(): boolean;
+    get active(): boolean;
     /** END: Convenient Panel Methods. */
     _handleKeydown(event: KeyboardEvent): void;
     _handleInput(event: KeyboardEvent): void;
@@ -56,4 +57,8 @@ export declare class NovoSearchBoxElement implements ControlValueAccessor {
      * Clear any previous selected option and emit a selection change event for this option
      */
     clearValue(skip: any): void;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoSearchBoxElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoSearchBoxElement, "novo-search", never, { "icon": "icon"; "placeholder": "placeholder"; "alwaysOpen": "alwaysOpen"; "theme": "theme"; "closeOnSelect": "closeOnSelect"; "displayValue": "displayValue"; "name": "name"; "displayField": "displayField"; "hint": "hint"; }, { "searchChanged": "searchChanged"; }, never, ["*"]>;
 }
+
+//# sourceMappingURL=SearchBox.d.ts.map

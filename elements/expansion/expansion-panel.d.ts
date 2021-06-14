@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { NovoAccordion } from './accordion';
 import { NovoExpansionPanelContent } from './expansion-panel-content';
 /** NovoExpansionPanel's states. */
+import * as ɵngcc0 from '@angular/core';
 export declare type NovoExpansionPanelState = 'expanded' | 'collapsed';
 /**
  * `<novo-expansion-panel>`
@@ -19,9 +20,11 @@ export declare class NovoExpansionPanel extends CdkAccordionItem implements Afte
     disabled: boolean;
     expanded: boolean;
     /** Whether the toggle indicator should be hidden. */
-    hideToggle: boolean;
+    get hideToggle(): boolean;
+    set hideToggle(value: boolean);
     private _hideToggle;
-    padding: boolean;
+    get padding(): boolean;
+    set padding(value: boolean);
     private _padding;
     opened: EventEmitter<void>;
     closed: EventEmitter<void>;
@@ -47,6 +50,12 @@ export declare class NovoExpansionPanel extends CdkAccordionItem implements Afte
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;
     _bodyAnimation(event: AnimationEvent): void;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoExpansionPanel, [{ optional: true; host: true; }, null, null, null]>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoExpansionPanel, "novo-expansion-panel", ["novoExpansionPanel"], { "hideToggle": "hideToggle"; "padding": "padding"; "disabled": "disabled"; "expanded": "expanded"; }, { "opened": "opened"; "closed": "closed"; "expandedChange": "expandedChange"; }, ["_lazyContent"], ["novo-expansion-panel-header", "*", "novo-action-row"]>;
 }
 export declare class NovoExpansionPanelActionRow {
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoExpansionPanelActionRow, never>;
+    static ɵdir: ɵngcc0.ɵɵDirectiveDefWithMeta<NovoExpansionPanelActionRow, "novo-action-row", never, {}, {}, never>;
 }
+
+//# sourceMappingURL=expansion-panel.d.ts.map

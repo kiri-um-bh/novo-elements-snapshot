@@ -1,6 +1,7 @@
 import { ElementRef, EventEmitter, OnInit } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { NovoLabelService } from '../../services/novo-label-service';
+import * as ɵngcc0 from '@angular/core';
 interface Item {
     type: any;
     label: any;
@@ -27,7 +28,8 @@ export declare class NovoMultiPickerElement implements OnInit {
     changed: EventEmitter<any>;
     focus: EventEmitter<any>;
     blur: EventEmitter<any>;
-    value: {};
+    get value(): {};
+    set value(selectedItems: {});
     items: Item[];
     _items: ReplaySubject<Item[]>;
     options: any;
@@ -102,5 +104,9 @@ export declare class NovoMultiPickerElement implements OnInit {
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoMultiPickerElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoMultiPickerElement, "multi-picker", never, { "placeholder": "placeholder"; "value": "value"; "source": "source"; "types": "types"; }, { "changed": "changed"; "focus": "focus"; "blur": "blur"; }, never, never>;
 }
 export {};
+
+//# sourceMappingURL=MultiPicker.d.ts.map

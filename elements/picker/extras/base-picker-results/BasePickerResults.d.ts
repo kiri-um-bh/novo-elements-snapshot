@@ -6,6 +6,7 @@ import { NovoControlConfig } from '../../../form/controls/BaseControl';
  * @description This is the actual list of matches that gets injected into the DOM. It's also the piece that can be
  * overwritten if custom list options are needed.
  */
+import * as ɵngcc0 from '@angular/core';
 export declare class BasePickerResults {
     _term: string;
     selected: Array<any>;
@@ -28,8 +29,10 @@ export declare class BasePickerResults {
     constructor(element: ElementRef, ref: ChangeDetectorRef);
     cleanUp(): void;
     onScrollDown(event: WheelEvent): void;
-    term: string;
-    config: NovoControlConfig['config'];
+    get term(): string;
+    set term(value: string);
+    set config(value: NovoControlConfig['config']);
+    get config(): NovoControlConfig['config'];
     shouldSearch(value: unknown): boolean;
     addScrollListener(): void;
     processSearch(shouldReset?: boolean): void;
@@ -86,4 +89,8 @@ export declare class BasePickerResults {
      */
     highlight(match: any, query: any): any;
     preselected(match: any): boolean;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<BasePickerResults, never>;
+    static ɵdir: ɵngcc0.ɵɵDirectiveDefWithMeta<BasePickerResults, never, never, { "matches": "matches"; }, {}, never>;
 }
+
+//# sourceMappingURL=BasePickerResults.d.ts.map

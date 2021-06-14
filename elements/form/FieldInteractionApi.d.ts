@@ -7,6 +7,7 @@ import { NovoModalService } from '../modal/ModalService';
 import { NovoToastService, ToastOptions } from '../toast/ToastService';
 import { ModifyPickerConfigArgs, OptionsFunction } from './FieldInteractionApiTypes';
 import { NovoFieldset, NovoFormGroup, ResultsTemplateType } from './FormInterfaces';
+import * as ɵngcc0 from '@angular/core';
 export declare class FieldInteractionApi {
     private toaster;
     private modalService;
@@ -26,14 +27,17 @@ export declare class FieldInteractionApi {
         BOTTOM_OF_FORM: string;
     };
     constructor(toaster: NovoToastService, modalService: NovoModalService, formUtils: FormUtils, http: HttpClient, labels: NovoLabelService);
-    readonly associations: any;
-    readonly currentEntity: string;
-    readonly currentEntityId: string;
-    readonly isEdit: boolean;
-    readonly isAdd: boolean;
-    globals: any;
-    currentKey: string;
-    isInvokedOnInit: boolean;
+    get associations(): any;
+    get currentEntity(): string;
+    get currentEntityId(): string;
+    get isEdit(): boolean;
+    get isAdd(): boolean;
+    set globals(globals: any);
+    get globals(): any;
+    set currentKey(key: string);
+    get currentKey(): string;
+    set isInvokedOnInit(isOnInit: boolean);
+    get isInvokedOnInit(): boolean;
     isActiveControlValid(): boolean;
     getActiveControl(): NovoFormControl;
     getActiveKey(): string;
@@ -117,7 +121,7 @@ export declare class FieldInteractionApi {
     addPropertiesToPickerConfig(key: string, properties: {
         [key: string]: unknown;
     }, otherForm?: NovoFormGroup): void;
-    getOptionsConfig: (args: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown, filteredOptionsCreator?: (where: string) => (query: string) => Promise<unknown[]>, pickerConfigFormat?: string) => {
+    getOptionsConfig: (args: ModifyPickerConfigArgs, mapper?: (item: unknown) => unknown, filteredOptionsCreator?: (where: string) => (query: string) => Promise<unknown[]>, pickerConfigFormat?: string) => undefined | {
         options: unknown[];
     } | {
         options: OptionsFunction;
@@ -154,4 +158,8 @@ export declare class FieldInteractionApi {
      */
     getIndex(otherForm?: NovoFormGroup): any;
     private triggerEvent;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<FieldInteractionApi, never>;
+    static ɵprov: ɵngcc0.ɵɵInjectableDef<FieldInteractionApi>;
 }
+
+//# sourceMappingURL=FieldInteractionApi.d.ts.map

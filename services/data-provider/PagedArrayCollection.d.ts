@@ -5,9 +5,11 @@ export declare class PagedArrayCollection<T> extends ArrayCollection<T> implemen
     _numberOfPages: number;
     _pageSize: number;
     constructor(source?: Array<T>);
-    readonly numberOfPages: number;
-    page: number;
-    pageSize: number;
+    get numberOfPages(): number;
+    get page(): number;
+    set page(value: number);
+    get pageSize(): number;
+    set pageSize(value: number);
     next(): number;
     prev(): number;
     first(): number;
