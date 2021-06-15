@@ -9770,7 +9770,7 @@ class NovoLabelService {
         this.actions = 'Actions';
         this.all = 'All';
         this.groupedMultiPickerEmpty = 'No items to display';
-        this.groupedMultiPickerSelectCategory = 'Select a category from the right to get started';
+        this.groupedMultiPickerSelectCategory = 'Select a category from the left to get started';
         this.add = 'Add';
         this.encryptedFieldTooltip = 'This data has been stored at the highest level of security';
         this.noStatesForCountry = 'No states available for the selected country';
