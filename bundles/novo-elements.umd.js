@@ -263,7 +263,7 @@
                 }
                 return newArr;
             }
-            if (typeof item === 'function' && !/\(\) \{ \[native/.test(item.toString())) {
+            if (typeof item === 'function' && !/\(\) \{ \[native/.test(item.toString()) && !item.toString().startsWith('class')) {
                 var obj = void 0;
                 for (var k in item) {
                     if (k in item) {
