@@ -1,9 +1,7 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './Tabs';
-import * as ɵngcc2 from '@angular/common';
+import * as i0 from "@angular/core";
+import * as i1 from "./Tabs";
+import * as i2 from "@angular/common";
 export declare class NovoTabModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoTabModule, [typeof ɵngcc1.NovoNavElement, typeof ɵngcc1.NovoTabElement, typeof ɵngcc1.NovoTabButtonElement, typeof ɵngcc1.NovoTabLinkElement, typeof ɵngcc1.NovoNavOutletElement, typeof ɵngcc1.NovoNavContentElement, typeof ɵngcc1.NovoNavHeaderElement], [typeof ɵngcc2.CommonModule], [typeof ɵngcc1.NovoNavElement, typeof ɵngcc1.NovoTabElement, typeof ɵngcc1.NovoTabButtonElement, typeof ɵngcc1.NovoTabLinkElement, typeof ɵngcc1.NovoNavOutletElement, typeof ɵngcc1.NovoNavContentElement, typeof ɵngcc1.NovoNavHeaderElement]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoTabModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoTabModule, [typeof i1.NovoNavElement, typeof i1.NovoTabElement, typeof i1.NovoTabButtonElement, typeof i1.NovoTabLinkElement, typeof i1.NovoNavOutletElement, typeof i1.NovoNavContentElement, typeof i1.NovoNavHeaderElement], [typeof i2.CommonModule], [typeof i1.NovoNavElement, typeof i1.NovoTabElement, typeof i1.NovoTabButtonElement, typeof i1.NovoTabLinkElement, typeof i1.NovoNavOutletElement, typeof i1.NovoNavContentElement, typeof i1.NovoNavHeaderElement]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoTabModule>;
 }
-
-//# sourceMappingURL=Tabs.module.d.ts.map

@@ -1,10 +1,8 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './Modal';
-import * as ɵngcc2 from '@angular/common';
-import * as ɵngcc3 from '../button/Button.module';
+import * as i0 from "@angular/core";
+import * as i1 from "./Modal";
+import * as i2 from "@angular/common";
+import * as i3 from "../button/Button.module";
 export declare class NovoModalModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoModalModule, [typeof ɵngcc1.NovoModalContainerElement, typeof ɵngcc1.NovoModalElement, typeof ɵngcc1.NovoModalNotificationElement], [typeof ɵngcc2.CommonModule, typeof ɵngcc3.NovoButtonModule], [typeof ɵngcc1.NovoModalElement, typeof ɵngcc1.NovoModalNotificationElement]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoModalModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoModalModule, [typeof i1.NovoModalContainerElement, typeof i1.NovoModalElement, typeof i1.NovoModalNotificationElement], [typeof i2.CommonModule, typeof i3.NovoButtonModule], [typeof i1.NovoModalElement, typeof i1.NovoModalNotificationElement]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoModalModule>;
 }
-
-//# sourceMappingURL=Modal.module.d.ts.map

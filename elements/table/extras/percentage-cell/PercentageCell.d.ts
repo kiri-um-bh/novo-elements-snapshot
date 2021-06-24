@@ -1,8 +1,6 @@
 import { BaseRenderer } from '../base-renderer/BaseRenderer';
-import * as ɵngcc0 from '@angular/core';
+import * as i0 from "@angular/core";
 export declare class PercentageCell extends BaseRenderer {
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<PercentageCell, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<PercentageCell, "percentage-cell", never, {}, {}, never, never>;
+    static ɵfac: i0.ɵɵFactoryDef<PercentageCell, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<PercentageCell, "percentage-cell", never, {}, {}, never, never>;
 }
-
-//# sourceMappingURL=PercentageCell.d.ts.map

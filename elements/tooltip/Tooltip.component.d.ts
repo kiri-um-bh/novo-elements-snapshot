@@ -1,4 +1,4 @@
-import * as ɵngcc0 from '@angular/core';
+import * as i0 from "@angular/core";
 export declare class NovoTooltip {
     message: string;
     hidden: boolean;
@@ -9,8 +9,6 @@ export declare class NovoTooltip {
     preline: boolean;
     noAnimate: boolean;
     position: string;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoTooltip, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoTooltip, "novo-tooltip", never, {}, {}, never, never>;
+    static ɵfac: i0.ɵɵFactoryDef<NovoTooltip, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoTooltip, "novo-tooltip", never, {}, {}, never, never>;
 }
-
-//# sourceMappingURL=Tooltip.component.d.ts.map

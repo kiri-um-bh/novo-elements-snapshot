@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { NovoSimpleTableChange } from './interfaces';
-import * as ɵngcc0 from '@angular/core';
+import * as i0 from "@angular/core";
 export declare class NovoActivityTableState {
     id: number;
     sort: {
@@ -20,8 +20,6 @@ export declare class NovoActivityTableState {
     onReset: EventEmitter<boolean>;
     get userFiltered(): boolean;
     reset(fireUpdate?: boolean, persistUserFilters?: boolean): void;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoActivityTableState, never>;
-    static ɵprov: ɵngcc0.ɵɵInjectableDef<NovoActivityTableState>;
+    static ɵfac: i0.ɵɵFactoryDef<NovoActivityTableState, never>;
+    static ɵprov: i0.ɵɵInjectableDef<NovoActivityTableState>;
 }
-
-//# sourceMappingURL=state.d.ts.map

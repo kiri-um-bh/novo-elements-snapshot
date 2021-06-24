@@ -1,6 +1,6 @@
 import { OnInit, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import * as ɵngcc0 from '@angular/core';
+import * as i0 from "@angular/core";
 export declare class NovoToastElement implements OnInit, OnChanges {
     private sanitizer;
     theme: string;
@@ -26,8 +26,6 @@ export declare class NovoToastElement implements OnInit, OnChanges {
     ngOnChanges(changes?: SimpleChanges): void;
     clickHandler(event: any): void;
     close(event: any): void;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoToastElement, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoToastElement, "novo-toast", never, { "theme": "theme"; "icon": "icon"; "hasDialogue": "hasDialogue"; "isCloseable": "isCloseable"; "message": "message"; "title": "title"; "link": "link"; }, { "closed": "closed"; }, never, ["*"]>;
+    static ɵfac: i0.ɵɵFactoryDef<NovoToastElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoToastElement, "novo-toast", never, { "theme": "theme"; "icon": "icon"; "title": "title"; "hasDialogue": "hasDialogue"; "link": "link"; "isCloseable": "isCloseable"; "message": "message"; }, { "closed": "closed"; }, never, ["*"]>;
 }
-
-//# sourceMappingURL=Toast.d.ts.map

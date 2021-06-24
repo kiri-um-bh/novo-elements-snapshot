@@ -1,12 +1,10 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './Overlay';
-import * as ɵngcc2 from '@angular/common';
-import * as ɵngcc3 from '@angular/forms';
-import * as ɵngcc4 from '@angular/cdk/overlay';
-import * as ɵngcc5 from '@angular/cdk/scrolling';
+import * as i0 from "@angular/core";
+import * as i1 from "./Overlay";
+import * as i2 from "@angular/common";
+import * as i3 from "@angular/forms";
+import * as i4 from "@angular/cdk/overlay";
+import * as i5 from "@angular/cdk/scrolling";
 export declare class NovoOverlayModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoOverlayModule, [typeof ɵngcc1.NovoOverlayTemplateComponent], [typeof ɵngcc2.CommonModule, typeof ɵngcc3.FormsModule, typeof ɵngcc4.OverlayModule, typeof ɵngcc5.ScrollingModule], [typeof ɵngcc1.NovoOverlayTemplateComponent, typeof ɵngcc5.ScrollingModule]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoOverlayModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoOverlayModule, [typeof i1.NovoOverlayTemplateComponent], [typeof i2.CommonModule, typeof i3.FormsModule, typeof i4.OverlayModule, typeof i5.ScrollingModule], [typeof i1.NovoOverlayTemplateComponent, typeof i5.ScrollingModule]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoOverlayModule>;
 }
-
-//# sourceMappingURL=Overlay.module.d.ts.map

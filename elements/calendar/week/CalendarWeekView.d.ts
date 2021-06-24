@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, EventEmitter, OnChanges, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { CalendarEvent, CalendarEventTimesChangedEvent, DayViewHour, WeekDay, WeekViewEventRow } from '../../../utils/calendar-utils/CalendarUtils';
+import * as i0 from "@angular/core";
 /**
  * Shows all events on a given week. Example usage:
  *
@@ -11,7 +12,6 @@ import { CalendarEvent, CalendarEventTimesChangedEvent, DayViewHour, WeekDay, We
  * &lt;/novo-calendar-week&gt;
  * ```
  */
-import * as ɵngcc0 from '@angular/core';
 export declare class NovoCalendarWeekViewElement implements OnChanges, OnInit, OnDestroy {
     private cdr;
     /**
@@ -154,8 +154,6 @@ export declare class NovoCalendarWeekViewElement implements OnChanges, OnInit, O
     private refreshBody;
     private refreshHourGrid;
     private refreshAll;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoCalendarWeekViewElement, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoCalendarWeekViewElement, "novo-calendar-week", never, { "events": "events"; "excludeDays": "excludeDays"; "tooltipPosition": "tooltipPosition"; "precision": "precision"; "hourSegments": "hourSegments"; "dayStartHour": "dayStartHour"; "dayStartMinute": "dayStartMinute"; "dayEndHour": "dayEndHour"; "dayEndMinute": "dayEndMinute"; "locale": "locale"; "viewDate": "viewDate"; "refresh": "refresh"; "weekStartsOn": "weekStartsOn"; "headerTemplate": "headerTemplate"; "eventTemplate": "eventTemplate"; "hourSegmentTemplate": "hourSegmentTemplate"; }, { "hourSegmentClicked": "hourSegmentClicked"; "dayClicked": "dayClicked"; "eventClicked": "eventClicked"; "eventTimesChanged": "eventTimesChanged"; }, never, never>;
+    static ɵfac: i0.ɵɵFactoryDef<NovoCalendarWeekViewElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoCalendarWeekViewElement, "novo-calendar-week", never, { "viewDate": "viewDate"; "events": "events"; "excludeDays": "excludeDays"; "refresh": "refresh"; "locale": "locale"; "tooltipPosition": "tooltipPosition"; "weekStartsOn": "weekStartsOn"; "headerTemplate": "headerTemplate"; "eventTemplate": "eventTemplate"; "precision": "precision"; "hourSegments": "hourSegments"; "dayStartHour": "dayStartHour"; "dayStartMinute": "dayStartMinute"; "dayEndHour": "dayEndHour"; "dayEndMinute": "dayEndMinute"; "hourSegmentTemplate": "hourSegmentTemplate"; }, { "hourSegmentClicked": "hourSegmentClicked"; "dayClicked": "dayClicked"; "eventClicked": "eventClicked"; "eventTimesChanged": "eventTimesChanged"; }, never, never>;
 }
-
-//# sourceMappingURL=CalendarWeekView.d.ts.map

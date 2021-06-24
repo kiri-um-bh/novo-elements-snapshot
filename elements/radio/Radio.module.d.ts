@@ -1,10 +1,8 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './Radio';
-import * as ɵngcc2 from '@angular/common';
-import * as ɵngcc3 from '../button/Button.module';
+import * as i0 from "@angular/core";
+import * as i1 from "./Radio";
+import * as i2 from "@angular/common";
+import * as i3 from "../button/Button.module";
 export declare class NovoRadioModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoRadioModule, [typeof ɵngcc1.NovoRadioElement, typeof ɵngcc1.NovoRadioGroup], [typeof ɵngcc2.CommonModule, typeof ɵngcc3.NovoButtonModule], [typeof ɵngcc1.NovoRadioElement, typeof ɵngcc1.NovoRadioGroup]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoRadioModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoRadioModule, [typeof i1.NovoRadioElement, typeof i1.NovoRadioGroup], [typeof i2.CommonModule, typeof i3.NovoButtonModule], [typeof i1.NovoRadioElement, typeof i1.NovoRadioGroup]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoRadioModule>;
 }
-
-//# sourceMappingURL=Radio.module.d.ts.map
