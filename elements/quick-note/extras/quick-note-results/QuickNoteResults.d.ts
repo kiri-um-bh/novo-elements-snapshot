@@ -2,7 +2,7 @@ import { ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PickerResults } from '../../../picker/extras/picker-results/PickerResults';
 import { NovoLabelService } from '../../../../services/novo-label-service';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class QuickNoteResults extends PickerResults {
     labels: NovoLabelService;
     taggingMode: string;
@@ -28,6 +28,8 @@ export declare class QuickNoteResults extends PickerResults {
      * @description
      */
     selectMatch(event: KeyboardEvent): boolean;
-    static ɵfac: i0.ɵɵFactoryDef<QuickNoteResults, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<QuickNoteResults, "quick-note-results", never, {}, {}, never, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<QuickNoteResults, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<QuickNoteResults, "quick-note-results", never, {}, {}, never, never>;
 }
+
+//# sourceMappingURL=QuickNoteResults.d.ts.map

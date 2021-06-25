@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, ElementRef, OnDestroy } from '@angular/core';
 import { NovoExpansionPanel } from './expansion-panel';
-import * as i0 from "@angular/core";
 /**
  * `<novo-expansion-panel-header>`
  *
  * This component corresponds to the header element of an `<novo-expansion-panel>`.
  */
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoExpansionPanelHeader implements OnDestroy {
     panel: NovoExpansionPanel;
     private _element;
@@ -29,8 +29,8 @@ export declare class NovoExpansionPanelHeader implements OnDestroy {
     /** Handle keydown event calling to toggle() if appropriate. */
     _keydown(event: KeyboardEvent): void;
     ngOnDestroy(): void;
-    static ɵfac: i0.ɵɵFactoryDef<NovoExpansionPanelHeader, [{ host: true; }, null, null]>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoExpansionPanelHeader, "novo-expansion-panel-header", never, { "expandedHeight": "expandedHeight"; "collapsedHeight": "collapsedHeight"; }, {}, never, ["novo-panel-title", "novo-panel-description", "*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoExpansionPanelHeader, [{ host: true; }, null, null]>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoExpansionPanelHeader, "novo-expansion-panel-header", never, { "expandedHeight": "expandedHeight"; "collapsedHeight": "collapsedHeight"; }, {}, never, ["novo-panel-title", "novo-panel-description", "*"]>;
 }
 /**
  * `<novo-panel-description>`
@@ -38,8 +38,8 @@ export declare class NovoExpansionPanelHeader implements OnDestroy {
  * This direction is to be used inside of the NovoExpansionPanelHeader component.
  */
 export declare class NovoExpansionPanelDescription {
-    static ɵfac: i0.ɵɵFactoryDef<NovoExpansionPanelDescription, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<NovoExpansionPanelDescription, "novo-panel-description", never, {}, {}, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoExpansionPanelDescription, never>;
+    static ɵdir: ɵngcc0.ɵɵDirectiveDefWithMeta<NovoExpansionPanelDescription, "novo-panel-description", never, {}, {}, never>;
 }
 /**
  * `<novo-panel-title>`
@@ -47,6 +47,8 @@ export declare class NovoExpansionPanelDescription {
  * This direction is to be used inside of the NovoExpansionPanelHeader component.
  */
 export declare class NovoExpansionPanelTitle {
-    static ɵfac: i0.ɵɵFactoryDef<NovoExpansionPanelTitle, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<NovoExpansionPanelTitle, "novo-panel-title", never, {}, {}, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoExpansionPanelTitle, never>;
+    static ɵdir: ɵngcc0.ɵɵDirectiveDefWithMeta<NovoExpansionPanelTitle, "novo-panel-title", never, {}, {}, never>;
 }
+
+//# sourceMappingURL=expansion-panel-header.d.ts.map

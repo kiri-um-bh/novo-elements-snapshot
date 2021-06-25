@@ -1,9 +1,9 @@
 import { EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NovoLabelService } from '../../services/novo-label-service';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class CardActionsElement {
-    static ɵfac: i0.ɵɵFactoryDef<CardActionsElement, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<CardActionsElement, "novo-card-actions", never, {}, {}, never, ["*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<CardActionsElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<CardActionsElement, "novo-card-actions", never, {}, {}, never, ["*"]>;
 }
 export declare class CardElement implements OnChanges, OnInit {
     padding: boolean;
@@ -28,6 +28,8 @@ export declare class CardElement implements OnChanges, OnInit {
     ngOnChanges(changes?: SimpleChanges): void;
     toggleClose(): void;
     toggleRefresh(): void;
-    static ɵfac: i0.ɵɵFactoryDef<CardElement, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<CardElement, "novo-card", never, { "padding": "padding"; "config": "config"; "title": "title"; "message": "message"; "messageIcon": "messageIcon"; "icon": "icon"; "iconTooltip": "iconTooltip"; "refresh": "refresh"; "close": "close"; "move": "move"; "loading": "loading"; }, { "onClose": "onClose"; "onRefresh": "onRefresh"; }, never, ["novo-card-actions", "*", "footer"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<CardElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<CardElement, "novo-card", never, { "padding": "padding"; "config": "config"; "title": "title"; "message": "message"; "messageIcon": "messageIcon"; "icon": "icon"; "iconTooltip": "iconTooltip"; "refresh": "refresh"; "close": "close"; "move": "move"; "loading": "loading"; }, { "onClose": "onClose"; "onRefresh": "onRefresh"; }, never, ["novo-card-actions", "*", "footer"]>;
 }
+
+//# sourceMappingURL=Card.d.ts.map

@@ -3,7 +3,7 @@ import { NovoFieldset, FormField } from '../../elements/form/FormInterfaces';
 import { NovoFormGroup } from '../../elements/form/NovoFormGroup';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { OptionsService } from './../../services/options/OptionsService';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class FormUtils {
     labels: NovoLabelService;
     optionsService: OptionsService;
@@ -75,6 +75,8 @@ export declare class FormUtils {
     private getStartDate;
     private inferStartDate;
     inflateEmbeddedProperties(data: object): object;
-    static ɵfac: i0.ɵɵFactoryDef<FormUtils, never>;
-    static ɵprov: i0.ɵɵInjectableDef<FormUtils>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<FormUtils, never>;
+    static ɵprov: ɵngcc0.ɵɵInjectableDef<FormUtils>;
 }
+
+//# sourceMappingURL=FormUtils.d.ts.map

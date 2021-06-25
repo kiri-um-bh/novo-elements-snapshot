@@ -7,7 +7,7 @@ import { NovoModalService } from '../modal/ModalService';
 import { NovoToastService, ToastOptions } from '../toast/ToastService';
 import { ModifyPickerConfigArgs, OptionsFunction } from './FieldInteractionApiTypes';
 import { NovoFieldset, NovoFormGroup, ResultsTemplateType } from './FormInterfaces';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class FieldInteractionApi {
     private toaster;
     private modalService;
@@ -158,6 +158,8 @@ export declare class FieldInteractionApi {
      */
     getIndex(otherForm?: NovoFormGroup): any;
     private triggerEvent;
-    static ɵfac: i0.ɵɵFactoryDef<FieldInteractionApi, never>;
-    static ɵprov: i0.ɵɵInjectableDef<FieldInteractionApi>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<FieldInteractionApi, never>;
+    static ɵprov: ɵngcc0.ɵɵInjectableDef<FieldInteractionApi>;
 }
+
+//# sourceMappingURL=FieldInteractionApi.d.ts.map

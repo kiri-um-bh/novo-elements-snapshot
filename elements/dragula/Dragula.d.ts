@@ -1,6 +1,6 @@
 import { ElementRef, OnInit, OnChanges } from '@angular/core';
 import { NovoDragulaService } from './DragulaService';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoDragulaElement implements OnInit, OnChanges {
     private dragulaService;
     bag: any;
@@ -11,6 +11,8 @@ export declare class NovoDragulaElement implements OnInit, OnChanges {
     ngOnInit(): void;
     checkModel(): void;
     ngOnChanges(changes: any): void;
-    static ɵfac: i0.ɵɵFactoryDef<NovoDragulaElement, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<NovoDragulaElement, "[dragula]", never, { "bag": "dragula"; "dragulaModel": "dragulaModel"; }, {}, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoDragulaElement, never>;
+    static ɵdir: ɵngcc0.ɵɵDirectiveDefWithMeta<NovoDragulaElement, "[dragula]", never, { "bag": "dragula"; "dragulaModel": "dragulaModel"; }, {}, never>;
 }
+
+//# sourceMappingURL=Dragula.d.ts.map

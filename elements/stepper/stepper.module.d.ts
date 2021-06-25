@@ -1,15 +1,17 @@
-import * as i0 from "@angular/core";
-import * as i1 from "./stepper.component";
-import * as i2 from "./step-label.component";
-import * as i3 from "./step-header.component";
-import * as i4 from "./step-status.component";
-import * as i5 from "@angular/common";
-import * as i6 from "@angular/cdk/portal";
-import * as i7 from "../button/Button.module";
-import * as i8 from "@angular/cdk/stepper";
-import * as i9 from "../icon/Icon.module";
-import * as i10 from "@angular/cdk/a11y";
+import * as ɵngcc0 from '@angular/core';
+import * as ɵngcc1 from './stepper.component';
+import * as ɵngcc2 from './step-label.component';
+import * as ɵngcc3 from './step-header.component';
+import * as ɵngcc4 from './step-status.component';
+import * as ɵngcc5 from '@angular/common';
+import * as ɵngcc6 from '@angular/cdk/portal';
+import * as ɵngcc7 from '../button/Button.module';
+import * as ɵngcc8 from '@angular/cdk/stepper';
+import * as ɵngcc9 from '../icon/Icon.module';
+import * as ɵngcc10 from '@angular/cdk/a11y';
 export declare class NovoStepperModule {
-    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoStepperModule, [typeof i1.NovoHorizontalStepper, typeof i1.NovoVerticalStepper, typeof i1.NovoStep, typeof i2.NovoStepLabel, typeof i1.NovoStepper, typeof i3.NovoStepHeader, typeof i4.NovoStepStatus], [typeof i5.CommonModule, typeof i6.PortalModule, typeof i7.NovoButtonModule, typeof i8.CdkStepperModule, typeof i9.NovoIconModule, typeof i10.A11yModule], [typeof i1.NovoHorizontalStepper, typeof i1.NovoVerticalStepper, typeof i1.NovoStep, typeof i2.NovoStepLabel, typeof i1.NovoStepper, typeof i3.NovoStepHeader, typeof i4.NovoStepStatus]>;
-    static ɵinj: i0.ɵɵInjectorDef<NovoStepperModule>;
+    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoStepperModule, [typeof ɵngcc1.NovoHorizontalStepper, typeof ɵngcc1.NovoVerticalStepper, typeof ɵngcc1.NovoStep, typeof ɵngcc2.NovoStepLabel, typeof ɵngcc1.NovoStepper, typeof ɵngcc3.NovoStepHeader, typeof ɵngcc4.NovoStepStatus], [typeof ɵngcc5.CommonModule, typeof ɵngcc6.PortalModule, typeof ɵngcc7.NovoButtonModule, typeof ɵngcc8.CdkStepperModule, typeof ɵngcc9.NovoIconModule, typeof ɵngcc10.A11yModule], [typeof ɵngcc1.NovoHorizontalStepper, typeof ɵngcc1.NovoVerticalStepper, typeof ɵngcc1.NovoStep, typeof ɵngcc2.NovoStepLabel, typeof ɵngcc1.NovoStepper, typeof ɵngcc3.NovoStepHeader, typeof ɵngcc4.NovoStepStatus]>;
+    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoStepperModule>;
 }
+
+//# sourceMappingURL=stepper.module.d.ts.map

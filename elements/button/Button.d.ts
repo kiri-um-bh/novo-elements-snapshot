@@ -1,4 +1,4 @@
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoButtonElement {
     color: string;
     side: string;
@@ -7,6 +7,8 @@ export declare class NovoButtonElement {
     set icon(icon: string);
     get icon(): string;
     private _icon;
-    static ɵfac: i0.ɵɵFactoryDef<NovoButtonElement, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoButtonElement, "button[theme]", never, { "color": "color"; "side": "side"; "theme": "theme"; "loading": "loading"; "icon": "icon"; }, {}, never, ["*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoButtonElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoButtonElement, "button[theme]", never, { "side": "side"; "icon": "icon"; "color": "color"; "theme": "theme"; "loading": "loading"; }, {}, never, ["*"]>;
 }
+
+//# sourceMappingURL=Button.d.ts.map
