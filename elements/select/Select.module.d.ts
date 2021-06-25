@@ -1,10 +1,12 @@
-import * as i0 from "@angular/core";
-import * as i1 from "./Select";
-import * as i2 from "@angular/common";
-import * as i3 from "@angular/forms";
-import * as i4 from "@angular/cdk/a11y";
-import * as i5 from "../overlay/Overlay.module";
+import * as ɵngcc0 from '@angular/core';
+import * as ɵngcc1 from './Select';
+import * as ɵngcc2 from '@angular/common';
+import * as ɵngcc3 from '@angular/forms';
+import * as ɵngcc4 from '@angular/cdk/a11y';
+import * as ɵngcc5 from '../overlay/Overlay.module';
 export declare class NovoSelectModule {
-    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoSelectModule, [typeof i1.NovoSelectElement], [typeof i2.CommonModule, typeof i3.FormsModule, typeof i4.A11yModule, typeof i5.NovoOverlayModule], [typeof i1.NovoSelectElement]>;
-    static ɵinj: i0.ɵɵInjectorDef<NovoSelectModule>;
+    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoSelectModule, [typeof ɵngcc1.NovoSelectElement], [typeof ɵngcc2.CommonModule, typeof ɵngcc3.FormsModule, typeof ɵngcc4.A11yModule, typeof ɵngcc5.NovoOverlayModule], [typeof ɵngcc1.NovoSelectElement]>;
+    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoSelectModule>;
 }
+
+//# sourceMappingURL=Select.module.d.ts.map

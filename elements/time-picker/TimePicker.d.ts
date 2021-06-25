@@ -1,6 +1,6 @@
 import { EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoTimePickerElement implements ControlValueAccessor, OnInit, OnChanges {
     military: boolean;
     analog: boolean;
@@ -36,6 +36,8 @@ export declare class NovoTimePickerElement implements ControlValueAccessor, OnIn
     writeValue(model: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
-    static ɵfac: i0.ɵɵFactoryDef<NovoTimePickerElement, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoTimePickerElement, "novo-time-picker", never, { "military": "military"; "analog": "analog"; "inline": "inline"; }, { "onSelect": "onSelect"; }, never, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoTimePickerElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoTimePickerElement, "novo-time-picker", never, { "military": "military"; "analog": "analog"; "inline": "inline"; }, { "onSelect": "onSelect"; }, never, never>;
 }
+
+//# sourceMappingURL=TimePicker.d.ts.map

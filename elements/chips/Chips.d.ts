@@ -3,7 +3,7 @@ import { ControlValueAccessor } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoChipElement {
     set type(type: string);
     disabled: boolean;
@@ -15,8 +15,8 @@ export declare class NovoChipElement {
     onRemove(e: any): boolean;
     onSelect(e: any): boolean;
     onDeselect(e: any): boolean;
-    static ɵfac: i0.ɵɵFactoryDef<NovoChipElement, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoChipElement, "chip,novo-chip", never, { "type": "type"; "disabled": "disabled"; }, { "select": "select"; "remove": "remove"; "deselect": "deselect"; }, never, ["*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoChipElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoChipElement, "chip,novo-chip", never, { "disabled": "disabled"; "type": "type"; }, { "select": "select"; "remove": "remove"; "deselect": "deselect"; }, never, ["*"]>;
 }
 export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
     element: ElementRef;
@@ -78,6 +78,8 @@ export declare class NovoChipsElement implements OnInit, ControlValueAccessor {
      * @description - This method deletes the preview popup from the DOM.
      */
     hidePreview(): void;
-    static ɵfac: i0.ɵɵFactoryDef<NovoChipsElement, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoChipsElement, "chips,novo-chips", never, { "closeOnSelect": "closeOnSelect"; "placeholder": "placeholder"; "source": "source"; "maxlength": "maxlength"; "type": "type"; "disablePickerInput": "disablePickerInput"; "value": "value"; }, { "changed": "changed"; "focus": "focus"; "blur": "blur"; "typing": "typing"; }, never, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoChipsElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoChipsElement, "chips,novo-chips", never, { "closeOnSelect": "closeOnSelect"; "placeholder": "placeholder"; "disablePickerInput": "disablePickerInput"; "value": "value"; "source": "source"; "maxlength": "maxlength"; "type": "type"; }, { "changed": "changed"; "focus": "focus"; "blur": "blur"; "typing": "typing"; }, never, never>;
 }
+
+//# sourceMappingURL=Chips.d.ts.map

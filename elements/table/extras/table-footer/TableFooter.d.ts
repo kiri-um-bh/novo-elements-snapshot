@@ -1,5 +1,7 @@
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoTableFooterElement {
-    static ɵfac: i0.ɵɵFactoryDef<NovoTableFooterElement, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoTableFooterElement, "novo-table-footer", never, {}, {}, never, ["*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoTableFooterElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoTableFooterElement, "novo-table-footer", never, {}, {}, never, ["*"]>;
 }
+
+//# sourceMappingURL=TableFooter.d.ts.map

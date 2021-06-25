@@ -1,6 +1,6 @@
 import { AfterContentInit, ChangeDetectorRef, ElementRef, EventEmitter, OnDestroy, OnInit, QueryList } from '@angular/core';
 import { NovoOverlayTemplateComponent } from '../overlay/Overlay';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoDropdownElement implements OnInit, OnDestroy {
     element: ElementRef;
     private ref;
@@ -35,8 +35,8 @@ export declare class NovoDropdownElement implements OnInit, OnDestroy {
     onKeyDown(event: KeyboardEvent): void;
     onOverlayKeyDown(event: KeyboardEvent): void;
     private scrollToActive;
-    static ɵfac: i0.ɵɵFactoryDef<NovoDropdownElement, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoDropdownElement, "novo-dropdown", never, { "parentScrollSelector": "parentScrollSelector"; "parentScrollAction": "parentScrollAction"; "containerClass": "containerClass"; "side": "side"; "scrollStrategy": "scrollStrategy"; "height": "height"; "width": "width"; "appendToBody": "appendToBody"; }, { "toggled": "toggled"; }, never, ["button", "*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoDropdownElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoDropdownElement, "novo-dropdown", never, { "parentScrollAction": "parentScrollAction"; "side": "side"; "scrollStrategy": "scrollStrategy"; "width": "width"; "appendToBody": "appendToBody"; "parentScrollSelector": "parentScrollSelector"; "containerClass": "containerClass"; "height": "height"; }, { "toggled": "toggled"; }, never, ["button", "*"]>;
 }
 export declare class NovoItemElement {
     private dropdown;
@@ -47,18 +47,20 @@ export declare class NovoItemElement {
     active: boolean;
     constructor(dropdown: NovoDropdownElement, element: ElementRef);
     onClick(event: Event): void;
-    static ɵfac: i0.ɵɵFactoryDef<NovoItemElement, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoItemElement, "item", never, { "disabled": "disabled"; "keepOpen": "keepOpen"; }, { "action": "action"; }, never, ["*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoItemElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoItemElement, "item", never, { "keepOpen": "keepOpen"; "disabled": "disabled"; }, { "action": "action"; }, never, ["*"]>;
 }
 export declare class NovoDropdownListElement implements AfterContentInit {
     private dropdown;
     items: QueryList<NovoItemElement>;
     constructor(dropdown: NovoDropdownElement);
     ngAfterContentInit(): void;
-    static ɵfac: i0.ɵɵFactoryDef<NovoDropdownListElement, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoDropdownListElement, "list", never, {}, {}, ["items"], ["*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoDropdownListElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoDropdownListElement, "list", never, {}, {}, ["items"], ["*"]>;
 }
 export declare class NovoDropDownItemHeaderElement {
-    static ɵfac: i0.ɵɵFactoryDef<NovoDropDownItemHeaderElement, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoDropDownItemHeaderElement, "dropdown-item-header", never, {}, {}, never, ["*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoDropDownItemHeaderElement, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoDropDownItemHeaderElement, "dropdown-item-header", never, {}, {}, never, ["*"]>;
 }
+
+//# sourceMappingURL=Dropdown.d.ts.map

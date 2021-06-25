@@ -1,7 +1,7 @@
 import { ElementRef, EventEmitter, OnChanges, OnInit } from '@angular/core';
 import { GlobalRef } from '../../services/global/global.service';
 import { GooglePlacesService } from './places.service';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export interface Settings {
     geoPredictionServerUrl?: string;
     geoLatLangServiceUrl?: string;
@@ -69,6 +69,8 @@ export declare class PlacesListComponent implements OnInit, OnChanges {
     private getPlaceLocationInfo;
     private setRecentLocation;
     private getRecentLocations;
-    static ɵfac: i0.ɵɵFactoryDef<PlacesListComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<PlacesListComponent, "google-places-list", never, { "userSettings": "userSettings"; "term": "term"; }, { "termChange": "termChange"; "select": "select"; }, never, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<PlacesListComponent, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<PlacesListComponent, "google-places-list", never, { "term": "term"; "userSettings": "userSettings"; }, { "termChange": "termChange"; "select": "select"; }, never, never>;
 }
+
+//# sourceMappingURL=places.component.d.ts.map

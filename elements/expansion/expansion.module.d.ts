@@ -1,12 +1,14 @@
-import * as i0 from "@angular/core";
-import * as i1 from "./accordion";
-import * as i2 from "./expansion-panel";
-import * as i3 from "./expansion-panel-header";
-import * as i4 from "./expansion-panel-content";
-import * as i5 from "@angular/common";
-import * as i6 from "@angular/cdk/accordion";
-import * as i7 from "@angular/cdk/portal";
+import * as ɵngcc0 from '@angular/core';
+import * as ɵngcc1 from './accordion';
+import * as ɵngcc2 from './expansion-panel';
+import * as ɵngcc3 from './expansion-panel-header';
+import * as ɵngcc4 from './expansion-panel-content';
+import * as ɵngcc5 from '@angular/common';
+import * as ɵngcc6 from '@angular/cdk/accordion';
+import * as ɵngcc7 from '@angular/cdk/portal';
 export declare class NovoExpansionModule {
-    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoExpansionModule, [typeof i1.NovoAccordion, typeof i2.NovoExpansionPanel, typeof i2.NovoExpansionPanelActionRow, typeof i3.NovoExpansionPanelHeader, typeof i3.NovoExpansionPanelTitle, typeof i3.NovoExpansionPanelDescription, typeof i4.NovoExpansionPanelContent], [typeof i5.CommonModule, typeof i6.CdkAccordionModule, typeof i7.PortalModule], [typeof i1.NovoAccordion, typeof i2.NovoExpansionPanel, typeof i2.NovoExpansionPanelActionRow, typeof i3.NovoExpansionPanelHeader, typeof i3.NovoExpansionPanelTitle, typeof i3.NovoExpansionPanelDescription, typeof i4.NovoExpansionPanelContent]>;
-    static ɵinj: i0.ɵɵInjectorDef<NovoExpansionModule>;
+    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoExpansionModule, [typeof ɵngcc1.NovoAccordion, typeof ɵngcc2.NovoExpansionPanel, typeof ɵngcc2.NovoExpansionPanelActionRow, typeof ɵngcc3.NovoExpansionPanelHeader, typeof ɵngcc3.NovoExpansionPanelTitle, typeof ɵngcc3.NovoExpansionPanelDescription, typeof ɵngcc4.NovoExpansionPanelContent], [typeof ɵngcc5.CommonModule, typeof ɵngcc6.CdkAccordionModule, typeof ɵngcc7.PortalModule], [typeof ɵngcc1.NovoAccordion, typeof ɵngcc2.NovoExpansionPanel, typeof ɵngcc2.NovoExpansionPanelActionRow, typeof ɵngcc3.NovoExpansionPanelHeader, typeof ɵngcc3.NovoExpansionPanelTitle, typeof ɵngcc3.NovoExpansionPanelDescription, typeof ɵngcc4.NovoExpansionPanelContent]>;
+    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoExpansionModule>;
 }
+
+//# sourceMappingURL=expansion.module.d.ts.map

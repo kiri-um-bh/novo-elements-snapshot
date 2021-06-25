@@ -2,7 +2,7 @@ import { ChangeDetectorRef, ElementRef, EventEmitter, NgZone, OnDestroy, Templat
 import { ConnectedPositionStrategy, Overlay, OverlayConfig, OverlayRef, ScrollStrategy } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Observable, Subscription } from 'rxjs';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoOverlayTemplateComponent implements OnDestroy {
     protected overlay: Overlay;
     protected viewContainerRef: ViewContainerRef;
@@ -55,6 +55,8 @@ export declare class NovoOverlayTemplateComponent implements OnDestroy {
     protected checkSizes(): void;
     protected getConnectedElement(): ElementRef;
     protected getHostWidth(): number;
-    static ɵfac: i0.ɵɵFactoryDef<NovoOverlayTemplateComponent, [null, null, null, null, { optional: true; }]>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoOverlayTemplateComponent, "novo-overlay-template", never, { "position": "position"; "scrollStrategy": "scrollStrategy"; "width": "width"; "height": "height"; "closeOnSelect": "closeOnSelect"; "parent": "parent"; }, { "select": "select"; "closing": "closing"; }, never, ["*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoOverlayTemplateComponent, [null, null, null, null, { optional: true; }]>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoOverlayTemplateComponent, "novo-overlay-template", never, { "position": "position"; "scrollStrategy": "scrollStrategy"; "closeOnSelect": "closeOnSelect"; "parent": "parent"; "width": "width"; "height": "height"; }, { "select": "select"; "closing": "closing"; }, never, ["*"]>;
 }
+
+//# sourceMappingURL=Overlay.d.ts.map

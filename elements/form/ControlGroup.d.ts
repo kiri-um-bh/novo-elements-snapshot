@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { NovoFormGroup } from './NovoFormGroup';
 import { BaseControl } from './controls/BaseControl';
 import { FormUtils } from '../../utils/form-utils/FormUtils';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export interface NovoControlGroupAddConfig {
     label: string;
 }
@@ -81,6 +81,8 @@ export declare class NovoControlGroup implements AfterContentInit, OnChanges, On
     private getNewControls;
     private assignIndexes;
     private onFieldInteractionEvent;
-    static ɵfac: i0.ɵɵFactoryDef<NovoControlGroup, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoControlGroup, "novo-control-group", never, { "vertical": "vertical"; "add": "add"; "remove": "remove"; "edit": "edit"; "collapsible": "collapsible"; "form": "form"; "controls": "controls"; "key": "key"; "label": "label"; "description": "description"; "emptyMessage": "emptyMessage"; "icon": "icon"; "initialValue": "initialValue"; "canEdit": "canEdit"; "canRemove": "canRemove"; "rowTemplate": "rowTemplate"; "columnLabelTemplate": "columnLabelTemplate"; }, { "onRemove": "onRemove"; "onEdit": "onEdit"; "onAdd": "onAdd"; "change": "change"; }, never, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoControlGroup, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoControlGroup, "novo-control-group", never, { "vertical": "vertical"; "remove": "remove"; "edit": "edit"; "collapsible": "collapsible"; "icon": "icon"; "add": "add"; "form": "form"; "controls": "controls"; "key": "key"; "label": "label"; "description": "description"; "emptyMessage": "emptyMessage"; "initialValue": "initialValue"; "canEdit": "canEdit"; "canRemove": "canRemove"; "rowTemplate": "rowTemplate"; "columnLabelTemplate": "columnLabelTemplate"; }, { "onRemove": "onRemove"; "onEdit": "onEdit"; "onAdd": "onAdd"; "change": "change"; }, never, never>;
 }
+
+//# sourceMappingURL=ControlGroup.d.ts.map

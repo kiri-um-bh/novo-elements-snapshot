@@ -1,5 +1,5 @@
 import { EventEmitter, ElementRef, Renderer2, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class TableFilter implements OnInit, OnChanges {
     private element;
     private renderer;
@@ -11,6 +11,8 @@ export declare class TableFilter implements OnInit, OnChanges {
     ngOnChanges(changes?: SimpleChanges): void;
     onChangeFilter(event: KeyboardEvent): void;
     onClick(event: any): void;
-    static ɵfac: i0.ɵɵFactoryDef<TableFilter, never>;
-    static ɵdir: i0.ɵɵDirectiveDefWithMeta<TableFilter, "[novoTableFilter]", never, { "config": "novoTableFilter"; }, { "onFilterChange": "onFilterChange"; }, never>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<TableFilter, never>;
+    static ɵdir: ɵngcc0.ɵɵDirectiveDefWithMeta<TableFilter, "[novoTableFilter]", never, { "config": "novoTableFilter"; }, { "onFilterChange": "onFilterChange"; }, never>;
 }
+
+//# sourceMappingURL=TableFilter.d.ts.map

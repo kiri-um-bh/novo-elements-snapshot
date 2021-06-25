@@ -6,7 +6,7 @@ import { IDataTableColumn, IDataTablePaginationOptions, IDataTablePreferences, I
 import { DataTableState } from './state/data-table-state.service';
 import { NovoDataTableCellHeader } from './cell-headers/data-table-header-cell.component';
 import { ListInteractionDictionary, ListInteractionEvent } from './ListInteractionTypes';
-import * as i0 from "@angular/core";
+import * as ɵngcc0 from '@angular/core';
 export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     labels: NovoLabelService;
     private ref;
@@ -97,6 +97,8 @@ export declare class NovoDataTable<T> implements AfterContentInit, OnDestroy {
     private configureColumns;
     private scrollListener;
     performInteractions(event: ListInteractionEvent): void;
-    static ɵfac: i0.ɵɵFactoryDef<NovoDataTable<any>, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoDataTable<any>, "novo-data-table", never, { "displayedColumns": "displayedColumns"; "paginationOptions": "paginationOptions"; "searchOptions": "searchOptions"; "defaultSort": "defaultSort"; "name": "name"; "allowMultipleFilters": "allowMultipleFilters"; "rowIdentifier": "rowIdentifier"; "activeRowIdentifier": "activeRowIdentifier"; "trackByFn": "trackByFn"; "templates": "templates"; "fixedHeader": "fixedHeader"; "paginatorDataFeatureId": "paginatorDataFeatureId"; "dataTableService": "dataTableService"; "rows": "rows"; "outsideFilter": "outsideFilter"; "refreshSubject": "refreshSubject"; "columns": "columns"; "customFilter": "customFilter"; "hasExandedRows": "hasExandedRows"; "forceShowHeader": "forceShowHeader"; "hideGlobalSearch": "hideGlobalSearch"; "listInteractions": "listInteractions"; }, { "resized": "resized"; "preferencesChanged": "preferencesChanged"; }, ["customTemplates"], ["*"]>;
+    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoDataTable<any>, never>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoDataTable<any>, "novo-data-table", never, { "name": "name"; "allowMultipleFilters": "allowMultipleFilters"; "rowIdentifier": "rowIdentifier"; "activeRowIdentifier": "activeRowIdentifier"; "trackByFn": "trackByFn"; "templates": "templates"; "fixedHeader": "fixedHeader"; "displayedColumns": "displayedColumns"; "dataTableService": "dataTableService"; "rows": "rows"; "outsideFilter": "outsideFilter"; "refreshSubject": "refreshSubject"; "columns": "columns"; "customFilter": "customFilter"; "hasExandedRows": "hasExandedRows"; "forceShowHeader": "forceShowHeader"; "hideGlobalSearch": "hideGlobalSearch"; "paginationOptions": "paginationOptions"; "searchOptions": "searchOptions"; "defaultSort": "defaultSort"; "paginatorDataFeatureId": "paginatorDataFeatureId"; "listInteractions": "listInteractions"; }, { "resized": "resized"; "preferencesChanged": "preferencesChanged"; }, ["customTemplates"], ["*"]>;
 }
+
+//# sourceMappingURL=data-table.component.d.ts.map
