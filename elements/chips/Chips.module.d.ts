@@ -1,12 +1,10 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './Chips';
-import * as ɵngcc2 from './RowChips';
-import * as ɵngcc3 from '@angular/common';
-import * as ɵngcc4 from '@angular/forms';
-import * as ɵngcc5 from '../picker/Picker.module';
+import * as i0 from "@angular/core";
+import * as i1 from "./Chips";
+import * as i2 from "./RowChips";
+import * as i3 from "@angular/common";
+import * as i4 from "@angular/forms";
+import * as i5 from "../picker/Picker.module";
 export declare class NovoChipsModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoChipsModule, [typeof ɵngcc1.NovoChipElement, typeof ɵngcc1.NovoChipsElement, typeof ɵngcc2.NovoRowChipElement, typeof ɵngcc2.NovoRowChipsElement], [typeof ɵngcc3.CommonModule, typeof ɵngcc4.FormsModule, typeof ɵngcc5.NovoPickerModule], [typeof ɵngcc1.NovoChipElement, typeof ɵngcc1.NovoChipsElement, typeof ɵngcc2.NovoRowChipElement, typeof ɵngcc2.NovoRowChipsElement]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoChipsModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoChipsModule, [typeof i1.NovoChipElement, typeof i1.NovoChipsElement, typeof i2.NovoRowChipElement, typeof i2.NovoRowChipsElement], [typeof i3.CommonModule, typeof i4.FormsModule, typeof i5.NovoPickerModule], [typeof i1.NovoChipElement, typeof i1.NovoChipsElement, typeof i2.NovoRowChipElement, typeof i2.NovoRowChipsElement]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoChipsModule>;
 }
-
-//# sourceMappingURL=Chips.module.d.ts.map

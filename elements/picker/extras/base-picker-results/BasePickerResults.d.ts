@@ -2,11 +2,11 @@ import { ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { NovoControlConfig } from '../../../form/controls/BaseControl';
+import * as i0 from "@angular/core";
 /**
  * @description This is the actual list of matches that gets injected into the DOM. It's also the piece that can be
  * overwritten if custom list options are needed.
  */
-import * as ɵngcc0 from '@angular/core';
 export declare class BasePickerResults {
     _term: string;
     selected: Array<any>;
@@ -89,8 +89,6 @@ export declare class BasePickerResults {
      */
     highlight(match: any, query: any): any;
     preselected(match: any): boolean;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<BasePickerResults, never>;
-    static ɵdir: ɵngcc0.ɵɵDirectiveDefWithMeta<BasePickerResults, never, never, { "matches": "matches"; }, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDef<BasePickerResults, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<BasePickerResults, never, never, { "matches": "matches"; }, {}, never>;
 }
-
-//# sourceMappingURL=BasePickerResults.d.ts.map

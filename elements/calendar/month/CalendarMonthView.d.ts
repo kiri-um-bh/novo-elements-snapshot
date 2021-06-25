@@ -1,6 +1,7 @@
 import { OnChanges, EventEmitter, ChangeDetectorRef, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { CalendarEvent, WeekDay, MonthView, MonthViewDay, CalendarEventTimesChangedEvent } from '../../../utils/calendar-utils/CalendarUtils';
 import { Subject, Subscription } from 'rxjs';
+import * as i0 from "@angular/core";
 /**
  * Shows all events on a given month. Example usage:
  *
@@ -11,7 +12,6 @@ import { Subject, Subscription } from 'rxjs';
  * &lt;/novo-calendar-month-view&gt;
  * ```
  */
-import * as ɵngcc0 from '@angular/core';
 export declare class NovoCalendarMonthViewElement implements OnChanges, OnInit, OnDestroy {
     private cdr;
     /**
@@ -108,8 +108,6 @@ export declare class NovoCalendarMonthViewElement implements OnChanges, OnInit, 
     private refreshHeader;
     private refreshBody;
     refreshAll(): void;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoCalendarMonthViewElement, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoCalendarMonthViewElement, "novo-calendar-month", never, { "events": "events"; "excludeDays": "excludeDays"; "locale": "locale"; "tooltipPosition": "tooltipPosition"; "viewDate": "viewDate"; "dayModifier": "dayModifier"; "refresh": "refresh"; "weekStartsOn": "weekStartsOn"; "headerTemplate": "headerTemplate"; "cellTemplate": "cellTemplate"; }, { "dayClicked": "dayClicked"; "eventClicked": "eventClicked"; "eventTimesChanged": "eventTimesChanged"; "viewDateChange": "viewDateChange"; }, never, never>;
+    static ɵfac: i0.ɵɵFactoryDef<NovoCalendarMonthViewElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoCalendarMonthViewElement, "novo-calendar-month", never, { "viewDate": "viewDate"; "events": "events"; "excludeDays": "excludeDays"; "dayModifier": "dayModifier"; "refresh": "refresh"; "locale": "locale"; "tooltipPosition": "tooltipPosition"; "weekStartsOn": "weekStartsOn"; "headerTemplate": "headerTemplate"; "cellTemplate": "cellTemplate"; }, { "dayClicked": "dayClicked"; "eventClicked": "eventClicked"; "eventTimesChanged": "eventTimesChanged"; "viewDateChange": "viewDateChange"; }, never, never>;
 }
-
-//# sourceMappingURL=CalendarMonthView.d.ts.map

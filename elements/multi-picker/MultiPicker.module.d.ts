@@ -1,12 +1,10 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './MultiPicker';
-import * as ɵngcc2 from '@angular/common';
-import * as ɵngcc3 from '@angular/forms';
-import * as ɵngcc4 from '../picker/Picker.module';
-import * as ɵngcc5 from '../chips/Chips.module';
+import * as i0 from "@angular/core";
+import * as i1 from "./MultiPicker";
+import * as i2 from "@angular/common";
+import * as i3 from "@angular/forms";
+import * as i4 from "../picker/Picker.module";
+import * as i5 from "../chips/Chips.module";
 export declare class NovoMultiPickerModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoMultiPickerModule, [typeof ɵngcc1.NovoMultiPickerElement], [typeof ɵngcc2.CommonModule, typeof ɵngcc3.FormsModule, typeof ɵngcc4.NovoPickerModule, typeof ɵngcc5.NovoChipsModule], [typeof ɵngcc1.NovoMultiPickerElement]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoMultiPickerModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoMultiPickerModule, [typeof i1.NovoMultiPickerElement], [typeof i2.CommonModule, typeof i3.FormsModule, typeof i4.NovoPickerModule, typeof i5.NovoChipsModule], [typeof i1.NovoMultiPickerElement]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoMultiPickerModule>;
 }
-
-//# sourceMappingURL=MultiPicker.module.d.ts.map

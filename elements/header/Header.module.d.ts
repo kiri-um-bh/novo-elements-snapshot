@@ -1,10 +1,8 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './Header';
-import * as ɵngcc2 from '@angular/common';
-import * as ɵngcc3 from '../button/Button.module';
+import * as i0 from "@angular/core";
+import * as i1 from "./Header";
+import * as i2 from "@angular/common";
+import * as i3 from "../button/Button.module";
 export declare class NovoHeaderModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoHeaderModule, [typeof ɵngcc1.NovoHeaderComponent, typeof ɵngcc1.NovoUtilActionComponent, typeof ɵngcc1.NovoUtilsComponent, typeof ɵngcc1.NovoHeaderSpacer], [typeof ɵngcc2.CommonModule, typeof ɵngcc3.NovoButtonModule], [typeof ɵngcc1.NovoHeaderComponent, typeof ɵngcc1.NovoUtilActionComponent, typeof ɵngcc1.NovoUtilsComponent, typeof ɵngcc1.NovoHeaderSpacer]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoHeaderModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoHeaderModule, [typeof i1.NovoHeaderComponent, typeof i1.NovoUtilActionComponent, typeof i1.NovoUtilsComponent, typeof i1.NovoHeaderSpacer], [typeof i2.CommonModule, typeof i3.NovoButtonModule], [typeof i1.NovoHeaderComponent, typeof i1.NovoUtilActionComponent, typeof i1.NovoUtilsComponent, typeof i1.NovoHeaderSpacer]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoHeaderModule>;
 }
-
-//# sourceMappingURL=Header.module.d.ts.map
