@@ -9,7 +9,7 @@ import { OverlayConfig, Overlay, OverlayModule } from '@angular/cdk/overlay';
 import { ComponentPortal, TemplatePortal, PortalModule } from '@angular/cdk/portal';
 import { trigger, state, style, transition, animate, group, query, animateChild } from '@angular/animations';
 import { addDays, addWeeks, addMonths, startOfWeek, endOfWeek, differenceInDays, addMinutes, endOfDay, startOfDay, isSameSecond, setMinutes, setHours, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInSeconds, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, getYear, getMonth, getDate, setYear, setMonth, setDate, addSeconds, subMonths, startOfToday, endOfToday, isToday, isValid, format, setMilliseconds, setSeconds, getHours, getMinutes, getSeconds, getMilliseconds, isDate, parse, startOfTomorrow } from 'date-fns';
-import { ReplaySubject, merge, of, fromEvent, from, Subject, Subscription, BehaviorSubject } from 'rxjs';
+import { ReplaySubject, merge, of, fromEvent, from, Subject, BehaviorSubject, Subscription } from 'rxjs';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, startWith, map, catchError, take, takeUntil } from 'rxjs/operators';
@@ -255,7 +255,7 @@ class Helpers {
             }
             return newArr;
         }
-        if (typeof item === 'function' && !/\(\) \{ \[native/.test(item.toString()) && !item.toString().startsWith('class')) {
+        if (typeof item === 'function' && !/\(\) \{ \[native/.test(item.toString())) {
             let obj;
             for (const k in item) {
                 if (k in item) {
@@ -7213,7 +7213,8 @@ class NovoDropdownElement {
         this.width = -1; // Defaults to dynamic width (no hardcoded width value and no host width lookup)
         this.appendToBody = false; // Deprecated
         this.toggled = new EventEmitter();
-        this.activeIndex = -1;
+        this._activeIndex = -1;
+        this._activeIndex$ = new BehaviorSubject(this._activeIndex);
         this.filterTerm = '';
         this.clickHandler = this.togglePanel.bind(this);
         this.closeHandler = this.closePanel.bind(this);
@@ -7224,10 +7225,13 @@ class NovoDropdownElement {
         }
         // Add a click handler to the button to toggle the menu
         const button = this.element.nativeElement.querySelector('button');
-        button.addEventListener('click', this.clickHandler);
+        if (button) {
+            button.addEventListener('click', this.clickHandler);
+        }
         if (this.parentScrollSelector) {
             this.parentScrollElement = Helpers.findAncestor(this.element.nativeElement, this.parentScrollSelector);
         }
+        this.updateItemIndices();
     }
     ngOnDestroy() {
         // Remove listener
@@ -7246,10 +7250,36 @@ class NovoDropdownElement {
         this._textItems = items.map((item) => {
             return item.element.nativeElement.innerText;
         });
+        this.updateItemIndices();
     }
     /** BEGIN: Convenient Panel Methods. */
     get panelOpen() {
         return this.overlay && this.overlay.panelOpen;
+    }
+    updateItemIndices() {
+        let index = 0;
+        if (this._items) {
+            this._items.map((item) => {
+                item.index = index;
+                index++;
+            });
+        }
+    }
+    set activeIndex(value) {
+        if (this._activeIndex > -1 && this._activeIndex < this._items.length) {
+            this._items.toArray()[this._activeIndex].active = false;
+        }
+        this._activeIndex = value;
+        if (value > -1 && value < this._items.length) {
+            this._items.toArray()[this.activeIndex].active = true;
+        }
+        this._activeIndex$.next(this._activeIndex);
+    }
+    get activeIndex() {
+        return this._activeIndex;
+    }
+    get activeIndexObs() {
+        return this._activeIndex$.asObservable();
     }
     openPanel() {
         this.overlay.openPanel();
@@ -7259,14 +7289,16 @@ class NovoDropdownElement {
         this.toggled.emit(true);
     }
     closePanel() {
+        this._items.forEach((item) => {
+            if (item.hasSubmenu()) {
+                item.submenu.closePanel();
+            }
+        });
         this.overlay.closePanel();
         if (this.parentScrollElement && this.parentScrollAction === 'close') {
             this.parentScrollElement.removeEventListener('scroll', this.closeHandler);
         }
         // Clear active index
-        if (this.activeIndex !== -1) {
-            this._items.toArray()[this.activeIndex].active = false;
-        }
         this.activeIndex = -1;
         this.ref.markForCheck();
         this.toggled.emit(false);
@@ -7274,7 +7306,49 @@ class NovoDropdownElement {
     togglePanel() {
         this.panelOpen ? this.closePanel() : this.openPanel();
     }
+    get itemHasSubmenu() {
+        return this.activeIndex > -1
+            && this.activeIndex < this._items.length
+            && this._items.toArray()[this.activeIndex].hasSubmenu();
+    }
+    get navigatingSubmenu() {
+        return this.itemHasSubmenu
+            && this._items.toArray()[this.activeIndex].submenu.panelOpen;
+    }
     /** END: Convenient Panel Methods. */
+    moveDown(dropdown) {
+        if (dropdown._items && dropdown._items.filter(item => !item.disabled).length > 0) {
+            dropdown.activeIndex++;
+            if (dropdown.activeIndex === dropdown._items.length) {
+                dropdown.activeIndex = 0;
+            }
+            while (dropdown._items.toArray()[dropdown.activeIndex].disabled) {
+                dropdown.activeIndex++;
+                if (dropdown.activeIndex === dropdown._items.length) {
+                    dropdown.activeIndex = 0;
+                }
+            }
+            dropdown.scrollToActive();
+        }
+    }
+    moveUp(dropdown) {
+        if (dropdown._items && dropdown._items.filter(item => !item.disabled).length > 0) {
+            dropdown.activeIndex--;
+            if (dropdown.activeIndex < 0) {
+                dropdown.activeIndex = dropdown._items.length - 1;
+            }
+            while (dropdown._items.toArray()[dropdown.activeIndex].disabled) {
+                dropdown.activeIndex--;
+                if (dropdown.activeIndex < 0) {
+                    dropdown.activeIndex = dropdown._items.length - 1;
+                }
+            }
+            dropdown.scrollToActive();
+        }
+    }
+    pressEnter(dropdown, event) {
+        dropdown._items.toArray()[dropdown.activeIndex].onClick(event);
+    }
     onKeyDown(event) {
         if (this.panelOpen && event.keyCode === KeyCodes.ESC) {
             Helpers.swallowEvent(event);
@@ -7282,47 +7356,47 @@ class NovoDropdownElement {
             this.closePanel();
         }
         else if (event.keyCode === KeyCodes.ENTER) {
-            Helpers.swallowEvent(event);
             // enter -- perform the "click"
-            this._items.toArray()[this.activeIndex].onClick(event);
+            if (this.navigatingSubmenu) {
+                this.pressEnter(this._items.toArray()[this.activeIndex].submenu, event);
+            }
+            else {
+                this.pressEnter(this, event);
+            }
         }
         else if (event.keyCode === KeyCodes.DOWN) {
             Helpers.swallowEvent(event);
-            // down - navigate through the list ignoring disabled ones
-            if (this.activeIndex !== -1) {
-                this._items.toArray()[this.activeIndex].active = false;
+            if (this.navigatingSubmenu) {
+                this.moveDown(this._items.toArray()[this.activeIndex].submenu);
             }
-            this.activeIndex++;
-            if (this.activeIndex === this._items.length) {
-                this.activeIndex = 0;
+            else {
+                this.moveDown(this);
             }
-            while (this._items.toArray()[this.activeIndex].disabled) {
-                this.activeIndex++;
-                if (this.activeIndex === this._items.length) {
-                    this.activeIndex = 0;
-                }
-            }
-            this._items.toArray()[this.activeIndex].active = true;
-            this.scrollToActive();
         }
         else if (event.keyCode === KeyCodes.UP) {
             Helpers.swallowEvent(event);
             // up -- navigate through the list ignoring disabled ones
-            if (this.activeIndex !== -1) {
-                this._items.toArray()[this.activeIndex].active = false;
+            if (this.navigatingSubmenu) {
+                this.moveUp(this._items.toArray()[this.activeIndex].submenu);
             }
-            this.activeIndex--;
-            if (this.activeIndex < 0) {
-                this.activeIndex = this._items.length - 1;
+            else {
+                this.moveUp(this);
             }
-            while (this._items.toArray()[this.activeIndex].disabled) {
-                this.activeIndex--;
-                if (this.activeIndex < 0) {
-                    this.activeIndex = this._items.length - 1;
-                }
+        }
+        else if (event.keyCode === KeyCodes.RIGHT) {
+            Helpers.swallowEvent(event);
+            // right -- if this item has a submenu, expand it and switch to that context
+            if (this.itemHasSubmenu) {
+                this._items.toArray()[this.activeIndex].submenu.openPanel();
+                this._items.toArray()[this.activeIndex].submenu.activeIndex = 0;
             }
-            this._items.toArray()[this.activeIndex].active = true;
-            this.scrollToActive();
+        }
+        else if (event.keyCode === KeyCodes.LEFT) {
+            Helpers.swallowEvent(event);
+            // left -- if currently navigating a submenu, close it and go back to main context
+            if (this.itemHasSubmenu) {
+                this._items.toArray()[this.activeIndex].submenu.closePanel();
+            }
         }
         else if ((event.keyCode >= 65 && event.keyCode <= 90) ||
             (event.keyCode >= 96 && event.keyCode <= 105) ||
@@ -7341,11 +7415,7 @@ class NovoDropdownElement {
                 return new RegExp(`^${this.filterTerm.toLowerCase()}`).test(value.trim().toLowerCase());
             });
             if (index !== -1) {
-                if (this.activeIndex !== -1) {
-                    this._items.toArray()[this.activeIndex].active = false;
-                }
                 this.activeIndex = index;
-                this._items.toArray()[this.activeIndex].active = true;
                 this.scrollToActive();
             }
         }
@@ -7413,28 +7483,70 @@ class NovoItemElement {
         this.dropdown = dropdown;
         this.element = element;
         this.keepOpen = false;
+        this.onSubmenuClick = new EventEmitter();
         this.action = new EventEmitter();
-        this.active = false;
+        this.submenuItems = [];
+        this._active = false;
+        this._active$ = new BehaviorSubject(this._active);
+        this.submenuIsOpen = false;
+    }
+    set active(value) {
+        this._active = value;
+        this._active$.next(this._active);
+    }
+    get active() {
+        return this._active;
+    }
+    ngAfterViewInit() {
+        if (this.submenu) {
+            this.submenu.toggled.subscribe(value => this.submenuIsOpen = value);
+            this.dropdown.activeIndexObs.subscribe((val) => {
+                if (val !== -1 && val !== this.index) {
+                    this.submenu.closePanel();
+                }
+                else if (val === this.index) {
+                    this.submenu.openPanel();
+                }
+            });
+        }
     }
     onClick(event) {
         // Poor man's disable
         if (!this.disabled) {
             // Close if keepOpen is false
-            if (!this.keepOpen) {
+            if (!this.keepOpen && !this.hasSubmenu()) {
                 this.dropdown.closePanel();
+            }
+            if (this.hasSubmenu()) {
+                this.submenu.openPanel();
             }
             // Emit the action
             this.action.emit({ originalEvent: event });
         }
     }
+    hasSubmenu() {
+        return this.submenuItems.length > 0;
+    }
+    mouseEnter() {
+        this.dropdown.activeIndex = this.index;
+    }
+    submenuClicked(item) {
+        this.onSubmenuClick.emit(item);
+    }
 }
 NovoItemElement.decorators = [
     { type: Component, args: [{
                 selector: 'item',
-                template: '<ng-content></ng-content>',
+                template: `<ng-content></ng-content><i class="bhi-expand" *ngIf="hasSubmenu()">
+            <novo-dropdown ngModel #submenu *ngIf="hasSubmenu()">
+              <list>
+                <item *ngFor="let item of submenuItems" (action)="submenuClicked(item)">{{ item }}</item>
+              </list>
+            </novo-dropdown>`,
                 host: {
                     '[class.disabled]': 'disabled',
                     '[class.active]': 'active',
+                    '(mouseenter)': 'mouseEnter()',
                 }
             },] }
 ];
@@ -7445,7 +7557,10 @@ NovoItemElement.ctorParameters = () => [
 NovoItemElement.propDecorators = {
     disabled: [{ type: Input }],
     keepOpen: [{ type: Input }],
+    onSubmenuClick: [{ type: Output }],
     action: [{ type: Output }],
+    submenuItems: [{ type: Input }],
+    submenu: [{ type: ViewChild, args: ['submenu', { static: false },] }],
     onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
 };
 class NovoDropdownListElement {
@@ -8685,7 +8800,7 @@ class NovoDropdownModule {
 }
 NovoDropdownModule.decorators = [
     { type: NgModule, args: [{
-                imports: [NovoOverlayModule],
+                imports: [NovoOverlayModule, CommonModule],
                 declarations: [NovoDropdownElement, NovoItemElement, NovoDropdownListElement, NovoDropDownItemHeaderElement],
                 exports: [NovoDropdownElement, NovoItemElement, NovoDropdownListElement, NovoDropDownItemHeaderElement],
             },] }

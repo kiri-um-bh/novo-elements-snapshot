@@ -9,7 +9,7 @@ import { OverlayConfig, Overlay, OverlayModule } from '@angular/cdk/overlay';
 import { ComponentPortal, TemplatePortal, PortalModule } from '@angular/cdk/portal';
 import { trigger, state, style, transition, animate, group, query, animateChild } from '@angular/animations';
 import { addDays, addWeeks, addMonths, startOfWeek, endOfWeek, differenceInDays, addMinutes, endOfDay, startOfDay, isSameSecond, setMinutes, setHours, startOfMinute, isAfter, isBefore, isSameDay, getDay, differenceInSeconds, differenceInMinutes, startOfMonth, endOfMonth, isSameMonth, addHours, getYear, getMonth, getDate, setYear, setMonth, setDate, addSeconds, subMonths, startOfToday, endOfToday, isToday, isValid, format, setMilliseconds, setSeconds, getHours, getMinutes, getSeconds, getMilliseconds, isDate, parse, startOfTomorrow } from 'date-fns';
-import { ReplaySubject, merge, of, fromEvent, from, Subject, Subscription, BehaviorSubject } from 'rxjs';
+import { ReplaySubject, merge, of, fromEvent, from, Subject, BehaviorSubject, Subscription } from 'rxjs';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { filter, first, switchMap, debounceTime, distinctUntilChanged, startWith, map, catchError, take, takeUntil } from 'rxjs/operators';
@@ -1586,9 +1586,41 @@ function NovoDataTableClearButton_item_6_Template(rf, ctx) { if (rf & 1) {
 } }
 const _c31 = [[["button"]], "*"];
 const _c32 = ["button", "*"];
-const _c33 = ["filterInput"];
-const _c34 = ["optionFilterInput"];
-const _c35 = ["novo-data-table-cell-config", ""];
+const _c33 = ["submenu"];
+function NovoItemElement_i_1_novo_dropdown_1_item_3_Template(rf, ctx) { if (rf & 1) {
+    const _r6 = ɵngcc0.ɵɵgetCurrentView();
+    ɵngcc0.ɵɵelementStart(0, "item", 6);
+    ɵngcc0.ɵɵlistener("action", function NovoItemElement_i_1_novo_dropdown_1_item_3_Template_item_action_0_listener() { ɵngcc0.ɵɵrestoreView(_r6); const item_r4 = ctx.$implicit; const ctx_r5 = ɵngcc0.ɵɵnextContext(3); return ctx_r5.submenuClicked(item_r4); });
+    ɵngcc0.ɵɵtext(1);
+    ɵngcc0.ɵɵelementEnd();
+} if (rf & 2) {
+    const item_r4 = ctx.$implicit;
+    ɵngcc0.ɵɵadvance(1);
+    ɵngcc0.ɵɵtextInterpolate(item_r4);
+} }
+function NovoItemElement_i_1_novo_dropdown_1_Template(rf, ctx) { if (rf & 1) {
+    ɵngcc0.ɵɵelementStart(0, "novo-dropdown", 3, 4);
+    ɵngcc0.ɵɵelementStart(2, "list");
+    ɵngcc0.ɵɵtemplate(3, NovoItemElement_i_1_novo_dropdown_1_item_3_Template, 2, 1, "item", 5);
+    ɵngcc0.ɵɵelementEnd();
+    ɵngcc0.ɵɵelementEnd();
+} if (rf & 2) {
+    const ctx_r1 = ɵngcc0.ɵɵnextContext(2);
+    ɵngcc0.ɵɵadvance(3);
+    ɵngcc0.ɵɵproperty("ngForOf", ctx_r1.submenuItems);
+} }
+function NovoItemElement_i_1_Template(rf, ctx) { if (rf & 1) {
+    ɵngcc0.ɵɵelementStart(0, "i", 1);
+    ɵngcc0.ɵɵtemplate(1, NovoItemElement_i_1_novo_dropdown_1_Template, 4, 1, "novo-dropdown", 2);
+    ɵngcc0.ɵɵelementEnd();
+} if (rf & 2) {
+    const ctx_r0 = ɵngcc0.ɵɵnextContext();
+    ɵngcc0.ɵɵadvance(1);
+    ɵngcc0.ɵɵproperty("ngIf", ctx_r0.hasSubmenu());
+} }
+const _c34 = ["filterInput"];
+const _c35 = ["optionFilterInput"];
+const _c36 = ["novo-data-table-cell-config", ""];
 function NovoDataTableCellHeader_i_0_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(0, "i", 6);
 } if (rf & 2) {
@@ -1789,7 +1821,7 @@ function NovoDataTableCellHeader_novo_dropdown_5_list_9_Template(rf, ctx) { if (
 function NovoDataTableCellHeader_novo_dropdown_5_list_10_ng_container_2_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementContainer(0);
 } }
-const _c36 = function (a0) { return { $implicit: a0 }; };
+const _c37 = function (a0) { return { $implicit: a0 }; };
 function NovoDataTableCellHeader_novo_dropdown_5_list_10_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "list");
     ɵngcc0.ɵɵelementStart(1, "item", 29);
@@ -1799,7 +1831,7 @@ function NovoDataTableCellHeader_novo_dropdown_5_list_10_Template(rf, ctx) { if 
 } if (rf & 2) {
     const ctx_r10 = ɵngcc0.ɵɵnextContext(2);
     ɵngcc0.ɵɵadvance(2);
-    ɵngcc0.ɵɵproperty("ngTemplateOutlet", ctx_r10.filterTemplate)("ngTemplateOutletContext", ɵngcc0.ɵɵpureFunction1(2, _c36, ctx_r10.config));
+    ɵngcc0.ɵɵproperty("ngTemplateOutlet", ctx_r10.filterTemplate)("ngTemplateOutletContext", ɵngcc0.ɵɵpureFunction1(2, _c37, ctx_r10.config));
 } }
 function NovoDataTableCellHeader_novo_dropdown_5_list_11_Template(rf, ctx) { if (rf & 1) {
     const _r47 = ɵngcc0.ɵɵgetCurrentView();
@@ -1887,7 +1919,7 @@ function NovoDataTableCellHeader_div_7_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementEnd();
     ɵngcc0.ɵɵelementEnd();
 } }
-const _c37 = ["novoDataTableContainer"];
+const _c38 = ["novoDataTableContainer"];
 function NovoDataTable_header_0_ng_container_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementContainer(0);
 } }
@@ -2040,7 +2072,7 @@ function NovoDataTable_cdk_table_6_Template(rf, ctx) { if (rf & 1) {
 function NovoDataTable_div_7_ng_container_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementContainer(0);
 } }
-const _c38 = function (a0, a1) { return { $implicit: a0, data: a1 }; };
+const _c39 = function (a0, a1) { return { $implicit: a0, data: a1 }; };
 function NovoDataTable_div_7_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "div", 52);
     ɵngcc0.ɵɵtemplate(1, NovoDataTable_div_7_ng_container_1_Template, 1, 0, "ng-container", 53);
@@ -2048,7 +2080,7 @@ function NovoDataTable_div_7_Template(rf, ctx) { if (rf & 1) {
 } if (rf & 2) {
     const ctx_r5 = ɵngcc0.ɵɵnextContext();
     ɵngcc0.ɵɵadvance(1);
-    ɵngcc0.ɵɵproperty("ngTemplateOutlet", ctx_r5.templates["footer"])("ngTemplateOutletContext", ɵngcc0.ɵɵpureFunction2(2, _c38, ctx_r5.columns, ctx_r5.dataSource.data));
+    ɵngcc0.ɵɵproperty("ngTemplateOutlet", ctx_r5.templates["footer"])("ngTemplateOutletContext", ɵngcc0.ɵɵpureFunction2(2, _c39, ctx_r5.columns, ctx_r5.dataSource.data));
 } }
 function NovoDataTable_div_8_ng_container_2_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementContainer(0);
@@ -2306,11 +2338,11 @@ function NovoDataTable_ng_template_26_Template(rf, ctx) { if (rf & 1) {
     const ctx_r25 = ɵngcc0.ɵɵnextContext();
     ɵngcc0.ɵɵproperty("@expand", undefined);
     ɵngcc0.ɵɵadvance(1);
-    ɵngcc0.ɵɵproperty("ngTemplateOutlet", ctx_r25.templates["expandedRow"])("ngTemplateOutletContext", ɵngcc0.ɵɵpureFunction1(3, _c36, row_r92));
+    ɵngcc0.ɵɵproperty("ngTemplateOutlet", ctx_r25.templates["expandedRow"])("ngTemplateOutletContext", ɵngcc0.ɵɵpureFunction1(3, _c37, row_r92));
 } }
-const _c39 = function (a0) { return { "novo-data-table-outside-container-fixed": a0 }; };
-const _c40 = function (a0) { return { "novo-data-table-container-fixed": a0 }; };
-const _c41 = ["dropdownElement"];
+const _c40 = function (a0) { return { "novo-data-table-outside-container-fixed": a0 }; };
+const _c41 = function (a0) { return { "novo-data-table-container-fixed": a0 }; };
+const _c42 = ["dropdownElement"];
 function NovoSelectElement_li_7_button_1_Template(rf, ctx) { if (rf & 1) {
     const _r6 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementStart(0, "button", 10);
@@ -2323,7 +2355,7 @@ function NovoSelectElement_li_7_button_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(2);
     ɵngcc0.ɵɵtextInterpolate1("\u00A0", ctx_r3.headerConfig.label, " ");
 } }
-const _c42 = function (a0) { return { invalid: a0 }; };
+const _c43 = function (a0) { return { invalid: a0 }; };
 function NovoSelectElement_li_7_div_2_Template(rf, ctx) { if (rf & 1) {
     const _r8 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementStart(0, "div", 12);
@@ -2345,7 +2377,7 @@ function NovoSelectElement_li_7_div_2_Template(rf, ctx) { if (rf & 1) {
     const ctx_r4 = ɵngcc0.ɵɵnextContext(2);
     ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(7, _c25, ctx_r4.header.open));
     ɵngcc0.ɵɵadvance(1);
-    ɵngcc0.ɵɵproperty("placeholder", ctx_r4.headerConfig.placeholder)("ngModel", ctx_r4.header.value)("ngClass", ɵngcc0.ɵɵpureFunction1(9, _c42, !ctx_r4.header.valid));
+    ɵngcc0.ɵɵproperty("placeholder", ctx_r4.headerConfig.placeholder)("ngModel", ctx_r4.header.value)("ngClass", ɵngcc0.ɵɵpureFunction1(9, _c43, !ctx_r4.header.valid));
     ɵngcc0.ɵɵattribute("id", ctx_r4.name);
     ɵngcc0.ɵɵadvance(3);
     ɵngcc0.ɵɵtextInterpolate(ctx_r4.labels.cancel);
@@ -2385,12 +2417,12 @@ function NovoSelectElement_li_8_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵproperty("ngIf", option_r11.active);
 } }
-const _c43 = function (a0, a1) { return { "bhi-circle": a0, "bhi-check": a1 }; };
+const _c44 = function (a0, a1) { return { "bhi-circle": a0, "bhi-check": a1 }; };
 function NovoAddressElement_span_0_i_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(0, "i", 9);
 } if (rf & 2) {
     const ctx_r6 = ɵngcc0.ɵɵnextContext(2);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(1, _c43, !ctx_r6.valid.address1, ctx_r6.valid.address1));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(1, _c44, !ctx_r6.valid.address1, ctx_r6.valid.address1));
 } }
 function NovoAddressElement_span_0_Template(rf, ctx) { if (rf & 1) {
     const _r8 = ɵngcc0.ɵɵgetCurrentView();
@@ -2413,7 +2445,7 @@ function NovoAddressElement_span_1_i_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(0, "i", 13);
 } if (rf & 2) {
     const ctx_r13 = ɵngcc0.ɵɵnextContext(2);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(1, _c43, !ctx_r13.valid.address2, ctx_r13.valid.address2));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(1, _c44, !ctx_r13.valid.address2, ctx_r13.valid.address2));
 } }
 function NovoAddressElement_span_1_Template(rf, ctx) { if (rf & 1) {
     const _r15 = ɵngcc0.ɵɵgetCurrentView();
@@ -2436,7 +2468,7 @@ function NovoAddressElement_span_2_i_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(0, "i", 17);
 } if (rf & 2) {
     const ctx_r20 = ɵngcc0.ɵɵnextContext(2);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(1, _c43, !ctx_r20.valid.city, ctx_r20.valid.city));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(1, _c44, !ctx_r20.valid.city, ctx_r20.valid.city));
 } }
 function NovoAddressElement_span_2_Template(rf, ctx) { if (rf & 1) {
     const _r22 = ɵngcc0.ɵɵgetCurrentView();
@@ -2459,7 +2491,7 @@ function NovoAddressElement_span_3_i_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(0, "i", 17);
 } if (rf & 2) {
     const ctx_r27 = ɵngcc0.ɵɵnextContext(2);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(1, _c43, !ctx_r27.valid.state, ctx_r27.valid.state));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(1, _c44, !ctx_r27.valid.state, ctx_r27.valid.state));
 } }
 function NovoAddressElement_span_3_Template(rf, ctx) { if (rf & 1) {
     const _r29 = ɵngcc0.ɵɵgetCurrentView();
@@ -2482,7 +2514,7 @@ function NovoAddressElement_span_4_i_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(0, "i", 17);
 } if (rf & 2) {
     const ctx_r31 = ɵngcc0.ɵɵnextContext(2);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(1, _c43, !ctx_r31.valid.zip, ctx_r31.valid.zip));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(1, _c44, !ctx_r31.valid.zip, ctx_r31.valid.zip));
 } }
 function NovoAddressElement_span_4_Template(rf, ctx) { if (rf & 1) {
     const _r33 = ɵngcc0.ɵɵgetCurrentView();
@@ -2505,7 +2537,7 @@ function NovoAddressElement_span_5_i_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(0, "i", 17);
 } if (rf & 2) {
     const ctx_r38 = ɵngcc0.ɵɵnextContext(2);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(1, _c43, !ctx_r38.valid.countryID, ctx_r38.valid.countryID));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(1, _c44, !ctx_r38.valid.countryID, ctx_r38.valid.countryID));
 } }
 function NovoAddressElement_span_5_Template(rf, ctx) { if (rf & 1) {
     const _r40 = ɵngcc0.ɵɵgetCurrentView();
@@ -2532,7 +2564,7 @@ function NovoCheckboxElement_span_4_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵtextInterpolate(ctx_r0.label);
 } }
-const _c44 = function (a0, a1) { return { "bhi-checkbox-empty": a0, "bhi-checkbox-filled": a1 }; };
+const _c45 = function (a0, a1) { return { "bhi-checkbox-empty": a0, "bhi-checkbox-filled": a1 }; };
 function NovoCheckListElement_div_0_Template(rf, ctx) { if (rf & 1) {
     const _r4 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementStart(0, "div", 1);
@@ -2560,13 +2592,13 @@ function NovoCheckListElement_div_0_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵattribute("for", ctx_r0.name + i_r2);
     ɵngcc0.ɵɵadvance(1);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(14, _c44, !option_r1.checked, option_r1.checked));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(14, _c45, !option_r1.checked, option_r1.checked));
     ɵngcc0.ɵɵadvance(2);
     ɵngcc0.ɵɵtextInterpolate(option_r1.label);
 } }
-const _c45 = ["fileInput"];
-const _c46 = ["fileOutput"];
-const _c47 = ["container"];
+const _c46 = ["fileInput"];
+const _c47 = ["fileOutput"];
+const _c48 = ["container"];
 function NovoFileInputElement_ng_template_2_input_1_Template(rf, ctx) { if (rf & 1) {
     const _r10 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementStart(0, "input", 8);
@@ -2807,7 +2839,7 @@ function NovoFileInputElement_ng_template_4_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵproperty("ngForOf", ctx_r4.files);
 } }
-const _c48 = function (a0, a1) { return { active: a0, disabled: a1 }; };
+const _c49 = function (a0, a1) { return { active: a0, disabled: a1 }; };
 function NovoTilesElement_div_1_Template(rf, ctx) { if (rf & 1) {
     const _r4 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementStart(0, "div", 2);
@@ -2823,7 +2855,7 @@ function NovoTilesElement_div_1_Template(rf, ctx) { if (rf & 1) {
     const option_r1 = ctx.$implicit;
     const i_r2 = ctx.index;
     const ctx_r0 = ɵngcc0.ɵɵnextContext();
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(9, _c48, option_r1.checked, option_r1.disabled));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(9, _c49, option_r1.checked, option_r1.disabled));
     ɵngcc0.ɵɵattribute("data-automation-id", option_r1.label || option_r1);
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵproperty("name", ctx_r0.name)("value", option_r1.checked || option_r1.value || option_r1)("disabled", ctx_r0.disabled);
@@ -2905,7 +2937,7 @@ function NovoDatePickerElement_th_14_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵtextInterpolate(day_r9.substr(0, 2));
 } }
-const _c49 = function (a0, a1, a2, a3, a4, a5, a6) { return { today: a0, "notinmonth": a1, selected: a2, filler: a3, startfill: a4, endfill: a5, "selecting-range": a6 }; };
+const _c50 = function (a0, a1, a2, a3, a4, a5, a6) { return { today: a0, "notinmonth": a1, selected: a2, filler: a3, startfill: a4, endfill: a5, "selecting-range": a6 }; };
 function NovoDatePickerElement_tr_16_td_1_Template(rf, ctx) { if (rf & 1) {
     const _r14 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementStart(0, "td", 28);
@@ -2918,7 +2950,7 @@ function NovoDatePickerElement_tr_16_td_1_Template(rf, ctx) { if (rf & 1) {
 } if (rf & 2) {
     const day_r12 = ctx.$implicit;
     const ctx_r11 = ɵngcc0.ɵɵnextContext(2);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction7(5, _c49, day_r12.isToday, day_r12.date.getMonth() !== ctx_r11.month.getMonth(), ctx_r11.isSelected(ctx_r11.range, day_r12.date, ctx_r11.selected, ctx_r11.selected2), ctx_r11.isFiller(ctx_r11.range, day_r12.date, ctx_r11.selected, ctx_r11.selected2), ctx_r11.isStartFill(ctx_r11.range, day_r12.date, ctx_r11.selected, ctx_r11.selected2), ctx_r11.isEndFill(ctx_r11.range, day_r12.date, ctx_r11.selected, ctx_r11.selected2), ctx_r11.isSelectingRange(ctx_r11.range, day_r12.date, ctx_r11.selected, ctx_r11.selected2, ctx_r11.hoverDay, ctx_r11.rangeSelectMode, ctx_r11.weekRangeSelect)));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction7(5, _c50, day_r12.isToday, day_r12.date.getMonth() !== ctx_r11.month.getMonth(), ctx_r11.isSelected(ctx_r11.range, day_r12.date, ctx_r11.selected, ctx_r11.selected2), ctx_r11.isFiller(ctx_r11.range, day_r12.date, ctx_r11.selected, ctx_r11.selected2), ctx_r11.isStartFill(ctx_r11.range, day_r12.date, ctx_r11.selected, ctx_r11.selected2), ctx_r11.isEndFill(ctx_r11.range, day_r12.date, ctx_r11.selected, ctx_r11.selected2), ctx_r11.isSelectingRange(ctx_r11.range, day_r12.date, ctx_r11.selected, ctx_r11.selected2, ctx_r11.hoverDay, ctx_r11.rangeSelectMode, ctx_r11.weekRangeSelect)));
     ɵngcc0.ɵɵattribute("data-automation-id", day_r12.number);
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵproperty("disabled", ctx_r11.isDisabled(day_r12.date, ctx_r11.start, ctx_r11.end));
@@ -2935,7 +2967,7 @@ function NovoDatePickerElement_tr_16_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵproperty("ngForOf", week_r10.days);
 } }
-const _c50 = function (a0) { return { selected: a0 }; };
+const _c51 = function (a0) { return { selected: a0 }; };
 function NovoDatePickerElement_div_18_Template(rf, ctx) { if (rf & 1) {
     const _r19 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementStart(0, "div", 30);
@@ -2949,7 +2981,7 @@ function NovoDatePickerElement_div_18_Template(rf, ctx) { if (rf & 1) {
     const i_r17 = ctx.index;
     const ctx_r4 = ɵngcc0.ɵɵnextContext();
     ɵngcc0.ɵɵadvance(1);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(3, _c50, i_r17 === (ctx_r4.selected == null ? null : ctx_r4.selected.getMonth())));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(3, _c51, i_r17 === (ctx_r4.selected == null ? null : ctx_r4.selected.getMonth())));
     ɵngcc0.ɵɵattribute("data-automation-id", month_r16);
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵtextInterpolate(month_r16);
@@ -2966,7 +2998,7 @@ function NovoDatePickerElement_div_20_Template(rf, ctx) { if (rf & 1) {
     const year_r20 = ctx.$implicit;
     const ctx_r5 = ɵngcc0.ɵɵnextContext();
     ɵngcc0.ɵɵadvance(1);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(3, _c50, year_r20 == (ctx_r5.selected == null ? null : ctx_r5.selected.getFullYear())));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(3, _c51, year_r20 == (ctx_r5.selected == null ? null : ctx_r5.selected.getFullYear())));
     ɵngcc0.ɵɵattribute("data-automation-id", year_r20);
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵtextInterpolate(year_r20);
@@ -2986,7 +3018,7 @@ function NovoDatePickerInputElement_i_3_Template(rf, ctx) { if (rf & 1) {
 function NovoDataTableCell_ng_container_0_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementContainer(0);
 } }
-const _c51 = function (a0, a1) { return { $implicit: a0, col: a1 }; };
+const _c52 = function (a0, a1) { return { $implicit: a0, col: a1 }; };
 function NovoDataTablePagination_ng_container_0_novo_tiles_2_Template(rf, ctx) { if (rf & 1) {
     const _r6 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementStart(0, "novo-tiles", 8);
@@ -3069,7 +3101,7 @@ function NovoDataTablePagination_ng_container_1_li_8_Template(rf, ctx) { if (rf 
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵtextInterpolate(p_r12.text);
 } }
-const _c52 = function (a0) { return { "disabled": a0 }; };
+const _c53 = function (a0) { return { "disabled": a0 }; };
 function NovoDataTablePagination_ng_container_1_Template(rf, ctx) { if (rf & 1) {
     const _r16 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementContainerStart(0);
@@ -3100,11 +3132,11 @@ function NovoDataTablePagination_ng_container_1_Template(rf, ctx) { if (rf & 1) 
     ɵngcc0.ɵɵproperty("options", ctx_r1.displayedPageSizeOptions)("placeholder", ctx_r1.labels.select)("ngModel", ctx_r1.pageSize);
     ɵngcc0.ɵɵattribute("data-feature-id", ctx_r1.dataFeatureId);
     ɵngcc0.ɵɵadvance(3);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(8, _c52, ctx_r1.page === 0));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(8, _c53, ctx_r1.page === 0));
     ɵngcc0.ɵɵadvance(2);
     ɵngcc0.ɵɵproperty("ngForOf", ctx_r1.pages);
     ɵngcc0.ɵɵadvance(1);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(10, _c52, ctx_r1.page + 1 === ctx_r1.totalPages));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(10, _c53, ctx_r1.page + 1 === ctx_r1.totalPages));
 } }
 function NovoDateTimePickerElement_span_10_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "span", 13);
@@ -3216,7 +3248,7 @@ function NovoTimePickerElement_div_5_span_11_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵtextInterpolate(minute_r18);
 } }
-const _c53 = function (a0) { return { between: a0 }; };
+const _c54 = function (a0) { return { between: a0 }; };
 function NovoTimePickerElement_div_5_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "div", 18);
     ɵngcc0.ɵɵelementStart(1, "div", 19);
@@ -3244,7 +3276,7 @@ function NovoTimePickerElement_div_5_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(2);
     ɵngcc0.ɵɵproperty("ngClass", ctx_r3.minutesClass);
     ɵngcc0.ɵɵadvance(1);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(5, _c53, ctx_r3.inBetween));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(5, _c54, ctx_r3.inBetween));
     ɵngcc0.ɵɵadvance(2);
     ɵngcc0.ɵɵproperty("ngForOf", ctx_r3.HOURS);
     ɵngcc0.ɵɵadvance(2);
@@ -3263,28 +3295,28 @@ function NovoTimePickerInputElement_i_3_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementEnd();
 } }
 function NovoExpansionPanel_ng_template_5_Template(rf, ctx) { }
-const _c54 = [[["novo-expansion-panel-header"]], "*", [["novo-action-row"]]];
-const _c55 = ["novo-expansion-panel-header", "*", "novo-action-row"];
-const _c56 = function (a0, a1) { return { collapsedHeight: a0, expandedHeight: a1 }; };
-const _c57 = function (a0, a1) { return { value: a0, params: a1 }; };
+const _c55 = [[["novo-expansion-panel-header"]], "*", [["novo-action-row"]]];
+const _c56 = ["novo-expansion-panel-header", "*", "novo-action-row"];
+const _c57 = function (a0, a1) { return { collapsedHeight: a0, expandedHeight: a1 }; };
+const _c58 = function (a0, a1) { return { value: a0, params: a1 }; };
 function NovoExpansionPanelHeader_span_4_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(0, "span", 2);
 } if (rf & 2) {
     const ctx_r0 = ɵngcc0.ɵɵnextContext();
     ɵngcc0.ɵɵproperty("@indicatorRotate", ctx_r0._getExpandedState());
 } }
-const _c58 = [[["novo-panel-title"]], [["novo-panel-description"]], "*"];
-const _c59 = ["novo-panel-title", "novo-panel-description", "*"];
-const _c60 = [[["header"]], [["section"]], [["button"]]];
-const _c61 = ["header", "section", "button"];
+const _c59 = [[["novo-panel-title"]], [["novo-panel-description"]], "*"];
+const _c60 = ["novo-panel-title", "novo-panel-description", "*"];
+const _c61 = [[["header"]], [["section"]], [["button"]]];
+const _c62 = ["header", "section", "button"];
 function NovoModalNotificationElement_i_4_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(0, "i", 3);
 } if (rf & 2) {
     const ctx_r0 = ɵngcc0.ɵɵnextContext();
     ɵngcc0.ɵɵproperty("ngClass", ctx_r0.iconType);
 } }
-const _c62 = [[["label"]], [["h1"]], [["h2"]], [["p"]], [["button"]]];
-const _c63 = ["label", "h1", "h2", "p", "button"];
+const _c63 = [[["label"]], [["h1"]], [["h2"]], [["p"]], [["button"]]];
+const _c64 = ["label", "h1", "h2", "p", "button"];
 function NovoToastElement_h5_3_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "h5");
     ɵngcc0.ɵɵtext(1);
@@ -3353,14 +3385,14 @@ function ControlPromptModal_p_3_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵtextInterpolate(change_r1);
 } }
-const _c64 = function (a0) { return { "encrypted": a0 }; };
+const _c65 = function (a0) { return { "encrypted": a0 }; };
 function NovoControlElement_label_3_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "label", 13);
     ɵngcc0.ɵɵtext(1);
     ɵngcc0.ɵɵelementEnd();
 } if (rf & 2) {
     const ctx_r0 = ɵngcc0.ɵɵnextContext();
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(3, _c64, ctx_r0.form.controls[ctx_r0.control.key].encrypted));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(3, _c65, ctx_r0.form.controls[ctx_r0.control.key].encrypted));
     ɵngcc0.ɵɵattribute("for", ctx_r0.control.key);
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵtextInterpolate1(" ", ctx_r0.form.controls[ctx_r0.control.key].label, " ");
@@ -3381,7 +3413,7 @@ function NovoControlElement_i_8_Template(rf, ctx) { if (rf & 1) {
 } if (rf & 2) {
     const ctx_r2 = ɵngcc0.ɵɵnextContext();
     ɵngcc0.ɵɵclassMapInterpolate1("required-indicator ", ctx_r2.form.controls[ctx_r2.control.key].controlType, "");
-    ɵngcc0.ɵɵproperty("hidden", !ctx_r2.form.controls[ctx_r2.control.key].required || ctx_r2.form.controls[ctx_r2.control.key].readOnly)("ngClass", ɵngcc0.ɵɵpureFunction2(5, _c43, !ctx_r2.isValid, ctx_r2.isValid));
+    ɵngcc0.ɵɵproperty("hidden", !ctx_r2.form.controls[ctx_r2.control.key].required || ctx_r2.form.controls[ctx_r2.control.key].readOnly)("ngClass", ɵngcc0.ɵɵpureFunction2(5, _c44, !ctx_r2.isValid, ctx_r2.isValid));
 } }
 function NovoControlElement_ng_container_10_ng_container_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementContainer(0);
@@ -3852,7 +3884,7 @@ function NovoControlGroup_ng_template_4_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵproperty("ngIf", ctx_r4.remove);
 } }
 function NovoControlGroup_ng_container_6_div_1_ng_template_1_Template(rf, ctx) { }
-const _c65 = function (a0, a1, a2) { return { form: a0, key: a1, controlLabels: a2 }; };
+const _c66 = function (a0, a1, a2) { return { form: a0, key: a1, controlLabels: a2 }; };
 function NovoControlGroup_ng_container_6_div_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "div", 27);
     ɵngcc0.ɵɵtemplate(1, NovoControlGroup_ng_container_6_div_1_ng_template_1_Template, 0, 0, "ng-template", 28);
@@ -3861,7 +3893,7 @@ function NovoControlGroup_ng_container_6_div_1_Template(rf, ctx) { if (rf & 1) {
     const ctx_r52 = ɵngcc0.ɵɵnextContext(2);
     const _r3 = ɵngcc0.ɵɵreference(5);
     ɵngcc0.ɵɵadvance(1);
-    ɵngcc0.ɵɵproperty("ngTemplateOutlet", ctx_r52.columnLabelTemplate || _r3)("ngTemplateOutletContext", ɵngcc0.ɵɵpureFunction3(2, _c65, ctx_r52.form, ctx_r52.key, ctx_r52.controlLabels));
+    ɵngcc0.ɵɵproperty("ngTemplateOutlet", ctx_r52.columnLabelTemplate || _r3)("ngTemplateOutletContext", ɵngcc0.ɵɵpureFunction3(2, _c66, ctx_r52.form, ctx_r52.key, ctx_r52.controlLabels));
 } }
 function NovoControlGroup_ng_container_6_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementContainerStart(0);
@@ -3873,7 +3905,7 @@ function NovoControlGroup_ng_container_6_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵproperty("ngIf", !ctx_r5.vertical && (ctx_r5.form == null ? null : ctx_r5.form.controls[ctx_r5.key]) && (ctx_r5.form == null ? null : ctx_r5.form.controls[ctx_r5.key]["controls"].length) !== 0);
 } }
 function NovoControlGroup_ng_container_7_div_1_ng_template_1_Template(rf, ctx) { }
-const _c66 = function (a0, a1, a2, a3) { return { form: a0, index: a1, key: a2, controls: a3 }; };
+const _c67 = function (a0, a1, a2, a3) { return { form: a0, index: a1, key: a2, controls: a3 }; };
 function NovoControlGroup_ng_container_7_div_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "div", 30);
     ɵngcc0.ɵɵtemplate(1, NovoControlGroup_ng_container_7_div_1_ng_template_1_Template, 0, 0, "ng-template", 28);
@@ -3883,7 +3915,7 @@ function NovoControlGroup_ng_container_7_div_1_Template(rf, ctx) { if (rf & 1) {
     const ctx_r54 = ɵngcc0.ɵɵnextContext(2);
     const _r1 = ɵngcc0.ɵɵreference(3);
     ɵngcc0.ɵɵadvance(1);
-    ɵngcc0.ɵɵproperty("ngTemplateOutlet", ctx_r54.rowTemplate || _r1)("ngTemplateOutletContext", ɵngcc0.ɵɵpureFunction4(2, _c66, ctx_r54.form, index_r56, ctx_r54.key, ctx_r54.controls));
+    ɵngcc0.ɵɵproperty("ngTemplateOutlet", ctx_r54.rowTemplate || _r1)("ngTemplateOutletContext", ɵngcc0.ɵɵpureFunction4(2, _c67, ctx_r54.form, index_r56, ctx_r54.key, ctx_r54.controls));
 } }
 function NovoControlGroup_ng_container_7_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementContainerStart(0);
@@ -4350,28 +4382,28 @@ function NovoDynamicFormElement_ng_container_6_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵproperty("ngIf", fieldset_r1.controls.length);
 } }
-const _c67 = [[["form-title"]], [["form-subtitle"]]];
-const _c68 = ["form-title", "form-subtitle"];
+const _c68 = [[["form-title"]], [["form-subtitle"]]];
+const _c69 = ["form-title", "form-subtitle"];
 function NovoFormElement_header_2_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "header");
     ɵngcc0.ɵɵprojection(1, 1);
     ɵngcc0.ɵɵprojection(2, 2);
     ɵngcc0.ɵɵelementEnd();
 } }
-const _c69 = ["*", [["form-title"]], [["form-subtitle"]]];
-const _c70 = ["*", "form-title", "form-subtitle"];
-const _c71 = function (a0, a1, a2) { return { "unchecked": a0, "checked": a1, "has-icon": a2 }; };
+const _c70 = ["*", [["form-title"]], [["form-subtitle"]]];
+const _c71 = ["*", "form-title", "form-subtitle"];
+const _c72 = function (a0, a1, a2) { return { "unchecked": a0, "checked": a1, "has-icon": a2 }; };
 function NovoRadioElement_button_2_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "button", 4);
     ɵngcc0.ɵɵtext(1);
     ɵngcc0.ɵɵelementEnd();
 } if (rf & 2) {
     const ctx_r0 = ɵngcc0.ɵɵnextContext();
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction3(4, _c71, !ctx_r0.checked, ctx_r0.checked, !!ctx_r0.icon))("theme", ctx_r0.theme)("icon", ctx_r0.icon);
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction3(4, _c72, !ctx_r0.checked, ctx_r0.checked, !!ctx_r0.icon))("theme", ctx_r0.theme)("icon", ctx_r0.icon);
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵtextInterpolate(ctx_r0.label);
 } }
-const _c72 = function (a0, a1) { return { "bhi-radio-empty": a0, "bhi-radio-filled": a1 }; };
+const _c73 = function (a0, a1) { return { "bhi-radio-empty": a0, "bhi-radio-filled": a1 }; };
 function NovoRadioElement_div_3_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "div");
     ɵngcc0.ɵɵelement(1, "i", 5);
@@ -4381,7 +4413,7 @@ function NovoRadioElement_div_3_Template(rf, ctx) { if (rf & 1) {
 } if (rf & 2) {
     const ctx_r1 = ɵngcc0.ɵɵnextContext();
     ɵngcc0.ɵɵadvance(1);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(2, _c72, !ctx_r1.checked, ctx_r1.checked));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction2(2, _c73, !ctx_r1.checked, ctx_r1.checked));
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵtextInterpolate1(" ", ctx_r1.label, " ");
 } }
@@ -4430,7 +4462,7 @@ function QuickNoteResults_p_3_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵtextInterpolate(ctx_r3.labels.quickNoteEmpty);
 } }
-const _c73 = ["wrapper"];
+const _c74 = ["wrapper"];
 function NovoHeaderComponent_ng_container_2_i_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(0, "i", 5);
 } if (rf & 2) {
@@ -4473,8 +4505,8 @@ function NovoHeaderComponent_ng_container_3_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementEnd();
     ɵngcc0.ɵɵelementContainerEnd();
 } }
-const _c74 = [[["section"]], [["utils"]], [["novo-action"]], "*", [["novo-icon"], ["", "novo-icon", ""]], [["h1"], ["h2"], ["h3"], ["h4"], ["h5"], ["h6"], ["small"], ["", "novo-title", ""], ["", "novo-subtitle", ""]]];
-const _c75 = ["section", "utils", "novo-action", "*", "novo-icon, [novo-icon]", "h1, h2, h3, h4, h5, h6, small, [novo-title], [novo-subtitle]"];
+const _c75 = [[["section"]], [["utils"]], [["novo-action"]], "*", [["novo-icon"], ["", "novo-icon", ""]], [["h1"], ["h2"], ["h3"], ["h4"], ["h5"], ["h6"], ["small"], ["", "novo-title", ""], ["", "novo-subtitle", ""]]];
+const _c76 = ["section", "utils", "novo-action", "*", "novo-icon, [novo-icon]", "h1, h2, h3, h4, h5, h6, small, [novo-title], [novo-subtitle]"];
 function NovoTipWellElement_div_0_i_2_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(0, "i");
 } if (rf & 2) {
@@ -4599,7 +4631,7 @@ function PlacesListComponent_novo_list_item_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(2);
     ɵngcc0.ɵɵtextInterpolate(data_r1.structured_formatting == null ? null : data_r1.structured_formatting.secondary_text);
 } }
-const _c76 = ["popoverDiv"];
+const _c77 = ["popoverDiv"];
 function NovoSimpleActionCell_ng_container_0_Template(rf, ctx) { if (rf & 1) {
     const _r3 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementContainerStart(0);
@@ -4647,7 +4679,7 @@ function NovoSimpleActionCell_ng_container_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(2);
     ɵngcc0.ɵɵproperty("ngForOf", ctx_r1.column.options);
 } }
-const _c77 = ["novo-simple-cell-config", ""];
+const _c78 = ["novo-simple-cell-config", ""];
 function NovoSimpleCellHeader_button_3_Template(rf, ctx) { if (rf & 1) {
     const _r3 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementStart(0, "button", 3);
@@ -4844,8 +4876,8 @@ function NovoSimpleTablePagination_div_2_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵtextInterpolate(ctx_r1.pageSize);
 } }
-const _c78 = [[["caption"]], [["colgroup"], ["col"]]];
-const _c79 = ["caption", "colgroup, col"];
+const _c79 = [[["caption"]], [["colgroup"], ["col"]]];
+const _c80 = ["caption", "colgroup, col"];
 function NovoActivityTable_div_0_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "div");
     ɵngcc0.ɵɵelementStart(1, "p");
@@ -5066,8 +5098,8 @@ function NovoActivityTable_div_8_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(4);
     ɵngcc0.ɵɵproperty("ngIf", _r36.childNodes.length == 0);
 } }
-const _c80 = [[["", "novo-activity-table-custom-header", ""]], [["", "novo-activity-table-actions", ""]], [["", "novo-activity-table-custom-filter", ""]], "*", [["", "novo-activity-table-no-results-message", ""]], [["", "novo-activity-table-empty-message", ""]]];
-const _c81 = ["[novo-activity-table-custom-header]", "[novo-activity-table-actions]", "[novo-activity-table-custom-filter]", "*", "[novo-activity-table-no-results-message]", "[novo-activity-table-empty-message]"];
+const _c81 = [[["", "novo-activity-table-custom-header", ""]], [["", "novo-activity-table-actions", ""]], [["", "novo-activity-table-custom-filter", ""]], "*", [["", "novo-activity-table-no-results-message", ""]], [["", "novo-activity-table-empty-message", ""]]];
+const _c82 = ["[novo-activity-table-custom-header]", "[novo-activity-table-actions]", "[novo-activity-table-custom-filter]", "*", "[novo-activity-table-no-results-message]", "[novo-activity-table-empty-message]"];
 function NovoSliderElement_button_3_Template(rf, ctx) { if (rf & 1) {
     const _r5 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementStart(0, "button", 7);
@@ -5094,8 +5126,8 @@ function NovoSliderElement_button_6_Template(rf, ctx) { if (rf & 1) {
 function NovoSliderElement_ng_content_7_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵprojection(0, 1, ["*ngIf", "end"]);
 } }
-const _c82 = [[["div", "slide", ""]], [["button"]]];
-const _c83 = ["div[slide]", "button"];
+const _c83 = [[["div", "slide", ""]], [["button"]]];
+const _c84 = ["div[slide]", "button"];
 function NovoStepHeader_ng_container_1_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementContainerStart(0);
     ɵngcc0.ɵɵelementStart(1, "novo-icon", 5);
@@ -5197,7 +5229,7 @@ function NovoVerticalStepper_div_0_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(2);
     ɵngcc0.ɵɵproperty("ngTemplateOutlet", step_r1.content);
 } }
-const _c84 = "@-webkit-keyframes rotate{0%{transform:rotate(0deg)}75%{transform:rotate(200deg)}to{transform:rotate(180deg)}}@keyframes rotate{0%{transform:rotate(0deg)}75%{transform:rotate(200deg)}to{transform:rotate(180deg)}}@-webkit-keyframes half-rotate{0%{transform:rotate(45deg)}75%{transform:rotate(100deg)}to{transform:rotate(90deg)}}@keyframes half-rotate{0%{transform:rotate(45deg)}75%{transform:rotate(100deg)}to{transform:rotate(90deg)}}@-webkit-keyframes rotateBack{0%{transform:rotate(90deg)}to{transform:rotate(0deg)}}@keyframes rotateBack{0%{transform:rotate(90deg)}to{transform:rotate(0deg)}}@-webkit-keyframes show{0%{opacity:0;transform:translateX(-100%)}75%{transform:translateX(0)}to{opacity:1;transform:translateX(0)}}@keyframes show{0%{opacity:0;transform:translateX(-100%)}75%{transform:translateX(0)}to{opacity:1;transform:translateX(0)}}.novo-stepper-horizontal[_ngcontent-%COMP%], .novo-stepper-vertical[_ngcontent-%COMP%]{display:block}.novo-horizontal-stepper-header-container[_ngcontent-%COMP%]{align-items:center;background:#f4f4f4;display:flex;justify-content:center;margin-bottom:1em;white-space:nowrap}.novo-stepper-horizontal-line[_ngcontent-%COMP%]{border-bottom:1px solid #d9dadc;flex:auto;height:80px;min-width:0}.novo-stepper-horizontal-line.complete[_ngcontent-%COMP%]{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header[_ngcontent-%COMP%]{align-items:center;display:flex;flex-flow:column;height:80px;justify-content:center;overflow:visible;padding:0 24px}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]{align-items:center;bottom:0;display:flex;height:1px;justify-content:center;position:absolute;width:100%}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-line[_ngcontent-%COMP%]{position:absolute;width:100%}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-line[_ngcontent-%COMP%]:before{border-bottom:1px solid #d9dadc;content:\"\";display:block;margin-right:8px;width:calc(50% - 8px)}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-line[_ngcontent-%COMP%]:after{border-top:1px solid #d9dadc;content:\"\";display:block;margin-left:calc(50% + 8px);margin-top:-1px;width:calc(50% - 8px)}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-line.done[_ngcontent-%COMP%]:before, .novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-line.edit[_ngcontent-%COMP%]:before{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-line.done[_ngcontent-%COMP%]:after{border-top:1px solid #4a89dc}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-icon[_ngcontent-%COMP%]{position:relative}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-icon[_ngcontent-%COMP%]:before{background:#fff;border-radius:50%;bottom:1px;content:\"\";display:block;left:1px;position:absolute;right:1px;top:1px;z-index:0}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-icon[_ngcontent-%COMP%] > *[_ngcontent-%COMP%]{position:relative;z-index:1}.novo-vertical-stepper-header[_ngcontent-%COMP%]{align-items:center;display:flex;max-height:24px;padding:24px}.novo-vertical-stepper-header[_ngcontent-%COMP%]   .novo-step-icon[_ngcontent-%COMP%], .novo-vertical-stepper-header[_ngcontent-%COMP%]   .novo-step-icon-not-touched[_ngcontent-%COMP%]{margin-right:12px}[dir=rtl][_ngcontent-%COMP%]   .novo-vertical-stepper-header[_ngcontent-%COMP%]   .novo-step-icon[_ngcontent-%COMP%], [dir=rtl][_ngcontent-%COMP%]   .novo-vertical-stepper-header[_ngcontent-%COMP%]   .novo-step-icon-not-touched[_ngcontent-%COMP%]{margin-left:12px;margin-right:0}.novo-horizontal-stepper-content[_ngcontent-%COMP%]{overflow:hidden}.novo-horizontal-stepper-content[aria-expanded=false][_ngcontent-%COMP%]{height:0}.novo-horizontal-content-container[_ngcontent-%COMP%]{overflow:hidden;padding:0 24px 24px}.novo-vertical-content-container[_ngcontent-%COMP%]{border:0;margin-left:36px;position:relative}[dir=rtl][_ngcontent-%COMP%]   .novo-vertical-content-container[_ngcontent-%COMP%]{margin-left:0;margin-right:36px}.novo-stepper-vertical-line[_ngcontent-%COMP%]:before{border-left:1px solid #d9dadc;bottom:-16px;content:\"\";left:0;position:absolute;top:-16px;z-index:-1}[dir=rtl][_ngcontent-%COMP%]   .novo-stepper-vertical-line[_ngcontent-%COMP%]:before{left:auto;right:0}.novo-stepper-vertical-line.done[_ngcontent-%COMP%]:after, .novo-stepper-vertical-line.done[_ngcontent-%COMP%]:before, .novo-stepper-vertical-line.edit[_ngcontent-%COMP%]:before{border-left-color:1px solid #4a89dc}.novo-stepper-vertical[_ngcontent-%COMP%]   novo-step-status[_ngcontent-%COMP%]{left:35px;position:absolute;top:25px;transform:scale(.8)}.novo-vertical-stepper-content[_ngcontent-%COMP%]{overflow:hidden}.novo-vertical-content[_ngcontent-%COMP%]{padding:0 24px 24px}.novo-step[_ngcontent-%COMP%]:last-child   .novo-vertical-content-container[_ngcontent-%COMP%]{border:none}";
+const _c85 = "@-webkit-keyframes rotate{0%{transform:rotate(0deg)}75%{transform:rotate(200deg)}to{transform:rotate(180deg)}}@keyframes rotate{0%{transform:rotate(0deg)}75%{transform:rotate(200deg)}to{transform:rotate(180deg)}}@-webkit-keyframes half-rotate{0%{transform:rotate(45deg)}75%{transform:rotate(100deg)}to{transform:rotate(90deg)}}@keyframes half-rotate{0%{transform:rotate(45deg)}75%{transform:rotate(100deg)}to{transform:rotate(90deg)}}@-webkit-keyframes rotateBack{0%{transform:rotate(90deg)}to{transform:rotate(0deg)}}@keyframes rotateBack{0%{transform:rotate(90deg)}to{transform:rotate(0deg)}}@-webkit-keyframes show{0%{opacity:0;transform:translateX(-100%)}75%{transform:translateX(0)}to{opacity:1;transform:translateX(0)}}@keyframes show{0%{opacity:0;transform:translateX(-100%)}75%{transform:translateX(0)}to{opacity:1;transform:translateX(0)}}.novo-stepper-horizontal[_ngcontent-%COMP%], .novo-stepper-vertical[_ngcontent-%COMP%]{display:block}.novo-horizontal-stepper-header-container[_ngcontent-%COMP%]{align-items:center;background:#f4f4f4;display:flex;justify-content:center;margin-bottom:1em;white-space:nowrap}.novo-stepper-horizontal-line[_ngcontent-%COMP%]{border-bottom:1px solid #d9dadc;flex:auto;height:80px;min-width:0}.novo-stepper-horizontal-line.complete[_ngcontent-%COMP%]{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header[_ngcontent-%COMP%]{align-items:center;display:flex;flex-flow:column;height:80px;justify-content:center;overflow:visible;padding:0 24px}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]{align-items:center;bottom:0;display:flex;height:1px;justify-content:center;position:absolute;width:100%}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-line[_ngcontent-%COMP%]{position:absolute;width:100%}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-line[_ngcontent-%COMP%]:before{border-bottom:1px solid #d9dadc;content:\"\";display:block;margin-right:8px;width:calc(50% - 8px)}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-line[_ngcontent-%COMP%]:after{border-top:1px solid #d9dadc;content:\"\";display:block;margin-left:calc(50% + 8px);margin-top:-1px;width:calc(50% - 8px)}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-line.done[_ngcontent-%COMP%]:before, .novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-line.edit[_ngcontent-%COMP%]:before{border-bottom:1px solid #4a89dc}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-line.done[_ngcontent-%COMP%]:after{border-top:1px solid #4a89dc}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-icon[_ngcontent-%COMP%]{position:relative}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-icon[_ngcontent-%COMP%]:before{background:#fff;border-radius:50%;bottom:1px;content:\"\";display:block;left:1px;position:absolute;right:1px;top:1px;z-index:0}.novo-horizontal-stepper-header[_ngcontent-%COMP%]   .novo-step-status[_ngcontent-%COMP%]   .novo-stepper-status-icon[_ngcontent-%COMP%] > *[_ngcontent-%COMP%]{position:relative;z-index:1}.novo-vertical-stepper-header[_ngcontent-%COMP%]{align-items:center;display:flex;max-height:24px;padding:24px}.novo-vertical-stepper-header[_ngcontent-%COMP%]   .novo-step-icon[_ngcontent-%COMP%], .novo-vertical-stepper-header[_ngcontent-%COMP%]   .novo-step-icon-not-touched[_ngcontent-%COMP%]{margin-right:12px}[dir=rtl][_ngcontent-%COMP%]   .novo-vertical-stepper-header[_ngcontent-%COMP%]   .novo-step-icon[_ngcontent-%COMP%], [dir=rtl][_ngcontent-%COMP%]   .novo-vertical-stepper-header[_ngcontent-%COMP%]   .novo-step-icon-not-touched[_ngcontent-%COMP%]{margin-left:12px;margin-right:0}.novo-horizontal-stepper-content[_ngcontent-%COMP%]{overflow:hidden}.novo-horizontal-stepper-content[aria-expanded=false][_ngcontent-%COMP%]{height:0}.novo-horizontal-content-container[_ngcontent-%COMP%]{overflow:hidden;padding:0 24px 24px}.novo-vertical-content-container[_ngcontent-%COMP%]{border:0;margin-left:36px;position:relative}[dir=rtl][_ngcontent-%COMP%]   .novo-vertical-content-container[_ngcontent-%COMP%]{margin-left:0;margin-right:36px}.novo-stepper-vertical-line[_ngcontent-%COMP%]:before{border-left:1px solid #d9dadc;bottom:-16px;content:\"\";left:0;position:absolute;top:-16px;z-index:-1}[dir=rtl][_ngcontent-%COMP%]   .novo-stepper-vertical-line[_ngcontent-%COMP%]:before{left:auto;right:0}.novo-stepper-vertical-line.done[_ngcontent-%COMP%]:after, .novo-stepper-vertical-line.done[_ngcontent-%COMP%]:before, .novo-stepper-vertical-line.edit[_ngcontent-%COMP%]:before{border-left-color:1px solid #4a89dc}.novo-stepper-vertical[_ngcontent-%COMP%]   novo-step-status[_ngcontent-%COMP%]{left:35px;position:absolute;top:25px;transform:scale(.8)}.novo-vertical-stepper-content[_ngcontent-%COMP%]{overflow:hidden}.novo-vertical-content[_ngcontent-%COMP%]{padding:0 24px 24px}.novo-step[_ngcontent-%COMP%]:last-child   .novo-vertical-content-container[_ngcontent-%COMP%]{border:none}";
 function NovoStepStatus_novo_icon_2_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "novo-icon", 4);
     ɵngcc0.ɵɵtext(1, "check-circle");
@@ -5213,7 +5245,7 @@ function NovoStepStatus_novo_icon_4_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵtext(1, "circle-o");
     ɵngcc0.ɵɵelementEnd();
 } }
-const _c85 = ["tabbedGroupPickerVirtualScrollViewport"];
+const _c86 = ["tabbedGroupPickerVirtualScrollViewport"];
 function NovoTabbedGroupPickerElement_i_7_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(0, "i", 16);
 } }
@@ -5745,7 +5777,7 @@ function NovoTableElement_div_3_thead_3_th_4_div_1_Template(rf, ctx) { if (rf & 
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵproperty("ngIf", ctx_r29.config.filtering !== false && column_r28.filtering !== false);
 } }
-const _c86 = function (a0, a1, a2) { return { "mass-action": a0, "actions": a1, "preview": a2 }; };
+const _c87 = function (a0, a1, a2) { return { "mass-action": a0, "actions": a1, "preview": a2 }; };
 function NovoTableElement_div_3_thead_3_th_4_Template(rf, ctx) { if (rf & 1) {
     const _r96 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementStart(0, "th", 27);
@@ -5755,7 +5787,7 @@ function NovoTableElement_div_3_thead_3_th_4_Template(rf, ctx) { if (rf & 1) {
 } if (rf & 2) {
     const column_r28 = ctx.$implicit;
     const ctx_r18 = ɵngcc0.ɵɵnextContext(3);
-    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction3(4, _c86, (ctx_r18.config == null ? null : ctx_r18.config.rowSelectionStyle) === "checkbox", (column_r28 == null ? null : column_r28.actions == null ? null : column_r28.actions.items == null ? null : column_r28.actions.items.length) > 0, (column_r28 == null ? null : column_r28.name) === "preview"))("novoThOrderable", column_r28)("hidden", ctx_r18.isColumnHidden(column_r28));
+    ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction3(4, _c87, (ctx_r18.config == null ? null : ctx_r18.config.rowSelectionStyle) === "checkbox", (column_r28 == null ? null : column_r28.actions == null ? null : column_r28.actions.items == null ? null : column_r28.actions.items.length) > 0, (column_r28 == null ? null : column_r28.name) === "preview"))("novoThOrderable", column_r28)("hidden", ctx_r18.isColumnHidden(column_r28));
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵproperty("ngIf", !column_r28.hideHeader);
 } }
@@ -6075,8 +6107,8 @@ function NovoTableElement_div_3_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵadvance(1);
     ɵngcc0.ɵɵproperty("ngForOf", ctx_r3.footers);
 } }
-const _c87 = [[["novo-table-header"]], [["novo-table-actions"]], [["", "table-empty-message", ""]], [["", "table-no-matching-records-message", ""]], [["", "table-error-message", ""]], [["novo-table-footer"]]];
-const _c88 = ["novo-table-header", "novo-table-actions", "[table-empty-message]", "[table-no-matching-records-message]", "[table-error-message]", "novo-table-footer"];
+const _c88 = [[["novo-table-header"]], [["novo-table-actions"]], [["", "table-empty-message", ""]], [["", "table-no-matching-records-message", ""]], [["", "table-error-message", ""]], [["novo-table-footer"]]];
+const _c89 = ["novo-table-header", "novo-table-actions", "[table-empty-message]", "[table-no-matching-records-message]", "[table-error-message]", "novo-table-footer"];
 function EntityList_div_0_a_1_Template(rf, ctx) { if (rf & 1) {
     const _r7 = ɵngcc0.ɵɵgetCurrentView();
     ɵngcc0.ɵɵelementStart(0, "a", 4);
@@ -6456,7 +6488,7 @@ class Helpers {
             }
             return newArr;
         }
-        if (typeof item === 'function' && !/\(\) \{ \[native/.test(item.toString()) && !item.toString().startsWith('class')) {
+        if (typeof item === 'function' && !/\(\) \{ \[native/.test(item.toString())) {
             let obj;
             for (const k in item) {
                 if (k in item) {
@@ -14971,7 +15003,8 @@ class NovoDropdownElement {
         this.width = -1; // Defaults to dynamic width (no hardcoded width value and no host width lookup)
         this.appendToBody = false; // Deprecated
         this.toggled = new EventEmitter();
-        this.activeIndex = -1;
+        this._activeIndex = -1;
+        this._activeIndex$ = new BehaviorSubject(this._activeIndex);
         this.filterTerm = '';
         this.clickHandler = this.togglePanel.bind(this);
         this.closeHandler = this.closePanel.bind(this);
@@ -14982,10 +15015,13 @@ class NovoDropdownElement {
         }
         // Add a click handler to the button to toggle the menu
         const button = this.element.nativeElement.querySelector('button');
-        button.addEventListener('click', this.clickHandler);
+        if (button) {
+            button.addEventListener('click', this.clickHandler);
+        }
         if (this.parentScrollSelector) {
             this.parentScrollElement = Helpers.findAncestor(this.element.nativeElement, this.parentScrollSelector);
         }
+        this.updateItemIndices();
     }
     ngOnDestroy() {
         // Remove listener
@@ -15004,10 +15040,36 @@ class NovoDropdownElement {
         this._textItems = items.map((item) => {
             return item.element.nativeElement.innerText;
         });
+        this.updateItemIndices();
     }
     /** BEGIN: Convenient Panel Methods. */
     get panelOpen() {
         return this.overlay && this.overlay.panelOpen;
+    }
+    updateItemIndices() {
+        let index = 0;
+        if (this._items) {
+            this._items.map((item) => {
+                item.index = index;
+                index++;
+            });
+        }
+    }
+    set activeIndex(value) {
+        if (this._activeIndex > -1 && this._activeIndex < this._items.length) {
+            this._items.toArray()[this._activeIndex].active = false;
+        }
+        this._activeIndex = value;
+        if (value > -1 && value < this._items.length) {
+            this._items.toArray()[this.activeIndex].active = true;
+        }
+        this._activeIndex$.next(this._activeIndex);
+    }
+    get activeIndex() {
+        return this._activeIndex;
+    }
+    get activeIndexObs() {
+        return this._activeIndex$.asObservable();
     }
     openPanel() {
         this.overlay.openPanel();
@@ -15017,14 +15079,16 @@ class NovoDropdownElement {
         this.toggled.emit(true);
     }
     closePanel() {
+        this._items.forEach((item) => {
+            if (item.hasSubmenu()) {
+                item.submenu.closePanel();
+            }
+        });
         this.overlay.closePanel();
         if (this.parentScrollElement && this.parentScrollAction === 'close') {
             this.parentScrollElement.removeEventListener('scroll', this.closeHandler);
         }
         // Clear active index
-        if (this.activeIndex !== -1) {
-            this._items.toArray()[this.activeIndex].active = false;
-        }
         this.activeIndex = -1;
         this.ref.markForCheck();
         this.toggled.emit(false);
@@ -15032,7 +15096,49 @@ class NovoDropdownElement {
     togglePanel() {
         this.panelOpen ? this.closePanel() : this.openPanel();
     }
+    get itemHasSubmenu() {
+        return this.activeIndex > -1
+            && this.activeIndex < this._items.length
+            && this._items.toArray()[this.activeIndex].hasSubmenu();
+    }
+    get navigatingSubmenu() {
+        return this.itemHasSubmenu
+            && this._items.toArray()[this.activeIndex].submenu.panelOpen;
+    }
     /** END: Convenient Panel Methods. */
+    moveDown(dropdown) {
+        if (dropdown._items && dropdown._items.filter(item => !item.disabled).length > 0) {
+            dropdown.activeIndex++;
+            if (dropdown.activeIndex === dropdown._items.length) {
+                dropdown.activeIndex = 0;
+            }
+            while (dropdown._items.toArray()[dropdown.activeIndex].disabled) {
+                dropdown.activeIndex++;
+                if (dropdown.activeIndex === dropdown._items.length) {
+                    dropdown.activeIndex = 0;
+                }
+            }
+            dropdown.scrollToActive();
+        }
+    }
+    moveUp(dropdown) {
+        if (dropdown._items && dropdown._items.filter(item => !item.disabled).length > 0) {
+            dropdown.activeIndex--;
+            if (dropdown.activeIndex < 0) {
+                dropdown.activeIndex = dropdown._items.length - 1;
+            }
+            while (dropdown._items.toArray()[dropdown.activeIndex].disabled) {
+                dropdown.activeIndex--;
+                if (dropdown.activeIndex < 0) {
+                    dropdown.activeIndex = dropdown._items.length - 1;
+                }
+            }
+            dropdown.scrollToActive();
+        }
+    }
+    pressEnter(dropdown, event) {
+        dropdown._items.toArray()[dropdown.activeIndex].onClick(event);
+    }
     onKeyDown(event) {
         if (this.panelOpen && event.keyCode === KeyCodes.ESC) {
             Helpers.swallowEvent(event);
@@ -15040,47 +15146,47 @@ class NovoDropdownElement {
             this.closePanel();
         }
         else if (event.keyCode === KeyCodes.ENTER) {
-            Helpers.swallowEvent(event);
             // enter -- perform the "click"
-            this._items.toArray()[this.activeIndex].onClick(event);
+            if (this.navigatingSubmenu) {
+                this.pressEnter(this._items.toArray()[this.activeIndex].submenu, event);
+            }
+            else {
+                this.pressEnter(this, event);
+            }
         }
         else if (event.keyCode === KeyCodes.DOWN) {
             Helpers.swallowEvent(event);
-            // down - navigate through the list ignoring disabled ones
-            if (this.activeIndex !== -1) {
-                this._items.toArray()[this.activeIndex].active = false;
+            if (this.navigatingSubmenu) {
+                this.moveDown(this._items.toArray()[this.activeIndex].submenu);
             }
-            this.activeIndex++;
-            if (this.activeIndex === this._items.length) {
-                this.activeIndex = 0;
+            else {
+                this.moveDown(this);
             }
-            while (this._items.toArray()[this.activeIndex].disabled) {
-                this.activeIndex++;
-                if (this.activeIndex === this._items.length) {
-                    this.activeIndex = 0;
-                }
-            }
-            this._items.toArray()[this.activeIndex].active = true;
-            this.scrollToActive();
         }
         else if (event.keyCode === KeyCodes.UP) {
             Helpers.swallowEvent(event);
             // up -- navigate through the list ignoring disabled ones
-            if (this.activeIndex !== -1) {
-                this._items.toArray()[this.activeIndex].active = false;
+            if (this.navigatingSubmenu) {
+                this.moveUp(this._items.toArray()[this.activeIndex].submenu);
             }
-            this.activeIndex--;
-            if (this.activeIndex < 0) {
-                this.activeIndex = this._items.length - 1;
+            else {
+                this.moveUp(this);
             }
-            while (this._items.toArray()[this.activeIndex].disabled) {
-                this.activeIndex--;
-                if (this.activeIndex < 0) {
-                    this.activeIndex = this._items.length - 1;
-                }
+        }
+        else if (event.keyCode === KeyCodes.RIGHT) {
+            Helpers.swallowEvent(event);
+            // right -- if this item has a submenu, expand it and switch to that context
+            if (this.itemHasSubmenu) {
+                this._items.toArray()[this.activeIndex].submenu.openPanel();
+                this._items.toArray()[this.activeIndex].submenu.activeIndex = 0;
             }
-            this._items.toArray()[this.activeIndex].active = true;
-            this.scrollToActive();
+        }
+        else if (event.keyCode === KeyCodes.LEFT) {
+            Helpers.swallowEvent(event);
+            // left -- if currently navigating a submenu, close it and go back to main context
+            if (this.itemHasSubmenu) {
+                this._items.toArray()[this.activeIndex].submenu.closePanel();
+            }
         }
         else if ((event.keyCode >= 65 && event.keyCode <= 90) ||
             (event.keyCode >= 96 && event.keyCode <= 105) ||
@@ -15099,11 +15205,7 @@ class NovoDropdownElement {
                 return new RegExp(`^${this.filterTerm.toLowerCase()}`).test(value.trim().toLowerCase());
             });
             if (index !== -1) {
-                if (this.activeIndex !== -1) {
-                    this._items.toArray()[this.activeIndex].active = false;
-                }
                 this.activeIndex = index;
-                this._items.toArray()[this.activeIndex].active = true;
                 this.scrollToActive();
             }
         }
@@ -15203,9 +15305,7 @@ NovoDropdownElement.propDecorators = {
             type: Input
         }], toggled: [{
             type: Output
-        }], 
-    /** END: Convenient Panel Methods. */
-    onKeyDown: [{
+        }], onKeyDown: [{
             type: HostListener,
             args: ['keydown', ['$event']]
         }], parentScrollSelector: [{
@@ -15223,30 +15323,75 @@ class NovoItemElement {
         this.dropdown = dropdown;
         this.element = element;
         this.keepOpen = false;
+        this.onSubmenuClick = new EventEmitter();
         this.action = new EventEmitter();
-        this.active = false;
+        this.submenuItems = [];
+        this._active = false;
+        this._active$ = new BehaviorSubject(this._active);
+        this.submenuIsOpen = false;
+    }
+    set active(value) {
+        this._active = value;
+        this._active$.next(this._active);
+    }
+    get active() {
+        return this._active;
+    }
+    ngAfterViewInit() {
+        if (this.submenu) {
+            this.submenu.toggled.subscribe(value => this.submenuIsOpen = value);
+            this.dropdown.activeIndexObs.subscribe((val) => {
+                if (val !== -1 && val !== this.index) {
+                    this.submenu.closePanel();
+                }
+                else if (val === this.index) {
+                    this.submenu.openPanel();
+                }
+            });
+        }
     }
     onClick(event) {
         // Poor man's disable
         if (!this.disabled) {
             // Close if keepOpen is false
-            if (!this.keepOpen) {
+            if (!this.keepOpen && !this.hasSubmenu()) {
                 this.dropdown.closePanel();
+            }
+            if (this.hasSubmenu()) {
+                this.submenu.openPanel();
             }
             // Emit the action
             this.action.emit({ originalEvent: event });
         }
     }
+    hasSubmenu() {
+        return this.submenuItems.length > 0;
+    }
+    mouseEnter() {
+        this.dropdown.activeIndex = this.index;
+    }
+    submenuClicked(item) {
+        this.onSubmenuClick.emit(item);
+    }
 }
 NovoItemElement.ɵfac = function NovoItemElement_Factory(t) { return new (t || NovoItemElement)(ɵngcc0.ɵɵdirectiveInject(NovoDropdownElement), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef)); };
-NovoItemElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoItemElement, selectors: [["item"]], hostVars: 4, hostBindings: function NovoItemElement_HostBindings(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵlistener("click", function NovoItemElement_click_HostBindingHandler($event) { return ctx.onClick($event); });
+NovoItemElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoItemElement, selectors: [["item"]], viewQuery: function NovoItemElement_Query(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵviewQuery(_c33, true);
+    } if (rf & 2) {
+        var _t;
+        ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.submenu = _t.first);
+    } }, hostVars: 4, hostBindings: function NovoItemElement_HostBindings(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵlistener("mouseenter", function NovoItemElement_mouseenter_HostBindingHandler() { return ctx.mouseEnter(); })("click", function NovoItemElement_click_HostBindingHandler($event) { return ctx.onClick($event); });
     } if (rf & 2) {
         ɵngcc0.ɵɵclassProp("disabled", ctx.disabled)("active", ctx.active);
-    } }, inputs: { keepOpen: "keepOpen", disabled: "disabled" }, outputs: { action: "action" }, ngContentSelectors: _c1, decls: 1, vars: 0, template: function NovoItemElement_Template(rf, ctx) { if (rf & 1) {
+    } }, inputs: { keepOpen: "keepOpen", submenuItems: "submenuItems", disabled: "disabled" }, outputs: { onSubmenuClick: "onSubmenuClick", action: "action" }, ngContentSelectors: _c1, decls: 2, vars: 1, consts: [["class", "bhi-expand", 4, "ngIf"], [1, "bhi-expand"], ["ngModel", "", 4, "ngIf"], ["ngModel", ""], ["submenu", ""], [3, "action", 4, "ngFor", "ngForOf"], [3, "action"]], template: function NovoItemElement_Template(rf, ctx) { if (rf & 1) {
         ɵngcc0.ɵɵprojectionDef();
         ɵngcc0.ɵɵprojection(0);
-    } }, encapsulation: 2 });
+        ɵngcc0.ɵɵtemplate(1, NovoItemElement_i_1_Template, 2, 1, "i", 0);
+    } if (rf & 2) {
+        ɵngcc0.ɵɵadvance(1);
+        ɵngcc0.ɵɵproperty("ngIf", ctx.hasSubmenu());
+    } }, directives: function () { return [ɵngcc1.NgIf, NovoDropdownElement, NovoDropdownListElement, ɵngcc1.NgForOf, NovoItemElement]; }, encapsulation: 2 });
 NovoItemElement.ctorParameters = () => [
     { type: NovoDropdownElement },
     { type: ElementRef }
@@ -15254,28 +15399,44 @@ NovoItemElement.ctorParameters = () => [
 NovoItemElement.propDecorators = {
     disabled: [{ type: Input }],
     keepOpen: [{ type: Input }],
+    onSubmenuClick: [{ type: Output }],
     action: [{ type: Output }],
+    submenuItems: [{ type: Input }],
+    submenu: [{ type: ViewChild, args: ['submenu', { static: false },] }],
     onClick: [{ type: HostListener, args: ['click', ['$event'],] }]
 };
 /*@__PURE__*/ (function () { ɵngcc0.ɵsetClassMetadata(NovoItemElement, [{
         type: Component,
         args: [{
                 selector: 'item',
-                template: '<ng-content></ng-content>',
+                template: `<ng-content></ng-content><i class="bhi-expand" *ngIf="hasSubmenu()">
+            <novo-dropdown ngModel #submenu *ngIf="hasSubmenu()">
+              <list>
+                <item *ngFor="let item of submenuItems" (action)="submenuClicked(item)">{{ item }}</item>
+              </list>
+            </novo-dropdown>`,
                 host: {
                     '[class.disabled]': 'disabled',
-                    '[class.active]': 'active'
+                    '[class.active]': 'active',
+                    '(mouseenter)': 'mouseEnter()'
                 }
             }]
     }], function () { return [{ type: NovoDropdownElement }, { type: ɵngcc0.ElementRef }]; }, { keepOpen: [{
             type: Input
+        }], onSubmenuClick: [{
+            type: Output
         }], action: [{
             type: Output
+        }], submenuItems: [{
+            type: Input
         }], onClick: [{
             type: HostListener,
             args: ['click', ['$event']]
         }], disabled: [{
             type: Input
+        }], submenu: [{
+            type: ViewChild,
+            args: ['submenu', { static: false }]
         }] }); })();
 class NovoDropdownListElement {
     constructor(dropdown) {
@@ -15710,9 +15871,9 @@ class NovoDataTableCellHeader {
 }
 NovoDataTableCellHeader.ɵfac = function NovoDataTableCellHeader_Factory(t) { return new (t || NovoDataTableCellHeader)(ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ChangeDetectorRef), ɵngcc0.ɵɵdirectiveInject(NovoLabelService), ɵngcc0.ɵɵdirectiveInject(DataTableState), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.Renderer2), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef), ɵngcc0.ɵɵdirectiveInject(NovoDataTableSortFilter, 8), ɵngcc0.ɵɵdirectiveInject(ɵngcc5.CdkColumnDef, 8)); };
 NovoDataTableCellHeader.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoDataTableCellHeader, selectors: [["", "novo-data-table-cell-config", ""]], viewQuery: function NovoDataTableCellHeader_Query(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵviewQuery(_c33, true);
-        ɵngcc0.ɵɵviewQuery(NovoDropdownElement, true);
         ɵngcc0.ɵɵviewQuery(_c34, true);
+        ɵngcc0.ɵɵviewQuery(NovoDropdownElement, true);
+        ɵngcc0.ɵɵviewQuery(_c35, true);
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.filterInput = _t.first);
@@ -15722,7 +15883,7 @@ NovoDataTableCellHeader.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoDataTabl
         ɵngcc0.ɵɵlistener("keydown", function NovoDataTableCellHeader_keydown_HostBindingHandler($event) { return ctx.multiSelectOptionFilterHandleKeydown($event); });
     } if (rf & 2) {
         ɵngcc0.ɵɵclassProp("resizable", ctx.resizable);
-    } }, inputs: { allowMultipleFilters: "allowMultipleFilters", column: ["novo-data-table-cell-config", "column"], defaultSort: "defaultSort", resized: "resized", filterTemplate: "filterTemplate" }, attrs: _c35, decls: 8, vars: 5, consts: [["data-automation-id", "novo-data-table-header-icon", 3, "class", 4, "ngIf"], ["data-automation-id", "novo-data-table-label"], ["tooltipPosition", "right", "theme", "icon", "data-automation-id", "novo-data-table-sort", 3, "tooltip", "icon", "active", "click", 4, "ngIf"], ["side", "right", "parentScrollSelector", ".novo-data-table-container", "containerClass", "data-table-dropdown", "data-automation-id", "novo-data-table-filter", 4, "ngIf"], [1, "spacer"], ["class", "data-table-header-resizable", 4, "ngIf"], ["data-automation-id", "novo-data-table-header-icon"], ["tooltipPosition", "right", "theme", "icon", "data-automation-id", "novo-data-table-sort", 3, "tooltip", "icon", "click"], ["side", "right", "parentScrollSelector", ".novo-data-table-container", "containerClass", "data-table-dropdown", "data-automation-id", "novo-data-table-filter"], ["type", "button", "theme", "icon", "icon", "filter", "tooltipPosition", "right", 3, "tooltip", "click"], [1, "header"], ["theme", "dialogue", "color", "negative", "icon", "times", "data-automation-id", "novo-data-table-filter-clear", 3, "click", 4, "ngIf"], [3, "ngSwitch"], [4, "ngSwitchCase"], [4, "ngSwitchDefault"], ["class", "footer", 4, "ngIf"], ["theme", "dialogue", "color", "negative", "icon", "times", "data-automation-id", "novo-data-table-filter-clear", 3, "click"], [4, "ngIf"], [3, "active", "keepOpen", "click", 4, "ngIf"], ["class", "calendar-container", 4, "ngIf"], [3, "active", "click", 4, "ngFor", "ngForOf"], [3, "click"], ["class", "bhi-check", 4, "ngIf"], [1, "bhi-check"], [3, "keepOpen", "click"], [1, "calendar-container"], [1, "bhi-previous"], ["range", "true", 3, "ngModel", "onSelect", "ngModelChange"], [1, "dropdown-list-filter", 3, "keydown"], ["keepOpen", "true", 1, "filter-search"], ["data-automation-id", "novo-data-table-multi-select-option-filter-input", 3, "ngModel", "ngModelChange"], ["optionFilterInput", ""], [1, "bhi-search"], [1, "error-text", 3, "hidden"], [1, "dropdown-list-options"], [3, "hidden", "keepOpen", "click", 4, "ngFor", "ngForOf"], [1, "filter-null-results", 3, "hidden"], [3, "hidden", "keepOpen", "click"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], ["data-automation-id", "novo-data-table-filter-input", 3, "type", "ngModel", "ngModelChange"], ["filterInput", ""], [1, "footer"], ["theme", "dialogue", "color", "dark", "data-automation-id", "novo-data-table-multi-select-cancel", 3, "click"], ["theme", "dialogue", "color", "positive", "data-automation-id", "novo-data-table-multi-select-filter", 3, "click"], [1, "data-table-header-resizable"], [3, "mousedown"]], template: function NovoDataTableCellHeader_Template(rf, ctx) { if (rf & 1) {
+    } }, inputs: { allowMultipleFilters: "allowMultipleFilters", column: ["novo-data-table-cell-config", "column"], defaultSort: "defaultSort", resized: "resized", filterTemplate: "filterTemplate" }, attrs: _c36, decls: 8, vars: 5, consts: [["data-automation-id", "novo-data-table-header-icon", 3, "class", 4, "ngIf"], ["data-automation-id", "novo-data-table-label"], ["tooltipPosition", "right", "theme", "icon", "data-automation-id", "novo-data-table-sort", 3, "tooltip", "icon", "active", "click", 4, "ngIf"], ["side", "right", "parentScrollSelector", ".novo-data-table-container", "containerClass", "data-table-dropdown", "data-automation-id", "novo-data-table-filter", 4, "ngIf"], [1, "spacer"], ["class", "data-table-header-resizable", 4, "ngIf"], ["data-automation-id", "novo-data-table-header-icon"], ["tooltipPosition", "right", "theme", "icon", "data-automation-id", "novo-data-table-sort", 3, "tooltip", "icon", "click"], ["side", "right", "parentScrollSelector", ".novo-data-table-container", "containerClass", "data-table-dropdown", "data-automation-id", "novo-data-table-filter"], ["type", "button", "theme", "icon", "icon", "filter", "tooltipPosition", "right", 3, "tooltip", "click"], [1, "header"], ["theme", "dialogue", "color", "negative", "icon", "times", "data-automation-id", "novo-data-table-filter-clear", 3, "click", 4, "ngIf"], [3, "ngSwitch"], [4, "ngSwitchCase"], [4, "ngSwitchDefault"], ["class", "footer", 4, "ngIf"], ["theme", "dialogue", "color", "negative", "icon", "times", "data-automation-id", "novo-data-table-filter-clear", 3, "click"], [4, "ngIf"], [3, "active", "keepOpen", "click", 4, "ngIf"], ["class", "calendar-container", 4, "ngIf"], [3, "active", "click", 4, "ngFor", "ngForOf"], [3, "click"], ["class", "bhi-check", 4, "ngIf"], [1, "bhi-check"], [3, "keepOpen", "click"], [1, "calendar-container"], [1, "bhi-previous"], ["range", "true", 3, "ngModel", "onSelect", "ngModelChange"], [1, "dropdown-list-filter", 3, "keydown"], ["keepOpen", "true", 1, "filter-search"], ["data-automation-id", "novo-data-table-multi-select-option-filter-input", 3, "ngModel", "ngModelChange"], ["optionFilterInput", ""], [1, "bhi-search"], [1, "error-text", 3, "hidden"], [1, "dropdown-list-options"], [3, "hidden", "keepOpen", "click", 4, "ngFor", "ngForOf"], [1, "filter-null-results", 3, "hidden"], [3, "hidden", "keepOpen", "click"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], ["data-automation-id", "novo-data-table-filter-input", 3, "type", "ngModel", "ngModelChange"], ["filterInput", ""], [1, "footer"], ["theme", "dialogue", "color", "dark", "data-automation-id", "novo-data-table-multi-select-cancel", 3, "click"], ["theme", "dialogue", "color", "positive", "data-automation-id", "novo-data-table-multi-select-filter", 3, "click"], [1, "data-table-header-resizable"], [3, "mousedown"]], template: function NovoDataTableCellHeader_Template(rf, ctx) { if (rf & 1) {
         ɵngcc0.ɵɵtemplate(0, NovoDataTableCellHeader_i_0_Template, 1, 3, "i", 0);
         ɵngcc0.ɵɵelementStart(1, "label", 1);
         ɵngcc0.ɵɵtext(2);
@@ -16347,7 +16508,7 @@ NovoDataTable.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoDataTable, selecto
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.customTemplates = _t);
     } }, viewQuery: function NovoDataTable_Query(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵviewQuery(_c37, true);
+        ɵngcc0.ɵɵviewQuery(_c38, true);
         ɵngcc0.ɵɵviewQuery(NovoTemplate, true);
         ɵngcc0.ɵɵviewQuery(NovoDataTableCellHeader, true);
     } if (rf & 2) {
@@ -16393,12 +16554,12 @@ NovoDataTable.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoDataTable, selecto
         ɵngcc0.ɵɵadvance(1);
         ɵngcc0.ɵɵproperty("ngIf", (ctx.dataSource == null ? null : ctx.dataSource.loading) || ctx.loading);
         ɵngcc0.ɵɵadvance(1);
-        ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(13, _c39, ctx.fixedHeader));
+        ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(13, _c40, ctx.fixedHeader));
         ɵngcc0.ɵɵadvance(1);
         ɵngcc0.ɵɵproperty("ngIf", ctx.customFilter);
         ɵngcc0.ɵɵadvance(1);
         ɵngcc0.ɵɵclassProp("empty-user-filtered", (ctx.dataSource == null ? null : ctx.dataSource.currentlyEmpty) && ctx.state.userFiltered)("empty", (ctx.dataSource == null ? null : ctx.dataSource.totallyEmpty) && !(ctx.dataSource == null ? null : ctx.dataSource.loading) && !ctx.loading && !ctx.state.userFiltered && !ctx.dataSource.pristine);
-        ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(15, _c40, ctx.fixedHeader));
+        ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(15, _c41, ctx.fixedHeader));
         ɵngcc0.ɵɵadvance(2);
         ɵngcc0.ɵɵproperty("ngIf", (ctx.columns == null ? null : ctx.columns.length) > 0 && ctx.columnsLoaded && ctx.dataSource);
         ɵngcc0.ɵɵadvance(1);
@@ -16747,12 +16908,12 @@ NovoDataTable.propDecorators = {
 class NovoDropdownModule {
 }
 NovoDropdownModule.ɵmod = ɵngcc0.ɵɵdefineNgModule({ type: NovoDropdownModule });
-NovoDropdownModule.ɵinj = ɵngcc0.ɵɵdefineInjector({ factory: function NovoDropdownModule_Factory(t) { return new (t || NovoDropdownModule)(); }, imports: [[NovoOverlayModule]] });
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵngcc0.ɵɵsetNgModuleScope(NovoDropdownModule, { declarations: [NovoDropdownElement, NovoItemElement, NovoDropdownListElement, NovoDropDownItemHeaderElement], imports: [NovoOverlayModule], exports: [NovoDropdownElement, NovoItemElement, NovoDropdownListElement, NovoDropDownItemHeaderElement] }); })();
+NovoDropdownModule.ɵinj = ɵngcc0.ɵɵdefineInjector({ factory: function NovoDropdownModule_Factory(t) { return new (t || NovoDropdownModule)(); }, imports: [[NovoOverlayModule, CommonModule]] });
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵngcc0.ɵɵsetNgModuleScope(NovoDropdownModule, { declarations: function () { return [NovoDropdownElement, NovoItemElement, NovoDropdownListElement, NovoDropDownItemHeaderElement]; }, imports: function () { return [NovoOverlayModule, CommonModule]; }, exports: function () { return [NovoDropdownElement, NovoItemElement, NovoDropdownListElement, NovoDropDownItemHeaderElement]; } }); })();
 /*@__PURE__*/ (function () { ɵngcc0.ɵsetClassMetadata(NovoDropdownModule, [{
         type: NgModule,
         args: [{
-                imports: [NovoOverlayModule],
+                imports: [NovoOverlayModule, CommonModule],
                 declarations: [NovoDropdownElement, NovoItemElement, NovoDropdownListElement, NovoDropDownItemHeaderElement],
                 exports: [NovoDropdownElement, NovoItemElement, NovoDropdownListElement, NovoDropDownItemHeaderElement]
             }]
@@ -17045,7 +17206,7 @@ class NovoSelectElement {
 NovoSelectElement.ɵfac = function NovoSelectElement_Factory(t) { return new (t || NovoSelectElement)(ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef), ɵngcc0.ɵɵdirectiveInject(NovoLabelService), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ChangeDetectorRef), ɵngcc0.ɵɵdirectiveInject(ɵngcc6.FocusMonitor), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.NgZone)); };
 NovoSelectElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoSelectElement, selectors: [["novo-select"]], viewQuery: function NovoSelectElement_Query(rf, ctx) { if (rf & 1) {
         ɵngcc0.ɵɵstaticViewQuery(NovoOverlayTemplateComponent, true);
-        ɵngcc0.ɵɵstaticViewQuery(_c41, true);
+        ɵngcc0.ɵɵstaticViewQuery(_c42, true);
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.overlay = _t.first);
@@ -35915,9 +36076,9 @@ class NovoFileInputElement {
 }
 NovoFileInputElement.ɵfac = function NovoFileInputElement_Factory(t) { return new (t || NovoFileInputElement)(ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef), ɵngcc0.ɵɵdirectiveInject(NovoLabelService), ɵngcc0.ɵɵdirectiveInject(NovoDragulaService)); };
 NovoFileInputElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoFileInputElement, selectors: [["novo-file-input"]], viewQuery: function NovoFileInputElement_Query(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵstaticViewQuery(_c45, true);
         ɵngcc0.ɵɵstaticViewQuery(_c46, true);
-        ɵngcc0.ɵɵstaticViewQuery(_c47, true, ViewContainerRef);
+        ɵngcc0.ɵɵstaticViewQuery(_c47, true);
+        ɵngcc0.ɵɵstaticViewQuery(_c48, true, ViewContainerRef);
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.fileInput = _t.first);
@@ -37742,7 +37903,7 @@ NovoDataTableCell.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoDataTableCell,
     } }, inputs: { row: "row", template: "template", column: "column", resized: "resized" }, features: [ɵngcc0.ɵɵInheritDefinitionFeature], decls: 1, vars: 5, consts: [[4, "ngTemplateOutlet", "ngTemplateOutletContext"]], template: function NovoDataTableCell_Template(rf, ctx) { if (rf & 1) {
         ɵngcc0.ɵɵtemplate(0, NovoDataTableCell_ng_container_0_Template, 1, 0, "ng-container", 0);
     } if (rf & 2) {
-        ɵngcc0.ɵɵproperty("ngTemplateOutlet", ctx.template)("ngTemplateOutletContext", ɵngcc0.ɵɵpureFunction2(2, _c51, ctx.row, ctx.column));
+        ɵngcc0.ɵɵproperty("ngTemplateOutlet", ctx.template)("ngTemplateOutletContext", ɵngcc0.ɵɵpureFunction2(2, _c52, ctx.row, ctx.column));
     } }, directives: [ɵngcc1.NgTemplateOutlet], encapsulation: 2, changeDetection: 0 });
 NovoDataTableCell.ctorParameters = () => [
     { type: CdkColumnDef },
@@ -39970,8 +40131,8 @@ NovoExpansionPanel.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoExpansionPane
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx._lazyContent = _t.first);
     } }, hostAttrs: [1, "novo-expansion-panel"], hostVars: 6, hostBindings: function NovoExpansionPanel_HostBindings(rf, ctx) { if (rf & 2) {
         ɵngcc0.ɵɵclassProp("novo-expanded", ctx.expanded)("novo-expansion-panel-spacing", ctx._hasSpacing())("novo-expansion-panel-padding", ctx.padding);
-    } }, inputs: { hideToggle: "hideToggle", padding: "padding", disabled: "disabled", expanded: "expanded" }, outputs: { opened: "opened", closed: "closed", expandedChange: "expandedChange" }, exportAs: ["novoExpansionPanel"], features: [ɵngcc0.ɵɵInheritDefinitionFeature, ɵngcc0.ɵɵNgOnChangesFeature], ngContentSelectors: _c55, decls: 7, vars: 4, consts: [["role", "region", 1, "novo-expansion-panel-content", 3, "id"], ["body", ""], [1, "novo-expansion-panel-body"], [3, "cdkPortalOutlet"]], template: function NovoExpansionPanel_Template(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵprojectionDef(_c54);
+    } }, inputs: { hideToggle: "hideToggle", padding: "padding", disabled: "disabled", expanded: "expanded" }, outputs: { opened: "opened", closed: "closed", expandedChange: "expandedChange" }, exportAs: ["novoExpansionPanel"], features: [ɵngcc0.ɵɵInheritDefinitionFeature, ɵngcc0.ɵɵNgOnChangesFeature], ngContentSelectors: _c56, decls: 7, vars: 4, consts: [["role", "region", 1, "novo-expansion-panel-content", 3, "id"], ["body", ""], [1, "novo-expansion-panel-body"], [3, "cdkPortalOutlet"]], template: function NovoExpansionPanel_Template(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵprojectionDef(_c55);
         ɵngcc0.ɵɵprojection(0);
         ɵngcc0.ɵɵelementStart(1, "div", 0, 1);
         ɵngcc0.ɵɵlistener("@bodyExpansion.done", function NovoExpansionPanel_Template_div_animation_bodyExpansion_done_1_listener($event) { return ctx._bodyAnimation($event); })("@bodyExpansion.start", function NovoExpansionPanel_Template_div_animation_bodyExpansion_start_1_listener($event) { return ctx._bodyAnimation($event); });
@@ -40118,10 +40279,10 @@ NovoExpansionPanelHeader.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoExpansi
         ɵngcc0.ɵɵlistener("click", function NovoExpansionPanelHeader_click_HostBindingHandler() { return ctx._toggle(); })("keydown", function NovoExpansionPanelHeader_keydown_HostBindingHandler($event) { return ctx._keydown($event); });
     } if (rf & 2) {
         ɵngcc0.ɵɵattribute("id", ctx.panel._headerId)("tabindex", ctx.panel.disabled ? -1 : 0)("aria-controls", ctx._getPanelId())("aria-expanded", ctx._isExpanded())("aria-disabled", ctx.panel.disabled);
-        ɵngcc0.ɵɵsyntheticHostProperty("@expansionHeight", ɵngcc0.ɵɵpureFunction2(11, _c57, ctx._getExpandedState(), ɵngcc0.ɵɵpureFunction2(8, _c56, ctx.collapsedHeight, ctx.expandedHeight)));
+        ɵngcc0.ɵɵsyntheticHostProperty("@expansionHeight", ɵngcc0.ɵɵpureFunction2(11, _c58, ctx._getExpandedState(), ɵngcc0.ɵɵpureFunction2(8, _c57, ctx.collapsedHeight, ctx.expandedHeight)));
         ɵngcc0.ɵɵclassProp("novo-expanded", ctx._isExpanded());
-    } }, inputs: { expandedHeight: "expandedHeight", collapsedHeight: "collapsedHeight" }, ngContentSelectors: _c59, decls: 5, vars: 1, consts: [[1, "novo-content"], ["class", "novo-expansion-indicator", 4, "ngIf"], [1, "novo-expansion-indicator"]], template: function NovoExpansionPanelHeader_Template(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵprojectionDef(_c58);
+    } }, inputs: { expandedHeight: "expandedHeight", collapsedHeight: "collapsedHeight" }, ngContentSelectors: _c60, decls: 5, vars: 1, consts: [[1, "novo-content"], ["class", "novo-expansion-indicator", 4, "ngIf"], [1, "novo-expansion-indicator"]], template: function NovoExpansionPanelHeader_Template(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵprojectionDef(_c59);
         ɵngcc0.ɵɵelementStart(0, "span", 0);
         ɵngcc0.ɵɵprojection(1);
         ɵngcc0.ɵɵprojection(2, 1);
@@ -41772,7 +41933,7 @@ class NovoModalContainerElement {
 }
 NovoModalContainerElement.ɵfac = function NovoModalContainerElement_Factory(t) { return new (t || NovoModalContainerElement)(ɵngcc0.ɵɵdirectiveInject(NovoModalRef), ɵngcc0.ɵɵdirectiveInject(ComponentUtils)); };
 NovoModalContainerElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoModalContainerElement, selectors: [["novo-modal-container"]], viewQuery: function NovoModalContainerElement_Query(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵviewQuery(_c47, true, ViewContainerRef);
+        ɵngcc0.ɵɵviewQuery(_c48, true, ViewContainerRef);
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.container = _t.first);
@@ -41805,8 +41966,8 @@ class NovoModalElement {
     }
 }
 NovoModalElement.ɵfac = function NovoModalElement_Factory(t) { return new (t || NovoModalElement)(ɵngcc0.ɵɵdirectiveInject(NovoModalRef)); };
-NovoModalElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoModalElement, selectors: [["novo-modal"]], ngContentSelectors: _c61, decls: 4, vars: 0, template: function NovoModalElement_Template(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵprojectionDef(_c60);
+NovoModalElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoModalElement, selectors: [["novo-modal"]], ngContentSelectors: _c62, decls: 4, vars: 0, template: function NovoModalElement_Template(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵprojectionDef(_c61);
         ɵngcc0.ɵɵprojection(0);
         ɵngcc0.ɵɵprojection(1, 1);
         ɵngcc0.ɵɵelementStart(2, "footer");
@@ -41857,8 +42018,8 @@ class NovoModalNotificationElement {
     }
 }
 NovoModalNotificationElement.ɵfac = function NovoModalNotificationElement_Factory(t) { return new (t || NovoModalNotificationElement)(ɵngcc0.ɵɵdirectiveInject(NovoModalRef)); };
-NovoModalNotificationElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoModalNotificationElement, selectors: [["novo-notification"]], inputs: { type: "type", icon: "icon" }, outputs: { cancel: "cancel" }, ngContentSelectors: _c63, decls: 10, vars: 1, consts: [["theme", "icon", "icon", "times", 1, "modal-close", 3, "click"], [1, "notification-body"], ["class", "indicator", 3, "ngClass", 4, "ngIf"], [1, "indicator", 3, "ngClass"]], template: function NovoModalNotificationElement_Template(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵprojectionDef(_c62);
+NovoModalNotificationElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoModalNotificationElement, selectors: [["novo-notification"]], inputs: { type: "type", icon: "icon" }, outputs: { cancel: "cancel" }, ngContentSelectors: _c64, decls: 10, vars: 1, consts: [["theme", "icon", "icon", "times", 1, "modal-close", 3, "click"], [1, "notification-body"], ["class", "indicator", 3, "ngClass", 4, "ngIf"], [1, "indicator", 3, "ngClass"]], template: function NovoModalNotificationElement_Template(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵprojectionDef(_c63);
         ɵngcc0.ɵɵelementStart(0, "button", 0);
         ɵngcc0.ɵɵlistener("click", function NovoModalNotificationElement_Template_button_click_0_listener() { return ctx.close(); });
         ɵngcc0.ɵɵelementEnd();
@@ -44474,8 +44635,8 @@ NovoDynamicFormElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoDynamicFo
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.customTemplates = _t);
-    } }, inputs: { controls: "controls", fieldsets: "fieldsets", hideNonRequiredFields: "hideNonRequiredFields", autoFocusFirstField: "autoFocusFirstField", form: "form", layout: "layout" }, features: [ɵngcc0.ɵɵProvidersFeature([NovoTemplateService]), ɵngcc0.ɵɵNgOnChangesFeature], ngContentSelectors: _c68, decls: 7, vars: 2, consts: [[1, "novo-form-container"], [1, "novo-form", 3, "formGroup"], [4, "ngFor", "ngForOf"], [3, "index", "autoFocus", "icon", "controls", "title", "form", "isEmbedded", "isInlineEmbedded", "hidden", 4, "ngIf"], [3, "index", "autoFocus", "icon", "controls", "title", "form", "isEmbedded", "isInlineEmbedded", "hidden"]], template: function NovoDynamicFormElement_Template(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵprojectionDef(_c67);
+    } }, inputs: { controls: "controls", fieldsets: "fieldsets", hideNonRequiredFields: "hideNonRequiredFields", autoFocusFirstField: "autoFocusFirstField", form: "form", layout: "layout" }, features: [ɵngcc0.ɵɵProvidersFeature([NovoTemplateService]), ɵngcc0.ɵɵNgOnChangesFeature], ngContentSelectors: _c69, decls: 7, vars: 2, consts: [[1, "novo-form-container"], [1, "novo-form", 3, "formGroup"], [4, "ngFor", "ngForOf"], [3, "index", "autoFocus", "icon", "controls", "title", "form", "isEmbedded", "isInlineEmbedded", "hidden", 4, "ngIf"], [3, "index", "autoFocus", "icon", "controls", "title", "form", "isEmbedded", "isInlineEmbedded", "hidden"]], template: function NovoDynamicFormElement_Template(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵprojectionDef(_c68);
         ɵngcc0.ɵɵelement(0, "novo-control-templates");
         ɵngcc0.ɵɵelementStart(1, "div", 0);
         ɵngcc0.ɵɵelementStart(2, "header");
@@ -44608,8 +44769,8 @@ NovoFormElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoFormElement, sel
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.customTemplates = _t);
-    } }, inputs: { hideHeader: "hideHeader", form: "form", layout: "layout" }, features: [ɵngcc0.ɵɵProvidersFeature([NovoTemplateService])], ngContentSelectors: _c70, decls: 5, vars: 2, consts: [[1, "novo-form-container"], [4, "ngIf"], [1, "novo-form", 3, "formGroup"]], template: function NovoFormElement_Template(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵprojectionDef(_c69);
+    } }, inputs: { hideHeader: "hideHeader", form: "form", layout: "layout" }, features: [ɵngcc0.ɵɵProvidersFeature([NovoTemplateService])], ngContentSelectors: _c71, decls: 5, vars: 2, consts: [[1, "novo-form-container"], [4, "ngIf"], [1, "novo-form", 3, "formGroup"]], template: function NovoFormElement_Template(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵprojectionDef(_c70);
         ɵngcc0.ɵɵelement(0, "novo-control-templates");
         ɵngcc0.ɵɵelementStart(1, "div", 0);
         ɵngcc0.ɵɵtemplate(2, NovoFormElement_header_2_Template, 3, 0, "header", 1);
@@ -45499,7 +45660,7 @@ class QuickNoteElement extends OutsideClick {
 }
 QuickNoteElement.ɵfac = function QuickNoteElement_Factory(t) { return new (t || QuickNoteElement)(ɵngcc0.ɵɵdirectiveInject(ɵngcc0.NgZone), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef), ɵngcc0.ɵɵdirectiveInject(ComponentUtils)); };
 QuickNoteElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: QuickNoteElement, selectors: [["novo-quick-note"]], viewQuery: function QuickNoteElement_Query(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵstaticViewQuery(_c73, true);
+        ɵngcc0.ɵɵstaticViewQuery(_c74, true);
         ɵngcc0.ɵɵstaticViewQuery(_c30, true);
         ɵngcc0.ɵɵstaticViewQuery(_c23, true, ViewContainerRef);
     } if (rf & 2) {
@@ -45668,8 +45829,8 @@ NovoHeaderComponent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoHeaderCompon
         ɵngcc0.ɵɵattribute("theme", ctx.theme);
         ɵngcc0.ɵɵclassMap(ctx.headerClass);
         ɵngcc0.ɵɵclassProp("condensed", ctx.condensed);
-    } }, inputs: { condensed: "condensed", theme: "theme", icon: "icon", title: "title", subTitle: "subTitle" }, attrs: _c0, ngContentSelectors: _c75, decls: 9, vars: 2, consts: [[1, "header-title"], [4, "ngIf"], ["flex", ""], ["class", "header-icon", 3, "ngClass", 4, "ngIf"], [1, "header-titles"], [1, "header-icon", 3, "ngClass"]], template: function NovoHeaderComponent_Template(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵprojectionDef(_c74);
+    } }, inputs: { condensed: "condensed", theme: "theme", icon: "icon", title: "title", subTitle: "subTitle" }, attrs: _c0, ngContentSelectors: _c76, decls: 9, vars: 2, consts: [[1, "header-title"], [4, "ngIf"], ["flex", ""], ["class", "header-icon", 3, "ngClass", 4, "ngIf"], [1, "header-titles"], [1, "header-icon", 3, "ngClass"]], template: function NovoHeaderComponent_Template(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵprojectionDef(_c75);
         ɵngcc0.ɵɵelementStart(0, "section");
         ɵngcc0.ɵɵelementStart(1, "div", 0);
         ɵngcc0.ɵɵtemplate(2, NovoHeaderComponent_ng_container_2_Template, 6, 3, "ng-container", 1);
@@ -47594,7 +47755,7 @@ class PopOverContent {
 }
 PopOverContent.ɵfac = function PopOverContent_Factory(t) { return new (t || PopOverContent)(ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ChangeDetectorRef)); };
 PopOverContent.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: PopOverContent, selectors: [["popover-content"]], viewQuery: function PopOverContent_Query(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵviewQuery(_c76, true);
+        ɵngcc0.ɵɵviewQuery(_c77, true);
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.popoverDiv = _t.first);
@@ -48586,7 +48747,7 @@ NovoSimpleCellHeader.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoSimpleCellH
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.dropdown = _t.first);
-    } }, inputs: { config: ["novo-simple-cell-config", "config"], defaultSort: "defaultSort" }, attrs: _c77, ngContentSelectors: _c1, decls: 5, vars: 4, consts: [["data-automation-id", "novo-activity-table-label", 3, "click"], ["theme", "icon", "data-automation-id", "novo-activity-table-sort", 3, "icon", "active", "click", 4, "ngIf"], ["side", "right", "parentScrollSelector", ".novo-simple-table", "containerClass", "simple-table-dropdown", "data-automation-id", "novo-activity-table-filter", 4, "ngIf"], ["theme", "icon", "data-automation-id", "novo-activity-table-sort", 3, "icon", "click"], ["side", "right", "parentScrollSelector", ".novo-simple-table", "containerClass", "simple-table-dropdown", "data-automation-id", "novo-activity-table-filter"], ["type", "button", "theme", "icon", "icon", "filter"], [1, "header"], ["theme", "dialogue", "color", "negative", "icon", "times", "data-automation-id", "novo-activity-table-filter-clear", 3, "click", 4, "ngIf"], [3, "ngSwitch"], [4, "ngSwitchCase"], [4, "ngSwitchDefault"], ["theme", "dialogue", "color", "negative", "icon", "times", "data-automation-id", "novo-activity-table-filter-clear", 3, "click"], [4, "ngIf"], [3, "active", "keepOpen", "click", 4, "ngIf"], ["class", "calendar-container", 4, "ngIf"], [3, "active", "click", 4, "ngFor", "ngForOf"], [3, "click"], ["class", "bhi-check", 4, "ngIf"], [1, "bhi-check"], [3, "keepOpen", "click"], [1, "calendar-container"], [1, "bhi-previous"], ["range", "true", 3, "ngModel", "onSelect", "ngModelChange"], ["keepOpen", "true", 1, "filter-search"], ["type", "text", "novoSimpleFilterFocus", "", "data-automation-id", "novo-activity-table-filter-input", 3, "ngModel", "ngModelChange"]], template: function NovoSimpleCellHeader_Template(rf, ctx) { if (rf & 1) {
+    } }, inputs: { config: ["novo-simple-cell-config", "config"], defaultSort: "defaultSort" }, attrs: _c78, ngContentSelectors: _c1, decls: 5, vars: 4, consts: [["data-automation-id", "novo-activity-table-label", 3, "click"], ["theme", "icon", "data-automation-id", "novo-activity-table-sort", 3, "icon", "active", "click", 4, "ngIf"], ["side", "right", "parentScrollSelector", ".novo-simple-table", "containerClass", "simple-table-dropdown", "data-automation-id", "novo-activity-table-filter", 4, "ngIf"], ["theme", "icon", "data-automation-id", "novo-activity-table-sort", 3, "icon", "click"], ["side", "right", "parentScrollSelector", ".novo-simple-table", "containerClass", "simple-table-dropdown", "data-automation-id", "novo-activity-table-filter"], ["type", "button", "theme", "icon", "icon", "filter"], [1, "header"], ["theme", "dialogue", "color", "negative", "icon", "times", "data-automation-id", "novo-activity-table-filter-clear", 3, "click", 4, "ngIf"], [3, "ngSwitch"], [4, "ngSwitchCase"], [4, "ngSwitchDefault"], ["theme", "dialogue", "color", "negative", "icon", "times", "data-automation-id", "novo-activity-table-filter-clear", 3, "click"], [4, "ngIf"], [3, "active", "keepOpen", "click", 4, "ngIf"], ["class", "calendar-container", 4, "ngIf"], [3, "active", "click", 4, "ngFor", "ngForOf"], [3, "click"], ["class", "bhi-check", 4, "ngIf"], [1, "bhi-check"], [3, "keepOpen", "click"], [1, "calendar-container"], [1, "bhi-previous"], ["range", "true", 3, "ngModel", "onSelect", "ngModelChange"], ["keepOpen", "true", 1, "filter-search"], ["type", "text", "novoSimpleFilterFocus", "", "data-automation-id", "novo-activity-table-filter-input", 3, "ngModel", "ngModelChange"]], template: function NovoSimpleCellHeader_Template(rf, ctx) { if (rf & 1) {
         ɵngcc0.ɵɵprojectionDef();
         ɵngcc0.ɵɵelementStart(0, "label", 0);
         ɵngcc0.ɵɵlistener("click", function NovoSimpleCellHeader_Template_label_click_0_listener() { return ctx.sort(); });
@@ -49125,8 +49286,8 @@ const _NovoTable = CdkTable;
 class NovoTable extends _NovoTable {
 }
 NovoTable.ɵfac = function NovoTable_Factory(t) { return ɵNovoTable_BaseFactory(t || NovoTable); };
-NovoTable.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoTable, selectors: [["novo-simple-table"]], features: [ɵngcc0.ɵɵInheritDefinitionFeature], ngContentSelectors: _c79, decls: 6, vars: 0, consts: [["headerRowOutlet", ""], ["rowOutlet", ""], ["noDataRowOutlet", ""], ["footerRowOutlet", ""]], template: function NovoTable_Template(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵprojectionDef(_c78);
+NovoTable.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoTable, selectors: [["novo-simple-table"]], features: [ɵngcc0.ɵɵInheritDefinitionFeature], ngContentSelectors: _c80, decls: 6, vars: 0, consts: [["headerRowOutlet", ""], ["rowOutlet", ""], ["noDataRowOutlet", ""], ["footerRowOutlet", ""]], template: function NovoTable_Template(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵprojectionDef(_c79);
         ɵngcc0.ɵɵprojection(0);
         ɵngcc0.ɵɵprojection(1, 1);
         ɵngcc0.ɵɵelementContainer(2, 0);
@@ -49280,8 +49441,8 @@ class NovoActivityTable {
 NovoActivityTable.ɵfac = function NovoActivityTable_Factory(t) { return new (t || NovoActivityTable)(ɵngcc0.ɵɵdirectiveInject(NovoLabelService), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ChangeDetectorRef), ɵngcc0.ɵɵdirectiveInject(NovoActivityTableState)); };
 NovoActivityTable.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoActivityTable, selectors: [["novo-activity-table"]], hostVars: 6, hostBindings: function NovoActivityTable_HostBindings(rf, ctx) { if (rf & 2) {
         ɵngcc0.ɵɵclassProp("global-search-hidden", ctx.globalSearchHiddenClassToggle)("empty", ctx.empty)("loading", ctx.loadingClass);
-    } }, inputs: { customFilter: "customFilter", forceShowHeader: "forceShowHeader", hideGlobalSearch: "hideGlobalSearch", debug: "debug", activityService: "activityService", columns: "columns", displayedColumns: "displayedColumns", actionColumns: "actionColumns", paginationOptions: "paginationOptions", searchOptions: "searchOptions", defaultSort: "defaultSort", outsideFilter: "outsideFilter" }, features: [ɵngcc0.ɵɵProvidersFeature([NovoActivityTableState]), ɵngcc0.ɵɵNgOnChangesFeature], ngContentSelectors: _c81, decls: 9, vars: 7, consts: [[4, "ngIf"], ["class", "novo-activity-table-loading-mask", "data-automation-id", "novo-activity-table-loading", 4, "ngIf"], [1, "novo-activity-table-filter-container"], ["class", "novo-activity-table-custom-filter", 4, "ngIf"], [1, "novo-activity-table-container"], ["novoSortFilter", "", "novoSelection", "", 3, "dataSource", "empty", "hidden", 4, "ngIf"], ["class", "novo-activity-table-no-results-container", 4, "ngIf"], ["class", "novo-activity-table-empty-container", 4, "ngIf"], ["alwaysOpen", "true", 3, "ngModel", "placeholder", "hint", "searchChanged", "ngModelChange", 4, "ngIf"], [3, "length", "page", "pageSize", "pageSizeOptions", 4, "ngIf"], [1, "novo-activity-table-actions"], ["alwaysOpen", "true", 3, "ngModel", "placeholder", "hint", "searchChanged", "ngModelChange"], [3, "length", "page", "pageSize", "pageSizeOptions"], ["data-automation-id", "novo-activity-table-loading", 1, "novo-activity-table-loading-mask"], [1, "novo-activity-table-custom-filter"], ["novoSortFilter", "", "novoSelection", "", 3, "dataSource", "hidden"], ["novoSimpleColumnDef", "selection"], [4, "novoSimpleHeaderCellDef"], [3, "row", "index", 4, "novoSimpleCellDef"], [3, "novoSimpleColumnDef", 4, "ngFor", "ngForOf"], [4, "novoSimpleHeaderRowDef"], [4, "novoSimpleRowDef", "novoSimpleRowDefColumns"], [3, "row", "index"], [3, "novoSimpleColumnDef"], [3, "button-header-cell", "dropdown-header-cell", 4, "novoSimpleHeaderCellDef"], [3, "row", "column", 4, "novoSimpleCellDef"], [3, "row", "column"], [3, "column", "novo-simple-cell-config", "defaultSort", 4, "novoSimpleHeaderCellDef"], [3, "column", "row", 4, "novoSimpleCellDef"], [3, "column", "novo-simple-cell-config", "defaultSort"], [3, "column", "row"], [1, "novo-activity-table-no-results-container"], ["filtered", ""], ["class", "novo-activity-table-empty-message", 4, "ngIf"], [1, "novo-activity-table-empty-message"], [1, "bhi-search-question"], [1, "novo-activity-table-empty-container"], ["empty", ""]], template: function NovoActivityTable_Template(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵprojectionDef(_c80);
+    } }, inputs: { customFilter: "customFilter", forceShowHeader: "forceShowHeader", hideGlobalSearch: "hideGlobalSearch", debug: "debug", activityService: "activityService", columns: "columns", displayedColumns: "displayedColumns", actionColumns: "actionColumns", paginationOptions: "paginationOptions", searchOptions: "searchOptions", defaultSort: "defaultSort", outsideFilter: "outsideFilter" }, features: [ɵngcc0.ɵɵProvidersFeature([NovoActivityTableState]), ɵngcc0.ɵɵNgOnChangesFeature], ngContentSelectors: _c82, decls: 9, vars: 7, consts: [[4, "ngIf"], ["class", "novo-activity-table-loading-mask", "data-automation-id", "novo-activity-table-loading", 4, "ngIf"], [1, "novo-activity-table-filter-container"], ["class", "novo-activity-table-custom-filter", 4, "ngIf"], [1, "novo-activity-table-container"], ["novoSortFilter", "", "novoSelection", "", 3, "dataSource", "empty", "hidden", 4, "ngIf"], ["class", "novo-activity-table-no-results-container", 4, "ngIf"], ["class", "novo-activity-table-empty-container", 4, "ngIf"], ["alwaysOpen", "true", 3, "ngModel", "placeholder", "hint", "searchChanged", "ngModelChange", 4, "ngIf"], [3, "length", "page", "pageSize", "pageSizeOptions", 4, "ngIf"], [1, "novo-activity-table-actions"], ["alwaysOpen", "true", 3, "ngModel", "placeholder", "hint", "searchChanged", "ngModelChange"], [3, "length", "page", "pageSize", "pageSizeOptions"], ["data-automation-id", "novo-activity-table-loading", 1, "novo-activity-table-loading-mask"], [1, "novo-activity-table-custom-filter"], ["novoSortFilter", "", "novoSelection", "", 3, "dataSource", "hidden"], ["novoSimpleColumnDef", "selection"], [4, "novoSimpleHeaderCellDef"], [3, "row", "index", 4, "novoSimpleCellDef"], [3, "novoSimpleColumnDef", 4, "ngFor", "ngForOf"], [4, "novoSimpleHeaderRowDef"], [4, "novoSimpleRowDef", "novoSimpleRowDefColumns"], [3, "row", "index"], [3, "novoSimpleColumnDef"], [3, "button-header-cell", "dropdown-header-cell", 4, "novoSimpleHeaderCellDef"], [3, "row", "column", 4, "novoSimpleCellDef"], [3, "row", "column"], [3, "column", "novo-simple-cell-config", "defaultSort", 4, "novoSimpleHeaderCellDef"], [3, "column", "row", 4, "novoSimpleCellDef"], [3, "column", "novo-simple-cell-config", "defaultSort"], [3, "column", "row"], [1, "novo-activity-table-no-results-container"], ["filtered", ""], ["class", "novo-activity-table-empty-message", 4, "ngIf"], [1, "novo-activity-table-empty-message"], [1, "bhi-search-question"], [1, "novo-activity-table-empty-container"], ["empty", ""]], template: function NovoActivityTable_Template(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵprojectionDef(_c81);
         ɵngcc0.ɵɵtemplate(0, NovoActivityTable_div_0_Template, 15, 7, "div", 0);
         ɵngcc0.ɵɵtemplate(1, NovoActivityTable_header_1_Template, 6, 2, "header", 0);
         ɵngcc0.ɵɵtemplate(2, NovoActivityTable_div_2_Template, 2, 0, "div", 1);
@@ -49586,8 +49747,8 @@ class NovoSliderElement {
 NovoSliderElement.ɵfac = function NovoSliderElement_Factory(t) { return new (t || NovoSliderElement)(ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef), ɵngcc0.ɵɵdirectiveInject(NovoLabelService)); };
 NovoSliderElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoSliderElement, selectors: [["novo-slider"]], hostVars: 2, hostBindings: function NovoSliderElement_HostBindings(rf, ctx) { if (rf & 2) {
         ɵngcc0.ɵɵclassMap(ctx.currentClass);
-    } }, inputs: { slides: "slides" }, ngContentSelectors: _c83, decls: 8, vars: 4, consts: [[1, "slides"], [1, "controls"], ["theme", "icon", "icon", "previous", 3, "click", 4, "ngIf"], [1, "indicators"], ["class", "indicator-circle", 3, "ngClass", 4, "ngFor", "ngForOf"], ["theme", "primary", "icon", "next", 3, "click", 4, "ngIf"], [4, "ngIf"], ["theme", "icon", "icon", "previous", 3, "click"], [1, "indicator-circle", 3, "ngClass"], ["theme", "primary", "icon", "next", 3, "click"]], template: function NovoSliderElement_Template(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵprojectionDef(_c82);
+    } }, inputs: { slides: "slides" }, ngContentSelectors: _c84, decls: 8, vars: 4, consts: [[1, "slides"], [1, "controls"], ["theme", "icon", "icon", "previous", 3, "click", 4, "ngIf"], [1, "indicators"], ["class", "indicator-circle", 3, "ngClass", 4, "ngFor", "ngForOf"], ["theme", "primary", "icon", "next", 3, "click", 4, "ngIf"], [4, "ngIf"], ["theme", "icon", "icon", "previous", 3, "click"], [1, "indicator-circle", 3, "ngClass"], ["theme", "primary", "icon", "next", 3, "click"]], template: function NovoSliderElement_Template(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵprojectionDef(_c83);
         ɵngcc0.ɵɵelementStart(0, "section", 0);
         ɵngcc0.ɵɵprojection(1);
         ɵngcc0.ɵɵelementEnd();
@@ -49969,7 +50130,7 @@ NovoHorizontalStepper.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoHorizontal
         ɵngcc0.ɵɵclassProp("complete", ctx.completed);
         ɵngcc0.ɵɵadvance(2);
         ɵngcc0.ɵɵproperty("ngForOf", ctx._steps);
-    } }, directives: [ɵngcc1.NgForOf, NovoStepHeader, ɵngcc1.NgTemplateOutlet], styles: [_c84], data: { animation: [novoStepperAnimations.horizontalStepTransition] }, changeDetection: 0 });
+    } }, directives: [ɵngcc1.NgForOf, NovoStepHeader, ɵngcc1.NgTemplateOutlet], styles: [_c85], data: { animation: [novoStepperAnimations.horizontalStepTransition] }, changeDetection: 0 });
 NovoHorizontalStepper.propDecorators = {
     selectedIndex: [{ type: Input }]
 };
@@ -50005,7 +50166,7 @@ NovoVerticalStepper.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoVerticalStep
         ɵngcc0.ɵɵtemplate(0, NovoVerticalStepper_div_0_Template, 6, 22, "div", 0);
     } if (rf & 2) {
         ɵngcc0.ɵɵproperty("ngForOf", ctx._steps);
-    } }, directives: [ɵngcc1.NgForOf, NovoStepHeader, ɵngcc1.NgClass, ɵngcc1.NgTemplateOutlet], styles: [_c84], data: { animation: [novoStepperAnimations.verticalStepTransition] }, changeDetection: 0 });
+    } }, directives: [ɵngcc1.NgForOf, NovoStepHeader, ɵngcc1.NgClass, ɵngcc1.NgTemplateOutlet], styles: [_c85], data: { animation: [novoStepperAnimations.verticalStepTransition] }, changeDetection: 0 });
 NovoVerticalStepper.ctorParameters = () => [
     { type: Directionality, decorators: [{ type: Optional }] },
     { type: ChangeDetectorRef }
@@ -50336,7 +50497,7 @@ class NovoTabbedGroupPickerElement {
 }
 NovoTabbedGroupPickerElement.ɵfac = function NovoTabbedGroupPickerElement_Factory(t) { return new (t || NovoTabbedGroupPickerElement)(ɵngcc0.ɵɵdirectiveInject(NovoLabelService), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ChangeDetectorRef)); };
 NovoTabbedGroupPickerElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoTabbedGroupPickerElement, selectors: [["novo-tabbed-group-picker"]], viewQuery: function NovoTabbedGroupPickerElement_Query(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵviewQuery(_c85, true);
+        ɵngcc0.ɵɵviewQuery(_c86, true);
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.scrollableInstance = _t.first);
@@ -50718,11 +50879,11 @@ Pagination.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: Pagination, selectors: [[
         ɵngcc0.ɵɵadvance(1);
         ɵngcc0.ɵɵproperty("options", ctx.rowOptions)("placeholder", ctx.labels.select)("ngModel", ctx.itemsPerPage);
         ɵngcc0.ɵɵadvance(3);
-        ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(7, _c52, ctx.noPrevious()));
+        ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(7, _c53, ctx.noPrevious()));
         ɵngcc0.ɵɵadvance(2);
         ɵngcc0.ɵɵproperty("ngForOf", ctx.pages);
         ɵngcc0.ɵɵadvance(1);
-        ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(9, _c52, ctx.noNext()));
+        ɵngcc0.ɵɵproperty("ngClass", ɵngcc0.ɵɵpureFunction1(9, _c53, ctx.noNext()));
     } }, directives: [NovoSelectElement, ɵngcc3.NgControlStatus, ɵngcc3.NgModel, ɵngcc1.NgClass, ɵngcc1.NgForOf], encapsulation: 2 });
 Pagination.ctorParameters = () => [
     { type: NovoLabelService }
@@ -50817,7 +50978,7 @@ class RowDetails {
 }
 RowDetails.ɵfac = function RowDetails_Factory(t) { return new (t || RowDetails)(ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef), ɵngcc0.ɵɵdirectiveInject(ComponentUtils)); };
 RowDetails.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: RowDetails, selectors: [["novo-row-details"]], viewQuery: function RowDetails_Query(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵstaticViewQuery(_c47, true, ViewContainerRef);
+        ɵngcc0.ɵɵstaticViewQuery(_c48, true, ViewContainerRef);
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.container = _t.first);
@@ -50925,7 +51086,7 @@ class TableCell {
 }
 TableCell.ɵfac = function TableCell_Factory(t) { return new (t || TableCell)(ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef), ɵngcc0.ɵɵdirectiveInject(ComponentUtils)); };
 TableCell.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: TableCell, selectors: [["novo-table-cell"]], viewQuery: function TableCell_Query(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵstaticViewQuery(_c47, true, ViewContainerRef);
+        ɵngcc0.ɵɵstaticViewQuery(_c48, true, ViewContainerRef);
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.container = _t.first);
@@ -52425,15 +52586,15 @@ class NovoTableElement {
 }
 NovoTableElement.ɵfac = function NovoTableElement_Factory(t) { return new (t || NovoTableElement)(ɵngcc0.ɵɵdirectiveInject(NovoLabelService), ɵngcc0.ɵɵdirectiveInject(FormUtils), ɵngcc0.ɵɵdirectiveInject(ɵngcc3.FormBuilder)); };
 NovoTableElement.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: NovoTableElement, selectors: [["novo-table"]], viewQuery: function NovoTableElement_Query(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵviewQuery(_c33, true, ElementRef);
+        ɵngcc0.ɵɵviewQuery(_c34, true, ElementRef);
     } if (rf & 2) {
         var _t;
         ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.filterInputs = _t);
     } }, hostVars: 5, hostBindings: function NovoTableElement_HostBindings(rf, ctx) { if (rf & 2) {
         ɵngcc0.ɵɵattribute("theme", ctx.theme);
         ɵngcc0.ɵɵclassProp("editing", ctx.mode === ctx.NovoTableMode.EDIT)("novo-table-loading", ctx.loading);
-    } }, inputs: { config: "config", skipSortAndFilterClear: "skipSortAndFilterClear", mode: "mode", editable: "editable", rowIdentifier: "rowIdentifier", name: "name", rows: "rows", dataProvider: "dataProvider", columns: "columns", theme: "theme" }, outputs: { onRowClick: "onRowClick", onRowSelect: "onRowSelect", onTableChange: "onTableChange" }, ngContentSelectors: _c88, decls: 4, vars: 4, consts: [[4, "ngIf"], ["class", "novo-table-loading-overlay", 4, "ngIf"], [3, "theme", "icon", "message", 4, "ngIf"], ["class", "table-container", 4, "ngIf"], [1, "header-actions"], [3, "rowOptions", "disablePageSelection", "page", "itemsPerPage", "totalItems", "pageChange", "itemsPerPageChange", "onPageChange", 4, "ngIf"], [3, "rowOptions", "disablePageSelection", "page", "itemsPerPage", "totalItems", "pageChange", "itemsPerPageChange", "onPageChange"], [1, "novo-table-loading-overlay"], [3, "theme", "icon", "message"], [1, "table-container"], ["hideHeader", "true", 3, "form"], ["role", "grid", 1, "table", "table-striped", "dataTable"], ["class", "table-message", "data-automation-id", "empty-table", 4, "ngIf"], ["class", "table-message", "data-automation-id", "table-errors", 4, "ngIf"], [3, "ngClass", 4, "ngIf"], ["class", "novo-table-total-footer", 4, "ngFor", "ngForOf"], ["role", "row"], ["class", "row-actions", 4, "ngIf"], ["class", "row-actions checkbox mass-action", 4, "ngIf"], [3, "ngClass", "novoThOrderable", "hidden", "onOrderChange", 4, "ngFor", "ngForOf"], [1, "row-actions"], ["theme", "icon", "icon", "next", "data-automation-id", "expand-all", 3, "click", 4, "ngIf"], ["theme", "icon", "icon", "sort-desc", "data-automation-id", "collapse-all", 3, "click", 4, "ngIf"], ["theme", "icon", "icon", "next", "data-automation-id", "expand-all", 3, "click"], ["theme", "icon", "icon", "sort-desc", "data-automation-id", "collapse-all", 3, "click"], [1, "row-actions", "checkbox", "mass-action"], ["data-automation-id", "select-all-checkbox", "tooltipPosition", "right", 3, "ngModel", "indeterminate", "tooltip", "ngModelChange"], [3, "ngClass", "novoThOrderable", "hidden", "onOrderChange"], ["class", "th-group", 4, "ngIf"], [1, "th-group"], [1, "th-title", 3, "ngClass", "novoThSortable", "column", "onSortChange"], ["class", "table-sort-icons", "tooltipPosition", "bottom", 3, "tooltip", "ngClass", 4, "ngIf"], ["side", "right", "class", "column-filters", "parentScrollSelector", ".table-container", "containerClass", "table-dropdown", 3, "toggled", 4, "ngIf"], ["tooltipPosition", "bottom", 1, "table-sort-icons", 3, "tooltip", "ngClass"], [1, "bhi-arrow-up"], [1, "bhi-arrow-down"], ["side", "right", "parentScrollSelector", ".table-container", "containerClass", "table-dropdown", 1, "column-filters", 3, "toggled"], ["type", "button", "theme", "icon", "icon", "filter", "tooltipPosition", "bottom", 3, "tooltip", "click"], [1, "filter-search"], [1, "header"], ["theme", "dialogue", "color", "negative", "icon", "times", 3, "click", 4, "ngIf"], ["type", "text", "keepFilterFocused", "", 3, "novoTableFilter", "ngModel", "onFilterChange", "ngModelChange", 4, "ngIf"], [3, "ngClass", "click", 4, "ngFor", "ngForOf"], ["theme", "dialogue", "color", "negative", "icon", "times", 3, "click"], ["type", "text", "keepFilterFocused", "", 3, "novoTableFilter", "ngModel", "onFilterChange", "ngModelChange"], ["filterInput", ""], [3, "ngClass", "click"], ["class", "bhi-check", 4, "ngIf"], [1, "bhi-check"], ["class", "filter-search", 4, "ngIf"], [3, "ngClass", "keepOpen", "hidden", "click", 4, "ngFor", "ngForOf"], [1, "calendar-container", 3, "hidden"], [3, "click"], [1, "bhi-previous"], ["range", "true", 3, "ngModel", "onSelect", "ngModelChange"], ["rangePicker", ""], [3, "ngClass", "keepOpen", "hidden", "click"], ["class", "table-selection-row", "data-automation-id", "table-selection-row", 4, "ngIf"], ["ngFor", "", 3, "ngForOf"], ["data-automation-id", "table-selection-row", 1, "table-selection-row"], ["colspan", "100%"], ["data-automation-id", "all-matching-records", 3, "click"], [1, "table-row", 3, "ngClass", "id", "click"], ["class", "row-actions checkbox", 4, "ngIf"], [3, "novo-form-row", "hidden", 4, "ngFor", "ngForOf"], ["class", "details-row", 3, "hidden", 4, "ngIf"], ["theme", "icon", "icon", "next", 3, "click", 4, "ngIf"], ["theme", "icon", "icon", "sort-desc", 3, "click", 4, "ngIf"], ["theme", "icon", "icon", "next", 3, "click"], ["theme", "icon", "icon", "sort-desc", 3, "click"], [1, "row-actions", "checkbox"], ["data-automation-id", "select-row-checkbox", 3, "ngModel", "ngModelChange"], [3, "hidden"], [3, "hasEditor", "column", "row", "form", 4, "ngIf"], ["condensed", "true", 3, "form", "control", 4, "ngIf"], [3, "hasEditor", "column", "row", "form"], ["condensed", "true", 3, "form", "control"], [1, "details-row", 3, "hidden"], [3, "data", "renderer"], ["data-automation-id", "empty-table", 1, "table-message"], ["emptymessage", ""], ["class", "table-empty-message", 4, "ngIf"], [1, "table-empty-message"], [1, "bhi-search-question"], ["nomatchmessage", ""], ["class", "no-matching-records", 4, "ngIf"], [1, "no-matching-records"], ["data-automation-id", "table-errors", 1, "table-message"], ["errormessage", ""], ["class", "table-error-message", 4, "ngIf"], [1, "table-error-message"], [1, "bhi-caution"], [3, "ngClass"], [1, "novo-table-total-footer"], [4, "ngFor", "ngForOf"]], template: function NovoTableElement_Template(rf, ctx) { if (rf & 1) {
-        ɵngcc0.ɵɵprojectionDef(_c87);
+    } }, inputs: { config: "config", skipSortAndFilterClear: "skipSortAndFilterClear", mode: "mode", editable: "editable", rowIdentifier: "rowIdentifier", name: "name", rows: "rows", dataProvider: "dataProvider", columns: "columns", theme: "theme" }, outputs: { onRowClick: "onRowClick", onRowSelect: "onRowSelect", onTableChange: "onTableChange" }, ngContentSelectors: _c89, decls: 4, vars: 4, consts: [[4, "ngIf"], ["class", "novo-table-loading-overlay", 4, "ngIf"], [3, "theme", "icon", "message", 4, "ngIf"], ["class", "table-container", 4, "ngIf"], [1, "header-actions"], [3, "rowOptions", "disablePageSelection", "page", "itemsPerPage", "totalItems", "pageChange", "itemsPerPageChange", "onPageChange", 4, "ngIf"], [3, "rowOptions", "disablePageSelection", "page", "itemsPerPage", "totalItems", "pageChange", "itemsPerPageChange", "onPageChange"], [1, "novo-table-loading-overlay"], [3, "theme", "icon", "message"], [1, "table-container"], ["hideHeader", "true", 3, "form"], ["role", "grid", 1, "table", "table-striped", "dataTable"], ["class", "table-message", "data-automation-id", "empty-table", 4, "ngIf"], ["class", "table-message", "data-automation-id", "table-errors", 4, "ngIf"], [3, "ngClass", 4, "ngIf"], ["class", "novo-table-total-footer", 4, "ngFor", "ngForOf"], ["role", "row"], ["class", "row-actions", 4, "ngIf"], ["class", "row-actions checkbox mass-action", 4, "ngIf"], [3, "ngClass", "novoThOrderable", "hidden", "onOrderChange", 4, "ngFor", "ngForOf"], [1, "row-actions"], ["theme", "icon", "icon", "next", "data-automation-id", "expand-all", 3, "click", 4, "ngIf"], ["theme", "icon", "icon", "sort-desc", "data-automation-id", "collapse-all", 3, "click", 4, "ngIf"], ["theme", "icon", "icon", "next", "data-automation-id", "expand-all", 3, "click"], ["theme", "icon", "icon", "sort-desc", "data-automation-id", "collapse-all", 3, "click"], [1, "row-actions", "checkbox", "mass-action"], ["data-automation-id", "select-all-checkbox", "tooltipPosition", "right", 3, "ngModel", "indeterminate", "tooltip", "ngModelChange"], [3, "ngClass", "novoThOrderable", "hidden", "onOrderChange"], ["class", "th-group", 4, "ngIf"], [1, "th-group"], [1, "th-title", 3, "ngClass", "novoThSortable", "column", "onSortChange"], ["class", "table-sort-icons", "tooltipPosition", "bottom", 3, "tooltip", "ngClass", 4, "ngIf"], ["side", "right", "class", "column-filters", "parentScrollSelector", ".table-container", "containerClass", "table-dropdown", 3, "toggled", 4, "ngIf"], ["tooltipPosition", "bottom", 1, "table-sort-icons", 3, "tooltip", "ngClass"], [1, "bhi-arrow-up"], [1, "bhi-arrow-down"], ["side", "right", "parentScrollSelector", ".table-container", "containerClass", "table-dropdown", 1, "column-filters", 3, "toggled"], ["type", "button", "theme", "icon", "icon", "filter", "tooltipPosition", "bottom", 3, "tooltip", "click"], [1, "filter-search"], [1, "header"], ["theme", "dialogue", "color", "negative", "icon", "times", 3, "click", 4, "ngIf"], ["type", "text", "keepFilterFocused", "", 3, "novoTableFilter", "ngModel", "onFilterChange", "ngModelChange", 4, "ngIf"], [3, "ngClass", "click", 4, "ngFor", "ngForOf"], ["theme", "dialogue", "color", "negative", "icon", "times", 3, "click"], ["type", "text", "keepFilterFocused", "", 3, "novoTableFilter", "ngModel", "onFilterChange", "ngModelChange"], ["filterInput", ""], [3, "ngClass", "click"], ["class", "bhi-check", 4, "ngIf"], [1, "bhi-check"], ["class", "filter-search", 4, "ngIf"], [3, "ngClass", "keepOpen", "hidden", "click", 4, "ngFor", "ngForOf"], [1, "calendar-container", 3, "hidden"], [3, "click"], [1, "bhi-previous"], ["range", "true", 3, "ngModel", "onSelect", "ngModelChange"], ["rangePicker", ""], [3, "ngClass", "keepOpen", "hidden", "click"], ["class", "table-selection-row", "data-automation-id", "table-selection-row", 4, "ngIf"], ["ngFor", "", 3, "ngForOf"], ["data-automation-id", "table-selection-row", 1, "table-selection-row"], ["colspan", "100%"], ["data-automation-id", "all-matching-records", 3, "click"], [1, "table-row", 3, "ngClass", "id", "click"], ["class", "row-actions checkbox", 4, "ngIf"], [3, "novo-form-row", "hidden", 4, "ngFor", "ngForOf"], ["class", "details-row", 3, "hidden", 4, "ngIf"], ["theme", "icon", "icon", "next", 3, "click", 4, "ngIf"], ["theme", "icon", "icon", "sort-desc", 3, "click", 4, "ngIf"], ["theme", "icon", "icon", "next", 3, "click"], ["theme", "icon", "icon", "sort-desc", 3, "click"], [1, "row-actions", "checkbox"], ["data-automation-id", "select-row-checkbox", 3, "ngModel", "ngModelChange"], [3, "hidden"], [3, "hasEditor", "column", "row", "form", 4, "ngIf"], ["condensed", "true", 3, "form", "control", 4, "ngIf"], [3, "hasEditor", "column", "row", "form"], ["condensed", "true", 3, "form", "control"], [1, "details-row", 3, "hidden"], [3, "data", "renderer"], ["data-automation-id", "empty-table", 1, "table-message"], ["emptymessage", ""], ["class", "table-empty-message", 4, "ngIf"], [1, "table-empty-message"], [1, "bhi-search-question"], ["nomatchmessage", ""], ["class", "no-matching-records", 4, "ngIf"], [1, "no-matching-records"], ["data-automation-id", "table-errors", 1, "table-message"], ["errormessage", ""], ["class", "table-error-message", 4, "ngIf"], [1, "table-error-message"], [1, "bhi-caution"], [3, "ngClass"], [1, "novo-table-total-footer"], [4, "ngFor", "ngForOf"]], template: function NovoTableElement_Template(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵprojectionDef(_c88);
         ɵngcc0.ɵɵtemplate(0, NovoTableElement_header_0_Template, 5, 1, "header", 0);
         ɵngcc0.ɵɵtemplate(1, NovoTableElement_div_1_Template, 2, 0, "div", 1);
         ɵngcc0.ɵɵtemplate(2, NovoTableElement_novo_toast_2_Template, 1, 3, "novo-toast", 2);
