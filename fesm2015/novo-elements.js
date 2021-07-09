@@ -6294,6 +6294,192 @@ GroupedMultiPickerResults.propDecorators = {
     listElement: [{ type: ViewChild, args: ['list',] }]
 };
 
+class MixedMultiPickerResults extends BasePickerResults {
+    constructor(element, renderer, labels, ref) {
+        super(element, ref);
+        this.renderer = renderer;
+        this.labels = labels;
+        this.placeholder = '';
+        this.internalMap = new Map();
+    }
+    set term(value) {
+        if (this.config.placeholder) {
+            this.placeholder = this.config.placeholder;
+        }
+        // Focus
+        setTimeout(() => {
+            this.inputElement.nativeElement.focus();
+        });
+    }
+    get options() {
+        return this.config.options || [];
+    }
+    ngOnDestroy() {
+        // Cleanup
+        if (this.keyboardSubscription) {
+            this.keyboardSubscription.unsubscribe();
+        }
+    }
+    selectPrimaryOption(primaryOption, event) {
+        if (this.keyboardSubscription) {
+            this.keyboardSubscription.unsubscribe();
+        }
+        // Scroll to top
+        this.renderer.setProperty(this.listElement.element.nativeElement, 'scrollTop', 0);
+        // Set focus
+        this.inputElement.nativeElement.focus();
+        // Find new items
+        const key = primaryOption.value;
+        this.selectedPrimaryOption = primaryOption;
+        // Clear
+        this.matches = [];
+        this.ref.markForCheck();
+        // New matches
+        if (this.optionHasSecondaryOptions(primaryOption)) {
+            // Subscribe to keyboard events and debounce
+            this.keyboardSubscription = fromEvent(this.inputElement.nativeElement, 'keyup')
+                .pipe(debounceTime(350), distinctUntilChanged()).subscribe((keyEvent) => {
+                this.searchTerm = keyEvent.target['value'];
+                this.matches = this.filterData();
+                this.ref.markForCheck();
+            });
+            this.getNewMatches(primaryOption);
+        }
+        else {
+            this.selectActive(primaryOption);
+            this.selectMatch(event);
+        }
+    }
+    selectMatch(event) {
+        // Set focus
+        this.inputElement.nativeElement.focus();
+        return super.selectMatch(event);
+    }
+    clearSearchTerm(event) {
+        Helpers.swallowEvent(event);
+        this.searchTerm = '';
+        this.selectPrimaryOption({ value: this.selectedPrimaryOption.value, label: this.selectedPrimaryOption.label });
+        this.ref.markForCheck();
+    }
+    optionHasSecondaryOptions(primaryOption) {
+        return !!(primaryOption && (primaryOption.secondaryOptions || primaryOption.getSecondaryOptionsAsync));
+    }
+    shouldShowSearchBox(primaryOption) {
+        return !!(primaryOption && primaryOption.showSearchOnSecondaryOptions);
+    }
+    filterData() {
+        if (this.selectedPrimaryOption) {
+            if (this.selectedPrimaryOption.secondaryOptions) {
+                return this.filter(this.selectedPrimaryOption.secondaryOptions);
+            }
+            else {
+                return this.filter(this.internalMap.get(this.selectedPrimaryOption.value).items);
+            }
+        }
+        return [];
+    }
+    filter(array) {
+        let matches = array;
+        if (this.searchTerm && this.searchTerm.length !== 0 && this.selectedPrimaryOption) {
+            matches = matches.filter((match) => {
+                const searchTerm = this.searchTerm.toLowerCase();
+                return match.label.toLowerCase().indexOf(searchTerm) > -1 || match.value.toLowerCase().indexOf(searchTerm) > -1;
+            });
+        }
+        return matches;
+    }
+    getNewMatches(primaryOption) {
+        // Get new matches
+        if (primaryOption.secondaryOptions) {
+            this.matches = this.filter(primaryOption.secondaryOptions);
+            this.ref.markForCheck();
+        }
+        else {
+            if (!primaryOption.getSecondaryOptionsAsync) {
+                throw new Error('An option needs to have either an array of secondaryOptions or a function getSecondaryOptionsAsync');
+            }
+            if (!this.internalMap.get(primaryOption.value)) {
+                this.isLoading = true;
+                primaryOption.getSecondaryOptionsAsync().then((items) => {
+                    this.internalMap.set(primaryOption.value, { value: primaryOption.value, label: primaryOption.label, items });
+                    this.matches = this.filter(items);
+                    this.isLoading = false;
+                    this.ref.markForCheck();
+                    setTimeout(() => {
+                        this.inputElement.nativeElement.focus();
+                    });
+                });
+            }
+            else {
+                this.matches = this.filter(this.internalMap.get(primaryOption.value).items);
+                this.ref.markForCheck();
+            }
+        }
+    }
+}
+MixedMultiPickerResults.decorators = [
+    { type: Component, args: [{
+                selector: 'mixed-multi-picker-results',
+                template: `
+    <div class="mixed-multi-picker-groups">
+        <novo-list direction="vertical">
+            <novo-list-item
+                *ngFor="let option of options"
+                (click)="selectPrimaryOption(option, $event)"
+                [class.active]="selectedPrimaryOption?.value === option.value"
+                [attr.data-automation-id]="option.label"
+                [class.disabled]="isLoading">
+                <item-content>
+                    <i *ngIf="option.iconClass" [class]="option.iconClass"></i>
+                    <span data-automation-id="label">{{ option.label }}</span>
+                </item-content>
+                <item-end *ngIf="optionHasSecondaryOptions(option)">
+                    <i class="bhi-next"></i>
+                </item-end>
+            </novo-list-item>
+        </novo-list>
+    </div>
+    <div class="mixed-multi-picker-matches" [hidden]="!optionHasSecondaryOptions(selectedPrimaryOption)">
+        <div class="mixed-multi-picker-input-container" [hidden]="!shouldShowSearchBox(selectedPrimaryOption)" data-automation-id="input-container">
+            <input autofocus #input [(ngModel)]="searchTerm" [disabled]="isLoading" data-automation-id="input" [placeholder]="placeholder"/>
+            <i class="bhi-search" *ngIf="!searchTerm" [class.disabled]="isLoading" data-automation-id="seach-icon"></i>
+            <i class="bhi-times" *ngIf="searchTerm" (click)="clearSearchTerm($event)" [class.disabled]="isLoading" data-automation-id="remove-icon"></i>
+        </div>
+        <div class="mixed-multi-picker-list-container">
+            <novo-list direction="vertical" #list>
+                <novo-list-item
+                    *ngFor="let match of matches"
+                    (click)="selectMatch($event)"
+                    [class.active]="match === activeMatch"
+                    (mouseenter)="selectActive(match)"
+                    [class.disabled]="preselected(match) || isLoading"
+                    [attr.data-automation-id]="match.label">
+                    <item-content>
+                        <span>{{ match.label }}</span>
+                    </item-content>
+                </novo-list-item>
+            </novo-list>
+            <div class="mixed-multi-picker-no-results" *ngIf="matches.length === 0 && !isLoading && selectedPrimaryOption" data-automation-id="empty-message">
+                {{ labels.groupedMultiPickerEmpty }}
+            </div>
+            <div class="mixed-multi-picker-loading" *ngIf="isLoading" data-automation-id="loading-message">
+                <novo-loading theme="line"></novo-loading>
+            </div>
+        </div>
+    </div>`
+            },] }
+];
+MixedMultiPickerResults.ctorParameters = () => [
+    { type: ElementRef },
+    { type: Renderer2 },
+    { type: NovoLabelService },
+    { type: ChangeDetectorRef }
+];
+MixedMultiPickerResults.propDecorators = {
+    inputElement: [{ type: ViewChild, args: ['input', { static: true },] }],
+    listElement: [{ type: ViewChild, args: ['list',] }]
+};
+
 // NG2
 class SkillsSpecialtyPickerResults extends BasePickerResults {
     constructor(element, labels, ref) {
@@ -6514,6 +6700,7 @@ NovoPickerModule.decorators = [
                     EntityPickerResults,
                     ChecklistPickerResults,
                     GroupedMultiPickerResults,
+                    MixedMultiPickerResults,
                     DistributionListPickerResults,
                     WorkersCompCodesPickerResults,
                     SkillsSpecialtyPickerResults,
@@ -6525,6 +6712,7 @@ NovoPickerModule.decorators = [
                     EntityPickerResults,
                     ChecklistPickerResults,
                     GroupedMultiPickerResults,
+                    MixedMultiPickerResults,
                     DistributionListPickerResults,
                     WorkersCompCodesPickerResults,
                     SkillsSpecialtyPickerResults,
@@ -43296,5 +43484,5 @@ class DevAppBridge extends AppBridge {
  * Generated bundle index. Do not edit.
  */
 
-export { AceEditorControl, ActivityTableDataSource, ActivityTableRenderers, AddressControl, AppBridge, AppBridgeHandler, AppBridgeService, ArrayCollection, BaseControl, BasePickerResults, BaseRenderer, BrowserGlobalRef, COUNTRIES, CalendarEventResponse, CardActionsElement, CardElement, CheckListControl, CheckboxControl, ChecklistPickerResults, CollectionEvent, ComponentUtils, ControlFactory, CustomControl, DataTableBigDecimalRendererPipe, DataTableInterpolatePipe, DateCell, DateControl, DateTableCurrencyRendererPipe, DateTableDateRendererPipe, DateTableDateTimeRendererPipe, DateTableNumberRendererPipe, DateTableTimeRendererPipe, DateTimeControl, DayOfMonthPipe, DecodeURIPipe, Deferred, DevAppBridge, DevAppBridgeService, DistributionListPickerResults, EditorControl, EndOfWeekDisplayPipe, EntityList, EntityPickerResult, EntityPickerResults, FieldInteractionApi, FileControl, FormUtils, FormValidators, GlobalRef, GooglePlacesModule, GooglePlacesService, GroupByPipe, GroupedControl, GroupedMultiPickerResults, Helpers, HoursPipe, KeyCodes, LocalStorageService, MonthDayPipe, MonthPipe, NOVO_VALUE_THEME, NOVO_VALUE_TYPE, NativeSelectControl, NovoAccordion, NovoAceEditor, NovoAceEditorModule, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableCustomHeader, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableState, NovoAddressElement, NovoAutoSize, NovoButtonElement, NovoButtonModule, NovoCKEditorElement, NovoCalendarAllDayEventElement, NovoCalendarDateChangeElement, NovoCalendarDayEventElement, NovoCalendarDayViewElement, NovoCalendarHourSegmentElement, NovoCalendarModule, NovoCalendarMonthDayElement, NovoCalendarMonthHeaderElement, NovoCalendarMonthViewElement, NovoCalendarWeekEventElement, NovoCalendarWeekHeaderElement, NovoCalendarWeekViewElement, NovoCardModule, NovoCategoryDropdownElement, NovoCategoryDropdownModule, NovoCheckListElement, NovoCheckboxElement, NovoChipElement, NovoChipsElement, NovoChipsModule, NovoCommonModule, NovoControlElement, NovoControlGroup, NovoControlTemplates, NovoDataTable, NovoDataTableClearButton, NovoDataTableFilterUtils, NovoDataTableModule, NovoDatePickerElement, NovoDatePickerInputElement, NovoDatePickerModule, NovoDateTimePickerElement, NovoDateTimePickerInputElement, NovoDateTimePickerModule, NovoDragulaElement, NovoDragulaModule, NovoDragulaService, NovoDropDownItemHeaderElement, NovoDropdownCell, NovoDropdownElement, NovoDropdownListElement, NovoDropdownModule, NovoDynamicFormElement, NovoElementProviders, NovoElementsModule, NovoEventTypeLegendElement, NovoExpansionModule, NovoExpansionPanel, NovoExpansionPanelActionRow, NovoExpansionPanelContent, NovoExpansionPanelDescription, NovoExpansionPanelHeader, NovoExpansionPanelTitle, NovoFieldsetHeaderElement, NovoFile, NovoFileInputElement, NovoFormControl, NovoFormElement, NovoFormExtrasModule, NovoFormGroup, NovoFormModule, NovoHeaderComponent, NovoHeaderModule, NovoHeaderSpacer, NovoHorizontalStepper, NovoIconComponent, NovoIconModule, NovoIsLoadingDirective, NovoItemAvatarElement, NovoItemContentElement, NovoItemDateElement, NovoItemElement, NovoItemEndElement, NovoItemHeaderElement, NovoItemTitleElement, NovoLabelService, NovoListElement, NovoListItemElement, NovoListModule, NovoLoadedDirective, NovoLoadingElement, NovoLoadingModule, NovoModalElement, NovoModalModule, NovoModalNotificationElement, NovoModalParams, NovoModalRef, NovoModalService, NovoMultiPickerElement, NovoMultiPickerModule, NovoNavContentElement, NovoNavElement, NovoNavHeaderElement, NovoNavOutletElement, NovoNovoCKEditorModule, NovoOverlayModule, NovoOverlayTemplateComponent, NovoPickerElement, NovoPickerModule, NovoPipesModule, NovoPopOverModule, NovoQuickNoteModule, NovoRadioElement, NovoRadioGroup, NovoRadioModule, NovoRowChipElement, NovoRowChipsElement, NovoSearchBoxElement, NovoSearchBoxModule, NovoSelectElement, NovoSelectModule, NovoSelection, NovoSimpleActionCell, NovoSimpleCell, NovoSimpleCellDef, NovoSimpleCellHeader, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleColumnDef, NovoSimpleEmptyHeaderCell, NovoSimpleFilterFocus, NovoSimpleHeaderCell, NovoSimpleHeaderCellDef, NovoSimpleHeaderRow, NovoSimpleHeaderRowDef, NovoSimpleRow, NovoSimpleRowDef, NovoSimpleTableModule, NovoSimpleTablePagination, NovoSkeletonDirective, NovoSliderElement, NovoSliderModule, NovoSortFilter, NovoSpinnerElement, NovoStep, NovoStepHeader, NovoStepLabel, NovoStepStatus, NovoStepper, NovoStepperModule, NovoSwitchElement, NovoSwitchModule, NovoTabButtonElement, NovoTabElement, NovoTabLinkElement, NovoTabModule, NovoTabbedGroupPickerElement, NovoTabbedGroupPickerModule, NovoTable, NovoTableActionsElement, NovoTableElement, NovoTableExtrasModule, NovoTableFooterElement, NovoTableHeaderElement, NovoTableKeepFilterFocus, NovoTableMode, NovoTableModule, NovoTemplate, NovoTemplateService, NovoTilesElement, NovoTilesModule, NovoTimePickerElement, NovoTimePickerInputElement, NovoTimePickerModule, NovoTipWellElement, NovoTipWellModule, NovoToastElement, NovoToastModule, NovoToastService, NovoTooltipModule, NovoUtilActionComponent, NovoUtilsComponent, NovoValueElement, NovoValueModule, NovoVerticalStepper, OptionsService, OutsideClick, PagedArrayCollection, Pagination, PercentageCell, PickerControl, PickerResults, PlacesListComponent, PluralPipe, PopOverContent, PopOverDirective, QuickNoteControl, QuickNoteElement, QuickNoteResults, RadioControl, ReadOnlyControl, RemoteActivityTableService, RemoteDataTableService, RenderPipe, RowDetails, Security, SelectControl, SkillsSpecialtyPickerResults, StaticActivityTableService, StaticDataTableService, TableCell, TableFilter, TablePickerControl, TextAreaControl, TextBoxControl, ThOrderable, ThSortable, TilesControl, TimeControl, TooltipDirective, Unless, UnlessModule, WeekdayPipe, WorkersCompCodesPickerResults, YearPipe, findByCountryCode, findByCountryId, findByCountryName, getCountries, getStateObjects, getStates, notify, NovoFieldsetElement as ɵa, NovoModalContainerElement as ɵb, NovoTooltip as ɵc, DataTableState as ɵd, NovoDataTableCellHeader as ɵe, NovoDataTableSortFilter as ɵf, DateFormatService as ɵg, NovoDataTableHeaderCell as ɵh, NovoDataTableCell as ɵi, NovoDataTableHeaderRow as ɵj, NovoDataTableRow as ɵk, NovoDataTablePagination as ɵl, NovoDataTableCheckboxCell as ɵm, NovoDataTableCheckboxHeaderCell as ɵn, NovoDataTableExpandCell as ɵo, NovoDataTableExpandHeaderCell as ɵp, NovoDataTableExpandDirective as ɵq, novoExpansionAnimations as ɵr, ControlConfirmModal as ɵs, ControlPromptModal as ɵt, novoStepperAnimations as ɵu };
+export { AceEditorControl, ActivityTableDataSource, ActivityTableRenderers, AddressControl, AppBridge, AppBridgeHandler, AppBridgeService, ArrayCollection, BaseControl, BasePickerResults, BaseRenderer, BrowserGlobalRef, COUNTRIES, CalendarEventResponse, CardActionsElement, CardElement, CheckListControl, CheckboxControl, ChecklistPickerResults, CollectionEvent, ComponentUtils, ControlFactory, CustomControl, DataTableBigDecimalRendererPipe, DataTableInterpolatePipe, DateCell, DateControl, DateTableCurrencyRendererPipe, DateTableDateRendererPipe, DateTableDateTimeRendererPipe, DateTableNumberRendererPipe, DateTableTimeRendererPipe, DateTimeControl, DayOfMonthPipe, DecodeURIPipe, Deferred, DevAppBridge, DevAppBridgeService, DistributionListPickerResults, EditorControl, EndOfWeekDisplayPipe, EntityList, EntityPickerResult, EntityPickerResults, FieldInteractionApi, FileControl, FormUtils, FormValidators, GlobalRef, GooglePlacesModule, GooglePlacesService, GroupByPipe, GroupedControl, GroupedMultiPickerResults, Helpers, HoursPipe, KeyCodes, LocalStorageService, MixedMultiPickerResults, MonthDayPipe, MonthPipe, NOVO_VALUE_THEME, NOVO_VALUE_TYPE, NativeSelectControl, NovoAccordion, NovoAceEditor, NovoAceEditorModule, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableCustomHeader, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableState, NovoAddressElement, NovoAutoSize, NovoButtonElement, NovoButtonModule, NovoCKEditorElement, NovoCalendarAllDayEventElement, NovoCalendarDateChangeElement, NovoCalendarDayEventElement, NovoCalendarDayViewElement, NovoCalendarHourSegmentElement, NovoCalendarModule, NovoCalendarMonthDayElement, NovoCalendarMonthHeaderElement, NovoCalendarMonthViewElement, NovoCalendarWeekEventElement, NovoCalendarWeekHeaderElement, NovoCalendarWeekViewElement, NovoCardModule, NovoCategoryDropdownElement, NovoCategoryDropdownModule, NovoCheckListElement, NovoCheckboxElement, NovoChipElement, NovoChipsElement, NovoChipsModule, NovoCommonModule, NovoControlElement, NovoControlGroup, NovoControlTemplates, NovoDataTable, NovoDataTableClearButton, NovoDataTableFilterUtils, NovoDataTableModule, NovoDatePickerElement, NovoDatePickerInputElement, NovoDatePickerModule, NovoDateTimePickerElement, NovoDateTimePickerInputElement, NovoDateTimePickerModule, NovoDragulaElement, NovoDragulaModule, NovoDragulaService, NovoDropDownItemHeaderElement, NovoDropdownCell, NovoDropdownElement, NovoDropdownListElement, NovoDropdownModule, NovoDynamicFormElement, NovoElementProviders, NovoElementsModule, NovoEventTypeLegendElement, NovoExpansionModule, NovoExpansionPanel, NovoExpansionPanelActionRow, NovoExpansionPanelContent, NovoExpansionPanelDescription, NovoExpansionPanelHeader, NovoExpansionPanelTitle, NovoFieldsetHeaderElement, NovoFile, NovoFileInputElement, NovoFormControl, NovoFormElement, NovoFormExtrasModule, NovoFormGroup, NovoFormModule, NovoHeaderComponent, NovoHeaderModule, NovoHeaderSpacer, NovoHorizontalStepper, NovoIconComponent, NovoIconModule, NovoIsLoadingDirective, NovoItemAvatarElement, NovoItemContentElement, NovoItemDateElement, NovoItemElement, NovoItemEndElement, NovoItemHeaderElement, NovoItemTitleElement, NovoLabelService, NovoListElement, NovoListItemElement, NovoListModule, NovoLoadedDirective, NovoLoadingElement, NovoLoadingModule, NovoModalElement, NovoModalModule, NovoModalNotificationElement, NovoModalParams, NovoModalRef, NovoModalService, NovoMultiPickerElement, NovoMultiPickerModule, NovoNavContentElement, NovoNavElement, NovoNavHeaderElement, NovoNavOutletElement, NovoNovoCKEditorModule, NovoOverlayModule, NovoOverlayTemplateComponent, NovoPickerElement, NovoPickerModule, NovoPipesModule, NovoPopOverModule, NovoQuickNoteModule, NovoRadioElement, NovoRadioGroup, NovoRadioModule, NovoRowChipElement, NovoRowChipsElement, NovoSearchBoxElement, NovoSearchBoxModule, NovoSelectElement, NovoSelectModule, NovoSelection, NovoSimpleActionCell, NovoSimpleCell, NovoSimpleCellDef, NovoSimpleCellHeader, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleColumnDef, NovoSimpleEmptyHeaderCell, NovoSimpleFilterFocus, NovoSimpleHeaderCell, NovoSimpleHeaderCellDef, NovoSimpleHeaderRow, NovoSimpleHeaderRowDef, NovoSimpleRow, NovoSimpleRowDef, NovoSimpleTableModule, NovoSimpleTablePagination, NovoSkeletonDirective, NovoSliderElement, NovoSliderModule, NovoSortFilter, NovoSpinnerElement, NovoStep, NovoStepHeader, NovoStepLabel, NovoStepStatus, NovoStepper, NovoStepperModule, NovoSwitchElement, NovoSwitchModule, NovoTabButtonElement, NovoTabElement, NovoTabLinkElement, NovoTabModule, NovoTabbedGroupPickerElement, NovoTabbedGroupPickerModule, NovoTable, NovoTableActionsElement, NovoTableElement, NovoTableExtrasModule, NovoTableFooterElement, NovoTableHeaderElement, NovoTableKeepFilterFocus, NovoTableMode, NovoTableModule, NovoTemplate, NovoTemplateService, NovoTilesElement, NovoTilesModule, NovoTimePickerElement, NovoTimePickerInputElement, NovoTimePickerModule, NovoTipWellElement, NovoTipWellModule, NovoToastElement, NovoToastModule, NovoToastService, NovoTooltipModule, NovoUtilActionComponent, NovoUtilsComponent, NovoValueElement, NovoValueModule, NovoVerticalStepper, OptionsService, OutsideClick, PagedArrayCollection, Pagination, PercentageCell, PickerControl, PickerResults, PlacesListComponent, PluralPipe, PopOverContent, PopOverDirective, QuickNoteControl, QuickNoteElement, QuickNoteResults, RadioControl, ReadOnlyControl, RemoteActivityTableService, RemoteDataTableService, RenderPipe, RowDetails, Security, SelectControl, SkillsSpecialtyPickerResults, StaticActivityTableService, StaticDataTableService, TableCell, TableFilter, TablePickerControl, TextAreaControl, TextBoxControl, ThOrderable, ThSortable, TilesControl, TimeControl, TooltipDirective, Unless, UnlessModule, WeekdayPipe, WorkersCompCodesPickerResults, YearPipe, findByCountryCode, findByCountryId, findByCountryName, getCountries, getStateObjects, getStates, notify, NovoFieldsetElement as ɵa, NovoModalContainerElement as ɵb, NovoTooltip as ɵc, DataTableState as ɵd, NovoDataTableCellHeader as ɵe, NovoDataTableSortFilter as ɵf, DateFormatService as ɵg, NovoDataTableHeaderCell as ɵh, NovoDataTableCell as ɵi, NovoDataTableHeaderRow as ɵj, NovoDataTableRow as ɵk, NovoDataTablePagination as ɵl, NovoDataTableCheckboxCell as ɵm, NovoDataTableCheckboxHeaderCell as ɵn, NovoDataTableExpandCell as ɵo, NovoDataTableExpandHeaderCell as ɵp, NovoDataTableExpandDirective as ɵq, novoExpansionAnimations as ɵr, ControlConfirmModal as ɵs, ControlPromptModal as ɵt, novoStepperAnimations as ɵu };
 //# sourceMappingURL=novo-elements.js.map
