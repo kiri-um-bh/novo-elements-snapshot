@@ -1,12 +1,11 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './Card';
-import * as ɵngcc2 from '@angular/common';
-import * as ɵngcc3 from '../button/Button.module';
-import * as ɵngcc4 from '../loading/Loading.module';
-import * as ɵngcc5 from '../tooltip/Tooltip.module';
+import * as i0 from "@angular/core";
+import * as i1 from "./Card";
+import * as i2 from "@angular/common";
+import * as i3 from "../icon/Icon.module";
+import * as i4 from "../button/Button.module";
+import * as i5 from "../loading/Loading.module";
+import * as i6 from "../tooltip/Tooltip.module";
 export declare class NovoCardModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoCardModule, [typeof ɵngcc1.CardElement, typeof ɵngcc1.CardActionsElement], [typeof ɵngcc2.CommonModule, typeof ɵngcc3.NovoButtonModule, typeof ɵngcc4.NovoLoadingModule, typeof ɵngcc5.NovoTooltipModule], [typeof ɵngcc1.CardElement, typeof ɵngcc1.CardActionsElement]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoCardModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoCardModule, [typeof i1.CardElement, typeof i1.CardActionsElement, typeof i1.CardContentElement, typeof i1.CardHeaderElement, typeof i1.CardFooterElement], [typeof i2.CommonModule, typeof i3.NovoIconModule, typeof i4.NovoButtonModule, typeof i5.NovoLoadingModule, typeof i6.NovoTooltipModule], [typeof i1.CardElement, typeof i1.CardActionsElement, typeof i1.CardContentElement, typeof i1.CardHeaderElement, typeof i1.CardFooterElement]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoCardModule>;
 }
-
-//# sourceMappingURL=Card.module.d.ts.map

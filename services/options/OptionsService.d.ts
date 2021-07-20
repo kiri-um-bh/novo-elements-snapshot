@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import * as ɵngcc0 from '@angular/core';
+import * as i0 from "@angular/core";
 export declare class OptionsService {
     constructor();
     getOptionsConfig(http: HttpClient, field: any, config: {
@@ -7,8 +7,6 @@ export declare class OptionsService {
         restUrl?: string;
         military?: boolean;
     }): any;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<OptionsService, never>;
-    static ɵprov: ɵngcc0.ɵɵInjectableDef<OptionsService>;
+    static ɵfac: i0.ɵɵFactoryDef<OptionsService, never>;
+    static ɵprov: i0.ɵɵInjectableDef<OptionsService>;
 }
-
-//# sourceMappingURL=OptionsService.d.ts.map

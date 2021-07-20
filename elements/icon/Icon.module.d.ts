@@ -1,8 +1,7 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './Icon';
+import * as i0 from "@angular/core";
+import * as i1 from "./Icon";
+import * as i2 from "@angular/cdk/observers";
 export declare class NovoIconModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoIconModule, [typeof ɵngcc1.NovoIconComponent], never, [typeof ɵngcc1.NovoIconComponent]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoIconModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoIconModule, [typeof i1.NovoIconComponent], [typeof i2.ObserversModule], [typeof i1.NovoIconComponent]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoIconModule>;
 }
-
-//# sourceMappingURL=Icon.module.d.ts.map

@@ -1,6 +1,6 @@
-import { OnDestroy, ViewContainerRef, ElementRef, OnInit } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
-import * as ɵngcc0 from '@angular/core';
+import { ElementRef, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import * as i0 from "@angular/core";
 export declare class TooltipDirective implements OnDestroy, OnInit {
     protected overlay: Overlay;
     private viewContainerRef;
@@ -32,8 +32,6 @@ export declare class TooltipDirective implements OnDestroy, OnInit {
     private hide;
     private getPosition;
     private withFallbackStrategy;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<TooltipDirective, never>;
-    static ɵdir: ɵngcc0.ɵɵDirectiveDefWithMeta<TooltipDirective, "[tooltip]", never, { "position": "tooltipPosition"; "type": "tooltipType"; "active": "tooltipActive"; "removeArrow": "removeTooltipArrow"; "autoPosition": "tooltipAutoPosition"; "tooltip": "tooltip"; "size": "tooltipSize"; "bounce": "tooltipBounce"; "noAnimate": "tooltipNoAnimate"; "rounded": "tooltipRounded"; "always": "tooltipAlways"; "preline": "tooltipPreline"; }, {}, never>;
+    static ɵfac: i0.ɵɵFactoryDef<TooltipDirective, never>;
+    static ɵdir: i0.ɵɵDirectiveDefWithMeta<TooltipDirective, "[tooltip]", never, { "tooltip": "tooltip"; "position": "tooltipPosition"; "type": "tooltipType"; "size": "tooltipSize"; "bounce": "tooltipBounce"; "noAnimate": "tooltipNoAnimate"; "rounded": "tooltipRounded"; "always": "tooltipAlways"; "active": "tooltipActive"; "preline": "tooltipPreline"; "removeArrow": "removeTooltipArrow"; "autoPosition": "tooltipAutoPosition"; }, {}, never>;
 }
-
-//# sourceMappingURL=Tooltip.directive.d.ts.map

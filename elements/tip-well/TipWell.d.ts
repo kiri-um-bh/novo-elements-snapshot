@@ -1,7 +1,7 @@
-import { OnInit, EventEmitter } from '@angular/core';
-import { NovoLabelService } from '../../services/novo-label-service';
+import { EventEmitter, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import * as ɵngcc0 from '@angular/core';
+import { NovoLabelService } from '../../services/novo-label-service';
+import * as i0 from "@angular/core";
 export declare class NovoTipWellElement implements OnInit {
     private labels;
     private sanitizer;
@@ -21,8 +21,6 @@ export declare class NovoTipWellElement implements OnInit {
     get tipWithStyles(): SafeHtml;
     ngOnInit(): void;
     hideTip(): void;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoTipWellElement, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoTipWellElement, "novo-tip-well", never, { "button": "button"; "sanitize": "sanitize"; "tip": "tip"; "buttonText": "buttonText"; "icon": "icon"; "name": "name"; }, { "confirmed": "confirmed"; }, never, never>;
+    static ɵfac: i0.ɵɵFactoryDef<NovoTipWellElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoTipWellElement, "novo-tip-well", never, { "name": "name"; "tip": "tip"; "buttonText": "buttonText"; "button": "button"; "icon": "icon"; "sanitize": "sanitize"; }, { "confirmed": "confirmed"; }, never, never>;
 }
-
-//# sourceMappingURL=TipWell.d.ts.map

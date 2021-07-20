@@ -1,11 +1,9 @@
 import { ComponentFactoryResolver, ComponentRef, StaticProvider, Type, ViewContainerRef } from '@angular/core';
-import * as ɵngcc0 from '@angular/core';
-export declare class ComponentUtils {
+import * as i0 from "@angular/core";
+export declare class ComponentUtils<T = any> {
     componentFactoryResolver: ComponentFactoryResolver;
     constructor(componentFactoryResolver: ComponentFactoryResolver);
     append<T>(ComponentClass: Type<T>, location: ViewContainerRef, providers?: StaticProvider[], onTop?: boolean): ComponentRef<T>;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<ComponentUtils, never>;
-    static ɵprov: ɵngcc0.ɵɵInjectableDef<ComponentUtils>;
+    static ɵfac: i0.ɵɵFactoryDef<ComponentUtils<any>, never>;
+    static ɵprov: i0.ɵɵInjectableDef<ComponentUtils<any>>;
 }
-
-//# sourceMappingURL=ComponentUtils.d.ts.map

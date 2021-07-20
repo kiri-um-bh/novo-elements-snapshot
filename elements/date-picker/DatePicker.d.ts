@@ -1,84 +1,106 @@
-import { ElementRef, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, EventEmitter, OnInit } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { NovoLabelService } from '../../services/novo-label-service';
-import * as ɵngcc0 from '@angular/core';
-export interface RangeModal {
-    startDate: Date;
-    endDate: Date;
-}
-export declare type modelTypes = Date | RangeModal;
-export interface Day {
-    date: Date;
-    isCurrentMonth?: boolean;
-    isToday?: boolean;
-    name?: string;
-    number?: string | number;
-}
-export declare type rangeSelectModes = 'startDate' | 'endDate';
-export declare class NovoDatePickerElement implements ControlValueAccessor, OnInit, OnChanges {
+import { DatePickerSelectModes, modelTypes, rangeSelectModes } from './date-picker.types';
+import * as i0 from "@angular/core";
+export declare class NovoDatePickerElement implements ControlValueAccessor, OnInit {
     labels: NovoLabelService;
     private element;
+    private cdr;
+    private _sanitizer;
+    /**
+     * The minimum year to allow selected in year select view
+     **/
     minYear: string | number;
+    /**
+     * The maximum year to allow selected in year select view
+     **/
     maxYear: string | number;
+    /**
+     * The minimum date that can be selected.
+     **/
     start: Date;
+    /**
+     * The maximum date that can be selected.
+     **/
     end: Date;
+    /**
+     * **Deprecated** Whether the date-picker is used outside of an overlay.
+     **/
     inline: boolean;
-    range: boolean;
-    weekRangeSelect: boolean;
+    /**
+     * Day of the week the calendar should display first, Sunday=0...Saturday=6
+     **/
     weekStart: number;
+    /**
+     * Certain dates that are already selected.
+     **/
+    preselected: Date[];
+    /**
+     * Whether the days for the previous and next month should be hidden.
+     **/
+    hideOverflowDays: boolean;
+    /**
+     * Whether the footer which contains `today` button should be hidden.
+     **/
+    hideFooter: boolean;
     onSelect: EventEmitter<any>;
-    weekdays: string[];
-    months: string[];
-    years: Array<any>;
-    view: string;
-    heading: any;
+    _mode: DatePickerSelectModes;
+    _range: boolean;
+    _weekRangeSelect: boolean;
+    _numberOfMonths: number[];
+    /**
+     * Number of months to display at once.
+     * @default 1
+     **/
+    get numberOfMonths(): number;
+    set numberOfMonths(value: number);
+    /**
+     * How the date selection should work.
+     * @default single
+     **/
+    get mode(): DatePickerSelectModes;
+    set mode(value: DatePickerSelectModes);
+    /**
+     * **deprecated** please use `mode="range"`.
+     **/
+    get range(): boolean;
+    set range(value: boolean);
+    /**
+     * **deprecated** please use `mode="week"`.
+     **/
+    get weekRangeSelect(): boolean;
+    set weekRangeSelect(value: boolean);
     model: modelTypes;
-    month: Date;
-    monthLabel: string;
-    weeks: any;
-    selected: Date;
-    selectedLabel: string;
-    selected2: Date;
-    selected2Label: string;
-    hoverDay: any;
+    activeDate: Date;
+    _selection: Date[];
+    preview: Date[];
+    startDateLabel: string;
+    endDateLabel: string;
     rangeSelectMode: rangeSelectModes;
     _onChange: Function;
     _onTouched: Function;
-    constructor(labels: NovoLabelService, element: ElementRef);
+    get selection(): Date[];
+    set selection(value: Date[]);
+    constructor(labels: NovoLabelService, element: ElementRef, cdr: ChangeDetectorRef, _sanitizer: DomSanitizer);
     ngOnInit(): void;
-    ngOnChanges(changes: SimpleChanges): void;
-    setupWeekdays(): string[];
-    isSelectingRange(range: any, day: any, selected: any, selected2: any, hoverDay: any, rangeSelectMode: any, weekRangeSelect: any): boolean;
-    isEndFill(range: any, day: any, selected: any, selected2: any): boolean;
-    isStartFill(range: any, day: any, selected: any, selected2: any): boolean;
-    isFiller(range: any, day: any, selected: any, selected2: any): boolean;
-    isSelected(range: any, day: any, selected: any, selected2: any): boolean;
-    isDisabled(day: any, start: any, end: any): boolean;
-    updateView(date: any, fireEvents: boolean, markedSelected: boolean): void;
-    setToday(): void;
-    clearRange(): void;
-    setMonth(month: number): void;
-    setYear(year: number): void;
-    select(event: Event, day: Day, fireEvents: boolean): void;
+    updateView(date: any): void;
+    updateSelection(selected: Date[], fireEvents?: boolean): void;
+    eventData(date: Date): {
+        year: number;
+        month: any;
+        day: any;
+        date: Date;
+    };
+    fireSelect(): void;
     fireRangeSelect(): void;
-    open(event: Event, type: string): void;
-    prevMonth(event: Event): void;
-    nextMonth(event: Event): void;
-    updateHeading(): void;
-    /**
-     * Remove the time aspect of the date
-     * @returns with time stripped out
-     */
-    removeTime(date: any): Date;
-    buildMonth(start: Date, month: Date): void;
-    buildWeek(date: Date, month: Date): Array<Object>;
+    setToday(): void;
     toggleRangeSelect(range: rangeSelectModes): void;
-    rangeHover(event: Event, day: Day): void;
+    modelToSelection(model: modelTypes): void;
     writeValue(model: modelTypes): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoDatePickerElement, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoDatePickerElement, "novo-date-picker", never, { "weekStart": "weekStart"; "minYear": "minYear"; "maxYear": "maxYear"; "start": "start"; "end": "end"; "inline": "inline"; "range": "range"; "weekRangeSelect": "weekRangeSelect"; }, { "onSelect": "onSelect"; }, never, never>;
+    static ɵfac: i0.ɵɵFactoryDef<NovoDatePickerElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoDatePickerElement, "novo-date-picker", never, { "minYear": "minYear"; "maxYear": "maxYear"; "start": "start"; "end": "end"; "inline": "inline"; "weekStart": "weekStart"; "preselected": "preselected"; "hideOverflowDays": "hideOverflowDays"; "hideFooter": "hideFooter"; "numberOfMonths": "numberOfMonths"; "mode": "mode"; "range": "range"; "weekRangeSelect": "weekRangeSelect"; }, { "onSelect": "onSelect"; }, never, never>;
 }
-
-//# sourceMappingURL=DatePicker.d.ts.map

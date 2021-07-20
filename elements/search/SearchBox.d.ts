@@ -1,7 +1,7 @@
-import { EventEmitter, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, EventEmitter, NgZone } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../services/novo-label-service';
-import * as ɵngcc0 from '@angular/core';
+import * as i0 from "@angular/core";
 export declare class NovoSearchBoxElement implements ControlValueAccessor {
     element: ElementRef;
     labels: NovoLabelService;
@@ -9,9 +9,11 @@ export declare class NovoSearchBoxElement implements ControlValueAccessor {
     private _zone;
     name: string;
     icon: string;
+    position: string;
     placeholder: string;
     alwaysOpen: boolean;
     theme: string;
+    color: string;
     closeOnSelect: boolean;
     displayField: string;
     displayValue: string;
@@ -57,8 +59,6 @@ export declare class NovoSearchBoxElement implements ControlValueAccessor {
      * Clear any previous selected option and emit a selection change event for this option
      */
     clearValue(skip: any): void;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoSearchBoxElement, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoSearchBoxElement, "novo-search", never, { "icon": "icon"; "placeholder": "placeholder"; "alwaysOpen": "alwaysOpen"; "theme": "theme"; "closeOnSelect": "closeOnSelect"; "displayValue": "displayValue"; "name": "name"; "displayField": "displayField"; "hint": "hint"; }, { "searchChanged": "searchChanged"; }, never, ["*"]>;
+    static ɵfac: i0.ɵɵFactoryDef<NovoSearchBoxElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoSearchBoxElement, "novo-search", never, { "name": "name"; "icon": "icon"; "position": "position"; "placeholder": "placeholder"; "alwaysOpen": "alwaysOpen"; "theme": "theme"; "color": "color"; "closeOnSelect": "closeOnSelect"; "displayField": "displayField"; "displayValue": "displayValue"; "hint": "hint"; }, { "searchChanged": "searchChanged"; }, never, ["*"]>;
 }
-
-//# sourceMappingURL=SearchBox.d.ts.map

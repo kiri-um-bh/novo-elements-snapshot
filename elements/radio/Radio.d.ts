@@ -1,33 +1,42 @@
-import { ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { ChangeDetectorRef, EventEmitter, OnInit } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import * as ɵngcc0 from '@angular/core';
-export declare class NovoRadioGroup {
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoRadioGroup, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoRadioGroup, "novo-radio-group", never, {}, {}, never, ["*"]>;
-}
-export declare class NovoRadioElement implements ControlValueAccessor {
+import { RadioGroup } from './tokens';
+import * as i0 from "@angular/core";
+export declare class NovoRadioElement implements ControlValueAccessor, OnInit {
+    radioGroup: RadioGroup;
     private ref;
+    private _uniqueId;
+    id: string;
     name: string;
-    value: any;
-    checked: boolean;
+    tabindex: number;
     vertical: boolean;
     label: string;
     button: boolean;
     theme: string;
+    size: string;
     icon: string;
-    disabled: boolean;
+    color: string;
     change: EventEmitter<any>;
-    model: any;
-    onModelChange: Function;
-    onModelTouched: Function;
-    constructor(ref: ChangeDetectorRef);
-    select(event: MouseEvent): void;
-    writeValue(model: any): void;
-    registerOnChange(fn: Function): void;
-    registerOnTouched(fn: Function): void;
+    blur: EventEmitter<any>;
+    focus: EventEmitter<any>;
+    private _checked;
+    private _value;
+    private _disabled;
+    get checked(): boolean;
+    set checked(value: boolean);
+    get value(): boolean;
+    set value(value: boolean);
+    get disabled(): boolean;
+    set disabled(value: boolean);
+    constructor(radioGroup: RadioGroup, ref: ChangeDetectorRef);
+    ngOnInit(): void;
+    _onInputChange(event: Event): void;
+    writeValue(value: any): void;
+    registerOnChange(fn: any): void;
+    registerOnTouched(fn: any): void;
+    private onChangeCallback;
+    private onTouchedCallback;
     setDisabledState(disabled: boolean): void;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoRadioElement, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoRadioElement, "novo-radio", never, { "button": "button"; "theme": "theme"; "disabled": "disabled"; "checked": "checked"; "name": "name"; "value": "value"; "vertical": "vertical"; "label": "label"; "icon": "icon"; }, { "change": "change"; }, never, ["*"]>;
+    static ɵfac: i0.ɵɵFactoryDef<NovoRadioElement, [{ optional: true; }, null]>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoRadioElement, "novo-radio", never, { "id": "id"; "name": "name"; "tabindex": "tabindex"; "vertical": "vertical"; "label": "label"; "button": "button"; "theme": "theme"; "size": "size"; "icon": "icon"; "color": "color"; "checked": "checked"; "value": "value"; "disabled": "disabled"; }, { "change": "change"; "blur": "blur"; "focus": "focus"; }, never, ["*"]>;
 }
-
-//# sourceMappingURL=Radio.d.ts.map

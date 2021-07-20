@@ -1,11 +1,10 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './Value';
-import * as ɵngcc2 from './Render';
-import * as ɵngcc3 from './EntityList';
-import * as ɵngcc4 from '@angular/common';
+import * as i0 from "@angular/core";
+import * as i1 from "./Value";
+import * as i2 from "./Render";
+import * as i3 from "./EntityList";
+import * as i4 from "@angular/common";
+import * as i5 from "../common/common.module";
 export declare class NovoValueModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoValueModule, [typeof ɵngcc1.NovoValueElement, typeof ɵngcc2.RenderPipe, typeof ɵngcc3.EntityList], [typeof ɵngcc4.CommonModule], [typeof ɵngcc1.NovoValueElement, typeof ɵngcc2.RenderPipe, typeof ɵngcc3.EntityList]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoValueModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoValueModule, [typeof i1.NovoValueElement, typeof i2.RenderPipe, typeof i3.EntityList], [typeof i4.CommonModule, typeof i5.NovoCommonModule], [typeof i1.NovoValueElement, typeof i2.RenderPipe, typeof i3.EntityList]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoValueModule>;
 }
-
-//# sourceMappingURL=Value.module.d.ts.map

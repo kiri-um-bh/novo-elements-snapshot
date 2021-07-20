@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, ElementRef, EventEmitter } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NovoLabelService } from '../../services/novo-label-service';
-import * as ɵngcc0 from '@angular/core';
+import * as i0 from "@angular/core";
 export declare class NovoDateTimePickerInputElement implements ControlValueAccessor {
     element: ElementRef;
     labels: NovoLabelService;
@@ -24,7 +24,6 @@ export declare class NovoDateTimePickerInputElement implements ControlValueAcces
     weekStart: number;
     blurEvent: EventEmitter<FocusEvent>;
     focusEvent: EventEmitter<FocusEvent>;
-    changeEvent: EventEmitter<FocusEvent>;
     constructor(element: ElementRef, labels: NovoLabelService, _changeDetectorRef: ChangeDetectorRef);
     writeValue(value: any): void;
     updateDate(event: any): void;
@@ -44,8 +43,6 @@ export declare class NovoDateTimePickerInputElement implements ControlValueAcces
      */
     clearValue(): void;
     get hasValue(): boolean;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoDateTimePickerInputElement, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoDateTimePickerInputElement, "novo-date-time-picker-input", never, { "military": "military"; "disabled": "disabled"; "weekStart": "weekStart"; "name": "name"; "start": "start"; "end": "end"; "placeholder": "placeholder"; "maskOptions": "maskOptions"; "format": "format"; }, { "blurEvent": "blurEvent"; "focusEvent": "focusEvent"; "changeEvent": "changeEvent"; }, never, never>;
+    static ɵfac: i0.ɵɵFactoryDef<NovoDateTimePickerInputElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoDateTimePickerInputElement, "novo-date-time-picker-input", never, { "name": "name"; "start": "start"; "end": "end"; "placeholder": "placeholder"; "maskOptions": "maskOptions"; "military": "military"; "disabled": "disabled"; "format": "format"; "weekStart": "weekStart"; }, { "blurEvent": "blurEvent"; "focusEvent": "focusEvent"; }, never, never>;
 }
-
-//# sourceMappingURL=DateTimePickerInput.d.ts.map

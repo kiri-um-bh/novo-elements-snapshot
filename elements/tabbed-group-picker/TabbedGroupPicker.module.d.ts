@@ -1,16 +1,14 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './TabbedGroupPicker';
-import * as ɵngcc2 from '@angular/common';
-import * as ɵngcc3 from '@angular/forms';
-import * as ɵngcc4 from '@angular/cdk/scrolling';
-import * as ɵngcc5 from '../tabs/Tabs.module';
-import * as ɵngcc6 from '../list/List.module';
-import * as ɵngcc7 from '../form/extras/FormExtras.module';
-import * as ɵngcc8 from '../button/Button.module';
-import * as ɵngcc9 from '../dropdown/Dropdown.module';
+import * as i0 from "@angular/core";
+import * as i1 from "./TabbedGroupPicker";
+import * as i2 from "@angular/common";
+import * as i3 from "@angular/forms";
+import * as i4 from "@angular/cdk/scrolling";
+import * as i5 from "../tabs/Tabs.module";
+import * as i6 from "../list/List.module";
+import * as i7 from "../form/extras/FormExtras.module";
+import * as i8 from "../button/Button.module";
+import * as i9 from "../dropdown/Dropdown.module";
 export declare class NovoTabbedGroupPickerModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoTabbedGroupPickerModule, [typeof ɵngcc1.NovoTabbedGroupPickerElement], [typeof ɵngcc2.CommonModule, typeof ɵngcc3.FormsModule, typeof ɵngcc4.ScrollingModule, typeof ɵngcc5.NovoTabModule, typeof ɵngcc6.NovoListModule, typeof ɵngcc7.NovoFormExtrasModule, typeof ɵngcc8.NovoButtonModule, typeof ɵngcc9.NovoDropdownModule], [typeof ɵngcc1.NovoTabbedGroupPickerElement]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoTabbedGroupPickerModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoTabbedGroupPickerModule, [typeof i1.NovoTabbedGroupPickerElement], [typeof i2.CommonModule, typeof i3.FormsModule, typeof i4.ScrollingModule, typeof i5.NovoTabModule, typeof i6.NovoListModule, typeof i7.NovoFormExtrasModule, typeof i8.NovoButtonModule, typeof i9.NovoDropdownModule], [typeof i1.NovoTabbedGroupPickerElement]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoTabbedGroupPickerModule>;
 }
-
-//# sourceMappingURL=TabbedGroupPicker.module.d.ts.map

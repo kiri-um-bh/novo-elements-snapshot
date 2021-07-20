@@ -1,8 +1,8 @@
 import { AfterContentInit, OnInit, QueryList } from '@angular/core';
 import { NovoTemplateService } from '../../services/template/NovoTemplateService';
 import { NovoTemplate } from '../common/novo-template/novo-template.directive';
-import { NovoFormGroup } from './FormInterfaces';
-import * as ɵngcc0 from '@angular/core';
+import { NovoFormGroup } from './NovoFormGroup';
+import * as i0 from "@angular/core";
 export declare class NovoFormElement implements AfterContentInit, OnInit {
     private templates;
     form: NovoFormGroup;
@@ -19,8 +19,6 @@ export declare class NovoFormElement implements AfterContentInit, OnInit {
     showAllFields(): void;
     showOnlyRequired(hideRequiredWithValue: any): void;
     forceValidation(): void;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoFormElement, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoFormElement, "novo-form", never, { "hideHeader": "hideHeader"; "form": "form"; "layout": "layout"; }, {}, ["customTemplates"], ["form-title", "form-subtitle", "*"]>;
+    static ɵfac: i0.ɵɵFactoryDef<NovoFormElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoFormElement, "novo-form", never, { "form": "form"; "layout": "layout"; "hideHeader": "hideHeader"; }, {}, ["customTemplates"], ["form-title", "form-subtitle", "*"]>;
 }
-
-//# sourceMappingURL=Form.d.ts.map

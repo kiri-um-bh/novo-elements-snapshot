@@ -1,9 +1,8 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './Toast';
-import * as ɵngcc2 from '@angular/common';
+import * as i0 from "@angular/core";
+import * as i1 from "./Toast";
+import * as i2 from "@angular/common";
+import * as i3 from "../button/Button.module";
 export declare class NovoToastModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoToastModule, [typeof ɵngcc1.NovoToastElement], [typeof ɵngcc2.CommonModule], [typeof ɵngcc1.NovoToastElement]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoToastModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoToastModule, [typeof i1.NovoToastElement], [typeof i2.CommonModule, typeof i3.NovoButtonModule], [typeof i1.NovoToastElement]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoToastModule>;
 }
-
-//# sourceMappingURL=Toast.module.d.ts.map

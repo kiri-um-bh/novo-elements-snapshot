@@ -1,11 +1,13 @@
-import { OnInit, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
+import { EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import * as ɵngcc0 from '@angular/core';
+import { DeferredPromise } from '../../utils';
+import * as i0 from "@angular/core";
 export declare class NovoToastElement implements OnInit, OnChanges {
     private sanitizer;
     theme: string;
     icon: string;
     title: string;
+    action: string;
     hasDialogue: boolean;
     link: string;
     isCloseable: boolean;
@@ -21,13 +23,14 @@ export declare class NovoToastElement implements OnInit, OnChanges {
     iconClass: string;
     alertTheme: string;
     embedded: any;
+    onActionPromise: DeferredPromise;
     constructor(sanitizer: DomSanitizer);
     ngOnInit(): void;
     ngOnChanges(changes?: SimpleChanges): void;
     clickHandler(event: any): void;
     close(event: any): void;
-    static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoToastElement, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoToastElement, "novo-toast", never, { "theme": "theme"; "icon": "icon"; "hasDialogue": "hasDialogue"; "isCloseable": "isCloseable"; "message": "message"; "title": "title"; "link": "link"; }, { "closed": "closed"; }, never, ["*"]>;
+    actionHandler(event: any): void;
+    onAction(fn: () => void): Promise<void>;
+    static ɵfac: i0.ɵɵFactoryDef<NovoToastElement, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<NovoToastElement, "novo-toast", never, { "theme": "theme"; "icon": "icon"; "title": "title"; "action": "action"; "hasDialogue": "hasDialogue"; "link": "link"; "isCloseable": "isCloseable"; "message": "message"; }, { "closed": "closed"; }, never, ["*"]>;
 }
-
-//# sourceMappingURL=Toast.d.ts.map

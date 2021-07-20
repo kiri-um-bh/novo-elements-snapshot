@@ -1,10 +1,8 @@
-import * as ɵngcc0 from '@angular/core';
-import * as ɵngcc1 from './Switch';
-import * as ɵngcc2 from '@angular/common';
-import * as ɵngcc3 from '@angular/forms';
+import * as i0 from "@angular/core";
+import * as i1 from "./Switch";
+import * as i2 from "@angular/common";
+import * as i3 from "@angular/forms";
 export declare class NovoSwitchModule {
-    static ɵmod: ɵngcc0.ɵɵNgModuleDefWithMeta<NovoSwitchModule, [typeof ɵngcc1.NovoSwitchElement], [typeof ɵngcc2.CommonModule, typeof ɵngcc3.FormsModule], [typeof ɵngcc1.NovoSwitchElement]>;
-    static ɵinj: ɵngcc0.ɵɵInjectorDef<NovoSwitchModule>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<NovoSwitchModule, [typeof i1.NovoSwitchElement], [typeof i2.CommonModule, typeof i3.FormsModule], [typeof i1.NovoSwitchElement]>;
+    static ɵinj: i0.ɵɵInjectorDef<NovoSwitchModule>;
 }
-
-//# sourceMappingURL=Switch.module.d.ts.map
