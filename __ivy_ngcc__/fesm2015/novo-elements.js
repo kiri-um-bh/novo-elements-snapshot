@@ -1254,6 +1254,88 @@ function GroupedMultiPickerResults_div_17_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelement(1, "novo-loading", 30);
     ɵngcc0.ɵɵelementEnd();
 } }
+function MixedMultiPickerResults_novo_list_item_2_i_2_Template(rf, ctx) { if (rf & 1) {
+    ɵngcc0.ɵɵelement(0, "i");
+} if (rf & 2) {
+    const option_r8 = ɵngcc0.ɵɵnextContext().$implicit;
+    ɵngcc0.ɵɵclassMap(option_r8.iconClass);
+} }
+function MixedMultiPickerResults_novo_list_item_2_item_end_5_Template(rf, ctx) { if (rf & 1) {
+    ɵngcc0.ɵɵelementStart(0, "item-end");
+    ɵngcc0.ɵɵelement(1, "i", 18);
+    ɵngcc0.ɵɵelementEnd();
+} }
+function MixedMultiPickerResults_novo_list_item_2_Template(rf, ctx) { if (rf & 1) {
+    const _r13 = ɵngcc0.ɵɵgetCurrentView();
+    ɵngcc0.ɵɵelementStart(0, "novo-list-item", 14);
+    ɵngcc0.ɵɵlistener("click", function MixedMultiPickerResults_novo_list_item_2_Template_novo_list_item_click_0_listener($event) { ɵngcc0.ɵɵrestoreView(_r13); const option_r8 = ctx.$implicit; const ctx_r12 = ɵngcc0.ɵɵnextContext(); return ctx_r12.selectPrimaryOption(option_r8, $event); });
+    ɵngcc0.ɵɵelementStart(1, "item-content");
+    ɵngcc0.ɵɵtemplate(2, MixedMultiPickerResults_novo_list_item_2_i_2_Template, 1, 2, "i", 15);
+    ɵngcc0.ɵɵelementStart(3, "span", 16);
+    ɵngcc0.ɵɵtext(4);
+    ɵngcc0.ɵɵelementEnd();
+    ɵngcc0.ɵɵelementEnd();
+    ɵngcc0.ɵɵtemplate(5, MixedMultiPickerResults_novo_list_item_2_item_end_5_Template, 2, 0, "item-end", 17);
+    ɵngcc0.ɵɵelementEnd();
+} if (rf & 2) {
+    const option_r8 = ctx.$implicit;
+    const ctx_r0 = ɵngcc0.ɵɵnextContext();
+    ɵngcc0.ɵɵclassProp("active", (ctx_r0.selectedPrimaryOption == null ? null : ctx_r0.selectedPrimaryOption.value) === option_r8.value)("disabled", ctx_r0.isLoading);
+    ɵngcc0.ɵɵattribute("data-automation-id", option_r8.label);
+    ɵngcc0.ɵɵadvance(2);
+    ɵngcc0.ɵɵproperty("ngIf", option_r8.iconClass);
+    ɵngcc0.ɵɵadvance(2);
+    ɵngcc0.ɵɵtextInterpolate(option_r8.label);
+    ɵngcc0.ɵɵadvance(1);
+    ɵngcc0.ɵɵproperty("ngIf", ctx_r0.optionHasSecondaryOptions(option_r8));
+} }
+function MixedMultiPickerResults_i_7_Template(rf, ctx) { if (rf & 1) {
+    ɵngcc0.ɵɵelement(0, "i", 19);
+} if (rf & 2) {
+    const ctx_r2 = ɵngcc0.ɵɵnextContext();
+    ɵngcc0.ɵɵclassProp("disabled", ctx_r2.isLoading);
+} }
+function MixedMultiPickerResults_i_8_Template(rf, ctx) { if (rf & 1) {
+    const _r15 = ɵngcc0.ɵɵgetCurrentView();
+    ɵngcc0.ɵɵelementStart(0, "i", 20);
+    ɵngcc0.ɵɵlistener("click", function MixedMultiPickerResults_i_8_Template_i_click_0_listener($event) { ɵngcc0.ɵɵrestoreView(_r15); const ctx_r14 = ɵngcc0.ɵɵnextContext(); return ctx_r14.clearSearchTerm($event); });
+    ɵngcc0.ɵɵelementEnd();
+} if (rf & 2) {
+    const ctx_r3 = ɵngcc0.ɵɵnextContext();
+    ɵngcc0.ɵɵclassProp("disabled", ctx_r3.isLoading);
+} }
+function MixedMultiPickerResults_novo_list_item_12_Template(rf, ctx) { if (rf & 1) {
+    const _r18 = ɵngcc0.ɵɵgetCurrentView();
+    ɵngcc0.ɵɵelementStart(0, "novo-list-item", 21);
+    ɵngcc0.ɵɵlistener("click", function MixedMultiPickerResults_novo_list_item_12_Template_novo_list_item_click_0_listener($event) { ɵngcc0.ɵɵrestoreView(_r18); const ctx_r17 = ɵngcc0.ɵɵnextContext(); return ctx_r17.selectMatch($event); })("mouseenter", function MixedMultiPickerResults_novo_list_item_12_Template_novo_list_item_mouseenter_0_listener() { ɵngcc0.ɵɵrestoreView(_r18); const match_r16 = ctx.$implicit; const ctx_r19 = ɵngcc0.ɵɵnextContext(); return ctx_r19.selectActive(match_r16); });
+    ɵngcc0.ɵɵelementStart(1, "item-content");
+    ɵngcc0.ɵɵelementStart(2, "span");
+    ɵngcc0.ɵɵtext(3);
+    ɵngcc0.ɵɵelementEnd();
+    ɵngcc0.ɵɵelementEnd();
+    ɵngcc0.ɵɵelementEnd();
+} if (rf & 2) {
+    const match_r16 = ctx.$implicit;
+    const ctx_r5 = ɵngcc0.ɵɵnextContext();
+    ɵngcc0.ɵɵclassProp("active", match_r16 === ctx_r5.activeMatch)("disabled", ctx_r5.preselected(match_r16) || ctx_r5.isLoading);
+    ɵngcc0.ɵɵattribute("data-automation-id", match_r16.label);
+    ɵngcc0.ɵɵadvance(3);
+    ɵngcc0.ɵɵtextInterpolate(match_r16.label);
+} }
+function MixedMultiPickerResults_div_13_Template(rf, ctx) { if (rf & 1) {
+    ɵngcc0.ɵɵelementStart(0, "div", 22);
+    ɵngcc0.ɵɵtext(1);
+    ɵngcc0.ɵɵelementEnd();
+} if (rf & 2) {
+    const ctx_r6 = ɵngcc0.ɵɵnextContext();
+    ɵngcc0.ɵɵadvance(1);
+    ɵngcc0.ɵɵtextInterpolate1(" ", ctx_r6.labels.groupedMultiPickerEmpty, " ");
+} }
+function MixedMultiPickerResults_div_14_Template(rf, ctx) { if (rf & 1) {
+    ɵngcc0.ɵɵelementStart(0, "div", 23);
+    ɵngcc0.ɵɵelement(1, "novo-loading", 24);
+    ɵngcc0.ɵɵelementEnd();
+} }
 function SkillsSpecialtyPickerResults_section_0_Template(rf, ctx) { if (rf & 1) {
     ɵngcc0.ɵɵelementStart(0, "section", 4);
     ɵngcc0.ɵɵelement(1, "novo-loading", 5);
@@ -13858,6 +13940,249 @@ GroupedMultiPickerResults.propDecorators = {
             args: ['list']
         }] }); })();
 
+class MixedMultiPickerResults extends BasePickerResults {
+    constructor(element, renderer, labels, ref) {
+        super(element, ref);
+        this.renderer = renderer;
+        this.labels = labels;
+        this.placeholder = '';
+        this.internalMap = new Map();
+    }
+    set term(value) {
+        if (this.config.placeholder) {
+            this.placeholder = this.config.placeholder;
+        }
+        // Focus
+        setTimeout(() => {
+            this.inputElement.nativeElement.focus();
+        });
+    }
+    get options() {
+        return this.config.options || [];
+    }
+    ngOnDestroy() {
+        // Cleanup
+        if (this.keyboardSubscription) {
+            this.keyboardSubscription.unsubscribe();
+        }
+    }
+    selectPrimaryOption(primaryOption, event) {
+        if (this.keyboardSubscription) {
+            this.keyboardSubscription.unsubscribe();
+        }
+        // Scroll to top
+        this.renderer.setProperty(this.listElement.element.nativeElement, 'scrollTop', 0);
+        // Set focus
+        this.inputElement.nativeElement.focus();
+        // Find new items
+        const key = primaryOption.value;
+        this.selectedPrimaryOption = primaryOption;
+        // Clear
+        this.matches = [];
+        this.ref.markForCheck();
+        // New matches
+        if (this.optionHasSecondaryOptions(primaryOption)) {
+            // Subscribe to keyboard events and debounce
+            this.keyboardSubscription = fromEvent(this.inputElement.nativeElement, 'keyup')
+                .pipe(debounceTime(350), distinctUntilChanged()).subscribe((keyEvent) => {
+                this.searchTerm = keyEvent.target['value'];
+                this.matches = this.filterData();
+                this.ref.markForCheck();
+            });
+            this.getNewMatches(primaryOption);
+        }
+        else {
+            this.selectActive(primaryOption);
+            this.selectMatch(event);
+        }
+    }
+    selectMatch(event) {
+        // Set focus
+        this.inputElement.nativeElement.focus();
+        return super.selectMatch(event);
+    }
+    clearSearchTerm(event) {
+        Helpers.swallowEvent(event);
+        this.searchTerm = '';
+        this.selectPrimaryOption({ value: this.selectedPrimaryOption.value, label: this.selectedPrimaryOption.label });
+        this.ref.markForCheck();
+    }
+    optionHasSecondaryOptions(primaryOption) {
+        return !!(primaryOption && (primaryOption.secondaryOptions || primaryOption.getSecondaryOptionsAsync));
+    }
+    shouldShowSearchBox(primaryOption) {
+        return !!(primaryOption && primaryOption.showSearchOnSecondaryOptions);
+    }
+    filterData() {
+        if (this.selectedPrimaryOption) {
+            if (this.selectedPrimaryOption.secondaryOptions) {
+                return this.filter(this.selectedPrimaryOption.secondaryOptions);
+            }
+            else {
+                return this.filter(this.internalMap.get(this.selectedPrimaryOption.value).items);
+            }
+        }
+        return [];
+    }
+    filter(array) {
+        let matches = array;
+        if (this.searchTerm && this.searchTerm.length !== 0 && this.selectedPrimaryOption) {
+            matches = matches.filter((match) => {
+                const searchTerm = this.searchTerm.toLowerCase();
+                return match.label.toLowerCase().indexOf(searchTerm) > -1 || match.value.toLowerCase().indexOf(searchTerm) > -1;
+            });
+        }
+        return matches;
+    }
+    getNewMatches(primaryOption) {
+        // Get new matches
+        if (primaryOption.secondaryOptions) {
+            this.matches = this.filter(primaryOption.secondaryOptions);
+            this.ref.markForCheck();
+        }
+        else {
+            if (!primaryOption.getSecondaryOptionsAsync) {
+                throw new Error('An option needs to have either an array of secondaryOptions or a function getSecondaryOptionsAsync');
+            }
+            if (!this.internalMap.get(primaryOption.value)) {
+                this.isLoading = true;
+                primaryOption.getSecondaryOptionsAsync().then((items) => {
+                    this.internalMap.set(primaryOption.value, { value: primaryOption.value, label: primaryOption.label, items });
+                    this.matches = this.filter(items);
+                    this.isLoading = false;
+                    this.ref.markForCheck();
+                    setTimeout(() => {
+                        this.inputElement.nativeElement.focus();
+                    });
+                });
+            }
+            else {
+                this.matches = this.filter(this.internalMap.get(primaryOption.value).items);
+                this.ref.markForCheck();
+            }
+        }
+    }
+}
+MixedMultiPickerResults.ɵfac = function MixedMultiPickerResults_Factory(t) { return new (t || MixedMultiPickerResults)(ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ElementRef), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.Renderer2), ɵngcc0.ɵɵdirectiveInject(NovoLabelService), ɵngcc0.ɵɵdirectiveInject(ɵngcc0.ChangeDetectorRef)); };
+MixedMultiPickerResults.ɵcmp = ɵngcc0.ɵɵdefineComponent({ type: MixedMultiPickerResults, selectors: [["mixed-multi-picker-results"]], viewQuery: function MixedMultiPickerResults_Query(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵstaticViewQuery(_c24, true);
+        ɵngcc0.ɵɵviewQuery(_c28, true);
+    } if (rf & 2) {
+        var _t;
+        ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.inputElement = _t.first);
+        ɵngcc0.ɵɵqueryRefresh(_t = ɵngcc0.ɵɵloadQuery()) && (ctx.listElement = _t.first);
+    } }, features: [ɵngcc0.ɵɵInheritDefinitionFeature], decls: 15, vars: 11, consts: [[1, "mixed-multi-picker-groups"], ["direction", "vertical"], [3, "active", "disabled", "click", 4, "ngFor", "ngForOf"], [1, "mixed-multi-picker-matches", 3, "hidden"], ["data-automation-id", "input-container", 1, "mixed-multi-picker-input-container", 3, "hidden"], ["autofocus", "", "data-automation-id", "input", 3, "ngModel", "disabled", "placeholder", "ngModelChange"], ["input", ""], ["class", "bhi-search", "data-automation-id", "seach-icon", 3, "disabled", 4, "ngIf"], ["class", "bhi-times", "data-automation-id", "remove-icon", 3, "disabled", "click", 4, "ngIf"], [1, "mixed-multi-picker-list-container"], ["list", ""], [3, "active", "disabled", "click", "mouseenter", 4, "ngFor", "ngForOf"], ["class", "mixed-multi-picker-no-results", "data-automation-id", "empty-message", 4, "ngIf"], ["class", "mixed-multi-picker-loading", "data-automation-id", "loading-message", 4, "ngIf"], [3, "click"], [3, "class", 4, "ngIf"], ["data-automation-id", "label"], [4, "ngIf"], [1, "bhi-next"], ["data-automation-id", "seach-icon", 1, "bhi-search"], ["data-automation-id", "remove-icon", 1, "bhi-times", 3, "click"], [3, "click", "mouseenter"], ["data-automation-id", "empty-message", 1, "mixed-multi-picker-no-results"], ["data-automation-id", "loading-message", 1, "mixed-multi-picker-loading"], ["theme", "line"]], template: function MixedMultiPickerResults_Template(rf, ctx) { if (rf & 1) {
+        ɵngcc0.ɵɵelementStart(0, "div", 0);
+        ɵngcc0.ɵɵelementStart(1, "novo-list", 1);
+        ɵngcc0.ɵɵtemplate(2, MixedMultiPickerResults_novo_list_item_2_Template, 6, 8, "novo-list-item", 2);
+        ɵngcc0.ɵɵelementEnd();
+        ɵngcc0.ɵɵelementEnd();
+        ɵngcc0.ɵɵelementStart(3, "div", 3);
+        ɵngcc0.ɵɵelementStart(4, "div", 4);
+        ɵngcc0.ɵɵelementStart(5, "input", 5, 6);
+        ɵngcc0.ɵɵlistener("ngModelChange", function MixedMultiPickerResults_Template_input_ngModelChange_5_listener($event) { return ctx.searchTerm = $event; });
+        ɵngcc0.ɵɵelementEnd();
+        ɵngcc0.ɵɵtemplate(7, MixedMultiPickerResults_i_7_Template, 1, 2, "i", 7);
+        ɵngcc0.ɵɵtemplate(8, MixedMultiPickerResults_i_8_Template, 1, 2, "i", 8);
+        ɵngcc0.ɵɵelementEnd();
+        ɵngcc0.ɵɵelementStart(9, "div", 9);
+        ɵngcc0.ɵɵelementStart(10, "novo-list", 1, 10);
+        ɵngcc0.ɵɵtemplate(12, MixedMultiPickerResults_novo_list_item_12_Template, 4, 6, "novo-list-item", 11);
+        ɵngcc0.ɵɵelementEnd();
+        ɵngcc0.ɵɵtemplate(13, MixedMultiPickerResults_div_13_Template, 2, 1, "div", 12);
+        ɵngcc0.ɵɵtemplate(14, MixedMultiPickerResults_div_14_Template, 2, 0, "div", 13);
+        ɵngcc0.ɵɵelementEnd();
+        ɵngcc0.ɵɵelementEnd();
+    } if (rf & 2) {
+        ɵngcc0.ɵɵadvance(2);
+        ɵngcc0.ɵɵproperty("ngForOf", ctx.options);
+        ɵngcc0.ɵɵadvance(1);
+        ɵngcc0.ɵɵproperty("hidden", !ctx.optionHasSecondaryOptions(ctx.selectedPrimaryOption));
+        ɵngcc0.ɵɵadvance(1);
+        ɵngcc0.ɵɵproperty("hidden", !ctx.shouldShowSearchBox(ctx.selectedPrimaryOption));
+        ɵngcc0.ɵɵadvance(1);
+        ɵngcc0.ɵɵproperty("ngModel", ctx.searchTerm)("disabled", ctx.isLoading)("placeholder", ctx.placeholder);
+        ɵngcc0.ɵɵadvance(2);
+        ɵngcc0.ɵɵproperty("ngIf", !ctx.searchTerm);
+        ɵngcc0.ɵɵadvance(1);
+        ɵngcc0.ɵɵproperty("ngIf", ctx.searchTerm);
+        ɵngcc0.ɵɵadvance(4);
+        ɵngcc0.ɵɵproperty("ngForOf", ctx.matches);
+        ɵngcc0.ɵɵadvance(1);
+        ɵngcc0.ɵɵproperty("ngIf", ctx.matches.length === 0 && !ctx.isLoading && ctx.selectedPrimaryOption);
+        ɵngcc0.ɵɵadvance(1);
+        ɵngcc0.ɵɵproperty("ngIf", ctx.isLoading);
+    } }, directives: [NovoListElement, ɵngcc1.NgForOf, ɵngcc3.DefaultValueAccessor, ɵngcc3.NgControlStatus, ɵngcc3.NgModel, ɵngcc1.NgIf, NovoListItemElement, NovoItemContentElement, NovoItemEndElement, NovoLoadingElement], encapsulation: 2 });
+MixedMultiPickerResults.ctorParameters = () => [
+    { type: ElementRef },
+    { type: Renderer2 },
+    { type: NovoLabelService },
+    { type: ChangeDetectorRef }
+];
+MixedMultiPickerResults.propDecorators = {
+    inputElement: [{ type: ViewChild, args: ['input', { static: true },] }],
+    listElement: [{ type: ViewChild, args: ['list',] }]
+};
+/*@__PURE__*/ (function () { ɵngcc0.ɵsetClassMetadata(MixedMultiPickerResults, [{
+        type: Component,
+        args: [{
+                selector: 'mixed-multi-picker-results',
+                template: `
+    <div class="mixed-multi-picker-groups">
+        <novo-list direction="vertical">
+            <novo-list-item
+                *ngFor="let option of options"
+                (click)="selectPrimaryOption(option, $event)"
+                [class.active]="selectedPrimaryOption?.value === option.value"
+                [attr.data-automation-id]="option.label"
+                [class.disabled]="isLoading">
+                <item-content>
+                    <i *ngIf="option.iconClass" [class]="option.iconClass"></i>
+                    <span data-automation-id="label">{{ option.label }}</span>
+                </item-content>
+                <item-end *ngIf="optionHasSecondaryOptions(option)">
+                    <i class="bhi-next"></i>
+                </item-end>
+            </novo-list-item>
+        </novo-list>
+    </div>
+    <div class="mixed-multi-picker-matches" [hidden]="!optionHasSecondaryOptions(selectedPrimaryOption)">
+        <div class="mixed-multi-picker-input-container" [hidden]="!shouldShowSearchBox(selectedPrimaryOption)" data-automation-id="input-container">
+            <input autofocus #input [(ngModel)]="searchTerm" [disabled]="isLoading" data-automation-id="input" [placeholder]="placeholder"/>
+            <i class="bhi-search" *ngIf="!searchTerm" [class.disabled]="isLoading" data-automation-id="seach-icon"></i>
+            <i class="bhi-times" *ngIf="searchTerm" (click)="clearSearchTerm($event)" [class.disabled]="isLoading" data-automation-id="remove-icon"></i>
+        </div>
+        <div class="mixed-multi-picker-list-container">
+            <novo-list direction="vertical" #list>
+                <novo-list-item
+                    *ngFor="let match of matches"
+                    (click)="selectMatch($event)"
+                    [class.active]="match === activeMatch"
+                    (mouseenter)="selectActive(match)"
+                    [class.disabled]="preselected(match) || isLoading"
+                    [attr.data-automation-id]="match.label">
+                    <item-content>
+                        <span>{{ match.label }}</span>
+                    </item-content>
+                </novo-list-item>
+            </novo-list>
+            <div class="mixed-multi-picker-no-results" *ngIf="matches.length === 0 && !isLoading && selectedPrimaryOption" data-automation-id="empty-message">
+                {{ labels.groupedMultiPickerEmpty }}
+            </div>
+            <div class="mixed-multi-picker-loading" *ngIf="isLoading" data-automation-id="loading-message">
+                <novo-loading theme="line"></novo-loading>
+            </div>
+        </div>
+    </div>`
+            }]
+    }], function () { return [{ type: ɵngcc0.ElementRef }, { type: ɵngcc0.Renderer2 }, { type: NovoLabelService }, { type: ɵngcc0.ChangeDetectorRef }]; }, { inputElement: [{
+            type: ViewChild,
+            args: ['input', { static: true }]
+        }], listElement: [{
+            type: ViewChild,
+            args: ['list']
+        }] }); })();
+
 // NG2
 class SkillsSpecialtyPickerResults extends BasePickerResults {
     constructor(element, labels, ref) {
@@ -14129,7 +14454,7 @@ class NovoPickerModule {
 }
 NovoPickerModule.ɵmod = ɵngcc0.ɵɵdefineNgModule({ type: NovoPickerModule });
 NovoPickerModule.ɵinj = ɵngcc0.ɵɵdefineInjector({ factory: function NovoPickerModule_Factory(t) { return new (t || NovoPickerModule)(); }, imports: [[CommonModule, FormsModule, NovoLoadingModule, NovoListModule, NovoOverlayModule, NovoSwitchModule]] });
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵngcc0.ɵɵsetNgModuleScope(NovoPickerModule, { declarations: function () { return [NovoPickerElement, PickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, DistributionListPickerResults, WorkersCompCodesPickerResults, SkillsSpecialtyPickerResults]; }, imports: function () { return [CommonModule, FormsModule, NovoLoadingModule, NovoListModule, NovoOverlayModule, NovoSwitchModule]; }, exports: function () { return [NovoPickerElement, PickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, DistributionListPickerResults, WorkersCompCodesPickerResults, SkillsSpecialtyPickerResults]; } }); })();
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && ɵngcc0.ɵɵsetNgModuleScope(NovoPickerModule, { declarations: function () { return [NovoPickerElement, PickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, MixedMultiPickerResults, DistributionListPickerResults, WorkersCompCodesPickerResults, SkillsSpecialtyPickerResults]; }, imports: function () { return [CommonModule, FormsModule, NovoLoadingModule, NovoListModule, NovoOverlayModule, NovoSwitchModule]; }, exports: function () { return [NovoPickerElement, PickerResults, EntityPickerResult, EntityPickerResults, ChecklistPickerResults, GroupedMultiPickerResults, MixedMultiPickerResults, DistributionListPickerResults, WorkersCompCodesPickerResults, SkillsSpecialtyPickerResults]; } }); })();
 /*@__PURE__*/ (function () { ɵngcc0.ɵsetClassMetadata(NovoPickerModule, [{
         type: NgModule,
         args: [{
@@ -14141,6 +14466,7 @@ NovoPickerModule.ɵinj = ɵngcc0.ɵɵdefineInjector({ factory: function NovoPick
                     EntityPickerResults,
                     ChecklistPickerResults,
                     GroupedMultiPickerResults,
+                    MixedMultiPickerResults,
                     DistributionListPickerResults,
                     WorkersCompCodesPickerResults,
                     SkillsSpecialtyPickerResults,
@@ -14152,6 +14478,7 @@ NovoPickerModule.ɵinj = ɵngcc0.ɵɵdefineInjector({ factory: function NovoPick
                     EntityPickerResults,
                     ChecklistPickerResults,
                     GroupedMultiPickerResults,
+                    MixedMultiPickerResults,
                     DistributionListPickerResults,
                     WorkersCompCodesPickerResults,
                     SkillsSpecialtyPickerResults,
@@ -54423,6 +54750,6 @@ class DevAppBridge extends AppBridge {
  * Generated bundle index. Do not edit.
  */
 
-export { AceEditorControl, ActivityTableDataSource, ActivityTableRenderers, AddressControl, AppBridge, AppBridgeHandler, AppBridgeService, ArrayCollection, BaseControl, BasePickerResults, BaseRenderer, BrowserGlobalRef, COUNTRIES, CalendarEventResponse, CardActionsElement, CardElement, CheckListControl, CheckboxControl, ChecklistPickerResults, CollectionEvent, ComponentUtils, ControlFactory, CustomControl, DataTableBigDecimalRendererPipe, DataTableInterpolatePipe, DateCell, DateControl, DateTableCurrencyRendererPipe, DateTableDateRendererPipe, DateTableDateTimeRendererPipe, DateTableNumberRendererPipe, DateTableTimeRendererPipe, DateTimeControl, DayOfMonthPipe, DecodeURIPipe, Deferred, DevAppBridge, DevAppBridgeService, DistributionListPickerResults, EditorControl, EndOfWeekDisplayPipe, EntityList, EntityPickerResult, EntityPickerResults, FieldInteractionApi, FileControl, FormUtils, FormValidators, GlobalRef, GooglePlacesModule, GooglePlacesService, GroupByPipe, GroupedControl, GroupedMultiPickerResults, Helpers, HoursPipe, KeyCodes, LocalStorageService, MonthDayPipe, MonthPipe, NOVO_VALUE_THEME, NOVO_VALUE_TYPE, NativeSelectControl, NovoAccordion, NovoAceEditor, NovoAceEditorModule, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableCustomHeader, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableState, NovoAddressElement, NovoAutoSize, NovoButtonElement, NovoButtonModule, NovoCKEditorElement, NovoCalendarAllDayEventElement, NovoCalendarDateChangeElement, NovoCalendarDayEventElement, NovoCalendarDayViewElement, NovoCalendarHourSegmentElement, NovoCalendarModule, NovoCalendarMonthDayElement, NovoCalendarMonthHeaderElement, NovoCalendarMonthViewElement, NovoCalendarWeekEventElement, NovoCalendarWeekHeaderElement, NovoCalendarWeekViewElement, NovoCardModule, NovoCategoryDropdownElement, NovoCategoryDropdownModule, NovoCheckListElement, NovoCheckboxElement, NovoChipElement, NovoChipsElement, NovoChipsModule, NovoCommonModule, NovoControlElement, NovoControlGroup, NovoControlTemplates, NovoDataTable, NovoDataTableClearButton, NovoDataTableFilterUtils, NovoDataTableModule, NovoDatePickerElement, NovoDatePickerInputElement, NovoDatePickerModule, NovoDateTimePickerElement, NovoDateTimePickerInputElement, NovoDateTimePickerModule, NovoDragulaElement, NovoDragulaModule, NovoDragulaService, NovoDropDownItemHeaderElement, NovoDropdownCell, NovoDropdownElement, NovoDropdownListElement, NovoDropdownModule, NovoDynamicFormElement, NovoElementProviders, NovoElementsModule, NovoEventTypeLegendElement, NovoExpansionModule, NovoExpansionPanel, NovoExpansionPanelActionRow, NovoExpansionPanelContent, NovoExpansionPanelDescription, NovoExpansionPanelHeader, NovoExpansionPanelTitle, NovoFieldsetHeaderElement, NovoFile, NovoFileInputElement, NovoFormControl, NovoFormElement, NovoFormExtrasModule, NovoFormGroup, NovoFormModule, NovoHeaderComponent, NovoHeaderModule, NovoHeaderSpacer, NovoHorizontalStepper, NovoIconComponent, NovoIconModule, NovoIsLoadingDirective, NovoItemAvatarElement, NovoItemContentElement, NovoItemDateElement, NovoItemElement, NovoItemEndElement, NovoItemHeaderElement, NovoItemTitleElement, NovoLabelService, NovoListElement, NovoListItemElement, NovoListModule, NovoLoadedDirective, NovoLoadingElement, NovoLoadingModule, NovoModalElement, NovoModalModule, NovoModalNotificationElement, NovoModalParams, NovoModalRef, NovoModalService, NovoMultiPickerElement, NovoMultiPickerModule, NovoNavContentElement, NovoNavElement, NovoNavHeaderElement, NovoNavOutletElement, NovoNovoCKEditorModule, NovoOverlayModule, NovoOverlayTemplateComponent, NovoPickerElement, NovoPickerModule, NovoPipesModule, NovoPopOverModule, NovoQuickNoteModule, NovoRadioElement, NovoRadioGroup, NovoRadioModule, NovoRowChipElement, NovoRowChipsElement, NovoSearchBoxElement, NovoSearchBoxModule, NovoSelectElement, NovoSelectModule, NovoSelection, NovoSimpleActionCell, NovoSimpleCell, NovoSimpleCellDef, NovoSimpleCellHeader, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleColumnDef, NovoSimpleEmptyHeaderCell, NovoSimpleFilterFocus, NovoSimpleHeaderCell, NovoSimpleHeaderCellDef, NovoSimpleHeaderRow, NovoSimpleHeaderRowDef, NovoSimpleRow, NovoSimpleRowDef, NovoSimpleTableModule, NovoSimpleTablePagination, NovoSkeletonDirective, NovoSliderElement, NovoSliderModule, NovoSortFilter, NovoSpinnerElement, NovoStep, NovoStepHeader, NovoStepLabel, NovoStepStatus, NovoStepper, NovoStepperModule, NovoSwitchElement, NovoSwitchModule, NovoTabButtonElement, NovoTabElement, NovoTabLinkElement, NovoTabModule, NovoTabbedGroupPickerElement, NovoTabbedGroupPickerModule, NovoTable, NovoTableActionsElement, NovoTableElement, NovoTableExtrasModule, NovoTableFooterElement, NovoTableHeaderElement, NovoTableKeepFilterFocus, NovoTableMode, NovoTableModule, NovoTemplate, NovoTemplateService, NovoTilesElement, NovoTilesModule, NovoTimePickerElement, NovoTimePickerInputElement, NovoTimePickerModule, NovoTipWellElement, NovoTipWellModule, NovoToastElement, NovoToastModule, NovoToastService, NovoTooltipModule, NovoUtilActionComponent, NovoUtilsComponent, NovoValueElement, NovoValueModule, NovoVerticalStepper, OptionsService, OutsideClick, PagedArrayCollection, Pagination, PercentageCell, PickerControl, PickerResults, PlacesListComponent, PluralPipe, PopOverContent, PopOverDirective, QuickNoteControl, QuickNoteElement, QuickNoteResults, RadioControl, ReadOnlyControl, RemoteActivityTableService, RemoteDataTableService, RenderPipe, RowDetails, Security, SelectControl, SkillsSpecialtyPickerResults, StaticActivityTableService, StaticDataTableService, TableCell, TableFilter, TablePickerControl, TextAreaControl, TextBoxControl, ThOrderable, ThSortable, TilesControl, TimeControl, TooltipDirective, Unless, UnlessModule, WeekdayPipe, WorkersCompCodesPickerResults, YearPipe, findByCountryCode, findByCountryId, findByCountryName, getCountries, getStateObjects, getStates, notify, NovoFieldsetElement as ɵa, NovoModalContainerElement as ɵb, NovoTooltip as ɵc, DataTableState as ɵd, NovoDataTableCellHeader as ɵe, NovoDataTableSortFilter as ɵf, DateFormatService as ɵg, NovoDataTableHeaderCell as ɵh, NovoDataTableCell as ɵi, NovoDataTableHeaderRow as ɵj, NovoDataTableRow as ɵk, NovoDataTablePagination as ɵl, NovoDataTableCheckboxCell as ɵm, NovoDataTableCheckboxHeaderCell as ɵn, NovoDataTableExpandCell as ɵo, NovoDataTableExpandHeaderCell as ɵp, NovoDataTableExpandDirective as ɵq, novoExpansionAnimations as ɵr, ControlConfirmModal as ɵs, ControlPromptModal as ɵt, novoStepperAnimations as ɵu };
+export { AceEditorControl, ActivityTableDataSource, ActivityTableRenderers, AddressControl, AppBridge, AppBridgeHandler, AppBridgeService, ArrayCollection, BaseControl, BasePickerResults, BaseRenderer, BrowserGlobalRef, COUNTRIES, CalendarEventResponse, CardActionsElement, CardElement, CheckListControl, CheckboxControl, ChecklistPickerResults, CollectionEvent, ComponentUtils, ControlFactory, CustomControl, DataTableBigDecimalRendererPipe, DataTableInterpolatePipe, DateCell, DateControl, DateTableCurrencyRendererPipe, DateTableDateRendererPipe, DateTableDateTimeRendererPipe, DateTableNumberRendererPipe, DateTableTimeRendererPipe, DateTimeControl, DayOfMonthPipe, DecodeURIPipe, Deferred, DevAppBridge, DevAppBridgeService, DistributionListPickerResults, EditorControl, EndOfWeekDisplayPipe, EntityList, EntityPickerResult, EntityPickerResults, FieldInteractionApi, FileControl, FormUtils, FormValidators, GlobalRef, GooglePlacesModule, GooglePlacesService, GroupByPipe, GroupedControl, GroupedMultiPickerResults, Helpers, HoursPipe, KeyCodes, LocalStorageService, MixedMultiPickerResults, MonthDayPipe, MonthPipe, NOVO_VALUE_THEME, NOVO_VALUE_TYPE, NativeSelectControl, NovoAccordion, NovoAceEditor, NovoAceEditorModule, NovoActivityTable, NovoActivityTableActions, NovoActivityTableCustomFilter, NovoActivityTableCustomHeader, NovoActivityTableEmptyMessage, NovoActivityTableNoResultsMessage, NovoActivityTableState, NovoAddressElement, NovoAutoSize, NovoButtonElement, NovoButtonModule, NovoCKEditorElement, NovoCalendarAllDayEventElement, NovoCalendarDateChangeElement, NovoCalendarDayEventElement, NovoCalendarDayViewElement, NovoCalendarHourSegmentElement, NovoCalendarModule, NovoCalendarMonthDayElement, NovoCalendarMonthHeaderElement, NovoCalendarMonthViewElement, NovoCalendarWeekEventElement, NovoCalendarWeekHeaderElement, NovoCalendarWeekViewElement, NovoCardModule, NovoCategoryDropdownElement, NovoCategoryDropdownModule, NovoCheckListElement, NovoCheckboxElement, NovoChipElement, NovoChipsElement, NovoChipsModule, NovoCommonModule, NovoControlElement, NovoControlGroup, NovoControlTemplates, NovoDataTable, NovoDataTableClearButton, NovoDataTableFilterUtils, NovoDataTableModule, NovoDatePickerElement, NovoDatePickerInputElement, NovoDatePickerModule, NovoDateTimePickerElement, NovoDateTimePickerInputElement, NovoDateTimePickerModule, NovoDragulaElement, NovoDragulaModule, NovoDragulaService, NovoDropDownItemHeaderElement, NovoDropdownCell, NovoDropdownElement, NovoDropdownListElement, NovoDropdownModule, NovoDynamicFormElement, NovoElementProviders, NovoElementsModule, NovoEventTypeLegendElement, NovoExpansionModule, NovoExpansionPanel, NovoExpansionPanelActionRow, NovoExpansionPanelContent, NovoExpansionPanelDescription, NovoExpansionPanelHeader, NovoExpansionPanelTitle, NovoFieldsetHeaderElement, NovoFile, NovoFileInputElement, NovoFormControl, NovoFormElement, NovoFormExtrasModule, NovoFormGroup, NovoFormModule, NovoHeaderComponent, NovoHeaderModule, NovoHeaderSpacer, NovoHorizontalStepper, NovoIconComponent, NovoIconModule, NovoIsLoadingDirective, NovoItemAvatarElement, NovoItemContentElement, NovoItemDateElement, NovoItemElement, NovoItemEndElement, NovoItemHeaderElement, NovoItemTitleElement, NovoLabelService, NovoListElement, NovoListItemElement, NovoListModule, NovoLoadedDirective, NovoLoadingElement, NovoLoadingModule, NovoModalElement, NovoModalModule, NovoModalNotificationElement, NovoModalParams, NovoModalRef, NovoModalService, NovoMultiPickerElement, NovoMultiPickerModule, NovoNavContentElement, NovoNavElement, NovoNavHeaderElement, NovoNavOutletElement, NovoNovoCKEditorModule, NovoOverlayModule, NovoOverlayTemplateComponent, NovoPickerElement, NovoPickerModule, NovoPipesModule, NovoPopOverModule, NovoQuickNoteModule, NovoRadioElement, NovoRadioGroup, NovoRadioModule, NovoRowChipElement, NovoRowChipsElement, NovoSearchBoxElement, NovoSearchBoxModule, NovoSelectElement, NovoSelectModule, NovoSelection, NovoSimpleActionCell, NovoSimpleCell, NovoSimpleCellDef, NovoSimpleCellHeader, NovoSimpleCheckboxCell, NovoSimpleCheckboxHeaderCell, NovoSimpleColumnDef, NovoSimpleEmptyHeaderCell, NovoSimpleFilterFocus, NovoSimpleHeaderCell, NovoSimpleHeaderCellDef, NovoSimpleHeaderRow, NovoSimpleHeaderRowDef, NovoSimpleRow, NovoSimpleRowDef, NovoSimpleTableModule, NovoSimpleTablePagination, NovoSkeletonDirective, NovoSliderElement, NovoSliderModule, NovoSortFilter, NovoSpinnerElement, NovoStep, NovoStepHeader, NovoStepLabel, NovoStepStatus, NovoStepper, NovoStepperModule, NovoSwitchElement, NovoSwitchModule, NovoTabButtonElement, NovoTabElement, NovoTabLinkElement, NovoTabModule, NovoTabbedGroupPickerElement, NovoTabbedGroupPickerModule, NovoTable, NovoTableActionsElement, NovoTableElement, NovoTableExtrasModule, NovoTableFooterElement, NovoTableHeaderElement, NovoTableKeepFilterFocus, NovoTableMode, NovoTableModule, NovoTemplate, NovoTemplateService, NovoTilesElement, NovoTilesModule, NovoTimePickerElement, NovoTimePickerInputElement, NovoTimePickerModule, NovoTipWellElement, NovoTipWellModule, NovoToastElement, NovoToastModule, NovoToastService, NovoTooltipModule, NovoUtilActionComponent, NovoUtilsComponent, NovoValueElement, NovoValueModule, NovoVerticalStepper, OptionsService, OutsideClick, PagedArrayCollection, Pagination, PercentageCell, PickerControl, PickerResults, PlacesListComponent, PluralPipe, PopOverContent, PopOverDirective, QuickNoteControl, QuickNoteElement, QuickNoteResults, RadioControl, ReadOnlyControl, RemoteActivityTableService, RemoteDataTableService, RenderPipe, RowDetails, Security, SelectControl, SkillsSpecialtyPickerResults, StaticActivityTableService, StaticDataTableService, TableCell, TableFilter, TablePickerControl, TextAreaControl, TextBoxControl, ThOrderable, ThSortable, TilesControl, TimeControl, TooltipDirective, Unless, UnlessModule, WeekdayPipe, WorkersCompCodesPickerResults, YearPipe, findByCountryCode, findByCountryId, findByCountryName, getCountries, getStateObjects, getStates, notify, NovoFieldsetElement as ɵa, NovoModalContainerElement as ɵb, NovoTooltip as ɵc, DataTableState as ɵd, NovoDataTableCellHeader as ɵe, NovoDataTableSortFilter as ɵf, DateFormatService as ɵg, NovoDataTableHeaderCell as ɵh, NovoDataTableCell as ɵi, NovoDataTableHeaderRow as ɵj, NovoDataTableRow as ɵk, NovoDataTablePagination as ɵl, NovoDataTableCheckboxCell as ɵm, NovoDataTableCheckboxHeaderCell as ɵn, NovoDataTableExpandCell as ɵo, NovoDataTableExpandHeaderCell as ɵp, NovoDataTableExpandDirective as ɵq, novoExpansionAnimations as ɵr, ControlConfirmModal as ɵs, ControlPromptModal as ɵt, novoStepperAnimations as ɵu };
 
 //# sourceMappingURL=novo-elements.js.map

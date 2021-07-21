@@ -6220,6 +6220,161 @@
         listElement: [{ type: core.ViewChild, args: ['list',] }]
     };
 
+    var MixedMultiPickerResults = /** @class */ (function (_super) {
+        __extends(MixedMultiPickerResults, _super);
+        function MixedMultiPickerResults(element, renderer, labels, ref) {
+            var _this = _super.call(this, element, ref) || this;
+            _this.renderer = renderer;
+            _this.labels = labels;
+            _this.placeholder = '';
+            _this.internalMap = new Map();
+            return _this;
+        }
+        Object.defineProperty(MixedMultiPickerResults.prototype, "term", {
+            set: function (value) {
+                var _this = this;
+                if (this.config.placeholder) {
+                    this.placeholder = this.config.placeholder;
+                }
+                // Focus
+                setTimeout(function () {
+                    _this.inputElement.nativeElement.focus();
+                });
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(MixedMultiPickerResults.prototype, "options", {
+            get: function () {
+                return this.config.options || [];
+            },
+            enumerable: false,
+            configurable: true
+        });
+        MixedMultiPickerResults.prototype.ngOnDestroy = function () {
+            // Cleanup
+            if (this.keyboardSubscription) {
+                this.keyboardSubscription.unsubscribe();
+            }
+        };
+        MixedMultiPickerResults.prototype.selectPrimaryOption = function (primaryOption, event) {
+            var _this = this;
+            if (this.keyboardSubscription) {
+                this.keyboardSubscription.unsubscribe();
+            }
+            // Scroll to top
+            this.renderer.setProperty(this.listElement.element.nativeElement, 'scrollTop', 0);
+            // Set focus
+            this.inputElement.nativeElement.focus();
+            // Find new items
+            var key = primaryOption.value;
+            this.selectedPrimaryOption = primaryOption;
+            // Clear
+            this.matches = [];
+            this.ref.markForCheck();
+            // New matches
+            if (this.optionHasSecondaryOptions(primaryOption)) {
+                // Subscribe to keyboard events and debounce
+                this.keyboardSubscription = rxjs.fromEvent(this.inputElement.nativeElement, 'keyup')
+                    .pipe(operators.debounceTime(350), operators.distinctUntilChanged()).subscribe(function (keyEvent) {
+                    _this.searchTerm = keyEvent.target['value'];
+                    _this.matches = _this.filterData();
+                    _this.ref.markForCheck();
+                });
+                this.getNewMatches(primaryOption);
+            }
+            else {
+                this.selectActive(primaryOption);
+                this.selectMatch(event);
+            }
+        };
+        MixedMultiPickerResults.prototype.selectMatch = function (event) {
+            // Set focus
+            this.inputElement.nativeElement.focus();
+            return _super.prototype.selectMatch.call(this, event);
+        };
+        MixedMultiPickerResults.prototype.clearSearchTerm = function (event) {
+            Helpers.swallowEvent(event);
+            this.searchTerm = '';
+            this.selectPrimaryOption({ value: this.selectedPrimaryOption.value, label: this.selectedPrimaryOption.label });
+            this.ref.markForCheck();
+        };
+        MixedMultiPickerResults.prototype.optionHasSecondaryOptions = function (primaryOption) {
+            return !!(primaryOption && (primaryOption.secondaryOptions || primaryOption.getSecondaryOptionsAsync));
+        };
+        MixedMultiPickerResults.prototype.shouldShowSearchBox = function (primaryOption) {
+            return !!(primaryOption && primaryOption.showSearchOnSecondaryOptions);
+        };
+        MixedMultiPickerResults.prototype.filterData = function () {
+            if (this.selectedPrimaryOption) {
+                if (this.selectedPrimaryOption.secondaryOptions) {
+                    return this.filter(this.selectedPrimaryOption.secondaryOptions);
+                }
+                else {
+                    return this.filter(this.internalMap.get(this.selectedPrimaryOption.value).items);
+                }
+            }
+            return [];
+        };
+        MixedMultiPickerResults.prototype.filter = function (array) {
+            var _this = this;
+            var matches = array;
+            if (this.searchTerm && this.searchTerm.length !== 0 && this.selectedPrimaryOption) {
+                matches = matches.filter(function (match) {
+                    var searchTerm = _this.searchTerm.toLowerCase();
+                    return match.label.toLowerCase().indexOf(searchTerm) > -1 || match.value.toLowerCase().indexOf(searchTerm) > -1;
+                });
+            }
+            return matches;
+        };
+        MixedMultiPickerResults.prototype.getNewMatches = function (primaryOption) {
+            var _this = this;
+            // Get new matches
+            if (primaryOption.secondaryOptions) {
+                this.matches = this.filter(primaryOption.secondaryOptions);
+                this.ref.markForCheck();
+            }
+            else {
+                if (!primaryOption.getSecondaryOptionsAsync) {
+                    throw new Error('An option needs to have either an array of secondaryOptions or a function getSecondaryOptionsAsync');
+                }
+                if (!this.internalMap.get(primaryOption.value)) {
+                    this.isLoading = true;
+                    primaryOption.getSecondaryOptionsAsync().then(function (items) {
+                        _this.internalMap.set(primaryOption.value, { value: primaryOption.value, label: primaryOption.label, items: items });
+                        _this.matches = _this.filter(items);
+                        _this.isLoading = false;
+                        _this.ref.markForCheck();
+                        setTimeout(function () {
+                            _this.inputElement.nativeElement.focus();
+                        });
+                    });
+                }
+                else {
+                    this.matches = this.filter(this.internalMap.get(primaryOption.value).items);
+                    this.ref.markForCheck();
+                }
+            }
+        };
+        return MixedMultiPickerResults;
+    }(BasePickerResults));
+    MixedMultiPickerResults.decorators = [
+        { type: core.Component, args: [{
+                    selector: 'mixed-multi-picker-results',
+                    template: "\n    <div class=\"mixed-multi-picker-groups\">\n        <novo-list direction=\"vertical\">\n            <novo-list-item\n                *ngFor=\"let option of options\"\n                (click)=\"selectPrimaryOption(option, $event)\"\n                [class.active]=\"selectedPrimaryOption?.value === option.value\"\n                [attr.data-automation-id]=\"option.label\"\n                [class.disabled]=\"isLoading\">\n                <item-content>\n                    <i *ngIf=\"option.iconClass\" [class]=\"option.iconClass\"></i>\n                    <span data-automation-id=\"label\">{{ option.label }}</span>\n                </item-content>\n                <item-end *ngIf=\"optionHasSecondaryOptions(option)\">\n                    <i class=\"bhi-next\"></i>\n                </item-end>\n            </novo-list-item>\n        </novo-list>\n    </div>\n    <div class=\"mixed-multi-picker-matches\" [hidden]=\"!optionHasSecondaryOptions(selectedPrimaryOption)\">\n        <div class=\"mixed-multi-picker-input-container\" [hidden]=\"!shouldShowSearchBox(selectedPrimaryOption)\" data-automation-id=\"input-container\">\n            <input autofocus #input [(ngModel)]=\"searchTerm\" [disabled]=\"isLoading\" data-automation-id=\"input\" [placeholder]=\"placeholder\"/>\n            <i class=\"bhi-search\" *ngIf=\"!searchTerm\" [class.disabled]=\"isLoading\" data-automation-id=\"seach-icon\"></i>\n            <i class=\"bhi-times\" *ngIf=\"searchTerm\" (click)=\"clearSearchTerm($event)\" [class.disabled]=\"isLoading\" data-automation-id=\"remove-icon\"></i>\n        </div>\n        <div class=\"mixed-multi-picker-list-container\">\n            <novo-list direction=\"vertical\" #list>\n                <novo-list-item\n                    *ngFor=\"let match of matches\"\n                    (click)=\"selectMatch($event)\"\n                    [class.active]=\"match === activeMatch\"\n                    (mouseenter)=\"selectActive(match)\"\n                    [class.disabled]=\"preselected(match) || isLoading\"\n                    [attr.data-automation-id]=\"match.label\">\n                    <item-content>\n                        <span>{{ match.label }}</span>\n                    </item-content>\n                </novo-list-item>\n            </novo-list>\n            <div class=\"mixed-multi-picker-no-results\" *ngIf=\"matches.length === 0 && !isLoading && selectedPrimaryOption\" data-automation-id=\"empty-message\">\n                {{ labels.groupedMultiPickerEmpty }}\n            </div>\n            <div class=\"mixed-multi-picker-loading\" *ngIf=\"isLoading\" data-automation-id=\"loading-message\">\n                <novo-loading theme=\"line\"></novo-loading>\n            </div>\n        </div>\n    </div>"
+                },] }
+    ];
+    MixedMultiPickerResults.ctorParameters = function () { return [
+        { type: core.ElementRef },
+        { type: core.Renderer2 },
+        { type: NovoLabelService },
+        { type: core.ChangeDetectorRef }
+    ]; };
+    MixedMultiPickerResults.propDecorators = {
+        inputElement: [{ type: core.ViewChild, args: ['input', { static: true },] }],
+        listElement: [{ type: core.ViewChild, args: ['list',] }]
+    };
+
     var SkillsSpecialtyPickerResults = /** @class */ (function (_super) {
         __extends(SkillsSpecialtyPickerResults, _super);
         function SkillsSpecialtyPickerResults(element, labels, ref) {
@@ -6372,6 +6527,7 @@
                         EntityPickerResults,
                         ChecklistPickerResults,
                         GroupedMultiPickerResults,
+                        MixedMultiPickerResults,
                         DistributionListPickerResults,
                         WorkersCompCodesPickerResults,
                         SkillsSpecialtyPickerResults,
@@ -6383,6 +6539,7 @@
                         EntityPickerResults,
                         ChecklistPickerResults,
                         GroupedMultiPickerResults,
+                        MixedMultiPickerResults,
                         DistributionListPickerResults,
                         WorkersCompCodesPickerResults,
                         SkillsSpecialtyPickerResults,
@@ -42784,6 +42941,7 @@
     exports.HoursPipe = HoursPipe;
     exports.KeyCodes = KeyCodes;
     exports.LocalStorageService = LocalStorageService;
+    exports.MixedMultiPickerResults = MixedMultiPickerResults;
     exports.MonthDayPipe = MonthDayPipe;
     exports.MonthPipe = MonthPipe;
     exports.NativeSelectControl = NativeSelectControl;
