@@ -183,7 +183,7 @@ export declare class NovoTableElement implements DoCheck {
      */
     isColumnHidden(column: any): boolean;
     static ɵfac: ɵngcc0.ɵɵFactoryDef<NovoTableElement, never>;
-    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoTableElement, "novo-table", never, { "config": "config"; "skipSortAndFilterClear": "skipSortAndFilterClear"; "mode": "mode"; "editable": "editable"; "rowIdentifier": "rowIdentifier"; "name": "name"; "rows": "rows"; "dataProvider": "dataProvider"; "columns": "columns"; "theme": "theme"; }, { "onRowClick": "onRowClick"; "onRowSelect": "onRowSelect"; "onTableChange": "onTableChange"; }, never, ["novo-table-header", "novo-table-actions", "[table-empty-message]", "[table-no-matching-records-message]", "[table-error-message]", "novo-table-footer"]>;
+    static ɵcmp: ɵngcc0.ɵɵComponentDefWithMeta<NovoTableElement, "novo-table", never, { "config": "config"; "columns": "columns"; "skipSortAndFilterClear": "skipSortAndFilterClear"; "mode": "mode"; "editable": "editable"; "rowIdentifier": "rowIdentifier"; "name": "name"; "rows": "rows"; "dataProvider": "dataProvider"; "theme": "theme"; }, { "onRowClick": "onRowClick"; "onRowSelect": "onRowSelect"; "onTableChange": "onTableChange"; }, never, ["novo-table-header", "novo-table-actions", "[table-empty-message]", "[table-no-matching-records-message]", "[table-error-message]", "novo-table-footer"]>;
 }
 
 //# sourceMappingURL=Table.d.ts.map

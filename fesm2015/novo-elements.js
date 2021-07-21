@@ -40928,6 +40928,7 @@ class NovoTableElement {
         this.formUtils = formUtils;
         this.builder = builder;
         this.config = {};
+        this.columns = [];
         this.skipSortAndFilterClear = false;
         this.mode = NovoTableMode.VIEW;
         this.editable = false;

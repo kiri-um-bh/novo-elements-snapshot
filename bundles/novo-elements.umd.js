@@ -40274,6 +40274,7 @@
             this.formUtils = formUtils;
             this.builder = builder;
             this.config = {};
+            this.columns = [];
             this.skipSortAndFilterClear = false;
             this.mode = exports.NovoTableMode.VIEW;
             this.editable = false;
