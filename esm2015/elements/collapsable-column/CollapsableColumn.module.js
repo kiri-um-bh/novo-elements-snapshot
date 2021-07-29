@@ -1,0 +1,12 @@
+// NG2
+import { NgModule } from '@angular/core';
+import { NovoCollapsableColumnElement } from './CollapsableColumn.component';
+export class NovoCollapsableColumnModule {
+}
+NovoCollapsableColumnModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [NovoCollapsableColumnElement],
+                exports: [NovoCollapsableColumnElement],
+            },] }
+];
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29sbGFwc2FibGVDb2x1bW4ubW9kdWxlLmpzIiwic291cmNlUm9vdCI6Ii9ob21lL3J1bm5lci93b3JrL25vdm8tZWxlbWVudHMvbm92by1lbGVtZW50cy9wcm9qZWN0cy9ub3ZvLWVsZW1lbnRzL3NyYy8iLCJzb3VyY2VzIjpbImVsZW1lbnRzL2NvbGxhcHNhYmxlLWNvbHVtbi9Db2xsYXBzYWJsZUNvbHVtbi5tb2R1bGUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsTUFBTTtBQUNOLE9BQU8sRUFBRSxRQUFRLEVBQUUsTUFBTSxlQUFlLENBQUM7QUFDekMsT0FBTyxFQUFFLDRCQUE0QixFQUFFLE1BQU0sK0JBQStCLENBQUM7QUFNN0UsTUFBTSxPQUFPLDJCQUEyQjs7O1lBSnZDLFFBQVEsU0FBQztnQkFDUixZQUFZLEVBQUUsQ0FBQyw0QkFBNEIsQ0FBQztnQkFDNUMsT0FBTyxFQUFFLENBQUMsNEJBQTRCLENBQUM7YUFDeEMiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBORzJcbmltcG9ydCB7IE5nTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG5pbXBvcnQgeyBOb3ZvQ29sbGFwc2FibGVDb2x1bW5FbGVtZW50IH0gZnJvbSAnLi9Db2xsYXBzYWJsZUNvbHVtbi5jb21wb25lbnQnO1xuXG5ATmdNb2R1bGUoe1xuICBkZWNsYXJhdGlvbnM6IFtOb3ZvQ29sbGFwc2FibGVDb2x1bW5FbGVtZW50XSxcbiAgZXhwb3J0czogW05vdm9Db2xsYXBzYWJsZUNvbHVtbkVsZW1lbnRdLFxufSlcbmV4cG9ydCBjbGFzcyBOb3ZvQ29sbGFwc2FibGVDb2x1bW5Nb2R1bGUge31cbiJdfQ==

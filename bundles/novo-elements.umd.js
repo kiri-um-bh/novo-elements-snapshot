@@ -3086,6 +3086,32 @@
                 },] }
     ];
 
+    var NovoCollapsableColumnElement = /** @class */ (function () {
+        function NovoCollapsableColumnElement() {
+        }
+        return NovoCollapsableColumnElement;
+    }());
+    NovoCollapsableColumnElement.decorators = [
+        { type: core.Component, args: [{
+                    selector: 'novo-collapsable-column',
+                    template: "\n    <h1>Collapsable Column</h1>\n  ",
+                    styles: [""]
+                },] }
+    ];
+
+    // NG2
+    var NovoCollapsableColumnModule = /** @class */ (function () {
+        function NovoCollapsableColumnModule() {
+        }
+        return NovoCollapsableColumnModule;
+    }());
+    NovoCollapsableColumnModule.decorators = [
+        { type: core.NgModule, args: [{
+                    declarations: [NovoCollapsableColumnElement],
+                    exports: [NovoCollapsableColumnElement],
+                },] }
+    ];
+
     // NG2
     var NovoLabelService = /** @class */ (function () {
         function NovoLabelService(userLocale) {
@@ -42087,6 +42113,7 @@
                         NovoCommonModule,
                         NovoStepperModule,
                         scrolling.ScrollingModule,
+                        NovoCollapsableColumnModule,
                         NovoTabbedGroupPickerModule,
                     ],
                     providers: [
@@ -42981,6 +43008,8 @@
     exports.NovoChipElement = NovoChipElement;
     exports.NovoChipsElement = NovoChipsElement;
     exports.NovoChipsModule = NovoChipsModule;
+    exports.NovoCollapsableColumnElement = NovoCollapsableColumnElement;
+    exports.NovoCollapsableColumnModule = NovoCollapsableColumnModule;
     exports.NovoCommonModule = NovoCommonModule;
     exports.NovoControlElement = NovoControlElement;
     exports.NovoControlGroup = NovoControlGroup;
