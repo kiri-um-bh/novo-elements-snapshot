@@ -32595,7 +32595,7 @@ class FormUtils {
         else if (field.dataSpecialization === 'ALL_WORKFLOW_OPTIONS' && field.options) {
             return field.options;
         }
-        else if (field.workflowOptions && fieldData) {
+        else if (field.workflowOptions) {
             return this.getWorkflowOptions(field.workflowOptions, fieldData);
         }
         else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS' ||
@@ -32619,12 +32619,14 @@ class FormUtils {
         return null;
     }
     getWorkflowOptions(workflowOptions, fieldData) {
-        let currentValue;
-        if (fieldData.id) {
+        let currentValue = null;
+        let currentWorkflowOption = 'initial';
+        if (fieldData === null || fieldData === void 0 ? void 0 : fieldData.id) {
             currentValue = { value: fieldData.id, label: fieldData.label ? fieldData.label : fieldData.id };
+            currentWorkflowOption = fieldData.id;
         }
-        const currentWorkflowOption = fieldData.id ? fieldData.id : 'initial';
         const updateWorkflowOptions = workflowOptions[currentWorkflowOption] || [];
+        // Ensure that the current value is added to the beginning of the options list
         if (currentValue && !updateWorkflowOptions.find((option) => option.value === currentValue.value)) {
             updateWorkflowOptions.unshift(currentValue);
         }
@@ -33619,9 +33621,9 @@ class FieldInteractionApi {
     removeStaticOption(key, optionToRemove, otherForm) {
         const control = this.getControl(key, otherForm);
         if (control && !control.restrictFieldInteractions) {
-            let currentOptions = this.getProperty(key, 'options');
+            let currentOptions = this.getProperty(key, 'options', otherForm);
             if (!currentOptions || !currentOptions.length) {
-                const config = this.getProperty(key, 'config');
+                const config = this.getProperty(key, 'config', otherForm);
                 if (config) {
                     currentOptions = config.options;
                     if (currentOptions && Array.isArray(currentOptions)) {
@@ -33642,7 +33644,7 @@ class FieldInteractionApi {
                             currentOptions.splice(index, 1);
                         }
                         config.options = [...currentOptions];
-                        this.setProperty(key, 'config', config);
+                        this.setProperty(key, 'config', config, otherForm);
                     }
                 }
             }
@@ -33663,7 +33665,7 @@ class FieldInteractionApi {
                 if (index !== -1) {
                     currentOptions.splice(index, 1);
                 }
-                this.setProperty(key, 'options', [...currentOptions]);
+                this.setProperty(key, 'options', [...currentOptions], otherForm);
             }
             this.triggerEvent({ controlKey: key, prop: 'options', value: control.options }, otherForm);
         }

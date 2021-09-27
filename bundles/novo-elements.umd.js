@@ -31840,7 +31840,7 @@
             else if (field.dataSpecialization === 'ALL_WORKFLOW_OPTIONS' && field.options) {
                 return field.options;
             }
-            else if (field.workflowOptions && fieldData) {
+            else if (field.workflowOptions) {
                 return this.getWorkflowOptions(field.workflowOptions, fieldData);
             }
             else if (field.dataSpecialization === 'SPECIALIZED_OPTIONS' ||
@@ -31864,12 +31864,14 @@
             return null;
         };
         FormUtils.prototype.getWorkflowOptions = function (workflowOptions, fieldData) {
-            var currentValue;
-            if (fieldData.id) {
+            var currentValue = null;
+            var currentWorkflowOption = 'initial';
+            if (fieldData === null || fieldData === void 0 ? void 0 : fieldData.id) {
                 currentValue = { value: fieldData.id, label: fieldData.label ? fieldData.label : fieldData.id };
+                currentWorkflowOption = fieldData.id;
             }
-            var currentWorkflowOption = fieldData.id ? fieldData.id : 'initial';
             var updateWorkflowOptions = workflowOptions[currentWorkflowOption] || [];
+            // Ensure that the current value is added to the beginning of the options list
             if (currentValue && !updateWorkflowOptions.find(function (option) { return option.value === currentValue.value; })) {
                 updateWorkflowOptions.unshift(currentValue);
             }
@@ -32890,9 +32892,9 @@
         FieldInteractionApi.prototype.removeStaticOption = function (key, optionToRemove, otherForm) {
             var control = this.getControl(key, otherForm);
             if (control && !control.restrictFieldInteractions) {
-                var currentOptions = this.getProperty(key, 'options');
+                var currentOptions = this.getProperty(key, 'options', otherForm);
                 if (!currentOptions || !currentOptions.length) {
-                    var config = this.getProperty(key, 'config');
+                    var config = this.getProperty(key, 'config', otherForm);
                     if (config) {
                         currentOptions = config.options;
                         if (currentOptions && Array.isArray(currentOptions)) {
@@ -32913,7 +32915,7 @@
                                 currentOptions.splice(index_1, 1);
                             }
                             config.options = __spread(currentOptions);
-                            this.setProperty(key, 'config', config);
+                            this.setProperty(key, 'config', config, otherForm);
                         }
                     }
                 }
@@ -32934,7 +32936,7 @@
                     if (index_2 !== -1) {
                         currentOptions.splice(index_2, 1);
                     }
-                    this.setProperty(key, 'options', __spread(currentOptions));
+                    this.setProperty(key, 'options', __spread(currentOptions), otherForm);
                 }
                 this.triggerEvent({ controlKey: key, prop: 'options', value: control.options }, otherForm);
             }

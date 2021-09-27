@@ -107,7 +107,7 @@ export declare class FieldInteractionApi {
     isValueBlank(key: string): boolean;
     hasField(key: string, otherForm?: NovoFormGroup): boolean;
     addStaticOption(key: string, newOption: any, otherForm?: NovoFormGroup): void;
-    removeStaticOption(key: string, optionToRemove: string, otherForm?: NovoFormGroup): void;
+    removeStaticOption(key: string, optionToRemove: any, otherForm?: NovoFormGroup): void;
     modifyPickerConfig(key: string, config: {
         format?: string;
         optionsUrl?: string;
