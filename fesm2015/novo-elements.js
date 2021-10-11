@@ -29224,6 +29224,9 @@ class NovoDatePickerInputElement {
             const test = this.formatDateValue(this.value);
             this.formattedValue = test;
         }
+        else {
+            this.formattedValue = '';
+        }
     }
     /**
      * This method closes the panel, and if a value is specified, also sets the associated
@@ -30833,14 +30836,24 @@ class NovoTimePickerInputElement {
         }
     }
     _setTriggerValue(value) {
+        this._setCalendarValue(value);
+        this._setFormValue(value);
+        this._changeDetectorRef.markForCheck();
+    }
+    _setCalendarValue(value) {
         if (value instanceof Date && this.value instanceof Date) {
             value = new Date(value.setFullYear(this.value.getFullYear(), this.value.getMonth(), this.value.getDate()));
         }
         this.value = value;
+    }
+    _setFormValue(value) {
         if (this.value) {
-            this.formattedValue = this.formatDateValue(this.value);
+            const test = this.formatDateValue(this.value);
+            this.formattedValue = test;
         }
-        this._changeDetectorRef.markForCheck();
+        else {
+            this.formattedValue = '';
+        }
     }
     setValue(event) {
         if (event && event.date) {

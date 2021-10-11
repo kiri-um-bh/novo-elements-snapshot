@@ -28486,6 +28486,9 @@
                 var test = this.formatDateValue(this.value);
                 this.formattedValue = test;
             }
+            else {
+                this.formattedValue = '';
+            }
         };
         /**
          * This method closes the panel, and if a value is specified, also sets the associated
@@ -29975,14 +29978,24 @@
             }
         };
         NovoTimePickerInputElement.prototype._setTriggerValue = function (value) {
+            this._setCalendarValue(value);
+            this._setFormValue(value);
+            this._changeDetectorRef.markForCheck();
+        };
+        NovoTimePickerInputElement.prototype._setCalendarValue = function (value) {
             if (value instanceof Date && this.value instanceof Date) {
                 value = new Date(value.setFullYear(this.value.getFullYear(), this.value.getMonth(), this.value.getDate()));
             }
             this.value = value;
+        };
+        NovoTimePickerInputElement.prototype._setFormValue = function (value) {
             if (this.value) {
-                this.formattedValue = this.formatDateValue(this.value);
+                var test = this.formatDateValue(this.value);
+                this.formattedValue = test;
             }
-            this._changeDetectorRef.markForCheck();
+            else {
+                this.formattedValue = '';
+            }
         };
         NovoTimePickerInputElement.prototype.setValue = function (event) {
             if (event && event.date) {
